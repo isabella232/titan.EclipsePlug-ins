@@ -16,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
@@ -1205,6 +1207,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.DefaultOp has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getid().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getend().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("id".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("end".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getend().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.DefaultOp");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (name.isBound()) {
 				name.set_implicit_omit();
@@ -1860,6 +1922,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.DefaultOp.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.DefaultOp has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getid().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getend().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("id".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("end".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getend().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.DefaultOp");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void DefaultOp_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -2162,6 +2302,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("setVerdict".equals(last_name)) {
+				getsetVerdict().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("getVerdict".equals(last_name)) {
+				getgetVerdict().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("finalVerdict".equals(last_name)) {
+				getfinalVerdict().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.VerdictOp.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -2271,7 +2447,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class VerdictOp_choice_template extends Base_Template {
 		//if single value which value?
@@ -2829,7 +3004,77 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.VerdictOp.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.VerdictOp.choice");
+				}
+				if("setVerdict".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("getVerdict".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("finalVerdict".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.VerdictOp.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("setVerdict".equals(last_name)) {
+					getsetVerdict().set_param(mp_last);
+					break;
+				}
+				if("getVerdict".equals(last_name)) {
+					getgetVerdict().set_param(mp_last);
+					break;
+				}
+				if("finalVerdict".equals(last_name)) {
+					getfinalVerdict().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.VerdictOp.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.VerdictOp.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void VerdictOp_choice_encoder(final VerdictOp_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -3232,6 +3477,114 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" ptc_name := ");
 			ptc__name.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.FinalVerdictInfo has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getis__ptc().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__verdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlocal__verdict().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnew__verdict().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdict__reason().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__compref().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__name().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("is_ptc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getis__ptc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("local_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlocal__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("new_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnew__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdict_reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdict__reason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.FinalVerdictInfo");
+			}
 		}
 
 		@Override
@@ -4186,6 +4539,132 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.FinalVerdictInfo has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getis__ptc().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__verdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlocal__verdict().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnew__verdict().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdict__reason().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__compref().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc__name().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("is_ptc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getis__ptc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("local_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlocal__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("new_verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnew__verdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdict_reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdict__reason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.FinalVerdictInfo");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void FinalVerdictInfo_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -4323,6 +4802,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TimerEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TimerEvent");
+			}
 		}
 
 		@Override
@@ -4865,6 +5380,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TimerEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TimerEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TimerEvent_encoder(final TimerEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -5050,6 +5619,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" info := ");
 			info.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingSuccessType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__type().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingSuccessType");
+			}
 		}
 
 		@Override
@@ -5708,6 +6337,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingSuccessType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingSuccessType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__type().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingSuccessType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingSuccessType_encoder(final MatchingSuccessType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -5941,6 +6648,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" parameter := ");
 			parameter.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Proc_port_out has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsys__name().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sys_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsys__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Proc_port_out");
+			}
 		}
 
 		@Override
@@ -6714,6 +7505,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Proc_port_out.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Proc_port_out has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsys__name().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sys_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsys__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Proc_port_out");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void Proc__port__out_encoder(final Proc__port__out input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -8478,6 +9371,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("executorRuntime".equals(last_name)) {
+				getexecutorRuntime().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("executorConfigdata".equals(last_name)) {
+				getexecutorConfigdata().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("extcommandStart".equals(last_name)) {
+				getextcommandStart().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("extcommandSuccess".equals(last_name)) {
+				getextcommandSuccess().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("executorComponent".equals(last_name)) {
+				getexecutorComponent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("logOptions".equals(last_name)) {
+				getlogOptions().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("executorMisc".equals(last_name)) {
+				getexecutorMisc().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.ExecutorEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -8615,7 +9572,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class ExecutorEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -9393,7 +10349,105 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.ExecutorEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.ExecutorEvent.choice");
+				}
+				if("executorRuntime".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("executorConfigdata".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("extcommandStart".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("extcommandSuccess".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("executorComponent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("logOptions".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("executorMisc".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.ExecutorEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("executorRuntime".equals(last_name)) {
+					getexecutorRuntime().set_param(mp_last);
+					break;
+				}
+				if("executorConfigdata".equals(last_name)) {
+					getexecutorConfigdata().set_param(mp_last);
+					break;
+				}
+				if("extcommandStart".equals(last_name)) {
+					getextcommandStart().set_param(mp_last);
+					break;
+				}
+				if("extcommandSuccess".equals(last_name)) {
+					getextcommandSuccess().set_param(mp_last);
+					break;
+				}
+				if("executorComponent".equals(last_name)) {
+					getexecutorComponent().set_param(mp_last);
+					break;
+				}
+				if("logOptions".equals(last_name)) {
+					getlogOptions().set_param(mp_last);
+					break;
+				}
+				if("executorMisc".equals(last_name)) {
+					getexecutorMisc().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.ExecutorEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.ExecutorEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void ExecutorEvent_choice_encoder(final ExecutorEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -10524,6 +11578,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.SetVerdictType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnewVerdict().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoldVerdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlocalVerdict().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoldReason().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnewReason().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("newVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnewVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("oldVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoldVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("localVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlocalVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("oldReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoldReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("newReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnewReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.SetVerdictType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (newVerdict.isBound()) {
 				newVerdict.set_implicit_omit();
@@ -11337,6 +12475,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.SetVerdictType.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.SetVerdictType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnewVerdict().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoldVerdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlocalVerdict().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoldReason().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnewReason().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("newVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnewVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("oldVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoldVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("localVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlocalVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("oldReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoldReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("newReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnewReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.SetVerdictType");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void SetVerdictType_encoder(final SetVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -13669,6 +14909,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.WarningEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.WarningEvent");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (text.isBound()) {
 				text.set_implicit_omit();
@@ -14207,6 +15483,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.WarningEvent.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.WarningEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.WarningEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void WarningEvent_encoder(final WarningEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -15165,6 +16495,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ComponentIDType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getid().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("id".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ComponentIDType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (id.isBound()) {
 				id.set_implicit_omit();
@@ -15761,6 +17139,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ComponentIDType.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ComponentIDType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getid().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("id".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ComponentIDType");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void ComponentIDType_encoder(final ComponentIDType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -17877,6 +19321,140 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("actionEvent".equals(last_name)) {
+				getactionEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("defaultEvent".equals(last_name)) {
+				getdefaultEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("errorLog".equals(last_name)) {
+				geterrorLog().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("executorEvent".equals(last_name)) {
+				getexecutorEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("functionEvent".equals(last_name)) {
+				getfunctionEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("parallelEvent".equals(last_name)) {
+				getparallelEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("testcaseOp".equals(last_name)) {
+				gettestcaseOp().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("portEvent".equals(last_name)) {
+				getportEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("statistics".equals(last_name)) {
+				getstatistics().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("timerEvent".equals(last_name)) {
+				gettimerEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("userLog".equals(last_name)) {
+				getuserLog().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("verdictOp".equals(last_name)) {
+				getverdictOp().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("warningLog".equals(last_name)) {
+				getwarningLog().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("matchingEvent".equals(last_name)) {
+				getmatchingEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("debugLog".equals(last_name)) {
+				getdebugLog().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("executionSummary".equals(last_name)) {
+				getexecutionSummary().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("unhandledEvent".equals(last_name)) {
+				getunhandledEvent().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.LogEventType.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -18084,7 +19662,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class LogEventType_choice_template extends Base_Template {
 		//if single value which value?
@@ -19412,7 +20989,175 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.LogEventType.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.LogEventType.choice");
+				}
+				if("actionEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("defaultEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("errorLog".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("executorEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("functionEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("parallelEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("testcaseOp".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("portEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("statistics".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("timerEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("userLog".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("verdictOp".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("warningLog".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("matchingEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("debugLog".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("executionSummary".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("unhandledEvent".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.LogEventType.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("actionEvent".equals(last_name)) {
+					getactionEvent().set_param(mp_last);
+					break;
+				}
+				if("defaultEvent".equals(last_name)) {
+					getdefaultEvent().set_param(mp_last);
+					break;
+				}
+				if("errorLog".equals(last_name)) {
+					geterrorLog().set_param(mp_last);
+					break;
+				}
+				if("executorEvent".equals(last_name)) {
+					getexecutorEvent().set_param(mp_last);
+					break;
+				}
+				if("functionEvent".equals(last_name)) {
+					getfunctionEvent().set_param(mp_last);
+					break;
+				}
+				if("parallelEvent".equals(last_name)) {
+					getparallelEvent().set_param(mp_last);
+					break;
+				}
+				if("testcaseOp".equals(last_name)) {
+					gettestcaseOp().set_param(mp_last);
+					break;
+				}
+				if("portEvent".equals(last_name)) {
+					getportEvent().set_param(mp_last);
+					break;
+				}
+				if("statistics".equals(last_name)) {
+					getstatistics().set_param(mp_last);
+					break;
+				}
+				if("timerEvent".equals(last_name)) {
+					gettimerEvent().set_param(mp_last);
+					break;
+				}
+				if("userLog".equals(last_name)) {
+					getuserLog().set_param(mp_last);
+					break;
+				}
+				if("verdictOp".equals(last_name)) {
+					getverdictOp().set_param(mp_last);
+					break;
+				}
+				if("warningLog".equals(last_name)) {
+					getwarningLog().set_param(mp_last);
+					break;
+				}
+				if("matchingEvent".equals(last_name)) {
+					getmatchingEvent().set_param(mp_last);
+					break;
+				}
+				if("debugLog".equals(last_name)) {
+					getdebugLog().set_param(mp_last);
+					break;
+				}
+				if("executionSummary".equals(last_name)) {
+					getexecutionSummary().set_param(mp_last);
+					break;
+				}
+				if("unhandledEvent".equals(last_name)) {
+					getunhandledEvent().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.LogEventType.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.LogEventType.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void LogEventType_choice_encoder(final LogEventType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -19715,6 +21460,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("defaultopActivate".equals(last_name)) {
+				getdefaultopActivate().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("defaultopDeactivate".equals(last_name)) {
+				getdefaultopDeactivate().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("defaultopExit".equals(last_name)) {
+				getdefaultopExit().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.DefaultEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -19824,7 +21605,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class DefaultEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -20382,7 +22162,77 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.DefaultEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.DefaultEvent.choice");
+				}
+				if("defaultopActivate".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("defaultopDeactivate".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("defaultopExit".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.DefaultEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("defaultopActivate".equals(last_name)) {
+					getdefaultopActivate().set_param(mp_last);
+					break;
+				}
+				if("defaultopDeactivate".equals(last_name)) {
+					getdefaultopDeactivate().set_param(mp_last);
+					break;
+				}
+				if("defaultopExit".equals(last_name)) {
+					getdefaultopExit().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.DefaultEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.DefaultEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void DefaultEvent_choice_encoder(final DefaultEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -20585,6 +22435,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("testcaseStarted".equals(last_name)) {
+				gettestcaseStarted().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("testcaseFinished".equals(last_name)) {
+				gettestcaseFinished().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.TestcaseEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -20687,7 +22566,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class TestcaseEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -21190,7 +23068,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.TestcaseEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.TestcaseEvent.choice");
+				}
+				if("testcaseStarted".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("testcaseFinished".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.TestcaseEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("testcaseStarted".equals(last_name)) {
+					gettestcaseStarted().set_param(mp_last);
+					break;
+				}
+				if("testcaseFinished".equals(last_name)) {
+					gettestcaseFinished().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.TestcaseEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.TestcaseEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void TestcaseEvent_choice_encoder(final TestcaseEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -22245,6 +24186,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutorConfigdata has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparam__().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("param_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparam__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutorConfigdata");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (reason.isBound()) {
 				reason.set_implicit_omit();
@@ -22864,6 +24853,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutorConfigdata has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparam__().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("param_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparam__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutorConfigdata");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ExecutorConfigdata_encoder(final ExecutorConfigdata input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -23289,6 +25344,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" ent_type := ");
 			ent__type.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.LocationInfo has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfilename().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getline().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getent__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getent__type().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("filename".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfilename().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("line".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getline().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ent_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getent__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ent_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getent__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.LocationInfo");
+			}
 		}
 
 		@Override
@@ -24005,6 +26132,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.LocationInfo.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.LocationInfo has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfilename().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getline().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getent__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getent__type().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("filename".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfilename().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("line".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getline().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ent_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getent__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ent_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getent__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.LocationInfo");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void LocationInfo_encoder(final LocationInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -24142,6 +26359,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TestcaseEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TestcaseEvent");
+			}
 		}
 
 		@Override
@@ -24684,6 +26937,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TestcaseEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TestcaseEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TestcaseEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TestcaseEvent_encoder(final TestcaseEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -25026,6 +27333,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("readTimer".equals(last_name)) {
+				getreadTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("startTimer".equals(last_name)) {
+				getstartTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("guardTimer".equals(last_name)) {
+				getguardTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("stopTimer".equals(last_name)) {
+				getstopTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("timeoutTimer".equals(last_name)) {
+				gettimeoutTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("timeoutAnyTimer".equals(last_name)) {
+				gettimeoutAnyTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("unqualifiedTimer".equals(last_name)) {
+				getunqualifiedTimer().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.TimerEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -25163,7 +27534,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class TimerEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -25941,7 +28311,105 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.TimerEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.TimerEvent.choice");
+				}
+				if("readTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("startTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("guardTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("stopTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("timeoutTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("timeoutAnyTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("unqualifiedTimer".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.TimerEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("readTimer".equals(last_name)) {
+					getreadTimer().set_param(mp_last);
+					break;
+				}
+				if("startTimer".equals(last_name)) {
+					getstartTimer().set_param(mp_last);
+					break;
+				}
+				if("guardTimer".equals(last_name)) {
+					getguardTimer().set_param(mp_last);
+					break;
+				}
+				if("stopTimer".equals(last_name)) {
+					getstopTimer().set_param(mp_last);
+					break;
+				}
+				if("timeoutTimer".equals(last_name)) {
+					gettimeoutTimer().set_param(mp_last);
+					break;
+				}
+				if("timeoutAnyTimer".equals(last_name)) {
+					gettimeoutAnyTimer().set_param(mp_last);
+					break;
+				}
+				if("unqualifiedTimer".equals(last_name)) {
+					getunqualifiedTimer().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.TimerEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.TimerEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void TimerEvent_choice_encoder(final TimerEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -26200,6 +28668,49 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("verdictStatistics".equals(last_name)) {
+				getverdictStatistics().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("controlpartStart".equals(last_name)) {
+				getcontrolpartStart().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("controlpartFinish".equals(last_name)) {
+				getcontrolpartFinish().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("controlpartErrors".equals(last_name)) {
+				getcontrolpartErrors().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.StatisticsType.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -26316,7 +28827,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class StatisticsType_choice_template extends Base_Template {
 		//if single value which value?
@@ -26929,7 +29439,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.StatisticsType.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.StatisticsType.choice");
+				}
+				if("verdictStatistics".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("controlpartStart".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("controlpartFinish".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("controlpartErrors".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.StatisticsType.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("verdictStatistics".equals(last_name)) {
+					getverdictStatistics().set_param(mp_last);
+					break;
+				}
+				if("controlpartStart".equals(last_name)) {
+					getcontrolpartStart().set_param(mp_last);
+					break;
+				}
+				if("controlpartFinish".equals(last_name)) {
+					getcontrolpartFinish().set_param(mp_last);
+					break;
+				}
+				if("controlpartErrors".equals(last_name)) {
+					getcontrolpartErrors().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.StatisticsType.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.StatisticsType.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void StatisticsType_choice_encoder(final StatisticsType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -27247,6 +29834,114 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" new_size := ");
 			new__size.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Port_Misc has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getremote__component().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getremote__port().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getip__address().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettcp__port().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnew__size().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("remote_component".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getremote__component().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("remote_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getremote__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ip_address".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getip__address().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("tcp_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettcp__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("new_size".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnew__size().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Port_Misc");
+			}
 		}
 
 		@Override
@@ -28137,6 +30832,132 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_Misc.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Port_Misc has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getremote__component().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getremote__port().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getip__address().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettcp__port().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnew__size().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("remote_component".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getremote__component().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("remote_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getremote__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ip_address".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getip__address().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("tcp_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettcp__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("new_size".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnew__size().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Port_Misc");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Port__Misc_encoder(final Port__Misc input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -28478,6 +31299,126 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" status := ");
 			status.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 8) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ParallelPTC has 8 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompname().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettc__loc().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getalive__pid().set_param(param.get_elem(6));
+				}
+				if (param.get_size() > 7 && param.get_elem(7).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstatus().set_param(param.get_elem(7));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compname".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("tc_loc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettc__loc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("alive_pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getalive__pid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("status".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstatus().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ParallelPTC");
+			}
 		}
 
 		@Override
@@ -29425,6 +32366,144 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParallelPTC.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 8) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ParallelPTC has 8 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompname().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettc__loc().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getalive__pid().set_param(param.get_elem(6));
+				}
+				if (param.get_size() > 7 && param.get_elem(7).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstatus().set_param(param.get_elem(7));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compname".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("tc_loc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettc__loc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("alive_pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getalive__pid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("status".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstatus().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ParallelPTC");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void ParallelPTC_encoder(final ParallelPTC input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -30703,6 +33782,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingTimeout has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettimer__name().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("timer_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettimer__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingTimeout");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (timer__name.isBound()) {
 				timer__name.set_implicit_omit();
@@ -31264,6 +34379,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingTimeout.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingTimeout has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettimer__name().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("timer_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettimer__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingTimeout");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingTimeout_encoder(final MatchingTimeout input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -31401,6 +34570,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.VerdictOp has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.VerdictOp");
+			}
 		}
 
 		@Override
@@ -31942,6 +35147,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.VerdictOp.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.VerdictOp has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.VerdictOp");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void VerdictOp_encoder(final VerdictOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -35547,6 +38806,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TitanSingleLogEvent has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getentityId().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getevent().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("entityId".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getentityId().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("event".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getevent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TitanSingleLogEvent");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (entityId.isBound()) {
 				entityId.set_implicit_omit();
@@ -36144,6 +39451,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanSingleLogEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TitanSingleLogEvent has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getentityId().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getevent().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("entityId".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getentityId().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("event".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getevent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TitanSingleLogEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TitanSingleLogEvent_encoder(final TitanSingleLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -36490,6 +39863,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("system_".equals(last_name)) {
+				getsystem__().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("compref".equals(last_name)) {
+				getcompref().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.MatchingFailureType.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -36592,7 +39994,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class MatchingFailureType_choice_template extends Base_Template {
 		//if single value which value?
@@ -37095,7 +40496,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.MatchingFailureType.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.MatchingFailureType.choice");
+				}
+				if("system_".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("compref".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.MatchingFailureType.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("system_".equals(last_name)) {
+					getsystem__().set_param(mp_last);
+					break;
+				}
+				if("compref".equals(last_name)) {
+					getcompref().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.MatchingFailureType.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.MatchingFailureType.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void MatchingFailureType_choice_encoder(final MatchingFailureType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -38063,6 +41527,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.QualifiedName has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettestcase__name().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("testcase_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettestcase__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.QualifiedName");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (module__name.isBound()) {
 				module__name.set_implicit_omit();
@@ -38660,6 +42172,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.QualifiedName.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.QualifiedName has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettestcase__name().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("testcase_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettestcase__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.QualifiedName");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void QualifiedName_encoder(final QualifiedName input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -38881,6 +42459,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" intseed := ");
 			intseed.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.FunctionEvent.choice.random has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getretval().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getintseed().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("retval".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getretval().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("intseed".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getintseed().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.FunctionEvent.choice.random");
+			}
 		}
 
 		@Override
@@ -39539,6 +43177,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.FunctionEvent.choice.random has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getretval().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getintseed().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("retval".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getretval().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("intseed".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getintseed().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.FunctionEvent.choice.random");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void FunctionEvent_choice_random_encoder(final FunctionEvent_choice_random input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -39964,6 +43680,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" msgid := ");
 			msgid.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Dualface_mapped has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getincoming().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettarget__type().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("incoming".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getincoming().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("target_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettarget__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Dualface_mapped");
+			}
 		}
 
 		@Override
@@ -40679,6 +44467,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Dualface_mapped.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Dualface_mapped has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getincoming().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettarget__type().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("incoming".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getincoming().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("target_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettarget__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Dualface_mapped");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void Dualface__mapped_encoder(final Dualface__mapped input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -42258,6 +46136,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.VerdictType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfromVerdict().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettoVerdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdictReason().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fromVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfromVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("toVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettoVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdictReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdictReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.VerdictType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (fromVerdict.isBound()) {
 				fromVerdict.set_implicit_omit();
@@ -42934,6 +46872,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.VerdictType.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.VerdictType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfromVerdict().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettoVerdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdictReason().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fromVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfromVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("toVerdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettoVerdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdictReason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdictReason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.VerdictType");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void VerdictType_encoder(final VerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -45287,6 +49303,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TimestampType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getseconds().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmicroSeconds().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("seconds".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getseconds().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("microSeconds".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmicroSeconds().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TimestampType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (seconds.isBound()) {
 				seconds.set_implicit_omit();
@@ -45884,6 +49948,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimestampType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TimestampType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getseconds().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmicroSeconds().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("seconds".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getseconds().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("microSeconds".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmicroSeconds().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TimestampType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TimestampType_encoder(final TimestampType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -46069,6 +50199,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" info := ");
 			info.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Setstate has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstate().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("state".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstate().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Setstate");
+			}
 		}
 
 		@Override
@@ -46727,6 +50917,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Setstate.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Setstate has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstate().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("state".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstate().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Setstate");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Setstate_encoder(final Setstate input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -47128,6 +51396,102 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" msgid := ");
 			msgid.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Proc_port_in has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcheck__().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("check_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcheck__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Proc_port_in");
+			}
 		}
 
 		@Override
@@ -47960,6 +52324,120 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Proc_port_in.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Proc_port_in has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcheck__().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("check_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcheck__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Proc_port_in");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Proc__port__in_encoder(final Proc__port__in input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -48169,6 +52647,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" logEvent := ");
 			logEvent.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TitanLogEvent has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettimestamp().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsourceInfo__list().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getseverity().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlogEvent().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("timestamp".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettimestamp().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sourceInfo_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsourceInfo__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("severity".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getseverity().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("logEvent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlogEvent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TitanLogEvent");
+			}
 		}
 
 		@Override
@@ -48885,6 +53435,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLogEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TitanLogEvent has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettimestamp().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsourceInfo__list().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getseverity().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getlogEvent().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("timestamp".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettimestamp().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sourceInfo_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsourceInfo__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("severity".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getseverity().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("logEvent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getlogEvent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TitanLogEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TitanLogEvent_encoder(final TitanLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -49238,6 +53878,150 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" errorPercent := ");
 			errorPercent.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 10) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics has 10 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnone__().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnonePercent().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpass__().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpassPercent().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinconc__().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinconcPercent().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfail__().set_param(param.get_elem(6));
+				}
+				if (param.get_size() > 7 && param.get_elem(7).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfailPercent().set_param(param.get_elem(7));
+				}
+				if (param.get_size() > 8 && param.get_elem(8).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					geterror__().set_param(param.get_elem(8));
+				}
+				if (param.get_size() > 9 && param.get_elem(9).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					geterrorPercent().set_param(param.get_elem(9));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("none_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnone__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("nonePercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnonePercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pass_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpass__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("passPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpassPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("inconc_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinconc__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("inconcPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinconcPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fail_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfail__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("failPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfailPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("error_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							geterror__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("errorPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							geterrorPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.StatisticsType.choice.verdictStatistics");
+			}
 		}
 
 		@Override
@@ -50302,6 +55086,168 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 10) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics has 10 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnone__().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnonePercent().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpass__().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpassPercent().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinconc__().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinconcPercent().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfail__().set_param(param.get_elem(6));
+				}
+				if (param.get_size() > 7 && param.get_elem(7).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfailPercent().set_param(param.get_elem(7));
+				}
+				if (param.get_size() > 8 && param.get_elem(8).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					geterror__().set_param(param.get_elem(8));
+				}
+				if (param.get_size() > 9 && param.get_elem(9).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					geterrorPercent().set_param(param.get_elem(9));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("none_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnone__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("nonePercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnonePercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pass_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpass__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("passPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpassPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("inconc_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinconc__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("inconcPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinconcPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fail_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfail__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("failPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfailPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("error_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							geterror__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("errorPercent".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							geterrorPercent().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.StatisticsType.choice.verdictStatistics");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void StatisticsType_choice_verdictStatistics_encoder(final StatisticsType_choice_verdictStatistics input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -50619,6 +55565,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.LogEventType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.LogEventType");
+			}
 		}
 
 		@Override
@@ -51161,6 +56143,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.LogEventType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.LogEventType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.LogEventType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void LogEventType_encoder(final LogEventType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -51322,6 +56358,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" port_name := ");
 			port__name.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Port_State has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Port_State");
+			}
 		}
 
 		@Override
@@ -51922,6 +57006,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_State.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Port_State has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Port_State");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Port__State_encoder(final Port__State input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -52107,6 +57257,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" reason := ");
 			reason.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TestcaseType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TestcaseType");
+			}
 		}
 
 		@Override
@@ -52765,6 +57975,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TestcaseType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TestcaseType has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getverdict().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("verdict".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getverdict().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TestcaseType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TestcaseType_encoder(final TestcaseType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -53031,6 +58319,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("parallelPTC".equals(last_name)) {
+				getparallelPTC().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("parallelPTC_exit".equals(last_name)) {
+				getparallelPTC__exit().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("parallelPort".equals(last_name)) {
+				getparallelPort().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.ParallelEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -53140,7 +58464,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class ParallelEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -53698,7 +59021,77 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.ParallelEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.ParallelEvent.choice");
+				}
+				if("parallelPTC".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("parallelPTC_exit".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("parallelPort".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.ParallelEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("parallelPTC".equals(last_name)) {
+					getparallelPTC().set_param(mp_last);
+					break;
+				}
+				if("parallelPTC_exit".equals(last_name)) {
+					getparallelPTC__exit().set_param(mp_last);
+					break;
+				}
+				if("parallelPort".equals(last_name)) {
+					getparallelPort().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.ParallelEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.ParallelEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void ParallelEvent_choice_encoder(final ParallelEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -53874,6 +59267,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.anytype.", last_name));
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			switch (union_selection) {
@@ -53951,7 +59359,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class anytype_template extends Base_Template {
 		//if single value which value?
@@ -54325,7 +59732,56 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.anytype.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.anytype");
+				}
+				else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.anytype");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.anytype.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.anytype");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void anytype_encoder(final anytype input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -54499,6 +59955,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.PortEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.PortEvent");
+			}
 		}
 
 		@Override
@@ -55041,6 +60533,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.PortEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.PortEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.PortEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void PortEvent_encoder(final PortEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -55467,6 +61013,91 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("portQueue".equals(last_name)) {
+				getportQueue().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("portState".equals(last_name)) {
+				getportState().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("procPortSend".equals(last_name)) {
+				getprocPortSend().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("procPortRecv".equals(last_name)) {
+				getprocPortRecv().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("msgPortSend".equals(last_name)) {
+				getmsgPortSend().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("msgPortRecv".equals(last_name)) {
+				getmsgPortRecv().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("dualMapped".equals(last_name)) {
+				getdualMapped().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("dualDiscard".equals(last_name)) {
+				getdualDiscard().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("setState".equals(last_name)) {
+				getsetState().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("portMisc".equals(last_name)) {
+				getportMisc().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.PortEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -55625,7 +61256,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class PortEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -56568,7 +62198,126 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.PortEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.PortEvent.choice");
+				}
+				if("portQueue".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("portState".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("procPortSend".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("procPortRecv".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("msgPortSend".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("msgPortRecv".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("dualMapped".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("dualDiscard".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("setState".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("portMisc".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.PortEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("portQueue".equals(last_name)) {
+					getportQueue().set_param(mp_last);
+					break;
+				}
+				if("portState".equals(last_name)) {
+					getportState().set_param(mp_last);
+					break;
+				}
+				if("procPortSend".equals(last_name)) {
+					getprocPortSend().set_param(mp_last);
+					break;
+				}
+				if("procPortRecv".equals(last_name)) {
+					getprocPortRecv().set_param(mp_last);
+					break;
+				}
+				if("msgPortSend".equals(last_name)) {
+					getmsgPortSend().set_param(mp_last);
+					break;
+				}
+				if("msgPortRecv".equals(last_name)) {
+					getmsgPortRecv().set_param(mp_last);
+					break;
+				}
+				if("dualMapped".equals(last_name)) {
+					getdualMapped().set_param(mp_last);
+					break;
+				}
+				if("dualDiscard".equals(last_name)) {
+					getdualDiscard().set_param(mp_last);
+					break;
+				}
+				if("setState".equals(last_name)) {
+					getsetState().set_param(mp_last);
+					break;
+				}
+				if("portMisc".equals(last_name)) {
+					getportMisc().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.PortEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.PortEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void PortEvent_choice_encoder(final PortEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -56790,6 +62539,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" parameter := ");
 			parameter.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Msg_port_send has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Msg_port_send");
+			}
 		}
 
 		@Override
@@ -57448,6 +63257,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_send.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Msg_port_send has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Msg_port_send");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Msg__port__send_encoder(final Msg__port__send input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -58020,6 +63907,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.FunctionEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.FunctionEvent");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (choice.isBound()) {
 				choice.set_implicit_omit();
@@ -58559,6 +64482,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FunctionEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.FunctionEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.FunctionEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void FunctionEvent_encoder(final FunctionEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -59080,6 +65057,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" info := ");
 			info.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingFailureType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__type().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingFailureType");
+			}
 		}
 
 		@Override
@@ -59854,6 +65915,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingFailureType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingFailureType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__type().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getinfo().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("info".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getinfo().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingFailureType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingFailureType_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -60555,6 +66718,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" dstPort := ");
 			dstPort.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ParPort has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrcCompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdstCompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrcPort().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdstPort().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("srcCompref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrcCompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dstCompref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdstCompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("srcPort".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrcPort().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dstPort".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdstPort().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ParPort");
+			}
 		}
 
 		@Override
@@ -61329,6 +67576,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParPort.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ParPort has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrcCompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdstCompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrcPort().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdstPort().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("srcCompref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrcCompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dstCompref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdstCompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("srcPort".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrcPort().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dstPort".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdstPort().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ParPort");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ParPort_encoder(final ParPort input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -61574,6 +67923,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" return_type := ");
 			return__type.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingDoneType has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettype__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreturn__type().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("type_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettype__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("return_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreturn__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingDoneType");
+			}
 		}
 
 		@Override
@@ -62290,6 +68711,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingDoneType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingDoneType has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettype__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getptc().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreturn__type().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("type_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettype__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("ptc".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getptc().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("return_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreturn__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingDoneType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingDoneType_encoder(final MatchingDoneType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -62655,6 +69166,102 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" param_ := ");
 			param__.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Port_Queue has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getaddress__().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparam__().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("address_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getaddress__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("param_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparam__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Port_Queue");
+			}
 		}
 
 		@Override
@@ -63487,6 +70094,120 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_Queue.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Port_Queue has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getaddress__().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparam__().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("address_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getaddress__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("param_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparam__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Port_Queue");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Port__Queue_encoder(final Port__Queue input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -63624,6 +70345,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ParallelEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ParallelEvent");
+			}
 		}
 
 		@Override
@@ -64166,6 +70923,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParallelEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ParallelEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ParallelEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ParallelEvent_encoder(final ParallelEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -64368,6 +71179,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("info".equals(last_name)) {
+				getinfo().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("notification".equals(last_name)) {
+				getnotification().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.FinalVerdictType.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -64470,7 +71310,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class FinalVerdictType_choice_template extends Base_Template {
 		//if single value which value?
@@ -64973,7 +71812,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.FinalVerdictType.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.FinalVerdictType.choice");
+				}
+				if("info".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("notification".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.FinalVerdictType.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("info".equals(last_name)) {
+					getinfo().set_param(mp_last);
+					break;
+				}
+				if("notification".equals(last_name)) {
+					getnotification().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.FinalVerdictType.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.FinalVerdictType.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void FinalVerdictType_choice_encoder(final FinalVerdictType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -65267,6 +72169,102 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" msgid := ");
 			msgid.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Msg_port_recv has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsys__name().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sys_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsys__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Msg_port_recv");
+			}
 		}
 
 		@Override
@@ -66098,6 +73096,120 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_recv.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 6) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Msg_port_recv has 6 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsys__name().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmsgid().set_param(param.get_elem(5));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sys_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsys__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("msgid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmsgid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Msg_port_recv");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void Msg__port__recv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -67684,6 +74796,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TimerType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TimerType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (name.isBound()) {
 				name.set_implicit_omit();
@@ -68281,6 +75441,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TimerType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TimerType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TimerType_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -68418,6 +75644,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.DefaultEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.DefaultEvent");
+			}
 		}
 
 		@Override
@@ -68959,6 +76221,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.DefaultEvent.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.DefaultEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.DefaultEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void DefaultEvent_encoder(final DefaultEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -70179,6 +77495,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingProblemType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcheck__().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getany__port().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("check_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcheck__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("any_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getany__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingProblemType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (port__name.isBound()) {
 				port__name.set_implicit_omit();
@@ -70950,6 +78350,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingProblemType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingProblemType has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoperation().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcheck__().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getany__port().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("operation".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoperation().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("check_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcheck__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("any_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getany__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingProblemType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingProblemType_encoder(final MatchingProblemType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -71087,6 +78589,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" str_list := ");
 			str__list.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Strings has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstr__list().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("str_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstr__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Strings");
+			}
 		}
 
 		@Override
@@ -71629,6 +79167,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Strings.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Strings has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstr__list().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("str_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstr__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Strings");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Strings_encoder(final Strings input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -71850,6 +79442,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" statuscode := ");
 			statuscode.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.PTC_exit has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpid().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstatuscode().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("statuscode".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstatuscode().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.PTC_exit");
+			}
 		}
 
 		@Override
@@ -72507,6 +80159,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.PTC_exit.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.PTC_exit has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpid().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getstatuscode().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("statuscode".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getstatuscode().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.PTC_exit");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void PTC__exit_encoder(final PTC__exit input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -73593,6 +81323,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TitanLog has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsequence__list().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sequence_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsequence__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TitanLog");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (sequence__list.isBound()) {
 				sequence__list.set_implicit_omit();
@@ -74132,6 +81898,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLog.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TitanLog has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsequence__list().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("sequence_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsequence__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TitanLog");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TitanLog_encoder(final TitanLog input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -74269,6 +82089,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" text := ");
 			text.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ErrorEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ErrorEvent");
+			}
 		}
 
 		@Override
@@ -74811,6 +82667,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ErrorEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ErrorEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ErrorEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ErrorEvent_encoder(final ErrorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -75164,6 +83074,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutorEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutorEvent");
+			}
 		}
 
 		@Override
@@ -75706,6 +83652,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutorEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutorEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ExecutorEvent_encoder(final ExecutorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -76095,6 +84095,114 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" dst_port := ");
 			dst__port.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Parallel has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getalive__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfunction__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrc__compref().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrc__port().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdst__compref().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdst__port().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("alive_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getalive__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("function_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfunction__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("src_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrc__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("src_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrc__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dst_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdst__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dst_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdst__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Parallel");
+			}
 		}
 
 		@Override
@@ -76985,6 +85093,132 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Parallel.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 7) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Parallel has 7 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getalive__().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfunction__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrc__compref().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getsrc__port().set_param(param.get_elem(4));
+				}
+				if (param.get_size() > 5 && param.get_elem(5).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdst__compref().set_param(param.get_elem(5));
+				}
+				if (param.get_size() > 6 && param.get_elem(6).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getdst__port().set_param(param.get_elem(6));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("alive_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getalive__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("function_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfunction__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("src_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrc__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("src_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getsrc__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dst_compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdst__compref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("dst_port".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getdst__port().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Parallel");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Parallel_encoder(final Parallel input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -77235,6 +85469,90 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" fd_setsize := ");
 			fd__setsize.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutorRuntime has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettestcase__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpid().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfd__setsize().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("testcase_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettestcase__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fd_setsize".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfd__setsize().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutorRuntime");
+			}
 		}
 
 		@Override
@@ -78094,6 +86412,108 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorRuntime.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 5) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutorRuntime has 5 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getmodule__name().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettestcase__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getpid().set_param(param.get_elem(3));
+				}
+				if (param.get_size() > 4 && param.get_elem(4).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfd__setsize().set_param(param.get_elem(4));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("module_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getmodule__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("testcase_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettestcase__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("pid".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getpid().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("fd_setsize".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfd__setsize().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutorRuntime");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ExecutorRuntime_encoder(final ExecutorRuntime input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -78339,6 +86759,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.FinalVerdictType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.FinalVerdictType");
+			}
 		}
 
 		@Override
@@ -78880,6 +87336,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FinalVerdictType.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.FinalVerdictType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.FinalVerdictType");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void FinalVerdictType_encoder(final FinalVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -83570,6 +92080,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TimerGuardType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TimerGuardType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (value__.isBound()) {
 				value__.set_implicit_omit();
@@ -84109,6 +92655,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerGuardType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TimerGuardType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getvalue__().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("value_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getvalue__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TimerGuardType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void TimerGuardType_encoder(final TimerGuardType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -84366,6 +92966,66 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" parameter_list := ");
 			parameter__list.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.StartFunction has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfunction__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter__list().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("function_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfunction__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.StartFunction");
+			}
 		}
 
 		@Override
@@ -85024,6 +93684,84 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StartFunction.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 3) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.StartFunction has 3 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getfunction__name().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getparameter__list().set_param(param.get_elem(2));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("function_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getfunction__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("parameter_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getparameter__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.StartFunction");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void StartFunction_encoder(final StartFunction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -85233,6 +93971,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" port_ := ");
 			port__.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutorUnqualified has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getaddr().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("addr".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getaddr().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutorUnqualified");
+			}
 		}
 
 		@Override
@@ -85948,6 +94758,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutorUnqualified has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getname().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getaddr().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getname().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("addr".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getaddr().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutorUnqualified");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void ExecutorUnqualified_encoder(final ExecutorUnqualified input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -87081,6 +95981,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Categorized has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcategory().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("category".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcategory().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Categorized");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (category.isBound()) {
 				category.set_implicit_omit();
@@ -87677,6 +96625,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Categorized.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Categorized has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcategory().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettext().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("category".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcategory().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("text".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettext().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Categorized");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void Categorized_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -89695,6 +98709,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutionSummaryType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnumberOfTestcases().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoverallStatistics().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("numberOfTestcases".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnumberOfTestcases().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("overallStatistics".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoverallStatistics().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutionSummaryType");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (numberOfTestcases.isBound()) {
 				numberOfTestcases.set_implicit_omit();
@@ -90292,6 +99354,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutionSummaryType has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getnumberOfTestcases().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getoverallStatistics().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("numberOfTestcases".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getnumberOfTestcases().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("overallStatistics".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getoverallStatistics().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutionSummaryType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ExecutionSummaryType_encoder(final ExecutionSummaryType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -90681,6 +99809,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.MatchingEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.MatchingEvent");
+			}
 		}
 
 		@Override
@@ -91223,6 +100387,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingEvent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.MatchingEvent has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.MatchingEvent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void MatchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -91468,6 +100686,78 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" unhandled := ");
 			unhandled.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.Dualface_discard has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getincoming().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettarget__type().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getunhandled().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("incoming".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getincoming().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("target_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettarget__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("unhandled".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getunhandled().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.Dualface_discard");
+			}
 		}
 
 		@Override
@@ -92184,6 +101474,96 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Dualface_discard.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 4) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.Dualface_discard has 4 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getincoming().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					gettarget__type().set_param(param.get_elem(1));
+				}
+				if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getport__name().set_param(param.get_elem(2));
+				}
+				if (param.get_size() > 3 && param.get_elem(3).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getunhandled().set_param(param.get_elem(3));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("incoming".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getincoming().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("target_type".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							gettarget__type().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("port_name".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getport__name().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("unhandled".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getunhandled().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.Dualface_discard");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void Dualface__discard_encoder(final Dualface__discard input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -92321,6 +101701,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" choice := ");
 			choice.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.StatisticsType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.StatisticsType");
+			}
 		}
 
 		@Override
@@ -92863,6 +102279,60 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 1) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.StatisticsType has 1 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getchoice().set_param(param.get_elem(0));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("choice".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getchoice().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.StatisticsType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void StatisticsType_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -93257,6 +102727,56 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("matchingDone".equals(last_name)) {
+				getmatchingDone().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("matchingSuccess".equals(last_name)) {
+				getmatchingSuccess().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("matchingFailure".equals(last_name)) {
+				getmatchingFailure().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("matchingProblem".equals(last_name)) {
+				getmatchingProblem().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("matchingTimeout".equals(last_name)) {
+				getmatchingTimeout().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.MatchingEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -93380,7 +102900,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class MatchingEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -94048,7 +103567,91 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.MatchingEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.MatchingEvent.choice");
+				}
+				if("matchingDone".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("matchingSuccess".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("matchingFailure".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("matchingProblem".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("matchingTimeout".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.MatchingEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("matchingDone".equals(last_name)) {
+					getmatchingDone().set_param(mp_last);
+					break;
+				}
+				if("matchingSuccess".equals(last_name)) {
+					getmatchingSuccess().set_param(mp_last);
+					break;
+				}
+				if("matchingFailure".equals(last_name)) {
+					getmatchingFailure().set_param(mp_last);
+					break;
+				}
+				if("matchingProblem".equals(last_name)) {
+					getmatchingProblem().set_param(mp_last);
+					break;
+				}
+				if("matchingTimeout".equals(last_name)) {
+					getmatchingTimeout().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.MatchingEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.MatchingEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void MatchingEvent_choice_encoder(final MatchingEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -94251,6 +103854,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+				return;
+			}
+			if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+				param.error("union value with field name was expected");
+			}
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if ("unqualified".equals(last_name)) {
+				getunqualified().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			if ("random".equals(last_name)) {
+				getrandom().set_param(mp_last);
+				if (!field.isBound()) {
+					cleanUp();
+				}
+				return;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.FunctionEvent.choice.", last_name));
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			switch (union_selection) {
@@ -94353,7 +103985,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		//TODO: implement set_param !
 	}
 	public static class FunctionEvent_choice_template extends Base_Template {
 		//if single value which value?
@@ -94856,7 +104487,70 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type @TitanLoggerApi.FunctionEvent.choice.");
 			}
 		}
-		//TODO: implement set_param, check_restriction !
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@TitanLoggerApi.FunctionEvent.choice");
+				}
+				if("unqualified".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else if("random".equals(param_field)) {
+					single_value.set_param(param);
+					return;
+				} else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				}
+			}
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() == 0) {
+					break;
+				}
+				param.type_error("union template", "@TitanLoggerApi.FunctionEvent.choice");
+				break;
+			case MP_Assignment_List: {
+				final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+				final String last_name = mp_last.get_id().get_name();
+				if("unqualified".equals(last_name)) {
+					getunqualified().set_param(mp_last);
+					break;
+				}
+				if("random".equals(last_name)) {
+					getrandom().set_param(mp_last);
+					break;
+				}
+				mp_last.error(MessageFormat.format("Field {0} does not exist in type @TitanLoggerApi.FunctionEvent.choice.", last_name));
+				break;
+			}
+			default:
+				param.type_error("union template", "@TitanLoggerApi.FunctionEvent.choice");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+		//TODO: implement check_restriction !
 	}
 	public static void FunctionEvent_choice_encoder(final FunctionEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -95845,6 +105539,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.ExecutorComponent has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.ExecutorComponent");
+			}
+		}
+
+		@Override
 		public void set_implicit_omit() {
 			if (reason.isBound()) {
 				reason.set_implicit_omit();
@@ -96464,6 +106206,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorComponent.");
 			}
 		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.ExecutorComponent has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getreason().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getcompref().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("reason".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getreason().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("compref".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getcompref().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.ExecutorComponent");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 	public static void ExecutorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -96697,6 +106505,54 @@ public final class TitanLoggerApi extends TTCN_Module {
 			TTCN_Logger.log_event_str(" event_list := ");
 			event__list.log();
 			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+			switch (param.get_type()) {
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record value of type @TitanLoggerApi.TitanLog.sequence_list.oftype has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getentityId().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getevent__list().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("entityId".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getentityId().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("event_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getevent__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record value", "@TitanLoggerApi.TitanLog.sequence_list.oftype");
+			}
 		}
 
 		@Override
@@ -97296,6 +107152,72 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
+		}
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 2) {
+					param.error(MessageFormat.format("record template of type @TitanLoggerApi.TitanLog.sequence_list.oftype has 2 fields but list value has {0} fields.", param.get_size()));
+				}
+				if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getentityId().set_param(param.get_elem(0));
+				}
+				if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+					getevent__list().set_param(param.get_elem(1));
+				}
+				break;
+			case MP_Assignment_List: {
+				boolean value_used[] = new boolean[param.get_size()];
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("entityId".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getentityId().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					Module_Parameter curr_param = param.get_elem(val_idx);
+					if ("event_list".equals(curr_param.get_id().get_name())) {
+						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getevent__list().set_param(curr_param);
+						}
+						value_used[val_idx] = true;
+					}
+				}
+				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+					if (!value_used[val_idx]) {
+						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", param.get_elem(val_idx).get_id().get_name()));
+						break;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record template", "@TitanLoggerApi.TitanLog.sequence_list.oftype");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 	}
 	public static void TitanLog_sequence__list_0_encoder(final TitanLog_sequence__list_0 input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {

@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
@@ -298,6 +299,63 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 			break;
 		}
 	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+		if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+			return;
+		}
+		if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {
+			param.error("union value with field name was expected");
+		}
+		final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+		final String last_name = mp_last.get_id().get_name();
+		if ("syntaxes".equals(last_name)) {
+			getsyntaxes().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		if ("syntax".equals(last_name)) {
+			getsyntax().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		if ("presentation-context-id".equals(last_name)) {
+			getpresentation__context__id().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		if ("context-negotiation".equals(last_name)) {
+			getcontext__negotiation().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		if ("transfer-syntax".equals(last_name)) {
+			gettransfer__syntax().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		if ("fixed".equals(last_name)) {
+			getfixed().set_param(mp_last);
+			if (!field.isBound()) {
+				cleanUp();
+			}
+			return;
+		}
+		mp_last.error(MessageFormat.format("Field {0} does not exist in type EMBEDDED PDV.identification.", last_name));
+	}
+
 	@Override
 	public void set_implicit_omit() {
 		switch (union_selection) {
@@ -428,5 +486,4 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		}
 	}
 
-	//TODO: implement set_param !
 }

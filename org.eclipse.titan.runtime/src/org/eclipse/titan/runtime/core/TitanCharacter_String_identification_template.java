@@ -7,7 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
@@ -735,5 +739,96 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type CHARACTER STRING.identification.");
 		}
 	}
-	//TODO: implement set_param, check_restriction !
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
+			final String param_field = param.get_id().get_current_name();
+			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `CHARACTER STRING.identification");
+			}
+			if("syntaxes".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else if("syntax".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else if("presentation-context-id".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else if("context-negotiation".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else if("transfer-syntax".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else if("fixed".equals(param_field)) {
+				single_value.set_param(param);
+				return;
+			} else {
+				param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+			}
+		}
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template: {
+			final int size = param.get_size();
+			setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+			for (int i = 0; i < size; i++) {
+				listItem(i).set_param(param.get_elem(i));
+			}
+			break;
+		}
+		case MP_Value_List:
+			if (param.get_size() == 0) {
+				break;
+			}
+			param.type_error("union template", "CHARACTER STRING.identification");
+			break;
+		case MP_Assignment_List: {
+			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
+			final String last_name = mp_last.get_id().get_name();
+			if("syntaxes".equals(last_name)) {
+				getsyntaxes().set_param(mp_last);
+				break;
+			}
+			if("syntax".equals(last_name)) {
+				getsyntax().set_param(mp_last);
+				break;
+			}
+			if("presentation-context-id".equals(last_name)) {
+				getpresentation__context__id().set_param(mp_last);
+				break;
+			}
+			if("context-negotiation".equals(last_name)) {
+				getcontext__negotiation().set_param(mp_last);
+				break;
+			}
+			if("transfer-syntax".equals(last_name)) {
+				gettransfer__syntax().set_param(mp_last);
+				break;
+			}
+			if("fixed".equals(last_name)) {
+				getfixed().set_param(mp_last);
+				break;
+			}
+			mp_last.error(MessageFormat.format("Field {0} does not exist in type CHARACTER STRING.identification.", last_name));
+			break;
+		}
+		default:
+			param.type_error("union template", "CHARACTER STRING.identification");
+		}
+		is_ifPresent = param.get_ifpresent();
+	}
+	//TODO: implement check_restriction !
 }

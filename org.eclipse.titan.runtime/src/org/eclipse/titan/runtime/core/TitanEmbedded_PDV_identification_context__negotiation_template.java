@@ -11,6 +11,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+
 /**
  * Part of the representation of the ASN.1 EMBEDDED PDV type
  *
@@ -530,5 +532,72 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		default:
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template: {
+			final int size = param.get_size();
+			setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+			for (int i = 0; i < size; i++) {
+				listItem(i).set_param(param.get_elem(i));
+			}
+			break;
+		}
+		case MP_Value_List:
+			if (param.get_size() > 2) {
+				param.error(MessageFormat.format("record template of type EMBEDDED PDV.identification.context-negotiation has 2 fields but list value has {0} fields.", param.get_size()));
+			}
+			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				getpresentation__context__id().set_param(param.get_elem(0));
+			}
+			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				gettransfer__syntax().set_param(param.get_elem(1));
+			}
+			break;
+		case MP_Assignment_List: {
+			boolean value_used[] = new boolean[param.get_size()];
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("presentation-context-id".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						getpresentation__context__id().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("transfer-syntax".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						gettransfer__syntax().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				if (!value_used[val_idx]) {
+					param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type EMBEDDED PDV.identification.context-negotiation: {0}", param.get_elem(val_idx).get_id().get_name()));
+					break;
+				}
+			}
+			break;
+		}
+		default:
+			param.type_error("record template", "EMBEDDED PDV.identification.context-negotiation");
+		}
+		is_ifPresent = param.get_ifpresent();
 	}
 }
