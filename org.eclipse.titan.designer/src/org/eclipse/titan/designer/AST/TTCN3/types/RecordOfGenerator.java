@@ -55,6 +55,7 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
+		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
 		}
@@ -83,6 +84,7 @@ public final class RecordOfGenerator {
 		generateValueToString( source );
 		generateValueReplace( source, genName, ofTypeName, displayName );
 		generateValueLog( source );
+		generateValueSetParam(source, displayName);
 		generateValueSetImplicitOmit(source);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
 		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded);
@@ -154,6 +156,7 @@ public final class RecordOfGenerator {
 		generateTemplateSubstr( source, genName );
 		generateTemplateLog( source, genName, displayName, isSetOf );
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
+		generateTemplateSetParam(source, displayName);
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
 		//generateTemplateCheckRestriction( source, displayName );
@@ -764,7 +767,77 @@ public final class RecordOfGenerator {
 		source.append("\t\tvalueElements.get(i).log();\n");
 		source.append("\t\t}\n");
 		source.append("\t\tTTCN_Logger.log_event_str(\" }\");\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
+	}
+
+	/**
+	 * Generate set_param
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateValueSetParam(final StringBuilder source, final String displayName) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"record of value\");\n");
+		source.append("switch (param.get_operation_type()) {\n");
+		source.append("case OT_ASSIGN:\n");
+		source.append("if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
+		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Value_List:\n");
+		source.append("setSize(param.get_size());\n");
+		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
+		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+		source.append("getAt(i).set_param(current);\n");
+		source.append("if (!constGetAt(i).isBound()) {\n");
+		source.append("valueElements.set(i, null);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("case MP_Indexed_List:\n");
+		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
+		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("getAt(current.get_id().get_index()).set_param(current);\n");
+		source.append("if (!constGetAt(current.get_id().get_index()).isBound()) {\n");
+		source.append("valueElements.set(i, null);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "param.type_error(\"record of value\", \"{0}\");\n", displayName));
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("case OT_CONCAT:\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Value_List: {\n");
+		source.append("if (!isBound()) {\n");
+		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("}\n");
+		source.append("int start_idx = lengthOf().getInt();\n");
+		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
+		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+		source.append("getAt(start_idx + i).set_param(current);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case MP_Indexed_List:\n");
+		source.append("param.error(\"Cannot concatenate an indexed value list\");\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "param.type_error(\"record of value\", \"{0}\");\n", displayName));
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Internal error: Unknown operation type\");\n");
+		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
@@ -2249,7 +2322,70 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t\tdefault:\n");
 		aSb.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of type {0}.\");\n", displayName));
 		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
+	}
+	
+	/**
+	 * Generate set_param
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 */
+	private static void generateTemplateSetParam( final StringBuilder aSb, final String displayName) {
+		aSb.append("@Override\n");
+		aSb.append("public void set_param(final Module_Parameter param) {\n");
+		aSb.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"record of template\");\n");
+		aSb.append("switch (param.get_type()) {\n");
+		aSb.append("case MP_Omit:\n");
+		aSb.append("assign(template_sel.OMIT_VALUE);\n");
+		aSb.append("break;\n");
+		aSb.append("case MP_Any:\n");
+		aSb.append("assign(template_sel.ANY_VALUE);\n");
+		aSb.append("break;\n");
+		aSb.append("case MP_AnyOrNone:\n");
+		aSb.append("assign(template_sel.ANY_OR_OMIT);\n");
+		aSb.append("break;\n");
+		aSb.append("case MP_List_Template:\n");
+		aSb.append("case MP_ComplementList_Template: {\n");
+		aSb.append("final int size = param.get_size();\n");
+		aSb.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		aSb.append("for (int i = 0; i < size; i++) {\n");
+		aSb.append("listItem(i).set_param(param.get_elem(i));\n");
+		aSb.append("}\n");
+		aSb.append("break;\n");
+		aSb.append("}\n");
+		aSb.append("case MP_Value_List: {\n");
+		aSb.append("setSize(param.get_size());\n");
+		aSb.append("int current_index = 0;\n");
+		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
+		aSb.append("switch (param.get_elem(i).get_type()) {\n");
+		aSb.append("case MP_NotUsed:\n");
+		aSb.append("current_index++;\n");
+		aSb.append("break;\n");
+		aSb.append("case MP_Permutation_Template: {\n");
+		aSb.append("int permutation_start_index = current_index;\n");
+		//TODO optimize
+		aSb.append("for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {\n");
+		aSb.append("getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));\n");
+		aSb.append("current_index++;\n");
+		aSb.append("}\n");
+		aSb.append("int permutation_end_index = current_index - 1;\n");
+		aSb.append("add_permutation(permutation_start_index, permutation_end_index);\n");
+		aSb.append("break;\n");
+		aSb.append("}\n");
+		aSb.append("default:\n");
+		aSb.append("getAt(current_index).set_param(param.get_elem(i));\n");
+		aSb.append("current_index++;\n");
+		aSb.append("}\n");
+		aSb.append("}\n");
+		aSb.append("break;\n");
+		aSb.append("}\n");
+		aSb.append("default:\n");
+		aSb.append(MessageFormat.format("param.type_error(\"record of template\", \"{0}\");\n", displayName));
+		aSb.append("}\n");
+		aSb.append("is_ifPresent = param.get_ifpresent();\n");
+		aSb.append("set_length_range(param);\n");
+		aSb.append("}\n");
 	}
 
 //TODO: implement void log_matchv(final Base_Type match_value, final boolean legacy)
