@@ -164,12 +164,11 @@ public final class EnumeratedGenerator {
 		generateValueFromInt(source);
 		generateValueToString(source);
 		generateLog(source);
+		generateValueSetParam(source, e_defs.displayName);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
 		generateValueEncodeDecode(aData, source, e_defs, rawNeeded);
 		source.append("}\n");
 	}
-
-	//TODO: implement set_param(Module_Param& param);
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
 		aData.addBuiltinTypeImport("TitanInteger");
@@ -198,9 +197,9 @@ public final class EnumeratedGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
 		generateTemplateLogMatch(source, e_defs.name, e_defs.displayName);
+		generateTemplateSetParam(source, e_defs.name, e_defs.displayName);
 		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 
-		//FIXME implement set_param
 		//FIXME implement check_restriction
 		source.append("}\n");
 	}
@@ -263,6 +262,10 @@ public final class EnumeratedGenerator {
 		source.append("final enum_type helper =  enum_type.getValue(otherValue);\n");
 		source.append("return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
 		source.append("}\n\n");
+
+		source.append("public static boolean isValidEnum(final enum_type otherValue) {\n");
+		source.append("return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;\n");
+		source.append("}\n\n");
 	}
 
 	private static void generateValueEnumToStr(final StringBuilder source) {
@@ -277,6 +280,20 @@ public final class EnumeratedGenerator {
 		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("} else {\n");
 		source.append("TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateValueSetParam(final StringBuilder source, final String name) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"enumerated value\");\n");
+		source.append("if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {\n");
+		source.append(MessageFormat.format("param.type_error(\"enumerated_value\", \"{0}\");\n", name));
+		source.append("}\n");
+		source.append("enum_value = str_to_enum(param.get_enumerated());\n");
+		source.append("if (!isValidEnum(enum_value)) {\n");
+		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", name));
 		source.append("}\n");
 		source.append("}\n\n");
 	}
@@ -1071,6 +1088,44 @@ public final class EnumeratedGenerator {
 		source.append("} else {\n");
 		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateTemplateSetParam(final StringBuilder source, final String name, final String displayName) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"enumerated template\");\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Omit:\n");
+		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_Any:\n");
+		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_AnyOrNone:\n");
+		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("break;\n");
+		source.append("case MP_List_Template:\n");
+		source.append("case MP_ComplementList_Template: {\n");
+		source.append("final int size = param.get_size();\n");
+		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
+		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case MP_Enumerated: {\n");
+		source.append(MessageFormat.format("{0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
+		source.append(MessageFormat.format("if (!{0}.isValidEnum(enum_value)) '{'\n", name));
+		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("assign(enum_value);\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("param.type_error(\"enumerated template\", \"{0}\");\n", displayName));
+		source.append("}\n");
+		source.append("is_ifPresent = param.get_ifpresent();\n");
 		source.append("}\n\n");
 	}
 
