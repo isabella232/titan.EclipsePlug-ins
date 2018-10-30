@@ -163,7 +163,7 @@ public final class RecordSetCodeGenerator {
 		generateGettersSetters( source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
-		generateValueSetParam(source, classDisplayname, fieldInfos);
+		generateValueSetParam(source, classDisplayname, fieldInfos, isSet);
 		generateValueSetImplicitOmit(source, fieldInfos);
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
@@ -218,7 +218,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
-		generateTemplateSetParam(source, classDisplayName, fieldInfos);
+		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
 
 		source.append("}\n");
 	}
@@ -527,15 +527,16 @@ public final class RecordSetCodeGenerator {
 	 * @param aSb the output, where the java code is written
 	 * @param classReadableName the readable name of the class
 	 * @param fieldInfos sequence field variable and type names
+	 * @param isSet: true if a set, false if a record
 	 */
-	private static void generateValueSetParam(final StringBuilder aSb, final String classReadableName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueSetParam(final StringBuilder aSb, final String classReadableName, final List<FieldInfo> fieldInfos, final boolean isSet) {
 		aSb.append("@Override\n");
 		aSb.append("public void set_param(final Module_Parameter param) {\n");
-		aSb.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"record value\");\n");
+		aSb.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"{0} value\");\n", isSet ? "set" : "record"));
 		aSb.append("switch (param.get_type()) {\n");
 		aSb.append("case MP_Value_List:\n");
 		aSb.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
-		aSb.append(MessageFormat.format("param.error(MessageFormat.format(\"record value of type {0} has {1} fields but list value has '{'0'}' fields.\", param.get_size()));\n", classReadableName, fieldInfos.size()));
+		aSb.append(MessageFormat.format("param.error(MessageFormat.format(\"{0} value of type {1} has {2} fields but list value has '{'0'}' fields.\", param.get_size()));\n", isSet ? "set" : "record", classReadableName, fieldInfos.size()));
 		aSb.append("}\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -571,7 +572,7 @@ public final class RecordSetCodeGenerator {
 		aSb.append("break;\n");
 		aSb.append("}\n");
 		aSb.append("default:\n");
-		aSb.append(MessageFormat.format("param.type_error(\"record value\", \"{0}\");\n", classReadableName));
+		aSb.append(MessageFormat.format("param.type_error(\"{0} value\", \"{1}\");\n", isSet ? "set" : "record", classReadableName));
 		aSb.append("}\n");
 		aSb.append("}\n\n");
 	}
@@ -638,6 +639,7 @@ public final class RecordSetCodeGenerator {
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
+	 * @param isSet: true if a set, false if a record
 	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
 	 * @param raw the raw coding related settings if applicable.
 	 * */
@@ -2270,11 +2272,12 @@ public final class RecordSetCodeGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param displayName the user readable name of the type to be generated.
 	 * @param fieldInfos the list of information about the fields.
+	 * @param isSet: true if a set, false if a record
 	 * */
-	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
 		source.append("@Override\n");
 		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"record template\");\n");
+		source.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} template\");\n", isSet ? "set" : "record"));
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Omit:\n");
 		source.append("assign(template_sel.OMIT_VALUE);\n");
@@ -2296,7 +2299,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n");
 		source.append("case MP_Value_List:\n");
 		source.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
-		source.append(MessageFormat.format("param.error(MessageFormat.format(\"record template of type {0} has {1} fields but list value has '{'0'}' fields.\", param.get_size()));\n", displayName, fieldInfos.size()));
+		source.append(MessageFormat.format("param.error(MessageFormat.format(\"{0} template of type {1} has {2} fields but list value has '{'0'}' fields.\", param.get_size()));\n", isSet ? "set" : "record", displayName, fieldInfos.size()));
 		source.append("}\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -2332,7 +2335,7 @@ public final class RecordSetCodeGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append(MessageFormat.format("param.type_error(\"record template\", \"{0}\");\n", displayName));
+		source.append(MessageFormat.format("param.type_error(\"{0} template\", \"{1}\");\n", isSet ? "set" : "record", displayName));
 		source.append("}\n");
 		source.append("is_ifPresent = param.get_ifpresent();\n");
 		source.append("}\n");
