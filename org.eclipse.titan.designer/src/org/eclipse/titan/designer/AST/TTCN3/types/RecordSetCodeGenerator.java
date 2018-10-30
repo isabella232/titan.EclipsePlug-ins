@@ -127,6 +127,7 @@ public final class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
+		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
@@ -162,6 +163,7 @@ public final class RecordSetCodeGenerator {
 		generateGettersSetters( source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
+		generateValueSetParam(source, classDisplayname, fieldInfos);
 		generateValueSetImplicitOmit(source, fieldInfos);
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
@@ -216,6 +218,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
+		generateTemplateSetParam(source, classDisplayName, fieldInfos);
 
 		source.append("}\n");
 	}
@@ -516,6 +519,61 @@ public final class RecordSetCodeGenerator {
 		}
 		aSb.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		aSb.append("\t\t}\n\n");
+	}
+
+	/**
+	 * Generate set_param.
+	 *
+	 * @param aSb the output, where the java code is written
+	 * @param classReadableName the readable name of the class
+	 * @param fieldInfos sequence field variable and type names
+	 */
+	private static void generateValueSetParam(final StringBuilder aSb, final String classReadableName, final List<FieldInfo> fieldInfos) {
+		aSb.append("@Override\n");
+		aSb.append("public void set_param(final Module_Parameter param) {\n");
+		aSb.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"record value\");\n");
+		aSb.append("switch (param.get_type()) {\n");
+		aSb.append("case MP_Value_List:\n");
+		aSb.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
+		aSb.append(MessageFormat.format("param.error(MessageFormat.format(\"record value of type {0} has {1} fields but list value has '{'0'}' fields.\", param.get_size()));\n", classReadableName, fieldInfos.size()));
+		aSb.append("}\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			aSb.append(MessageFormat.format("if (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
+			aSb.append(MessageFormat.format("get{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
+			aSb.append("}\n");
+		}
+		aSb.append("break;\n");
+		aSb.append("case MP_Assignment_List: {\n");
+		aSb.append("boolean value_used[] = new boolean[param.get_size()];\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			aSb.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+			aSb.append("Module_Parameter curr_param = param.get_elem(val_idx);\n");
+			aSb.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+
+			aSb.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+			aSb.append(MessageFormat.format("get{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			aSb.append("}\n");
+			aSb.append("value_used[val_idx] = true;\n");
+			aSb.append("}\n");
+			aSb.append("}\n");
+		}
+
+		aSb.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+		aSb.append("if (!value_used[val_idx]) {\n");
+		aSb.append(MessageFormat.format("param.get_elem(val_idx).error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", param.get_elem(val_idx).get_id().get_name()));\n", classReadableName));
+		aSb.append("break;\n");
+		aSb.append("}\n");
+		aSb.append("}\n");
+		aSb.append("break;\n");
+		aSb.append("}\n");
+		aSb.append("default:\n");
+		aSb.append(MessageFormat.format("param.type_error(\"record value\", \"{0}\");\n", classReadableName));
+		aSb.append("}\n");
+		aSb.append("}\n\n");
 	}
 
 	/**
@@ -2204,6 +2262,80 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
+	}
+
+	/**
+	 * Generate set_param
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * */
+	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"record template\");\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Omit:\n");
+		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_Any:\n");
+		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_AnyOrNone:\n");
+		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("break;\n");
+		source.append("case MP_List_Template:\n");
+		source.append("case MP_ComplementList_Template: {\n");
+		source.append("final int size = param.get_size();\n");
+		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
+		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case MP_Value_List:\n");
+		source.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
+		source.append(MessageFormat.format("param.error(MessageFormat.format(\"record template of type {0} has {1} fields but list value has '{'0'}' fields.\", param.get_size()));\n", displayName, fieldInfos.size()));
+		source.append("}\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("if (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
+			source.append(MessageFormat.format("get{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
+			source.append("}\n");
+		}
+		source.append("break;\n");
+		source.append("case MP_Assignment_List: {\n");
+		source.append("boolean value_used[] = new boolean[param.get_size()];\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+			source.append("Module_Parameter curr_param = param.get_elem(val_idx);\n");
+			source.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+
+			source.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+			source.append(MessageFormat.format("get{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			source.append("}\n");
+			source.append("value_used[val_idx] = true;\n");
+			source.append("}\n");
+			source.append("}\n");
+		}
+
+		source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+		source.append("if (!value_used[val_idx]) {\n");
+		source.append(MessageFormat.format("param.get_elem(val_idx).error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", param.get_elem(val_idx).get_id().get_name()));\n", displayName));
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("param.type_error(\"record template\", \"{0}\");\n", displayName));
+		source.append("}\n");
+		source.append("is_ifPresent = param.get_ifpresent();\n");
+		source.append("}\n");
 	}
 
 	/**
