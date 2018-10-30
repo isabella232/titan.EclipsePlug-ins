@@ -2354,6 +2354,14 @@ public final class RecordOfGenerator {
 		aSb.append("}\n");
 		aSb.append("break;\n");
 		aSb.append("}\n");
+		aSb.append("case MP_Indexed_List:\n");
+		aSb.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		aSb.append("setSize(0);\n");
+		aSb.append("}\n");
+		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
+		aSb.append("getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));\n");
+		aSb.append("}\n");
+		aSb.append("break;\n");
 		aSb.append("case MP_Value_List: {\n");
 		aSb.append("setSize(param.get_size());\n");
 		aSb.append("int current_index = 0;\n");
