@@ -84,7 +84,7 @@ public final class RecordOfGenerator {
 		generateValueToString( source );
 		generateValueReplace( source, genName, ofTypeName, displayName );
 		generateValueLog( source );
-		generateValueSetParam(source, displayName);
+		generateValueSetParam(source, displayName, isSetOf);
 		generateValueSetImplicitOmit(source);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
 		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded);
@@ -156,7 +156,7 @@ public final class RecordOfGenerator {
 		generateTemplateSubstr( source, genName );
 		generateTemplateLog( source, genName, displayName, isSetOf );
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
-		generateTemplateSetParam(source, displayName);
+		generateTemplateSetParam(source, displayName, isSetOf);
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
 		//generateTemplateCheckRestriction( source, displayName );
@@ -775,11 +775,12 @@ public final class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateValueSetParam(final StringBuilder source, final String displayName) {
+	private static void generateValueSetParam(final StringBuilder source, final String displayName, final boolean isSetOf) {
 		source.append("@Override\n");
 		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"record of value\");\n");
+		source.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"{0} of value\");\n", isSetOf ? "set" : "record"));
 		source.append("switch (param.get_operation_type()) {\n");
 		source.append("case OT_ASSIGN:\n");
 		source.append("if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
@@ -809,7 +810,7 @@ public final class RecordOfGenerator {
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");
-		source.append( MessageFormat.format( "param.type_error(\"record of value\", \"{0}\");\n", displayName));
+		source.append( MessageFormat.format( "param.type_error(\"{0} of value\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("case OT_CONCAT:\n");
@@ -831,7 +832,7 @@ public final class RecordOfGenerator {
 		source.append("param.error(\"Cannot concatenate an indexed value list\");\n");
 		source.append("break;\n");
 		source.append("default:\n");
-		source.append( MessageFormat.format( "param.type_error(\"record of value\", \"{0}\");\n", displayName));
+		source.append( MessageFormat.format( "param.type_error(\"{0} of value\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");
@@ -2330,11 +2331,12 @@ public final class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateSetParam( final StringBuilder aSb, final String displayName) {
+	private static void generateTemplateSetParam( final StringBuilder aSb, final String displayName, final boolean isSetOf) {
 		aSb.append("@Override\n");
 		aSb.append("public void set_param(final Module_Parameter param) {\n");
-		aSb.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"record of template\");\n");
+		aSb.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} of template\");\n", isSetOf ? "set" : "record"));
 		aSb.append("switch (param.get_type()) {\n");
 		aSb.append("case MP_Omit:\n");
 		aSb.append("assign(template_sel.OMIT_VALUE);\n");
@@ -2362,34 +2364,53 @@ public final class RecordOfGenerator {
 		aSb.append("getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));\n");
 		aSb.append("}\n");
 		aSb.append("break;\n");
-		aSb.append("case MP_Value_List: {\n");
-		aSb.append("setSize(param.get_size());\n");
-		aSb.append("int current_index = 0;\n");
-		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
-		aSb.append("switch (param.get_elem(i).get_type()) {\n");
-		aSb.append("case MP_NotUsed:\n");
-		aSb.append("current_index++;\n");
-		aSb.append("break;\n");
-		aSb.append("case MP_Permutation_Template: {\n");
-		aSb.append("int permutation_start_index = current_index;\n");
-		//TODO optimize
-		aSb.append("for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {\n");
-		aSb.append("getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));\n");
-		aSb.append("current_index++;\n");
-		aSb.append("}\n");
-		aSb.append("int permutation_end_index = current_index - 1;\n");
-		aSb.append("add_permutation(permutation_start_index, permutation_end_index);\n");
-		aSb.append("break;\n");
-		aSb.append("}\n");
+		if (isSetOf) {
+			aSb.append("case MP_Value_List: {\n");
+			aSb.append("setSize(param.get_size());\n");
+			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
+			aSb.append("if (param.get_elem(i).get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+			aSb.append("getAt(i).set_param(param.get_elem(i));\n");
+			aSb.append("}\n");
+			aSb.append("}\n");
+			aSb.append("break;\n");
+			aSb.append("}\n");
+			aSb.append("case MP_Superset_Template:\n");
+			aSb.append("case MP_Subset_Template:\n");
+			aSb.append("setType(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());\n");
+			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
+			aSb.append("setItem(i).set_param(param.get_elem(i));\n");
+			aSb.append("}\n");
+			aSb.append("break;\n");
+		} else {
+			aSb.append("case MP_Value_List: {\n");
+			aSb.append("setSize(param.get_size());\n");
+			aSb.append("int current_index = 0;\n");
+			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
+			aSb.append("switch (param.get_elem(i).get_type()) {\n");
+			aSb.append("case MP_NotUsed:\n");
+			aSb.append("current_index++;\n");
+			aSb.append("break;\n");
+			aSb.append("case MP_Permutation_Template: {\n");
+			aSb.append("int permutation_start_index = current_index;\n");
+			//TODO optimize
+			aSb.append("for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {\n");
+			aSb.append("getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));\n");
+			aSb.append("current_index++;\n");
+			aSb.append("}\n");
+			aSb.append("int permutation_end_index = current_index - 1;\n");
+			aSb.append("add_permutation(permutation_start_index, permutation_end_index);\n");
+			aSb.append("break;\n");
+			aSb.append("}\n");
+			aSb.append("default:\n");
+			aSb.append("getAt(current_index).set_param(param.get_elem(i));\n");
+			aSb.append("current_index++;\n");
+			aSb.append("}\n");
+			aSb.append("}\n");
+			aSb.append("break;\n");
+			aSb.append("}\n");
+		}
 		aSb.append("default:\n");
-		aSb.append("getAt(current_index).set_param(param.get_elem(i));\n");
-		aSb.append("current_index++;\n");
-		aSb.append("}\n");
-		aSb.append("}\n");
-		aSb.append("break;\n");
-		aSb.append("}\n");
-		aSb.append("default:\n");
-		aSb.append(MessageFormat.format("param.type_error(\"record of template\", \"{0}\");\n", displayName));
+		aSb.append(MessageFormat.format("param.type_error(\"{0} of template\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
 		aSb.append("}\n");
 		aSb.append("is_ifPresent = param.get_ifpresent();\n");
 		aSb.append("set_length_range(param);\n");
