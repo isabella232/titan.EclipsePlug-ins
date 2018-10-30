@@ -486,11 +486,11 @@ public final class UnionGenerator {
 		source.append("param.error(\"union value with field name was expected\");\n");
 		source.append("}\n");
 		source.append("final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
-		//TODO name could be extracted for performance
+		source.append("final String last_name = mp_last.get_id().get_name();\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("if (\"{0}\".equals(mp_last.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("if (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
 			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
 			source.append("if (!field.isBound()) {\n");
 			source.append("cleanUp();\n");
@@ -499,7 +499,7 @@ public final class UnionGenerator {
 			source.append("}\n");
 		}
 
-		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", mp_last.get_id().get_name()));\n", displayName));
+		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
 		source.append("}\n\n");
 	}
 
@@ -1598,17 +1598,18 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
 		source.append("break;\n");
 		source.append("case MP_Assignment_List: {\n");
-		source.append("final Module_Parameter last = param.get_elem(param.get_size() - 1);\n");
+		source.append("final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
+		source.append("final String last_name = mp_last.get_id().get_name();\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("if(\"{0}\".equals(last.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
-			source.append("getfield1().set_param(last);\n");
+			source.append(MessageFormat.format("if(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
+			source.append("getfield1().set_param(mp_last);\n");
 			source.append("break;\n");
 			source.append("}\n");
 		}
 
-		source.append(MessageFormat.format("last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last.get_id().get_name()));\n", displayName));
+		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("default:\n");
