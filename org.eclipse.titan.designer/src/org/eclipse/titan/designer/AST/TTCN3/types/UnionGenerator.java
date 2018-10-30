@@ -1604,7 +1604,7 @@ public final class UnionGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			source.append(MessageFormat.format("if(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append("getfield1().set_param(mp_last);\n");
+			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
 			source.append("break;\n");
 			source.append("}\n");
 		}
