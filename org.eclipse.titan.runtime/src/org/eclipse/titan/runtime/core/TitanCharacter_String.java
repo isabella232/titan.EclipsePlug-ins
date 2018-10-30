@@ -180,11 +180,11 @@ public class TitanCharacter_String extends Base_Type {
 
 	@Override
 	public void set_param(final Module_Parameter param) {
-		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() > 3) {
-				param.error(MessageFormat.format("record value of type CHARACTER STRING has 3 fields but list value has {0} fields.", param.get_size()));
+				param.error(MessageFormat.format("set value of type CHARACTER STRING has 3 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
 				getidentification().set_param(param.get_elem(0));
@@ -234,7 +234,7 @@ public class TitanCharacter_String extends Base_Type {
 			break;
 		}
 		default:
-			param.type_error("record value", "CHARACTER STRING");
+			param.type_error("set value", "CHARACTER STRING");
 		}
 	}
 

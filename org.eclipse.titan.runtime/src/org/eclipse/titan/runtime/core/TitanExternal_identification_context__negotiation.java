@@ -149,11 +149,11 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 
 	@Override
 	public void set_param(final Module_Parameter param) {
-		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record value");
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() > 2) {
-				param.error(MessageFormat.format("record value of type EXTERNAL.identification.context-negotiation has 2 fields but list value has {0} fields.", param.get_size()));
+				param.error(MessageFormat.format("set value of type EXTERNAL.identification.context-negotiation has 2 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
 				getpresentation__context__id().set_param(param.get_elem(0));
@@ -191,7 +191,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			break;
 		}
 		default:
-			param.type_error("record value", "EXTERNAL.identification.context-negotiation");
+			param.type_error("set value", "EXTERNAL.identification.context-negotiation");
 		}
 	}
 

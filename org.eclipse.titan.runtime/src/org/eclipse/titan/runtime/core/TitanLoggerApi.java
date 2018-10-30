@@ -1922,6 +1922,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.DefaultOp.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -4539,6 +4540,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -5380,6 +5382,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -6337,6 +6340,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingSuccessType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -7506,6 +7510,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Proc_port_out.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -8088,6 +8093,69 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+					assign(TitanNull_Type.NULL_VALUE);
+					return;
+				}
+				switch (param.get_type()) {
+				case MP_Value_List:
+					setSize(param.get_size());
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(i).set_param(current);
+							if (!constGetAt(i).isBound()) {
+								valueElements.set(i, null);
+							}
+						}
+					}
+					break;
+				case MP_Indexed_List:
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						getAt(current.get_id().get_index()).set_param(current);
+						if (!constGetAt(current.get_id().get_index()).isBound()) {
+							valueElements.set(i, null);
+						}
+					}
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.Strings.str_list");
+				}
+				break;
+			case OT_CONCAT:
+				switch (param.get_type()) {
+				case MP_Value_List: {
+					if (!isBound()) {
+						assign(TitanNull_Type.NULL_VALUE);
+					}
+					int start_idx = lengthOf().getInt();
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(start_idx + i).set_param(current);
+						}
+					}
+					break;
+				}
+				case MP_Indexed_List:
+					param.error("Cannot concatenate an indexed value list");
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.Strings.str_list");
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: Unknown operation type");
+			}
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			if(valueElements == null) {
@@ -8997,6 +9065,68 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of type @TitanLoggerApi.Strings.str_list.");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Indexed_List:
+				if (templateSelection != template_sel.SPECIFIC_VALUE) {
+					setSize(0);
+				}
+				for (int i = 0; i < param.get_size(); i++) {
+					getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));
+				}
+				break;
+			case MP_Value_List: {
+				setSize(param.get_size());
+				int current_index = 0;
+				for (int i = 0; i < param.get_size(); i++) {
+					switch (param.get_elem(i).get_type()) {
+					case MP_NotUsed:
+						current_index++;
+						break;
+					case MP_Permutation_Template: {
+						int permutation_start_index = current_index;
+						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
+							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+							current_index++;
+						}
+						int permutation_end_index = current_index - 1;
+						add_permutation(permutation_start_index, permutation_end_index);
+						break;
+					}
+					default:
+						getAt(current_index).set_param(param.get_elem(i));
+						current_index++;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record of template", "@TitanLoggerApi.Strings.str_list");
+			}
+			is_ifPresent = param.get_ifpresent();
+			set_length_range(param);
 		}
 
 		@Override
@@ -12476,6 +12606,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.SetVerdictType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -12948,6 +13079,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -13069,6 +13204,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Parallel.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Parallel.reason.");
 			}
 		}
 
@@ -13461,6 +13608,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Parallel_reason.enum_type enum_value = Parallel_reason.str_to_enum(param.get_enumerated());
+				if (!Parallel_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Parallel.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Parallel.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -13998,6 +14181,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -14068,6 +14255,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.PortType");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.PortType.");
 			}
 		}
 
@@ -14460,6 +14659,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				PortType.enum_type enum_value = PortType.str_to_enum(param.get_enumerated());
+				if (!PortType.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.PortType.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.PortType");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -15484,6 +15719,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.WarningEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -15806,6 +16042,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -15882,6 +16122,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ParPort.operation");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ParPort.operation.");
 			}
 		}
 
@@ -16274,6 +16526,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ParPort_operation.enum_type enum_value = ParPort_operation.str_to_enum(param.get_enumerated());
+				if (!ParPort_operation.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ParPort.operation.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ParPort.operation");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -17140,6 +17428,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ComponentIDType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -17758,6 +18047,69 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+					assign(TitanNull_Type.NULL_VALUE);
+					return;
+				}
+				switch (param.get_type()) {
+				case MP_Value_List:
+					setSize(param.get_size());
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(i).set_param(current);
+							if (!constGetAt(i).isBound()) {
+								valueElements.set(i, null);
+							}
+						}
+					}
+					break;
+				case MP_Indexed_List:
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						getAt(current.get_id().get_index()).set_param(current);
+						if (!constGetAt(current.get_id().get_index()).isBound()) {
+							valueElements.set(i, null);
+						}
+					}
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list");
+				}
+				break;
+			case OT_CONCAT:
+				switch (param.get_type()) {
+				case MP_Value_List: {
+					if (!isBound()) {
+						assign(TitanNull_Type.NULL_VALUE);
+					}
+					int start_idx = lengthOf().getInt();
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(start_idx + i).set_param(current);
+						}
+					}
+					break;
+				}
+				case MP_Indexed_List:
+					param.error("Cannot concatenate an indexed value list");
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list");
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: Unknown operation type");
+			}
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			if(valueElements == null) {
@@ -18667,6 +19019,68 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Indexed_List:
+				if (templateSelection != template_sel.SPECIFIC_VALUE) {
+					setSize(0);
+				}
+				for (int i = 0; i < param.get_size(); i++) {
+					getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));
+				}
+				break;
+			case MP_Value_List: {
+				setSize(param.get_size());
+				int current_index = 0;
+				for (int i = 0; i < param.get_size(); i++) {
+					switch (param.get_elem(i).get_type()) {
+					case MP_NotUsed:
+						current_index++;
+						break;
+					case MP_Permutation_Template: {
+						int permutation_start_index = current_index;
+						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
+							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+							current_index++;
+						}
+						int permutation_end_index = current_index - 1;
+						add_permutation(permutation_start_index, permutation_end_index);
+						break;
+					}
+					default:
+						getAt(current_index).set_param(param.get_elem(i));
+						current_index++;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record of template", "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list");
+			}
+			is_ifPresent = param.get_ifpresent();
+			set_length_range(param);
 		}
 
 		@Override
@@ -23444,6 +23858,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -23532,6 +23950,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.MatchingDoneType.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingDoneType.reason.");
 			}
 		}
 
@@ -23924,6 +24354,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				MatchingDoneType_reason.enum_type enum_value = MatchingDoneType_reason.str_to_enum(param.get_enumerated());
+				if (!MatchingDoneType_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingDoneType.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.MatchingDoneType.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -24853,6 +25319,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -26132,6 +26599,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.LocationInfo.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -26937,6 +27405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TestcaseEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -30832,6 +31301,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_Misc.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -32367,6 +32837,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParallelPTC.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -32779,6 +33250,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -32864,6 +33339,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.LocationInfo.ent_type");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.LocationInfo.ent_type.");
 			}
 		}
 
@@ -33256,6 +33743,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				LocationInfo_ent__type.enum_type enum_value = LocationInfo_ent__type.str_to_enum(param.get_enumerated());
+				if (!LocationInfo_ent__type.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.LocationInfo.ent_type.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.LocationInfo.ent_type");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -34379,6 +34902,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingTimeout.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -35148,6 +35672,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.VerdictOp.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -35474,6 +35999,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -35556,6 +36085,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.MatchingProblemType.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.reason.");
 			}
 		}
 
@@ -35948,6 +36489,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				MatchingProblemType_reason.enum_type enum_value = MatchingProblemType_reason.str_to_enum(param.get_enumerated());
+				if (!MatchingProblemType_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.MatchingProblemType.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -36359,6 +36936,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -36510,6 +37091,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ExecutorRuntime.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorRuntime.reason.");
 			}
 		}
 
@@ -36905,6 +37498,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ExecutorRuntime_reason.enum_type enum_value = ExecutorRuntime_reason.str_to_enum(param.get_enumerated());
+				if (!ExecutorRuntime_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorRuntime.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ExecutorRuntime.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch (templateSelection) {
@@ -37269,6 +37898,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -37354,6 +37987,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.MatchingFailureType.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingFailureType.reason.");
 			}
 		}
 
@@ -37749,6 +38394,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				MatchingFailureType_reason.enum_type enum_value = MatchingFailureType_reason.str_to_enum(param.get_enumerated());
+				if (!MatchingFailureType_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingFailureType.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.MatchingFailureType.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch (templateSelection) {
@@ -38111,6 +38792,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -38193,6 +38878,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.MatchingProblemType.operation");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.operation.");
 			}
 		}
 
@@ -38585,6 +39282,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				MatchingProblemType_operation.enum_type enum_value = MatchingProblemType_operation.str_to_enum(param.get_enumerated());
+				if (!MatchingProblemType_operation.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.operation.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.MatchingProblemType.operation");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -39451,6 +40184,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanSingleLogEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -40832,6 +41566,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -40914,6 +41652,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ExecutorConfigdata.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorConfigdata.reason.");
 			}
 		}
 
@@ -41306,6 +42056,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ExecutorConfigdata_reason.enum_type enum_value = ExecutorConfigdata_reason.str_to_enum(param.get_enumerated());
+				if (!ExecutorConfigdata_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorConfigdata.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ExecutorConfigdata.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -42172,6 +42958,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.QualifiedName.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -43177,6 +43964,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -44468,6 +45256,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Dualface_mapped.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -45002,6 +45791,69 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+					assign(TitanNull_Type.NULL_VALUE);
+					return;
+				}
+				switch (param.get_type()) {
+				case MP_Value_List:
+					setSize(param.get_size());
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(i).set_param(current);
+							if (!constGetAt(i).isBound()) {
+								valueElements.set(i, null);
+							}
+						}
+					}
+					break;
+				case MP_Indexed_List:
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						getAt(current.get_id().get_index()).set_param(current);
+						if (!constGetAt(current.get_id().get_index()).isBound()) {
+							valueElements.set(i, null);
+						}
+					}
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLogEvent.sourceInfo_list");
+				}
+				break;
+			case OT_CONCAT:
+				switch (param.get_type()) {
+				case MP_Value_List: {
+					if (!isBound()) {
+						assign(TitanNull_Type.NULL_VALUE);
+					}
+					int start_idx = lengthOf().getInt();
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(start_idx + i).set_param(current);
+						}
+					}
+					break;
+				}
+				case MP_Indexed_List:
+					param.error("Cannot concatenate an indexed value list");
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLogEvent.sourceInfo_list");
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: Unknown operation type");
+			}
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			if(valueElements == null) {
@@ -45911,6 +46763,68 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Indexed_List:
+				if (templateSelection != template_sel.SPECIFIC_VALUE) {
+					setSize(0);
+				}
+				for (int i = 0; i < param.get_size(); i++) {
+					getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));
+				}
+				break;
+			case MP_Value_List: {
+				setSize(param.get_size());
+				int current_index = 0;
+				for (int i = 0; i < param.get_size(); i++) {
+					switch (param.get_elem(i).get_type()) {
+					case MP_NotUsed:
+						current_index++;
+						break;
+					case MP_Permutation_Template: {
+						int permutation_start_index = current_index;
+						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
+							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+							current_index++;
+						}
+						int permutation_end_index = current_index - 1;
+						add_permutation(permutation_start_index, permutation_end_index);
+						break;
+					}
+					default:
+						getAt(current_index).set_param(param.get_elem(i));
+						current_index++;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record of template", "@TitanLoggerApi.TitanLogEvent.sourceInfo_list");
+			}
+			is_ifPresent = param.get_ifpresent();
+			set_length_range(param);
 		}
 
 		@Override
@@ -46873,6 +47787,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.VerdictType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -47361,6 +48276,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -47434,6 +48353,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Port_State.operation");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Port_State.operation.");
 			}
 		}
 
@@ -47826,6 +48757,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Port__State_operation.enum_type enum_value = Port__State_operation.str_to_enum(param.get_enumerated());
+				if (!Port__State_operation.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_State.operation.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Port_State.operation");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -48329,6 +49296,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -48402,6 +49373,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Port_oper");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Port_oper.");
 			}
 		}
 
@@ -48794,6 +49777,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Port__oper.enum_type enum_value = Port__oper.str_to_enum(param.get_enumerated());
+				if (!Port__oper.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_oper.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Port_oper");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -49948,6 +50967,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimestampType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -50917,6 +51937,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Setstate.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -52324,6 +53345,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Proc_port_in.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -53435,6 +54457,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLogEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -55086,6 +56109,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -56143,6 +57167,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.LogEventType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -57006,6 +58031,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_State.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -57975,6 +59001,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TestcaseType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -60533,6 +61560,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.PortEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -63257,6 +64285,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_send.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -64482,6 +65511,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FunctionEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -65915,6 +66945,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingFailureType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -67576,6 +68607,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParPort.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -68711,6 +69743,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingDoneType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -70094,6 +71127,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Port_Queue.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -70923,6 +71957,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ParallelEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -73097,6 +74132,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_recv.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -73655,6 +74691,69 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+					assign(TitanNull_Type.NULL_VALUE);
+					return;
+				}
+				switch (param.get_type()) {
+				case MP_Value_List:
+					setSize(param.get_size());
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(i).set_param(current);
+							if (!constGetAt(i).isBound()) {
+								valueElements.set(i, null);
+							}
+						}
+					}
+					break;
+				case MP_Indexed_List:
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						getAt(current.get_id().get_index()).set_param(current);
+						if (!constGetAt(current.get_id().get_index()).isBound()) {
+							valueElements.set(i, null);
+						}
+					}
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.StartFunction.parameter_list");
+				}
+				break;
+			case OT_CONCAT:
+				switch (param.get_type()) {
+				case MP_Value_List: {
+					if (!isBound()) {
+						assign(TitanNull_Type.NULL_VALUE);
+					}
+					int start_idx = lengthOf().getInt();
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(start_idx + i).set_param(current);
+						}
+					}
+					break;
+				}
+				case MP_Indexed_List:
+					param.error("Cannot concatenate an indexed value list");
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.StartFunction.parameter_list");
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: Unknown operation type");
+			}
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			if(valueElements == null) {
@@ -74567,6 +75666,68 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Indexed_List:
+				if (templateSelection != template_sel.SPECIFIC_VALUE) {
+					setSize(0);
+				}
+				for (int i = 0; i < param.get_size(); i++) {
+					getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));
+				}
+				break;
+			case MP_Value_List: {
+				setSize(param.get_size());
+				int current_index = 0;
+				for (int i = 0; i < param.get_size(); i++) {
+					switch (param.get_elem(i).get_type()) {
+					case MP_NotUsed:
+						current_index++;
+						break;
+					case MP_Permutation_Template: {
+						int permutation_start_index = current_index;
+						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
+							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+							current_index++;
+						}
+						int permutation_end_index = current_index - 1;
+						add_permutation(permutation_start_index, permutation_end_index);
+						break;
+					}
+					default:
+						getAt(current_index).set_param(param.get_elem(i));
+						current_index++;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record of template", "@TitanLoggerApi.StartFunction.parameter_list");
+			}
+			is_ifPresent = param.get_ifpresent();
+			set_length_range(param);
+		}
+
+		@Override
 		public boolean get_istemplate_kind(final String type) {
 			if ("AnyElement".equals(type)) {
 				if (templateSelection != template_sel.SPECIFIC_VALUE) {
@@ -75441,6 +76602,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -76222,6 +77384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.DefaultEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -76656,6 +77819,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -76738,6 +77905,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Port_Queue.operation");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Queue.operation.");
 			}
 		}
 
@@ -77130,6 +78309,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Port__Queue_operation.enum_type enum_value = Port__Queue_operation.str_to_enum(param.get_enumerated());
+				if (!Port__Queue_operation.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Queue.operation.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Port_Queue.operation");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -78350,6 +79565,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingProblemType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -79167,6 +80383,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Strings.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -80160,6 +81377,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.PTC_exit.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -80574,6 +81792,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -80698,6 +81920,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Port_Misc.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Misc.reason.");
 			}
 		}
 
@@ -81090,6 +82324,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Port__Misc_reason.enum_type enum_value = Port__Misc_reason.str_to_enum(param.get_enumerated());
+				if (!Port__Misc_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Misc.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Port_Misc.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -81898,6 +83168,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLog.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -82667,6 +83938,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ErrorEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -83652,6 +84924,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -85093,6 +86366,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Parallel.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -86412,6 +87686,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorRuntime.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -87337,6 +88612,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.FinalVerdictType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -87655,6 +88931,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -87725,6 +89005,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.FinalVerdictType.choice.notification");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.FinalVerdictType.choice.notification.");
 			}
 		}
 
@@ -88120,6 +89412,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				FinalVerdictType_choice_notification.enum_type enum_value = FinalVerdictType_choice_notification.str_to_enum(param.get_enumerated());
+				if (!FinalVerdictType_choice_notification.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.FinalVerdictType.choice.notification.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.FinalVerdictType.choice.notification");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch (templateSelection) {
@@ -88442,6 +89770,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -88518,6 +89850,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ExecutorUnqualified.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorUnqualified.reason.");
 			}
 		}
 
@@ -88913,6 +90257,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ExecutorUnqualified_reason.enum_type enum_value = ExecutorUnqualified_reason.str_to_enum(param.get_enumerated());
+				if (!ExecutorUnqualified_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorUnqualified.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ExecutorUnqualified.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch (templateSelection) {
@@ -89305,6 +90685,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -89378,6 +90762,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Msg_port_recv.operation");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Msg_port_recv.operation.");
 			}
 		}
 
@@ -89770,6 +91166,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Msg__port__recv_operation.enum_type enum_value = Msg__port__recv_operation.str_to_enum(param.get_enumerated());
+				if (!Msg__port__recv_operation.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Msg_port_recv.operation.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Msg_port_recv.operation");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -90241,6 +91673,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -90320,6 +91756,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.Verdict");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.Verdict.");
 			}
 		}
 
@@ -90712,6 +92160,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				Verdict.enum_type enum_value = Verdict.str_to_enum(param.get_enumerated());
+				if (!Verdict.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.Verdict.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.Verdict");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -91217,6 +92701,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -91347,6 +92835,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ParallelPTC.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ParallelPTC.reason.");
 			}
 		}
 
@@ -91739,6 +93239,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ParallelPTC_reason.enum_type enum_value = ParallelPTC_reason.str_to_enum(param.get_enumerated());
+				if (!ParallelPTC_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ParallelPTC.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ParallelPTC.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -92655,6 +94191,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TimerGuardType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -93684,6 +95221,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StartFunction.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -94759,6 +96297,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -95259,6 +96798,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -95332,6 +96875,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.DefaultEnd");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.DefaultEnd.");
 			}
 		}
 
@@ -95724,6 +97279,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				DefaultEnd.enum_type enum_value = DefaultEnd.str_to_enum(param.get_enumerated());
+				if (!DefaultEnd.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.DefaultEnd.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.DefaultEnd");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -96626,6 +98217,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Categorized.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -97208,6 +98800,69 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
+					assign(TitanNull_Type.NULL_VALUE);
+					return;
+				}
+				switch (param.get_type()) {
+				case MP_Value_List:
+					setSize(param.get_size());
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(i).set_param(current);
+							if (!constGetAt(i).isBound()) {
+								valueElements.set(i, null);
+							}
+						}
+					}
+					break;
+				case MP_Indexed_List:
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						getAt(current.get_id().get_index()).set_param(current);
+						if (!constGetAt(current.get_id().get_index()).isBound()) {
+							valueElements.set(i, null);
+						}
+					}
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLog.sequence_list");
+				}
+				break;
+			case OT_CONCAT:
+				switch (param.get_type()) {
+				case MP_Value_List: {
+					if (!isBound()) {
+						assign(TitanNull_Type.NULL_VALUE);
+					}
+					int start_idx = lengthOf().getInt();
+					for (int i = 0; i < param.get_size(); i++) {
+						Module_Parameter current = param.get_elem(i);
+						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+							getAt(start_idx + i).set_param(current);
+						}
+					}
+					break;
+				}
+				case MP_Indexed_List:
+					param.error("Cannot concatenate an indexed value list");
+					break;
+				default:
+					param.type_error("record of value", "@TitanLoggerApi.TitanLog.sequence_list");
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: Unknown operation type");
+			}
+		}
+
 		@Override
 		public void set_implicit_omit() {
 			if(valueElements == null) {
@@ -98117,6 +99772,68 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Indexed_List:
+				if (templateSelection != template_sel.SPECIFIC_VALUE) {
+					setSize(0);
+				}
+				for (int i = 0; i < param.get_size(); i++) {
+					getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));
+				}
+				break;
+			case MP_Value_List: {
+				setSize(param.get_size());
+				int current_index = 0;
+				for (int i = 0; i < param.get_size(); i++) {
+					switch (param.get_elem(i).get_type()) {
+					case MP_NotUsed:
+						current_index++;
+						break;
+					case MP_Permutation_Template: {
+						int permutation_start_index = current_index;
+						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
+							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+							current_index++;
+						}
+						int permutation_end_index = current_index - 1;
+						add_permutation(permutation_start_index, permutation_end_index);
+						break;
+					}
+					default:
+						getAt(current_index).set_param(param.get_elem(i));
+						current_index++;
+					}
+				}
+				break;
+			}
+			default:
+				param.type_error("record of template", "@TitanLoggerApi.TitanLog.sequence_list");
+			}
+			is_ifPresent = param.get_ifpresent();
+			set_length_range(param);
 		}
 
 		@Override
@@ -99354,6 +101071,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -100387,6 +102105,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.MatchingEvent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -101474,6 +103193,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Dualface_discard.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -102279,6 +103999,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -104815,6 +106536,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -104885,6 +106610,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.RandomAction");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.RandomAction.");
 			}
 		}
 
@@ -105277,6 +107014,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				RandomAction.enum_type enum_value = RandomAction.str_to_enum(param.get_enumerated());
+				if (!RandomAction.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.RandomAction.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.RandomAction");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
@@ -106206,6 +107979,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.ExecutorComponent.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -107153,6 +108927,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
 		}
+
 		@Override
 		public void set_param(final Module_Parameter param) {
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
@@ -107489,6 +109264,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
+		public static boolean isValidEnum(final enum_type otherValue) {
+			return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;
+		}
+
 		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
@@ -107568,6 +109347,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 				TTCN_Logger.log_event_unbound();
 			} else {
 				TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
+			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "enumerated value");
+			if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {
+				param.type_error("enumerated_value", "@TitanLoggerApi.ExecutorComponent.reason");
+			}
+			enum_value = str_to_enum(param.get_enumerated());
+			if (!isValidEnum(enum_value)) {
+				param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorComponent.reason.");
 			}
 		}
 
@@ -107960,6 +109751,42 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 			}
+		}
+
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "enumerated template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Enumerated: {
+				ExecutorComponent_reason.enum_type enum_value = ExecutorComponent_reason.str_to_enum(param.get_enumerated());
+				if (!ExecutorComponent_reason.isValidEnum(enum_value)) {
+					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorComponent.reason.");
+				}
+				assign(enum_value);
+				break;
+			}
+			default:
+				param.type_error("enumerated template", "@TitanLoggerApi.ExecutorComponent.reason");
+			}
+			is_ifPresent = param.get_ifpresent();
 		}
 
 		@Override
