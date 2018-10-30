@@ -2261,7 +2261,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
