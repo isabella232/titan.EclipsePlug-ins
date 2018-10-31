@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
@@ -887,6 +890,60 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "universal charstring template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Charstring:
+			TTCN_Buffer buff = new TTCN_Buffer();
+			buff.put_s(((String)param.get_string_data()).toCharArray());
+			this.assign(TitanUniversalCharString.from_UTF8_buffer(buff));
+			break;
+		case MP_Universal_Charstring:
+			this.assign((TitanUniversalCharString)param.get_string_data());
+			break;
+		case MP_StringRange:
+			TitanUniversalChar lower_uchar = param.get_lower_uchar();
+			TitanUniversalChar upper_uchar = param.get_upper_uchar();
+			cleanUp();
+			set_selection(template_sel.VALUE_RANGE);
+			min_is_set = true;
+			max_is_set = true;
+			min_value = lower_uchar;
+			max_value = upper_uchar;
+			setMinExclusive(param.get_is_min_exclusive());
+			setMaxExclusive(param.get_is_max_exclusive());
+			break;
+		case MP_Pattern:
+			cleanUp();
+			pattern_string = new TitanCharString(param.get_pattern());
+			pattern_value_regexp_init = false;
+			pattern_value_nocase = param.get_nocase();
+			set_selection(template_sel.STRING_PATTERN);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	// originally is_present (with default parameter)
 	public boolean isPresent() {
 		return isPresent(false);
