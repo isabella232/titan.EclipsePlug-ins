@@ -565,7 +565,8 @@ public final class RecordSetCodeGenerator {
 
 		aSb.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
 		aSb.append("if (!value_used[val_idx]) {\n");
-		aSb.append(MessageFormat.format("param.get_elem(val_idx).error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", param.get_elem(val_idx).get_id().get_name()));\n", classReadableName));
+		aSb.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
+		aSb.append(MessageFormat.format("curr_param.error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", curr_param.get_id().get_name()));\n", classReadableName));
 		aSb.append("break;\n");
 		aSb.append("}\n");
 		aSb.append("}\n");
@@ -2327,7 +2328,8 @@ public final class RecordSetCodeGenerator {
 
 		source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
 		source.append("if (!value_used[val_idx]) {\n");
-		source.append(MessageFormat.format("param.get_elem(val_idx).error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", param.get_elem(val_idx).get_id().get_name()));\n", displayName));
+		source.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
+		source.append(MessageFormat.format("curr_param.error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", curr_param.get_id().get_name()));\n", displayName));
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("}\n");

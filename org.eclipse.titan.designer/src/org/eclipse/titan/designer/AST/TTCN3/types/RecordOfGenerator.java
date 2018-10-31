@@ -2392,9 +2392,9 @@ public final class RecordOfGenerator {
 			aSb.append("break;\n");
 			aSb.append("case MP_Permutation_Template: {\n");
 			aSb.append("int permutation_start_index = current_index;\n");
-			//TODO optimize
-			aSb.append("for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {\n");
-			aSb.append("getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));\n");
+			aSb.append("final Module_Parameter param_i = param.get_elem(i);\n");
+			aSb.append("for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {\n");
+			aSb.append("getAt(current_index).set_param(param_i.get_elem(perm_i));\n");
 			aSb.append("current_index++;\n");
 			aSb.append("}\n");
 			aSb.append("int permutation_end_index = current_index - 1;\n");
