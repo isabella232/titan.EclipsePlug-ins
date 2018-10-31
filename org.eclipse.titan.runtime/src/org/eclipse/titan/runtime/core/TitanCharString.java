@@ -835,7 +835,7 @@ public class TitanCharString extends Base_Type {
 		return decode_length + prepaddlength;
 	}
 
-	private boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final AtomicBoolean is_nocase_pattern) {
+	protected boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final AtomicBoolean is_nocase_pattern) {
 		boolean is_pattern = false;
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "charstring value");
 		final Module_Parameter mp = param;
@@ -917,7 +917,7 @@ public class TitanCharString extends Base_Type {
 		return is_pattern;
 	}
 
-	private boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern) {
+	protected boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern) {
 		return set_param_internal(param, allow_pattern, null);
 	}
 
