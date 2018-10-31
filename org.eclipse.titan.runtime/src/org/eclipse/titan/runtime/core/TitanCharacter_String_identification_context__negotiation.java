@@ -163,9 +163,9 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			}
 			break;
 		case MP_Assignment_List: {
-			boolean value_used[] = new boolean[param.get_size()];
+			final boolean value_used[] = new boolean[param.get_size()];
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-				Module_Parameter curr_param = param.get_elem(val_idx);
+				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("presentation-context-id".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 						getpresentation__context__id().set_param(curr_param);
@@ -174,7 +174,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				}
 			}
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-				Module_Parameter curr_param = param.get_elem(val_idx);
+				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("transfer-syntax".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 						gettransfer__syntax().set_param(curr_param);
@@ -184,7 +184,8 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			}
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 				if (!value_used[val_idx]) {
-					param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type CHARACTER STRING.identification.context-negotiation: {0}", param.get_elem(val_idx).get_id().get_name()));
+					final Module_Parameter curr_param = param.get_elem(val_idx);
+					curr_param.error(MessageFormat.format("Non existent field name in type CHARACTER STRING.identification.context-negotiation: {0}", curr_param.get_id().get_name()));
 					break;
 				}
 			}

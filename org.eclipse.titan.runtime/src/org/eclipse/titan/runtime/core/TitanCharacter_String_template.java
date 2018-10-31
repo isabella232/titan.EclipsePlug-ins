@@ -644,9 +644,9 @@ public class TitanCharacter_String_template extends Base_Template {
 			}
 			break;
 		case MP_Assignment_List: {
-			boolean value_used[] = new boolean[param.get_size()];
+			final boolean value_used[] = new boolean[param.get_size()];
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-				Module_Parameter curr_param = param.get_elem(val_idx);
+				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("identification".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 						getidentification().set_param(curr_param);
@@ -655,7 +655,7 @@ public class TitanCharacter_String_template extends Base_Template {
 				}
 			}
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-				Module_Parameter curr_param = param.get_elem(val_idx);
+				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("data-value-descriptor".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 						getdata__value__descriptor().set_param(curr_param);
@@ -664,7 +664,7 @@ public class TitanCharacter_String_template extends Base_Template {
 				}
 			}
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-				Module_Parameter curr_param = param.get_elem(val_idx);
+				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("string-value".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 						getstring__value().set_param(curr_param);
@@ -674,7 +674,8 @@ public class TitanCharacter_String_template extends Base_Template {
 			}
 			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 				if (!value_used[val_idx]) {
-					param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type CHARACTER STRING: {0}", param.get_elem(val_idx).get_id().get_name()));
+					final Module_Parameter curr_param = param.get_elem(val_idx);
+					curr_param.error(MessageFormat.format("Non existent field name in type CHARACTER STRING: {0}", curr_param.get_id().get_name()));
 					break;
 				}
 			}

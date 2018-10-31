@@ -1225,9 +1225,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -1236,7 +1236,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("id".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getid().set_param(curr_param);
@@ -1245,7 +1245,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("end".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getend().set_param(curr_param);
@@ -1255,7 +1255,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -1960,9 +1961,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -1971,7 +1972,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("id".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getid().set_param(curr_param);
@@ -1980,7 +1981,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("end".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getend().set_param(curr_param);
@@ -1990,7 +1991,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultOp: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -3511,9 +3513,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("is_ptc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getis__ptc().set_param(curr_param);
@@ -3522,7 +3524,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__verdict().set_param(curr_param);
@@ -3531,7 +3533,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("local_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlocal__verdict().set_param(curr_param);
@@ -3540,7 +3542,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("new_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnew__verdict().set_param(curr_param);
@@ -3549,7 +3551,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdict_reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdict__reason().set_param(curr_param);
@@ -3558,7 +3560,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__compref().set_param(curr_param);
@@ -3567,7 +3569,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__name().set_param(curr_param);
@@ -3577,7 +3579,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -4590,9 +4593,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("is_ptc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getis__ptc().set_param(curr_param);
@@ -4601,7 +4604,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__verdict().set_param(curr_param);
@@ -4610,7 +4613,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("local_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlocal__verdict().set_param(curr_param);
@@ -4619,7 +4622,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("new_verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnew__verdict().set_param(curr_param);
@@ -4628,7 +4631,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdict_reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdict__reason().set_param(curr_param);
@@ -4637,7 +4640,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__compref().set_param(curr_param);
@@ -4646,7 +4649,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc__name().set_param(curr_param);
@@ -4656,7 +4659,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictInfo: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -4819,9 +4823,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -4831,7 +4835,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -5414,9 +5419,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -5426,7 +5431,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -5643,9 +5649,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__type().set_param(curr_param);
@@ -5654,7 +5660,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -5663,7 +5669,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -5673,7 +5679,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -6378,9 +6385,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__type().set_param(curr_param);
@@ -6389,7 +6396,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -6398,7 +6405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -6408,7 +6415,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingSuccessType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -6679,9 +6687,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -6690,7 +6698,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -6699,7 +6707,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -6708,7 +6716,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sys_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsys__name().set_param(curr_param);
@@ -6717,7 +6725,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -6727,7 +6735,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -7554,9 +7563,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -7565,7 +7574,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -7574,7 +7583,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -7583,7 +7592,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sys_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsys__name().set_param(curr_param);
@@ -7592,7 +7601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -7602,7 +7611,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_out: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -8107,7 +8117,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case MP_Value_List:
 					setSize(param.get_size());
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(i).set_param(current);
 							if (!constGetAt(i).isBound()) {
@@ -8118,7 +8128,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					break;
 				case MP_Indexed_List:
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						getAt(current.get_id().get_index()).set_param(current);
 						if (!constGetAt(current.get_id().get_index()).isBound()) {
 							valueElements.set(i, null);
@@ -8137,7 +8147,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 					int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(start_idx + i).set_param(current);
 						}
@@ -9107,8 +9117,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 						break;
 					case MP_Permutation_Template: {
 						int permutation_start_index = current_index;
-						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
-							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+						final Module_Parameter param_i = param.get_elem(i);
+						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
+							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
 						int permutation_end_index = current_index - 1;
@@ -11732,9 +11743,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("newVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnewVerdict().set_param(curr_param);
@@ -11743,7 +11754,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("oldVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoldVerdict().set_param(curr_param);
@@ -11752,7 +11763,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("localVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlocalVerdict().set_param(curr_param);
@@ -11761,7 +11772,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("oldReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoldReason().set_param(curr_param);
@@ -11770,7 +11781,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("newReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnewReason().set_param(curr_param);
@@ -11780,7 +11791,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -12650,9 +12662,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("newVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnewVerdict().set_param(curr_param);
@@ -12661,7 +12673,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("oldVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoldVerdict().set_param(curr_param);
@@ -12670,7 +12682,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("localVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlocalVerdict().set_param(curr_param);
@@ -12679,7 +12691,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("oldReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoldReason().set_param(curr_param);
@@ -12688,7 +12700,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("newReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnewReason().set_param(curr_param);
@@ -12698,7 +12710,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.SetVerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -15156,9 +15169,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -15168,7 +15181,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -15751,9 +15765,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -15763,7 +15777,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.WarningEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -16798,9 +16813,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("id".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getid().set_param(curr_param);
@@ -16809,7 +16824,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -16819,7 +16834,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -17463,9 +17479,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("id".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getid().set_param(curr_param);
@@ -17474,7 +17490,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -17484,7 +17500,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ComponentIDType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -18061,7 +18078,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case MP_Value_List:
 					setSize(param.get_size());
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(i).set_param(current);
 							if (!constGetAt(i).isBound()) {
@@ -18072,7 +18089,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					break;
 				case MP_Indexed_List:
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						getAt(current.get_id().get_index()).set_param(current);
 						if (!constGetAt(current.get_id().get_index()).isBound()) {
 							valueElements.set(i, null);
@@ -18091,7 +18108,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 					int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(start_idx + i).set_param(current);
 						}
@@ -19061,8 +19078,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 						break;
 					case MP_Permutation_Template: {
 						int permutation_start_index = current_index;
-						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
-							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+						final Module_Parameter param_i = param.get_elem(i);
+						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
+							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
 						int permutation_end_index = current_index - 1;
@@ -24667,9 +24685,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -24678,7 +24696,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("param_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparam__().set_param(curr_param);
@@ -24688,7 +24706,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -25354,9 +25373,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -25365,7 +25384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("param_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparam__().set_param(curr_param);
@@ -25375,7 +25394,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorConfigdata: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -25835,9 +25855,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("filename".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfilename().set_param(curr_param);
@@ -25846,7 +25866,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("line".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getline().set_param(curr_param);
@@ -25855,7 +25875,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ent_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getent__name().set_param(curr_param);
@@ -25864,7 +25884,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ent_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getent__type().set_param(curr_param);
@@ -25874,7 +25894,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -26640,9 +26661,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("filename".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfilename().set_param(curr_param);
@@ -26651,7 +26672,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("line".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getline().set_param(curr_param);
@@ -26660,7 +26681,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ent_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getent__name().set_param(curr_param);
@@ -26669,7 +26690,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ent_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getent__type().set_param(curr_param);
@@ -26679,7 +26700,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LocationInfo: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -26842,9 +26864,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -26854,7 +26876,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -27437,9 +27460,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -27449,7 +27472,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -30336,9 +30360,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -30347,7 +30371,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -30356,7 +30380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("remote_component".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getremote__component().set_param(curr_param);
@@ -30365,7 +30389,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("remote_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getremote__port().set_param(curr_param);
@@ -30374,7 +30398,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ip_address".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getip__address().set_param(curr_param);
@@ -30383,7 +30407,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("tcp_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettcp__port().set_param(curr_param);
@@ -30392,7 +30416,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("new_size".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnew__size().set_param(curr_param);
@@ -30402,7 +30426,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -31351,9 +31376,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -31362,7 +31387,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -31371,7 +31396,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("remote_component".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getremote__component().set_param(curr_param);
@@ -31380,7 +31405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("remote_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getremote__port().set_param(curr_param);
@@ -31389,7 +31414,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ip_address".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getip__address().set_param(curr_param);
@@ -31398,7 +31423,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("tcp_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettcp__port().set_param(curr_param);
@@ -31407,7 +31432,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("new_size".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnew__size().set_param(curr_param);
@@ -31417,7 +31442,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Misc: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -31805,9 +31831,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -31816,7 +31842,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__().set_param(curr_param);
@@ -31825,7 +31851,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -31834,7 +31860,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -31843,7 +31869,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compname".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompname().set_param(curr_param);
@@ -31852,7 +31878,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("tc_loc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettc__loc().set_param(curr_param);
@@ -31861,7 +31887,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("alive_pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getalive__pid().set_param(curr_param);
@@ -31870,7 +31896,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("status".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstatus().set_param(curr_param);
@@ -31880,7 +31906,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -32890,9 +32917,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -32901,7 +32928,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__().set_param(curr_param);
@@ -32910,7 +32937,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -32919,7 +32946,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -32928,7 +32955,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compname".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompname().set_param(curr_param);
@@ -32937,7 +32964,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("tc_loc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettc__loc().set_param(curr_param);
@@ -32946,7 +32973,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("alive_pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getalive__pid().set_param(curr_param);
@@ -32955,7 +32982,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("status".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstatus().set_param(curr_param);
@@ -32965,7 +32992,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelPTC: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -34317,9 +34345,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("timer_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettimer__name().set_param(curr_param);
@@ -34329,7 +34357,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -34934,9 +34963,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("timer_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettimer__name().set_param(curr_param);
@@ -34946,7 +34975,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingTimeout: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -35109,9 +35139,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -35121,7 +35151,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -35704,9 +35735,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -35716,7 +35747,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictOp: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -39554,9 +39586,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("entityId".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getentityId().set_param(curr_param);
@@ -39565,7 +39597,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("event".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getevent().set_param(curr_param);
@@ -39575,7 +39607,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -40219,9 +40252,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("entityId".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getentityId().set_param(curr_param);
@@ -40230,7 +40263,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("event".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getevent().set_param(curr_param);
@@ -40240,7 +40273,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanSingleLogEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -42328,9 +42362,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__name().set_param(curr_param);
@@ -42339,7 +42373,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("testcase_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettestcase__name().set_param(curr_param);
@@ -42349,7 +42383,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -42993,9 +43028,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__name().set_param(curr_param);
@@ -43004,7 +43039,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("testcase_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettestcase__name().set_param(curr_param);
@@ -43014,7 +43049,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.QualifiedName: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -43267,9 +43303,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -43278,7 +43314,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("retval".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getretval().set_param(curr_param);
@@ -43287,7 +43323,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("intseed".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getintseed().set_param(curr_param);
@@ -43297,7 +43333,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -44002,9 +44039,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -44013,7 +44050,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("retval".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getretval().set_param(curr_param);
@@ -44022,7 +44059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("intseed".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getintseed().set_param(curr_param);
@@ -44032,7 +44069,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent.choice.random: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -44492,9 +44530,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("incoming".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getincoming().set_param(curr_param);
@@ -44503,7 +44541,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("target_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettarget__type().set_param(curr_param);
@@ -44512,7 +44550,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -44521,7 +44559,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -44531,7 +44569,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -45297,9 +45336,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("incoming".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getincoming().set_param(curr_param);
@@ -45308,7 +45347,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("target_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettarget__type().set_param(curr_param);
@@ -45317,7 +45356,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -45326,7 +45365,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -45336,7 +45375,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_mapped: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -45805,7 +45845,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case MP_Value_List:
 					setSize(param.get_size());
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(i).set_param(current);
 							if (!constGetAt(i).isBound()) {
@@ -45816,7 +45856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					break;
 				case MP_Indexed_List:
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						getAt(current.get_id().get_index()).set_param(current);
 						if (!constGetAt(current.get_id().get_index()).isBound()) {
 							valueElements.set(i, null);
@@ -45835,7 +45875,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 					int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(start_idx + i).set_param(current);
 						}
@@ -46805,8 +46845,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 						break;
 					case MP_Permutation_Template: {
 						int permutation_start_index = current_index;
-						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
-							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+						final Module_Parameter param_i = param.get_elem(i);
+						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
+							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
 						int permutation_end_index = current_index - 1;
@@ -47068,9 +47109,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fromVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfromVerdict().set_param(curr_param);
@@ -47079,7 +47120,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("toVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettoVerdict().set_param(curr_param);
@@ -47088,7 +47129,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdictReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdictReason().set_param(curr_param);
@@ -47098,7 +47139,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -47825,9 +47867,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fromVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfromVerdict().set_param(curr_param);
@@ -47836,7 +47878,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("toVerdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettoVerdict().set_param(curr_param);
@@ -47845,7 +47887,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdictReason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdictReason().set_param(curr_param);
@@ -47855,7 +47897,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.VerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -50337,9 +50380,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("seconds".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getseconds().set_param(curr_param);
@@ -50348,7 +50391,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("microSeconds".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmicroSeconds().set_param(curr_param);
@@ -50358,7 +50401,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -51002,9 +51046,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("seconds".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getseconds().set_param(curr_param);
@@ -51013,7 +51057,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("microSeconds".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmicroSeconds().set_param(curr_param);
@@ -51023,7 +51067,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimestampType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -51240,9 +51285,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -51251,7 +51296,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("state".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstate().set_param(curr_param);
@@ -51260,7 +51305,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -51270,7 +51315,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -51975,9 +52021,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -51986,7 +52032,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("state".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstate().set_param(curr_param);
@@ -51995,7 +52041,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -52005,7 +52051,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Setstate: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -52447,9 +52494,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -52458,7 +52505,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -52467,7 +52514,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -52476,7 +52523,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("check_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcheck__().set_param(curr_param);
@@ -52485,7 +52532,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -52494,7 +52541,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -52504,7 +52551,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -53392,9 +53440,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -53403,7 +53451,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -53412,7 +53460,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -53421,7 +53469,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("check_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcheck__().set_param(curr_param);
@@ -53430,7 +53478,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -53439,7 +53487,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -53449,7 +53497,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Proc_port_in: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -53693,9 +53742,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("timestamp".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettimestamp().set_param(curr_param);
@@ -53704,7 +53753,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sourceInfo_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsourceInfo__list().set_param(curr_param);
@@ -53713,7 +53762,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("severity".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getseverity().set_param(curr_param);
@@ -53722,7 +53771,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("logEvent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlogEvent().set_param(curr_param);
@@ -53732,7 +53781,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -54498,9 +54548,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("timestamp".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettimestamp().set_param(curr_param);
@@ -54509,7 +54559,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sourceInfo_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsourceInfo__list().set_param(curr_param);
@@ -54518,7 +54568,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("severity".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getseverity().set_param(curr_param);
@@ -54527,7 +54577,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("logEvent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getlogEvent().set_param(curr_param);
@@ -54537,7 +54587,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLogEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -54943,9 +54994,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("none_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnone__().set_param(curr_param);
@@ -54954,7 +55005,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("nonePercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnonePercent().set_param(curr_param);
@@ -54963,7 +55014,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pass_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpass__().set_param(curr_param);
@@ -54972,7 +55023,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("passPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpassPercent().set_param(curr_param);
@@ -54981,7 +55032,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("inconc_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinconc__().set_param(curr_param);
@@ -54990,7 +55041,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("inconcPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinconcPercent().set_param(curr_param);
@@ -54999,7 +55050,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fail_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfail__().set_param(curr_param);
@@ -55008,7 +55059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("failPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfailPercent().set_param(curr_param);
@@ -55017,7 +55068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("error_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							geterror__().set_param(curr_param);
@@ -55026,7 +55077,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("errorPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							geterrorPercent().set_param(curr_param);
@@ -55036,7 +55087,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -56168,9 +56220,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("none_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnone__().set_param(curr_param);
@@ -56179,7 +56231,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("nonePercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnonePercent().set_param(curr_param);
@@ -56188,7 +56240,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pass_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpass__().set_param(curr_param);
@@ -56197,7 +56249,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("passPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpassPercent().set_param(curr_param);
@@ -56206,7 +56258,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("inconc_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinconc__().set_param(curr_param);
@@ -56215,7 +56267,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("inconcPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinconcPercent().set_param(curr_param);
@@ -56224,7 +56276,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fail_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfail__().set_param(curr_param);
@@ -56233,7 +56285,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("failPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfailPercent().set_param(curr_param);
@@ -56242,7 +56294,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("error_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							geterror__().set_param(curr_param);
@@ -56251,7 +56303,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("errorPercent".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							geterrorPercent().set_param(curr_param);
@@ -56261,7 +56313,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType.choice.verdictStatistics: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -56604,9 +56657,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -56616,7 +56669,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -57199,9 +57253,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -57211,7 +57265,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.LogEventType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -57401,9 +57456,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -57412,7 +57467,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -57422,7 +57477,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -58066,9 +58122,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -58077,7 +58133,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -58087,7 +58143,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_State: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -58304,9 +58361,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -58315,7 +58372,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdict().set_param(curr_param);
@@ -58324,7 +58381,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -58334,7 +58391,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -59039,9 +59097,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -59050,7 +59108,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("verdict".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getverdict().set_param(curr_param);
@@ -59059,7 +59117,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -59069,7 +59127,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TestcaseType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -60997,9 +61056,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -61009,7 +61068,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -61592,9 +61652,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -61604,7 +61664,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PortEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -63588,9 +63649,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -63599,7 +63660,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -63608,7 +63669,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -63618,7 +63679,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -64323,9 +64385,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -64334,7 +64396,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -64343,7 +64405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -64353,7 +64415,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_send: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -64948,9 +65011,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -64960,7 +65023,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -65543,9 +65607,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -65555,7 +65619,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FunctionEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -66114,9 +66179,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__type().set_param(curr_param);
@@ -66125,7 +66190,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -66134,7 +66199,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -66143,7 +66208,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -66152,7 +66217,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -66162,7 +66227,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -66989,9 +67055,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__type().set_param(curr_param);
@@ -67000,7 +67066,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -67009,7 +67075,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -67018,7 +67084,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -67027,7 +67093,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("info".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getinfo().set_param(curr_param);
@@ -67037,7 +67103,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingFailureType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -67776,9 +67843,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -67787,7 +67854,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("srcCompref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrcCompref().set_param(curr_param);
@@ -67796,7 +67863,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dstCompref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdstCompref().set_param(curr_param);
@@ -67805,7 +67872,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("srcPort".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrcPort().set_param(curr_param);
@@ -67814,7 +67881,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dstPort".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdstPort().set_param(curr_param);
@@ -67824,7 +67891,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -68651,9 +68719,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -68662,7 +68730,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("srcCompref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrcCompref().set_param(curr_param);
@@ -68671,7 +68739,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dstCompref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdstCompref().set_param(curr_param);
@@ -68680,7 +68748,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("srcPort".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrcPort().set_param(curr_param);
@@ -68689,7 +68757,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dstPort".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdstPort().set_param(curr_param);
@@ -68699,7 +68767,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParPort: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -68979,9 +69048,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -68990,7 +69059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("type_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettype__().set_param(curr_param);
@@ -68999,7 +69068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc().set_param(curr_param);
@@ -69008,7 +69077,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("return_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreturn__type().set_param(curr_param);
@@ -69018,7 +69087,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -69784,9 +69854,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -69795,7 +69865,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("type_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettype__().set_param(curr_param);
@@ -69804,7 +69874,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("ptc".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getptc().set_param(curr_param);
@@ -69813,7 +69883,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("return_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreturn__type().set_param(curr_param);
@@ -69823,7 +69893,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingDoneType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -70229,9 +70300,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -70240,7 +70311,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -70249,7 +70320,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -70258,7 +70329,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -70267,7 +70338,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("address_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getaddress__().set_param(curr_param);
@@ -70276,7 +70347,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("param_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparam__().set_param(curr_param);
@@ -70286,7 +70357,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -71174,9 +71246,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -71185,7 +71257,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -71194,7 +71266,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -71203,7 +71275,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -71212,7 +71284,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("address_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getaddress__().set_param(curr_param);
@@ -71221,7 +71293,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("param_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparam__().set_param(curr_param);
@@ -71231,7 +71303,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Port_Queue: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -71394,9 +71467,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -71406,7 +71479,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -71989,9 +72063,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -72001,7 +72075,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ParallelEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -73234,9 +73309,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -73245,7 +73320,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -73254,7 +73329,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -73263,7 +73338,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sys_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsys__name().set_param(curr_param);
@@ -73272,7 +73347,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -73281,7 +73356,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -73291,7 +73366,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -74179,9 +74255,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -74190,7 +74266,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -74199,7 +74275,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -74208,7 +74284,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sys_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsys__name().set_param(curr_param);
@@ -74217,7 +74293,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter().set_param(curr_param);
@@ -74226,7 +74302,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("msgid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmsgid().set_param(curr_param);
@@ -74236,7 +74312,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Msg_port_recv: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -74705,7 +74782,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case MP_Value_List:
 					setSize(param.get_size());
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(i).set_param(current);
 							if (!constGetAt(i).isBound()) {
@@ -74716,7 +74793,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					break;
 				case MP_Indexed_List:
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						getAt(current.get_id().get_index()).set_param(current);
 						if (!constGetAt(current.get_id().get_index()).isBound()) {
 							valueElements.set(i, null);
@@ -74735,7 +74812,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 					int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(start_idx + i).set_param(current);
 						}
@@ -75705,8 +75782,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 						break;
 					case MP_Permutation_Template: {
 						int permutation_start_index = current_index;
-						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
-							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+						final Module_Parameter param_i = param.get_elem(i);
+						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
+							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
 						int permutation_end_index = current_index - 1;
@@ -75972,9 +76050,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -75983,7 +76061,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -75993,7 +76071,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -76637,9 +76716,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -76648,7 +76727,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -76658,7 +76737,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -76821,9 +76901,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -76833,7 +76913,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -77416,9 +77497,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -77428,7 +77509,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.DefaultEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -78734,9 +78816,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -78745,7 +78827,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -78754,7 +78836,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -78763,7 +78845,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("check_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcheck__().set_param(curr_param);
@@ -78772,7 +78854,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("any_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getany__port().set_param(curr_param);
@@ -78782,7 +78864,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -79609,9 +79692,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -79620,7 +79703,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -79629,7 +79712,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("operation".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoperation().set_param(curr_param);
@@ -79638,7 +79721,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("check_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcheck__().set_param(curr_param);
@@ -79647,7 +79730,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("any_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getany__port().set_param(curr_param);
@@ -79657,7 +79740,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingProblemType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -79820,9 +79904,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("str_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstr__list().set_param(curr_param);
@@ -79832,7 +79916,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -80415,9 +80500,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("str_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstr__list().set_param(curr_param);
@@ -80427,7 +80512,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Strings: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -80680,9 +80766,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -80691,7 +80777,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpid().set_param(curr_param);
@@ -80700,7 +80786,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("statuscode".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstatuscode().set_param(curr_param);
@@ -80710,7 +80796,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -81415,9 +81502,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -81426,7 +81513,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpid().set_param(curr_param);
@@ -81435,7 +81522,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("statuscode".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getstatuscode().set_param(curr_param);
@@ -81445,7 +81532,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.PTC_exit: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -82605,9 +82693,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sequence_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsequence__list().set_param(curr_param);
@@ -82617,7 +82705,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -83200,9 +83289,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("sequence_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsequence__list().set_param(curr_param);
@@ -83212,7 +83301,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -83375,9 +83465,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -83387,7 +83477,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -83970,9 +84061,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -83982,7 +84073,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ErrorEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -84361,9 +84453,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -84373,7 +84465,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -84956,9 +85049,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -84968,7 +85061,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -85401,9 +85495,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -85412,7 +85506,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("alive_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getalive__().set_param(curr_param);
@@ -85421,7 +85515,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("function_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfunction__name().set_param(curr_param);
@@ -85430,7 +85524,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("src_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrc__compref().set_param(curr_param);
@@ -85439,7 +85533,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("src_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrc__port().set_param(curr_param);
@@ -85448,7 +85542,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dst_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdst__compref().set_param(curr_param);
@@ -85457,7 +85551,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dst_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdst__port().set_param(curr_param);
@@ -85467,7 +85561,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -86416,9 +86511,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -86427,7 +86522,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("alive_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getalive__().set_param(curr_param);
@@ -86436,7 +86531,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("function_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfunction__name().set_param(curr_param);
@@ -86445,7 +86540,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("src_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrc__compref().set_param(curr_param);
@@ -86454,7 +86549,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("src_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getsrc__port().set_param(curr_param);
@@ -86463,7 +86558,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dst_compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdst__compref().set_param(curr_param);
@@ -86472,7 +86567,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("dst_port".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getdst__port().set_param(curr_param);
@@ -86482,7 +86577,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Parallel: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -86770,9 +86866,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -86781,7 +86877,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__name().set_param(curr_param);
@@ -86790,7 +86886,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("testcase_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettestcase__name().set_param(curr_param);
@@ -86799,7 +86895,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpid().set_param(curr_param);
@@ -86808,7 +86904,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fd_setsize".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfd__setsize().set_param(curr_param);
@@ -86818,7 +86914,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -87730,9 +87827,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -87741,7 +87838,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("module_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getmodule__name().set_param(curr_param);
@@ -87750,7 +87847,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("testcase_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettestcase__name().set_param(curr_param);
@@ -87759,7 +87856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("pid".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getpid().set_param(curr_param);
@@ -87768,7 +87865,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("fd_setsize".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfd__setsize().set_param(curr_param);
@@ -87778,7 +87875,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorRuntime: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -88049,9 +88147,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -88061,7 +88159,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -88644,9 +88743,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -88656,7 +88755,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.FinalVerdictType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -93628,9 +93728,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -93640,7 +93740,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -94223,9 +94324,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("value_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getvalue__().set_param(curr_param);
@@ -94235,7 +94336,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TimerGuardType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -94524,9 +94626,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("function_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfunction__name().set_param(curr_param);
@@ -94535,7 +94637,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -94544,7 +94646,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter__list().set_param(curr_param);
@@ -94554,7 +94656,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -95259,9 +95362,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("function_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getfunction__name().set_param(curr_param);
@@ -95270,7 +95373,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -95279,7 +95382,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("parameter_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getparameter__list().set_param(curr_param);
@@ -95289,7 +95392,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StartFunction: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -95533,9 +95637,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -95544,7 +95648,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -95553,7 +95657,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("addr".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getaddr().set_param(curr_param);
@@ -95562,7 +95666,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__().set_param(curr_param);
@@ -95572,7 +95676,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -96338,9 +96443,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -96349,7 +96454,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getname().set_param(curr_param);
@@ -96358,7 +96463,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("addr".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getaddr().set_param(curr_param);
@@ -96367,7 +96472,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__().set_param(curr_param);
@@ -96377,7 +96482,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorUnqualified: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -97587,9 +97693,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("category".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcategory().set_param(curr_param);
@@ -97598,7 +97704,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -97608,7 +97714,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -98252,9 +98359,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("category".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcategory().set_param(curr_param);
@@ -98263,7 +98370,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("text".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettext().set_param(curr_param);
@@ -98273,7 +98380,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Categorized: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -98814,7 +98922,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case MP_Value_List:
 					setSize(param.get_size());
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(i).set_param(current);
 							if (!constGetAt(i).isBound()) {
@@ -98825,7 +98933,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					break;
 				case MP_Indexed_List:
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						getAt(current.get_id().get_index()).set_param(current);
 						if (!constGetAt(current.get_id().get_index()).isBound()) {
 							valueElements.set(i, null);
@@ -98844,7 +98952,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 					int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
-						Module_Parameter current = param.get_elem(i);
+						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getAt(start_idx + i).set_param(current);
 						}
@@ -99814,8 +99922,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 						break;
 					case MP_Permutation_Template: {
 						int permutation_start_index = current_index;
-						for (int perm_i = 0; perm_i < param.get_elem(i).get_size(); perm_i++) {
-							getAt(current_index).set_param(param.get_elem(i).get_elem(perm_i));
+						final Module_Parameter param_i = param.get_elem(i);
+						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
+							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
 						int permutation_end_index = current_index - 1;
@@ -100441,9 +100550,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("numberOfTestcases".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnumberOfTestcases().set_param(curr_param);
@@ -100452,7 +100561,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("overallStatistics".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoverallStatistics().set_param(curr_param);
@@ -100462,7 +100571,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -101106,9 +101216,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("numberOfTestcases".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getnumberOfTestcases().set_param(curr_param);
@@ -101117,7 +101227,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("overallStatistics".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getoverallStatistics().set_param(curr_param);
@@ -101127,7 +101237,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutionSummaryType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -101542,9 +101653,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -101554,7 +101665,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -102137,9 +102249,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -102149,7 +102261,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.MatchingEvent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -102429,9 +102542,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("incoming".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getincoming().set_param(curr_param);
@@ -102440,7 +102553,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("target_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettarget__type().set_param(curr_param);
@@ -102449,7 +102562,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -102458,7 +102571,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("unhandled".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getunhandled().set_param(curr_param);
@@ -102468,7 +102581,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -103234,9 +103348,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("incoming".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getincoming().set_param(curr_param);
@@ -103245,7 +103359,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("target_type".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							gettarget__type().set_param(curr_param);
@@ -103254,7 +103368,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("port_name".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getport__name().set_param(curr_param);
@@ -103263,7 +103377,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("unhandled".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getunhandled().set_param(curr_param);
@@ -103273,7 +103387,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.Dualface_discard: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -103436,9 +103551,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -103448,7 +103563,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -104031,9 +104147,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("choice".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getchoice().set_param(curr_param);
@@ -104043,7 +104159,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.StatisticsType: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -107327,9 +107444,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -107338,7 +107455,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -107348,7 +107465,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -108014,9 +108132,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("reason".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getreason().set_param(curr_param);
@@ -108025,7 +108143,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("compref".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getcompref().set_param(curr_param);
@@ -108035,7 +108153,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.ExecutorComponent: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -108297,9 +108416,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("entityId".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getentityId().set_param(curr_param);
@@ -108308,7 +108427,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("event_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getevent__list().set_param(curr_param);
@@ -108318,7 +108437,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
@@ -108962,9 +109082,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				break;
 			case MP_Assignment_List: {
-				boolean value_used[] = new boolean[param.get_size()];
+				final boolean value_used[] = new boolean[param.get_size()];
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("entityId".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getentityId().set_param(curr_param);
@@ -108973,7 +109093,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					}
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
-					Module_Parameter curr_param = param.get_elem(val_idx);
+					final Module_Parameter curr_param = param.get_elem(val_idx);
 					if ("event_list".equals(curr_param.get_id().get_name())) {
 						if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
 							getevent__list().set_param(curr_param);
@@ -108983,7 +109103,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
 					if (!value_used[val_idx]) {
-						param.get_elem(val_idx).error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", param.get_elem(val_idx).get_id().get_name()));
+						final Module_Parameter curr_param = param.get_elem(val_idx);
+						curr_param.error(MessageFormat.format("Non existent field name in type @TitanLoggerApi.TitanLog.sequence_list.oftype: {0}", curr_param.get_id().get_name()));
 						break;
 					}
 				}
