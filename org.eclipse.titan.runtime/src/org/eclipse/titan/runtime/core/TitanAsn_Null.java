@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * ASN.1 NULL type
  *
@@ -126,6 +130,15 @@ public class TitanAsn_Null extends Base_Type {
 		} else {
 			TTCN_Logger.log_event_unbound();
 		}
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "NULL value");
+		if (param.get_type() != type_t.MP_Asn_Null) {
+			param.type_error("NULL value");
+		}
+		boundFlag = true;
 	}
 
 	@Override
