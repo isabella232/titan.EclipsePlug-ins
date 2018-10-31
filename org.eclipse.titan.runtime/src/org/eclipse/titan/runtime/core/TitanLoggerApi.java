@@ -10815,6 +10815,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "empty record/set value (i.e. { })");
+			if (param.get_type() != Module_Parameter.type_t.MP_Value_List || param.get_size() > 0) {
+				param.type_error("empty record/set value (i.e. { })", "@TitanLoggerApi.TimerAnyTimeoutType");
+			}
+			bound_flag = true;
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.TimerAnyTimeoutType.");
 		}
@@ -11221,6 +11230,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
+		public void set_param(final Module_Parameter param) {
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "empty record/set template");
+			switch (param.get_type()) {
+			case MP_Omit:
+				assign(template_sel.OMIT_VALUE);
+				break;
+			case MP_Any:
+				assign(template_sel.ANY_VALUE);
+				break;
+			case MP_AnyOrNone:
+				assign(template_sel.ANY_OR_OMIT);
+				break;
+			case MP_List_Template:
+			case MP_ComplementList_Template: {
+				final int size = param.get_size();
+				setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+				for (int i = 0; i < size; i++) {
+					listItem(i).set_param(param.get_elem(i));
+				}
+				break;
+			}
+			case MP_Value_List:
+				if (param.get_size() > 0) {
+					param.type_error("empty record/set template", "@TitanLoggerApi.TimerAnyTimeoutType");
+				}
+				assign(TitanNull_Type.NULL_VALUE);
+				break;
+			default:
+				param.type_error("empty record/set template", "@TitanLoggerApi.TimerAnyTimeoutType");
+			}
+			is_ifPresent = param.get_ifpresent();
+		}
 	}
 
 	public static void TimerAnyTimeoutType_encoder(final TimerAnyTimeoutType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {

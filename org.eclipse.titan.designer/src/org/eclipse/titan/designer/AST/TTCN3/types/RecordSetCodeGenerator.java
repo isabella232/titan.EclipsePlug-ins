@@ -2473,6 +2473,15 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"empty record/set value (i.e. { })\");\n");
+		source.append("if (param.get_type() != Module_Parameter.type_t.MP_Value_List || param.get_size() > 0) {\n");
+		source.append(MessageFormat.format("param.type_error(\"empty record/set value (i.e. '{' '}')\", \"{0}\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("bound_flag = true;\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append(MessageFormat.format("mustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("}\n\n");
@@ -2916,6 +2925,40 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");
 		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"empty record/set template\");\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Omit:\n");
+		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_Any:\n");
+		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_AnyOrNone:\n");
+		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("break;\n");
+		source.append("case MP_List_Template:\n");
+		source.append("case MP_ComplementList_Template: {\n");
+		source.append("final int size = param.get_size();\n");
+		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
+		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case MP_Value_List:\n");
+		source.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
+		source.append(MessageFormat.format("param.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("param.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("is_ifPresent = param.get_ifpresent();\n");
+		source.append("}\n");
 
 		source.append("}\n\n");
 	}
