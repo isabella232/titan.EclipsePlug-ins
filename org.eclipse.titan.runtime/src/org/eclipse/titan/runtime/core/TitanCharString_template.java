@@ -9,9 +9,14 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
@@ -694,6 +699,88 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		log_restricted();
 		log_ifpresent();
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "charstring template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanCharString_template temp = new TitanCharString_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			assign(temp);
+			break;
+		case MP_Charstring:
+			this.assign(new TitanCharString((String)param.get_string_data()));
+			break;
+		case MP_StringRange:
+			final TitanUniversalChar lower_uchar = param.get_lower_uchar();
+			final TitanUniversalChar upper_uchar = param.get_upper_uchar();
+			if (!lower_uchar.is_char()) {
+				param.error("Lower bound of char range cannot be a multiple-byte character");
+			}
+			if (!upper_uchar.is_char()) {
+				param.error("Upper bound of char range cannot be a multiple-byte character");
+			}
+			cleanUp();
+			set_selection(template_sel.VALUE_RANGE);
+			min_is_set = true;
+			max_is_set = true;
+			min_value = new TitanCharString(String.valueOf(lower_uchar.getUc_cell()));
+			max_value = new TitanCharString(String.valueOf(upper_uchar.getUc_cell()));
+			min_is_exclusive = param.get_is_min_exclusive();
+			max_is_exclusive = param.get_is_max_exclusive();
+			break;
+		case MP_Pattern:
+			cleanUp();
+			single_value = new TitanCharString(param.get_pattern());
+			pattern_value_regexp_init = false;
+			pattern_value_nocase = param.get_nocase();
+			set_selection(template_sel.STRING_PATTERN);
+			break;
+		case MP_Expression:
+			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				// only allow string patterns for the first operand
+				final TitanCharString operand1 = new TitanCharString();
+				final TitanCharString operand2 = new TitanCharString();
+				TitanCharString result = new TitanCharString();
+				AtomicBoolean nocase = new AtomicBoolean();
+				final boolean is_pattern = operand1.set_param_internal(param.get_operand1(),true,nocase);
+				operand2.set_param(param.get_operand2());
+				result.assign(operand1.concatenate(operand2));
+				if (is_pattern) {
+					cleanUp();
+					single_value = result;
+					pattern_value_regexp_init = false;
+					pattern_value_nocase = nocase.get();
+					set_selection(template_sel.STRING_PATTERN);
+				} else {
+					assign(result);
+				}
+			} else {
+				param.expr_type_error("a charstring");
+			}
+			break;
+		default:
+			param.type_error("charstring template");
+		}
+		is_ifPresent = param.get_ifpresent();
+		if (param.get_length_restriction() != null) {
+			set_length_range(param);
+		}
 	}
 
 	private enum LogPatternState {
