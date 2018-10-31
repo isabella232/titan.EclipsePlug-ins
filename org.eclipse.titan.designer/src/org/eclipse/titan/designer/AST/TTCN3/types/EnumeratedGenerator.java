@@ -1115,7 +1115,7 @@ public final class EnumeratedGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("case MP_Enumerated: {\n");
-		source.append(MessageFormat.format("{0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
+		source.append(MessageFormat.format("final {0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(enum_value)) '{'\n", name));
 		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
 		source.append("}\n");

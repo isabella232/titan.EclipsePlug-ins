@@ -819,7 +819,7 @@ public final class RecordOfGenerator {
 		source.append("if (!isBound()) {\n");
 		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
 		source.append("}\n");
-		source.append("int start_idx = lengthOf().getInt();\n");
+		source.append("final int start_idx = lengthOf().getInt();\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
@@ -2391,13 +2391,13 @@ public final class RecordOfGenerator {
 			aSb.append("current_index++;\n");
 			aSb.append("break;\n");
 			aSb.append("case MP_Permutation_Template: {\n");
-			aSb.append("int permutation_start_index = current_index;\n");
+			aSb.append("final int permutation_start_index = current_index;\n");
 			aSb.append("final Module_Parameter param_i = param.get_elem(i);\n");
 			aSb.append("for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {\n");
 			aSb.append("getAt(current_index).set_param(param_i.get_elem(perm_i));\n");
 			aSb.append("current_index++;\n");
 			aSb.append("}\n");
-			aSb.append("int permutation_end_index = current_index - 1;\n");
+			aSb.append("final int permutation_end_index = current_index - 1;\n");
 			aSb.append("add_permutation(permutation_start_index, permutation_end_index);\n");
 			aSb.append("break;\n");
 			aSb.append("}\n");

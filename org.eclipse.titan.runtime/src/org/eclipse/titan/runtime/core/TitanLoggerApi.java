@@ -8145,7 +8145,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					if (!isBound()) {
 						assign(TitanNull_Type.NULL_VALUE);
 					}
-					int start_idx = lengthOf().getInt();
+					final int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -9116,13 +9116,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 						current_index++;
 						break;
 					case MP_Permutation_Template: {
-						int permutation_start_index = current_index;
+						final int permutation_start_index = current_index;
 						final Module_Parameter param_i = param.get_elem(i);
 						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
 							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
-						int permutation_end_index = current_index - 1;
+						final int permutation_end_index = current_index - 1;
 						add_permutation(permutation_start_index, permutation_end_index);
 						break;
 					}
@@ -13646,7 +13646,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Parallel_reason.enum_type enum_value = Parallel_reason.str_to_enum(param.get_enumerated());
+				final Parallel_reason.enum_type enum_value = Parallel_reason.str_to_enum(param.get_enumerated());
 				if (!Parallel_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Parallel.reason.");
 				}
@@ -14697,7 +14697,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				PortType.enum_type enum_value = PortType.str_to_enum(param.get_enumerated());
+				final PortType.enum_type enum_value = PortType.str_to_enum(param.get_enumerated());
 				if (!PortType.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.PortType.");
 				}
@@ -16566,7 +16566,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ParPort_operation.enum_type enum_value = ParPort_operation.str_to_enum(param.get_enumerated());
+				final ParPort_operation.enum_type enum_value = ParPort_operation.str_to_enum(param.get_enumerated());
 				if (!ParPort_operation.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ParPort.operation.");
 				}
@@ -18106,7 +18106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					if (!isBound()) {
 						assign(TitanNull_Type.NULL_VALUE);
 					}
-					int start_idx = lengthOf().getInt();
+					final int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -19077,13 +19077,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 						current_index++;
 						break;
 					case MP_Permutation_Template: {
-						int permutation_start_index = current_index;
+						final int permutation_start_index = current_index;
 						final Module_Parameter param_i = param.get_elem(i);
 						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
 							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
-						int permutation_end_index = current_index - 1;
+						final int permutation_end_index = current_index - 1;
 						add_permutation(permutation_start_index, permutation_end_index);
 						break;
 					}
@@ -24397,7 +24397,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				MatchingDoneType_reason.enum_type enum_value = MatchingDoneType_reason.str_to_enum(param.get_enumerated());
+				final MatchingDoneType_reason.enum_type enum_value = MatchingDoneType_reason.str_to_enum(param.get_enumerated());
 				if (!MatchingDoneType_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingDoneType.reason.");
 				}
@@ -33796,7 +33796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				LocationInfo_ent__type.enum_type enum_value = LocationInfo_ent__type.str_to_enum(param.get_enumerated());
+				final LocationInfo_ent__type.enum_type enum_value = LocationInfo_ent__type.str_to_enum(param.get_enumerated());
 				if (!LocationInfo_ent__type.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.LocationInfo.ent_type.");
 				}
@@ -36546,7 +36546,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				MatchingProblemType_reason.enum_type enum_value = MatchingProblemType_reason.str_to_enum(param.get_enumerated());
+				final MatchingProblemType_reason.enum_type enum_value = MatchingProblemType_reason.str_to_enum(param.get_enumerated());
 				if (!MatchingProblemType_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.reason.");
 				}
@@ -37552,7 +37552,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ExecutorRuntime_reason.enum_type enum_value = ExecutorRuntime_reason.str_to_enum(param.get_enumerated());
+				final ExecutorRuntime_reason.enum_type enum_value = ExecutorRuntime_reason.str_to_enum(param.get_enumerated());
 				if (!ExecutorRuntime_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorRuntime.reason.");
 				}
@@ -38448,7 +38448,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				MatchingFailureType_reason.enum_type enum_value = MatchingFailureType_reason.str_to_enum(param.get_enumerated());
+				final MatchingFailureType_reason.enum_type enum_value = MatchingFailureType_reason.str_to_enum(param.get_enumerated());
 				if (!MatchingFailureType_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingFailureType.reason.");
 				}
@@ -39339,7 +39339,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				MatchingProblemType_operation.enum_type enum_value = MatchingProblemType_operation.str_to_enum(param.get_enumerated());
+				final MatchingProblemType_operation.enum_type enum_value = MatchingProblemType_operation.str_to_enum(param.get_enumerated());
 				if (!MatchingProblemType_operation.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.MatchingProblemType.operation.");
 				}
@@ -42115,7 +42115,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ExecutorConfigdata_reason.enum_type enum_value = ExecutorConfigdata_reason.str_to_enum(param.get_enumerated());
+				final ExecutorConfigdata_reason.enum_type enum_value = ExecutorConfigdata_reason.str_to_enum(param.get_enumerated());
 				if (!ExecutorConfigdata_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorConfigdata.reason.");
 				}
@@ -45873,7 +45873,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					if (!isBound()) {
 						assign(TitanNull_Type.NULL_VALUE);
 					}
-					int start_idx = lengthOf().getInt();
+					final int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -46844,13 +46844,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 						current_index++;
 						break;
 					case MP_Permutation_Template: {
-						int permutation_start_index = current_index;
+						final int permutation_start_index = current_index;
 						final Module_Parameter param_i = param.get_elem(i);
 						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
 							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
-						int permutation_end_index = current_index - 1;
+						final int permutation_end_index = current_index - 1;
 						add_permutation(permutation_start_index, permutation_end_index);
 						break;
 					}
@@ -48825,7 +48825,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Port__State_operation.enum_type enum_value = Port__State_operation.str_to_enum(param.get_enumerated());
+				final Port__State_operation.enum_type enum_value = Port__State_operation.str_to_enum(param.get_enumerated());
 				if (!Port__State_operation.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_State.operation.");
 				}
@@ -49845,7 +49845,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Port__oper.enum_type enum_value = Port__oper.str_to_enum(param.get_enumerated());
+				final Port__oper.enum_type enum_value = Port__oper.str_to_enum(param.get_enumerated());
 				if (!Port__oper.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_oper.");
 				}
@@ -74810,7 +74810,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					if (!isBound()) {
 						assign(TitanNull_Type.NULL_VALUE);
 					}
-					int start_idx = lengthOf().getInt();
+					final int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -75781,13 +75781,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 						current_index++;
 						break;
 					case MP_Permutation_Template: {
-						int permutation_start_index = current_index;
+						final int permutation_start_index = current_index;
 						final Module_Parameter param_i = param.get_elem(i);
 						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
 							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
-						int permutation_end_index = current_index - 1;
+						final int permutation_end_index = current_index - 1;
 						add_permutation(permutation_start_index, permutation_end_index);
 						break;
 					}
@@ -78416,7 +78416,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Port__Queue_operation.enum_type enum_value = Port__Queue_operation.str_to_enum(param.get_enumerated());
+				final Port__Queue_operation.enum_type enum_value = Port__Queue_operation.str_to_enum(param.get_enumerated());
 				if (!Port__Queue_operation.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Queue.operation.");
 				}
@@ -82437,7 +82437,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Port__Misc_reason.enum_type enum_value = Port__Misc_reason.str_to_enum(param.get_enumerated());
+				final Port__Misc_reason.enum_type enum_value = Port__Misc_reason.str_to_enum(param.get_enumerated());
 				if (!Port__Misc_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Port_Misc.reason.");
 				}
@@ -89534,7 +89534,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				FinalVerdictType_choice_notification.enum_type enum_value = FinalVerdictType_choice_notification.str_to_enum(param.get_enumerated());
+				final FinalVerdictType_choice_notification.enum_type enum_value = FinalVerdictType_choice_notification.str_to_enum(param.get_enumerated());
 				if (!FinalVerdictType_choice_notification.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.FinalVerdictType.choice.notification.");
 				}
@@ -90379,7 +90379,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ExecutorUnqualified_reason.enum_type enum_value = ExecutorUnqualified_reason.str_to_enum(param.get_enumerated());
+				final ExecutorUnqualified_reason.enum_type enum_value = ExecutorUnqualified_reason.str_to_enum(param.get_enumerated());
 				if (!ExecutorUnqualified_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorUnqualified.reason.");
 				}
@@ -91291,7 +91291,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Msg__port__recv_operation.enum_type enum_value = Msg__port__recv_operation.str_to_enum(param.get_enumerated());
+				final Msg__port__recv_operation.enum_type enum_value = Msg__port__recv_operation.str_to_enum(param.get_enumerated());
 				if (!Msg__port__recv_operation.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Msg_port_recv.operation.");
 				}
@@ -92285,7 +92285,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				Verdict.enum_type enum_value = Verdict.str_to_enum(param.get_enumerated());
+				final Verdict.enum_type enum_value = Verdict.str_to_enum(param.get_enumerated());
 				if (!Verdict.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.Verdict.");
 				}
@@ -93364,7 +93364,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ParallelPTC_reason.enum_type enum_value = ParallelPTC_reason.str_to_enum(param.get_enumerated());
+				final ParallelPTC_reason.enum_type enum_value = ParallelPTC_reason.str_to_enum(param.get_enumerated());
 				if (!ParallelPTC_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ParallelPTC.reason.");
 				}
@@ -97410,7 +97410,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				DefaultEnd.enum_type enum_value = DefaultEnd.str_to_enum(param.get_enumerated());
+				final DefaultEnd.enum_type enum_value = DefaultEnd.str_to_enum(param.get_enumerated());
 				if (!DefaultEnd.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.DefaultEnd.");
 				}
@@ -98950,7 +98950,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					if (!isBound()) {
 						assign(TitanNull_Type.NULL_VALUE);
 					}
-					int start_idx = lengthOf().getInt();
+					final int start_idx = lengthOf().getInt();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -99921,13 +99921,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 						current_index++;
 						break;
 					case MP_Permutation_Template: {
-						int permutation_start_index = current_index;
+						final int permutation_start_index = current_index;
 						final Module_Parameter param_i = param.get_elem(i);
 						for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {
 							getAt(current_index).set_param(param_i.get_elem(perm_i));
 							current_index++;
 						}
-						int permutation_end_index = current_index - 1;
+						final int permutation_end_index = current_index - 1;
 						add_permutation(permutation_start_index, permutation_end_index);
 						break;
 					}
@@ -107156,7 +107156,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				RandomAction.enum_type enum_value = RandomAction.str_to_enum(param.get_enumerated());
+				final RandomAction.enum_type enum_value = RandomAction.str_to_enum(param.get_enumerated());
 				if (!RandomAction.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.RandomAction.");
 				}
@@ -109897,7 +109897,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			}
 			case MP_Enumerated: {
-				ExecutorComponent_reason.enum_type enum_value = ExecutorComponent_reason.str_to_enum(param.get_enumerated());
+				final ExecutorComponent_reason.enum_type enum_value = ExecutorComponent_reason.str_to_enum(param.get_enumerated());
 				if (!ExecutorComponent_reason.isValidEnum(enum_value)) {
 					param.error("Invalid enumerated value for type @TitanLoggerApi.ExecutorComponent.reason.");
 				}
