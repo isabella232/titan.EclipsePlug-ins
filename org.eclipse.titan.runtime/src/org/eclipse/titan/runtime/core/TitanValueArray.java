@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * @author Farkas Izabella Ingrid
  */
@@ -401,6 +405,32 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			array_elements[elem_count].log();
 		}
 		TTCN_Logger.log_event_str(" }");
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "array value");
+		switch (param.get_type()) {
+		case MP_Value_List:
+			if (param.get_size() != array_size) {
+				param.error("The array value has incorrect number of elements: %lu was expected instead of %lu.", param.get_size(), array_size);
+			}
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				if (curr.get_type() != type_t.MP_NotUsed) {
+					array_elements[i].set_param(curr);
+				}
+			}
+			break;
+		case MP_Indexed_List:
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				array_elements[curr.get_id().get_index()].set_param(curr);
+			}
+			break;
+		default:
+			param.type_error("array value");
+		}
 	}
 
 	@Override

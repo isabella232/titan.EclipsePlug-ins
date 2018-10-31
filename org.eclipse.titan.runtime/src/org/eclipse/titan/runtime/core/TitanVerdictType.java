@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 /**
@@ -155,6 +158,19 @@ public class TitanVerdictType extends Base_Type {
 		} else {
 			TTCN_Logger.log_event(MessageFormat.format("<invalid verdict value: {0}>", verdict_value));
 		}
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "verdict value");
+		if (param.get_type() != type_t.MP_Verdict) {
+			param.type_error("verdict value");
+		}
+		final TitanVerdictType verdict = param.get_verdict();
+		if (!isValid(verdict.verdict_value)) {
+			param.error("Internal error: invalid verdict value (%d).", verdict);
+		}
+		verdict_value = verdict.verdict_value;
 	}
 
 	@Override
