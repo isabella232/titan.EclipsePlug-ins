@@ -758,7 +758,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	}
 
-	private static TitanUniversalCharString from_UTF8_buffer(final TTCN_Buffer p_buff) {
+	protected static TitanUniversalCharString from_UTF8_buffer(final TTCN_Buffer p_buff) {
 		final TitanOctetString os = new TitanOctetString();
 		p_buff.get_string(os);
 		if (new TitanCharString("UTF-8").equals(AdditionalFunctions.get_stringencoding(os))) {
