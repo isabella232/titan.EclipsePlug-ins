@@ -547,12 +547,12 @@ public final class RecordSetCodeGenerator {
 		}
 		aSb.append("break;\n");
 		aSb.append("case MP_Assignment_List: {\n");
-		aSb.append("boolean value_used[] = new boolean[param.get_size()];\n");
+		aSb.append("final boolean value_used[] = new boolean[param.get_size()];\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			aSb.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
-			aSb.append("Module_Parameter curr_param = param.get_elem(val_idx);\n");
+			aSb.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
 			aSb.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
 
 			aSb.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
@@ -2310,14 +2310,13 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("break;\n");
 		source.append("case MP_Assignment_List: {\n");
-		source.append("boolean value_used[] = new boolean[param.get_size()];\n");
+		source.append("final boolean value_used[] = new boolean[param.get_size()];\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
-			source.append("Module_Parameter curr_param = param.get_elem(val_idx);\n");
+			source.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
 			source.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
-
 			source.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
 			source.append(MessageFormat.format("get{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
 			source.append("}\n");

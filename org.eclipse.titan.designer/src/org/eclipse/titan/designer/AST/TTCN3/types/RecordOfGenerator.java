@@ -791,7 +791,7 @@ public final class RecordOfGenerator {
 		source.append("case MP_Value_List:\n");
 		source.append("setSize(param.get_size());\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
-		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
 		source.append("getAt(i).set_param(current);\n");
 		source.append("if (!constGetAt(i).isBound()) {\n");
@@ -802,7 +802,7 @@ public final class RecordOfGenerator {
 		source.append("break;\n");
 		source.append("case MP_Indexed_List:\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
-		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("getAt(current.get_id().get_index()).set_param(current);\n");
 		source.append("if (!constGetAt(current.get_id().get_index()).isBound()) {\n");
 		source.append("valueElements.set(i, null);\n");
@@ -821,7 +821,7 @@ public final class RecordOfGenerator {
 		source.append("}\n");
 		source.append("int start_idx = lengthOf().getInt();\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
-		source.append("Module_Parameter current = param.get_elem(i);\n");
+		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
 		source.append("getAt(start_idx + i).set_param(current);\n");
 		source.append("}\n");
