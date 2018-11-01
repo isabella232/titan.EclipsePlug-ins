@@ -16,7 +16,7 @@ import java.util.List;
  * Originally Basetype.hh/Record_Of_Type, Basetype2.cc/Record_Of_Type
  * @author Arpad Lovassy
  */
-public class TitanRecordOf extends Base_Type {
+public abstract class TitanRecordOf extends Base_Type {
 
 	/**
 	 * Indexed sequence of elements of the same type
