@@ -148,14 +148,7 @@ public abstract class Base_Type {
 	 * other module parameters or module parameter expressions, which are processed
 	 * by this method to calculated the final result.
 	 * @param param module parameter value (its ID specifies which object is to be set) */
-	public void set_param (final Param_Types.Module_Parameter param) {
-		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TTCN_Logger.log_event_str( "//TODO: " );
-		TTCN_Logger.log_event_str( getClass().getSimpleName() );
-		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TTCN_Logger.end_event();
-	}
+	public abstract void set_param (final Param_Types.Module_Parameter param);
 
 	/**
 	 * Recursively set the optional fields to omit.
