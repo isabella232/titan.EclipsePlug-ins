@@ -302,6 +302,11 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.error(\"Not supported.\");\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("if (referred_function == null) {\n");
 		switch (def.type) {
