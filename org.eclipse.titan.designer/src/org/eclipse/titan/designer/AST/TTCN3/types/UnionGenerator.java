@@ -169,9 +169,8 @@ public final class UnionGenerator {
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateTemplateSetParam(source, displayName, fieldInfos);
+		generateTemplateCheckSelection(source, displayName, fieldInfos);
 
-		//FIXME implement check_restriction
-		source.append( "\t\t//TODO: implement check_restriction !\n" );
 		source.append("}\n");
 	}
 
@@ -1616,6 +1615,51 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
 		source.append("}\n");
 		source.append("is_ifPresent = param.get_ifpresent();\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate check_selection
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * */
+	private static void generateTemplateCheckSelection(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("case TR_OMIT:\n");
+		source.append("if (templateSelection == template_sel.OMIT_VALUE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("case TR_VALUE:\n");
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("switch (single_value_union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+
+			source.append(MessageFormat.format("(({0})single_value).check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaTemplateName, displayName));
+			source.append("return;\n");
+		}
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("case TR_PRESENT:\n");
+		source.append("if (!match_omit(legacy)) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("}\n");
 	}
 

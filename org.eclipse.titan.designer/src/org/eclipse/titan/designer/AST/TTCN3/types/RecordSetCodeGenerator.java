@@ -219,6 +219,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
 		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
+		generateTemplateCheckRestriction(source, classDisplayName, fieldInfos, isSet);
 
 		source.append("}\n");
 	}
@@ -2343,6 +2344,47 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
+	 * Generate check_restriction
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * @param isSet: true if a set, false if a record
+	 * */
+	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
+		source.append("@Override\n");
+		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("case TR_OMIT:\n");
+		source.append("if (templateSelection == template_sel.OMIT_VALUE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("case TR_VALUE:\n");
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("this.{0}.check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaVarName, displayName));
+		}
+		source.append("return;\n");
+		source.append("case TR_PRESENT:\n");
+		source.append("if (!match_omit(legacy)) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append("}\n");
+	}
+
+	/**
 	 * This function can be used to generate the value class of record and set types
 	 *
 	 * defEmptyRecordClass in compilers/record.c
@@ -2958,6 +3000,32 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("param.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
 		source.append("}\n");
 		source.append("is_ifPresent = param.get_ifpresent();\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("case TR_OMIT:\n");
+		source.append("if (templateSelection == template_sel.OMIT_VALUE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("case TR_VALUE:\n");
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("return;\n");
+		source.append("case TR_PRESENT:\n");
+		source.append("if (!match_omit(legacy)) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", classDisplayName));
 		source.append("}\n");
 
 		source.append("}\n\n");

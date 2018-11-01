@@ -158,8 +158,8 @@ public final class RecordOfGenerator {
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
 		generateTemplateSetParam(source, displayName, isSetOf);
 		generateTemplateGetIstemplateKind( source, genName );
-		//TODO: use
-		//generateTemplateCheckRestriction( source, displayName );
+		generateTemplateCheckRestriction(source, displayName);
+
 		source.append("}\n");
 	}
 
@@ -2511,7 +2511,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t} else {\n");
 		source.append("\t\t\treturn super.get_istemplate_kind(type);\n");
 		source.append("\t\t}\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
@@ -2521,17 +2521,12 @@ public final class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
-		source.append('\n');
-		source.append("\tpublic void check_restriction(template_res t_res, final String t_name) {\n");
-		source.append("\t\tcheck_restriction(t_res, t_name, false);\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		source.append("\tpublic void check_restriction(template_res t_res, final String t_name, final boolean legacy) {\n");
+		source.append("\t@Override\n");
+		source.append("\tpublic void check_restriction(template_res restriction, final String name, final boolean legacy) {\n");
 		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tswitch ((t_name != null && (t_res==template_res.TR_VALUE)) ? template_res.TR_OMIT : t_res) {\n");
+		source.append("\t\tswitch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {\n");
 		source.append("\t\tcase TR_OMIT:\n");
 		source.append("\t\t\tif (templateSelection==template_sel.OMIT_VALUE) {\n");
 		source.append("\t\t\t\treturn;\n");
@@ -2542,7 +2537,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++)\n");
-		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(t_res, t_name != null ? t_name : \""+displayName+"\");\n");
+		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(restriction, name == null ? \""+displayName+"\" : name, false);\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\tcase TR_PRESENT:\n");
 		source.append("\t\t\tif (!match_omit(legacy)) return;\n");
@@ -2550,7 +2545,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tthrow new TtcnError( MessageFormat.format( \"Restriction `{0}' on template of type {1} violated.\", getResName(t_res), t_name != null ? t_name : \""+displayName+"\" ) );\n");
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("\t}\n");
 	}
 }

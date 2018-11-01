@@ -901,6 +901,33 @@ public final class FunctionReferenceGenerator {
 		source.append("default:\n");
 		source.append( MessageFormat.format( "throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("case TR_VALUE:\n");
+		source.append("if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("case TR_OMIT:\n");
+		source.append("if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("case TR_PRESENT:\n");
+		source.append("if (!match_omit(legacy)) {\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", def.displayName));
 		source.append("}\n");
 
 		source.append("}\n\n");
