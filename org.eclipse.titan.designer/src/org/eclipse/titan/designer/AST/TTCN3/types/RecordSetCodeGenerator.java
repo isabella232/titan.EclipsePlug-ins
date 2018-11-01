@@ -2340,7 +2340,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("param.type_error(\"{0} template\", \"{1}\");\n", isSet ? "set" : "record", displayName));
 		source.append("}\n");
 		source.append("is_ifPresent = param.get_ifpresent();\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
