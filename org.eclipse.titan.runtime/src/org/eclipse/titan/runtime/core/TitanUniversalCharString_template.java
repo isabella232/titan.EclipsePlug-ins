@@ -943,7 +943,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		}
 	}
-	
+
 	// originally is_present (with default parameter)
 	public boolean isPresent() {
 		return isPresent(false);

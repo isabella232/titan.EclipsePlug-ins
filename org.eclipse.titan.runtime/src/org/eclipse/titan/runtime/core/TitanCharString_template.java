@@ -700,7 +700,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		log_restricted();
 		log_ifpresent();
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "charstring template");
