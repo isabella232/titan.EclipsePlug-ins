@@ -9353,7 +9353,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 				return;
 			}
@@ -19622,7 +19622,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 				return;
 			}
@@ -48188,7 +48188,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 				return;
 			}
@@ -77879,7 +77879,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 				return;
 			}
@@ -102675,7 +102675,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 				return;
 			}

@@ -2522,7 +2522,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
 		source.append("\t@Override\n");
-		source.append("\tpublic void check_restriction(template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("\tpublic void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
 		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
