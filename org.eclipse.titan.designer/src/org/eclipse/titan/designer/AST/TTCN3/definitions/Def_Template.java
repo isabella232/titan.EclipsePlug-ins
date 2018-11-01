@@ -920,7 +920,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				body.generateCodeInit( aData, aData.getPostInit(), body.get_lhs_name() );
 
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
-					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+					TemplateRestriction.generateRestrictionCheckCode(aData, aData.getPostInit(), location, genName, templateRestriction);
 				}
 			}
 
