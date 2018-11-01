@@ -601,4 +601,32 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		}
 		is_ifPresent = param.get_ifpresent();
 	}
+
+	@Override
+	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return;
+		}
+		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+		case TR_OMIT:
+			if (templateSelection == template_sel.OMIT_VALUE) {
+				return;
+			}
+		case TR_VALUE:
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				break;
+			}
+			this.abstract_.check_restriction(restriction, name == null ? "CHARACTER STRING.identification.syntaxes" : name, legacy);
+			this.transfer.check_restriction(restriction, name == null ? "CHARACTER STRING.identification.syntaxes" : name, legacy);
+			return;
+		case TR_PRESENT:
+			if (!match_omit(legacy)) {
+				return;
+			}
+			break;
+		default:
+			return;
+		}
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "CHARACTER STRING.identification.syntaxes" : name));
+	}
 }

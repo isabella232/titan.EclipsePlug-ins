@@ -2003,6 +2003,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultOp" : name, legacy);
+				this.id.check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultOp" : name, legacy);
+				this.end.check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultOp" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.DefaultOp" : name));
+		}
 	}
 	public static void DefaultOp_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -3077,7 +3105,44 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_setVerdict:
+					((SetVerdictType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictOp.choice" : name, legacy);
+					return;
+				case ALT_getVerdict:
+					((Verdict_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictOp.choice" : name, legacy);
+					return;
+				case ALT_finalVerdict:
+					((FinalVerdictType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictOp.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.VerdictOp.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.VerdictOp.choice" : name));
+		}
 	}
 	public static void VerdictOp_choice_encoder(final VerdictOp_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -4671,6 +4736,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.is__ptc.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.ptc__verdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.local__verdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.new__verdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.verdict__reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.ptc__compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				this.ptc__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FinalVerdictInfo" : name));
+		}
 	}
 	public static void FinalVerdictInfo_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -5442,6 +5539,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TimerEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimerEvent" : name));
 		}
 	}
 	public static void TimerEvent_encoder(final TimerEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -6426,6 +6549,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.MatchingSuccessType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingSuccessType" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingSuccessType" : name, legacy);
+				this.info.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingSuccessType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingSuccessType" : name));
 		}
 	}
 	public static void MatchingSuccessType_encoder(final MatchingSuccessType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -7622,6 +7773,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Proc_port_out");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_out" : name, legacy);
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_out" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_out" : name, legacy);
+				this.sys__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_out" : name, legacy);
+				this.parameter.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_out" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Proc_port_out" : name));
 		}
 	}
 	public static void Proc__port__out_encoder(final Proc__port__out input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -9170,6 +9351,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return super.get_istemplate_kind(type);
 			}
 		}
+
+		@Override
+		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection==template_sel.OMIT_VALUE) {
+					return;
+				}
+				// no break
+			case TR_VALUE:
+				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				for (int i=0; i<value_elements.size(); i++)
+					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.Strings.str_list" : name, false);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) return;
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Strings.str_list" : name));
+		}
 	}
 	public static void Strings_str__list_encoder(final Strings_str__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -10588,7 +10796,56 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_executorRuntime:
+					((ExecutorRuntime_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_executorConfigdata:
+					((ExecutorConfigdata_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_extcommandStart:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_extcommandSuccess:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_executorComponent:
+					((ExecutorComponent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_logOptions:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				case ALT_executorMisc:
+					((ExecutorUnqualified_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.ExecutorEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorEvent.choice" : name));
+		}
 	}
 	public static void ExecutorEvent_choice_encoder(final ExecutorEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -11262,6 +11519,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("empty record/set template", "@TitanLoggerApi.TimerAnyTimeoutType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimerAnyTimeoutType" : name));
 		}
 	}
 
@@ -12764,6 +13047,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.newVerdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.SetVerdictType" : name, legacy);
+				this.oldVerdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.SetVerdictType" : name, legacy);
+				this.localVerdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.SetVerdictType" : name, legacy);
+				this.oldReason.check_restriction(restriction, name == null ? "@TitanLoggerApi.SetVerdictType" : name, legacy);
+				this.newReason.check_restriction(restriction, name == null ? "@TitanLoggerApi.SetVerdictType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.SetVerdictType" : name));
+		}
 	}
 	public static void SetVerdictType_encoder(final SetVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -13755,6 +14068,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Parallel.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Parallel.reason" : name));
 		}
 	}
 	public static void Parallel_reason_encoder(final Parallel_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -14807,6 +15147,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.PortType.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.PortType" : name));
+		}
 	}
 	public static void PortType_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -15831,6 +16198,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.text.check_restriction(restriction, name == null ? "@TitanLoggerApi.WarningEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.WarningEvent" : name));
+		}
 	}
 	public static void WarningEvent_encoder(final WarningEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -16675,6 +17068,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ParPort.operation.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParPort.operation" : name));
 		}
 	}
 	public static void ParPort_operation_encoder(final ParPort_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -17553,6 +17973,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ComponentIDType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.id.check_restriction(restriction, name == null ? "@TitanLoggerApi.ComponentIDType" : name, legacy);
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.ComponentIDType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ComponentIDType" : name));
 		}
 	}
 	public static void ComponentIDType_encoder(final ComponentIDType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -19172,6 +19619,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				return super.get_istemplate_kind(type);
 			}
+		}
+
+		@Override
+		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection==template_sel.OMIT_VALUE) {
+					return;
+				}
+				// no break
+			case TR_VALUE:
+				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				for (int i=0; i<value_elements.size(); i++)
+					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list" : name, false);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) return;
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list" : name));
 		}
 	}
 	public static void TitanLog_sequence__list_0_event__list_encoder(final TitanLog_sequence__list_0_event__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -21631,7 +22105,86 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_actionEvent:
+					((Strings_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_defaultEvent:
+					((DefaultEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_errorLog:
+					((Categorized_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_executorEvent:
+					((ExecutorEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_functionEvent:
+					((FunctionEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_parallelEvent:
+					((ParallelEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_testcaseOp:
+					((TestcaseEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_portEvent:
+					((PortEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_statistics:
+					((StatisticsType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_timerEvent:
+					((TimerEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_userLog:
+					((Strings_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_verdictOp:
+					((VerdictOp_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_warningLog:
+					((Categorized_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_matchingEvent:
+					((MatchingEvent_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_debugLog:
+					((Categorized_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_executionSummary:
+					((ExecutionSummaryType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				case ALT_unhandledEvent:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.LogEventType.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.LogEventType.choice" : name));
+		}
 	}
 	public static void LogEventType_choice_encoder(final LogEventType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -22706,7 +23259,44 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_defaultopActivate:
+					((DefaultOp_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultEvent.choice" : name, legacy);
+					return;
+				case ALT_defaultopDeactivate:
+					((DefaultOp_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultEvent.choice" : name, legacy);
+					return;
+				case ALT_defaultopExit:
+					((DefaultOp_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.DefaultEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.DefaultEvent.choice" : name));
+		}
 	}
 	public static void DefaultEvent_choice_encoder(final DefaultEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -23605,7 +24195,41 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_testcaseStarted:
+					((QualifiedName_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseEvent.choice" : name, legacy);
+					return;
+				case ALT_testcaseFinished:
+					((TestcaseType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.TestcaseEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TestcaseEvent.choice" : name));
+		}
 	}
 	public static void TestcaseEvent_choice_encoder(final TestcaseEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -24506,6 +25130,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.MatchingDoneType.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingDoneType.reason" : name));
 		}
 	}
 	public static void MatchingDoneType_reason_encoder(final MatchingDoneType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -25447,6 +26098,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ExecutorConfigdata");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorConfigdata" : name, legacy);
+				this.param__.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorConfigdata" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorConfigdata" : name));
 		}
 	}
 	public static void ExecutorConfigdata_encoder(final ExecutorConfigdata input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -26754,6 +27432,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.filename.check_restriction(restriction, name == null ? "@TitanLoggerApi.LocationInfo" : name, legacy);
+				this.line.check_restriction(restriction, name == null ? "@TitanLoggerApi.LocationInfo" : name, legacy);
+				this.ent__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.LocationInfo" : name, legacy);
+				this.ent__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.LocationInfo" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.LocationInfo" : name));
+		}
 	}
 	public static void LocationInfo_encoder(final LocationInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -27525,6 +28232,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TestcaseEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TestcaseEvent" : name));
 		}
 	}
 	public static void TestcaseEvent_encoder(final TestcaseEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -28944,7 +29677,56 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_readTimer:
+					((TimerType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_startTimer:
+					((TimerType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_guardTimer:
+					((TimerGuardType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_stopTimer:
+					((TimerType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_timeoutTimer:
+					((TimerType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_timeoutAnyTimer:
+					((TimerAnyTimeoutType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				case ALT_unqualifiedTimer:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.TimerEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimerEvent.choice" : name));
+		}
 	}
 	public static void TimerEvent_choice_encoder(final TimerEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -30051,7 +30833,47 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_verdictStatistics:
+					((StatisticsType_choice_verdictStatistics_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice" : name, legacy);
+					return;
+				case ALT_controlpartStart:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice" : name, legacy);
+					return;
+				case ALT_controlpartFinish:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice" : name, legacy);
+					return;
+				case ALT_controlpartErrors:
+					((TitanInteger_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.StatisticsType.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.StatisticsType.choice" : name));
+		}
 	}
 	public static void StatisticsType_choice_encoder(final StatisticsType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -31495,6 +32317,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Port_Misc");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.remote__component.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.remote__port.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.ip__address.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.tcp__port.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				this.new__size.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Misc" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_Misc" : name));
 		}
 	}
 	public static void Port__Misc_encoder(final Port__Misc input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -33046,6 +33900,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.module__.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.compname.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.tc__loc.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.alive__pid.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				this.status.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelPTC" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParallelPTC" : name));
+		}
 	}
 	public static void ParallelPTC_encoder(final ParallelPTC input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -33905,6 +34792,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.LocationInfo.ent_type.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.LocationInfo.ent_type" : name));
 		}
 	}
 	public static void LocationInfo_ent__type_encoder(final LocationInfo_ent__type input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -35029,6 +35943,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.timer__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingTimeout" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingTimeout" : name));
+		}
 	}
 	public static void MatchingTimeout_encoder(final MatchingTimeout input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -35800,6 +36740,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.VerdictOp");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictOp" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.VerdictOp" : name));
 		}
 	}
 	public static void VerdictOp_encoder(final VerdictOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -36655,6 +37621,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.MatchingProblemType.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingProblemType.reason" : name));
 		}
 	}
 	public static void MatchingProblemType_reason_encoder(final MatchingProblemType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -37662,6 +38655,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ExecutorRuntime.reason.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorRuntime.reason" : name));
+		}
 	}
 	public static void ExecutorRuntime_reason_encoder(final ExecutorRuntime_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -38558,6 +39578,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.MatchingFailureType.reason.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingFailureType.reason" : name));
+		}
 	}
 	public static void MatchingFailureType_reason_encoder(final MatchingFailureType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -39449,6 +40496,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.MatchingProblemType.operation.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingProblemType.operation" : name));
+		}
 	}
 	public static void MatchingProblemType_operation_encoder(final MatchingProblemType_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -40326,6 +41400,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TitanSingleLogEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.entityId.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanSingleLogEvent" : name, legacy);
+				this.event.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanSingleLogEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanSingleLogEvent" : name));
 		}
 	}
 	public static void TitanSingleLogEvent_encoder(final TitanSingleLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -41369,7 +42470,41 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_system__:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType.choice" : name, legacy);
+					return;
+				case ALT_compref:
+					((TitanInteger_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.MatchingFailureType.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingFailureType.choice" : name));
+		}
 	}
 	public static void MatchingFailureType_choice_encoder(final MatchingFailureType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -42224,6 +43359,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ExecutorConfigdata.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorConfigdata.reason" : name));
 		}
 	}
 	public static void ExecutorConfigdata_reason_encoder(final ExecutorConfigdata_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -43102,6 +44264,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.QualifiedName");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.module__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.QualifiedName" : name, legacy);
+				this.testcase__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.QualifiedName" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.QualifiedName" : name));
 		}
 	}
 	public static void QualifiedName_encoder(final QualifiedName input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -44122,6 +45311,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.FunctionEvent.choice.random");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent.choice.random" : name, legacy);
+				this.retval.check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent.choice.random" : name, legacy);
+				this.intseed.check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent.choice.random" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FunctionEvent.choice.random" : name));
 		}
 	}
 	public static void FunctionEvent_choice_random_encoder(final FunctionEvent_choice_random input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -45428,6 +46645,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Dualface_mapped");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.incoming.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_mapped" : name, legacy);
+				this.target__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_mapped" : name, legacy);
+				this.value__.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_mapped" : name, legacy);
+				this.msgid.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_mapped" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Dualface_mapped" : name));
 		}
 	}
 	public static void Dualface__mapped_encoder(final Dualface__mapped input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -46940,6 +48186,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return super.get_istemplate_kind(type);
 			}
 		}
+
+		@Override
+		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection==template_sel.OMIT_VALUE) {
+					return;
+				}
+				// no break
+			case TR_VALUE:
+				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				for (int i=0; i<value_elements.size(); i++)
+					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent.sourceInfo_list" : name, false);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) return;
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLogEvent.sourceInfo_list" : name));
+		}
 	}
 	public static void TitanLogEvent_sourceInfo__list_encoder(final TitanLogEvent_sourceInfo__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -47951,6 +49224,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.fromVerdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictType" : name, legacy);
+				this.toVerdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictType" : name, legacy);
+				this.verdictReason.check_restriction(restriction, name == null ? "@TitanLoggerApi.VerdictType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.VerdictType" : name));
+		}
 	}
 	public static void VerdictType_encoder(final VerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -48934,6 +50235,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Port_State.operation.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_State.operation" : name));
 		}
 	}
 	public static void Port__State_operation_encoder(final Port__State_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -49954,6 +51282,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Port_oper.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_oper" : name));
 		}
 	}
 	public static void Port__oper_encoder(final Port__oper input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -51121,6 +52476,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.seconds.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimestampType" : name, legacy);
+				this.microSeconds.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimestampType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimestampType" : name));
+		}
 	}
 	public static void TimestampType_encoder(final TimestampType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -52104,6 +53486,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Setstate");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Setstate" : name, legacy);
+				this.state.check_restriction(restriction, name == null ? "@TitanLoggerApi.Setstate" : name, legacy);
+				this.info.check_restriction(restriction, name == null ? "@TitanLoggerApi.Setstate" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Setstate" : name));
 		}
 	}
 	public static void Setstate_encoder(final Setstate input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -53551,6 +54961,37 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				this.check__.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				this.parameter.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				this.msgid.check_restriction(restriction, name == null ? "@TitanLoggerApi.Proc_port_in" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Proc_port_in" : name));
+		}
 	}
 	public static void Proc__port__in_encoder(final Proc__port__in input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -54640,6 +56081,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TitanLogEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.timestamp.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent" : name, legacy);
+				this.sourceInfo__list.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent" : name, legacy);
+				this.severity.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent" : name, legacy);
+				this.logEvent.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLogEvent" : name));
 		}
 	}
 	public static void TitanLogEvent_encoder(final TitanLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -56367,6 +57837,41 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.none__.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.nonePercent.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.pass__.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.passPercent.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.inconc__.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.inconcPercent.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.fail__.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.failPercent.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.error__.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				this.errorPercent.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.StatisticsType.choice.verdictStatistics" : name));
+		}
 	}
 	public static void StatisticsType_choice_verdictStatistics_encoder(final StatisticsType_choice_verdictStatistics input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -57319,6 +58824,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.LogEventType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.LogEventType" : name));
+		}
 	}
 	public static void LogEventType_encoder(final LogEventType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -58196,6 +59727,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Port_State");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_State" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_State" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_State" : name));
 		}
 	}
 	public static void Port__State_encoder(final Port__State input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -59180,6 +60738,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TestcaseType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseType" : name, legacy);
+				this.verdict.check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseType" : name, legacy);
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.TestcaseType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TestcaseType" : name));
 		}
 	}
 	public static void TestcaseType_encoder(final TestcaseType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -60219,7 +61805,44 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_parallelPTC:
+					((ParallelPTC_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelEvent.choice" : name, legacy);
+					return;
+				case ALT_parallelPTC__exit:
+					((PTC__exit_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelEvent.choice" : name, legacy);
+					return;
+				case ALT_parallelPort:
+					((ParPort_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.ParallelEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParallelEvent.choice" : name));
+		}
 	}
 	public static void ParallelEvent_choice_encoder(final ParallelEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -60909,7 +62532,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.anytype.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.anytype" : name));
+		}
 	}
 	public static void anytype_encoder(final anytype input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -61717,6 +63368,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.PortEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.PortEvent" : name));
 		}
 	}
 	public static void PortEvent_encoder(final PortEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -63448,7 +65125,65 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_portQueue:
+					((Port__Queue_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_portState:
+					((Port__State_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_procPortSend:
+					((Proc__port__out_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_procPortRecv:
+					((Proc__port__in_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_msgPortSend:
+					((Msg__port__send_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_msgPortRecv:
+					((Msg__port__recv_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_dualMapped:
+					((Dualface__mapped_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_dualDiscard:
+					((Dualface__discard_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_setState:
+					((Setstate_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				case ALT_portMisc:
+					((Port__Misc_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.PortEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.PortEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.PortEvent.choice" : name));
+		}
 	}
 	public static void PortEvent_choice_encoder(final PortEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -64468,6 +66203,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Msg_port_send");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_send" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_send" : name, legacy);
+				this.parameter.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_send" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Msg_port_send" : name));
 		}
 	}
 	public static void Msg__port__send_encoder(final Msg__port__send input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -65672,6 +67435,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.FunctionEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FunctionEvent" : name));
 		}
 	}
 	public static void FunctionEvent_encoder(final FunctionEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -67156,6 +68945,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.MatchingFailureType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType" : name, legacy);
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType" : name, legacy);
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType" : name, legacy);
+				this.info.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingFailureType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingFailureType" : name));
 		}
 	}
 	public static void MatchingFailureType_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -68821,6 +70640,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParPort" : name, legacy);
+				this.srcCompref.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParPort" : name, legacy);
+				this.dstCompref.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParPort" : name, legacy);
+				this.srcPort.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParPort" : name, legacy);
+				this.dstPort.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParPort" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParPort" : name));
+		}
 	}
 	public static void ParPort_encoder(final ParPort input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -69946,6 +71795,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.MatchingDoneType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingDoneType" : name, legacy);
+				this.type__.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingDoneType" : name, legacy);
+				this.ptc.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingDoneType" : name, legacy);
+				this.return__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingDoneType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingDoneType" : name));
 		}
 	}
 	public static void MatchingDoneType_encoder(final MatchingDoneType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -71357,6 +73235,37 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				this.msgid.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				this.address__.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				this.param__.check_restriction(restriction, name == null ? "@TitanLoggerApi.Port_Queue" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_Queue" : name));
+		}
 	}
 	public static void Port__Queue_encoder(final Port__Queue input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -72128,6 +74037,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ParallelEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.ParallelEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParallelEvent" : name));
 		}
 	}
 	public static void ParallelEvent_encoder(final ParallelEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -73027,7 +74962,41 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_info:
+					((FinalVerdictInfo_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictType.choice" : name, legacy);
+					return;
+				case ALT_notification:
+					((FinalVerdictType_choice_notification_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictType.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.FinalVerdictType.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FinalVerdictType.choice" : name));
+		}
 	}
 	public static void FinalVerdictType_choice_encoder(final FinalVerdictType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -74365,6 +76334,37 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Msg_port_recv");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				this.sys__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				this.parameter.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				this.msgid.check_restriction(restriction, name == null ? "@TitanLoggerApi.Msg_port_recv" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Msg_port_recv" : name));
 		}
 	}
 	public static void Msg__port__recv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -75877,6 +77877,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return super.get_istemplate_kind(type);
 			}
 		}
+
+		@Override
+		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection==template_sel.OMIT_VALUE) {
+					return;
+				}
+				// no break
+			case TR_VALUE:
+				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				for (int i=0; i<value_elements.size(); i++)
+					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.StartFunction.parameter_list" : name, false);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) return;
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.StartFunction.parameter_list" : name));
+		}
 	}
 	public static void StartFunction_parameter__list_encoder(final StartFunction_parameter__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -76791,6 +78818,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerType" : name, legacy);
+				this.value__.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimerType" : name));
+		}
 	}
 	public static void TimerType_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -77562,6 +79616,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.DefaultEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.DefaultEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.DefaultEvent" : name));
 		}
 	}
 	public static void DefaultEvent_encoder(final DefaultEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -78525,6 +80605,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Port_Queue.operation.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_Queue.operation" : name));
 		}
 	}
 	public static void Port__Queue_operation_encoder(final Port__Queue_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -79794,6 +81901,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingProblemType" : name, legacy);
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingProblemType" : name, legacy);
+				this.operation.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingProblemType" : name, legacy);
+				this.check__.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingProblemType" : name, legacy);
+				this.any__port.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingProblemType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingProblemType" : name));
+		}
 	}
 	public static void MatchingProblemType_encoder(final MatchingProblemType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -80565,6 +82702,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Strings");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.str__list.check_restriction(restriction, name == null ? "@TitanLoggerApi.Strings" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Strings" : name));
 		}
 	}
 	public static void Strings_encoder(final Strings input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -81586,6 +83749,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.PTC_exit" : name, legacy);
+				this.pid.check_restriction(restriction, name == null ? "@TitanLoggerApi.PTC_exit" : name, legacy);
+				this.statuscode.check_restriction(restriction, name == null ? "@TitanLoggerApi.PTC_exit" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.PTC_exit" : name));
+		}
 	}
 	public static void PTC__exit_encoder(final PTC__exit input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -82547,6 +84738,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Port_Misc.reason.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Port_Misc.reason" : name));
+		}
 	}
 	public static void Port__Misc_reason_encoder(final Port__Misc_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -83355,6 +85573,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.sequence__list.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLog" : name));
+		}
 	}
 	public static void TitanLog_encoder(final TitanLog input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -84126,6 +86370,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ErrorEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.text.check_restriction(restriction, name == null ? "@TitanLoggerApi.ErrorEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ErrorEvent" : name));
 		}
 	}
 	public static void ErrorEvent_encoder(final ErrorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -85114,6 +87384,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ExecutorEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorEvent" : name));
 		}
 	}
 	public static void ExecutorEvent_encoder(final ExecutorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -86631,6 +88927,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.alive__.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.function__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.src__compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.src__port.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.dst__compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				this.dst__port.check_restriction(restriction, name == null ? "@TitanLoggerApi.Parallel" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Parallel" : name));
+		}
 	}
 	public static void Parallel_encoder(final Parallel input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -87929,6 +90257,36 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorRuntime" : name, legacy);
+				this.module__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorRuntime" : name, legacy);
+				this.testcase__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorRuntime" : name, legacy);
+				this.pid.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorRuntime" : name, legacy);
+				this.fd__setsize.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorRuntime" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorRuntime" : name));
+		}
 	}
 	public static void ExecutorRuntime_encoder(final ExecutorRuntime input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -88809,6 +91167,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.FinalVerdictType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FinalVerdictType" : name));
+		}
 	}
 	public static void FinalVerdictType_encoder(final FinalVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -89643,6 +92027,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.FinalVerdictType.choice.notification.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FinalVerdictType.choice.notification" : name));
 		}
 	}
 	public static void FinalVerdictType_choice_notification_encoder(final FinalVerdictType_choice_notification input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -90488,6 +92899,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ExecutorUnqualified.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorUnqualified.reason" : name));
 		}
 	}
 	public static void ExecutorUnqualified_reason_encoder(final ExecutorUnqualified_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -91400,6 +93838,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Msg_port_recv.operation.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Msg_port_recv.operation" : name));
 		}
 	}
 	public static void Msg__port__recv_operation_encoder(final Msg__port__recv_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -92394,6 +94859,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.Verdict.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Verdict" : name));
 		}
 	}
 	public static void Verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -93474,6 +95966,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ParallelPTC.reason.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ParallelPTC.reason" : name));
+		}
 	}
 	public static void ParallelPTC_reason_encoder(final ParallelPTC_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -94389,6 +96908,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.TimerGuardType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.value__.check_restriction(restriction, name == null ? "@TitanLoggerApi.TimerGuardType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TimerGuardType" : name));
 		}
 	}
 	public static void TimerGuardType_encoder(final TimerGuardType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -95445,6 +97990,34 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.StartFunction");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.function__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.StartFunction" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.StartFunction" : name, legacy);
+				this.parameter__list.check_restriction(restriction, name == null ? "@TitanLoggerApi.StartFunction" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.StartFunction" : name));
 		}
 	}
 	public static void StartFunction_encoder(final StartFunction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -96536,6 +99109,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorUnqualified" : name, legacy);
+				this.name.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorUnqualified" : name, legacy);
+				this.addr.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorUnqualified" : name, legacy);
+				this.port__.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorUnqualified" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorUnqualified" : name));
+		}
 	}
 	public static void ExecutorUnqualified_encoder(final ExecutorUnqualified input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -97520,6 +100122,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.DefaultEnd.");
 			}
 		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.DefaultEnd" : name));
+		}
 	}
 	public static void DefaultEnd_encoder(final DefaultEnd input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -98433,6 +101062,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.Categorized");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.category.check_restriction(restriction, name == null ? "@TitanLoggerApi.Categorized" : name, legacy);
+				this.text.check_restriction(restriction, name == null ? "@TitanLoggerApi.Categorized" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Categorized" : name));
 		}
 	}
 	public static void Categorized_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -100017,6 +102673,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return super.get_istemplate_kind(type);
 			}
 		}
+
+		@Override
+		public void check_restriction(template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection==template_sel.OMIT_VALUE) {
+					return;
+				}
+				// no break
+			case TR_VALUE:
+				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				for (int i=0; i<value_elements.size(); i++)
+					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list" : name, false);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) return;
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLog.sequence_list" : name));
+		}
 	}
 	public static void TitanLog_sequence__list_encoder(final TitanLog_sequence__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -101291,6 +103974,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.numberOfTestcases.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutionSummaryType" : name, legacy);
+				this.overallStatistics.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutionSummaryType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutionSummaryType" : name));
+		}
 	}
 	public static void ExecutionSummaryType_encoder(final ExecutionSummaryType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -102314,6 +105024,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.MatchingEvent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingEvent" : name));
 		}
 	}
 	public static void MatchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -103441,6 +106177,35 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.incoming.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_discard" : name, legacy);
+				this.target__type.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_discard" : name, legacy);
+				this.port__name.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_discard" : name, legacy);
+				this.unhandled.check_restriction(restriction, name == null ? "@TitanLoggerApi.Dualface_discard" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.Dualface_discard" : name));
+		}
 	}
 	public static void Dualface__discard_encoder(final Dualface__discard input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -104212,6 +106977,32 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.StatisticsType");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.choice.check_restriction(restriction, name == null ? "@TitanLoggerApi.StatisticsType" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.StatisticsType" : name));
 		}
 	}
 	public static void StatisticsType_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -105531,7 +108322,50 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_matchingDone:
+					((MatchingDoneType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name, legacy);
+					return;
+				case ALT_matchingSuccess:
+					((MatchingSuccessType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name, legacy);
+					return;
+				case ALT_matchingFailure:
+					((MatchingFailureType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name, legacy);
+					return;
+				case ALT_matchingProblem:
+					((MatchingProblemType_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name, legacy);
+					return;
+				case ALT_matchingTimeout:
+					((MatchingTimeout_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.MatchingEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.MatchingEvent.choice" : name));
+		}
 	}
 	public static void MatchingEvent_choice_encoder(final MatchingEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -106430,7 +109264,41 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
-		//TODO: implement check_restriction !
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				switch (single_value_union_selection) {
+				case ALT_unqualified:
+					((TitanCharString_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent.choice" : name, legacy);
+					return;
+				case ALT_random:
+					((FunctionEvent_choice_random_template)single_value).check_restriction(restriction, name == null ? "@TitanLoggerApi.FunctionEvent.choice" : name, legacy);
+					return;
+				default:
+					throw new TtcnError("Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type @TitanLoggerApi.FunctionEvent.choice.");
+				}
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.FunctionEvent.choice" : name));
+		}
 	}
 	public static void FunctionEvent_choice_encoder(final FunctionEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -107265,6 +110133,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.RandomAction.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.RandomAction" : name));
 		}
 	}
 	public static void RandomAction_encoder(final RandomAction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -108206,6 +111101,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 				param.type_error("record template", "@TitanLoggerApi.ExecutorComponent");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.reason.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorComponent" : name, legacy);
+				this.compref.check_restriction(restriction, name == null ? "@TitanLoggerApi.ExecutorComponent" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorComponent" : name));
 		}
 	}
 	public static void ExecutorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -109157,6 +112079,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_OMIT:
+				if (templateSelection == template_sel.OMIT_VALUE) {
+					return;
+				}
+			case TR_VALUE:
+				if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+					break;
+				}
+				this.entityId.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype" : name, legacy);
+				this.event__list.check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype" : name, legacy);
+				return;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype" : name));
+		}
 	}
 	public static void TitanLog_sequence__list_0_encoder(final TitanLog_sequence__list_0 input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
@@ -110006,6 +112955,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a template of enumerated type @TitanLoggerApi.ExecutorComponent.reason.");
 			}
+		}
+
+		@Override
+		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+				return;
+			}
+			switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+			case TR_VALUE:
+				if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+					return;
+				}
+				break;
+			case TR_OMIT:
+				if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+					return;
+				}
+				break;
+			case TR_PRESENT:
+				if (!match_omit(legacy)) {
+					return;
+				}
+				break;
+			default:
+				return;
+			}
+			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "@TitanLoggerApi.ExecutorComponent.reason" : name));
 		}
 	}
 	public static void ExecutorComponent_reason_encoder(final ExecutorComponent_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
