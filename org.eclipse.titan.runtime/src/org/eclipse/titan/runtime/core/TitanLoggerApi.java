@@ -9306,11 +9306,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++)
+				for (int i=0; i<value_elements.size(); i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.Strings.str_list" : name, false);
+				}
 				return;
 			case TR_PRESENT:
-				if (!match_omit(legacy)) return;
+				if (!match_omit(legacy)) {
+					return;
+				}
 				break;
 			default:
 				return;
@@ -19475,11 +19478,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++)
+				for (int i=0; i<value_elements.size(); i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list" : name, false);
+				}
 				return;
 			case TR_PRESENT:
-				if (!match_omit(legacy)) return;
+				if (!match_omit(legacy)) {
+					return;
+				}
 				break;
 			default:
 				return;
@@ -47758,11 +47764,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++)
+				for (int i=0; i<value_elements.size(); i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLogEvent.sourceInfo_list" : name, false);
+				}
 				return;
 			case TR_PRESENT:
-				if (!match_omit(legacy)) return;
+				if (!match_omit(legacy)) {
+					return;
+				}
 				break;
 			default:
 				return;
@@ -77222,11 +77231,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++)
+				for (int i=0; i<value_elements.size(); i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.StartFunction.parameter_list" : name, false);
+				}
 				return;
 			case TR_PRESENT:
-				if (!match_omit(legacy)) return;
+				if (!match_omit(legacy)) {
+					return;
+				}
 				break;
 			default:
 				return;
@@ -101782,11 +101794,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				if (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++)
+				for (int i=0; i<value_elements.size(); i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@TitanLoggerApi.TitanLog.sequence_list" : name, false);
+				}
 				return;
 			case TR_PRESENT:
-				if (!match_omit(legacy)) return;
+				if (!match_omit(legacy)) {
+					return;
+				}
 				break;
 			default:
 				return;

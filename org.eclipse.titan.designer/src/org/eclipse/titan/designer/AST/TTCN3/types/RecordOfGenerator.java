@@ -2515,11 +2515,14 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tif (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++)\n");
+		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++) {\n");
 		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(restriction, name == null ? \""+displayName+"\" : name, false);\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\tcase TR_PRESENT:\n");
-		source.append("\t\t\tif (!match_omit(legacy)) return;\n");
+		source.append("\t\t\tif (!match_omit(legacy)) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\treturn;\n");
