@@ -376,13 +376,15 @@ public class TitanVerdictType_template extends Base_Template {
 	 * #ifndef TITAN_RUNTIME_2
 	 * void VERDICTTYPE_template::check_restriction(template_res t_res, const char* t_name, boolean legacy = FALSE ) const
 	 */
-	public void check_restriction(final template_res t_res, final String t_name, final boolean legacy) {
+
+
+	@Override
+	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
-		final template_res res = (t_name != null && (t_res == template_res.TR_VALUE)) ? template_res.TR_OMIT : t_res;
-		switch (res) {
+		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_VALUE:
 			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
 				return;
@@ -401,7 +403,8 @@ public class TitanVerdictType_template extends Base_Template {
 		default:
 			return;
 		}
-		throw new TtcnError("Restriction `" + getResName(t_res) + "' on template of type " + t_name != null ? t_name : "verdict" + " violated.");
+
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "float" : name));
 	}
 
 	@Override

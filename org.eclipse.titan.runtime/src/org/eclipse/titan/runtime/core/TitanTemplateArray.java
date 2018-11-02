@@ -1233,4 +1233,36 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			TTCN_Logger.log_event_str(" unmatched");
 		}
 	}
+
+	@Override
+	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return;
+		}
+
+		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+		case TR_OMIT:
+			if (templateSelection == template_sel.OMIT_VALUE) {
+				return;
+			}
+		case TR_VALUE:
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				break;
+			}
+
+			for (int i = 0; i < singleSize; ++i) {
+				single_value[i].check_restriction(restriction, name == null ? "array" : name, legacy);
+			}
+			return;
+		case TR_PRESENT:
+			if (!match_omit(legacy)) {
+				return;
+			}
+			break;
+		default:
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "array" : name));
+	}
 }

@@ -417,4 +417,33 @@ public class TitanDefault_template extends Base_Template {
 	public void decode_text(final Text_Buf text_buf) {
 		throw new TtcnError("Default reference templates cannot be received from other test components.");
 	}
+
+	@Override
+	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return;
+		}
+
+		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
+		case TR_VALUE:
+			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+				return;
+			}
+			break;
+		case TR_OMIT:
+			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+				return;
+			}
+			break;
+		case TR_PRESENT:
+			if (!match_omit(legacy)) {
+				return;
+			}
+			break;
+		default:
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "default reference" : name));
+	}
 }

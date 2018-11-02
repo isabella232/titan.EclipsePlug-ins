@@ -244,12 +244,6 @@ public abstract class Base_Template {
 		check_restriction(restriction, name, false);
 	}
 
-	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TTCN_Logger.log_event_str( "//TODO: " );
-		TTCN_Logger.log_event_str( getClass().getSimpleName() );
-		TTCN_Logger.log_event_str( ".check_restriction() is not yet implemented!\n" );
-		TTCN_Logger.end_event();
-	}
+	//TODO investigate how to extract the common implementations here
+	public abstract void check_restriction(final template_res restriction, final String name, final boolean legacy);
 }
