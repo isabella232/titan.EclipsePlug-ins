@@ -215,6 +215,27 @@ public abstract class Base_Template {
 		TTCN_Logger.end_event();
 	}
 
+	// originally is_present (with default parameter)
+	public boolean isPresent() {
+		return isPresent(false);
+	}
+
+	// originally is_present
+	public boolean isPresent(final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return false;
+		}
+
+		return !match_omit(legacy);
+	}
+
+	// originally match_omit (with default parameter)
+	public boolean match_omit() {
+		return match_omit(false);
+	}
+
+	public abstract boolean match_omit(final boolean legacy);
+
 	public abstract void encode_text(final Text_Buf text_buf);
 
 	public abstract void decode_text(final Text_Buf text_buf);

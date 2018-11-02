@@ -637,20 +637,6 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return value_list.get(listIndex);
 	}
 
-	// originally is_present (with default parameter)
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
-	// originally is_present
-	public boolean isPresent(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return false;
-		}
-
-		return !match_omit(legacy);
-	}
-
 	public void set_decmatch(final IDecode_Match dec_match) {
 		if (templateSelection != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting the decoded content matching mechanism of a non-decmatch octetstring template.");
@@ -783,11 +769,6 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		if (param.get_length_restriction() != null) {
 			set_length_range(param);
 		}
-	}
-
-	// originally match_omit (with default parameter)
-	public boolean match_omit() {
-		return match_omit(false);
 	}
 
 	public boolean match_omit(final boolean legacy) {

@@ -746,21 +746,6 @@ public final class FunctionReferenceGenerator {
 		source.append("return value_list.get(listIndex);\n");
 		source.append("}\n");
 
-		source.append("public boolean isPresent() {\n");
-		source.append("return isPresent(false);\n");
-		source.append("}\n");
-
-		source.append("public boolean isPresent(final boolean legacy) {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("return !match_omit(legacy);\n");
-		source.append("}\n");
-
-		source.append("\t\tpublic boolean match_omit() {\n");
-		source.append("\t\t\treturn match_omit(false);\n");
-		source.append("\t\t}\n");
-
 		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");

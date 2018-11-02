@@ -162,7 +162,6 @@ public final class UnionGenerator {
 		generateTemplateValueOf(source, genName, displayName, fieldInfos);
 		generateTemplateSetType(source, genName, displayName);
 		generateTemplateListItem(source, genName, displayName);
-		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 		generateTemplateLog(source, fieldInfos);
@@ -1281,33 +1280,11 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * Generate the isPresent function
-	 *
-	 * @param source where the source code is to be generated.
-	 * */
-	private static void generateTemplateIsPresent(final StringBuilder source) {
-		source.append("public boolean isPresent() {\n");
-		source.append("return isPresent(false);\n");
-		source.append("}\n\n");
-
-		source.append("public boolean isPresent(final boolean legacy) {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("return !match_omit(legacy);\n");
-		source.append("}\n\n");
-	}
-
-	/**
 	 * Generate the match_omit function
 	 *
 	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("public boolean match_omit() {\n");
-		source.append("return match_omit(false);\n");
-		source.append("}\n\n");
-
 		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");

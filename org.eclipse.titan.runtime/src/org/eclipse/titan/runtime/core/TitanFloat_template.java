@@ -468,24 +468,6 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	// originally is_present (with default parameter)
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
-	// originally is_present
-	public boolean isPresent(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return false;
-		}
-
-		return !match_omit(legacy);
-	}
-
-	public boolean match_omit() {
-		return match_omit(false);
-	}
-
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

@@ -331,18 +331,6 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
-	public boolean isPresent(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return false;
-		} else {
-			return !match_omit(legacy);
-		}
-	}
-
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
@@ -367,10 +355,6 @@ public class TitanObjectid_template extends Base_Template {
 		default:
 			return false;
 		}
-	}
-
-	public boolean match_omit() {
-		return match_omit(false);
 	}
 
 	@Override

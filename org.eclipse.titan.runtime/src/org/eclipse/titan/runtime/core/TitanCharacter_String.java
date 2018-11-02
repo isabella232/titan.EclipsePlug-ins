@@ -1,10 +1,3 @@
-/******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
- ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
@@ -18,11 +11,6 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
-/**
- * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
- *
- * @author Kristof Szabados
- */
 public class TitanCharacter_String extends Base_Type {
 	private final TitanCharacter_String_identification identification; //ASN1_Choice_Type
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type

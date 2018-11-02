@@ -196,10 +196,6 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		set_selection(other_value);
 	}
 
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
 	public boolean isPresent(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -209,10 +205,6 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return false;
 		}
 		return !match_omit_(legacy);
-	}
-
-	public boolean match_omit() {
-		return match_omit(false);
 	}
 
 	public boolean match_omit(final boolean legacy) {

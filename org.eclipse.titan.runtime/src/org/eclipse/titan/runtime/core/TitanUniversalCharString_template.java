@@ -944,25 +944,6 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	// originally is_present (with default parameter)
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
-	// originally is_present
-	public boolean isPresent(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return false;
-		}
-
-		return !match_omit(legacy);
-	}
-
-	// originally match_omit (with default parameter)
-	public boolean match_omit() {
-		return match_omit(false);
-	}
-
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

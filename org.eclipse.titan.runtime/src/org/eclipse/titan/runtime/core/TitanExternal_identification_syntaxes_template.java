@@ -196,10 +196,6 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		set_selection(other_value);
 	}
 
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
 	public boolean isPresent(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -209,10 +205,6 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 			return false;
 		}
 		return !match_omit_(legacy);
-	}
-
-	public boolean match_omit() {
-		return match_omit(false);
 	}
 
 	public boolean match_omit(final boolean legacy) {

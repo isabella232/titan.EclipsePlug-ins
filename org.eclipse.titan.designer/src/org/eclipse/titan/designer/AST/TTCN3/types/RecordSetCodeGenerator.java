@@ -1829,11 +1829,6 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append('\n');
-		aSb.append("\t\tpublic boolean isPresent() {\n");
-		aSb.append("\t\t\treturn isPresent(false);\n");
-		aSb.append("\t\t}\n");
-
-		aSb.append('\n');
 		aSb.append("\t\tpublic boolean isPresent(final boolean legacy) {\n");
 		aSb.append("\t\t\treturn isPresent_(legacy);\n");
 		aSb.append("\t\t}\n");
@@ -1844,11 +1839,6 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\t\treturn false;\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn !match_omit_(legacy);\n");
-		aSb.append("\t\t}\n");
-
-		aSb.append('\n');
-		aSb.append("\t\tpublic boolean match_omit() {\n");
-		aSb.append("\t\t\treturn match_omit(false);\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
@@ -2758,23 +2748,15 @@ public final class RecordSetCodeGenerator {
 		source.append("set_selection(other_value);\n");
 		source.append("}\n\n");
 
-		source.append("public boolean isPresent() {\n");
-		source.append("return isPresent(false);\n");
-		source.append("}\n\n");
-
 		source.append("public boolean isPresent(final boolean legacy) {\n");
 		source.append("return isPresent_(legacy);\n");
 		source.append("}\n\n");
-
+//TODO check the underscore versions if they are needed.
 		source.append("private boolean isPresent_(final boolean legacy) {\n");
 		source.append("if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return !match_omit_(legacy);\n");
-		source.append("}\n\n");
-
-		source.append("public boolean match_omit() {\n");
-		source.append("return match_omit(false);\n");
 		source.append("}\n\n");
 
 		source.append("public boolean match_omit(final boolean legacy) {\n");

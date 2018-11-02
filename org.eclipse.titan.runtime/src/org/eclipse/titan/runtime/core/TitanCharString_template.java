@@ -266,20 +266,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return single_value.constGetAt(index);
 	}
 
-	// originally is_present (with default parameter)
-	public boolean isPresent() {
-		return isPresent(false);
-	}
-
-	// originally is_present
-	public boolean isPresent(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return false;
-		}
-
-		return !match_omit(legacy);
-	}
-
 	@Override
 	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanCharString) {
@@ -439,11 +425,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 
 		return value_list.get(listIndex);
-	}
-
-	//originally match_omit (with default parameter)
-	public boolean match_omit() {
-		return match_omit(false);
 	}
 
 	public boolean match_omit(final boolean legacy) {

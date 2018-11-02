@@ -134,7 +134,6 @@ public final class RecordOfGenerator {
 		}
 		generateTemplateConstructors( source, genName, ofTypeName, displayName );
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
-		generateTemplateIsPresent( source );
 		generateTemplateMatch( source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign( source, genName, displayName );
@@ -1228,26 +1227,6 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t}\n");
 		source.append("\t\tset_selection(other_value);\n");
-		source.append("\t}\n");
-	}
-
-	/**
-	 * Generate the isPresent function for template
-	 *
-	 * @param source where the source code is to be generated.
-	 */
-	private static void generateTemplateIsPresent(final StringBuilder source) {
-		source.append('\n');
-		source.append("\tpublic boolean isPresent() {\n");
-		source.append("\t\treturn isPresent(false);\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		source.append("\tpublic boolean isPresent(final boolean legacy) {\n");
-		source.append("\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("\t\t\treturn false;\n");
-		source.append("\t\t}\n");
-		source.append("\t\treturn !match_omit(legacy);\n");
 		source.append("\t}\n");
 	}
 

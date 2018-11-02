@@ -1558,10 +1558,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -1571,10 +1567,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -2003,6 +1995,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -2765,21 +2758,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.VerdictOp.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -4085,10 +4063,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -4098,10 +4072,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -4736,6 +4706,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -5175,10 +5146,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -5188,10 +5155,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -5540,6 +5503,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -6105,10 +6069,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -6118,10 +6078,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -6550,6 +6506,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -7249,10 +7206,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -7262,10 +7215,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -7774,6 +7723,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -8534,17 +8484,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Strings.str_list.");
 			}
 			set_selection(other_value);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
 		}
 
 		// originally match
@@ -10274,21 +10213,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -11277,10 +11201,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -11290,10 +11210,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -12491,10 +12407,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -12504,10 +12416,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -13047,6 +12955,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -13895,21 +13804,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type Parallel_reason.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -14975,21 +14869,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -15833,10 +15712,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -15846,10 +15721,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -16198,6 +16069,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -16897,21 +16769,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -17569,10 +17426,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -17582,10 +17435,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -17974,6 +17823,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -18803,17 +18653,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
 			set_selection(other_value);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
 		}
 
 		// originally match
@@ -21123,21 +20962,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -22921,21 +22745,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -23901,21 +23710,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.TestcaseEvent.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -24959,21 +24753,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -25678,10 +25457,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -25691,10 +25466,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -26099,6 +25870,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -26947,10 +26719,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -26960,10 +26728,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -27432,6 +27196,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -27868,10 +27633,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -27881,10 +27642,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -28233,6 +27990,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -29153,21 +28911,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.TimerEvent.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -30449,21 +30192,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -31713,10 +31441,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -31726,10 +31450,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -32318,6 +32038,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -33255,10 +32976,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -33268,10 +32985,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -33900,6 +33613,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -34619,21 +34333,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type LocationInfo_ent__type.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -35562,10 +35261,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -35575,10 +35270,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -35943,6 +35634,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -36376,10 +36068,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -36389,10 +36077,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -36741,6 +36425,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -37448,21 +37133,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type MatchingProblemType_reason.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -38483,21 +38153,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -39406,21 +39061,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -40324,21 +39964,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -40996,10 +40621,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -41009,10 +40630,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -41401,6 +41018,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -42176,21 +41794,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.MatchingFailureType.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -43188,21 +42791,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -43860,10 +43448,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -43873,10 +43457,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -44265,6 +43845,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -44867,10 +44448,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -44880,10 +44457,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -45312,6 +44885,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -46161,10 +45735,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -46174,10 +45744,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -46646,6 +46212,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -47369,17 +46936,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
 			set_selection(other_value);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
 		}
 
 		// originally match
@@ -48763,10 +48319,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -48776,10 +48328,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -49224,6 +48772,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -50062,21 +49611,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type Port__State_operation.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -51111,21 +50645,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -52071,10 +51590,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -52084,10 +51599,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -52476,6 +51987,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -53042,10 +52554,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -53055,10 +52563,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -53487,6 +52991,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -54396,10 +53901,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -54409,10 +53910,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -54961,6 +54458,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -55597,10 +55095,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -55610,10 +55104,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -56082,6 +55572,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -57112,10 +56603,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -57125,10 +56612,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -57837,6 +57320,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -58459,10 +57943,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -58472,10 +57952,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -58824,6 +58300,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -59323,10 +58800,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -59336,10 +58809,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -59728,6 +59197,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -60294,10 +59764,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -60307,10 +59773,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -60739,6 +60201,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -61465,21 +60928,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.ParallelEvent.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -62334,21 +61782,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -63004,10 +62437,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -63017,10 +62446,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -63369,6 +62794,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -64463,21 +63889,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.PortEvent.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -65759,10 +65170,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -65772,10 +65179,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -66204,6 +65607,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -67071,10 +66475,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -67084,10 +66484,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -67436,6 +66832,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -68421,10 +67818,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -68434,10 +67827,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -68946,6 +68335,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -70115,10 +69505,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -70128,10 +69514,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -70640,6 +70022,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -71311,10 +70694,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -71324,10 +70703,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -71796,6 +71171,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -72670,10 +72046,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -72683,10 +72055,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -73235,6 +72603,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -73673,10 +73042,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -73686,10 +73051,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -74038,6 +73399,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -74668,21 +74030,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.FinalVerdictType.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -75770,10 +75117,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -75783,10 +75126,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -76335,6 +75674,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -77060,17 +76400,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
 			set_selection(other_value);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
 		}
 
 		// originally match
@@ -78413,10 +77742,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -78426,10 +77751,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -78818,6 +78139,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -79252,10 +78574,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -79265,10 +78583,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -79617,6 +78931,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -80432,21 +79747,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type Port__Queue_operation.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -81376,10 +80676,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -81389,10 +80685,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -81901,6 +81193,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -82338,10 +81631,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -82351,10 +81640,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -82703,6 +81988,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -83304,10 +82590,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -83317,10 +82599,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -83749,6 +83027,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -84566,21 +83845,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -85208,10 +84472,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -85221,10 +84481,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -85573,6 +84829,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -86006,10 +85263,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -86019,10 +85272,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -86371,6 +85620,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -87020,10 +86270,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -87033,10 +86279,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -87385,6 +86627,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -88322,10 +87565,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -88335,10 +87574,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -88927,6 +88162,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -89671,10 +88907,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -89684,10 +88916,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -90257,6 +89485,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -90802,10 +90031,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -90815,10 +90040,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -91167,6 +90388,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -91854,21 +91076,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type FinalVerdictType_choice_notification.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -92726,21 +91933,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type ExecutorUnqualified_reason.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -93665,21 +92857,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type Msg__port__recv_operation.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -94686,21 +93863,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type Verdict.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -95794,21 +94956,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -96544,10 +95691,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -96557,10 +95700,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -96909,6 +96048,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -97546,10 +96686,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -97559,10 +96695,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -97991,6 +97123,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -98624,10 +97757,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -98637,10 +97766,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -99109,6 +98234,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -99950,21 +99076,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -100658,10 +99769,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -100671,10 +99778,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -101063,6 +100166,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -101856,17 +100960,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
 			set_selection(other_value);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
 		}
 
 		// originally match
@@ -103569,10 +102662,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -103582,10 +102671,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -103974,6 +103059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -104660,10 +103746,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -104673,10 +103755,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -105025,6 +104103,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -105692,10 +104771,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -105705,10 +104780,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -106177,6 +105248,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -106613,10 +105685,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -106626,10 +105694,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -106978,6 +106042,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -107890,21 +106955,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @TitanLoggerApi.MatchingEvent.choice.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -108972,21 +108022,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -109962,21 +108997,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return value_list.get(list_index);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
 		public boolean match_omit(final boolean legacy) {
 			if (is_ifPresent) {
 				return true;
@@ -110681,10 +109701,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -110694,10 +109710,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -111102,6 +110114,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -111674,10 +110687,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 			set_selection(other_value);
 		}
 
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
 		public boolean isPresent(final boolean legacy) {
 			return isPresent_(legacy);
 		}
@@ -111687,10 +110696,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
@@ -112079,6 +111084,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			is_ifPresent = param.get_ifpresent();
 		}
+
 		@Override
 		public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -112782,21 +111788,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Index overflow in a value list template of enumerated type ExecutorComponent_reason.");
 			}
 			return value_list.get(list_index);
-		}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
 		}
 
 		public boolean match_omit(final boolean legacy) {
