@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for function/altstep/testcase types.
+ * Utility class for generating the value and template classes for
+ * function/altstep/testcase types.
  *
  * starting/activating/executing is not yet supported
  *
@@ -46,13 +47,17 @@ public final class FunctionReferenceGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the value class of function/altstep/tetscase types
+	 * This function can be used to generate the value class of
+	 * function/altstep/tetscase types
 	 *
 	 * defFunctionrefClass in compiler2/functionref.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the function definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the function definition to generate code for.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
 		aData.addBuiltinTypeImport("Base_Type");
@@ -528,13 +533,17 @@ public final class FunctionReferenceGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the template class of function/altstep/tetscase types
+	 * This function can be used to generate the template class of
+	 * function/altstep/tetscase types
 	 *
 	 * defFunctionrefTemplate in compiler2/functionref.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the function definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the function definition to generate code for.
 	 * */
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
 		aData.addBuiltinTypeImport("Base_Template");

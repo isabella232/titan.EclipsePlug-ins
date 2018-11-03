@@ -43,9 +43,15 @@ public final class PortGenerator {
 		private final String mDisplayName;
 
 		/**
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param messageType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param messageTemplate
+		 *                the string representing the template type of
+		 *                this message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public messageTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
 			mJavaTypeName = messageType;
@@ -94,8 +100,12 @@ public final class PortGenerator {
 		/**
 		 * The constructor for simple mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName) {
 			this.targetName = targetType;
@@ -106,11 +116,20 @@ public final class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
-		 * @param functionName the string representing the name of the function.
-		 * @param functionDisplayName the string representing the function in error messages.
-		 * @param functionPrototype the prototype of the function.
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
+		 * @param functionName
+		 *                the string representing the name of the
+		 *                function.
+		 * @param functionDisplayName
+		 *                the string representing the function in error
+		 *                messages.
+		 * @param functionPrototype
+		 *                the prototype of the function.
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName, final String functionName, final String functionDisplayName, final FunctionPrototype_Type functionPrototype) {
 			this.targetName = targetType;
@@ -125,13 +144,24 @@ public final class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
-		 * @param typedescriptorName the string representing the typedescriptor.
-		 * @param encodingType the string representing the encoding type.
-		 * @param encodingOptions the string representing the options of the encoding type.
-		 * @param errorbeviour the string representing the errorbehaviour setting code.
-		 * @param mappingType encode or decode
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
+		 * @param typedescriptorName
+		 *                the string representing the typedescriptor.
+		 * @param encodingType
+		 *                the string representing the encoding type.
+		 * @param encodingOptions
+		 *                the string representing the options of the
+		 *                encoding type.
+		 * @param errorbeviour
+		 *                the string representing the errorbehaviour
+		 *                setting code.
+		 * @param mappingType
+		 *                encode or decode
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName, final String typedescriptorName, final String encodingType, final String encodingOptions, final String errorbeviour, final MessageMappingType_type mappingType) {
 			this.targetName = targetType;
@@ -162,9 +192,15 @@ public final class PortGenerator {
 		private final ArrayList<MessageTypeMappingTarget> targets;
 
 		/**
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param messageType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param messageTemplate
+		 *                the string representing the template type of
+		 *                this message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public MessageMappedTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
 			mJavaTypeName = messageType;
@@ -275,9 +311,12 @@ public final class PortGenerator {
 	 *
 	 * defPortClass in compiler2/port.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		aData.addImport("java.util.LinkedList");
@@ -793,12 +832,16 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates and returns the name of the class representing the port type.
-	 * In some cases this is generated by us, in other cases the user has to provide it.
+	 * This function generates and returns the name of the class
+	 * representing the port type. In some cases this is generated by us, in
+	 * other cases the user has to provide it.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
@@ -832,11 +875,15 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the declaration of the generated port type class.
+	 * This function generates the declaration of the generated port type
+	 * class.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateDeclaration(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
@@ -1068,11 +1115,16 @@ public final class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param mappedType the information about the outgoing message.
-	 * @param hasAddress true if the type has address
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param mappedType
+	 *                the information about the outgoing message.
+	 * @param hasAddress
+	 *                {@code true} if the type has address
 	 * */
 	private static void generateSendMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasAddress) {
 		boolean hasBuffer = false;
@@ -1266,10 +1318,14 @@ public final class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param outType the information about the outgoing message.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param outType
+	 *                the information about the outgoing message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
@@ -1366,13 +1422,19 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic receive or check(receive) function.
+	 * This function generates the generic receive or check(receive)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericReceive(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
@@ -1478,10 +1540,14 @@ public final class PortGenerator {
 	/**
 	 * This function generates the generic trigger function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericTrigger(final StringBuilder source, final PortDefinition portDefinition, final boolean isAddress) {
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
@@ -1582,12 +1648,18 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the receive or check(receive) function for a type
+	 * This function generates the receive or check(receive) function for a
+	 * type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
 	 * */
 	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -1668,9 +1740,13 @@ public final class PortGenerator {
 	/**
 	 * This function generates the trigger function for a type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
 	 * */
 	private static void generateTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -1748,13 +1824,19 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming message mapping part of the incoming_message function.
+	 * This function generates the incoming message mapping part of the
+	 * incoming_message function.
 	 *
-	 * @param aData only used to add imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param mappedType the information about the outgoing message.
-	 * @param hasSimple true if the port definition is simple
+	 * @param aData
+	 *                only used to add imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param mappedType
+	 *                the information about the outgoing message.
+	 * @param hasSimple
+	 *                {@code true} if the port definition is simple
 	 * */
 	private static void generateIncomingMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasSimple) {
 		// If has simple is true, then always the first one is the simple mapping,
@@ -1939,13 +2021,20 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming_message function for a type, for a user port
+	 * This function generates the incoming_message function for a type, for
+	 * a user port
 	 *
-	 * @param aData only used to add imports if needed
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param mappedType the information about the incoming message.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to add imports if needed
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param mappedType
+	 *                the information about the incoming message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIncommingMessageUser(final JavaGenData aData, final StringBuilder source, final int index, final MessageMappedTypeInfo mappedType, final PortDefinition portDefinition) {
 		final String typeValueName = mappedType.mJavaTypeName;
@@ -2044,12 +2133,18 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming_message function for a type, for a provider or regular port
+	 * This function generates the incoming_message function for a type, for
+	 * a provider or regular port
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIncommingMessageProvider(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -2135,8 +2230,10 @@ public final class PortGenerator {
 	/**
 	 * This function generates the process_message function for a type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
@@ -2185,9 +2282,12 @@ public final class PortGenerator {
 	/**
 	 * This function generates the call function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
@@ -2248,9 +2348,12 @@ public final class PortGenerator {
 	/**
 	 * This function generates the reply function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
@@ -2312,9 +2415,12 @@ public final class PortGenerator {
 	/**
 	 * This function generates the raise function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
@@ -2372,12 +2478,17 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic getcall or check(getcall) function.
+	 * This function generates the generic getcall or check(getcall)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
@@ -2458,15 +2569,23 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getcall or check(getcall) function for a signature type
+	 * This function generates the getcall or check(getcall) function for a
+	 * signature type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
@@ -2538,12 +2657,17 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic getreply or check(getreply) function.
+	 * This function generates the generic getreply or check(getreply)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
@@ -2626,15 +2750,23 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getreply or check(getreply) function for a signature type
+	 * This function generates the getreply or check(getreply) function for
+	 * a signature type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
@@ -2713,12 +2845,17 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic get_exception or check(catch) function.
+	 * This function generates the generic get_exception or check(catch)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
@@ -2803,13 +2940,18 @@ public final class PortGenerator {
 	/**
 	 * This function generates the get_exception or check(catch) function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
@@ -2892,10 +3034,14 @@ public final class PortGenerator {
 	/**
 	 * This function generates the type incoming call function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
@@ -2952,10 +3098,14 @@ public final class PortGenerator {
 	/**
 	 * This function generates the type incoming reply function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
@@ -3013,10 +3163,14 @@ public final class PortGenerator {
 	/**
 	 * This function generates the type incoming exception function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
@@ -3073,8 +3227,10 @@ public final class PortGenerator {
 	/**
 	 * This function generates the process_call function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3101,8 +3257,10 @@ public final class PortGenerator {
 	/**
 	 * This function generates the process_reply function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3133,8 +3291,10 @@ public final class PortGenerator {
 	/**
 	 * This function generates the process_exception function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3164,15 +3324,22 @@ public final class PortGenerator {
 
 	/**
 	 * A utility function for generating code for the standalone version of
-	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
-	 *  statements.
+	 * receive
+	 * /trigger/getcall/getreply/catch/check/check-receive/check-getcall
+	 * /check-getreply/check-catch/timeout/done/killed statements.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param statement the code generated for the statement as an expression.
-	 * @param statementName the name of the statement for display in error message
-	 * @param canRepeat true if the statement can repeat.
-	 * @param location the location of the statement to report errors to.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param statement
+	 *                the code generated for the statement as an expression.
+	 * @param statementName
+	 *                the name of the statement for display in error message
+	 * @param canRepeat
+	 *                {@code true} if the statement can repeat.
+	 * @param location
+	 *                the location of the statement to report errors to.
 	 * */
 	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final String statementName, final boolean canRepeat, final Location location) {
 		aData.addBuiltinTypeImport("TitanAlt_Status");
@@ -3221,14 +3388,23 @@ public final class PortGenerator {
 	/**
 	 * Generate code for logging
 	 *
-	 * Called from generateTypedGetcall, generateTypedgetreply, generateTypedexception
+	 * Called from generateTypedGetcall, generateTypedgetreply,
+	 * generateTypedexception
 	 *
-	 * @param source where the source code is to be generated
-	 * @param opStr "call", "reply" or "exception"
-	 * @param matchStr "catch_template.log_match", "getcall_template.log_match_call" or "getreply_template.log_match_reply"
-	 * @param isAddress generate for address or not?
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param index the index this signature type has in the selector.
+	 * @param source
+	 *                where the source code is to be generated
+	 * @param opStr
+	 *                "call", "reply" or "exception"
+	 * @param matchStr
+	 *                "catch_template.log_match",
+	 *                "getcall_template.log_match_call" or
+	 *                "getreply_template.log_match_reply"
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param index
+	 *                the index this signature type has in the selector.
 	 */
 	private static void generate_proc_incoming_data_logging(final StringBuilder source, final String opStr, final String matchStr, final boolean isAddress, final boolean isCheck, final int index) {
 		String procOp = "";
@@ -3268,12 +3444,16 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the necessary member functions of port array types
+	 * This function can be used to generate the necessary member functions
+	 * of port array types
 	 *
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static void generatePortArrayBodyMembers(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final long arraySize, final long indexOffset) {
 		aData.addBuiltinTypeImport("Index_Redirect");
@@ -3346,14 +3526,22 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the receive or check(receive) function for a array of port type
+	 * This function generates the receive or check(receive) function for a
+	 * array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck, final long arraySize, final long indexOffset) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -3387,14 +3575,22 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the trigger function for an array of port type
+	 * This function generates the trigger function for an array of port
+	 * type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType, final long arraySize, final long indexOffset) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -3427,17 +3623,27 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getcall or check(getcall) function for an array of port type
+	 * This function generates the getcall or check(getcall) function for an
+	 * array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
@@ -3470,17 +3676,27 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getreply or check(getreply) function for an array of port type
+	 * This function generates the getreply or check(getreply) function for
+	 * an array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
@@ -3515,15 +3731,24 @@ public final class PortGenerator {
 	/**
 	 * This function generates the get_exception or check(catch) function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";

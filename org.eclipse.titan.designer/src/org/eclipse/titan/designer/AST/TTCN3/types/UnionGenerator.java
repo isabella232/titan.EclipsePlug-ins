@@ -14,9 +14,11 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_codin
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for union/choice types.
+ * Utility class for generating the value and template classes for union/choice
+ * types.
  *
- * The code generated for union/choice types only differs in matching and encoding.
+ * The code generated for union/choice types only differs in matching and
+ * encoding.
  *
  * @author Kristof Szabados
  * */
@@ -44,11 +46,21 @@ public final class UnionGenerator {
 		private final String mTypeDescriptorName;
 
 		/**
-		 * @param fieldType the string representing the value type of this field in the generated code.
-		 * @param fieldTemplate the string representing the template type of this field in the generated code.
-		 * @param fieldName the string representing the name of this field in the generated code.
-		 * @param displayName the string representing the name of this field in the error messages and logs in the generated code.
-		 * @param typeDescriptorName the name of the type descriptor.
+		 * @param fieldType
+		 *                the string representing the value type of this
+		 *                field in the generated code.
+		 * @param fieldTemplate
+		 *                the string representing the template type of
+		 *                this field in the generated code.
+		 * @param fieldName
+		 *                the string representing the name of this field
+		 *                in the generated code.
+		 * @param displayName
+		 *                the string representing the name of this field
+		 *                in the error messages and logs in the
+		 *                generated code.
+		 * @param typeDescriptorName
+		 *                the name of the type descriptor.
 		 * */
 		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName, final String typeDescriptorName) {
 			mJavaTypeName = fieldType;
@@ -73,18 +85,28 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the value class of union/choice types
+	 * This function can be used to generate the value class of union/choice
+	 * types
 	 *
 	 * defUnionClass in compiler2/union.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param hasOptional true if the type has an optional field.
-	 * @param hasRaw true it the type has raw attributes.
-	 * @param raw the raw coding related settings if applicable.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param hasOptional
+	 *                {@code true} if the type has an optional field.
+	 * @param hasRaw
+	 *                {@code true} it the type has raw attributes.
+	 * @param raw
+	 *                the raw coding related settings if applicable.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw) {
@@ -132,16 +154,24 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the template class of union/choice types
+	 * This function can be used to generate the template class of
+	 * union/choice types
 	 *
 	 * defUnionClass in compiler2/union.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param hasOptional true if the type has an optional field.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param hasOptional
+	 *                {@code true} if the type has an optional field.
 	 * */
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
@@ -176,9 +206,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate member variables
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
 		source.append("public enum union_selection_type { UNBOUND_VALUE");
@@ -197,9 +231,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate constructors
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueConstructors( final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
 		source.append(MessageFormat.format("public {0}() '{'\n", genName));
@@ -213,10 +251,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate the copy_value function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
@@ -239,10 +282,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate assign functions
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueAssign(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("//originally operator=\n");
@@ -267,8 +315,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate the clean_up function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("//originally clean_up\n");
@@ -283,8 +333,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isChosen function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
 		source.append("public boolean isChosen(final union_selection_type checked_selection) {\n");
@@ -298,7 +350,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isBound function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 * */
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append("@Override\n");
@@ -310,8 +363,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isValue function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -334,7 +389,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isPresent function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 * */
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("@Override\n");
@@ -346,10 +402,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate equals operators (originally ==)
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueOperatorEquals(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
@@ -390,8 +451,11 @@ public final class UnionGenerator {
 	/**
 	 * Generate not equals operators (originally !=)
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
 	 * */
 	private static void generateValueNotEquals(final StringBuilder source, final String genName) {
 		source.append("//originally operator!=\n");
@@ -403,10 +467,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate getters/setters
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueGetterSetters(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
@@ -433,7 +502,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the get_selection function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 * */
 	private static void generateValueGetSelection(final StringBuilder source) {
 		source.append("public union_selection_type get_selection() {\n");
@@ -444,8 +514,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate log
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public void log() {\n");
@@ -469,9 +541,12 @@ public final class UnionGenerator {
 	/**
 	 * Generate set_param.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 */
 	private static void generateValueSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -504,8 +579,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate set_implicit_omit.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 */
 	private static void generateValueSetImplicitOmit(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -528,10 +605,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate encode_text/decode_text
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -572,13 +654,22 @@ public final class UnionGenerator {
 	/**
 	 * Generate encode/decode
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
-	 * @param hasRaw true if the union has raw attributes.
-	 * @param raw the raw attributes or null.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param rawNeeded
+	 *                {@code true} if encoding/decoding for RAW is to be
+	 *                generated.
+	 * @param hasRaw
+	 *                {@code true} if the union has raw attributes.
+	 * @param raw
+	 *                the raw attributes or null.
 	 * */
 	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded, final boolean hasRaw, final RawASTStruct raw) {
 		source.append("@Override\n");
@@ -888,9 +979,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate member variables
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
 		source.append("//if single value which value?\n");
@@ -906,8 +1001,11 @@ public final class UnionGenerator {
 	/**
 	 * Generate constructors
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
 	 * */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName){
 		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
@@ -928,11 +1026,17 @@ public final class UnionGenerator {
 	/**
 	 * Generate the copy_value and copy_template functions
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
@@ -991,8 +1095,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate the clean_up function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1028,8 +1134,11 @@ public final class UnionGenerator {
 	/**
 	 * Generate assign functions
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
 	 * */
 	private static void generateTemplateAssign(final StringBuilder source, final String genName) {
 		source.append("//originally operator=\n");
@@ -1078,10 +1187,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate the match function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("// originally match\n");
@@ -1145,9 +1259,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isChosen function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
 		source.append(MessageFormat.format("public boolean isChosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
@@ -1180,9 +1298,12 @@ public final class UnionGenerator {
 	/**
 	 * Generate the isValue function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateIsValue(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1205,10 +1326,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate the valueOf function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", genName));
@@ -1237,9 +1363,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate the setType function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
 		source.append("public void setType(final template_sel template_type, final int list_length) {\n");
@@ -1259,9 +1389,13 @@ public final class UnionGenerator {
 	/**
 	 * Generate the listItem function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append(MessageFormat.format("public {0}_template listItem(final int list_index)  '{'\n", genName));
@@ -1282,7 +1416,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the match_omit function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 * */
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
 		source.append("public boolean match_omit(final boolean legacy) {\n");
@@ -1313,10 +1448,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate getters/setters
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
@@ -1352,8 +1492,10 @@ public final class UnionGenerator {
 	/**
 	 * Generate log
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public void log() {\n");
@@ -1386,10 +1528,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate log_match
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateLogMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1444,10 +1591,15 @@ public final class UnionGenerator {
 	/**
 	 * Generate encode_text/decode_text
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1518,9 +1670,12 @@ public final class UnionGenerator {
 	/**
 	 * Generate set_param
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1598,9 +1753,12 @@ public final class UnionGenerator {
 	/**
 	 * Generate check_selection
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateCheckSelection(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
@@ -1727,5 +1885,4 @@ public final class UnionGenerator {
 			source.append("}\n");
 		}
 	}
-
 }

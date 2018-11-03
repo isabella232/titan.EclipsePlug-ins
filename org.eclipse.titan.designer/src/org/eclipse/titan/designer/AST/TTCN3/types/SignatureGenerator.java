@@ -7,7 +7,8 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for signature types.
+ * Utility class for generating the value and template classes for signature
+ * types.
  *
  *
  * @author Kristof Szabados
@@ -93,9 +94,12 @@ public final class SignatureGenerator {
 	 *
 	 * defSignatureClasses in compiler2/ttcn3/signature.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	public static void generateClasses(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		aData.addBuiltinTypeImport("TitanBoolean");
@@ -115,11 +119,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles calls.
+	 * This function can be used to generate for signature types that class
+	 * that handles calls.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateCallClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_call '{'\n", def.genName));
@@ -208,11 +216,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles redirections.
+	 * This function can be used to generate for signature types that class
+	 * that handles redirections.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_call_redirect '{'\n", def.genName));
@@ -273,11 +285,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles replies.
+	 * This function can be used to generate for signature types that class
+	 * that handles replies.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateReplyClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if(!def.isNoBlock) {
@@ -400,11 +416,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles reply redirections.
+	 * This function can be used to generate for signature types that class
+	 * that handles reply redirections.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateReplyRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if(!def.isNoBlock) {
@@ -492,11 +512,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles exceptions.
+	 * This function can be used to generate for signature types that class
+	 * that handles exceptions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateExceptionClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if (!def.signatureExceptions.isEmpty()) {
@@ -747,11 +771,15 @@ public final class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types the template class.
+	 * This function can be used to generate for signature types the
+	 * template class.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_template '{'\n", def.genName));

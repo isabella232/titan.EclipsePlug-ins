@@ -12,7 +12,8 @@ import java.text.MessageFormat;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for "record of/set of" types.
+ * Utility class for generating the value and template classes for
+ * "record of/set of" types.
  *
  * @author Arpad Lovassy
  */
@@ -24,12 +25,20 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" class
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param isSetOf true: set of, false: record of
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -94,12 +103,20 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" template class
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param isSetOf true: set of, false: record of
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	public static void generateTemplateClass( final JavaGenData aData,
 											  final StringBuilder source,
@@ -165,10 +182,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate member variables
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName,
 												  final boolean isSetOf ) {
@@ -189,10 +211,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate constructors
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
@@ -215,8 +242,10 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the copyList function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 */
 	private static void generateValueCopyList( final StringBuilder source, final String ofTypeName ) {
 		source.append('\n');
@@ -240,7 +269,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the isPresent function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append('\n');
@@ -253,7 +283,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the isBound function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append('\n');
@@ -272,8 +303,10 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the isValue function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 */
 	private static void generateValueIsValue(final StringBuilder source, final String ofTypeName) {
 		source.append('\n');
@@ -296,11 +329,17 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate assignment operators
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName,
 													 final String displayName, final boolean isSetOf ) {
@@ -371,10 +410,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate assign functions
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueAssign( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
@@ -405,10 +449,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate concatenate function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueConcatenate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
@@ -442,10 +491,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate rotate functions
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueRotate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
@@ -507,7 +561,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the clean_up function
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateValueCleanup(final StringBuilder source) {
 		source.append('\n');
@@ -519,9 +574,13 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate getter and setter functions
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueGetterSetters(final StringBuilder source, final String ofTypeName , final String displayName) {
 		source.append('\n');
@@ -659,10 +718,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate substr() and replace()
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
@@ -749,7 +813,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate log()
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateValueLog(final StringBuilder source) {
 		source.append("\tpublic void log() {\n");
@@ -772,9 +837,12 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_param
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateValueSetParam(final StringBuilder source, final String displayName, final boolean isSetOf) {
 		source.append("@Override\n");
@@ -843,7 +911,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_implicit_omit.
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateValueSetImplicitOmit(final StringBuilder source) {
 		source.append("\t\t@Override\n");
@@ -861,9 +930,12 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate encode_text/decode_text
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String ofTypeName, final String displayName) {
 		source.append("\t\t@Override\n");
@@ -891,10 +963,14 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate encode/decode
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param rawNeeded true if encoding/decoding for RAW is to be generated
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param rawNeeded
+	 *                true if encoding/decoding for RAW is to be generated
 	 */
 	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName, final boolean rawNeeded) {
 		source.append("\t\t@Override\n");
@@ -1046,9 +1122,13 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate member variables for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 */
 	private static void generateTemplateDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
 		source.append('\n');
@@ -1070,12 +1150,15 @@ public final class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate member variables for template
-	 * ONLY for set of
+	 * Generate member variables for template ONLY for set of
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 */
 	private static void generateTemplateDeclarationSetOf( final StringBuilder source, final String genName, final String ofTypeName ) {
 
@@ -1110,10 +1193,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate constructors for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
@@ -1161,11 +1249,17 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the copyTemplate function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName,
 													  final String displayName, final boolean isSetOf ) {
@@ -1233,10 +1327,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the match function
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateMatch( final StringBuilder source, final String genName, final String displayName, final boolean isSetOf ) {
 		source.append('\n');
@@ -1318,7 +1417,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the match_omit function
 	 *
-	 * @param source: where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateTemplateMatchOmit( final StringBuilder source ) {
 		source.append('\n');
@@ -1350,9 +1450,13 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate assign functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
@@ -1420,7 +1524,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the clean_up function for template
 	 *
-	 * @param source where the source code is to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
 	 */
 	private static void generateTemplateCleanup(final StringBuilder source) {
 		source.append('\n');
@@ -1446,9 +1551,13 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate replace functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateReplace(final StringBuilder source, final String genName, final String displayName) {
  		//int,int
@@ -1497,10 +1606,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate getter and setter functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
@@ -1564,13 +1678,17 @@ public final class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate getter and setter functions for template
-	 * ONLY for set of
+	 * Generate getter and setter functions for template ONLY for set of
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetterSettersSetOf(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
@@ -1588,10 +1706,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate concat functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateConcat(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
@@ -1684,11 +1807,17 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_size and sizeof functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateSetSize( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
@@ -1857,8 +1986,11 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate n_elem function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
 	 */
 	private static void generateTemplateNElem(final StringBuilder source, final String genName) {
 		source.append('\n');
@@ -1887,8 +2019,11 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate matchv function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
 	 */
 	private static void generateTemplateMatchv(final StringBuilder source, final String genName) {
 		source.append('\n');
@@ -1925,8 +2060,11 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate is_value function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
 	 */
 	private static void generateTemplateIsValue(final StringBuilder source, final String genName) {
 		source.append('\n');
@@ -1947,11 +2085,17 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_type function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateSetType( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
@@ -1984,9 +2128,14 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating listItem() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
@@ -2004,9 +2153,13 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate get_list_item function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append('\n');
@@ -2026,9 +2179,14 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating valueOf() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
@@ -2048,8 +2206,12 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating substr() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
 	 */
 	private static void generateTemplateSubstr( final StringBuilder aSb, final String genName ) {
 		aSb.append('\n');
@@ -2063,10 +2225,16 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating log() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param isSetOf true: set of, false: record of
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final String displayName, final boolean isSetOf ) {
 		aSb.append('\n');
@@ -2234,10 +2402,15 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate encode_text/decode_text
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateEncodeDecodeText( final StringBuilder aSb, final String genName, final String displayName, final String ofTypeName) {
 		aSb.append("\t\t@Override\n");
@@ -2308,9 +2481,12 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_param
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param isSetOf true: set of, false: record of
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
 	private static void generateTemplateSetParam( final StringBuilder aSb, final String displayName, final boolean isSetOf) {
 		aSb.append("@Override\n");
@@ -2456,8 +2632,11 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate get_istemplate_kind function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
 	 */
 	private static void generateTemplateGetIstemplateKind(final StringBuilder source, final String genName) {
 		source.append('\n');
@@ -2496,8 +2675,10 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate check_restriction function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
 		source.append("\t@Override\n");

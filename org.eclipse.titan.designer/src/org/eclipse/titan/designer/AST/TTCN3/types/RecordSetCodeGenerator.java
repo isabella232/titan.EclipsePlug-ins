@@ -18,9 +18,11 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for record and set types.
+ * Utility class for generating the value and template classes for record and
+ * set types.
  *
- * The code generated for record and set types only differs in matching and encoding.
+ * The code generated for record and set types only differs in matching and
+ * encoding.
  *
  * @author Kristof Szabados
  * @author Arpad Lovassy
@@ -60,13 +62,25 @@ public final class RecordSetCodeGenerator {
 		public RawASTStruct raw;
 
 		/**
-		 * @param fieldType the string representing the type of this field in the generated code.
-		 * @param fieldTemplateType the string representing the template type of this field in the generated code.
-		 * @param fieldName the string representing the name of this field in the generated code.
-		 * @param displayName The user readable name of the field, typically used in error messages
-		 * @param isOptional true if the field is optional.
-		 * @param debugName additional text printed out in a comment after the generated local variables.
-		 * @param typeDescriptorName the name of the type descriptor.
+		 * @param fieldType
+		 *                the string representing the type of this field
+		 *                in the generated code.
+		 * @param fieldTemplateType
+		 *                the string representing the template type of
+		 *                this field in the generated code.
+		 * @param fieldName
+		 *                the string representing the name of this field
+		 *                in the generated code.
+		 * @param displayName
+		 *                The user readable name of the field, typically
+		 *                used in error messages
+		 * @param isOptional
+		 *                {@code true} if the field is optional.
+		 * @param debugName
+		 *                additional text printed out in a comment after
+		 *                the generated local variables.
+		 * @param typeDescriptorName
+		 *                the name of the type descriptor.
 		 * */
 		public FieldInfo( final String fieldType, final String fieldTemplateType, final String fieldName,
 						  final String displayName, final boolean isOptional, final boolean ofType, final String debugName, final String typeDescriptorName) {
@@ -100,19 +114,31 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the value class of record and set types
+	 * This function can be used to generate the value class of record and
+	 * set types
 	 *
 	 * defRecordClass in compilers/record.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param className the name of the generated class representing the record/set type.
-	 * @param classDisplayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param hasOptional true if the type has an optional field.
-	 * @param isSet true if generating code for a set, false if generating code for a record.
-	 * @param hasRaw true it the type has raw attributes.
-	 * @param raw the raw coding related settings if applicable.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param className
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param classDisplayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param hasOptional
+	 *                {@code true} if the type has an optional field.
+	 * @param isSet
+	 *                {@code true} if generating code for a set, {@code false} if generating
+	 *                code for a record.
+	 * @param hasRaw
+	 *                {@code true} if the type has raw attributes.
+	 * @param raw
+	 *                the raw coding related settings if applicable.
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw) {
@@ -172,17 +198,27 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the template class of record and set types
+	 * This function can be used to generate the template class of record
+	 * and set types
 	 *
 	 * defRecordClass in compilers/record.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param className the name of the generated class representing the record/set type.
-	 * @param classDisplayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param hasOptional true if the type has an optional field.
-	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param className
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param classDisplayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param hasOptional
+	 *                {@code true} if the type has an optional field.
+	 * @param isSet
+	 *                {@code true} if generating code for a set, false if generating
+	 *                code for a record.
 	 */
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String className,
 			final String classDisplayName, final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
@@ -226,9 +262,13 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating declaration of the member variables
-	 * @param aData the generated java code with other info
-	 * @param source the source to be updated
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aData
+	 *                the generated java code with other info
+	 * @param source
+	 *                the source to be updated
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
@@ -250,9 +290,13 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating constructor without parameter
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record/set class
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param aClassName
+	 *                the class name of the record/set class
 	 */
 	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
@@ -270,11 +314,15 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating constructor with many parameters (one for each record/set field)
+	 * Generating constructor with many parameters (one for each record/set
+	 * field)
 	 *
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record/set class
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param aClassName
+	 *                the class name of the record/set class
 	 */
 	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
@@ -318,10 +366,15 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating constructor with 1 parameter (copy constructor)
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record/set class
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param aClassName
+	 *                the class name of the record/set class
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateConstructorCopy( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
 		aSb.append( '\n' );
@@ -344,11 +397,17 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating assign() function
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record/set class
-	 * @param classReadableName the readable name of the class
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param aClassName
+	 *                the class name of the record/set class
+	 * @param classReadableName
+	 *                the readable name of the class
 	 */
 	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
@@ -383,8 +442,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating cleanUp() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateCleanUp( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic void cleanUp() {\n" );
@@ -398,8 +460,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isBound() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
@@ -424,8 +489,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isPresent() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
@@ -436,8 +504,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isValue() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
@@ -466,8 +537,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating sizeOf() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
@@ -499,8 +573,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating log() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateLog(final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append("\t\tpublic void log() {\n");
@@ -525,10 +602,14 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate set_param.
 	 *
-	 * @param aSb the output, where the java code is written
-	 * @param classReadableName the readable name of the class
-	 * @param fieldInfos sequence field variable and type names
-	 * @param isSet: true if a set, false if a record
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param classReadableName
+	 *                the readable name of the class
+	 * @param fieldInfos
+	 *                sequence field variable and type names
+	 * @param isSet
+	 *                {@code true} if a set, {@code false} if a record
 	 */
 	private static void generateValueSetParam(final StringBuilder aSb, final String classReadableName, final List<FieldInfo> fieldInfos, final boolean isSet) {
 		aSb.append("@Override\n");
@@ -582,8 +663,10 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate set_implicit_omit.
 	 *
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateValueSetImplicitOmit(final StringBuilder aSb, final List<FieldInfo> aNamesList) {
 		aSb.append("\t\t@Override\n");
@@ -610,8 +693,10 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generating encode_text/decode_text
 	 *
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateValueEncodeDecodeText(final StringBuilder aSb, final List<FieldInfo> aNamesList) {
 		aSb.append("\t\t@Override\n");
@@ -636,14 +721,23 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate encode/decode
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source: where the source code is to be generated.
-	 * @param genName: the name of the generated class representing the union/choice type.
-	 * @param displayName: the user readable name of the type to be generated.
-	 * @param fieldInfos: the list of information about the fields.
-	 * @param isSet: true if a set, false if a record
-	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
-	 * @param raw the raw coding related settings if applicable.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param isSet
+	 *                {@code true} if a set, {@code false} if a record
+	 * @param rawNeeded
+	 *                {@code true} if encoding/decoding for RAW is to be generated.
+	 * @param raw
+	 *                the raw coding related settings if applicable.
 	 * */
 	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded, final RawASTStruct raw) {
 		source.append("@Override\n");
@@ -1452,8 +1546,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isBound() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateTemplateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
@@ -1481,8 +1578,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isValue() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateTemplateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
@@ -1507,10 +1607,15 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating operatorEquals() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record/set class
-	 * @param classReadableName the readable name of the class
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param aClassName
+	 *                the class name of the record/set class
+	 * @param classReadableName
+	 *                the readable name of the class
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
@@ -1534,8 +1639,11 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating getters/setters for the member variables
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
 	 */
 	private static void generateGettersSetters( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
@@ -1576,10 +1684,15 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate member variables for template
 	 *
-	 * @param aData the generated java code with other info
-	 * @param source the source to be updated
-	 * @param aNamesList sequence field variable and type names
-	 * @param className the name of the generated class representing the record/set type.
+	 * @param aData
+	 *                the generated java code with other info
+	 * @param source
+	 *                the source to be updated
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param className
+	 *                the name of the generated class representing the
+	 *                record/set type.
 	 */
 	private static void generateTemplateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String className ) {
@@ -1605,9 +1718,12 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate getters for template
 	 *
-	 * @param source the source to be updated
-	 * @param aNamesList sequence field variable and type names
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                the source to be updated
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetter( final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String displayName ) {
@@ -1652,9 +1768,13 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate constructors for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
@@ -1696,9 +1816,13 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate assign functions for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
@@ -1766,10 +1890,15 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate the copyTemplate function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		source.append('\n');
@@ -1825,7 +1954,9 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating isPresent() function for template
-	 * @param aSb the output, where the java code is written
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append('\n');
@@ -1873,10 +2004,16 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating valueOf() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		aSb.append('\n');
@@ -1903,9 +2040,14 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating listItem() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
@@ -1922,9 +2064,14 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating setType() function for template
-	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
@@ -1944,10 +2091,15 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate the match function for template
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateMatch( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		source.append('\n');
@@ -2005,9 +2157,13 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating sizeOf() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String displayName ) {
 		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
@@ -2065,10 +2221,16 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating log() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * 
+	 * @param aSb
+	 *                the output, where the java code is written
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append('\n');
@@ -2191,10 +2353,15 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate encode_text/decode_text
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the record/set type.
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param aNamesList
+	 *                sequence field variable and type names
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append("\t\t@Override\n");
@@ -2261,10 +2428,14 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate set_param
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param isSet: true if a set, false if a record
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param isSet
+	 *                {@code true} if a set, {@code false} if a record
 	 * */
 	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
 		source.append("@Override\n");
@@ -2336,10 +2507,14 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate check_restriction
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param displayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param isSet: true if a set, false if a record
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param isSet
+	 *                {@code true} if a set, {@code false} if a record
 	 * */
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
 		source.append("@Override\n");
@@ -2375,15 +2550,23 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the value class of record and set types
+	 * This function can be used to generate the value class of record and
+	 * set types
 	 *
 	 * defEmptyRecordClass in compilers/record.c
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param className the name of the generated class representing the record/set type.
-	 * @param classDisplayName the user readable name of the type to be generated.
-	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param className
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param classDisplayName
+	 *                the user readable name of the type to be generated.
+	 * @param rawNeeded
+	 *                {@code true} if encoding/decoding for RAW is to be
+	 *                generated.
 	 */
 	public static void generateEmptyValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname, final boolean rawNeeded) {
 		aData.addBuiltinTypeImport("TitanNull_Type");
@@ -2605,17 +2788,27 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the template class of record and set types
+	 * This function can be used to generate the template class of record
+	 * and set types
 	 *
 	 * defEmptyRecordTemplate in compilers/record.c
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param className the name of the generated class representing the record/set type.
-	 * @param classDisplayName the user readable name of the type to be generated.
-	 * @param fieldInfos the list of information about the fields.
-	 * @param hasOptional true if the type has an optional field.
-	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param className
+	 *                the name of the generated class representing the
+	 *                record/set type.
+	 * @param classDisplayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param hasOptional
+	 *                {@code true} if the type has an optional field.
+	 * @param isSet
+	 *                {@code true} if generating code for a set,
+	 *                {@code false} if generating code for a record.
 	 */
 	public static void generateEmptyTemplateClass(final JavaGenData aData, final StringBuilder source, final String className,
 			final String classDisplayName, final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
@@ -3018,9 +3211,12 @@ public final class RecordSetCodeGenerator {
 	 *
 	 * used to generate into conditionals.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param taglist the taglist as data.
-	 * @param is_equal will it be used in equals style check?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param taglist
+	 *                the taglist as data.
+	 * @param is_equal
+	 *                will it be used in equals style check?
 	 */
 	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, final boolean is_equal) {
 		for (int i = 0; i < taglist.fields.size(); i++) {
@@ -3090,8 +3286,10 @@ public final class RecordSetCodeGenerator {
 	 * 
 	 * used to generate encoding code for the tags.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param taglist the taglist as data.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param taglist
+	 *                the taglist as data.
 	 */
 	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
 		source.append("RAW_enc_tree temp_leaf;\n");
@@ -3121,12 +3319,18 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * This function generates the conditional check decoding length limit.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of field informations.
-	 * @param i the index of the field to generate for.
-	 * @param raw the raw attribute of the record/set.
-	 * @param raw_options the pre-calculated raw options.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of field informations.
+	 * @param i
+	 *                the index of the field to generate for.
+	 * @param raw
+	 *                the raw attribute of the record/set.
+	 * @param raw_options
+	 *                the pre-calculated raw options.
 	 */
 	private static void genRawFieldDecodeLimit(final JavaGenData aData, final ExpressionStruct expression, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options) {
 		int nof_args = 1;
@@ -3161,14 +3365,22 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * This function generates the code for decoding a record field.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param fieldInfos the list of field informations.
-	 * @param i the index of the field to generate for.
-	 * @param raw the raw attribute of the record/set.
-	 * @param raw_options the pre-calculated raw options.
-	 * @param delayed_decode true to generated for delayed decoding.
-	 * @param prev_ext_group the index of the previous extension group.
+	 * @param aData
+	 *                only used to update imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param fieldInfos
+	 *                the list of field informations.
+	 * @param i
+	 *                the index of the field to generate for.
+	 * @param raw
+	 *                the raw attribute of the record/set.
+	 * @param raw_options
+	 *                the pre-calculated raw options.
+	 * @param delayed_decode
+	 *                {@code true} to generated for delayed decoding.
+	 * @param prev_ext_group
+	 *                the index of the previous extension group.
 	 */
 	private static void genRawDecodeRecordField(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options, final boolean delayed_decode, final AtomicInteger prev_ext_group) {
 		final raw_option_struct tempRawOption = raw_options.get(i);
