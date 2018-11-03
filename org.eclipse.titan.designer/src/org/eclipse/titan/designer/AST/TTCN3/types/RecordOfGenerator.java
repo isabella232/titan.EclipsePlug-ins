@@ -2624,9 +2624,6 @@ public final class RecordOfGenerator {
 		}
 	}
 
-//TODO
-//*/
-	//TODO: implement void set_param(Module_Param& param)
 	//TODO: implement Module_Param* get_param(Module_Param_Name& param_name) const
 
 	/**
