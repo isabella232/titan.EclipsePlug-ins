@@ -23,7 +23,6 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 public class TitanComponent_template extends Base_Template {
 	public static final TitanComponent_template any_compref = new TitanComponent_template(template_sel.ANY_VALUE);
 
-	// TODO maybe should be renamed in core
 	private int single_value;
 
 	// value_list part

@@ -23,8 +23,6 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * Not yet complete rewrite
  */
 public class TitanFloat_template extends Base_Template {
-	// int_val part
-	// TODO maybe should be renamed in core
 	private TitanFloat single_value;
 
 	// value_list part
