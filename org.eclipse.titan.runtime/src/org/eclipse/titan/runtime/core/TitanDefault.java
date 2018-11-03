@@ -20,8 +20,13 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  *
  */
 public class TitanDefault extends Base_Type {
-	// TODO check if we could use null instead of this object
-	static final Default_Base UNBOUND_DEFAULT = new Default_Base();
+	/** internal object to indicate unbound state. */
+	static final Default_Base UNBOUND_DEFAULT = new Default_Base() {
+		@Override
+		public TitanAlt_Status call_altstep() {
+			return TitanAlt_Status.ALT_NO;
+		}
+	};
 
 	Default_Base default_ptr;
 
