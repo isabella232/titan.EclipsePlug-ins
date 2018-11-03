@@ -440,7 +440,6 @@ public final class ASN1Module extends Module {
 
 		imports.generateCode(aData);
 
-		aData.getClassHeader().append("// TODO ASN.1 module are NOT YET supported by the Java code Generator!\n");
 		aData.getClassHeader().append(MessageFormat.format("public final class {0} extends TTCN_Module '{'\n", name));
 
 		final StringBuilder constructor = aData.getConstructor();
