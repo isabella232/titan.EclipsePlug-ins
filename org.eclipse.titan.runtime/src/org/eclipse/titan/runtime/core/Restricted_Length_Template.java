@@ -74,9 +74,6 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	//TODO: implement according to:
-	//      Template.hh: class Restricted_Length_Template : public Base_Template
-
 	protected int check_section_is_single(final int min_size, final boolean has_any_or_none, final String operation_name, final String type_name_prefix,
 			final String type_name) {
 		if (has_any_or_none) {
