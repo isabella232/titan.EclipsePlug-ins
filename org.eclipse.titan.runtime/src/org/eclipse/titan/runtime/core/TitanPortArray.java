@@ -141,6 +141,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
+	@Override
 	public void log() {
 		TTCN_Logger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {

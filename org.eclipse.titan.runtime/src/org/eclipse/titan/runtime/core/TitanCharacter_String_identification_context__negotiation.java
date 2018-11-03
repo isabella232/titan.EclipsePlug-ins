@@ -133,6 +133,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		return new TitanInteger(2);
 	}
 
+	@Override
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

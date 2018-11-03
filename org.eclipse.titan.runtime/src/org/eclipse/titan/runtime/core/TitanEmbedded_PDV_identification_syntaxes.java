@@ -133,6 +133,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		return new TitanInteger(2);
 	}
 
+	@Override
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

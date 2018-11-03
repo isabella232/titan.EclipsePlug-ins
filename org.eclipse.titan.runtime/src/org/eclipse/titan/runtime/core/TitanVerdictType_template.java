@@ -293,6 +293,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return value_list.get(listIndex);
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

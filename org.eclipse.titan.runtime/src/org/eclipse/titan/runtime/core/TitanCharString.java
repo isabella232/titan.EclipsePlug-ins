@@ -110,14 +110,17 @@ public class TitanCharString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
+	@Override
 	public boolean isBound() {
 		return val_ptr != null;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		return val_ptr != null;
 	}
@@ -187,6 +190,7 @@ public class TitanCharString extends Base_Type {
 		INIT, PCHAR, NPCHAR;
 	}
 
+	@Override
 	public void log() {
 		if (val_ptr != null) {
 			States state = States.INIT;

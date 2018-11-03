@@ -381,6 +381,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

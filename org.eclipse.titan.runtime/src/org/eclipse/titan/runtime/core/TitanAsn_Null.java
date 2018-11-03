@@ -25,14 +25,30 @@ public class TitanAsn_Null extends Base_Type {
 
 	private boolean boundFlag;
 
+
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanAsn_Null() {
 		boundFlag = false;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * 
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanAsn_Null(final Asn_Null_Type otherValue) {
 		boundFlag = true;
 	}
 
+	/**
+	 * Copy constructor.
+	 * 
+	 * @param otherValue
+	 *                the value to copy.
+	 * */
 	public TitanAsn_Null(final TitanAsn_Null otherValue) {
 		if (!otherValue.boundFlag) {
 			throw new TtcnError("Copying an unbound ASN.1 NULL value.");
@@ -112,18 +128,22 @@ public class TitanAsn_Null extends Base_Type {
 		return !operatorEquals(otherValue);
 	}
 
+	@Override
 	public boolean isBound() {
 		return boundFlag;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return boundFlag;
 	}
 
+	@Override
 	public boolean isValue() {
 		return boundFlag;
 	}
 
+	@Override
 	public void log() {
 		if (boundFlag) {
 			TTCN_Logger.log_event_str("NULL");

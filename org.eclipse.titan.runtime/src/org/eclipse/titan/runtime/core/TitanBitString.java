@@ -204,10 +204,12 @@ public class TitanBitString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
+	@Override
 	public boolean isBound() {
 		return bits_ptr != null;
 	}
 
+	@Override
 	public boolean isValue() {
 		return isBound();
 	}
@@ -680,6 +682,7 @@ public class TitanBitString extends Base_Type {
 		return constGetAt(index_value.getInt());
 	}
 
+	@Override
 	public void log() {
 		if (bits_ptr != null) {
 			TTCN_Logger.log_char('\'');

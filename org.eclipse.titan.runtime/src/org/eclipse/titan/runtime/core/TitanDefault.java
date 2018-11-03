@@ -183,6 +183,7 @@ public class TitanDefault extends Base_Type {
 		default_ptr = UNBOUND_DEFAULT;
 	}
 
+	@Override
 	public void log() {
 		TTCN_Default.log(default_ptr);
 	}

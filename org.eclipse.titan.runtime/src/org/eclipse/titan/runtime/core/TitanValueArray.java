@@ -120,6 +120,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_elements = null;
 	}
 
+	@Override
 	public boolean isValue() {
 		for (int i = 0; i < array_size; ++i) {
 			if (!array_elements[i].isValue()) {

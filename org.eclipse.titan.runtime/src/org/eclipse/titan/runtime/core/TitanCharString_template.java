@@ -614,6 +614,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return dec_match.dec_match.get_type_descr();
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:

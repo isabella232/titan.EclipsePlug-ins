@@ -381,6 +381,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		}
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

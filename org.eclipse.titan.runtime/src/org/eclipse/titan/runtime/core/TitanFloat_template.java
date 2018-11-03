@@ -403,6 +403,7 @@ public class TitanFloat_template extends Base_Template {
 		return single_value;
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE: {

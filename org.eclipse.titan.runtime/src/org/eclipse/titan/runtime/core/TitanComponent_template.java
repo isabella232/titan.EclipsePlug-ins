@@ -275,6 +275,7 @@ public class TitanComponent_template extends Base_Template {
 		return value_list.get(list_index);
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

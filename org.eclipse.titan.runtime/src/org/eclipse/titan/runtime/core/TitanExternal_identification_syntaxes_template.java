@@ -381,6 +381,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

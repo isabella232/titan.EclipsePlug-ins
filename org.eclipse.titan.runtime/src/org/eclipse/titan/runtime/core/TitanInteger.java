@@ -556,14 +556,17 @@ public class TitanInteger extends Base_Type {
 		return nativeFlag;
 	}
 
+	@Override
 	public boolean isBound() {
 		return boundFlag;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		return boundFlag;
 	}
@@ -592,6 +595,7 @@ public class TitanInteger extends Base_Type {
 		return getBigInteger().toString();
 	}
 
+	@Override
 	public void log() {
 		if (boundFlag) {
 			if (nativeFlag) {

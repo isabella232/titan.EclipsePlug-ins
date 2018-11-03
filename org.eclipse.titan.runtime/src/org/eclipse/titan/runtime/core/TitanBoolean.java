@@ -82,14 +82,17 @@ public class TitanBoolean extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
+	@Override
 	public boolean isBound() {
 		return boolean_value != null;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		return boolean_value != null;
 	}
@@ -233,7 +236,7 @@ public class TitanBoolean extends Base_Type {
 		return boolean_value.toString();
 	}
 
-	// log()
+	@Override
 	public void log() {
 		if (boolean_value != null) {
 			TTCN_Logger.log_event_str(boolean_value.toString());

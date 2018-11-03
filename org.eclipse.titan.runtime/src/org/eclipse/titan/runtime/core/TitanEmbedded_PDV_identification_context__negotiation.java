@@ -133,6 +133,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		return new TitanInteger(2);
 	}
 
+	@Override
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

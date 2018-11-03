@@ -150,6 +150,7 @@ public class TitanVerdictType extends Base_Type {
 		return verdict_value;
 	}
 
+	@Override
 	public void log() {
 		if (isValid(verdict_value)) {
 			TTCN_Logger.log_event_str(verdict_name[verdict_value.ordinal()]);

@@ -381,6 +381,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		}
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

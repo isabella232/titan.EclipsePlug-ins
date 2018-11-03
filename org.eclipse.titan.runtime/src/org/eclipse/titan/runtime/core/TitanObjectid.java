@@ -212,6 +212,7 @@ public class TitanObjectid extends Base_Type {
 		return new TitanInteger(p_int);
 	}
 
+	@Override
 	public void log() {
 		if (components_ptr != null) {
 			TTCN_Logger.log_event_str("objid { ");

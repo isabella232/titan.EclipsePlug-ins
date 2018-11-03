@@ -262,6 +262,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	public TitanEmbedded_PDV_identification.union_selection_type get_selection() {
 		return union_selection;
 	}
+	@Override
 	public void log() {
 		switch (union_selection) {
 		case ALT_syntaxes:

@@ -170,6 +170,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optionalSelection;
 	}
 
+	@Override
 	public void log() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
@@ -234,6 +235,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
+	@Override
 	public boolean isBound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
@@ -247,7 +249,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally is_present
+	@Override
 	public boolean isPresent() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection);
 	}
@@ -270,11 +272,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
+	@Override
 	public boolean isValue() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
 				&& optionalValue.isValue();
 	}
 
+	@Override
 	public boolean isOptional() {
 		return true;
 	}

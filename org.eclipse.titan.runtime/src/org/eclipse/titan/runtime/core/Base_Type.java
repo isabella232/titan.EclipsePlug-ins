@@ -89,19 +89,25 @@ public abstract class Base_Type {
 	 * Note: this is not the TTCN-3 ispresent()!
 	 * causes DTE, must be used only if the field is OPTIONAL<>
 	 *
+	 * is_present() in the core.
+	 *
 	 * @return true if the value is present.
 	 */
 	public abstract boolean isPresent();
 
 	/**
 	 * Whether the value is bound.
-	 *
+	 * 
+	 * is_bound() in the core.
+	 * 
 	 * @return true if the value is bound.
 	 */
 	public abstract boolean isBound();
 
 	/**
 	 * Whether the value is a actual value.
+	 *
+	 * is_value in the core.
 	 *
 	 * @return true if the value is a actual value.
 	 */
@@ -111,6 +117,8 @@ public abstract class Base_Type {
 
 	/**
 	 * Whether the value is optional.
+	 *
+	 * is_optional in the core.
 	 *
 	 * @return true if the value is optional.
 	 */

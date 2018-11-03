@@ -161,6 +161,7 @@ public class TitanExternal extends Base_Type {
 		return new TitanInteger(sizeof);
 	}
 
+	@Override
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

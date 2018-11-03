@@ -81,11 +81,24 @@ public abstract class Base_Template {
 		is_ifPresent = true;
 	}
 
-	//originally isBound
+	/**
+	 * Whether the value is bound.
+	 * 
+	 * is_bound() in the core.
+	 * 
+	 * @return {@code true} if the value is bound.
+	 */
 	public boolean isBound() {
 		return templateSelection != template_sel.UNINITIALIZED_TEMPLATE;
 	}
-	//originally is_value
+
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * is_value in the core.
+	 *
+	 * @return {@code true} if the value is a actual value.
+	 */
 	public boolean isValue() {
 		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
 	}

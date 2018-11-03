@@ -1189,6 +1189,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -1758,6 +1759,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -2304,6 +2306,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_setVerdict:
@@ -2859,6 +2862,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (FinalVerdictType_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -3496,6 +3500,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -4339,6 +4344,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -4867,6 +4873,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -5316,6 +5323,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -5700,6 +5708,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -6269,6 +6278,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -6747,6 +6757,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(5);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -7436,6 +7447,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -8219,6 +8231,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			return replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
+		@Override
 		public void log() {
 			if (valueElements == null) {
 				TTCN_Logger.log_event_unbound();
@@ -9030,6 +9043,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().substr(index, returncount);
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -9620,6 +9634,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_executorRuntime:
@@ -10415,6 +10430,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (ExecutorUnqualified_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -10928,17 +10944,17 @@ public final class TitanLoggerApi extends TTCN_Module {
 			bound_flag = false;
 		}
 
-		//originally is_bound
+		@Override
 		public boolean isBound() {
 			return bound_flag;
 		}
 
-		//originally is_present
+		@Override
 		public boolean isPresent() {
 			return isBound();
 		}
 
-		//originally is_value
+		@Override
 		public boolean isValue() {
 			return bound_flag;
 		}
@@ -10990,6 +11006,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return !operatorEquals(otherValue);
 		}
 
+		@Override
 		public void log() {
 			if (bound_flag) {
 				TTCN_Logger.log_event_str("{ }");
@@ -11312,6 +11329,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type @TitanLoggerApi.TimerAnyTimeoutType.");
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -11939,6 +11957,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -12651,6 +12670,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -13479,6 +13499,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -13657,6 +13678,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -13832,6 +13854,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -14542,6 +14565,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -14720,6 +14744,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -14895,6 +14920,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -15436,6 +15462,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -15885,6 +15912,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -16442,6 +16470,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -16620,6 +16649,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -16795,6 +16825,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -17105,6 +17136,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -17614,6 +17646,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -18391,6 +18424,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			return replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
+		@Override
 		public void log() {
 			if (valueElements == null) {
 				TTCN_Logger.log_event_unbound();
@@ -19202,6 +19236,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().substr(index, returncount);
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -20022,6 +20057,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_actionEvent:
@@ -21417,6 +21453,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (TitanCharString_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -22295,6 +22332,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_defaultopActivate:
@@ -22850,6 +22888,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (DefaultOp_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -23297,6 +23336,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_testcaseStarted:
@@ -23792,6 +23832,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (TestcaseType_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -24429,6 +24470,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -24607,6 +24649,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -24782,6 +24825,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -25133,6 +25177,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -25654,6 +25699,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -26311,6 +26357,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -26940,6 +26987,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -27360,6 +27408,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -27809,6 +27858,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -28323,6 +28373,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_readTimer:
@@ -29118,6 +29169,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (TitanCharString_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -29707,6 +29759,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_verdictStatistics:
@@ -30322,6 +30375,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (TitanInteger_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -30898,6 +30952,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(7);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -31707,6 +31762,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -32388,6 +32444,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(8);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -33257,6 +33314,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -34011,6 +34069,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -34189,6 +34248,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -34364,6 +34424,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -34982,6 +35043,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -35443,6 +35505,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -35795,6 +35858,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -36244,6 +36308,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -36811,6 +36876,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -36989,6 +37055,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -37164,6 +37231,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -37829,6 +37897,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -38007,6 +38076,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -38182,6 +38252,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -38737,6 +38808,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -38915,6 +38987,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -39090,6 +39163,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -39640,6 +39714,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -39818,6 +39893,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -39993,6 +40069,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -40303,6 +40380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -40812,6 +40890,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -41381,6 +41460,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_system__:
@@ -41876,6 +41956,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (TitanInteger_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -42467,6 +42548,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -42645,6 +42727,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -42820,6 +42903,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -43130,6 +43214,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -43639,6 +43724,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -44085,6 +44171,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -44654,6 +44741,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -45327,6 +45415,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -45956,6 +46045,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -46677,6 +46767,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			return replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
+		@Override
 		public void log() {
 			if (valueElements == null) {
 				TTCN_Logger.log_event_unbound();
@@ -47488,6 +47579,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().substr(index, returncount);
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -47953,6 +48045,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -48534,6 +48627,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -49292,6 +49386,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -49470,6 +49565,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -49645,6 +49741,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -50324,6 +50421,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -50502,6 +50600,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -50677,6 +50776,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -51275,6 +51375,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -51784,6 +51885,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -52194,6 +52296,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -52763,6 +52866,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -53406,6 +53510,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(6);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -54155,6 +54260,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -54690,6 +54796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -55319,6 +55426,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -55928,6 +56036,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(10);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -56917,6 +57026,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -57673,6 +57783,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -58122,6 +58233,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -58485,6 +58597,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -58994,6 +59107,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -59404,6 +59518,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -59973,6 +60088,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -60483,6 +60599,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_parallelPTC:
@@ -61038,6 +61155,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (ParPort_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -61468,6 +61586,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			default:
@@ -61815,6 +61934,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -62167,6 +62287,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -62616,6 +62737,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -63199,6 +63321,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_portQueue:
@@ -64174,6 +64297,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (Port__Misc_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -64810,6 +64934,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -65379,6 +65504,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -66205,6 +66331,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -66654,6 +66781,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -67368,6 +67496,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(5);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -68057,6 +68186,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -69055,6 +69185,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(5);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -69744,6 +69875,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -70289,6 +70421,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -70918,6 +71051,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -71551,6 +71685,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(6);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -72300,6 +72435,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -72772,6 +72908,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -73221,6 +73358,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -73620,6 +73758,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_info:
@@ -74115,6 +74254,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (FinalVerdictType_choice_notification_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -74622,6 +74762,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(6);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -75371,6 +75512,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -76144,6 +76286,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			return replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
+		@Override
 		public void log() {
 			if (valueElements == null) {
 				TTCN_Logger.log_event_unbound();
@@ -76955,6 +77098,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().substr(index, returncount);
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -77430,6 +77574,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -77939,6 +78084,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -78307,6 +78453,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -78756,6 +78903,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -79431,6 +79579,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -79609,6 +79758,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -79784,6 +79934,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -80229,6 +80380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(5);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -80918,6 +81070,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -81364,6 +81517,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -81813,6 +81967,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -82233,6 +82388,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -82802,6 +82958,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -83527,6 +83684,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -83705,6 +83863,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -83880,6 +84039,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -84205,6 +84365,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -84654,6 +84815,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -84996,6 +85158,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -85445,6 +85608,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -86003,6 +86167,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -86452,6 +86617,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -87028,6 +87194,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(7);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -87837,6 +88004,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -88436,6 +88604,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -89170,6 +89339,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -89764,6 +89934,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -90213,6 +90384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -90760,6 +90932,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -90938,6 +91111,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -91113,6 +91287,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -91617,6 +91792,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -91795,6 +91971,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -91970,6 +92147,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -92541,6 +92719,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -92719,6 +92898,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -92894,6 +93074,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -93547,6 +93728,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -93725,6 +93907,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -93900,6 +94083,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -94638,6 +94822,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -94816,6 +95001,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -94991,6 +95177,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -95424,6 +95611,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -95873,6 +96061,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -96329,6 +96518,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(3);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -96898,6 +97088,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -97355,6 +97546,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -97984,6 +98176,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -98758,6 +98951,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -98936,6 +99130,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -99111,6 +99306,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -99457,6 +99653,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -99966,6 +100163,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -100707,6 +100905,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			return replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
+		@Override
 		public void log() {
 			if (valueElements == null) {
 				TTCN_Logger.log_event_unbound();
@@ -101518,6 +101717,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().substr(index, returncount);
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -102353,6 +102553,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -102862,6 +103063,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -103482,6 +103684,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -103931,6 +104134,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -104372,6 +104576,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(4);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -105001,6 +105206,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -105421,6 +105627,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(1);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -105870,6 +106077,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -106446,6 +106654,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_matchingDone:
@@ -107121,6 +107330,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (MatchingTimeout_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -107616,6 +107826,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+		@Override
 		public void log() {
 			switch (union_selection) {
 			case ALT_unqualified:
@@ -108111,6 +108322,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return (FunctionEvent_choice_random_template)single_value;
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -108682,6 +108894,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -108860,6 +109073,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -109035,6 +109249,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -109386,6 +109601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(sizeof);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -109907,6 +110123,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -110378,6 +110595,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new TitanInteger(2);
 		}
 
+		@Override
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -110887,6 +111105,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
@@ -111475,6 +111694,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value.name() + "("+enum_value.enum_num+")";
 		}
 
+		@Override
 		public void log() {
 			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TTCN_Logger.log_event_unbound();
@@ -111653,6 +111873,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -111828,6 +112049,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
+		@Override
 		public void log() {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:

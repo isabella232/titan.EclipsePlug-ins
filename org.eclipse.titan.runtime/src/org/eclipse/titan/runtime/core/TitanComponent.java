@@ -167,6 +167,7 @@ public class TitanComponent extends Base_Type {
 		}
 	}
 
+	@Override
 	public void log() {
 		if (componentValue == UNBOUND_COMPREF) {
 			TTCN_Logger.log_event_unbound();

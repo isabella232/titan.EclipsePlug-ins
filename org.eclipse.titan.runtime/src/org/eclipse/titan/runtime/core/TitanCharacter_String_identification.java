@@ -262,6 +262,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	public TitanCharacter_String_identification.union_selection_type get_selection() {
 		return union_selection;
 	}
+	@Override
 	public void log() {
 		switch (union_selection) {
 		case ALT_syntaxes:

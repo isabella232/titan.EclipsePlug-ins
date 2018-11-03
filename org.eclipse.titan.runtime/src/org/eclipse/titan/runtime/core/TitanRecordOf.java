@@ -58,6 +58,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		valueElements = null;
 	}
 
+	@Override
 	public void log() {
 		if (valueElements == null) {
 			TTCN_Logger.log_event_unbound();

@@ -1848,6 +1848,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		port_name = name;
 	}
 
+	@Override
 	public void log() {
 		TTCN_Logger.log_event("port %s", port_name);
 	}

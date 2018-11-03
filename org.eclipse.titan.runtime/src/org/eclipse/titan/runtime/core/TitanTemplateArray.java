@@ -1176,6 +1176,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

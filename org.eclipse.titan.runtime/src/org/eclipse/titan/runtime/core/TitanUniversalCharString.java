@@ -270,14 +270,17 @@ public class TitanUniversalCharString extends Base_Type {
 		return this;
 	}
 
+	@Override
 	public boolean isBound() {
 		return charstring ? cstr != null : val_ptr != null;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	};
 
+	@Override
 	public boolean isValue() {
 		return isBound();
 	}
@@ -706,6 +709,7 @@ public class TitanUniversalCharString extends Base_Type {
 		INIT, PCHAR, UCHAR;
 	}
 
+	@Override
 	public void log(){
 		if (charstring) {
 			new TitanCharString(cstr).log();

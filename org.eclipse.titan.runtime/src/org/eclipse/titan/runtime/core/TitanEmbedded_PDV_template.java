@@ -431,6 +431,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

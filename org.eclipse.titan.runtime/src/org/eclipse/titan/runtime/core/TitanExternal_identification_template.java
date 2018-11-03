@@ -528,6 +528,7 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanAsn_Null_template)single_value;
 	}
 
+	@Override
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
