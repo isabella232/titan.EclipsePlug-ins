@@ -202,8 +202,6 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			return;
 		}
 
-		template.checkSpecificValue(timestamp, false);
-
 		governor = governor.getTypeRefdLast(timestamp);
 		switch (governor.getTypetype()) {
 		case TYPE_UNDEFINED:
