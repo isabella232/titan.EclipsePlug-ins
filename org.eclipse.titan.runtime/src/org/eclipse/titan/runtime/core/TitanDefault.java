@@ -118,7 +118,15 @@ public class TitanDefault extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
-	//originally operator== with component parameter
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core with component parameter
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final int otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The left operand of comparison is an unbound default reference.");
@@ -130,7 +138,15 @@ public class TitanDefault extends Base_Type {
 		return default_ptr == null;
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The left operand of comparison is an unbound default reference.");
@@ -139,7 +155,15 @@ public class TitanDefault extends Base_Type {
 		return default_ptr == otherValue;
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The left operand of comparison is an unbound default reference.");

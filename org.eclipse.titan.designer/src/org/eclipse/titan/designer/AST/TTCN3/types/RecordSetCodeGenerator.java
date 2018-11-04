@@ -185,7 +185,7 @@ public final class RecordSetCodeGenerator {
 		generateIsBound( source, fieldInfos );
 		generateIsPresent( source, fieldInfos );
 		generateIsValue( source, fieldInfos );
-		generateOperatorEquals( source, fieldInfos, className, classDisplayname);
+		generateOperatorEquals( aData, source, fieldInfos, className, classDisplayname);
 		generateGettersSetters( source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
@@ -1626,6 +1626,8 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generating operatorEquals() function
 	 * 
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -1635,9 +1637,20 @@ public final class RecordSetCodeGenerator {
 	 * @param classReadableName
 	 *                the readable name of the class
 	 */
-	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+	private static void generateOperatorEquals( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
 		aSb.append( '\n' );
+		if (aData.isDebug()) {
+			aSb.append("/**\n");
+			aSb.append(" * Checks if the current value is equivalent to the provided one.\n");
+			aSb.append(" *\n");
+			aSb.append(" * operator== in the core\n");
+			aSb.append(" *\n");
+			aSb.append(" * @param otherValue\n");
+			aSb.append(" *                the other value to check against.\n");
+			aSb.append(" * @return true if the values are equivalent.\n");
+			aSb.append(" */\n");
+		}
 		aSb.append( MessageFormat.format( "\t\tpublic boolean operatorEquals( final {0} otherValue) '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operatorEquals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
@@ -2655,7 +2668,17 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 
-		source.append("//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorEquals( final TitanNull_Type otherValue ) {\n");
 		source.append("if (!isBound()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
@@ -2663,7 +2686,17 @@ public final class RecordSetCodeGenerator {
 		source.append("return true;\n");
 		source.append("}\n\n");
 
-		source.append("//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", className));
 		source.append("if (!isBound()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));

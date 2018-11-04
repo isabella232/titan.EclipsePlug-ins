@@ -395,15 +395,31 @@ public class TitanCharString extends Base_Type {
 
 	}*/
 
-	// originally operator==
-	public boolean operatorEquals(final TitanCharString aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("Unbound left operand of charstring comparison.");
-		aOtherValue.mustBound("Unbound right operand of charstring comparison.");
+		otherValue.mustBound("Unbound right operand of charstring comparison.");
 
-		return val_ptr.toString().equals(aOtherValue.val_ptr.toString());
+		return val_ptr.toString().equals(otherValue.val_ptr.toString());
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring value.");
 		otherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
@@ -436,42 +452,63 @@ public class TitanCharString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
-	// originally operator ==
-	// operatorEquals for String
-	public boolean operatorEquals(final String aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final String otherValue) {
 		mustBound("Unbound operand of charstring comparison.");
 
-		if (aOtherValue == null) {
+		if (otherValue == null) {
 			return val_ptr.length() == 0;
 		}
-		return this.val_ptr.toString().equals(aOtherValue);
+		return this.val_ptr.toString().equals(otherValue);
 	}
 
-	// originally operator ==
-	// operatorEquals for charstring_element
-	public boolean operatorEquals(final TitanCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Unbound operand of charstring element comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanCharString_Element otherValue) {
+		otherValue.mustBound("Unbound operand of charstring element comparison.");
 		mustBound("Unbound operand of charstring comparison.");
 
 		if (val_ptr.length() != 1) {
 			return false;
 		}
 
-		return val_ptr.charAt(0) == aOtherValue.get_char();
+		return val_ptr.charAt(0) == otherValue.get_char();
 
 	}
 
-	// originally operator ==
-	// operatorEquals for Universal_charstring
-	public boolean operatorEquals(final TitanUniversalCharString_Element aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring value.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring value");
+		otherValue.mustBound("The right operand of comparison is an unbound universal charstring value");
 
 		if (val_ptr.length() != 1) {
 			return false;
 		}
 
-		final TitanUniversalChar uc = aOtherValue.get_char();
+		final TitanUniversalChar uc = otherValue.get_char();
 		if (uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0 && uc.getUc_cell() == val_ptr.charAt(0)) {
 			return true;
 		}

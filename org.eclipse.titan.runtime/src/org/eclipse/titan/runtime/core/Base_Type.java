@@ -129,7 +129,10 @@ public abstract class Base_Type {
 	/**
 	 * Checks if the current value is equivalent to the provided one.
 	 *
-	 * @param otherValue the other value to check against.
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
 	 * @return true if the values are equivalent.
 	 */
 	public abstract boolean operatorEquals(final Base_Type otherValue);

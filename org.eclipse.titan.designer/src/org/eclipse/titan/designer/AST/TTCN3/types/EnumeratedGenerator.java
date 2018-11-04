@@ -144,7 +144,7 @@ public final class EnumeratedGenerator {
 		//== functions ==
 		source.append("//===Methods===;\n");
 		generateValueAssign(source, e_defs.name);
-		generateValueOperatorEquals(source, e_defs.name, e_defs.displayName);
+		generateValueOperatorEquals(aData, source, e_defs.name, e_defs.displayName);
 		generateValueOperatorNotEquals(source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
 		generateValueIsLessThanOrEqual(source, e_defs.name);
@@ -557,15 +557,35 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueOperatorEquals(final StringBuilder source, final String aName, final String displayName) {
+	private static void generateValueOperatorEquals(final JavaGenData aData, final StringBuilder source, final String aName, final String displayName) {
 		//Arg type: own type
-		source.append("//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue)'{'\n", aName));
 		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName));
 		source.append("}\n\n");
 
 		//Arg: Base_Type
-		source.append("//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorEquals(final Base_Type otherValue){\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
 		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName));
@@ -575,7 +595,17 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		//Arg: enum_type
-		source.append("//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0}.enum_type otherValue)'{'\n",aName));
 		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName));
 		source.append("}\n\n");

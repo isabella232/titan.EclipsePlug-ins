@@ -385,7 +385,15 @@ public class TitanInteger extends Base_Type {
 		return this.sub(rightValue.mul(this.div(rightValue)));
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 
@@ -397,7 +405,15 @@ public class TitanInteger extends Base_Type {
 		return openSSL.equals(other_int);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final BigInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 
@@ -409,7 +425,15 @@ public class TitanInteger extends Base_Type {
 		return local_int.equals(otherValue);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");

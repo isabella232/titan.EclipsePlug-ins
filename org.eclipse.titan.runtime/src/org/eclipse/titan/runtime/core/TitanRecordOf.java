@@ -120,7 +120,15 @@ public abstract class TitanRecordOf extends Base_Type {
 		return operatorEquals((TitanRecordOf) otherValue);
 	}
 
-	//originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanRecordOf otherValue) {
 		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
 		otherValue.mustBound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");

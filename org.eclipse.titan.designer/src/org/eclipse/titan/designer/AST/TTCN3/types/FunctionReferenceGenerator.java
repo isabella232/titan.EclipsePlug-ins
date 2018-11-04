@@ -204,11 +204,33 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorEquals(final function_pointer otherValue) {\n");
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return referred_function.getModuleName().equals(otherValue.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.getDefinitionName());\n");
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));

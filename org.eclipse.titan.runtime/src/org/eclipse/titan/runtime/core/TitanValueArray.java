@@ -202,6 +202,15 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to array value", otherValue));
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanValueArray<T> otherValue) {
 		if (array_size != otherValue.array_size) {
 			return false;

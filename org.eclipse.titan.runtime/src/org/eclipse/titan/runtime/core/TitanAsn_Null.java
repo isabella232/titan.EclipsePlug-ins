@@ -88,7 +88,15 @@ public class TitanAsn_Null extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL", otherValue));
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final Asn_Null_Type otherValue) {
 		if (!boundFlag) {
 			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");
@@ -97,7 +105,15 @@ public class TitanAsn_Null extends Base_Type {
 		return true;
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanAsn_Null otherValue) {
 		if (!boundFlag) {
 			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");

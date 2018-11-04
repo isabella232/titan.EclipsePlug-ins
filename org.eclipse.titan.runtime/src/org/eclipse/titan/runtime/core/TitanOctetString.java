@@ -194,7 +194,15 @@ public class TitanOctetString extends Base_Type {
 		return new TitanInteger(val_ptr.length);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanOctetString otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
@@ -202,6 +210,15 @@ public class TitanOctetString extends Base_Type {
 		return Arrays.equals(val_ptr, otherValue.val_ptr);
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");

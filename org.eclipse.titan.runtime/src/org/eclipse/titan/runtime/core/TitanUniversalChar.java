@@ -52,6 +52,15 @@ public class TitanUniversalChar {
 				left_value.getUc_cell() == right_value.getUc_cell();
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanUniversalChar right_value) {
 		return operatorEquals(this, right_value);
 	}

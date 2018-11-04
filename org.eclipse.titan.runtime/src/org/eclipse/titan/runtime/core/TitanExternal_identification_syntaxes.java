@@ -107,6 +107,15 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		return true;
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals( final TitanExternal_identification_syntaxes otherValue) {
 		if ( !this.abstract_.operatorEquals( otherValue.abstract_ ) ) { return false; }
 		if ( !this.transfer.operatorEquals( otherValue.transfer ) ) { return false; }

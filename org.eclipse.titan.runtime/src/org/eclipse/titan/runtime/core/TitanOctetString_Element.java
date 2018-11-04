@@ -79,24 +79,40 @@ public class TitanOctetString_Element {
 		return this;
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanOctetString_Element other_value) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
 		mustBound("Unbound left operand of octetstring element comparison.");
-		other_value.mustBound("Unbound right operand of octetstring comparison.");
+		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
-		return str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble(other_value.nibble_pos);
+		return str_val.get_nibble(nibble_pos) == otherValue.str_val.get_nibble(otherValue.nibble_pos);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanOctetString other_value) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanOctetString otherValue) {
 		mustBound("Unbound left operand of octetstring element comparison.");
-		other_value.mustBound("Unbound right operand of octetstring element comparison.");
+		otherValue.mustBound("Unbound right operand of octetstring element comparison.");
 
-		if (other_value.getValue().length != 1) {
+		if (otherValue.getValue().length != 1) {
 			return false;
 		}
 
-		return str_val.get_nibble(nibble_pos) == other_value.get_nibble(0);
+		return str_val.get_nibble(nibble_pos) == otherValue.get_nibble(0);
 	}
 
 	// originally operator!=

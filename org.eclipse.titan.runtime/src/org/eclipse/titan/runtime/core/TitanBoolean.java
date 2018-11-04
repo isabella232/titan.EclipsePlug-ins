@@ -191,15 +191,31 @@ public class TitanBoolean extends Base_Type {
 		return !boolean_value;
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanBoolean aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanBoolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
-		return boolean_value.equals(aOtherValue.boolean_value);
+		return boolean_value.equals(otherValue.boolean_value);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final boolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
 

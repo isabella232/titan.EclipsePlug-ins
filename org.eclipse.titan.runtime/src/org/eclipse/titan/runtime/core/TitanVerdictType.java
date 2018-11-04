@@ -103,12 +103,20 @@ public class TitanVerdictType extends Base_Type {
 		}
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final TitanVerdictType aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanVerdictType otherValue) {
 		mustBound("The left operand of comparison is an unbound verdict value.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound verdict value.");
+		otherValue.mustBound("The right operand of comparison is an unbound verdict value.");
 
-		return verdict_value.equals(aOtherValue.verdict_value);
+		return verdict_value.equals(otherValue.verdict_value);
 	}
 
 	@Override
@@ -120,15 +128,23 @@ public class TitanVerdictType extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
 	}
 
-	// originally boolean VERDICTTYPE::operator==(verdicttype other_value) const
-	public boolean operatorEquals(final VerdictTypeEnum aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final VerdictTypeEnum otherValue) {
 		mustBound("The left operand of comparison is an unbound verdict value.");
 
-		if (!isValid(aOtherValue)) {
-			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ").");
+		if (!isValid(otherValue)) {
+			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
 		}
 
-		return verdict_value == aOtherValue;
+		return verdict_value == otherValue;
 	}
 
 	//originally operator=

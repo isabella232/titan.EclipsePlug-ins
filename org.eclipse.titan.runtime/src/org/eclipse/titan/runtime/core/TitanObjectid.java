@@ -95,7 +95,15 @@ public class TitanObjectid extends Base_Type {
 		}
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanObjectid otherValue) {
 		if (components_ptr == null) {
 			throw new TtcnError("The left operand of comparison is an unbound objid value.");
@@ -119,7 +127,6 @@ public class TitanObjectid extends Base_Type {
 		return true;
 	}
 
-	// originally operator==
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {

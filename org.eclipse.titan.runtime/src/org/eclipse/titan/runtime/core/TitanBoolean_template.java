@@ -181,6 +181,15 @@ public class TitanBoolean_template extends Base_Template {
 		return and(otherTemplate.single_value);
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanBoolean otherValue) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Equals operation of a non specific value template");

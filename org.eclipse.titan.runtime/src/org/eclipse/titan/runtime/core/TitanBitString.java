@@ -245,7 +245,15 @@ public class TitanBitString extends Base_Type {
 		return new TitanInteger(n_bits);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanBitString otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
@@ -253,7 +261,15 @@ public class TitanBitString extends Base_Type {
 		return n_bits == otherValue.n_bits && Arrays.equals(bits_ptr, otherValue.bits_ptr);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanBitString_Element otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring element comparison.");

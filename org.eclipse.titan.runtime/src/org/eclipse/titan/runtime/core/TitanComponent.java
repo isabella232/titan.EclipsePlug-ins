@@ -115,7 +115,15 @@ public class TitanComponent extends Base_Type {
 	}
 
 
-	//originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final int otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");
@@ -127,7 +135,15 @@ public class TitanComponent extends Base_Type {
 		return componentValue == otherValue;
 	}
 
-	//originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanComponent otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");

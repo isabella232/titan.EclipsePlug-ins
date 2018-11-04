@@ -307,26 +307,50 @@ public class TitanFloat extends Base_Type {
 		return new TitanFloat(float_value.div(otherValue));
 	}
 
-	// operatorEquals native
-	public boolean operatorEquals(final double aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final double otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 
-		return float_value.operatorEquals(aOtherValue);
+		return float_value.operatorEquals(otherValue);
 	}
 
-	// operatorEquals native
-	public boolean operatorEquals(final Ttcn3Float aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final Ttcn3Float otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 
-		return float_value.operatorEquals(aOtherValue.getValue());
+		return float_value.operatorEquals(otherValue.getValue());
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanFloat aOtherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
-		aOtherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.mustBound("Unbound right operand of float comparison.");
 
-		return float_value.operatorEquals(aOtherValue.float_value.getValue());
+		return float_value.operatorEquals(otherValue.float_value.getValue());
 	}
 
 	@Override

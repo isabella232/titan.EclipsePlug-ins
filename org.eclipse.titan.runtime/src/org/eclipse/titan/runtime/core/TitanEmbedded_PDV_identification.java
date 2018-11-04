@@ -132,7 +132,15 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		return isBound();
 	}
 
-	//originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals( final TitanEmbedded_PDV_identification otherValue ) {
 		if (union_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError( "The left operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );

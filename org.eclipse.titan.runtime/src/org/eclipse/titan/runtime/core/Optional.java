@@ -301,7 +301,15 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final template_sel otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (template_sel.UNINITIALIZED_TEMPLATE.equals(otherValue)) {
@@ -317,7 +325,15 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optional_sel.OPTIONAL_OMIT.equals(optionalSelection);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final Optional<TYPE> otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {

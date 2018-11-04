@@ -220,7 +220,15 @@ public class TitanHexString extends Base_Type {
 		return new TitanInteger(nibbles_ptr.length);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanHexString otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring comparison.");
@@ -228,7 +236,15 @@ public class TitanHexString extends Base_Type {
 		return Arrays.equals(nibbles_ptr, otherValue.nibbles_ptr);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanHexString_Element otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring element comparison.");

@@ -55,7 +55,15 @@ public class TitanBitString_Element {
 		return this;
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanBitString_Element otherValue) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
@@ -63,7 +71,15 @@ public class TitanBitString_Element {
 		return str_val.getBit(bit_pos) == otherValue.str_val.getBit(otherValue.bit_pos);
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanBitString otherValue) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring element comparison.");

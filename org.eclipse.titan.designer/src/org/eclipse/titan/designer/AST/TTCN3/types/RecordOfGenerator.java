@@ -83,7 +83,7 @@ public final class RecordOfGenerator {
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
 		generateValueIsValue(source, ofTypeName);
-		generateValueOperatorEquals( source, genName, ofTypeName, displayName, isSetOf );
+		generateValueOperatorEquals( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateValueAssign( source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
 		generateValueRotate( source, genName, ofTypeName, displayName );
@@ -352,6 +352,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate assignment operators
 	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -364,7 +366,7 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName,
+	private static void generateValueOperatorEquals( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName,
 													 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t@Override\n");
@@ -376,7 +378,17 @@ public final class RecordOfGenerator {
 		source.append("\t}\n");
 		source.append('\n');
 
-		source.append("\t//originally operator==\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator== in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic boolean operatorEquals( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tmustBound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );

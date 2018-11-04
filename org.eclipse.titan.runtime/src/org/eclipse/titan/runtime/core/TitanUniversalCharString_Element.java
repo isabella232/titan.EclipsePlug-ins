@@ -160,26 +160,51 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanUniversalCharString_Element other_value) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
 		mustBound("Unbound left operand of charstring element comparison.");
-		other_value.mustBound("Unbound right operand of charstring comparison.");
+		otherValue.mustBound("Unbound right operand of charstring comparison.");
 
-		return get_char().operatorEquals(other_value.get_char());
+		return get_char().operatorEquals(otherValue.get_char());
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanUniversalCharString other_value) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
+	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
 		mustBound("Unbound left operand of charstring element comparison.");
-		other_value.mustBound("Unbound right operand of charstring element comparison.");
+		otherValue.mustBound("Unbound right operand of charstring element comparison.");
 
-		if (other_value.getValue().size() != 1) {
+		if (otherValue.getValue().size() != 1) {
 			return false;
 		}
 
-		return get_char().operatorEquals(other_value.charAt(0));
+		return get_char().operatorEquals(otherValue.charAt(0));
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanUniversalChar otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 
@@ -198,6 +223,15 @@ public class TitanUniversalCharString_Element {
 		return str_val.val_ptr.get(char_pos).operatorEquals(otherValue);
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final String otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 
@@ -212,6 +246,15 @@ public class TitanUniversalCharString_Element {
 				&& uc.getUc_cell() == otherValue.charAt(0);
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.mustBound("The right operand of comparison is an unbound charstring value.");
@@ -228,6 +271,15 @@ public class TitanUniversalCharString_Element {
 				&& uchar.getUc_cell() == otherValue.getAt(0).get_char();
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public boolean operatorEquals(final TitanCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.mustBound("The right operand of comparison is an unbound charstring element.");
