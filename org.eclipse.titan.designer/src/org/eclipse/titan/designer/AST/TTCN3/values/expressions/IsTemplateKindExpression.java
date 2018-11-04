@@ -181,14 +181,14 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
-		IType type = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
+		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		ITTCN3Template template = templateInstance.getTemplateBody();
-		if (type == null) {
+		if (governor == null) {
 			template = template.setLoweridToReference(timestamp);
-			type = template.getExpressionGovernor(timestamp, internalExpectation);
+			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 
-		if (type == null) {
+		if (governor == null) {
 			if (!template.getIsErroneous(timestamp)) {
 				templateInstance.getLocation().reportSemanticError(OPERAND1_ERROR1);
 			}
@@ -196,7 +196,7 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			return;
 		}
 
-		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance, type, referenceChain, expectedValue);
+		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance, governor, referenceChain, expectedValue);
 
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -204,8 +204,8 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 		template.checkSpecificValue(timestamp, false);
 
-		type = type.getTypeRefdLast(timestamp);
-		switch (type.getTypetype()) {
+		governor = governor.getTypeRefdLast(timestamp);
+		switch (governor.getTypetype()) {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
