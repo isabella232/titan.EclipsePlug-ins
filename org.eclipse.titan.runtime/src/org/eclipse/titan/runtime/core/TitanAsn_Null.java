@@ -35,7 +35,7 @@ public class TitanAsn_Null extends Base_Type {
 
 	/**
 	 * Initializes to a given value.
-	 * 
+	 *
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
@@ -45,7 +45,7 @@ public class TitanAsn_Null extends Base_Type {
 
 	/**
 	 * Copy constructor.
-	 * 
+	 *
 	 * @param otherValue
 	 *                the value to copy.
 	 * */

@@ -37,28 +37,55 @@ public class TitanCharString extends Base_Type {
 	 */
 	private StringBuilder val_ptr;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanCharString() {
 		super();
 	}
 
-	public TitanCharString(final StringBuilder aOtherValue) {
-		val_ptr = new StringBuilder(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharString(final StringBuilder otherValue) {
+		val_ptr = new StringBuilder(otherValue);
 	}
 
-	public TitanCharString(final String aOtherValue) {
-		copyValue(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharString(final String otherValue) {
+		copyValue(otherValue);
 	}
 
-	public TitanCharString(final TitanCharString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound charstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharString(final TitanCharString otherValue) {
+		otherValue.mustBound("Copying an unbound charstring value.");
 
-		val_ptr = new StringBuilder(aOtherValue.val_ptr);
+		val_ptr = new StringBuilder(otherValue.val_ptr);
 	}
 
-	public TitanCharString(final TitanUniversalCharString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound universal charstring to a charstring.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharString(final TitanUniversalCharString otherValue) {
+		otherValue.mustBound("Copying an unbound universal charstring to a charstring.");
 
-		assign(aOtherValue);
+		assign(otherValue);
 	}
 
 	// originally char*()

@@ -28,19 +28,40 @@ public class TitanGraphicString extends TitanUniversalCharString {
 		return new TitanGraphicString(ucstr);
 	}
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanGraphicString() {
 		//intentionally empty
 	}
 
-	public TitanGraphicString(final TitanUniversalCharString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final TitanUniversalCharString otherValue) {
+		super(otherValue);
 	}
 
-	public TitanGraphicString(final List<TitanUniversalChar> aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final List<TitanUniversalChar> otherValue) {
+		super(otherValue);
 	}
 
-	public TitanGraphicString(final TitanGraphicString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final TitanGraphicString otherValue) {
+		super(otherValue);
 	}
 }

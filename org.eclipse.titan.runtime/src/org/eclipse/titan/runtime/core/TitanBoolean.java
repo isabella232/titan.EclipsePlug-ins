@@ -33,18 +33,33 @@ public class TitanBoolean extends Base_Type {
 	 */
 	private Boolean boolean_value;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanBoolean() {
 		super();
 	}
 
-	public TitanBoolean(final Boolean aOtherValue) {
-		boolean_value = aOtherValue;
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanBoolean(final Boolean otherValue) {
+		boolean_value = otherValue;
 	}
 
-	public TitanBoolean(final TitanBoolean aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound boolean value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanBoolean(final TitanBoolean otherValue) {
+		otherValue.mustBound("Copying an unbound boolean value.");
 
-		boolean_value = aOtherValue.boolean_value;
+		boolean_value = otherValue.boolean_value;
 	}
 
 	public Boolean getValue() {

@@ -55,20 +55,35 @@ public class TitanComponent extends Base_Type {
 
 	int componentValue;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanComponent() {
 		componentValue = UNBOUND_COMPREF;
 	}
 
-	public TitanComponent(final int aOtherValue) {
-		componentValue = aOtherValue;
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanComponent(final int otherValue) {
+		componentValue = otherValue;
 	}
 
-	public TitanComponent(final TitanComponent aOtherValue) {
-		if (aOtherValue.componentValue == UNBOUND_COMPREF) {
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanComponent(final TitanComponent otherValue) {
+		if (otherValue.componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Copying an unbound component reference.");
 		}
 
-		componentValue = aOtherValue.componentValue;
+		componentValue = otherValue.componentValue;
 	}
 
 	//originally operator=

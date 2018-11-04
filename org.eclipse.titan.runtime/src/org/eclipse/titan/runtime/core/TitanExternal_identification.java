@@ -26,9 +26,19 @@ public class TitanExternal_identification extends Base_Type {
 	private TitanExternal_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
 	private Base_Type field;
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanExternal_identification() {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	};
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanExternal_identification(final TitanExternal_identification otherValue) {
 		copy_value(otherValue);
 	};

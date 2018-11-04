@@ -28,19 +28,40 @@ public class TitanTeletexString extends TitanUniversalCharString {
 		return new TitanTeletexString(ucstr);
 	}
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanTeletexString() {
 		//intentionally empty
 	}
 
-	public TitanTeletexString(final TitanUniversalCharString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final TitanUniversalCharString otherValue) {
+		super(otherValue);
 	}
 
-	public TitanTeletexString(final List<TitanUniversalChar> aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final List<TitanUniversalChar> otherValue) {
+		super(otherValue);
 	}
 
-	public TitanTeletexString(final TitanTeletexString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final TitanTeletexString otherValue) {
+		super(otherValue);
 	}
 }

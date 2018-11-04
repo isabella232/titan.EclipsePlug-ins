@@ -19,7 +19,6 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
  * @author Kristof Szabados
  */
 public class TitanExternal_identification_syntaxes_template extends Base_Template {
-
 	private TitanObjectid_template abstract_; //ObjectID_Type
 	private TitanObjectid_template transfer; //ObjectID_Type
 	//originally value_list/list_value

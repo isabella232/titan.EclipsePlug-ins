@@ -177,9 +177,9 @@ public final class RecordSetCodeGenerator {
 		source.append(" extends Base_Type");
 		source.append( " {\n" );
 		generateDeclaration( aData, source, fieldInfos );
-		generateConstructor( source, fieldInfos, className );
+		generateConstructor( aData, source, fieldInfos, className );
 		generateConstructorManyParams( source, fieldInfos, className );
-		generateConstructorCopy( source, fieldInfos, className, classDisplayname );
+		generateConstructorCopy( aData, source, fieldInfos, className, classDisplayname );
 		generateAssign( aData, source, fieldInfos, className, classDisplayname );
 		generateCleanUp( source, fieldInfos );
 		generateIsBound( source, fieldInfos );
@@ -290,7 +290,9 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating constructor without parameter
-	 * 
+	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -298,9 +300,14 @@ public final class RecordSetCodeGenerator {
 	 * @param aClassName
 	 *                the class name of the record/set class
 	 */
-	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+	private static void generateConstructor( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
 		aSb.append( '\n' );
+		if ( aData.isDebug() ) {
+			aSb.append( "/**\n" );
+			aSb.append( " * Initializes to unbound value.\n" );
+			aSb.append( " * */\n" );
+		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0}() '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
@@ -366,7 +373,9 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating constructor with 1 parameter (copy constructor)
-	 * 
+	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -376,8 +385,16 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateConstructorCopy( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
+	private static void generateConstructorCopy( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
 		aSb.append( '\n' );
+		if ( aData.isDebug() ) {
+			aSb.append( "/**\n" );
+			aSb.append( " * Initializes to a given value.\n" );
+			aSb.append( " *\n" );
+			aSb.append( " * @param otherValue\n" );
+			aSb.append( " *                the value to initialize to.\n" );
+			aSb.append( " * */\n" );
+		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0}( final {0} otherValue) '{'\n", aClassName ) );
 		aSb.append( "\t\t\tif(!otherValue.isBound()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
@@ -580,6 +597,7 @@ public final class RecordSetCodeGenerator {
 	 *                sequence field variable and type names
 	 */
 	private static void generateLog(final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tif (!isBound()) {\n");
 		aSb.append("\t\t\t\tTTCN_Logger.log_event_unbound();\n");
@@ -1696,8 +1714,6 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String className ) {
-		source.append('\n');
-
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\tprivate " );
 			source.append( fi.mJavaTypeName );
@@ -2234,6 +2250,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append('\n');
+		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void log() {\n");
 		source.append("\t\t\tswitch (templateSelection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
@@ -2617,17 +2634,17 @@ public final class RecordSetCodeGenerator {
 		source.append("bound_flag = false;\n");
 		source.append("}\n\n");
 
-		source.append("//originally is_bound\n");
+		source.append("@Override\n");
 		source.append("public boolean isBound() {\n");
 		source.append("return bound_flag;\n");
 		source.append("}\n\n");
 
-		source.append("//originally is_present\n");
+		source.append("@Override\n");
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 
-		source.append("//originally is_value\n");
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("return bound_flag;\n");
 		source.append("}\n\n");
@@ -2679,6 +2696,7 @@ public final class RecordSetCodeGenerator {
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("if (bound_flag) {\n");
 		source.append("TTCN_Logger.log_event_str(\"{ }\");\n");
@@ -3049,6 +3067,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", classDisplayName ) );
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");

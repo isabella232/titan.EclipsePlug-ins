@@ -45,22 +45,37 @@ public class TitanVerdictType extends Base_Type {
 
 	private VerdictTypeEnum verdict_value;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanVerdictType() {
 		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
-	public TitanVerdictType(final VerdictTypeEnum other_value) {
-		if (!isValid(other_value)) {
-			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanVerdictType(final VerdictTypeEnum otherValue) {
+		if (!isValid(otherValue)) {
+			throw new TtcnError("Initializing a verdict variable with an invalid value (" + otherValue + ").");
 		}
 
-		verdict_value = other_value;
+		verdict_value = otherValue;
 	}
 
-	public TitanVerdictType(final TitanVerdictType other_value) {
-		other_value.mustBound("Copying an unbound verdict value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanVerdictType(final TitanVerdictType otherValue) {
+		otherValue.mustBound("Copying an unbound verdict value.");
 
-		verdict_value = other_value.verdict_value;
+		verdict_value = otherValue.verdict_value;
 	}
 
 	public void cleanUp() {

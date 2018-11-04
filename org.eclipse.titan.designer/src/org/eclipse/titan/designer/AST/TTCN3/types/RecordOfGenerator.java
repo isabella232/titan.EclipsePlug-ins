@@ -78,7 +78,7 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
-		generateValueConstructors( source, genName, ofTypeName, displayName );
+		generateValueConstructors( aData, source, genName, ofTypeName, displayName );
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
@@ -211,6 +211,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate constructors
 	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -221,19 +223,40 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateValueConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to unbound value.\n" );
+			source.append( " * */\n" );
+		}
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
 		source.append("\t\t// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
 		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append( MessageFormat.format( "\tpublic {0}(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t}\n");
@@ -817,6 +840,7 @@ public final class RecordOfGenerator {
 	 *                where the source code is to be generated.
 	 */
 	private static void generateValueLog(final StringBuilder source) {
+		source.append("\t@Override\n");
 		source.append("\tpublic void log() {\n");
 		source.append("\t\tif (valueElements == null) {\n");
 		source.append("\t\t\tTTCN_Logger.log_event_unbound();\n");
@@ -2238,6 +2262,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final String displayName, final boolean isSetOf ) {
 		aSb.append('\n');
+		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tswitch (templateSelection) {\n");
 		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");

@@ -1061,6 +1061,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger id; //Integer_Type
 		private final DefaultEnd end; //Referenced_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public DefaultOp() {
 			this.name = new TitanCharString();
 			this.id = new TitanInteger();
@@ -1073,6 +1076,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.end = new DefaultEnd( end );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultOp( final DefaultOp otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultOp.");
@@ -1357,7 +1366,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class DefaultOp_template extends Base_Template {
-
 		private TitanCharString_template name; //CharString_Type
 		private TitanInteger_template id; //Integer_Type
 		private DefaultEnd_template end; //Referenced_Type
@@ -2140,9 +2148,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public VerdictOp_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public VerdictOp_choice(final VerdictOp_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -3279,6 +3297,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Optional<TitanInteger> ptc__compref; //Integer_Type
 		private final Optional<TitanCharString> ptc__name; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FinalVerdictInfo() {
 			this.is__ptc = new TitanBoolean();
 			this.ptc__verdict = new Verdict();
@@ -3302,6 +3323,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.ptc__name.assign( ptc__name );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictInfo( final FinalVerdictInfo otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictInfo.");
@@ -3754,7 +3781,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class FinalVerdictInfo_template extends Base_Template {
-
 		private TitanBoolean_template is__ptc; //Boolean_Type
 		private Verdict_template ptc__verdict; //Referenced_Type
 		private Verdict_template local__verdict; //Referenced_Type
@@ -4785,6 +4811,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class TimerEvent extends Base_Type {
 		private final TimerEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TimerEvent() {
 			this.choice = new TimerEvent_choice();
 		}
@@ -4793,6 +4822,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new TimerEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TimerEvent( final TimerEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerEvent.");
@@ -5001,7 +5036,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TimerEvent_template extends Base_Template {
-
 		private TimerEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<TimerEvent_template> list_value;
@@ -5580,6 +5614,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString port__name; //CharString_Type
 		private final TitanCharString info; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingSuccessType() {
 			this.port__type = new PortType();
 			this.port__name = new TitanCharString();
@@ -5592,6 +5629,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.info = new TitanCharString( info );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingSuccessType( final MatchingSuccessType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingSuccessType.");
@@ -5876,7 +5919,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingSuccessType_template extends Base_Template {
-
 		private PortType_template port__type; //Referenced_Type
 		private TitanCharString_template port__name; //CharString_Type
 		private TitanCharString_template info; //CharString_Type
@@ -6589,6 +6631,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString sys__name; //CharString_Type
 		private final TitanCharString parameter; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Proc__port__out() {
 			this.port__name = new TitanCharString();
 			this.operation = new Port__oper();
@@ -6605,6 +6650,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.parameter = new TitanCharString( parameter );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Proc__port__out( final Proc__port__out otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_out.");
@@ -6965,7 +7016,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Proc__port__out_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private Port__oper_template operation; //Referenced_Type
 		private TitanInteger_template compref; //Integer_Type
@@ -7843,15 +7893,31 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private List<TitanCharString> valueElements;
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Strings_str__list() {
 			// do nothing
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Strings_str__list( final Strings_str__list otherValue ) {
 			otherValue.mustBound("Copying an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			valueElements = copyList( otherValue.valueElements );
 		}
 
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Strings_str__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 		}
@@ -9376,9 +9442,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorEvent_choice(final ExecutorEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -11780,6 +11856,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Optional<TitanCharString> oldReason; //CharString_Type
 		private final Optional<TitanCharString> newReason; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public SetVerdictType() {
 			this.newVerdict = new Verdict();
 			this.oldVerdict = new Verdict();
@@ -11798,6 +11877,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.newReason.assign( newReason );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public SetVerdictType( final SetVerdictType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.SetVerdictType.");
@@ -12169,7 +12254,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class SetVerdictType_template extends Base_Template {
-
 		private Verdict_template newVerdict; //Referenced_Type
 		private Verdict_template oldVerdict; //Referenced_Type
 		private Verdict_template localVerdict; //Referenced_Type
@@ -13183,18 +13267,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Parallel_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Parallel_reason(final Parallel_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Parallel_reason(final Parallel_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Parallel_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Parallel_reason' with invalid numeric value {1} .", otherValue));
@@ -14300,18 +14405,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public PortType() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PortType(final PortType otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PortType(final PortType.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PortType(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `PortType' with invalid numeric value {1} .", otherValue));
@@ -15374,6 +15500,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class WarningEvent extends Base_Type {
 		private final TitanCharString text; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public WarningEvent() {
 			this.text = new TitanCharString();
 		}
@@ -15382,6 +15511,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.text = new TitanCharString( text );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public WarningEvent( final WarningEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.WarningEvent.");
@@ -15590,7 +15725,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class WarningEvent_template extends Base_Template {
-
 		private TitanCharString_template text; //CharString_Type
 		//originally value_list/list_value
 		private List<WarningEvent_template> list_value;
@@ -16199,18 +16333,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParPort_operation() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParPort_operation(final ParPort_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParPort_operation(final ParPort_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParPort_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ParPort_operation' with invalid numeric value {1} .", otherValue));
@@ -17028,6 +17183,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger id; //Integer_Type
 		private final TitanCharString name; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ComponentIDType() {
 			this.id = new TitanInteger();
 			this.name = new TitanCharString();
@@ -17038,6 +17196,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.name = new TitanCharString( name );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ComponentIDType( final ComponentIDType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ComponentIDType.");
@@ -17284,7 +17448,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ComponentIDType_template extends Base_Template {
-
 		private TitanInteger_template id; //Integer_Type
 		private TitanCharString_template name; //CharString_Type
 		//originally value_list/list_value
@@ -18036,15 +18199,31 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private List<TitanLogEvent> valueElements;
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLog_sequence__list_0_event__list() {
 			// do nothing
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog_sequence__list_0_event__list( final TitanLog_sequence__list_0_event__list otherValue ) {
 			otherValue.mustBound("Copying an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			valueElements = copyList( otherValue.valueElements );
 		}
 
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog_sequence__list_0_event__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLogEvent>();
 		}
@@ -19569,9 +19748,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public LogEventType_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LogEventType_choice(final LogEventType_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -22166,9 +22355,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public DefaultEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultEvent_choice(final DefaultEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -23193,9 +23392,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TestcaseEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TestcaseEvent_choice(final TestcaseEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -24187,18 +24396,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingDoneType_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingDoneType_reason(final MatchingDoneType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingDoneType_reason(final MatchingDoneType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingDoneType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingDoneType_reason' with invalid numeric value {1} .", otherValue));
@@ -25064,6 +25294,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final ExecutorConfigdata_reason reason; //TTCN3_Enumerated_Type
 		private final Optional<TitanCharString> param__; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorConfigdata() {
 			this.reason = new ExecutorConfigdata_reason();
 			this.param__ = new Optional<TitanCharString>(TitanCharString.class);
@@ -25075,6 +25308,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.param__.assign( param__ );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorConfigdata( final ExecutorConfigdata otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorConfigdata.");
@@ -25327,7 +25566,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutorConfigdata_template extends Base_Template {
-
 		private ExecutorConfigdata_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template param__; //CharString_Type
 		//originally value_list/list_value
@@ -26209,6 +26447,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString ent__name; //CharString_Type
 		private final LocationInfo_ent__type ent__type; //TTCN3_Enumerated_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public LocationInfo() {
 			this.filename = new TitanCharString();
 			this.line = new TitanInteger();
@@ -26223,6 +26464,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.ent__type = new LocationInfo_ent__type( ent__type );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LocationInfo( final LocationInfo otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LocationInfo.");
@@ -26545,7 +26792,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class LocationInfo_template extends Base_Template {
-
 		private TitanCharString_template filename; //CharString_Type
 		private TitanInteger_template line; //Integer_Type
 		private TitanCharString_template ent__name; //CharString_Type
@@ -27320,6 +27566,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class TestcaseEvent extends Base_Type {
 		private final TestcaseEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TestcaseEvent() {
 			this.choice = new TestcaseEvent_choice();
 		}
@@ -27328,6 +27577,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new TestcaseEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TestcaseEvent( final TestcaseEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseEvent.");
@@ -27536,7 +27791,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TestcaseEvent_template extends Base_Template {
-
 		private TestcaseEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<TestcaseEvent_template> list_value;
@@ -28115,9 +28369,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TimerEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TimerEvent_choice(final TimerEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -29570,9 +29834,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public StatisticsType_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StatisticsType_choice(final StatisticsType_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -30744,6 +31018,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger tcp__port; //Integer_Type
 		private final TitanInteger new__size; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__Misc() {
 			this.reason = new Port__Misc_reason();
 			this.port__name = new TitanCharString();
@@ -30764,6 +31041,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.new__size = new TitanInteger( new__size );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Misc( final Port__Misc otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Misc.");
@@ -31200,7 +31483,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Port__Misc_template extends Base_Template {
-
 		private Port__Misc_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template port__name; //CharString_Type
 		private TitanInteger_template remote__component; //Integer_Type
@@ -32216,6 +32498,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger alive__pid; //Integer_Type
 		private final TitanInteger status; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParallelPTC() {
 			this.reason = new ParallelPTC_reason();
 			this.module__ = new TitanCharString();
@@ -32238,6 +32523,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.status = new TitanInteger( status );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelPTC( final ParallelPTC otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelPTC.");
@@ -32712,7 +33003,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ParallelPTC_template extends Base_Template {
-
 		private ParallelPTC_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template module__; //CharString_Type
 		private TitanCharString_template name; //CharString_Type
@@ -33789,18 +34079,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public LocationInfo_ent__type() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LocationInfo_ent__type(final LocationInfo_ent__type otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LocationInfo_ent__type(final LocationInfo_ent__type.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LocationInfo_ent__type(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `LocationInfo_ent__type' with invalid numeric value {1} .", otherValue));
@@ -34950,6 +35261,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class MatchingTimeout extends Base_Type {
 		private final Optional<TitanCharString> timer__name; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingTimeout() {
 			this.timer__name = new Optional<TitanCharString>(TitanCharString.class);
 		}
@@ -34959,6 +35273,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.timer__name.assign( timer__name );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingTimeout( final MatchingTimeout otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingTimeout.");
@@ -35173,7 +35493,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingTimeout_template extends Base_Template {
-
 		private TitanCharString_template timer__name; //CharString_Type
 		//originally value_list/list_value
 		private List<MatchingTimeout_template> list_value;
@@ -35770,6 +36089,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class VerdictOp extends Base_Type {
 		private final VerdictOp_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public VerdictOp() {
 			this.choice = new VerdictOp_choice();
 		}
@@ -35778,6 +36100,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new VerdictOp_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public VerdictOp( final VerdictOp otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictOp.");
@@ -35986,7 +36314,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class VerdictOp_template extends Base_Template {
-
 		private VerdictOp_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<VerdictOp_template> list_value;
@@ -36599,18 +36926,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingProblemType_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_reason(final MatchingProblemType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_reason(final MatchingProblemType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingProblemType_reason' with invalid numeric value {1} .", otherValue));
@@ -37551,18 +37899,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorRuntime_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorRuntime_reason(final ExecutorRuntime_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorRuntime_reason(final ExecutorRuntime_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorRuntime_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorRuntime_reason' with invalid numeric value {1} .", otherValue));
@@ -38528,18 +38897,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingFailureType_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingFailureType_reason(final MatchingFailureType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingFailureType_reason(final MatchingFailureType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingFailureType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingFailureType_reason' with invalid numeric value {1} .", otherValue));
@@ -39437,18 +39827,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingProblemType_operation() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_operation(final MatchingProblemType_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_operation(final MatchingProblemType_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingProblemType_operation' with invalid numeric value {1} .", otherValue));
@@ -40272,6 +40683,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final ComponentIDType entityId; //Referenced_Type
 		private final TitanLogEvent event; //Referenced_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanSingleLogEvent() {
 			this.entityId = new ComponentIDType();
 			this.event = new TitanLogEvent();
@@ -40282,6 +40696,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.event = new TitanLogEvent( event );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanSingleLogEvent( final TitanSingleLogEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent.");
@@ -40528,7 +40948,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TitanSingleLogEvent_template extends Base_Template {
-
 		private ComponentIDType_template entityId; //Referenced_Type
 		private TitanLogEvent_template event; //Referenced_Type
 		//originally value_list/list_value
@@ -41317,9 +41736,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingFailureType_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingFailureType_choice(final MatchingFailureType_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -42271,18 +42700,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorConfigdata_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorConfigdata_reason(final ExecutorConfigdata_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorConfigdata_reason(final ExecutorConfigdata_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorConfigdata_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorConfigdata_reason' with invalid numeric value {1} .", otherValue));
@@ -43106,6 +43556,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString module__name; //CharString_Type
 		private final TitanCharString testcase__name; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public QualifiedName() {
 			this.module__name = new TitanCharString();
 			this.testcase__name = new TitanCharString();
@@ -43116,6 +43569,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.testcase__name = new TitanCharString( testcase__name );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public QualifiedName( final QualifiedName otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.QualifiedName.");
@@ -43362,7 +43821,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class QualifiedName_template extends Base_Template {
-
 		private TitanCharString_template module__name; //CharString_Type
 		private TitanCharString_template testcase__name; //CharString_Type
 		//originally value_list/list_value
@@ -44043,6 +44501,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanFloat retval; //Float_Type
 		private final TitanInteger intseed; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FunctionEvent_choice_random() {
 			this.operation = new RandomAction();
 			this.retval = new TitanFloat();
@@ -44055,6 +44516,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.intseed = new TitanInteger( intseed );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FunctionEvent_choice_random( final FunctionEvent_choice_random otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.choice.random.");
@@ -44339,7 +44806,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class FunctionEvent_choice_random_template extends Base_Template {
-
 		private RandomAction_template operation; //Referenced_Type
 		private TitanFloat_template retval; //Float_Type
 		private TitanInteger_template intseed; //Integer_Type
@@ -45267,6 +45733,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString value__; //CharString_Type
 		private final TitanInteger msgid; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Dualface__mapped() {
 			this.incoming = new TitanBoolean();
 			this.target__type = new TitanCharString();
@@ -45281,6 +45750,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.msgid = new TitanInteger( msgid );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Dualface__mapped( final Dualface__mapped otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_mapped.");
@@ -45603,7 +46078,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Dualface__mapped_template extends Base_Template {
-
 		private TitanBoolean_template incoming; //Boolean_Type
 		private TitanCharString_template target__type; //CharString_Type
 		private TitanCharString_template value__; //CharString_Type
@@ -46379,15 +46853,31 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private List<LocationInfo> valueElements;
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLogEvent_sourceInfo__list() {
 			// do nothing
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLogEvent_sourceInfo__list( final TitanLogEvent_sourceInfo__list otherValue ) {
 			otherValue.mustBound("Copying an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			valueElements = copyList( otherValue.valueElements );
 		}
 
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLogEvent_sourceInfo__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<LocationInfo>();
 		}
@@ -47912,6 +48402,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Verdict toVerdict; //Referenced_Type
 		private final Optional<TitanCharString> verdictReason; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public VerdictType() {
 			this.fromVerdict = new Verdict();
 			this.toVerdict = new Verdict();
@@ -47925,6 +48418,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.verdictReason.assign( verdictReason );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public VerdictType( final VerdictType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictType.");
@@ -48215,7 +48714,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class VerdictType_template extends Base_Template {
-
 		private Verdict_template fromVerdict; //Referenced_Type
 		private Verdict_template toVerdict; //Referenced_Type
 		private TitanCharString_template verdictReason; //CharString_Type
@@ -49118,18 +49616,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__State_operation() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__State_operation(final Port__State_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__State_operation(final Port__State_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__State_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__State_operation' with invalid numeric value {1} .", otherValue));
@@ -50153,18 +50672,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__oper() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__oper(final Port__oper otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__oper(final Port__oper.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__oper(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__oper' with invalid numeric value {1} .", otherValue));
@@ -51267,6 +51807,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger seconds; //Integer_Type
 		private final TitanInteger microSeconds; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TimestampType() {
 			this.seconds = new TitanInteger();
 			this.microSeconds = new TitanInteger();
@@ -51277,6 +51820,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.microSeconds = new TitanInteger( microSeconds );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TimestampType( final TimestampType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimestampType.");
@@ -51523,7 +52072,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TimestampType_template extends Base_Template {
-
 		private TitanInteger_template seconds; //Integer_Type
 		private TitanInteger_template microSeconds; //Integer_Type
 		//originally value_list/list_value
@@ -52168,6 +52716,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString state; //CharString_Type
 		private final TitanCharString info; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Setstate() {
 			this.port__name = new TitanCharString();
 			this.state = new TitanCharString();
@@ -52180,6 +52731,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.info = new TitanCharString( info );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Setstate( final Setstate otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Setstate.");
@@ -52464,7 +53021,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Setstate_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private TitanCharString_template state; //CharString_Type
 		private TitanCharString_template info; //CharString_Type
@@ -53322,6 +53878,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString parameter; //CharString_Type
 		private final TitanInteger msgid; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Proc__port__in() {
 			this.port__name = new TitanCharString();
 			this.operation = new Port__oper();
@@ -53340,6 +53899,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.msgid = new TitanInteger( msgid );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Proc__port__in( final Proc__port__in otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_in.");
@@ -53738,7 +54303,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Proc__port__in_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private Port__oper_template operation; //Referenced_Type
 		private TitanInteger_template compref; //Integer_Type
@@ -54648,6 +55212,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger severity; //Integer_Type
 		private final LogEventType logEvent; //Referenced_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLogEvent() {
 			this.timestamp = new TimestampType();
 			this.sourceInfo__list = new TitanLogEvent_sourceInfo__list();
@@ -54662,6 +55229,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.logEvent = new LogEventType( logEvent );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLogEvent( final TitanLogEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLogEvent.");
@@ -54984,7 +55557,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TitanLogEvent_template extends Base_Template {
-
 		private TimestampType_template timestamp; //Referenced_Type
 		private TitanLogEvent_sourceInfo__list_template sourceInfo__list; //SequenceOf_Type
 		private TitanInteger_template severity; //Integer_Type
@@ -55768,6 +56340,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger error__; //Integer_Type
 		private final TitanFloat errorPercent; //Float_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public StatisticsType_choice_verdictStatistics() {
 			this.none__ = new TitanInteger();
 			this.nonePercent = new TitanFloat();
@@ -55794,6 +56369,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.errorPercent = new TitanFloat( errorPercent );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StatisticsType_choice_verdictStatistics( final StatisticsType_choice_verdictStatistics otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
@@ -56344,7 +56925,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class StatisticsType_choice_verdictStatistics_template extends Base_Template {
-
 		private TitanInteger_template none__; //Integer_Type
 		private TitanFloat_template nonePercent; //Float_Type
 		private TitanInteger_template pass__; //Integer_Type
@@ -57695,6 +58275,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class LogEventType extends Base_Type {
 		private final LogEventType_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public LogEventType() {
 			this.choice = new LogEventType_choice();
 		}
@@ -57703,6 +58286,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new LogEventType_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public LogEventType( final LogEventType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LogEventType.");
@@ -57911,7 +58500,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class LogEventType_template extends Base_Template {
-
 		private LogEventType_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<LogEventType_template> list_value;
@@ -58489,6 +59077,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Port__State_operation operation; //TTCN3_Enumerated_Type
 		private final TitanCharString port__name; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__State() {
 			this.operation = new Port__State_operation();
 			this.port__name = new TitanCharString();
@@ -58499,6 +59090,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.port__name = new TitanCharString( port__name );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__State( final Port__State otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_State.");
@@ -58745,7 +59342,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Port__State_template extends Base_Template {
-
 		private Port__State_operation_template operation; //TTCN3_Enumerated_Type
 		private TitanCharString_template port__name; //CharString_Type
 		//originally value_list/list_value
@@ -59390,6 +59986,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Verdict verdict; //Referenced_Type
 		private final TitanCharString reason; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TestcaseType() {
 			this.name = new QualifiedName();
 			this.verdict = new Verdict();
@@ -59402,6 +60001,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.reason = new TitanCharString( reason );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TestcaseType( final TestcaseType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseType.");
@@ -59686,7 +60291,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TestcaseType_template extends Base_Template {
-
 		private QualifiedName_template name; //Referenced_Type
 		private Verdict_template verdict; //Referenced_Type
 		private TitanCharString_template reason; //CharString_Type
@@ -60433,9 +61037,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParallelEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelEvent_choice(final ParallelEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -61494,9 +62108,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class anytype extends Base_Type {
 		public enum union_selection_type { UNBOUND_VALUE };
 		private union_selection_type union_selection;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public anytype() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public anytype(final anytype otherValue) {
 			copy_value(otherValue);
 		};
@@ -62199,6 +62823,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class PortEvent extends Base_Type {
 		private final PortEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public PortEvent() {
 			this.choice = new PortEvent_choice();
 		}
@@ -62207,6 +62834,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new PortEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PortEvent( final PortEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PortEvent.");
@@ -62415,7 +63048,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class PortEvent_template extends Base_Template {
-
 		private PortEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<PortEvent_template> list_value;
@@ -62994,9 +63626,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public PortEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PortEvent_choice(final PortEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -64806,6 +65448,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger compref; //Integer_Type
 		private final TitanCharString parameter; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Msg__port__send() {
 			this.port__name = new TitanCharString();
 			this.compref = new TitanInteger();
@@ -64818,6 +65463,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.parameter = new TitanCharString( parameter );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Msg__port__send( final Msg__port__send otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_send.");
@@ -65102,7 +65753,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Msg__port__send_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private TitanInteger_template compref; //Integer_Type
 		private TitanCharString_template parameter; //CharString_Type
@@ -66243,6 +66893,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class FunctionEvent extends Base_Type {
 		private final FunctionEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FunctionEvent() {
 			this.choice = new FunctionEvent_choice();
 		}
@@ -66251,6 +66904,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new FunctionEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FunctionEvent( final FunctionEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.");
@@ -66459,7 +67118,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class FunctionEvent_template extends Base_Template {
-
 		private FunctionEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<FunctionEvent_template> list_value;
@@ -67328,6 +67986,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final MatchingFailureType_reason reason; //TTCN3_Enumerated_Type
 		private final TitanCharString info; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingFailureType() {
 			this.port__type = new PortType();
 			this.port__name = new TitanCharString();
@@ -67344,6 +68005,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.info = new TitanCharString( info );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingFailureType( final MatchingFailureType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingFailureType.");
@@ -67704,7 +68371,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingFailureType_template extends Base_Template {
-
 		private PortType_template port__type; //Referenced_Type
 		private TitanCharString_template port__name; //CharString_Type
 		private MatchingFailureType_choice_template choice; //TTCN3_Choice_Type
@@ -69017,6 +69683,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString srcPort; //CharString_Type
 		private final TitanCharString dstPort; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParPort() {
 			this.operation = new ParPort_operation();
 			this.srcCompref = new TitanInteger();
@@ -69033,6 +69702,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.dstPort = new TitanCharString( dstPort );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParPort( final ParPort otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParPort.");
@@ -69393,7 +70068,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ParPort_template extends Base_Template {
-
 		private ParPort_operation_template operation; //TTCN3_Enumerated_Type
 		private TitanInteger_template srcCompref; //Integer_Type
 		private TitanInteger_template dstCompref; //Integer_Type
@@ -70273,6 +70947,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger ptc; //Integer_Type
 		private final TitanCharString return__type; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingDoneType() {
 			this.reason = new MatchingDoneType_reason();
 			this.type__ = new TitanCharString();
@@ -70287,6 +70964,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.return__type = new TitanCharString( return__type );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingDoneType( final MatchingDoneType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingDoneType.");
@@ -70609,7 +71292,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingDoneType_template extends Base_Template {
-
 		private MatchingDoneType_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template type__; //CharString_Type
 		private TitanInteger_template ptc; //Integer_Type
@@ -71497,6 +72179,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString address__; //CharString_Type
 		private final TitanCharString param__; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__Queue() {
 			this.operation = new Port__Queue_operation();
 			this.port__name = new TitanCharString();
@@ -71515,6 +72200,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.param__ = new TitanCharString( param__ );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Queue( final Port__Queue otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Queue.");
@@ -71913,7 +72604,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Port__Queue_template extends Base_Template {
-
 		private Port__Queue_operation_template operation; //TTCN3_Enumerated_Type
 		private TitanCharString_template port__name; //CharString_Type
 		private TitanInteger_template compref; //Integer_Type
@@ -72820,6 +73510,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class ParallelEvent extends Base_Type {
 		private final ParallelEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParallelEvent() {
 			this.choice = new ParallelEvent_choice();
 		}
@@ -72828,6 +73521,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new ParallelEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelEvent( final ParallelEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelEvent.");
@@ -73036,7 +73735,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ParallelEvent_template extends Base_Template {
-
 		private ParallelEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<ParallelEvent_template> list_value;
@@ -73615,9 +74313,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FinalVerdictType_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictType_choice(final FinalVerdictType_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -74574,6 +75282,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString parameter; //CharString_Type
 		private final TitanInteger msgid; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Msg__port__recv() {
 			this.port__name = new TitanCharString();
 			this.operation = new Msg__port__recv_operation();
@@ -74592,6 +75303,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.msgid = new TitanInteger( msgid );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Msg__port__recv( final Msg__port__recv otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_recv.");
@@ -74990,7 +75707,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Msg__port__recv_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private Msg__port__recv_operation_template operation; //TTCN3_Enumerated_Type
 		private TitanInteger_template compref; //Integer_Type
@@ -75898,15 +76614,31 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private List<TitanCharString> valueElements;
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public StartFunction_parameter__list() {
 			// do nothing
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StartFunction_parameter__list( final StartFunction_parameter__list otherValue ) {
 			otherValue.mustBound("Copying an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			valueElements = copyList( otherValue.valueElements );
 		}
 
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StartFunction_parameter__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 		}
@@ -77466,6 +78198,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString name; //CharString_Type
 		private final TitanFloat value__; //Float_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TimerType() {
 			this.name = new TitanCharString();
 			this.value__ = new TitanFloat();
@@ -77476,6 +78211,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.value__ = new TitanFloat( value__ );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TimerType( final TimerType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerType.");
@@ -77722,7 +78463,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TimerType_template extends Base_Template {
-
 		private TitanCharString_template name; //CharString_Type
 		private TitanFloat_template value__; //Float_Type
 		//originally value_list/list_value
@@ -78365,6 +79105,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class DefaultEvent extends Base_Type {
 		private final DefaultEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public DefaultEvent() {
 			this.choice = new DefaultEvent_choice();
 		}
@@ -78373,6 +79116,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new DefaultEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultEvent( final DefaultEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultEvent.");
@@ -78581,7 +79330,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class DefaultEvent_template extends Base_Template {
-
 		private DefaultEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<DefaultEvent_template> list_value;
@@ -79302,18 +80050,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__Queue_operation() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Queue_operation(final Port__Queue_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Queue_operation(final Port__Queue_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Queue_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__Queue_operation' with invalid numeric value {1} .", otherValue));
@@ -80212,6 +80981,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanBoolean check__; //Boolean_Type
 		private final TitanBoolean any__port; //Boolean_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingProblemType() {
 			this.port__name = new TitanCharString();
 			this.reason = new MatchingProblemType_reason();
@@ -80228,6 +81000,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.any__port = new TitanBoolean( any__port );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingProblemType( final MatchingProblemType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingProblemType.");
@@ -80588,7 +81366,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingProblemType_template extends Base_Template {
-
 		private TitanCharString_template port__name; //CharString_Type
 		private MatchingProblemType_reason_template reason; //TTCN3_Enumerated_Type
 		private MatchingProblemType_operation_template operation; //TTCN3_Enumerated_Type
@@ -81429,6 +82206,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class Strings extends Base_Type {
 		private final Strings_str__list str__list; //SequenceOf_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Strings() {
 			this.str__list = new Strings_str__list();
 		}
@@ -81437,6 +82217,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.str__list = new Strings_str__list( str__list );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Strings( final Strings otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Strings.");
@@ -81645,7 +82431,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Strings_template extends Base_Template {
-
 		private Strings_str__list_template str__list; //SequenceOf_Type
 		//originally value_list/list_value
 		private List<Strings_template> list_value;
@@ -82260,6 +83045,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger pid; //Integer_Type
 		private final TitanInteger statuscode; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public PTC__exit() {
 			this.compref = new TitanInteger();
 			this.pid = new TitanInteger();
@@ -82272,6 +83060,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.statuscode = new TitanInteger( statuscode );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public PTC__exit( final PTC__exit otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PTC_exit.");
@@ -82556,7 +83350,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class PTC__exit_template extends Base_Template {
-
 		private TitanInteger_template compref; //Integer_Type
 		private TitanInteger_template pid; //Integer_Type
 		private TitanInteger_template statuscode; //Integer_Type
@@ -83365,18 +84158,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Port__Misc_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Misc_reason(final Port__Misc_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Misc_reason(final Port__Misc_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Port__Misc_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__Misc_reason' with invalid numeric value {1} .", otherValue));
@@ -84277,6 +85091,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class TitanLog extends Base_Type {
 		private final TitanLog_sequence__list sequence__list; //SequenceOf_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLog() {
 			this.sequence__list = new TitanLog_sequence__list();
 		}
@@ -84285,6 +85102,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.sequence__list = new TitanLog_sequence__list( sequence__list );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog( final TitanLog otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.");
@@ -84493,7 +85316,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TitanLog_template extends Base_Template {
-
 		private TitanLog_sequence__list_template sequence__list; //SequenceOf_Type
 		//originally value_list/list_value
 		private List<TitanLog_template> list_value;
@@ -85070,6 +85892,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class ErrorEvent extends Base_Type {
 		private final TitanCharString text; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ErrorEvent() {
 			this.text = new TitanCharString();
 		}
@@ -85078,6 +85903,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.text = new TitanCharString( text );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ErrorEvent( final ErrorEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ErrorEvent.");
@@ -85286,7 +86117,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ErrorEvent_template extends Base_Template {
-
 		private TitanCharString_template text; //CharString_Type
 		//originally value_list/list_value
 		private List<ErrorEvent_template> list_value;
@@ -86079,6 +86909,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class ExecutorEvent extends Base_Type {
 		private final ExecutorEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorEvent() {
 			this.choice = new ExecutorEvent_choice();
 		}
@@ -86087,6 +86920,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new ExecutorEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorEvent( final ExecutorEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorEvent.");
@@ -86295,7 +87134,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutorEvent_template extends Base_Template {
-
 		private ExecutorEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<ExecutorEvent_template> list_value;
@@ -86986,6 +87824,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger dst__compref; //Integer_Type
 		private final TitanCharString dst__port; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Parallel() {
 			this.reason = new Parallel_reason();
 			this.alive__ = new TitanBoolean();
@@ -87006,6 +87847,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.dst__port = new TitanCharString( dst__port );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Parallel( final Parallel otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Parallel.");
@@ -87442,7 +88289,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Parallel_template extends Base_Template {
-
 		private Parallel_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanBoolean_template alive__; //Boolean_Type
 		private TitanCharString_template function__name; //CharString_Type
@@ -88419,6 +89265,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final Optional<TitanInteger> pid; //Integer_Type
 		private final Optional<TitanInteger> fd__setsize; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorRuntime() {
 			this.reason = new ExecutorRuntime_reason();
 			this.module__name = new Optional<TitanCharString>(TitanCharString.class);
@@ -88439,6 +89288,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.fd__setsize.assign( fd__setsize );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorRuntime( final ExecutorRuntime otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorRuntime.");
@@ -88820,7 +89675,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutorRuntime_template extends Base_Template {
-
 		private ExecutorRuntime_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template module__name; //CharString_Type
 		private TitanCharString_template testcase__name; //CharString_Type
@@ -89846,6 +90700,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class FinalVerdictType extends Base_Type {
 		private final FinalVerdictType_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FinalVerdictType() {
 			this.choice = new FinalVerdictType_choice();
 		}
@@ -89854,6 +90711,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new FinalVerdictType_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictType( final FinalVerdictType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictType.");
@@ -90062,7 +90925,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class FinalVerdictType_template extends Base_Template {
-
 		private FinalVerdictType_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<FinalVerdictType_template> list_value;
@@ -90667,18 +91529,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FinalVerdictType_choice_notification() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictType_choice_notification(final FinalVerdictType_choice_notification otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictType_choice_notification(final FinalVerdictType_choice_notification.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FinalVerdictType_choice_notification(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `FinalVerdictType_choice_notification' with invalid numeric value {1} .", otherValue));
@@ -91521,18 +92404,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorUnqualified_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorUnqualified_reason(final ExecutorUnqualified_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorUnqualified_reason(final ExecutorUnqualified_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorUnqualified_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorUnqualified_reason' with invalid numeric value {1} .", otherValue));
@@ -92451,18 +93355,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Msg__port__recv_operation() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Msg__port__recv_operation(final Msg__port__recv_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Msg__port__recv_operation(final Msg__port__recv_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Msg__port__recv_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Msg__port__recv_operation' with invalid numeric value {1} .", otherValue));
@@ -93454,18 +94379,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Verdict() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Verdict(final Verdict otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Verdict(final Verdict.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Verdict(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Verdict' with invalid numeric value {1} .", otherValue));
@@ -94497,18 +95443,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ParallelPTC_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelPTC_reason(final ParallelPTC_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelPTC_reason(final ParallelPTC_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ParallelPTC_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ParallelPTC_reason' with invalid numeric value {1} .", otherValue));
@@ -95523,6 +96490,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class TimerGuardType extends Base_Type {
 		private final TitanFloat value__; //Float_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TimerGuardType() {
 			this.value__ = new TitanFloat();
 		}
@@ -95531,6 +96501,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.value__ = new TitanFloat( value__ );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TimerGuardType( final TimerGuardType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerGuardType.");
@@ -95739,7 +96715,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TimerGuardType_template extends Base_Template {
-
 		private TitanFloat_template value__; //Float_Type
 		//originally value_list/list_value
 		private List<TimerGuardType_template> list_value;
@@ -96390,6 +97365,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger compref; //Integer_Type
 		private final StartFunction_parameter__list parameter__list; //SequenceOf_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public StartFunction() {
 			this.function__name = new TitanCharString();
 			this.compref = new TitanInteger();
@@ -96402,6 +97380,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.parameter__list = new StartFunction_parameter__list( parameter__list );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StartFunction( final StartFunction otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StartFunction.");
@@ -96686,7 +97670,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class StartFunction_template extends Base_Template {
-
 		private TitanCharString_template function__name; //CharString_Type
 		private TitanInteger_template compref; //Integer_Type
 		private StartFunction_parameter__list_template parameter__list; //SequenceOf_Type
@@ -97398,6 +98381,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString addr; //CharString_Type
 		private final TitanInteger port__; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorUnqualified() {
 			this.reason = new ExecutorUnqualified_reason();
 			this.name = new TitanCharString();
@@ -97412,6 +98398,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.port__ = new TitanInteger( port__ );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorUnqualified( final ExecutorUnqualified otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorUnqualified.");
@@ -97734,7 +98726,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutorUnqualified_template extends Base_Template {
-
 		private ExecutorUnqualified_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanCharString_template name; //CharString_Type
 		private TitanCharString_template addr; //CharString_Type
@@ -98683,18 +99674,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public DefaultEnd() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultEnd(final DefaultEnd otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultEnd(final DefaultEnd.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public DefaultEnd(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `DefaultEnd' with invalid numeric value {1} .", otherValue));
@@ -99545,6 +100557,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger category; //Integer_Type
 		private final TitanCharString text; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Categorized() {
 			this.category = new TitanInteger();
 			this.text = new TitanCharString();
@@ -99555,6 +100570,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.text = new TitanCharString( text );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Categorized( final Categorized otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Categorized.");
@@ -99801,7 +100822,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Categorized_template extends Base_Template {
-
 		private TitanInteger_template category; //Integer_Type
 		private TitanCharString_template text; //CharString_Type
 		//originally value_list/list_value
@@ -100517,15 +101537,31 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private List<TitanLog_sequence__list_0> valueElements;
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLog_sequence__list() {
 			// do nothing
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog_sequence__list( final TitanLog_sequence__list otherValue ) {
 			otherValue.mustBound("Copying an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			valueElements = copyList( otherValue.valueElements );
 		}
 
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog_sequence__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLog_sequence__list_0>();
 		}
@@ -102445,6 +103481,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanInteger numberOfTestcases; //Integer_Type
 		private final TitanCharString overallStatistics; //CharString_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutionSummaryType() {
 			this.numberOfTestcases = new TitanInteger();
 			this.overallStatistics = new TitanCharString();
@@ -102455,6 +103494,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.overallStatistics = new TitanCharString( overallStatistics );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutionSummaryType( final ExecutionSummaryType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutionSummaryType.");
@@ -102701,7 +103746,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutionSummaryType_template extends Base_Template {
-
 		private TitanInteger_template numberOfTestcases; //Integer_Type
 		private TitanCharString_template overallStatistics; //CharString_Type
 		//originally value_list/list_value
@@ -103596,6 +104640,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class MatchingEvent extends Base_Type {
 		private final MatchingEvent_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingEvent() {
 			this.choice = new MatchingEvent_choice();
 		}
@@ -103604,6 +104651,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new MatchingEvent_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingEvent( final MatchingEvent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingEvent.");
@@ -103812,7 +104865,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class MatchingEvent_template extends Base_Template {
-
 		private MatchingEvent_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<MatchingEvent_template> list_value;
@@ -104428,6 +105480,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final TitanCharString port__name; //CharString_Type
 		private final TitanBoolean unhandled; //Boolean_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public Dualface__discard() {
 			this.incoming = new TitanBoolean();
 			this.target__type = new TitanCharString();
@@ -104442,6 +105497,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.unhandled = new TitanBoolean( unhandled );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public Dualface__discard( final Dualface__discard otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_discard.");
@@ -104764,7 +105825,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class Dualface__discard_template extends Base_Template {
-
 		private TitanBoolean_template incoming; //Boolean_Type
 		private TitanCharString_template target__type; //CharString_Type
 		private TitanCharString_template port__name; //CharString_Type
@@ -105539,6 +106599,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 	public static class StatisticsType extends Base_Type {
 		private final StatisticsType_choice choice; //TTCN3_Choice_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public StatisticsType() {
 			this.choice = new StatisticsType_choice();
 		}
@@ -105547,6 +106610,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.choice = new StatisticsType_choice( choice );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public StatisticsType( final StatisticsType otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.");
@@ -105755,7 +106824,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class StatisticsType_template extends Base_Template {
-
 		private StatisticsType_choice_template choice; //TTCN3_Choice_Type
 		//originally value_list/list_value
 		private List<StatisticsType_template> list_value;
@@ -106442,9 +107510,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public MatchingEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public MatchingEvent_choice(final MatchingEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -107683,9 +108761,19 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private union_selection_type union_selection;
 		//originally a union which can not be mapped to Java
 		private Base_Type field;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public FunctionEvent_choice() {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		};
+
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public FunctionEvent_choice(final FunctionEvent_choice otherValue) {
 			copy_value(otherValue);
 		};
@@ -108629,18 +109717,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public RandomAction() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public RandomAction(final RandomAction otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public RandomAction(final RandomAction.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public RandomAction(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `RandomAction' with invalid numeric value {1} .", otherValue));
@@ -109488,6 +110597,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final ExecutorComponent_reason reason; //TTCN3_Enumerated_Type
 		private final Optional<TitanInteger> compref; //Integer_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorComponent() {
 			this.reason = new ExecutorComponent_reason();
 			this.compref = new Optional<TitanInteger>(TitanInteger.class);
@@ -109499,6 +110611,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.compref.assign( compref );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorComponent( final ExecutorComponent otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorComponent.");
@@ -109751,7 +110869,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class ExecutorComponent_template extends Base_Template {
-
 		private ExecutorComponent_reason_template reason; //TTCN3_Enumerated_Type
 		private TitanInteger_template compref; //Integer_Type
 		//originally value_list/list_value
@@ -110487,6 +111604,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private final ComponentIDType entityId; //Referenced_Type
 		private final TitanLog_sequence__list_0_event__list event__list; //SequenceOf_Type
 
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public TitanLog_sequence__list_0() {
 			this.entityId = new ComponentIDType();
 			this.event__list = new TitanLog_sequence__list_0_event__list();
@@ -110497,6 +111617,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 			this.event__list = new TitanLog_sequence__list_0_event__list( event__list );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public TitanLog_sequence__list_0( final TitanLog_sequence__list_0 otherValue) {
 			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
@@ -110743,7 +111869,6 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 	}
 	public static class TitanLog_sequence__list_0_template extends Base_Template {
-
 		private ComponentIDType_template entityId; //Referenced_Type
 		private TitanLog_sequence__list_0_event__list_template event__list; //SequenceOf_Type
 		//originally value_list/list_value
@@ -111420,18 +112545,39 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public enum_type enum_value;
 		//===Constructors===;
+		/**
+		 * Initializes to unbound value.
+		 * */
 		public ExecutorComponent_reason() {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorComponent_reason(final ExecutorComponent_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorComponent_reason(final ExecutorComponent_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
 		public ExecutorComponent_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorComponent_reason' with invalid numeric value {1} .", otherValue));

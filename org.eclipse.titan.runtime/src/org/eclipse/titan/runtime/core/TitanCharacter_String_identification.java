@@ -27,9 +27,19 @@ public class TitanCharacter_String_identification extends Base_Type {
 	private TitanCharacter_String_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
 	private Base_Type field;
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanCharacter_String_identification() {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	};
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharacter_String_identification(final TitanCharacter_String_identification otherValue) {
 		copy_value(otherValue);
 	};

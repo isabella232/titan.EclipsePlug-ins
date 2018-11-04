@@ -40,19 +40,40 @@ public class TitanHexString extends Base_Type {
 	 */
 	private byte nibbles_ptr[];
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanHexString() {
 	}
 
-	public TitanHexString(final byte aOtherValue[]) {
-		nibbles_ptr = TitanStringUtils.copyByteList(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanHexString(final byte otherValue[]) {
+		nibbles_ptr = TitanStringUtils.copyByteList(otherValue);
 	}
 
-	public TitanHexString(final TitanHexString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound hexstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanHexString(final TitanHexString otherValue) {
+		otherValue.mustBound("Copying an unbound hexstring value.");
 
-		nibbles_ptr = TitanStringUtils.copyByteList(aOtherValue.nibbles_ptr);
+		nibbles_ptr = TitanStringUtils.copyByteList(otherValue.nibbles_ptr);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanHexString(final TitanHexString_Element otherValue) {
 		otherValue.mustBound("Initialization from an unbound hexstring element.");
 
@@ -60,6 +81,12 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr[0] = (byte) otherValue.get_nibble();
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanHexString(final byte aValue) {
 		nibbles_ptr = new byte[1];
 		nibbles_ptr[0] = aValue;

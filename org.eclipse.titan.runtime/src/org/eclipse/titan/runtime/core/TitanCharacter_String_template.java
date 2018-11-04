@@ -19,7 +19,6 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_template extends Base_Template {
-
 	private TitanCharacter_String_identification_template identification; //ASN1_Choice_Type
 	private TitanUniversalCharString_template data__value__descriptor; //ObjectDescriptor_Type
 	private TitanOctetString_template string__value; //OctetString_Type

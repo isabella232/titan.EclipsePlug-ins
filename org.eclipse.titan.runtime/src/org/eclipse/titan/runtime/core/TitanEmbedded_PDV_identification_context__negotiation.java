@@ -25,6 +25,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	private final TitanInteger presentation__context__id; //ASN1_Integer_Type
 	private final TitanObjectid transfer__syntax; //ObjectID_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanEmbedded_PDV_identification_context__negotiation() {
 		this.presentation__context__id = new TitanInteger();
 		this.transfer__syntax = new TitanObjectid();
@@ -35,6 +38,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		this.transfer__syntax = new TitanObjectid( transfer__syntax );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanEmbedded_PDV_identification_context__negotiation( final TitanEmbedded_PDV_identification_context__negotiation otherValue) {
 		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type EMBEDDED PDV.identification.context-negotiation.");

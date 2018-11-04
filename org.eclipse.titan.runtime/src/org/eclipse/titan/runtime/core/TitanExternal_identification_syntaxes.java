@@ -25,6 +25,9 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	private final TitanObjectid abstract_; //ObjectID_Type
 	private final TitanObjectid transfer; //ObjectID_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanExternal_identification_syntaxes() {
 		this.abstract_ = new TitanObjectid();
 		this.transfer = new TitanObjectid();
@@ -35,6 +38,12 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		this.transfer = new TitanObjectid( transfer );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanExternal_identification_syntaxes( final TitanExternal_identification_syntaxes otherValue) {
 		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");

@@ -35,23 +35,44 @@ public class TitanInteger extends Base_Type {
 	private int nativeInt;
 	private BigInteger openSSL;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanInteger() {
 		boundFlag = false;
 		nativeFlag = true;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final int otherValue) {
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final BigInteger otherValue) {
 		openSSL = otherValue;
 		boundFlag = true;
 		nativeFlag = false;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final TitanInteger otherValue) {
 		otherValue.mustBound("Copying an unbound integer value.");
 
@@ -81,6 +102,12 @@ public class TitanInteger extends Base_Type {
 
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final String otherValue) {
 		if (otherValue == null) {
 			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));

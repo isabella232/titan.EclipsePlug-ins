@@ -25,6 +25,9 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	private final TitanInteger presentation__context__id; //ASN1_Integer_Type
 	private final TitanObjectid transfer__syntax; //ObjectID_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanCharacter_String_identification_context__negotiation() {
 		this.presentation__context__id = new TitanInteger();
 		this.transfer__syntax = new TitanObjectid();
@@ -35,6 +38,12 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		this.transfer__syntax = new TitanObjectid( transfer__syntax );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharacter_String_identification_context__negotiation( final TitanCharacter_String_identification_context__negotiation otherValue) {
 		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.identification.context-negotiation.");

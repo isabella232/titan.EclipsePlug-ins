@@ -28,19 +28,40 @@ public class TitanGeneralString extends TitanUniversalCharString {
 		return new TitanGeneralString(ucstr);
 	}
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanGeneralString() {
 		//intentionally empty
 	}
 
-	public TitanGeneralString(final TitanUniversalCharString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGeneralString(final TitanUniversalCharString otherValue) {
+		super(otherValue);
 	}
 
-	public TitanGeneralString(final List<TitanUniversalChar> aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGeneralString(final List<TitanUniversalChar> otherValue) {
+		super(otherValue);
 	}
 
-	public TitanGeneralString(final TitanGeneralString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGeneralString(final TitanGeneralString otherValue) {
+		super(otherValue);
 	}
 }

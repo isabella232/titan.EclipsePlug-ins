@@ -29,6 +29,9 @@ public class TitanObjectid extends Base_Type {
 	private int overflow_idx; // index of the first overflow, or -1
 	private List<TitanInteger> components_ptr;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanObjectid() {
 
 	}
@@ -46,6 +49,12 @@ public class TitanObjectid extends Base_Type {
 		}
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanObjectid(final TitanObjectid otherValue) {
 		if (otherValue.components_ptr == null) {
 			throw new TtcnError("Copying an unbound objid value.");

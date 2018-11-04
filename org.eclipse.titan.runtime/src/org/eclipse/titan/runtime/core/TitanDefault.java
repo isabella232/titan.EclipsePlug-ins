@@ -30,11 +30,20 @@ public class TitanDefault extends Base_Type {
 
 	Default_Base default_ptr;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanDefault() {
 		default_ptr = UNBOUND_DEFAULT;
 	}
 
-	//originally has component parameter
+	/**
+	 * Initializes to a given value.
+	 *
+	 * in the core has component parameter
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanDefault(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Initialization from an invalid default reference.");
@@ -43,16 +52,28 @@ public class TitanDefault extends Base_Type {
 		default_ptr = null;
 	}
 
-	public TitanDefault(final Default_Base aOtherValue) {
-		default_ptr = aOtherValue;
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanDefault(final Default_Base otherValue) {
+		default_ptr = otherValue;
 	}
 
-	public TitanDefault(final TitanDefault aOtherValue) {
-		if (aOtherValue.default_ptr == UNBOUND_DEFAULT) {
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanDefault(final TitanDefault otherValue) {
+		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("Copying an unbound default reference.");
 		}
 
-		default_ptr = aOtherValue.default_ptr;
+		default_ptr = otherValue.default_ptr;
 	}
 
 	// originally operator= with component parameter

@@ -27,9 +27,19 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	private TitanEmbedded_PDV_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
 	private Base_Type field;
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanEmbedded_PDV_identification() {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	};
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanEmbedded_PDV_identification(final TitanEmbedded_PDV_identification otherValue) {
 		copy_value(otherValue);
 	};

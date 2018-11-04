@@ -139,7 +139,7 @@ public final class EnumeratedGenerator {
 		source.append("public enum_type enum_value;\n");
 
 		source.append("//===Constructors===;\n");
-		generateValueConstructors(source,e_defs.name);
+		generateValueConstructors(aData, source,e_defs.name);
 
 		//== functions ==
 		source.append("//===Methods===;\n");
@@ -231,23 +231,52 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueConstructors(final StringBuilder source,final String name) {
+	private static void generateValueConstructors(final JavaGenData aData, final StringBuilder source,final String name) {
 		//empty
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to unbound value.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}() '{'\n", name));
 		source.append(MessageFormat.format("enum_value = enum_type.{0};\n", UNBOUND_VALUE));
 		source.append("}\n\n");
 
 		// own type
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", name));
 		source.append(MessageFormat.format("enum_value = otherValue.enum_value;\n", name));
 		source.append("}\n\n");
 
 		// enum_type
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final {0}.enum_type otherValue ) '{'\n", name));
 		source.append("enum_value = otherValue;\n");
 		source.append("}\n\n");
 
 		//arg int
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final int otherValue) '{'\n", name));
 		source.append("if (!isValidEnum(otherValue)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Initializing a variable of enumerated type `{0}'' with invalid numeric value {1} .\", otherValue));\n", name));
@@ -274,6 +303,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateLog(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
 		source.append("TTCN_Logger.log_event_unbound();\n");
@@ -904,6 +934,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateIsValue(final StringBuilder source, final String name) {
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return false;\n");
@@ -1026,6 +1057,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateLog(final StringBuilder source, final String name) {
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");

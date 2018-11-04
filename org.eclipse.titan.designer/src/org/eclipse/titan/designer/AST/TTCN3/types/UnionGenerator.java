@@ -131,7 +131,7 @@ public final class UnionGenerator {
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
-		generateValueConstructors(source, genName, fieldInfos);
+		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
 		generateValueAssign(source, genName, displayName, fieldInfos);
 		generateValueCleanup(source, fieldInfos);
@@ -231,6 +231,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate constructors
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -239,10 +241,24 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueConstructors( final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
+	private static void generateValueConstructors(final JavaGenData aData, final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to unbound value.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}() '{'\n", genName));
 		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
-		source.append("};\n");
+		source.append("};\n\n");
+
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", genName));
 		source.append("copy_value(otherValue);\n");
 		source.append("};\n\n");
@@ -520,6 +536,7 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("switch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -1498,6 +1515,7 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");

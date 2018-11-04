@@ -44,22 +44,43 @@ public class TitanOctetString extends Base_Type {
 	 */
 	private char val_ptr[];
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanOctetString() {
 	}
 
-	public TitanOctetString(final char aOtherValue[]) {
-		val_ptr = TitanStringUtils.copyCharList(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanOctetString(final char otherValue[]) {
+		val_ptr = TitanStringUtils.copyCharList(otherValue);
 	}
 
-	public TitanOctetString(final TitanOctetString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound octetstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanOctetString(final TitanOctetString otherValue) {
+		otherValue.mustBound("Copying an unbound octetstring value.");
 
-		val_ptr = TitanStringUtils.copyCharList(aOtherValue.val_ptr);
+		val_ptr = TitanStringUtils.copyCharList(otherValue.val_ptr);
 	}
 
-	public TitanOctetString(final char aValue) {
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanOctetString(final char value) {
 		val_ptr = new char[1];
-		val_ptr[0] = aValue;
+		val_ptr[0] = value;
 	}
 
 	/**
@@ -67,8 +88,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param aValue string representation of a octetstring value, without ''B, it contains only [0-9A-F] characters.
 	 * NOTE: this is the way octetstring value is stored in Octetstring_Value
 	 */
-	public TitanOctetString(final String aValue) {
-		val_ptr = octetstr2bytelist(aValue);
+	public TitanOctetString(final String value) {
+		val_ptr = octetstr2bytelist(value);
 	}
 
 	/**

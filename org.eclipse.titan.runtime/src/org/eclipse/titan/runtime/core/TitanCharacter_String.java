@@ -28,6 +28,9 @@ public class TitanCharacter_String extends Base_Type {
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
 	private final TitanOctetString string__value; //OctetString_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanCharacter_String() {
 		this.identification = new TitanCharacter_String_identification();
 		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
@@ -41,6 +44,12 @@ public class TitanCharacter_String extends Base_Type {
 		this.string__value = new TitanOctetString( string__value );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharacter_String( final TitanCharacter_String otherValue) {
 		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.");

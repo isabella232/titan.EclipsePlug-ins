@@ -39,22 +39,43 @@ public class TitanFloat extends Base_Type {
 	public static final double MIN_DECIMAL_FLOAT = 1.0E-4;
 	public static final double MAX_DECIMAL_FLOAT = 1.0E+10;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanFloat() {
 		super();
 	}
 
-	public TitanFloat(final double aOtherValue) {
-		float_value = new Ttcn3Float(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanFloat(final double otherValue) {
+		float_value = new Ttcn3Float(otherValue);
 	}
 
-	public TitanFloat(final Ttcn3Float aOtherValue) {
-		float_value = aOtherValue;
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanFloat(final Ttcn3Float otherValue) {
+		float_value = otherValue;
 	}
 
-	public TitanFloat(final TitanFloat aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound float value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanFloat(final TitanFloat otherValue) {
+		otherValue.mustBound("Copying an unbound float value.");
 
-		float_value = aOtherValue.float_value;
+		float_value = otherValue.float_value;
 	}
 
 	public Double getValue() {

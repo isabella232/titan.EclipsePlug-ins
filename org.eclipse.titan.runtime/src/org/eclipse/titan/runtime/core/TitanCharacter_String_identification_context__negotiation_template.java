@@ -19,7 +19,6 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_context__negotiation_template extends Base_Template {
-
 	private TitanInteger_template presentation__context__id; //ASN1_Integer_Type
 	private TitanObjectid_template transfer__syntax; //ObjectID_Type
 	//originally value_list/list_value

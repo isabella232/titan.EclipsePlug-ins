@@ -40,6 +40,9 @@ public class TitanBitString extends Base_Type {
 	/** number of bits */
 	private int n_bits;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanBitString() {
 		bits_ptr = null;
 		n_bits = 0;
@@ -51,27 +54,42 @@ public class TitanBitString extends Base_Type {
 		clear_unused_bits();
 	}
 
-	public TitanBitString(final TitanBitString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound bitstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanBitString(final TitanBitString otherValue) {
+		otherValue.mustBound("Copying an unbound bitstring value.");
 
-		bits_ptr = TitanStringUtils.copyIntegerList(aOtherValue.bits_ptr);
-		n_bits = aOtherValue.n_bits;
+		bits_ptr = TitanStringUtils.copyIntegerList(otherValue.bits_ptr);
+		n_bits = otherValue.n_bits;
 	}
 
-	/** Creates a TitanBitString with a single bit.
-	 * @param aOtherValue must be bound
+	/**
+	 * Creates a TitanBitString with a single bit.
+	 * 
+	 * @param otherValue
+	 *                must be bound
 	 */
-	public TitanBitString(final TitanBitString_Element aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound bitstring element.");
+	public TitanBitString(final TitanBitString_Element otherValue) {
+		otherValue.mustBound("Copying an unbound bitstring element.");
 
 		bits_ptr = new int[1];
-		bits_ptr[0] = aOtherValue.get_bit() ? 1 : 0;
+		bits_ptr[0] = otherValue.get_bit() ? 1 : 0;
 		n_bits = 1;
 	}
 
-	public TitanBitString(final int aValue) {
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param value
+	 *                the value to initialize to.
+	 * */
+	public TitanBitString(final int value) {
 		bits_ptr = new int[1];
-		bits_ptr[0] = aValue;
+		bits_ptr[0] = value;
 		n_bits = 8;
 	}
 
@@ -80,9 +98,9 @@ public class TitanBitString extends Base_Type {
 	 * @param aValue string representation of a bitstring value, without ''B, it contains only '0' and '1' characters.
 	 * NOTE: this is the way bitstring value is stored in Bitstring_Value
 	 */
-	public TitanBitString(final String aValue) {
-		bits_ptr = bitstr2intlist(aValue);
-		n_bits = aValue.length();
+	public TitanBitString(final String value) {
+		bits_ptr = bitstr2intlist(value);
+		n_bits = value.length();
 	}
 
 	/**

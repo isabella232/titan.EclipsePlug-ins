@@ -150,15 +150,36 @@ public final class FunctionReferenceGenerator {
 		}
 		source.append("};\n");
 
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to unbound value.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}() '{'\n", def.genName));
 		source.append("referred_function = null;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		//TODO check if this kind of constructor is a good idea or not!!!
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final function_pointer otherValue) '{'\n", def.genName));
 		source.append("referred_function = otherValue;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		if ( aData.isDebug() ) {
+			source.append( "/**\n" );
+			source.append( " * Initializes to a given value.\n" );
+			source.append( " *\n" );
+			source.append( " * @param otherValue\n" );
+			source.append( " *                the value to initialize to.\n" );
+			source.append( " * */\n" );
+		}
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Copying an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
@@ -779,6 +800,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append("}\n");
 
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");

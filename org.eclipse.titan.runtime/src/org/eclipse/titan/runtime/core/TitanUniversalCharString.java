@@ -43,18 +43,27 @@ public class TitanUniversalCharString extends Base_Type {
 	 */
 	boolean charstring;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanUniversalCharString() {
 		super();
 	}
 
-	public TitanUniversalCharString(final TitanUniversalChar aOtherValue) {
-		if (!aOtherValue.is_char()) {
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final TitanUniversalChar otherValue) {
+		if (!otherValue.is_char()) {
 			val_ptr = new ArrayList<TitanUniversalChar>();
-			val_ptr.add(aOtherValue);
+			val_ptr.add(otherValue);
 			charstring = false;
 		} else {
 			cstr = new StringBuilder();
-			cstr.append(aOtherValue.getUc_cell());
+			cstr.append(otherValue.getUc_cell());
 			charstring = true;
 		}
 	}
@@ -72,58 +81,94 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public TitanUniversalCharString(final List<TitanUniversalChar> aOtherValue) {
-		val_ptr = copyList(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final List<TitanUniversalChar> otherValue) {
+		val_ptr = copyList(otherValue);
 		charstring = false;
 	}
 
-	public TitanUniversalCharString(final TitanUniversalChar[] aOther) {
+	public TitanUniversalCharString(final TitanUniversalChar[] otherValue) {
 		val_ptr = new ArrayList<TitanUniversalChar>();
-		for (int i = 0; i < aOther.length; i++) {
-			val_ptr.add(aOther[i]);
+		for (int i = 0; i < otherValue.length; i++) {
+			val_ptr.add(otherValue[i]);
 		}
 
 		charstring = false;
 	}
 
-	public TitanUniversalCharString(final String aOtherValue) {
-		cstr = new StringBuilder(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final String otherValue) {
+		cstr = new StringBuilder(otherValue);
 		charstring = true;
 	}
 
-	public TitanUniversalCharString(final StringBuilder aOtherValue) {
-		cstr = new StringBuilder(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final StringBuilder otherValue) {
+		cstr = new StringBuilder(otherValue);
 		charstring = true;
 	}
 
-	public TitanUniversalCharString(final TitanCharString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound charstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final TitanCharString otherValue) {
+		otherValue.mustBound("Copying an unbound charstring value.");
 
-		cstr = new StringBuilder(aOtherValue.getValue());
+		cstr = new StringBuilder(otherValue.getValue());
 		charstring = true;
 	}
 
-	public TitanUniversalCharString(final TitanUniversalCharString aOtherValue) {
-		aOtherValue.mustBound("Copying an unbound universal charstring value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final TitanUniversalCharString otherValue) {
+		otherValue.mustBound("Copying an unbound universal charstring value.");
 
-		charstring = aOtherValue.charstring;
+		charstring = otherValue.charstring;
 		if (charstring) {
-			cstr = new StringBuilder(aOtherValue.cstr);
+			cstr = new StringBuilder(otherValue.cstr);
 		} else {
-			val_ptr = copyList(aOtherValue.val_ptr);
+			val_ptr = copyList(otherValue.val_ptr);
 		}
 	}
 
-	public TitanUniversalCharString(final TitanUniversalCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Initialization of a universal charstring with an unbound universal charstring element.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanUniversalCharString(final TitanUniversalCharString_Element otherValue) {
+		otherValue.mustBound("Initialization of a universal charstring with an unbound universal charstring element.");
 
-		if (aOtherValue.get_char().is_char()) {
+		if (otherValue.get_char().is_char()) {
 			cstr = new StringBuilder();
-			cstr.append(aOtherValue.get_char().getUc_cell());
+			cstr.append(otherValue.get_char().getUc_cell());
 			charstring = true;
 		} else {
 			val_ptr = new ArrayList<TitanUniversalChar>();
-			val_ptr.add(aOtherValue.get_char());
+			val_ptr.add(otherValue.get_char());
 			charstring = false;
 		}
 	}
