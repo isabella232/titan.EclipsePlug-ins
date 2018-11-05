@@ -209,7 +209,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanValueArray<T> otherValue) {
 		if (array_size != otherValue.array_size) {
@@ -225,10 +225,28 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return true;
 	}
 
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final Base_Type otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final TitanValueArray<T> otherValue) {
 		return !operatorEquals(otherValue);
 	}
