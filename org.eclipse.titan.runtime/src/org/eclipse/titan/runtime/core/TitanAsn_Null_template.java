@@ -10,6 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TitanAsn_Null.Asn_Null_Type;
 
 /**
@@ -112,6 +115,28 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", otherValue));
+	}
+
+	public TitanAsn_Null_template assign(final Asn_Null_Type otherValue) {
+		cleanUp();
+		set_selection(template_sel.SPECIFIC_VALUE);
+		
+		return this; 
+	}
+
+	public TitanAsn_Null_template assign(final Optional<TitanAsn_Null> otherValue) {
+		cleanUp();
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Assignment of an unbound optional field to a template of ASN.1 NULL type.");
+		}
+		return this;
 	}
 
 	@Override
@@ -271,6 +296,37 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 	}
 
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "NULL template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanAsn_Null_template temp = new TitanAsn_Null_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Asn_Null:
+			this.assign(Asn_Null_Type.ASN_NULL_VALUE);
+			break;
+		default:
+			param.type_error("NULL template");
+		}
+		is_ifPresent = param.get_ifpresent();
+	}
+	
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
