@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.RecordOfMatch.answer;
 import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
 import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
@@ -673,6 +676,67 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value));
 	}
 
+	@Override
+	public void set_param(final Module_Parameter param) {
+		if (param.get_id() != null && param.get_id().next_name()) {
+			// Haven't reached the end of the module parameter name
+			// => the name refers to one of the elements, not to the whole array
+			final String param_field = param.get_id().get_current_name();
+			if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
+				param.error("Unexpected record field name in module parameter, expected a valid array template index");
+			}
+			final int param_index = Integer.parseInt(param_field);
+			if (param_index >= array_size) {
+				param.error("Invalid array index: %u. The array only has %u elements.", param_index, array_size);
+			}
+			this.getAt(param_index).set_param(param);
+			return;
+		}
+
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "array template");
+
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			final TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate);
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Value_List: {
+			setSize(param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				if (curr.get_type() != type_t.MP_NotUsed) {
+					this.getAt(i + indexOffset).set_param(curr);
+				}
+			}
+			break;
+		}
+		case MP_Indexed_List: {
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				this.getAt(curr.get_id().get_index()).set_param(curr);
+			}
+			break;
+		}
+		default:
+			param.type_error("array template");
+		}
+		is_ifPresent = param.get_ifpresent();
+	}
+	
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
