@@ -326,7 +326,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 		is_ifPresent = param.get_ifpresent();
 	}
-	
+
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
