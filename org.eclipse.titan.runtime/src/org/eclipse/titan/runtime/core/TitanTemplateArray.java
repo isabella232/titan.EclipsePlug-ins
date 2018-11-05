@@ -706,7 +706,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			this.assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
-		case MP_ComplementList_Template:
+		case MP_ComplementList_Template: {
 			final TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate);
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
@@ -714,7 +714,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			}
 			this.assign(temp);
 			break;
-		case MP_Value_List: {
+		}
+		case MP_Value_List:
 			setSize(param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
@@ -723,14 +724,12 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				}
 			}
 			break;
-		}
-		case MP_Indexed_List: {
+		case MP_Indexed_List:
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
 				this.getAt(curr.get_id().get_index()).set_param(curr);
 			}
 			break;
-		}
 		default:
 			param.type_error("array template");
 		}

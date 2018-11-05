@@ -327,7 +327,7 @@ public class TitanComponent_template extends Base_Template {
 			this.assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
-		case MP_ComplementList_Template:
+		case MP_ComplementList_Template: {
 			final TitanComponent_template temp = new TitanComponent_template();
 			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
@@ -335,6 +335,7 @@ public class TitanComponent_template extends Base_Template {
 			}
 			this.assign(temp);
 			break;
+		}
 		case MP_Integer:
 			this.assign(param.get_integer());
 			break;

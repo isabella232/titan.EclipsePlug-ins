@@ -697,7 +697,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
-		case MP_ComplementList_Template:
+		case MP_ComplementList_Template: {
 			final TitanCharString_template temp = new TitanCharString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
@@ -705,10 +705,11 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			}
 			assign(temp);
 			break;
+		}
 		case MP_Charstring:
 			this.assign(new TitanCharString((String)param.get_string_data()));
 			break;
-		case MP_StringRange:
+		case MP_StringRange: {
 			final TitanUniversalChar lower_uchar = param.get_lower_uchar();
 			final TitanUniversalChar upper_uchar = param.get_upper_uchar();
 			if (!lower_uchar.is_char()) {
@@ -726,6 +727,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			min_is_exclusive = param.get_is_min_exclusive();
 			max_is_exclusive = param.get_is_max_exclusive();
 			break;
+		}
 		case MP_Pattern:
 			cleanUp();
 			single_value = new TitanCharString(param.get_pattern());

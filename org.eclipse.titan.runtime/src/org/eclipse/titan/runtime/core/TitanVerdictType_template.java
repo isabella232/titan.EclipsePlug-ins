@@ -357,7 +357,7 @@ public class TitanVerdictType_template extends Base_Template {
 			this.assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
-		case MP_ComplementList_Template:
+		case MP_ComplementList_Template: {
 			final TitanVerdictType_template temp = new TitanVerdictType_template();
 			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
@@ -365,6 +365,7 @@ public class TitanVerdictType_template extends Base_Template {
 			}
 			this.assign(temp);
 			break;
+		}
 		case MP_Verdict:
 			this.assign(param.get_verdict());
 			break;

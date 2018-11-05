@@ -905,7 +905,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			this.assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
-		case MP_ComplementList_Template:
+		case MP_ComplementList_Template: {
 			final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
@@ -913,15 +913,17 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			}
 			this.assign(temp);
 			break;
-		case MP_Charstring:
+		}
+		case MP_Charstring: {
 			final TTCN_Buffer buff = new TTCN_Buffer();
 			buff.put_s(((String)param.get_string_data()).toCharArray());
 			this.assign(TitanUniversalCharString.from_UTF8_buffer(buff));
 			break;
+		}
 		case MP_Universal_Charstring:
 			this.assign((TitanUniversalCharString)param.get_string_data());
 			break;
-		case MP_StringRange:
+		case MP_StringRange: {
 			final TitanUniversalChar lower_uchar = param.get_lower_uchar();
 			final TitanUniversalChar upper_uchar = param.get_upper_uchar();
 			cleanUp();
@@ -933,6 +935,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			setMinExclusive(param.get_is_min_exclusive());
 			setMaxExclusive(param.get_is_max_exclusive());
 			break;
+		}
 		case MP_Pattern:
 			cleanUp();
 			pattern_string = new TitanCharString(param.get_pattern());
