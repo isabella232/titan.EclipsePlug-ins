@@ -937,7 +937,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			for (final SelectableChannel channel : read_channels) {
 				channel.configureBlocking(false);
 				TTCN_Snapshot.channelMap.get().put(channel, this);
-				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
+				channel.register(TTCN_Snapshot.selector.get(), channel.validOps());
 			}
 		}
 
@@ -954,7 +954,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		for (final SelectableChannel channel : tobeRemoved) {
-			channel.close();
 			TTCN_Snapshot.channelMap.get().remove(channel);
 		}
 
