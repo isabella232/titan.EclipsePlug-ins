@@ -439,7 +439,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "array value");
 		switch (param.get_type()) {
-		case MP_Value_List:
+		case MP_Value_List: {
 			if (param.get_size() != array_size) {
 				param.error("The array value has incorrect number of elements: %lu was expected instead of %lu.", param.get_size(), array_size);
 			}
@@ -450,12 +450,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				}
 			}
 			break;
-		case MP_Indexed_List:
+		}
+		case MP_Indexed_List: {
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
 				array_elements[curr.get_id().get_index()].set_param(curr);
 			}
 			break;
+		}
 		default:
 			param.type_error("array value");
 		}

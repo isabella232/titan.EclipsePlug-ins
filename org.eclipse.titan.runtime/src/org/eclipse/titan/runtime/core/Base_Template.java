@@ -219,14 +219,7 @@ public abstract class Base_Template {
 
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
-	public void set_param (final Param_Types.Module_Parameter param) {
-		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TTCN_Logger.log_event_str( "//TODO: " );
-		TTCN_Logger.log_event_str( getClass().getSimpleName() );
-		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TTCN_Logger.end_event();
-	}
+	public abstract void set_param (final Param_Types.Module_Parameter param);
 
 	// originally is_present (with default parameter)
 	public boolean isPresent() {

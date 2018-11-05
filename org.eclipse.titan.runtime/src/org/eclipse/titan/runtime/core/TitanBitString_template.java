@@ -663,9 +663,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 		is_ifPresent = param.get_ifpresent();
 		if (param.get_length_restriction() != null) {
-			//TODO: implement set_length_range()
-		} else {
-			//TODO: implement set_length_range()
+			set_length_range(param);
 		}
 	}
 
