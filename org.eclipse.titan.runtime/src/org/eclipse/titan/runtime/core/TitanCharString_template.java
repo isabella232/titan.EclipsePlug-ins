@@ -698,7 +698,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanCharString_template temp = new TitanCharString_template();
+			final TitanCharString_template temp = new TitanCharString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));
@@ -738,8 +738,8 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				// only allow string patterns for the first operand
 				final TitanCharString operand1 = new TitanCharString();
 				final TitanCharString operand2 = new TitanCharString();
-				TitanCharString result = new TitanCharString();
-				AtomicBoolean nocase = new AtomicBoolean();
+				final TitanCharString result = new TitanCharString();
+				final AtomicBoolean nocase = new AtomicBoolean();
 				final boolean is_pattern = operand1.set_param_internal(param.get_operand1(),true,nocase);
 				operand2.set_param(param.get_operand2());
 				result.assign(operand1.concatenate(operand2));

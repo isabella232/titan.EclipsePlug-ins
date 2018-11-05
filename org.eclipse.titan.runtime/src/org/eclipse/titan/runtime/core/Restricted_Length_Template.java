@@ -229,13 +229,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	protected void set_length_range(final Module_Parameter param)
-	{
-		Module_Param_Length_Restriction length_range = param.get_length_restriction();
-		if (length_range==null) {
+	protected void set_length_range(final Module_Parameter param) {
+		final Module_Param_Length_Restriction length_range = param.get_length_restriction();
+		if (length_range == null) {
 			length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			return;
 		}
+
 		if (length_range.is_single()) {
 			length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
 			single_length = length_range.get_min();

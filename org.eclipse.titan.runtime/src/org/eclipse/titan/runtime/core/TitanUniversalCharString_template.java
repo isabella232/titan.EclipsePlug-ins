@@ -906,7 +906,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+			final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));
@@ -914,7 +914,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			this.assign(temp);
 			break;
 		case MP_Charstring:
-			TTCN_Buffer buff = new TTCN_Buffer();
+			final TTCN_Buffer buff = new TTCN_Buffer();
 			buff.put_s(((String)param.get_string_data()).toCharArray());
 			this.assign(TitanUniversalCharString.from_UTF8_buffer(buff));
 			break;
@@ -922,8 +922,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			this.assign((TitanUniversalCharString)param.get_string_data());
 			break;
 		case MP_StringRange:
-			TitanUniversalChar lower_uchar = param.get_lower_uchar();
-			TitanUniversalChar upper_uchar = param.get_upper_uchar();
+			final TitanUniversalChar lower_uchar = param.get_lower_uchar();
+			final TitanUniversalChar upper_uchar = param.get_upper_uchar();
 			cleanUp();
 			set_selection(template_sel.VALUE_RANGE);
 			min_is_set = true;
