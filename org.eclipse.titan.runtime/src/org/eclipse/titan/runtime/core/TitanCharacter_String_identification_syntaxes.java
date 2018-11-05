@@ -114,7 +114,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
+	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes otherValue) {
 		if ( !this.abstract_.operatorEquals( otherValue.abstract_ ) ) { return false; }
@@ -131,17 +131,40 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", otherValue));
 	}
 
+	/**
+	 * Gives access to the field abstract.
+	 *
+	 * @return the field abstract.
+	 * */
+
 	public TitanObjectid getabstract_() {
 		return abstract_;
 	}
 
+	/**
+	 * Gives read-only access to the field abstract.
+	 *
+	 * @return the field abstract.
+	 * */
+
 	public TitanObjectid constGetabstract_() {
 		return abstract_;
 	}
+	/**
+	 * Gives access to the field transfer.
+	 *
+	 * @return the field transfer.
+	 * */
 
 	public TitanObjectid gettransfer() {
 		return transfer;
 	}
+
+	/**
+	 * Gives read-only access to the field transfer.
+	 *
+	 * @return the field transfer.
+	 * */
 
 	public TitanObjectid constGettransfer() {
 		return transfer;

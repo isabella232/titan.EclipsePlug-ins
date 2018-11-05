@@ -24,11 +24,23 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	//originally value_list/list_value
 	private List<TitanExternal_identification_syntaxes_template> list_value;
 
+	/**
+	 * Gives access to the field abstract.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field abstract.
+	 * */
 	public TitanObjectid_template getabstract_() {
 		setSpecific();
 		return abstract_;
 	}
 
+	/**
+	 * Gives read-only access to the field abstract.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field abstract.
+	 * */
 	public TitanObjectid_template constGetabstract_() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field abstract of a non-specific template of type EXTERNAL.identification.syntaxes.");
@@ -36,11 +48,23 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		return abstract_;
 	}
 
+	/**
+	 * Gives access to the field transfer.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field transfer.
+	 * */
 	public TitanObjectid_template gettransfer() {
 		setSpecific();
 		return transfer;
 	}
 
+	/**
+	 * Gives read-only access to the field transfer.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field transfer.
+	 * */
 	public TitanObjectid_template constGettransfer() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer of a non-specific template of type EXTERNAL.identification.syntaxes.");

@@ -141,8 +141,8 @@ public final class UnionGenerator {
 		generateValueIsPresent(source);
 		generateValueOperatorEquals(aData, source, genName, displayName, fieldInfos);
 		generateValueNotEquals(aData, source, genName);
-		generateValueGetterSetters(source, genName, displayName, fieldInfos);
-		generateValueGetSelection(source);
+		generateValueGetterSetters(aData, source, genName, displayName, fieldInfos);
+		generateValueGetSelection(aData, source, genName, fieldInfos);
 		generateValueLog(source, fieldInfos);
 		generateValueSetParam(source, displayName, fieldInfos);
 		if (fieldInfos.size() > 0) {
@@ -193,7 +193,7 @@ public final class UnionGenerator {
 		generateTemplateSetType(source, genName, displayName);
 		generateTemplateListItem(source, genName, displayName);
 		generateTemplateMatchOmit(source);
-		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
+		generateTemplateGetterSetters(aData, source, genName, displayName, fieldInfos);
 		generateTemplateLog(source, fieldInfos);
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
@@ -507,6 +507,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate getters/setters
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -517,10 +519,19 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueGetterSetters(final StringBuilder source, final String genName, final String displayName,
+	private static void generateValueGetterSetters(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * If other field was previously selected, its value will be destroyed.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
 			source.append("cleanUp();\n");
@@ -530,9 +541,17 @@ public final class UnionGenerator {
 			source.append(MessageFormat.format("return ({0})field;\n", fieldInfo.mJavaTypeName));
 			source.append("}\n\n");
 
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * If other field is not selected, this function will cause a dynamic test case error.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName ,displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("return ({0})field;\n", fieldInfo.mJavaTypeName));
 			source.append("}\n\n");
@@ -542,10 +561,29 @@ public final class UnionGenerator {
 	/**
 	 * Generate the get_selection function
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
 	 * */
-	private static void generateValueGetSelection(final StringBuilder source) {
+	private static void generateValueGetSelection(final JavaGenData aData, final StringBuilder source, final String genName,
+			final List<FieldInfo> fieldInfos) {
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Returns the current selection.\n");
+			source.append(MessageFormat.format(" * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
+			if (fieldInfos.size() > 0) {
+				source.append(MessageFormat.format(" * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\\n", genName, fieldInfos.get(0).mJavaVarName));
+			}
+			source.append(" *\n");
+			source.append(" * @return the current selection.\n");
+			source.append(" * */\n");
+		}
 		source.append("public union_selection_type get_selection() {\n");
 		source.append("return union_selection;\n");
 		source.append("}\n");
@@ -1489,6 +1527,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate getters/setters
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1499,10 +1539,19 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String displayName,
+	private static void generateTemplateGetterSetters(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * If other field was previously selected, its value will be destroyed.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
 			source.append("final template_sel old_selection = templateSelection;\n");
@@ -1518,6 +1567,14 @@ public final class UnionGenerator {
 			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n\n");
 
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * If other field is not selected, this function will cause a dynamic test case error.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));

@@ -129,7 +129,7 @@ public class TitanExternal extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
+	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operatorEquals( final TitanExternal otherValue) {
 		if ( !this.identification.operatorEquals( otherValue.identification ) ) { return false; }
@@ -147,25 +147,59 @@ public class TitanExternal extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", otherValue));
 	}
 
+	/**
+	 * Gives access to the field identification.
+	 *
+	 * @return the field identification.
+	 * */
+
 	public TitanExternal_identification getidentification() {
 		return identification;
 	}
 
+	/**
+	 * Gives read-only access to the field identification.
+	 *
+	 * @return the field identification.
+	 * */
+
 	public TitanExternal_identification constGetidentification() {
 		return identification;
 	}
+	/**
+	 * Gives access to the field data-value-descriptor.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
 
 	public Optional<TitanUniversalCharString> getdata__value__descriptor() {
 		return data__value__descriptor;
 	}
 
+	/**
+	 * Gives read-only access to the field data-value-descriptor.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
+
 	public Optional<TitanUniversalCharString> constGetdata__value__descriptor() {
 		return data__value__descriptor;
 	}
+	/**
+	 * Gives access to the field data-value.
+	 *
+	 * @return the field data-value.
+	 * */
 
 	public TitanOctetString getdata__value() {
 		return data__value;
 	}
+
+	/**
+	 * Gives read-only access to the field data-value.
+	 *
+	 * @return the field data-value.
+	 * */
 
 	public TitanOctetString constGetdata__value() {
 		return data__value;

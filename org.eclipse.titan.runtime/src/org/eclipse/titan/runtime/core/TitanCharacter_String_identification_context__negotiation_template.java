@@ -24,11 +24,23 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	//originally value_list/list_value
 	private List<TitanCharacter_String_identification_context__negotiation_template> list_value;
 
+	/**
+	 * Gives access to the field presentation-context-id.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
 	public TitanInteger_template getpresentation__context__id() {
 		setSpecific();
 		return presentation__context__id;
 	}
 
+	/**
+	 * Gives read-only access to the field presentation-context-id.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
 	public TitanInteger_template constGetpresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field presentation-context-id of a non-specific template of type CHARACTER STRING.identification.context-negotiation.");
@@ -36,11 +48,23 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		return presentation__context__id;
 	}
 
+	/**
+	 * Gives access to the field transfer-syntax.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
 	public TitanObjectid_template gettransfer__syntax() {
 		setSpecific();
 		return transfer__syntax;
 	}
 
+	/**
+	 * Gives read-only access to the field transfer-syntax.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
 	public TitanObjectid_template constGettransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer-syntax of a non-specific template of type CHARACTER STRING.identification.context-negotiation.");

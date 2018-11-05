@@ -186,7 +186,7 @@ public final class RecordSetCodeGenerator {
 		generateIsPresent( source, fieldInfos );
 		generateIsValue( source, fieldInfos );
 		generateOperatorEquals( aData, source, fieldInfos, className, classDisplayname);
-		generateGettersSetters( source, fieldInfos );
+		generateGettersSetters( aData, source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
 		generateValueSetParam(source, classDisplayname, fieldInfos, isSet);
@@ -240,7 +240,7 @@ public final class RecordSetCodeGenerator {
 
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
-		generateTemplateGetter( source, fieldInfos, classDisplayName );
+		generateTemplateGetter( aData, source, fieldInfos, classDisplayName );
 		generateTemplateConstructors( source, className, classDisplayName );
 		generateTemplateAssign( source, className, classDisplayName );
 		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
@@ -1625,7 +1625,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating operatorEquals() function
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param aSb
@@ -1665,19 +1665,28 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
 		aSb.append("\t\t\t}\n\n");
 		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generating getters/setters for the member variables
-	 * 
+	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
 	 *                sequence field variable and type names
 	 */
-	private static void generateGettersSetters( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+	private static void generateGettersSetters( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
+			if (aData.isDebug()) {
+				aSb.append("/**\n");
+				aSb.append(MessageFormat.format(" * Gives access to the field {0}.\n", fi.mDisplayName));
+				aSb.append(" *\n");
+				aSb.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
+				aSb.append(" * */\n");
+			}
 			aSb.append( "\n\t\tpublic " );
 			if (fi.isOptional) {
 				aSb.append("Optional<");
@@ -1692,8 +1701,15 @@ public final class RecordSetCodeGenerator {
 					"\t\t\treturn " );
 			aSb.append( fi.mVarName );
 			aSb.append( ";\n" +
-					"\t\t}\n" );
+					"\t\t}\n\n" );
 
+			if (aData.isDebug()) {
+				aSb.append("/**\n");
+				aSb.append(MessageFormat.format(" * Gives read-only access to the field {0}.\n", fi.mDisplayName));
+				aSb.append(" *\n");
+				aSb.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
+				aSb.append(" * */\n");
+			}
 			aSb.append( "\n\t\tpublic " );
 			if (fi.isOptional) {
 				aSb.append("Optional<");
@@ -1741,12 +1757,14 @@ public final class RecordSetCodeGenerator {
 		}
 
 		source.append("\t//originally value_list/list_value\n");
-		source.append( MessageFormat.format( "\tprivate List<{0}_template> list_value;\n", className ) );
+		source.append( MessageFormat.format( "\tprivate List<{0}_template> list_value;\n\n", className ) );
 	}
 
 	/**
 	 * Generate getters for template
 	 *
+	 * @param aData
+	 *                the generated java code with other info
 	 * @param source
 	 *                the source to be updated
 	 * @param aNamesList
@@ -1754,25 +1772,38 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateGetter( final StringBuilder source, final List<FieldInfo> aNamesList,
+	private static void generateTemplateGetter( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String displayName ) {
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( '\n' );
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Gives access to the field {0}.\n", fi.mDisplayName));
+				source.append(" * Turning the template into a specific value template if needed.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tsetSpecific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t}\n");
+			source.append("\t}\n\n");
 
-			source.append( '\n' );
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(MessageFormat.format(" * Gives read-only access to the field {0}.\n", fi.mDisplayName));
+				source.append(" * Being called on a non specific value template causes dynamic test case error.\n");
+				source.append(" *\n");
+				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
+				source.append(" * */\n");
+			}
 			source.append( MessageFormat.format( "\tpublic {0}_template constGet{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mDisplayName, displayName ) );
 			source.append("\t\t}\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t}\n");
+			source.append("\t}\n\n");
 		}
 
-		source.append('\n');
 		source.append("\tprivate void setSpecific() {\n");
 		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tfinal template_sel old_selection = templateSelection;\n");

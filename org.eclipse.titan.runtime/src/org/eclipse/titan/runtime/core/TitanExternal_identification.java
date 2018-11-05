@@ -138,7 +138,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
+	 * @return {@code true} if the selections and field values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanExternal_identification otherValue ) {
 		if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -175,11 +175,25 @@ public class TitanExternal_identification extends Base_Type {
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.");
 	}
 
-	//originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if either the selections or the field values are not equivalent.
+	 */
 	public boolean operatorNotEquals( final TitanExternal_identification otherValue ) {
 		return !operatorEquals(otherValue);
 	}
 
+	/**
+	 * Selects and gives access to field syntaxes.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field syntaxes.
+	 * */
 	public TitanExternal_identification_syntaxes getsyntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			cleanUp();
@@ -189,6 +203,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanExternal_identification_syntaxes)field;
 	}
 
+	/**
+	 * Gives read-only access to field syntaxes.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field syntaxes.
+	 * */
 	public TitanExternal_identification_syntaxes constGetsyntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			throw new TtcnError("Using non-selected field syntaxes in a value of union type EXTERNAL.identification.");
@@ -196,6 +216,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanExternal_identification_syntaxes)field;
 	}
 
+	/**
+	 * Selects and gives access to field syntax.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field syntax.
+	 * */
 	public TitanObjectid getsyntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			cleanUp();
@@ -205,6 +231,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanObjectid)field;
 	}
 
+	/**
+	 * Gives read-only access to field syntax.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field syntax.
+	 * */
 	public TitanObjectid constGetsyntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			throw new TtcnError("Using non-selected field syntax in a value of union type EXTERNAL.identification.");
@@ -212,6 +244,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanObjectid)field;
 	}
 
+	/**
+	 * Selects and gives access to field presentation-context-id.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field presentation-context-id.
+	 * */
 	public TitanInteger getpresentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			cleanUp();
@@ -221,6 +259,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanInteger)field;
 	}
 
+	/**
+	 * Gives read-only access to field presentation-context-id.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field presentation-context-id.
+	 * */
 	public TitanInteger constGetpresentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			throw new TtcnError("Using non-selected field presentation-context-id in a value of union type EXTERNAL.identification.");
@@ -228,6 +272,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanInteger)field;
 	}
 
+	/**
+	 * Selects and gives access to field context-negotiation.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field context-negotiation.
+	 * */
 	public TitanExternal_identification_context__negotiation getcontext__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			cleanUp();
@@ -237,6 +287,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanExternal_identification_context__negotiation)field;
 	}
 
+	/**
+	 * Gives read-only access to field context-negotiation.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field context-negotiation.
+	 * */
 	public TitanExternal_identification_context__negotiation constGetcontext__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			throw new TtcnError("Using non-selected field context-negotiation in a value of union type EXTERNAL.identification.");
@@ -244,6 +300,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanExternal_identification_context__negotiation)field;
 	}
 
+	/**
+	 * Selects and gives access to field transfer-syntax.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field transfer-syntax.
+	 * */
 	public TitanObjectid gettransfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			cleanUp();
@@ -253,6 +315,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanObjectid)field;
 	}
 
+	/**
+	 * Gives read-only access to field transfer-syntax.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field transfer-syntax.
+	 * */
 	public TitanObjectid constGettransfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			throw new TtcnError("Using non-selected field transfer-syntax in a value of union type EXTERNAL.identification.");
@@ -260,6 +328,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanObjectid)field;
 	}
 
+	/**
+	 * Selects and gives access to field fixed.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field fixed.
+	 * */
 	public TitanAsn_Null getfixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			cleanUp();
@@ -269,6 +343,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanAsn_Null)field;
 	}
 
+	/**
+	 * Gives read-only access to field fixed.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field fixed.
+	 * */
 	public TitanAsn_Null constGetfixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			throw new TtcnError("Using non-selected field fixed in a value of union type EXTERNAL.identification.");
@@ -276,6 +356,12 @@ public class TitanExternal_identification extends Base_Type {
 		return (TitanAsn_Null)field;
 	}
 
+	/**
+	 * Returns the current selection.
+	 * It will return TitanExternal_identification.union_selection_type.UNBOUND_VALUE if the value is unbound,
+	 * TitanExternal_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.\n *
+	 * @return the current selection.
+	 * */
 	public TitanExternal_identification.union_selection_type get_selection() {
 		return union_selection;
 	}

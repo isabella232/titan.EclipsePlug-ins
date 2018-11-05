@@ -25,11 +25,23 @@ public class TitanCharacter_String_template extends Base_Template {
 	//originally value_list/list_value
 	private List<TitanCharacter_String_template> list_value;
 
+	/**
+	 * Gives access to the field identification.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field identification.
+	 * */
 	public TitanCharacter_String_identification_template getidentification() {
 		setSpecific();
 		return identification;
 	}
 
+	/**
+	 * Gives read-only access to the field identification.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field identification.
+	 * */
 	public TitanCharacter_String_identification_template constGetidentification() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field identification of a non-specific template of type CHARACTER STRING.");
@@ -37,11 +49,23 @@ public class TitanCharacter_String_template extends Base_Template {
 		return identification;
 	}
 
+	/**
+	 * Gives access to the field data-value-descriptor.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
 	public TitanUniversalCharString_template getdata__value__descriptor() {
 		setSpecific();
 		return data__value__descriptor;
 	}
 
+	/**
+	 * Gives read-only access to the field data-value-descriptor.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
 	public TitanUniversalCharString_template constGetdata__value__descriptor() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type CHARACTER STRING.");
@@ -49,11 +73,23 @@ public class TitanCharacter_String_template extends Base_Template {
 		return data__value__descriptor;
 	}
 
+	/**
+	 * Gives access to the field string-value.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field string-value.
+	 * */
 	public TitanOctetString_template getstring__value() {
 		setSpecific();
 		return string__value;
 	}
 
+	/**
+	 * Gives read-only access to the field string-value.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field string-value.
+	 * */
 	public TitanOctetString_template constGetstring__value() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field string-value of a non-specific template of type CHARACTER STRING.");

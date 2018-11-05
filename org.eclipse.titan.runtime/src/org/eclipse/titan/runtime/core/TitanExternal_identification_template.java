@@ -378,6 +378,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Selects and gives access to field syntaxes.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field syntaxes.
+	 * */
 	public TitanExternal_identification_syntaxes_template getsyntaxes() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntaxes) {
 			final template_sel old_selection = templateSelection;
@@ -393,6 +399,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanExternal_identification_syntaxes_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field syntaxes.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field syntaxes.
+	 * */
 	public TitanExternal_identification_syntaxes_template constGetsyntaxes() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntaxes in a non-specific template of union type EXTERNAL.identification.");
@@ -403,6 +415,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanExternal_identification_syntaxes_template)single_value;
 	}
 
+	/**
+	 * Selects and gives access to field syntax.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field syntax.
+	 * */
 	public TitanObjectid_template getsyntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntax) {
 			final template_sel old_selection = templateSelection;
@@ -418,6 +436,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanObjectid_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field syntax.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field syntax.
+	 * */
 	public TitanObjectid_template constGetsyntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntax in a non-specific template of union type EXTERNAL.identification.");
@@ -428,6 +452,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanObjectid_template)single_value;
 	}
 
+	/**
+	 * Selects and gives access to field presentation-context-id.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field presentation-context-id.
+	 * */
 	public TitanInteger_template getpresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_presentation__context__id) {
 			final template_sel old_selection = templateSelection;
@@ -443,6 +473,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanInteger_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field presentation-context-id.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field presentation-context-id.
+	 * */
 	public TitanInteger_template constGetpresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field presentation-context-id in a non-specific template of union type EXTERNAL.identification.");
@@ -453,6 +489,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanInteger_template)single_value;
 	}
 
+	/**
+	 * Selects and gives access to field context-negotiation.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field context-negotiation.
+	 * */
 	public TitanExternal_identification_context__negotiation_template getcontext__negotiation() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_context__negotiation) {
 			final template_sel old_selection = templateSelection;
@@ -468,6 +510,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanExternal_identification_context__negotiation_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field context-negotiation.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field context-negotiation.
+	 * */
 	public TitanExternal_identification_context__negotiation_template constGetcontext__negotiation() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field context-negotiation in a non-specific template of union type EXTERNAL.identification.");
@@ -478,6 +526,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanExternal_identification_context__negotiation_template)single_value;
 	}
 
+	/**
+	 * Selects and gives access to field transfer-syntax.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field transfer-syntax.
+	 * */
 	public TitanObjectid_template gettransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_transfer__syntax) {
 			final template_sel old_selection = templateSelection;
@@ -493,6 +547,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanObjectid_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field transfer-syntax.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field transfer-syntax.
+	 * */
 	public TitanObjectid_template constGettransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer-syntax in a non-specific template of union type EXTERNAL.identification.");
@@ -503,6 +563,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanObjectid_template)single_value;
 	}
 
+	/**
+	 * Selects and gives access to field fixed.
+	 * If other field was previously selected, its value will be destroyed.
+	 *
+	 * @return field fixed.
+	 * */
 	public TitanAsn_Null_template getfixed() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_fixed) {
 			final template_sel old_selection = templateSelection;
@@ -518,6 +584,12 @@ public class TitanExternal_identification_template extends Base_Template {
 		return (TitanAsn_Null_template)single_value;
 	}
 
+	/**
+	 * Gives read-only access to field fixed.
+	 * If other field is not selected, this function will cause a dynamic test case error.
+	 *
+	 * @return field fixed.
+	 * */
 	public TitanAsn_Null_template constGetfixed() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field fixed in a non-specific template of union type EXTERNAL.identification.");

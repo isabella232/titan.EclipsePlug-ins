@@ -114,7 +114,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
+	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operatorEquals( final TitanExternal_identification_context__negotiation otherValue) {
 		if ( !this.presentation__context__id.operatorEquals( otherValue.presentation__context__id ) ) { return false; }
@@ -131,17 +131,40 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.context-negotiation", otherValue));
 	}
 
+	/**
+	 * Gives access to the field presentation-context-id.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
+
 	public TitanInteger getpresentation__context__id() {
 		return presentation__context__id;
 	}
 
+	/**
+	 * Gives read-only access to the field presentation-context-id.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
+
 	public TitanInteger constGetpresentation__context__id() {
 		return presentation__context__id;
 	}
+	/**
+	 * Gives access to the field transfer-syntax.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
 
 	public TitanObjectid gettransfer__syntax() {
 		return transfer__syntax;
 	}
+
+	/**
+	 * Gives read-only access to the field transfer-syntax.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
 
 	public TitanObjectid constGettransfer__syntax() {
 		return transfer__syntax;
