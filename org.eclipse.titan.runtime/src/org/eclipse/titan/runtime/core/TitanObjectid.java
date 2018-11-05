@@ -102,7 +102,7 @@ public class TitanObjectid extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanObjectid otherValue) {
 		if (components_ptr == null) {

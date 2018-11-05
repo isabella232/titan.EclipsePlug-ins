@@ -198,7 +198,7 @@ public class TitanBoolean extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanBoolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
@@ -214,7 +214,7 @@ public class TitanBoolean extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final boolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
@@ -232,16 +232,32 @@ public class TitanBoolean extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
-	// originally operator !=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final boolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
 
 		return !operatorEquals(otherValue);
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanBoolean aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanBoolean otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public void cleanUp() {

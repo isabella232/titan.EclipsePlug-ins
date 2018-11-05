@@ -145,7 +145,7 @@ public final class EnumeratedGenerator {
 		source.append("//===Methods===;\n");
 		generateValueAssign(source, e_defs.name);
 		generateValueOperatorEquals(aData, source, e_defs.name, e_defs.displayName);
-		generateValueOperatorNotEquals(source, e_defs.name);
+		generateValueOperatorNotEquals(aData, source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
 		generateValueIsLessThanOrEqual(source, e_defs.name);
 		generateValueIsGreaterThan(source, e_defs.name);
@@ -611,21 +611,51 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueOperatorNotEquals(final StringBuilder source,final String aName) {
+	private static void generateValueOperatorNotEquals(final JavaGenData aData, final StringBuilder source,final String aName) {
 		//Arg type: own type
-		source.append("//originally operator!=\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue)'{'\n", aName));
 		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: Base_Type
-		source.append("//originally operator!=\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorNotEquals(final Base_Type otherValue){\n");
 		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: enum_type
-		source.append("//originally operator!=\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0}.enum_type otherValue)'{'\n",aName));
 		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");

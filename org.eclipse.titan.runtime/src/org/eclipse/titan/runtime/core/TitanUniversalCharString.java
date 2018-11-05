@@ -357,7 +357,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -401,7 +401,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -424,7 +424,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -454,7 +454,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -486,7 +486,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalChar otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -510,7 +510,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final String otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
@@ -531,33 +531,95 @@ public class TitanUniversalCharString extends Base_Type {
 		return true;
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanUniversalCharString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanUniversalCharString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanUniversalCharString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanUniversalCharString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanCharString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanCharString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanCharString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanCharString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final Base_Type aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final Base_Type otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanUniversalChar aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanUniversalChar otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final String aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final String otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	/**

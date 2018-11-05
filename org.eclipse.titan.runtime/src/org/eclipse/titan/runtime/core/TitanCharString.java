@@ -402,7 +402,7 @@ public class TitanCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("Unbound left operand of charstring comparison.");
@@ -418,7 +418,7 @@ public class TitanCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring value.");
@@ -459,7 +459,7 @@ public class TitanCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final String otherValue) {
 		mustBound("Unbound operand of charstring comparison.");
@@ -477,7 +477,7 @@ public class TitanCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString_Element otherValue) {
 		otherValue.mustBound("Unbound operand of charstring element comparison.");
@@ -498,7 +498,7 @@ public class TitanCharString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring value.");
@@ -515,37 +515,59 @@ public class TitanCharString extends Base_Type {
 		return false;
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanCharString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanCharString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public void cleanUp() {
 		val_ptr = null;
 	}
 
-	// originally operator!=
-	// operatorNotEquals for charstring_element
-	public boolean operatorNotEquals(final TitanCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Unbound operand of charstring element comparison.");
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanCharString_Element otherValue) {
+		otherValue.mustBound("Unbound operand of charstring element comparison.");
 		mustBound("Unbound operand of charstring comparison.");
 
 		if (val_ptr.length() == 1) {
 			return false;
 		}
-		return val_ptr.charAt(0) != aOtherValue.get_char();
+		return val_ptr.charAt(0) != otherValue.get_char();
 	}
 
-	// originally operator!=
-	// operatorNotEquals for String
-	public boolean operatorNotEquals(final String aOtherValue) {
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final String otherValue) {
 		mustBound("Unbound operand of charstring comparison.");
 
-		if (aOtherValue != null) {
+		if (otherValue != null) {
 			return val_ptr.length() == 0;
 		}
 
-		return this.val_ptr.toString().equals(aOtherValue);
+		return this.val_ptr.toString().equals(otherValue);
 	}
 
 	// originally operator<<=

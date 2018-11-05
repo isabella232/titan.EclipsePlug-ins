@@ -85,7 +85,7 @@ public class TitanCharString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final String otherValue) {
 		mustBound("Comparison of an unbound charstring element.");
@@ -104,7 +104,7 @@ public class TitanCharString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("Unbound left operand of charstring element comparison.");
@@ -124,7 +124,7 @@ public class TitanCharString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanCharString_Element otherValue) {
 		mustBound("Unbound left operand of charstring element comparison.");
@@ -140,7 +140,7 @@ public class TitanCharString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring element.");
@@ -164,7 +164,7 @@ public class TitanCharString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
 		mustBound("The left operand of comparison is an unbound charstring element.");
@@ -175,19 +175,43 @@ public class TitanCharString_Element {
 				&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
 	}
 
-	// operatorNotEquals for String
-	public boolean operatorNotEquals(final String aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final String otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	// operatorNotEquals for charstring
-	public boolean operatorNotEquals(final TitanUniversalCharString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanUniversalCharString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	// operatorNotEquals for charstring_element
-	public boolean operatorNotEquals(final TitanUniversalCharString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanUniversalCharString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public char get_char() {

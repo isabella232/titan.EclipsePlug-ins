@@ -129,7 +129,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanEmbedded_PDV otherValue) {
 		if ( !this.identification.operatorEquals( otherValue.identification ) ) { return false; }

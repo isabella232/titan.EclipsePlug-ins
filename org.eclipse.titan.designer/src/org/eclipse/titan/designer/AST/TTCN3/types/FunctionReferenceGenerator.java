@@ -245,9 +245,32 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorNotEquals(final function_pointer otherValue) {\n");
 		source.append("return !operatorEquals(otherValue);\n");
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n");

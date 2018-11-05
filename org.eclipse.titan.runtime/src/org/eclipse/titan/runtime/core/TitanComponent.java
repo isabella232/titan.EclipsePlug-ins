@@ -122,7 +122,7 @@ public class TitanComponent extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final int otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
@@ -142,7 +142,7 @@ public class TitanComponent extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanComponent otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {

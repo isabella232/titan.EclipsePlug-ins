@@ -114,7 +114,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanExternal_identification_context__negotiation otherValue) {
 		if ( !this.presentation__context__id.operatorEquals( otherValue.presentation__context__id ) ) { return false; }

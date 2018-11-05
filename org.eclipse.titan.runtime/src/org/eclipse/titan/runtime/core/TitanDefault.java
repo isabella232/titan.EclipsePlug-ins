@@ -125,7 +125,7 @@ public class TitanDefault extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final int otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
@@ -145,7 +145,7 @@ public class TitanDefault extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
@@ -162,7 +162,7 @@ public class TitanDefault extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
@@ -185,17 +185,41 @@ public class TitanDefault extends Base_Type {
 
 	}
 
-	//originally operator!= with component parameter
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core with component parameter
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final int otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	//originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final Default_Base otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	//originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final TitanDefault otherValue) {
 		return !operatorEquals(otherValue);
 	}

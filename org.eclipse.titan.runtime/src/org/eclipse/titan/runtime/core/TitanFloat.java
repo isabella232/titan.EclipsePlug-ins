@@ -314,7 +314,7 @@ public class TitanFloat extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final double otherValue) {
 		mustBound("Unbound left operand of float comparison.");
@@ -329,7 +329,7 @@ public class TitanFloat extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Ttcn3Float otherValue) {
 		mustBound("Unbound left operand of float comparison.");
@@ -344,7 +344,7 @@ public class TitanFloat extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
@@ -362,19 +362,43 @@ public class TitanFloat extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
-	// operatorNotEquals native
-	public boolean operatorNotEquals(final double aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final double otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	// operatorNotEquals native
-	public boolean operatorNotEquals(final Ttcn3Float aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final Ttcn3Float otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanFloat aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanFloat otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	// originally operator <

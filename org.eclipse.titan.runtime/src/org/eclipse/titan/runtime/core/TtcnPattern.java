@@ -259,7 +259,7 @@ public class TtcnPattern {
 	}
 
 	/**
-	 * @return true if character can be metacharacter, false otherwise.
+	 * @return {@code true} if character can be metacharacter, {@code false} otherwise.
 	 * Quote from TTCN-3 standard B.1.5.0:
 	 * The symbols that can appear as lexical marks in metacharacter definitions are called metacharacter symbols. They
 	 * include the following characters: "#", "(", ")", "*", "+", "-", "?", "[", "\", "]", "^", "{","|","}". When any of the

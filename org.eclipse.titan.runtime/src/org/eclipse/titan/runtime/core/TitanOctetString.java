@@ -201,7 +201,7 @@ public class TitanOctetString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanOctetString otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
@@ -217,7 +217,7 @@ public class TitanOctetString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
@@ -236,17 +236,43 @@ public class TitanOctetString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanOctetString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanOctetString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanOctetString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanOctetString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final Base_Type aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final Base_Type otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public void cleanUp() {

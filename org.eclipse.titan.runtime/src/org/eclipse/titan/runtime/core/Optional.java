@@ -308,7 +308,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final template_sel otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
@@ -332,7 +332,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Optional<TYPE> otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
@@ -400,12 +400,28 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	// originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final template_sel otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	// originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final Optional<TYPE> otherValue) {
 		return !operatorEquals(otherValue);
 	}

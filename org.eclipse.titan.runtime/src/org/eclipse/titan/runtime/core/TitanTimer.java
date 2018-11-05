@@ -269,7 +269,7 @@ public class TitanTimer {
 	}
 
 	/**
-	 * @return true if is_started and not yet expired, false otherwise.
+	 * @return {@code true} if is_started and not yet expired, {@code false} otherwise.
 	 *
 	 * originally running(Index_Redirect* = null)
 	 */
@@ -278,7 +278,7 @@ public class TitanTimer {
 	}
 
 	/**
-	 * @return true if is_started and not yet expired, false otherwise.
+	 * @return {@code true} if is_started and not yet expired, {@code false} otherwise.
 	 *
 	 * originally running(Index_Redirect*)
 	 */
@@ -346,7 +346,7 @@ public class TitanTimer {
 	}
 
 	/**
-	 * @return true if there is a running timer.
+	 * @return {@code true} if there is a running timer.
 	 * */
 	public static boolean anyRunning() {
 		for (final TitanTimer timer : TIMERS.get()) {
@@ -397,7 +397,7 @@ public class TitanTimer {
 	 * Includes the testcase's guard timer.
 	 *
 	 * @param minValue will return the expiration time if one is found.
-	 * @return true if an active timer was found, false otherwise.
+	 * @return {@code true} if an active timer was found, {@code false} otherwise.
 	 * */
 	public static boolean getMinExpiration(final Changeable_Double minValue) {
 		boolean minFlag = false;

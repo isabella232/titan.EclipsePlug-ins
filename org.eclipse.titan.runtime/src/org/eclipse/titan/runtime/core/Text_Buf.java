@@ -200,7 +200,7 @@ public final class Text_Buf {
 	 * Extract an integer if it's safe to do so.
 	 *
 	 * @param value the value to be set when successful.
-	 * @return true if an integer could be extracted, false otherwise
+	 * @return {@code true} if an integer could be extracted, {@code false} otherwise
 	 * */
 	public boolean safe_pull_int(final TitanInteger value) {
 		final int buf_end = buf_begin + buf_len;
@@ -435,7 +435,7 @@ public final class Text_Buf {
 	}
 
 	/**
-	 * @return true if the buffer contains something looking like a complete message, false otherwise.
+	 * @return {@code true} if the buffer contains something looking like a complete message, {@code false} otherwise.
 	 * */
 	public boolean is_message() {
 		rewind();

@@ -252,7 +252,7 @@ public class TitanBitString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanBitString otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
@@ -268,7 +268,7 @@ public class TitanBitString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanBitString_Element otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
@@ -290,14 +290,30 @@ public class TitanBitString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanBitString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanBitString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	//originally operator !=
-	public boolean operatorNotEquals(final TitanBitString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanBitString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public void cleanUp() {

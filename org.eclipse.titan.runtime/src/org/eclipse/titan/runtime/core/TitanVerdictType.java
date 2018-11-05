@@ -110,7 +110,7 @@ public class TitanVerdictType extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanVerdictType otherValue) {
 		mustBound("The left operand of comparison is an unbound verdict value.");
@@ -135,7 +135,7 @@ public class TitanVerdictType extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final VerdictTypeEnum otherValue) {
 		mustBound("The left operand of comparison is an unbound verdict value.");

@@ -91,7 +91,7 @@ public abstract class Base_Type {
 	 *
 	 * is_present() in the core.
 	 *
-	 * @return true if the value is present.
+	 * @return {@code true} if the value is present.
 	 */
 	public abstract boolean isPresent();
 
@@ -100,7 +100,7 @@ public abstract class Base_Type {
 	 * 
 	 * is_bound() in the core.
 	 * 
-	 * @return true if the value is bound.
+	 * @return {@code true} if the value is bound.
 	 */
 	public abstract boolean isBound();
 
@@ -109,7 +109,7 @@ public abstract class Base_Type {
 	 *
 	 * is_value in the core.
 	 *
-	 * @return true if the value is a actual value.
+	 * @return {@code true} if the value is a actual value.
 	 */
 	public boolean isValue() {
 		return isBound();
@@ -120,7 +120,7 @@ public abstract class Base_Type {
 	 *
 	 * is_optional in the core.
 	 *
-	 * @return true if the value is optional.
+	 * @return {@code true} if the value is optional.
 	 */
 	public boolean isOptional() {
 		return false;
@@ -133,7 +133,7 @@ public abstract class Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public abstract boolean operatorEquals(final Base_Type otherValue);
 

@@ -1648,7 +1648,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append(" *\n");
 			aSb.append(" * @param otherValue\n");
 			aSb.append(" *                the other value to check against.\n");
-			aSb.append(" * @return true if the values are equivalent.\n");
+			aSb.append(" * @return {@code true} if all fields are equivalent, {@code false} otherwise.\n");
 			aSb.append(" */\n");
 		}
 		aSb.append( MessageFormat.format( "\t\tpublic boolean operatorEquals( final {0} otherValue) '{'\n", aClassName ) );
@@ -2676,7 +2676,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" *\n");
 			source.append(" * @param otherValue\n");
 			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" * @return {@code true} if the values are equivalent.\n");
 			source.append(" */\n");
 		}
 		source.append("public boolean operatorEquals( final TitanNull_Type otherValue ) {\n");
@@ -2694,7 +2694,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" *\n");
 			source.append(" * @param otherValue\n");
 			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" * @return {@code true} if the values are equivalent.\n");
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", className));
@@ -2715,16 +2715,47 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayname));
 		source.append("}\n\n");
 
-		source.append("//originally operator!=\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorNotEquals( final TitanNull_Type otherValue ) {\n");
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");
 
-		source.append("//originally operator!=\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorNotEquals( final {0} otherValue ) '{'\n", className));
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
+			source.append(" */\n");
+		}
 		source.append("public boolean operatorNotEquals( final Base_Type otherValue ) {\n");
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");

@@ -392,7 +392,7 @@ public class TitanInteger extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -412,7 +412,7 @@ public class TitanInteger extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final BigInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -432,7 +432,7 @@ public class TitanInteger extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -464,17 +464,41 @@ public class TitanInteger extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
-	// originally operator !=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final int otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	// originally operator !=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final BigInteger otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	// originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final TitanInteger otherValue) {
 		return !operatorEquals(otherValue);
 	}

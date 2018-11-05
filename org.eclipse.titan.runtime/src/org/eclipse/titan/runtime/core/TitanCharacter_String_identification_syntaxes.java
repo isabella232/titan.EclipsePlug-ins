@@ -114,7 +114,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes otherValue) {
 		if ( !this.abstract_.operatorEquals( otherValue.abstract_ ) ) { return false; }

@@ -104,7 +104,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	/**
-	 * @return true if and only if otherValue is the same record of type as this
+	 * @return {@code true} if and only if otherValue is the same record of type as this
 	 */
 	private boolean isSameType(final Base_Type otherValue) {
 		return otherValue instanceof TitanRecordOf && ofType == ((TitanRecordOf)otherValue).ofType;
@@ -127,7 +127,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanRecordOf otherValue) {
 		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");

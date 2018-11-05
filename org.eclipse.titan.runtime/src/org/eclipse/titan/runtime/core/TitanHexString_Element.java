@@ -86,7 +86,7 @@ public class TitanHexString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanHexString_Element otherValue) {
 		mustBound("Unbound left operand of hexstring element comparison.");
@@ -102,7 +102,7 @@ public class TitanHexString_Element {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanHexString otherValue) {
 		mustBound("Unbound left operand of hexstring element comparison.");

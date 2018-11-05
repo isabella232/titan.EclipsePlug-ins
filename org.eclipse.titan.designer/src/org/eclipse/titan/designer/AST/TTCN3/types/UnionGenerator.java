@@ -140,7 +140,7 @@ public final class UnionGenerator {
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
 		generateValueOperatorEquals(aData, source, genName, displayName, fieldInfos);
-		generateValueNotEquals(source, genName);
+		generateValueNotEquals(aData, source, genName);
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
@@ -440,7 +440,7 @@ public final class UnionGenerator {
 			source.append(" *\n");
 			source.append(" * @param otherValue\n");
 			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
+			source.append(" * @return {@code true} if the selections and field values are equivalent.\n");
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", genName));
@@ -479,14 +479,26 @@ public final class UnionGenerator {
 	/**
 	 * Generate not equals operators (originally !=)
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                union/choice type.
 	 * */
-	private static void generateValueNotEquals(final StringBuilder source, final String genName) {
-		source.append("//originally operator!=\n");
+	private static void generateValueNotEquals(final JavaGenData aData, final StringBuilder source, final String genName) {
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator!= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if either the selections or the field values are not equivalent.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public boolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
 		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");

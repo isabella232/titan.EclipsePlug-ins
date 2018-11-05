@@ -138,7 +138,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanExternal_identification otherValue ) {
 		if (union_selection == union_selection_type.UNBOUND_VALUE) {

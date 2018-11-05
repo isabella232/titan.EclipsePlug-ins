@@ -59,7 +59,7 @@ public class TitanUniversalChar {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanUniversalChar right_value) {
 		return operatorEquals(this, right_value);

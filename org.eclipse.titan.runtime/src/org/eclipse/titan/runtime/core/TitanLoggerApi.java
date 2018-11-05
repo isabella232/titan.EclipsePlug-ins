@@ -1161,7 +1161,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final DefaultOp otherValue) {
 			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
@@ -2254,7 +2254,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final VerdictOp_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -3461,7 +3461,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FinalVerdictInfo otherValue) {
 			if ( !this.is__ptc.operatorEquals( otherValue.is__ptc ) ) { return false; }
@@ -4915,7 +4915,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimerEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -5749,7 +5749,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingSuccessType otherValue) {
 			if ( !this.port__type.operatorEquals( otherValue.port__type ) ) { return false; }
@@ -6797,7 +6797,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Proc__port__out otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -8037,7 +8037,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Strings_str__list otherValue ) {
 			mustBound("The left operand of comparison is an unbound value of type @TitanLoggerApi.Strings.str_list.");
@@ -9620,7 +9620,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -11117,7 +11117,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanNull_Type otherValue ) {
 			if (!isBound()) {
@@ -11133,7 +11133,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimerAnyTimeoutType otherValue ) {
 			if (!isBound()) {
@@ -12065,7 +12065,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final SetVerdictType otherValue) {
 			if ( !this.newVerdict.operatorEquals( otherValue.newVerdict ) ) { return false; }
@@ -13445,7 +13445,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Parallel_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -13458,7 +13458,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Parallel_reason) {
@@ -13475,7 +13475,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Parallel_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -14607,7 +14607,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final PortType otherValue){
 			return enum_value == otherValue.enum_value;
@@ -14620,7 +14620,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof PortType) {
@@ -14637,7 +14637,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final PortType.enum_type otherValue){
 			return enum_value == otherValue;
@@ -15720,7 +15720,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final WarningEvent otherValue) {
 			if ( !this.text.operatorEquals( otherValue.text ) ) { return false; }
@@ -16568,7 +16568,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ParPort_operation otherValue){
 			return enum_value == otherValue.enum_value;
@@ -16581,7 +16581,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ParPort_operation) {
@@ -16598,7 +16598,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ParPort_operation.enum_type otherValue){
 			return enum_value == otherValue;
@@ -17447,7 +17447,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ComponentIDType otherValue) {
 			if ( !this.id.operatorEquals( otherValue.id ) ) { return false; }
@@ -18474,7 +18474,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLog_sequence__list_0_event__list otherValue ) {
 			mustBound("The left operand of comparison is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
@@ -20107,7 +20107,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final LogEventType_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -22652,7 +22652,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final DefaultEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -23692,7 +23692,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TestcaseEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -24696,7 +24696,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingDoneType_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -24709,7 +24709,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof MatchingDoneType_reason) {
@@ -24726,7 +24726,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingDoneType_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -25624,7 +25624,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorConfigdata otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -26807,7 +26807,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final LocationInfo otherValue) {
 			if ( !this.filename.operatorEquals( otherValue.filename ) ) { return false; }
@@ -27902,7 +27902,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TestcaseEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -28753,7 +28753,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimerEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -30211,7 +30211,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final StatisticsType_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -31445,7 +31445,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Port__Misc otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -32945,7 +32945,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ParallelPTC otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -34464,7 +34464,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final LocationInfo_ent__type otherValue){
 			return enum_value == otherValue.enum_value;
@@ -34477,7 +34477,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof LocationInfo_ent__type) {
@@ -34494,7 +34494,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final LocationInfo_ent__type.enum_type otherValue){
 			return enum_value == otherValue;
@@ -35665,7 +35665,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingTimeout otherValue) {
 			if ( !this.timer__name.operatorEquals( otherValue.timer__name ) ) { return false; }
@@ -36501,7 +36501,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final VerdictOp otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -37353,7 +37353,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingProblemType_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -37366,7 +37366,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof MatchingProblemType_reason) {
@@ -37383,7 +37383,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingProblemType_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -38350,7 +38350,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorRuntime_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -38363,7 +38363,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ExecutorRuntime_reason) {
@@ -38380,7 +38380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorRuntime_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -39372,7 +39372,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingFailureType_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -39385,7 +39385,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof MatchingFailureType_reason) {
@@ -39402,7 +39402,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingFailureType_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -40326,7 +40326,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingProblemType_operation otherValue){
 			return enum_value == otherValue.enum_value;
@@ -40339,7 +40339,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof MatchingProblemType_operation) {
@@ -40356,7 +40356,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final MatchingProblemType_operation.enum_type otherValue){
 			return enum_value == otherValue;
@@ -41211,7 +41211,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanSingleLogEvent otherValue) {
 			if ( !this.entityId.operatorEquals( otherValue.entityId ) ) { return false; }
@@ -42276,7 +42276,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingFailureType_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -43240,7 +43240,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorConfigdata_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -43253,7 +43253,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ExecutorConfigdata_reason) {
@@ -43270,7 +43270,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorConfigdata_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -44125,7 +44125,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final QualifiedName otherValue) {
 			if ( !this.module__name.operatorEquals( otherValue.module__name ) ) { return false; }
@@ -45090,7 +45090,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FunctionEvent_choice_random otherValue) {
 			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
@@ -46342,7 +46342,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Dualface__mapped otherValue) {
 			if ( !this.incoming.operatorEquals( otherValue.incoming ) ) { return false; }
@@ -47451,7 +47451,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLogEvent_sourceInfo__list otherValue ) {
 			mustBound("The left operand of comparison is an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
@@ -49018,7 +49018,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final VerdictType otherValue) {
 			if ( !this.fromVerdict.operatorEquals( otherValue.fromVerdict ) ) { return false; }
@@ -50224,7 +50224,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__State_operation otherValue){
 			return enum_value == otherValue.enum_value;
@@ -50237,7 +50237,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Port__State_operation) {
@@ -50254,7 +50254,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__State_operation.enum_type otherValue){
 			return enum_value == otherValue;
@@ -51304,7 +51304,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__oper otherValue){
 			return enum_value == otherValue.enum_value;
@@ -51317,7 +51317,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Port__oper) {
@@ -51334,7 +51334,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__oper.enum_type otherValue){
 			return enum_value == otherValue;
@@ -52468,7 +52468,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimestampType otherValue) {
 			if ( !this.seconds.operatorEquals( otherValue.seconds ) ) { return false; }
@@ -53397,7 +53397,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Setstate otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -54601,7 +54601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Proc__port__in otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -55922,7 +55922,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLogEvent otherValue) {
 			if ( !this.timestamp.operatorEquals( otherValue.timestamp ) ) { return false; }
@@ -57125,7 +57125,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final StatisticsType_choice_verdictStatistics otherValue) {
 			if ( !this.none__.operatorEquals( otherValue.none__ ) ) { return false; }
@@ -58970,7 +58970,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final LogEventType otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -59792,7 +59792,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Port__State otherValue) {
 			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
@@ -60721,7 +60721,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TestcaseType otherValue) {
 			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
@@ -61778,7 +61778,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ParallelEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -62837,7 +62837,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final anytype otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -63561,7 +63561,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final PortEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -64427,7 +64427,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final PortEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -66225,7 +66225,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Msg__port__send otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -67657,7 +67657,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FunctionEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -68803,7 +68803,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingFailureType otherValue) {
 			if ( !this.port__type.operatorEquals( otherValue.port__type ) ) { return false; }
@@ -70509,7 +70509,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ParPort otherValue) {
 			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
@@ -71771,7 +71771,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingDoneType otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -73034,7 +73034,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Port__Queue otherValue) {
 			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
@@ -74319,7 +74319,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ParallelEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -75145,7 +75145,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FinalVerdictType_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -76163,7 +76163,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Msg__port__recv otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -77462,7 +77462,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final StartFunction_parameter__list otherValue ) {
 			mustBound("The left operand of comparison is an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
@@ -79052,7 +79052,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimerType otherValue) {
 			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
@@ -79957,7 +79957,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final DefaultEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -80917,7 +80917,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__Queue_operation otherValue){
 			return enum_value == otherValue.enum_value;
@@ -80930,7 +80930,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Port__Queue_operation) {
@@ -80947,7 +80947,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__Queue_operation.enum_type otherValue){
 			return enum_value == otherValue;
@@ -81910,7 +81910,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingProblemType otherValue) {
 			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
@@ -83100,7 +83100,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Strings otherValue) {
 			if ( !this.str__list.operatorEquals( otherValue.str__list ) ) { return false; }
@@ -83970,7 +83970,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final PTC__exit otherValue) {
 			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
@@ -85076,7 +85076,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__Misc_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -85089,7 +85089,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Port__Misc_reason) {
@@ -85106,7 +85106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Port__Misc_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -86027,7 +86027,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLog otherValue) {
 			if ( !this.sequence__list.operatorEquals( otherValue.sequence__list ) ) { return false; }
@@ -86837,7 +86837,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ErrorEvent otherValue) {
 			if ( !this.text.operatorEquals( otherValue.text ) ) { return false; }
@@ -87863,7 +87863,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -88853,7 +88853,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Parallel otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -90285,7 +90285,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorRuntime otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -91681,7 +91681,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FinalVerdictType otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -92525,7 +92525,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final FinalVerdictType_choice_notification otherValue){
 			return enum_value == otherValue.enum_value;
@@ -92538,7 +92538,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof FinalVerdictType_choice_notification) {
@@ -92555,7 +92555,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final FinalVerdictType_choice_notification.enum_type otherValue){
 			return enum_value == otherValue;
@@ -93424,7 +93424,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorUnqualified_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -93437,7 +93437,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ExecutorUnqualified_reason) {
@@ -93454,7 +93454,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorUnqualified_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -94399,7 +94399,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Msg__port__recv_operation otherValue){
 			return enum_value == otherValue.enum_value;
@@ -94412,7 +94412,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Msg__port__recv_operation) {
@@ -94429,7 +94429,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Msg__port__recv_operation.enum_type otherValue){
 			return enum_value == otherValue;
@@ -95447,7 +95447,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Verdict otherValue){
 			return enum_value == otherValue.enum_value;
@@ -95460,7 +95460,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof Verdict) {
@@ -95477,7 +95477,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Verdict.enum_type otherValue){
 			return enum_value == otherValue;
@@ -96535,7 +96535,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ParallelPTC_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -96548,7 +96548,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ParallelPTC_reason) {
@@ -96565,7 +96565,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ParallelPTC_reason.enum_type otherValue){
 			return enum_value == otherValue;
@@ -97600,7 +97600,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TimerGuardType otherValue) {
 			if ( !this.value__.operatorEquals( otherValue.value__ ) ) { return false; }
@@ -98506,7 +98506,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final StartFunction otherValue) {
 			if ( !this.function__name.operatorEquals( otherValue.function__name ) ) { return false; }
@@ -99542,7 +99542,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorUnqualified otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -100817,7 +100817,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final DefaultEnd otherValue){
 			return enum_value == otherValue.enum_value;
@@ -100830,7 +100830,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof DefaultEnd) {
@@ -100847,7 +100847,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final DefaultEnd.enum_type otherValue){
 			return enum_value == otherValue;
@@ -101729,7 +101729,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Categorized otherValue) {
 			if ( !this.category.operatorEquals( otherValue.category ) ) { return false; }
@@ -102720,7 +102720,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLog_sequence__list otherValue ) {
 			mustBound("The left operand of comparison is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
@@ -104670,7 +104670,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutionSummaryType otherValue) {
 			if ( !this.numberOfTestcases.operatorEquals( otherValue.numberOfTestcases ) ) { return false; }
@@ -105827,7 +105827,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingEvent otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -106709,7 +106709,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final Dualface__discard otherValue) {
 			if ( !this.incoming.operatorEquals( otherValue.incoming ) ) { return false; }
@@ -107804,7 +107804,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final StatisticsType otherValue) {
 			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
@@ -108753,7 +108753,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final MatchingEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -109997,7 +109997,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final FunctionEvent_choice otherValue ) {
 			if (union_selection == union_selection_type.UNBOUND_VALUE) {
@@ -110953,7 +110953,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final RandomAction otherValue){
 			return enum_value == otherValue.enum_value;
@@ -110966,7 +110966,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof RandomAction) {
@@ -110983,7 +110983,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final RandomAction.enum_type otherValue){
 			return enum_value == otherValue;
@@ -111863,7 +111863,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final ExecutorComponent otherValue) {
 			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
@@ -112878,7 +112878,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals( final TitanLog_sequence__list_0 otherValue) {
 			if ( !this.entityId.operatorEquals( otherValue.entityId ) ) { return false; }
@@ -113823,7 +113823,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorComponent_reason otherValue){
 			return enum_value == otherValue.enum_value;
@@ -113836,7 +113836,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final Base_Type otherValue){
 			if (otherValue instanceof ExecutorComponent_reason) {
@@ -113853,7 +113853,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return true if the values are equivalent.
+		 * @return {@code true} if the values are equivalent.
 		 */
 		public boolean operatorEquals(final ExecutorComponent_reason.enum_type otherValue){
 			return enum_value == otherValue;

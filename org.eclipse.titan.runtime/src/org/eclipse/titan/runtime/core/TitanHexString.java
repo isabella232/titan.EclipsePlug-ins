@@ -227,7 +227,7 @@ public class TitanHexString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanHexString otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
@@ -243,7 +243,7 @@ public class TitanHexString extends Base_Type {
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanHexString_Element otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
@@ -265,12 +265,28 @@ public class TitanHexString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanHexString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operatorNotEquals(final TitanHexString otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	// originally operator!=
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public boolean operatorNotEquals(final TitanHexString_Element otherValue) {
 		return !operatorEquals(otherValue);
 	}
