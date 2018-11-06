@@ -33,6 +33,15 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		this.transfer__syntax = new TitanObjectid();
 	}
 
+	/**
+	 * Initializes from given field values. The number of arguments equals
+	 * to the number of fields.
+	 *
+	 * @param presentation__context__id
+	 *                the value of field presentation-context-id
+	 * @param transfer__syntax
+	 *                the value of field transfer-syntax
+	 * */
 	public TitanExternal_identification_context__negotiation(final TitanInteger presentation__context__id, final TitanObjectid transfer__syntax ) {
 		this.presentation__context__id = new TitanInteger( presentation__context__id );
 		this.transfer__syntax = new TitanObjectid( transfer__syntax );
@@ -53,6 +62,16 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		assign( otherValue );
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanExternal_identification_context__negotiation assign(final TitanExternal_identification_context__negotiation otherValue ) {
 		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
@@ -83,6 +102,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.context-negotiation", otherValue));
 	}
 
+	@Override
 	public void cleanUp() {
 		presentation__context__id.cleanUp();
 		transfer__syntax.cleanUp();
@@ -106,6 +126,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		if ( !transfer__syntax.isValue() ) { return false; }
 		return true;
 	}
+
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -169,7 +190,13 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	public TitanObjectid constGettransfer__syntax() {
 		return transfer__syntax;
 	}
-
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
 	public TitanInteger sizeOf() {
 		return new TitanInteger(2);
 	}

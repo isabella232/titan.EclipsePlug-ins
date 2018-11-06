@@ -143,26 +143,44 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		}
 	}
 
-	//originally operator=
-	public TitanEmbedded_PDV_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
+	@Override
+	public TitanEmbedded_PDV_template assign( final template_sel otherValue ) {
+		checkSingleSelection(otherValue);
 		cleanUp();
-		set_selection(other_value);
+		set_selection(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanEmbedded_PDV_template assign( final TitanEmbedded_PDV other_value ) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanEmbedded_PDV_template assign( final TitanEmbedded_PDV otherValue ) {
 		cleanUp();
-		copyValue(other_value);
+		copyValue(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanEmbedded_PDV_template assign( final TitanEmbedded_PDV_template other_value ) {
-		if (other_value != this) {
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanEmbedded_PDV_template assign( final TitanEmbedded_PDV_template otherValue ) {
+		if (otherValue != this) {
 			cleanUp();
-			copyTemplate(other_value);
+			copyTemplate(otherValue);
 		}
 		return this;
 	}
@@ -185,11 +203,21 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV' can not be cast to {1}_template", otherValue));
 	}
 
-	public TitanEmbedded_PDV_template assign( final Optional<TitanEmbedded_PDV> other_value ) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanEmbedded_PDV_template assign( final Optional<TitanEmbedded_PDV> otherValue ) {
 		cleanUp();
-		switch (other_value.get_selection()) {
+		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
+			copyValue(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -432,6 +460,13 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV.");
 	}
 
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
 	public TitanInteger sizeOf() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing sizeof() operation on a template of type EMBEDDED PDV which has an ifpresent attribute.");

@@ -37,6 +37,17 @@ public class TitanEmbedded_PDV extends Base_Type {
 		this.data__value = new TitanOctetString();
 	}
 
+	/**
+	 * Initializes from given field values. The number of arguments equals
+	 * to the number of fields.
+	 *
+	 * @param identification
+	 *                the value of field identification
+	 * @param data__value__descriptor
+	 *                the value of field data-value-descriptor
+	 * @param data__value
+	 *                the value of field data-value
+	 * */
 	public TitanEmbedded_PDV(final TitanEmbedded_PDV_identification identification, final Optional<TitanUniversalCharString> data__value__descriptor, final TitanOctetString data__value ) {
 		this.identification = new TitanEmbedded_PDV_identification( identification );
 		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
@@ -60,6 +71,16 @@ public class TitanEmbedded_PDV extends Base_Type {
 		assign( otherValue );
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanEmbedded_PDV assign(final TitanEmbedded_PDV otherValue ) {
 		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EMBEDDED PDV");
@@ -95,6 +116,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV", otherValue));
 	}
 
+	@Override
 	public void cleanUp() {
 		identification.cleanUp();
 		data__value__descriptor.cleanUp();
@@ -121,6 +143,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 		if ( !data__value.isValue() ) { return false; }
 		return true;
 	}
+
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -204,7 +227,13 @@ public class TitanEmbedded_PDV extends Base_Type {
 	public TitanOctetString constGetdata__value() {
 		return data__value;
 	}
-
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
 	public TitanInteger sizeOf() {
 		int sizeof = 2;
 		if (data__value__descriptor.isPresent()) {

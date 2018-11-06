@@ -70,7 +70,16 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		union_selection = otherValue.union_selection;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanEmbedded_PDV_identification assign( final TitanEmbedded_PDV_identification otherValue ) {
 		if (otherValue != this) {
 			cleanUp();
@@ -87,7 +96,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.");
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		field = null;
 		union_selection = union_selection_type.UNBOUND_VALUE;

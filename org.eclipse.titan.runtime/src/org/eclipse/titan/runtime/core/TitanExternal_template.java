@@ -143,26 +143,44 @@ public class TitanExternal_template extends Base_Template {
 		}
 	}
 
-	//originally operator=
-	public TitanExternal_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
+	@Override
+	public TitanExternal_template assign( final template_sel otherValue ) {
+		checkSingleSelection(otherValue);
 		cleanUp();
-		set_selection(other_value);
+		set_selection(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanExternal_template assign( final TitanExternal other_value ) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanExternal_template assign( final TitanExternal otherValue ) {
 		cleanUp();
-		copyValue(other_value);
+		copyValue(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanExternal_template assign( final TitanExternal_template other_value ) {
-		if (other_value != this) {
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanExternal_template assign( final TitanExternal_template otherValue ) {
+		if (otherValue != this) {
 			cleanUp();
-			copyTemplate(other_value);
+			copyTemplate(otherValue);
 		}
 		return this;
 	}
@@ -185,11 +203,21 @@ public class TitanExternal_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanExternal' can not be cast to {1}_template", otherValue));
 	}
 
-	public TitanExternal_template assign( final Optional<TitanExternal> other_value ) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanExternal_template assign( final Optional<TitanExternal> otherValue ) {
 		cleanUp();
-		switch (other_value.get_selection()) {
+		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
+			copyValue(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -432,6 +460,13 @@ public class TitanExternal_template extends Base_Template {
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanExternal.");
 	}
 
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
 	public TitanInteger sizeOf() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL which has an ifpresent attribute.");

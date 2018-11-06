@@ -33,6 +33,15 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		this.transfer = new TitanObjectid();
 	}
 
+	/**
+	 * Initializes from given field values. The number of arguments equals
+	 * to the number of fields.
+	 *
+	 * @param abstract_
+	 *                the value of field abstract
+	 * @param transfer
+	 *                the value of field transfer
+	 * */
 	public TitanEmbedded_PDV_identification_syntaxes(final TitanObjectid abstract_, final TitanObjectid transfer ) {
 		this.abstract_ = new TitanObjectid( abstract_ );
 		this.transfer = new TitanObjectid( transfer );
@@ -53,6 +62,16 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		assign( otherValue );
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanEmbedded_PDV_identification_syntaxes assign(final TitanEmbedded_PDV_identification_syntaxes otherValue ) {
 		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EMBEDDED PDV.identification.syntaxes");
@@ -107,6 +126,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		if ( !transfer.isValue() ) { return false; }
 		return true;
 	}
+
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -170,7 +190,13 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	public TitanObjectid constGettransfer() {
 		return transfer;
 	}
-
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
 	public TitanInteger sizeOf() {
 		return new TitanInteger(2);
 	}

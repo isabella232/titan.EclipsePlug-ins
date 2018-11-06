@@ -150,32 +150,50 @@ public class TitanExternal_identification_template extends Base_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	//originally operator=
-	public TitanExternal_identification_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
+	@Override
+	public TitanExternal_identification_template assign(final template_sel otherValue ) {
+		checkSingleSelection(otherValue);
 		cleanUp();
-		set_selection(other_value);
+		set_selection(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanExternal_identification_template assign( final TitanExternal_identification other_value ) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanExternal_identification_template assign(final TitanExternal_identification otherValue ) {
 		cleanUp();
-		copy_value(other_value);
+		copy_value(otherValue);
 		return this;
 	}
 
-	//originally operator=
-	public TitanExternal_identification_template assign( final TitanExternal_identification_template other_value ) {
-		if (other_value != this) {
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanExternal_identification_template assign(final TitanExternal_identification_template otherValue ) {
+		if (otherValue != this) {
 			cleanUp();
-			copy_template(other_value);
+			copy_template(otherValue);
 		}
 		return this;
 	}
 
 	@Override
-	public TitanExternal_identification_template assign( final Base_Type otherValue ) {
+	public TitanExternal_identification_template assign(final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
 			return assign((TitanExternal_identification)otherValue);
 		}
@@ -183,7 +201,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanExternal_identification_template assign( final Base_Template otherValue ) {
+	public TitanExternal_identification_template assign(final Base_Template otherValue ) {
 		if (otherValue instanceof TitanExternal_identification_template) {
 			return assign((TitanExternal_identification_template)otherValue);
 		}
