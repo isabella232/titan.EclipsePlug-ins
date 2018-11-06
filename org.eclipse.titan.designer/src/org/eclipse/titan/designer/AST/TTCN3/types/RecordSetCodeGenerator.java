@@ -178,7 +178,7 @@ public final class RecordSetCodeGenerator {
 		source.append( " {\n" );
 		generateDeclaration( aData, source, fieldInfos );
 		generateConstructor( aData, source, fieldInfos, className );
-		generateConstructorManyParams( source, fieldInfos, className );
+		generateConstructorManyParams( aData, source, fieldInfos, className );
 		generateConstructorCopy( aData, source, fieldInfos, className, classDisplayname );
 		generateAssign( aData, source, fieldInfos, className, classDisplayname );
 		generateCleanUp( source, fieldInfos );
@@ -324,6 +324,8 @@ public final class RecordSetCodeGenerator {
 	 * Generating constructor with many parameters (one for each record/set
 	 * field)
 	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -331,7 +333,7 @@ public final class RecordSetCodeGenerator {
 	 * @param aClassName
 	 *                the class name of the record/set class
 	 */
-	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+	private static void generateConstructorManyParams( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
 		if ( aNamesList == null || aNamesList.isEmpty()) {
 			// Record type is empty, and parameter list would be also empty, but
@@ -340,6 +342,18 @@ public final class RecordSetCodeGenerator {
 		}
 
 		aSb.append( '\n' );
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Initializes from given field values. The number of arguments equals\n");
+			aSb.append("\t\t * to the number of fields.\n");
+			aSb.append("\t\t *\n");
+			for ( final FieldInfo fi : aNamesList ) {
+				aSb.append(MessageFormat.format("\t\t * @param {0}\n", fi.mVarName));
+				aSb.append(MessageFormat.format("\t\t *                the value of field {0}\n", fi.mDisplayName));
+			}
+
+			aSb.append("\t\t * */\n");
+		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0}(", aClassName ) );
 		boolean first = true;
 		for ( final FieldInfo fi : aNamesList ) {
