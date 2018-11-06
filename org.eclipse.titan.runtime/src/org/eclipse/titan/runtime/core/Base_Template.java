@@ -9,8 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
-
 /**
  * Base_Template in core
  *
