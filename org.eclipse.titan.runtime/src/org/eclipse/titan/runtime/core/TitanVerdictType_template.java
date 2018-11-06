@@ -272,7 +272,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return new TitanVerdictType(single_value);
 	}
 
-	public void set_type(final template_sel template_type, final int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list type for a verdict template.");
 		}
@@ -359,7 +359,7 @@ public class TitanVerdictType_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanVerdictType_template temp = new TitanVerdictType_template();
-			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));
 			}

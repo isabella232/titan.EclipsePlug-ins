@@ -256,7 +256,7 @@ public class TitanComponent_template extends Base_Template {
 		}
 	}
 
-	public void set_type(final template_sel template_type, final int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for a component reference template.");
 		}
@@ -265,7 +265,7 @@ public class TitanComponent_template extends Base_Template {
 		value_list = new ArrayList<TitanComponent_template>(list_length);
 	}
 
-	public TitanComponent_template list_item(final int list_index) {
+	public TitanComponent_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list component reference template.");
 		}
@@ -329,9 +329,9 @@ public class TitanComponent_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanComponent_template temp = new TitanComponent_template();
-			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.list_item(i).set_param(param.get_elem(i));
+				temp.listItem(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;
