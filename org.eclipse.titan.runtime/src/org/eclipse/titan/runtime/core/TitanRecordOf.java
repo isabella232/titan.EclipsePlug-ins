@@ -159,11 +159,20 @@ public abstract class TitanRecordOf extends Base_Type {
 		return assign((TitanRecordOf) otherValue);
 	}
 
-	//originally operator=
-	public TitanRecordOf assign(final TitanRecordOf aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound record of value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanRecordOf assign(final TitanRecordOf otherValue) {
+		otherValue.mustBound("Assignment of an unbound record of value.");
 
-		valueElements = aOtherValue.valueElements;
+		valueElements = otherValue.valueElements;
 		return this;
 	}
 

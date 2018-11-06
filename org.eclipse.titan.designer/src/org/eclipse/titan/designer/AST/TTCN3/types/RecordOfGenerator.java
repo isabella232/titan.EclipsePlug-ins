@@ -84,7 +84,7 @@ public final class RecordOfGenerator {
 		generateValueIsBound( source );
 		generateValueIsValue(source, ofTypeName);
 		generateValueOperatorEquals( aData, source, genName, ofTypeName, displayName, isSetOf );
-		generateValueAssign( source, genName, ofTypeName, displayName);
+		generateValueAssign(aData, source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
 		generateValueRotate( source, genName, ofTypeName, displayName );
 		generateValueCleanup( source );
@@ -153,7 +153,7 @@ public final class RecordOfGenerator {
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
-		generateTemplateAssign( source, genName, displayName );
+		generateTemplateAssign(aData, source, genName, displayName );
 		generateTemplateCleanup( source );
 		generateTemplateReplace( source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
@@ -445,6 +445,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate assign functions
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -455,7 +457,7 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueAssign( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic {0} assign(final Base_Type otherValue) '{'\n", genName ) );
@@ -463,18 +465,39 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\treturn assign(({0})otherValue);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format("\t\totherValue.mustBound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
 		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} aOtherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format("\t\taOtherValue.mustBound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
-		source.append('\n');
-		source.append("\t\tvalueElements = copyList( aOtherValue.valueElements );\n");
+		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
 		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Sets the current value to unbound.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param nullValue\n");
+			source.append(" *                the null value.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0} assign(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\treturn this;\n");
@@ -1531,12 +1554,14 @@ public final class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
 	 * Generate assign functions for template
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1545,30 +1570,49 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
-		source.append("\t\tcheckSingleSelection(other_value);\n");
+	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
+		source.append("\t@Override\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel otherValue ) '{'\n", genName ) );
+		source.append("\t\tcheckSingleSelection(otherValue);\n");
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tset_selection(other_value);\n");
+		source.append("\t\tset_selection(otherValue);\n");
 		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} other_value ) '{'\n", genName ) );
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tcopy_value(other_value);\n");
+		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template other_value ) '{'\n", genName ) );
-		source.append("\t\tif (other_value != this) {\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other template to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append("\t\tif (otherValue != this) {\n");
 		source.append("\t\t\tcleanUp();\n");
-		source.append("\t\t\tcopyTemplate(other_value);\n");
+		source.append("\t\t\tcopyTemplate(otherValue);\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
@@ -1589,9 +1633,20 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\treturn assign(({0}_template)otherValue);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
 		source.append("\t\tswitch (other_value.get_selection()) {\n");

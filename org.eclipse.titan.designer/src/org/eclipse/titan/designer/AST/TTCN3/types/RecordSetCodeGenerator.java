@@ -242,7 +242,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
 		generateTemplateGetter( aData, source, fieldInfos, classDisplayName );
 		generateTemplateConstructors( source, className, classDisplayName );
-		generateTemplateAssign( source, className, classDisplayName );
+		generateTemplateAssign( aData, source, className, classDisplayName );
 		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
 		generateTemplateIsPresent( source );
 		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
@@ -430,6 +430,18 @@ public final class RecordSetCodeGenerator {
 			final String aClassName, final String classReadableName ) {
 		aData.addCommonLibraryImport( "TtcnError" );
 
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} otherValue ) '{'\n", aClassName));
 		source.append("\t\t\tif ( !otherValue.isBound() ) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
@@ -1882,12 +1894,14 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
 		source.append("\t\t}\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
 	 * Generate assign functions for template
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1896,30 +1910,49 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
-		source.append("\t\tcheckSingleSelection(other_value);\n");
+	private static void generateTemplateAssign(final JavaGenData aData,  final StringBuilder source, final String genName, final String displayName ) {
+		source.append("\t@Override\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel otherValue ) '{'\n", genName ) );
+		source.append("\t\tcheckSingleSelection(otherValue);\n");
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tset_selection(other_value);\n");
+		source.append("\t\tset_selection(otherValue);\n");
 		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} other_value ) '{'\n", genName ) );
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tcopyValue(other_value);\n");
+		source.append("\t\tcopyValue(otherValue);\n");
 		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
-		source.append("\t//originally operator=\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template other_value ) '{'\n", genName ) );
-		source.append("\t\tif (other_value != this) {\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other template to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append("\t\tif (otherValue != this) {\n");
 		source.append("\t\t\tcleanUp();\n");
-		source.append("\t\t\tcopyTemplate(other_value);\n");
+		source.append("\t\t\tcopyTemplate(otherValue);\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
@@ -1940,14 +1973,25 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\t\treturn assign(({0}_template) otherValue);\n", genName));
 		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", otherValue));\n", genName));
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> otherValue ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tswitch (other_value.get_selection()) {\n");
+		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopyValue(other_value.constGet());\n");
+		source.append("\t\t\tcopyValue(otherValue.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
 		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");

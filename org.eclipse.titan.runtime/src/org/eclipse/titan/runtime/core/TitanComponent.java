@@ -86,14 +86,32 @@ public class TitanComponent extends Base_Type {
 		componentValue = otherValue.componentValue;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= with component parameter in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanComponent assign(final int otherValue) {
 		componentValue = otherValue;
 
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanComponent assign(final TitanComponent otherValue) {
 		if (otherValue.componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Copying an unbound component reference.");

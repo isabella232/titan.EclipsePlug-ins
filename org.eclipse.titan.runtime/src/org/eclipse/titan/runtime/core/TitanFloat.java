@@ -82,26 +82,53 @@ public class TitanFloat extends Base_Type {
 		return float_value.getValue();
 	}
 
-	// originally operator=
-	public TitanFloat assign(final double aOtherValue) {
-		float_value = new Ttcn3Float(aOtherValue);
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanFloat assign(final double otherValue) {
+		float_value = new Ttcn3Float(otherValue);
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanFloat assign(final Ttcn3Float aOtherValue) {
-		float_value = aOtherValue;
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanFloat assign(final Ttcn3Float otherValue) {
+		float_value = otherValue;
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanFloat assign(final TitanFloat aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound float value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanFloat assign(final TitanFloat otherValue) {
+		otherValue.mustBound("Assignment of an unbound float value.");
 
-		if (aOtherValue != this) {
-			float_value = aOtherValue.float_value;
+		if (otherValue != this) {
+			float_value = otherValue.float_value;
 		}
 
 		return this;

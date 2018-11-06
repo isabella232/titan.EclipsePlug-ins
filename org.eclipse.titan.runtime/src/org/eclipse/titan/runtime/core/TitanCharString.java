@@ -103,26 +103,43 @@ public class TitanCharString extends Base_Type {
 		val_ptr = new StringBuilder(aOtherValue);
 	}
 
-	// originally operator=
-	// assign for String
-	public TitanCharString assign(final String aOtherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString assign(final String otherValue) {
 		cleanUp();
 
-		if (aOtherValue == null) {
+		if (otherValue == null) {
 			val_ptr = new StringBuilder();
 		} else {
-			val_ptr = new StringBuilder(aOtherValue);
+			val_ptr = new StringBuilder(otherValue);
 		}
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanCharString assign(final TitanCharString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound charstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString assign(final TitanCharString otherValue) {
+		otherValue.mustBound("Assignment of an unbound charstring value.");
 
-		if (aOtherValue != this) {
-			copyValue(aOtherValue.val_ptr);
+		if (otherValue != this) {
+			copyValue(otherValue.val_ptr);
 		}
 
 		return this;
@@ -158,31 +175,48 @@ public class TitanCharString extends Base_Type {
 		}
 	}
 
-	//originally operator=
-	// assign for TitanCharString_Element
-	public TitanCharString assign(final TitanCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString assign(final TitanCharString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
 
 		cleanUp();
 		val_ptr = new StringBuilder(1);
-		val_ptr.append(aOtherValue.get_char());
+		val_ptr.append(otherValue.get_char());
 
 		return this;
 	}
 
-	// assign for UniversalCharstring
-	public TitanCharString assign(final TitanUniversalCharString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound universal charstring to a charstring.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString assign(final TitanUniversalCharString otherValue) {
+		otherValue.mustBound("Assignment of an unbound universal charstring to a charstring.");
 
-		if (aOtherValue.charstring) {
-			return assign(aOtherValue.cstr.toString());
+		if (otherValue.charstring) {
+			return assign(otherValue.cstr.toString());
 		} else {
 			cleanUp();
 			final StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
-				final TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
+			for (int i = 0; i < otherValue.val_ptr.size(); ++i) {
+				final TitanUniversalChar uc = otherValue.val_ptr.get(i);
 				if (uc.getUc_group() != 0 || uc.getUc_plane() != 0 || uc.getUc_row() != 0) {
-					throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.", aOtherValue));
+					throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.", otherValue));
 				} else {
 					sb.append(uc.getUc_cell());
 				}

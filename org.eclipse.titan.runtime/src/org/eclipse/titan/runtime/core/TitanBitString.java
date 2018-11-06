@@ -186,7 +186,16 @@ public class TitanBitString extends Base_Type {
 //		clear_unused_bits();
 //	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanBitString assign(final TitanBitString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
 
@@ -200,14 +209,23 @@ public class TitanBitString extends Base_Type {
 	}
 
 
-	//originally operator=
-	public TitanBitString assign(final TitanBitString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound bitstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanBitString assign(final TitanBitString otherValue) {
+		otherValue.mustBound("Assignment of an unbound bitstring value.");
 
-		if (aOtherValue != this) {
+		if (otherValue != this) {
 			cleanUp();
-			bits_ptr = TitanStringUtils.copyIntegerList(aOtherValue.bits_ptr);
-			n_bits = aOtherValue.n_bits;
+			bits_ptr = TitanStringUtils.copyIntegerList(otherValue.bits_ptr);
+			n_bits = otherValue.n_bits;
 		}
 
 		return this;

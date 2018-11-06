@@ -33,7 +33,16 @@ public class TitanBitString_Element {
 		}
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanBitString_Element assign(final TitanBitString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring element.");
 
@@ -42,7 +51,16 @@ public class TitanBitString_Element {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanBitString_Element assign(final TitanBitString otherValue) {
 		otherValue.mustBound("Assignment of unbound bitstring value.");
 

@@ -143,7 +143,7 @@ public final class EnumeratedGenerator {
 
 		//== functions ==
 		source.append("//===Methods===;\n");
-		generateValueAssign(source, e_defs.name);
+		generateValueAssign(aData, source, e_defs.name);
 		generateValueOperatorEquals(aData, source, e_defs.name, e_defs.displayName);
 		generateValueOperatorNotEquals(aData, source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
@@ -188,7 +188,7 @@ public final class EnumeratedGenerator {
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
-		generateTemplateAssign(source,e_defs.name);
+		generateTemplateAssign(aData, source,e_defs.name);
 		generateTemplateMatch(source,  e_defs.name);
 		generateTemplateValueOf(source, e_defs.name);
 		generateTemplateSetType(source,  e_defs.name);
@@ -669,9 +669,20 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueAssign(final StringBuilder source, final String name) {
+	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String name) {
 		//Arg type: own type
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign(final {0} otherValue)'{'\n", name));
 		source.append("otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
@@ -690,13 +701,35 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		//Arg: enum_type
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign(final {0}.enum_type otherValue)'{'\n", name));
 		source.append(MessageFormat.format("return assign( new {0}(otherValue) );\n",name));
 		source.append("}\n\n");
 
 		//Arg: int
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign(final int otherValue)'{'\n", name));
 		source.append("if (!isValidEnum(otherValue)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Assigning unknown numeric value {1} to a variable of enumerated type `{0}''.\", otherValue));\n", name));
@@ -881,9 +914,9 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateTemplateAssign(final StringBuilder source, final String name) {
+	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: template_sel
-		source.append("//originally operator=\n");
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
 		source.append("checkSingleSelection(otherValue);\n");
 		source.append("cleanUp();\n");
@@ -892,7 +925,18 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// arg: int
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template assign(final int otherValue) '{'\n", name));
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
 		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
@@ -903,7 +947,18 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// arg: name.enum_type
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("cleanUp();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -912,7 +967,18 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// arg : own type
-		source.append("//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other template to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue)'{'\n", name));
 		source.append("// otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
@@ -923,7 +989,16 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// arg: name type
-		source.append("//originally operator=\n");
+		/**
+		 * Assigns the other value to this template.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new template object.
+		 */
 		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue)'{'\n", name));
 		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
 		source.append("throw new TtcnError(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");

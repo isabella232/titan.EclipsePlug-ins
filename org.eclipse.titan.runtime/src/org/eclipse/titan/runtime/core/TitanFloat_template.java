@@ -115,7 +115,7 @@ public class TitanFloat_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float template", otherValue));
 	}
 
-	// originally operator=
+	@Override
 	public TitanFloat_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -124,7 +124,16 @@ public class TitanFloat_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanFloat_template assign(final double otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -133,7 +142,16 @@ public class TitanFloat_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanFloat_template assign(final Ttcn3Float otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -142,7 +160,16 @@ public class TitanFloat_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanFloat_template assign(final TitanFloat otherValue) {
 		otherValue.mustBound("Assignment of an unbound float value to a template.");
 
@@ -153,7 +180,16 @@ public class TitanFloat_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanFloat_template assign(final TitanFloat_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

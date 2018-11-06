@@ -183,13 +183,37 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Copying an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign(final function_pointer otherValue) '{'\n", def.genName));
 		source.append("referred_function = otherValue;\n");
 		source.append("return this;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Assignment of an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
@@ -687,36 +711,69 @@ public final class FunctionReferenceGenerator {
 		source.append("templateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
 		source.append("}\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final template_sel other_value ) '{'\n", def.genName));
-		source.append("checkSingleSelection(other_value);\n");
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign( final template_sel otherValue ) '{'\n", def.genName));
+		source.append("checkSingleSelection(otherValue);\n");
 		source.append("cleanUp();\n");
-		source.append("set_selection(other_value);\n");
+		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final {0}.function_pointer other_value ) '{'\n", def.genName));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public {0}_template assign( final {0}.function_pointer otherValue ) '{'\n", def.genName));
 		source.append("cleanUp();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("single_value = other_value;\n");
+		source.append("single_value = otherValue;\n");
 		source.append("return this;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final {0} other_value ) '{'\n", def.genName));
-		source.append(MessageFormat.format("other_value.mustBound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public {0}_template assign( final {0} otherValue ) '{'\n", def.genName));
+		source.append(MessageFormat.format("otherValue.mustBound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
 		source.append("cleanUp();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("single_value = other_value.referred_function;\n");
+		source.append("single_value = otherValue.referred_function;\n");
 		source.append("return this;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final {0}_template other_value ) '{'\n", def.genName));
-		source.append("if (other_value != this) {\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other template to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public {0}_template assign( final {0}_template otherValue ) '{'\n", def.genName));
+		source.append("if (otherValue != this) {\n");
 		source.append("cleanUp();\n");
-		source.append("copy_template(other_value);\n");
+		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 		source.append("return this;\n");
 		source.append("}\n");

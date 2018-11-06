@@ -213,8 +213,42 @@ public abstract class Base_Template {
 		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
 	}
 
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public abstract Base_Template assign(final Base_Type otherValue);
+
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other template to assign.
+	 * @return the new template object.
+	 */
 	public abstract Base_Template assign(final Base_Template otherValue);
+
+	/**
+	 * Sets the current selection to the provided value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public abstract Base_Template assign(final template_sel otherValue);
+
 	public abstract boolean match(final Base_Type otherValue, final boolean legacy);
 	public abstract Base_Type valueOf();
 	public abstract void log();

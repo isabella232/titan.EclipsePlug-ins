@@ -102,7 +102,7 @@ public class TitanVerdictType_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type template", otherValue));
 	}
 
-	//originally operator=
+	@Override
 	public TitanVerdictType_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -111,7 +111,16 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanVerdictType_template assign(final VerdictTypeEnum otherValue) {
 		if (!TitanVerdictType.isValid(otherValue)) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ") to a template.");
@@ -124,7 +133,16 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanVerdictType_template assign(final TitanVerdictType otherValue) {
 		otherValue.mustBound("Assignment of an unbound verdict value to a template.");
 
@@ -135,7 +153,16 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanVerdictType_template assign(final Optional<TitanVerdictType> otherValue) {
 		cleanUp();
 		switch (otherValue.get_selection()) {
@@ -151,7 +178,16 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanVerdictType_template assign(final TitanVerdictType_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

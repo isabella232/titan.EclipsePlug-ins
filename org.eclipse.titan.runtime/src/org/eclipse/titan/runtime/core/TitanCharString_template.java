@@ -154,7 +154,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring template", otherValue));
 	}
 
-	// originally operator=
+	@Override
 	public TitanCharString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -163,7 +163,16 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanCharString_template assign(final String otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -172,7 +181,16 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanCharString_template assign(final TitanCharString otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
 
@@ -183,7 +201,16 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanCharString_template assign(final TitanCharString_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

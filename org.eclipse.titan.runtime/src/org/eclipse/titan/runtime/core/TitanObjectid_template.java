@@ -96,7 +96,7 @@ public class TitanObjectid_template extends Base_Template {
 		set_selection(otherValue);
 	}
 
-	// originally operator=
+	@Override
 	public TitanObjectid_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -105,7 +105,16 @@ public class TitanObjectid_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanObjectid_template assign(final TitanObjectid otherValue) {
 		if (!otherValue.isBound()) {
 			throw new TtcnError("Assignment of an unbound objid value to a template.");
@@ -117,7 +126,16 @@ public class TitanObjectid_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanObjectid_template assign(final TitanObjectid_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
@@ -127,7 +145,6 @@ public class TitanObjectid_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
 	@Override
 	public Base_Template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
@@ -136,7 +153,6 @@ public class TitanObjectid_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", otherValue));
 	}
 
-	// originally operator=
 	@Override
 	public Base_Template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanObjectid_template) {

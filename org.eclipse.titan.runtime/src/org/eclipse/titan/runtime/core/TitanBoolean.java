@@ -70,19 +70,37 @@ public class TitanBoolean extends Base_Type {
 		boolean_value = aOtherValue;
 	}
 
-	// originally operator=
-	public TitanBoolean assign(final boolean aOtherValue) {
-		boolean_value = aOtherValue;
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanBoolean assign(final boolean otherValue) {
+		boolean_value = otherValue;
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanBoolean assign(final TitanBoolean aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound boolean value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanBoolean assign(final TitanBoolean otherValue) {
+		otherValue.mustBound("Assignment of an unbound boolean value.");
 
-		if (aOtherValue != this) {
-			boolean_value = aOtherValue.boolean_value;
+		if (otherValue != this) {
+			boolean_value = otherValue.boolean_value;
 		}
 
 		return this;

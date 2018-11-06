@@ -87,7 +87,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	// originally operator=
+	@Override
 	public TitanAsn_Null_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -96,7 +96,16 @@ public class TitanAsn_Null_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanAsn_Null_template assign(final TitanAsn_Null otherValue) {
 		if (!otherValue.isBound()) {
 			throw new TtcnError("Assignment of an unbound ASN.1 NULL value to a template.");
@@ -117,6 +126,16 @@ public class TitanAsn_Null_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", otherValue));
 	}
 
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanAsn_Null_template assign(final Asn_Null_Type otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -124,6 +143,16 @@ public class TitanAsn_Null_template extends Base_Template {
 		return this; 
 	}
 
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanAsn_Null_template assign(final Optional<TitanAsn_Null> otherValue) {
 		cleanUp();
 		switch (otherValue.get_selection()) {
@@ -149,7 +178,16 @@ public class TitanAsn_Null_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", match_value));
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanAsn_Null_template assign(final TitanAsn_Null_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

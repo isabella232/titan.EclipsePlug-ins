@@ -64,7 +64,16 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		array_size = length;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanPortArray<T> assign(final TitanPortArray<T> otherValue) {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;

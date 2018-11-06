@@ -76,7 +76,16 @@ public class TitanDefault extends Base_Type {
 		default_ptr = otherValue.default_ptr;
 	}
 
-	// originally operator= with component parameter
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanDefault assign(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Assignment of an invalid default reference.");
@@ -86,7 +95,16 @@ public class TitanDefault extends Base_Type {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanDefault assign(final Default_Base otherValue) {
 		if (otherValue == UNBOUND_DEFAULT) {
 			throw new TtcnError("Assignment of an unbound default reference.");
@@ -96,7 +114,16 @@ public class TitanDefault extends Base_Type {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanDefault assign(final TitanDefault otherValue) {
 		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("Assignment of an unbound default reference.");

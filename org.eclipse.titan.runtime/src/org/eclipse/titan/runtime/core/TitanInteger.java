@@ -126,7 +126,16 @@ public class TitanInteger extends Base_Type {
 		boundFlag = false;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanInteger assign(final int otherValue) {
 		cleanUp();
 		boundFlag = true;
@@ -136,7 +145,16 @@ public class TitanInteger extends Base_Type {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanInteger assign(final BigInteger otherValue) {
 		cleanUp();
 		boundFlag = true;
@@ -146,7 +164,16 @@ public class TitanInteger extends Base_Type {
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanInteger assign(final TitanInteger otherValue) {
 		otherValue.mustBound("Assignment of an unbound integer value.");
 

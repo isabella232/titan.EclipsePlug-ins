@@ -169,7 +169,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	// originally operator=
+	@Override
 	public TitanBitString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -187,7 +187,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanBitString_template assign(final TitanBitString otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring value to a template.");
 
@@ -198,7 +207,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanBitString_template assign(final TitanBitString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");
 		cleanUp();
@@ -208,7 +226,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanBitString_template assign(final TitanBitString_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
@@ -218,7 +245,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanBitString_template assign(final Optional<TitanBitString> otherValue) {
 		cleanUp();
 		switch (otherValue.get_selection()) {

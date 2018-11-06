@@ -166,18 +166,36 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = aOtherValue;
 	}
 
-	// originally operator=
-	public TitanHexString assign(final TitanHexString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound hexstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanHexString assign(final TitanHexString otherValue) {
+		otherValue.mustBound("Assignment of an unbound hexstring value.");
 
-		if (aOtherValue != this) {
-			nibbles_ptr = aOtherValue.nibbles_ptr;
+		if (otherValue != this) {
+			nibbles_ptr = otherValue.nibbles_ptr;
 		}
 
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanHexString assign(final TitanHexString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound hexstring element to a hexstring.");
 

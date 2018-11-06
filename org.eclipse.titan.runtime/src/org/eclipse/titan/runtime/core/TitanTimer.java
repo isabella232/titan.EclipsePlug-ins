@@ -47,6 +47,16 @@ public class TitanTimer {
 
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	TitanTimer assign(final TitanTimer otherValue) {
 		timerName = otherValue.timerName;
 		hasDefault = otherValue.hasDefault;
@@ -58,6 +68,16 @@ public class TitanTimer {
 		return this;
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanTimer assign(final Ttcn3Float defaultValue) {
 		setDefaultDuration(defaultValue);
 		isStarted = false;
@@ -65,6 +85,16 @@ public class TitanTimer {
 		return this;
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanTimer assign(final TitanFloat defaultValue) {
 		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
 

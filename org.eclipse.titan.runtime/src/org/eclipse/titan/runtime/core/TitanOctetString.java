@@ -143,21 +143,40 @@ public class TitanOctetString extends Base_Type {
 		val_ptr = aOtherValue;
 	}
 
-	// originally operator=
-	public TitanOctetString assign(final TitanOctetString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound octetstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanOctetString assign(final TitanOctetString otherValue) {
+		otherValue.mustBound("Assignment of an unbound octetstring value.");
 
-		if (aOtherValue != this) {
-			val_ptr = aOtherValue.val_ptr;
+		if (otherValue != this) {
+			val_ptr = otherValue.val_ptr;
 		}
 
 		return this;
 	}
 
-	public TitanOctetString assign(final TitanOctetString_Element aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound octetstring element to an octetstring.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanOctetString assign(final TitanOctetString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound octetstring element to an octetstring.");
 		val_ptr = new char[1];
-		val_ptr[0] = aOtherValue.get_nibble();
+		val_ptr[0] = otherValue.get_nibble();
 
 		return this;
 	}

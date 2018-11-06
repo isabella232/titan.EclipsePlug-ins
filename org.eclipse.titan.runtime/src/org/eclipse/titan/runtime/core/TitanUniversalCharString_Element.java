@@ -44,24 +44,33 @@ public class TitanUniversalCharString_Element {
 		}
 	}
 
-	// originally operator=
-	public TitanUniversalCharString_Element assign(final TitanUniversalCharString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound universal charstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString_Element assign(final TitanUniversalCharString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound universal charstring element.");
 
-		if (other_value != this) {
+		if (otherValue != this) {
 			bound_flag = true;
 			if (str_val.charstring) {
-				if (other_value.str_val.charstring) {
-					str_val.cstr.setCharAt(char_pos, other_value.get_char().getUc_cell());
+				if (otherValue.str_val.charstring) {
+					str_val.cstr.setCharAt(char_pos, otherValue.get_char().getUc_cell());
 				} else {
 					str_val.convertCstrToUni();
-					str_val.val_ptr.set(char_pos, other_value.get_char());
+					str_val.val_ptr.set(char_pos, otherValue.get_char());
 				}
 			} else {
-				if (other_value.str_val.charstring) {
-					str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.str_val.cstr.charAt(other_value.char_pos)));
+				if (otherValue.str_val.charstring) {
+					str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.str_val.cstr.charAt(otherValue.char_pos)));
 				} else {
-					str_val.val_ptr.set(char_pos, other_value.get_char());
+					str_val.val_ptr.set(char_pos, otherValue.get_char());
 				}
 			}
 		}
@@ -69,23 +78,32 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString_Element assign(final TitanUniversalCharString other_value) {
-		other_value.mustBound("Assignment of an unbound universal charstring value to a universal charstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString_Element assign(final TitanUniversalCharString otherValue) {
+		otherValue.mustBound("Assignment of an unbound universal charstring value to a universal charstring element.");
 
-		final int length = other_value.charstring ? other_value.cstr.length() : other_value.val_ptr.size();
+		final int length = otherValue.charstring ? otherValue.cstr.length() : otherValue.val_ptr.size();
 		if (length != 1) {
 			throw new TtcnError("Assignment of a universal charstring value with length other than 1 to a universal charstring element.");
 		}
 
 		bound_flag = true;
 
-		if (other_value.charstring) {
-			str_val.cstr = other_value.cstr;
+		if (otherValue.charstring) {
+			str_val.cstr = otherValue.cstr;
 			str_val.charstring = true;
 			str_val.val_ptr = null;
 		} else {
-			str_val.val_ptr = other_value.val_ptr;
+			str_val.val_ptr = otherValue.val_ptr;
 			str_val.charstring = false;
 			str_val.cstr = null;
 		}
@@ -93,7 +111,16 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanUniversalCharString_Element assign(final TitanUniversalChar otherValue) {
 		bound_flag = true;
 
@@ -110,7 +137,16 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanUniversalCharString_Element assign(final String otherValue) {
 		if (otherValue == null || otherValue.length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a universal charstring element.");
@@ -126,6 +162,16 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanUniversalCharString_Element assign(final TitanCharString otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring value to a universal charstring element.");
 
@@ -142,7 +188,16 @@ public class TitanUniversalCharString_Element {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanUniversalCharString_Element assign(final TitanCharString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring element to a universal charstring element.");
 

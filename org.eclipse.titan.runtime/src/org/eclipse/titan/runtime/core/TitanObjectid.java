@@ -71,7 +71,16 @@ public class TitanObjectid extends Base_Type {
 		components_ptr = null;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanObjectid assign(final TitanObjectid otherValue) {
 		if (otherValue.components_ptr == null) {
 			throw new TtcnError("Assignment of an unbound objid value.");

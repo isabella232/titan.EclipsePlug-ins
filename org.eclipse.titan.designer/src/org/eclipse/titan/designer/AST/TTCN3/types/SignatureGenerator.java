@@ -581,7 +581,18 @@ public final class SignatureGenerator {
 				source.append("}\n");
 			}
 
-			source.append("//originally operator=\n");
+			if ( aData.isDebug() ) {
+				source.append("/**\n");
+				source.append(" * Assigns the other value to this value.\n");
+				source.append(" * Overwriting the current content in the process.\n");
+				source.append(" *<p>\n");
+				source.append(" * operator= in the core.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the other value to assign.\n");
+				source.append(" * @return the new value object.\n");
+				source.append(" */\n");
+			}
 			source.append(MessageFormat.format("public {0}_exception assign( final {0}_exception otherValue ) '{'\n", def.genName));
 			source.append("if(this != otherValue) {\n");
 			source.append("cleanUp();\n");
@@ -821,6 +832,18 @@ public final class SignatureGenerator {
 		source.append("}\n\n");
 
 		if (def.formalParameters.isEmpty()) {
+			if ( aData.isDebug() ) {
+				source.append("/**\n");
+				source.append(" * Sets the current value to unbound.\n");
+				source.append(" * Overwriting the current content in the process.\n");
+				source.append(" *<p>\n");
+				source.append(" * operator= in the core.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the other value to assign.\n");
+				source.append(" * @return the new value object.\n");
+				source.append(" */\n");
+			}
 			source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type otherValue) '{'\n", def.genName));
 			source.append("return this;\n");
 			source.append("}\n\n");

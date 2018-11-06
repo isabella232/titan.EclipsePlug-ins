@@ -133,7 +133,7 @@ public final class UnionGenerator {
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
-		generateValueAssign(source, genName, displayName, fieldInfos);
+		generateValueAssign(aData, source, genName, displayName, fieldInfos);
 		generateValueCleanup(source, fieldInfos);
 		generateValueIsChosen(source, displayName);
 		generateValueIsBound(source);
@@ -185,7 +185,7 @@ public final class UnionGenerator {
 		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateTemplateConstructors(source, genName);
 		generateTemplateCleanup(source, fieldInfos);
-		generateTemplateAssign(source, genName);
+		generateTemplateAssign(aData, source, genName);
 		generateTemplateMatch(source, genName, displayName, fieldInfos);
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
@@ -298,6 +298,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate assign functions
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -308,8 +310,19 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueAssign(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("//originally operator=\n");
+	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this value.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new value object.\n");
+			source.append(" */\n");
+		}
 		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
 		source.append("if (otherValue != this) {\n");
 		source.append("cleanUp();\n");
@@ -1213,39 +1226,63 @@ public final class UnionGenerator {
 	/**
 	 * Generate assign functions
 	 *
+	 * @param aData
+	 *                only used to update imports if needed.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                union/choice type.
 	 * */
-	private static void generateTemplateAssign(final StringBuilder source, final String genName) {
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final template_sel other_value ) '{'\n", genName));
-		source.append("checkSingleSelection(other_value);\n");
+	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName) {
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue ) '{'\n", genName));
+		source.append("checkSingleSelection(otherValue);\n");
 		source.append("cleanUp();\n");
-		source.append("set_selection(other_value);\n");
+		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final {0} other_value ) '{'\n", genName));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other value to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue ) '{'\n", genName));
 		source.append("cleanUp();\n");
-		source.append("copy_value(other_value);\n");
+		source.append("copy_value(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
-		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign( final {0}_template other_value ) '{'\n", genName));
-		source.append("if (other_value != this) {\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Assigns the other template to this template.\n");
+			source.append(" * Overwriting the current content in the process.\n");
+			source.append(" *<p>\n");
+			source.append(" * operator= in the core.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to assign.\n");
+			source.append(" * @return the new template object.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue ) '{'\n", genName));
+		source.append("if (otherValue != this) {\n");
 		source.append("cleanUp();\n");
-		source.append("copy_template(other_value);\n");
+		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign( final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Type otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
 		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
 		source.append("}\n");
@@ -1253,7 +1290,7 @@ public final class UnionGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign( final Base_Template otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Template otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", genName));
 		source.append(MessageFormat.format("return assign(({0}_template)otherValue);\n", genName));
 		source.append("}\n");

@@ -148,12 +148,21 @@ public class TitanVerdictType extends Base_Type {
 		return verdict_value == otherValue;
 	}
 
-	//originally operator=
-	public TitanVerdictType assign(final TitanVerdictType aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound verdict value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanVerdictType assign(final TitanVerdictType otherValue) {
+		otherValue.mustBound("Assignment of an unbound verdict value.");
 
-		if (aOtherValue != this) {
-			verdict_value = aOtherValue.verdict_value;
+		if (otherValue != this) {
+			verdict_value = otherValue.verdict_value;
 		}
 
 		return this;
@@ -168,13 +177,22 @@ public class TitanVerdictType extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
 	}
 
-	//originally operator= (verdicttype other_value)
-	public TitanVerdictType assign(final VerdictTypeEnum other_value) {
-		if (!isValid(other_value)) {
-			throw new TtcnError("Assignment of an invalid verdict value (" + other_value + ").");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanVerdictType assign(final VerdictTypeEnum otherValue) {
+		if (!isValid(otherValue)) {
+			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ").");
 		}
 
-		verdict_value = other_value;
+		verdict_value = otherValue;
 		return this;
 	}
 

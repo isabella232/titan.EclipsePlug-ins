@@ -391,7 +391,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	// originally operator=
+	@Override
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -399,20 +399,49 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return this;
 	}
 
-	// originally operator=(null_type)
+	/**
+	 * Cleans up this template and sets it as a specific value template.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanNull_Type otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 * Uses deep copy.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanValueArray<Tvalue> otherValue) {
 		cleanUp();
 		copy_value(otherValue);
 		return this;
 	}
 
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 * Uses deep copy.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final Optional<TitanValueArray<Tvalue>> other_value) {
 		cleanUp();
 		switch (other_value.get_selection()) {
@@ -428,7 +457,17 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 * Uses depp copy.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanTemplateArray<Tvalue,Ttemplate> otherValue) {
 		if (otherValue != this) {
 			cleanUp();

@@ -57,25 +57,43 @@ public class TitanHexString_Element {
 		return sb.toString();
 	}
 
-	// originally operator=
-	public TitanHexString_Element assign(final TitanHexString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound hexstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanHexString_Element assign(final TitanHexString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound hexstring element.");
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
+		str_val.set_nibble(nibble_pos, otherValue.str_val.get_nibble(otherValue.nibble_pos));
 		return this;
 	}
 
-	// originally operator=
-	public TitanHexString_Element assign(final TitanHexString other_value) {
-		other_value.mustBound("Assignment of unbound hexstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanHexString_Element assign(final TitanHexString otherValue) {
+		otherValue.mustBound("Assignment of unbound hexstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (otherValue.getValue().length != 1) {
 			throw new TtcnError("Assignment of a hexstring value with length other than 1 to a hexstring element.");
 		}
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
+		str_val.set_nibble(nibble_pos, otherValue.get_nibble(0));
 		return this;
 	}
 

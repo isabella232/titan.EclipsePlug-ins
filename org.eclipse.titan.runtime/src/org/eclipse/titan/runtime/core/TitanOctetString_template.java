@@ -226,7 +226,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
-	// originally operator=
+	@Override
 	public TitanOctetString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -244,7 +244,16 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanOctetString_template assign(final TitanOctetString otherValue) {
 		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
 
@@ -255,6 +264,16 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return this;
 	}
 
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanOctetString_template assign(final TitanOctetString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
 
@@ -265,7 +284,16 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanOctetString_template assign(final TitanOctetString_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

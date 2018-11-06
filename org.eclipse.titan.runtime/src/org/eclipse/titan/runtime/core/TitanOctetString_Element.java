@@ -56,26 +56,44 @@ public class TitanOctetString_Element {
 		return sb.toString();
 	}
 
-	// originally operator=
-	public TitanOctetString_Element assign(final TitanOctetString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound octetstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanOctetString_Element assign(final TitanOctetString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound octetstring element.");
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
+		str_val.set_nibble(nibble_pos, otherValue.str_val.get_nibble(otherValue.nibble_pos));
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanOctetString_Element assign(final TitanOctetString other_value) {
-		other_value.mustBound("Assignment of unbound octetstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanOctetString_Element assign(final TitanOctetString otherValue) {
+		otherValue.mustBound("Assignment of unbound octetstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (otherValue.getValue().length != 1) {
 			throw new TtcnError("Assignment of a octetstring value with length other than 1 to a octetstring element.");
 		}
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
+		str_val.set_nibble(nibble_pos, otherValue.get_nibble(0));
 		return this;
 	}
 

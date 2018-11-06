@@ -135,7 +135,7 @@ public abstract class Base_Type {
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
-	 *
+	 *<p>
 	 * operator== in the core
 	 *
 	 * @param otherValue
@@ -147,10 +147,11 @@ public abstract class Base_Type {
 	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
 	 *
-	 * represents the := operator from TTCN-3.
-	 *
-	 * @param otherValue the other value to assign.
+	 * @param otherValue
+	 *                the other value to assign.
 	 * @return the new value object.
 	 */
 	public abstract Base_Type assign(final Base_Type otherValue);

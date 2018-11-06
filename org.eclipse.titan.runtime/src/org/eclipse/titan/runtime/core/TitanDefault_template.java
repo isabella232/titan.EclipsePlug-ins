@@ -153,7 +153,7 @@ public class TitanDefault_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", match_value));
 	}
 
-	//originally operator=
+	@Override
 	public TitanDefault_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -162,7 +162,16 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator= has component parameter
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanDefault_template assign(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Assignment of an invalid default reference to a template.");
@@ -175,7 +184,16 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanDefault_template assign(final Default_Base otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -184,7 +202,16 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanDefault_template assign(final TitanDefault otherValue) {
 		if (otherValue.default_ptr == TitanDefault.UNBOUND_DEFAULT) {
 			throw new TtcnError("Assignment of an unbound default reference to a template.");
@@ -197,7 +224,16 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanDefault_template assign(final TitanDefault_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

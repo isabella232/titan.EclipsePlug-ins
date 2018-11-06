@@ -200,7 +200,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universalcharstring", match_value));
 	}
 
-	// originally operator=
+	@Override
 	public TitanUniversalCharString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();

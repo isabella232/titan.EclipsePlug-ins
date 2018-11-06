@@ -109,7 +109,7 @@ public class TitanComponent_template extends Base_Template {
 		set_selection(otherValue);
 	}
 
-	// originally operator=
+	@Override
 	public TitanComponent_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
@@ -146,7 +146,16 @@ public class TitanComponent_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value));
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= with component parameter in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanComponent_template assign(final int otherValue) {
 		cleanUp();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -155,7 +164,16 @@ public class TitanComponent_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanComponent_template assign(final TitanComponent otherValue) {
 		otherValue.mustBound("Assignment of an unbound component reference to a template.");
 
@@ -166,7 +184,16 @@ public class TitanComponent_template extends Base_Template {
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
 	public TitanComponent_template assign(final TitanComponent_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();

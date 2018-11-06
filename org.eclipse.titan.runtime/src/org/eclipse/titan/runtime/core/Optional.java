@@ -65,7 +65,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 	}
 
-	//originally operator=
+	/**
+	 * Sets the current selection to be omit.
+	 * Any other parameter causes dynamic testcase error.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public Optional<TYPE> assign(final template_sel otherValue) {
 		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
 			throw new TtcnError("Internal error: Setting an optional field to an invalid value.");
@@ -74,7 +83,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
 		switch (otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:

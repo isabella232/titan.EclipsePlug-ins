@@ -62,14 +62,32 @@ public class TitanAsn_Null extends Base_Type {
 		boundFlag = false;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanAsn_Null assign(final Asn_Null_Type otherValue) {
 		boundFlag = true;
 
 		return this;
 	}
 
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	public TitanAsn_Null assign(final TitanAsn_Null otherValue) {
 		if (!otherValue.boundFlag) {
 			throw new TtcnError("Assignment of an unbound ASN.1 NULL value.");

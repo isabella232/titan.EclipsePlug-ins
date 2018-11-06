@@ -42,38 +42,65 @@ public class TitanCharString_Element {
 		}
 	}
 
-	// assign for String
-	public TitanCharString_Element assign(final String aOtherValue) {
-		if (aOtherValue == null || aOtherValue.length() != 1) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element assign(final String otherValue) {
+		if (otherValue == null || otherValue.length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a charstring element.");
 		}
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, aOtherValue.charAt(0));
+		str_val.getValue().setCharAt(char_pos, otherValue.charAt(0));
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanCharString_Element assign(final TitanCharString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound charstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element assign(final TitanCharString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound charstring element.");
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, other_value.str_val.getValue().charAt(other_value.char_pos));
+		str_val.getValue().setCharAt(char_pos, otherValue.str_val.getValue().charAt(otherValue.char_pos));
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanCharString_Element assign(final TitanCharString other_value) {
-		other_value.mustBound("Assignment of unbound charstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element assign(final TitanCharString otherValue) {
+		otherValue.mustBound("Assignment of unbound charstring value.");
 
-		if (other_value.getValue().length() != 1) {
+		if (otherValue.getValue().length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a charstring element.");
 		}
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, other_value.getValue().charAt(0));
+		str_val.getValue().setCharAt(char_pos, otherValue.getValue().charAt(0));
 
 		return this;
 	}

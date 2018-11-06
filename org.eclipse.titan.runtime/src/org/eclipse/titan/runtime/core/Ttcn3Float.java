@@ -34,13 +34,32 @@ public class Ttcn3Float {
 		return value;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param d
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	Ttcn3Float assign(final double d){
 		value = d;
+
 		return this;
 	}
 
-	//originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param d
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	Ttcn3Float assign(final Ttcn3Float d){
 		this.value = d.value;
 		return this;

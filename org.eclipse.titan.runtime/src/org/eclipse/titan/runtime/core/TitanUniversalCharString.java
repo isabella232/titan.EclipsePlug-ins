@@ -206,31 +206,49 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final TitanUniversalCharString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound universal charstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final TitanUniversalCharString otherValue) {
+		otherValue.mustBound("Assignment of an unbound universal charstring value.");
 
-		if (aOtherValue != this) {
-			val_ptr = aOtherValue.val_ptr;
-			cstr = aOtherValue.cstr;
-			charstring = aOtherValue.charstring;
+		if (otherValue != this) {
+			val_ptr = otherValue.val_ptr;
+			cstr = otherValue.cstr;
+			charstring = otherValue.charstring;
 		}
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final TitanUniversalCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound universal charstring element to a universal charstring.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final TitanUniversalCharString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound universal charstring element to a universal charstring.");
 
-		if (aOtherValue.get_char().is_char()) {
+		if (otherValue.get_char().is_char()) {
 			cstr = new StringBuilder();
-			cstr.append(aOtherValue.get_char().getUc_cell());
+			cstr.append(otherValue.get_char().getUc_cell());
 			val_ptr = null;
 			charstring = true;
 		} else {
 			val_ptr = new ArrayList<TitanUniversalChar>();
-			val_ptr.add(aOtherValue.get_char());
+			val_ptr.add(otherValue.get_char());
 			cstr = null;
 			charstring = false;
 		}
@@ -238,29 +256,47 @@ public class TitanUniversalCharString extends Base_Type {
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final TitanCharString aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound charstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final TitanCharString otherValue) {
+		otherValue.mustBound("Assignment of an unbound charstring value.");
 
 		if (!charstring) {
 			cleanUp();
 			charstring = true;
 		}
-		cstr = new StringBuilder(aOtherValue.getValue());
+		cstr = new StringBuilder(otherValue.getValue());
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final TitanCharString_Element aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final TitanCharString_Element otherValue) {
+		otherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
 
 		if (!charstring) {
 			cleanUp();
 			charstring = true;
 		}
 		cstr = new StringBuilder();
-		cstr.append(aOtherValue.get_char());
+		cstr.append(otherValue.get_char());
 
 		return this;
 	}
@@ -277,39 +313,66 @@ public class TitanUniversalCharString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring", otherValue));
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final TitanUniversalChar aOtherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final TitanUniversalChar otherValue) {
 		cleanUp();
-		if (aOtherValue.is_char()) {
+		if (otherValue.is_char()) {
 			charstring = true;
 			cstr = new StringBuilder();
-			cstr.append(aOtherValue.getUc_cell());
+			cstr.append(otherValue.getUc_cell());
 		} else {
 			charstring = false;
 			val_ptr = new ArrayList<TitanUniversalChar>();
-			val_ptr.add(aOtherValue);
+			val_ptr.add(otherValue);
 		}
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final char[] aOtherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final char[] otherValue) {
 		charstring = true;
 		cstr = new StringBuilder();
-		for (int i = 0; i < aOtherValue.length; ++i) {
-			cstr.append(aOtherValue[i]);
+		for (int i = 0; i < otherValue.length; ++i) {
+			cstr.append(otherValue[i]);
 		}
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanUniversalCharString assign(final String aOtherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanUniversalCharString assign(final String otherValue) {
 		charstring = true;
 		cstr = new StringBuilder();
-		for (int i = 0; i < aOtherValue.length(); ++i) {
-			cstr.append(aOtherValue.charAt(i));
+		for (int i = 0; i < otherValue.length(); ++i) {
+			cstr.append(otherValue.charAt(i));
 		}
 
 		return this;

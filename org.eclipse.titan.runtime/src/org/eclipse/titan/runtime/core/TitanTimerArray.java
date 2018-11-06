@@ -43,8 +43,16 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		}
 	}
 
-	/// Assignment disallowed.
-	// originally operator=
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
 	TitanTimerArray<T> assign(final TitanTimerArray<T> otherValue){
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
