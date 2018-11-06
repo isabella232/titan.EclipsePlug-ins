@@ -1523,7 +1523,7 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 }:
 	LENGTHKEYWORD
 	LPAREN
-	(	single = pr_LengthBound	{	$length_restriction.set_single($min.integer.getIntegerValue());	}
+	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer.getIntegerValue());	}
 	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer.getIntegerValue());	}
 		DOTDOT
 		(	max = pr_LengthBound
