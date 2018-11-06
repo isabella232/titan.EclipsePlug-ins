@@ -965,6 +965,11 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.error(\"Not supported.\");\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
 		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return;\n");
