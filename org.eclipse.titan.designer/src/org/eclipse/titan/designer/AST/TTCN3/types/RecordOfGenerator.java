@@ -601,7 +601,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateValueCleanup(final StringBuilder source) {
 		source.append('\n');
-		source.append("\t//originally clean_up\n");
+		source.append("@Override\n");
 		source.append("\tpublic void cleanUp() {\n");
 		source.append("\t\tvalueElements = null;\n");
 		source.append("\t}\n\n");

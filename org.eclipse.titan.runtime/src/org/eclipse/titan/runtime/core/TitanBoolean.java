@@ -260,6 +260,7 @@ public class TitanBoolean extends Base_Type {
 		return !operatorEquals(otherValue);
 	}
 
+	@Override
 	public void cleanUp() {
 		boolean_value = null;
 	}

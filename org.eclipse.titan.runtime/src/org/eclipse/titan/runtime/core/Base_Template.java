@@ -101,7 +101,11 @@ public abstract class Base_Template {
 		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
 	}
 
-	//originally clean_up
+	/**
+	 * Deletes the template, setting it to unbound.
+	 *
+	 * clean_up() in the core
+	 * */
 	public void cleanUp() {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
@@ -217,7 +221,7 @@ public abstract class Base_Template {
 
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
-	public abstract void set_param (final Param_Types.Module_Parameter param);
+	public abstract void set_param(final Param_Types.Module_Parameter param);
 
 	// originally is_present (with default parameter)
 	public boolean isPresent() {

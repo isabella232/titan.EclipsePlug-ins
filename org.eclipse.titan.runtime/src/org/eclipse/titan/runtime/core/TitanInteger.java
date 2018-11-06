@@ -118,7 +118,7 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		if (!nativeFlag) {
 			openSSL = null;

@@ -780,6 +780,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return ret_val;
 	}
 
+	@Override
 	public void cleanUp() {
 		val_ptr = null;
 		cstr = null;

@@ -291,6 +291,7 @@ public class TitanHexString extends Base_Type {
 		return !operatorEquals(otherValue);
 	}
 
+	@Override
 	public void cleanUp() {
 		nibbles_ptr = null;
 	}

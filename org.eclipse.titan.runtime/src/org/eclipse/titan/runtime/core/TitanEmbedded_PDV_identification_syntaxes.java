@@ -83,6 +83,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.syntaxes", otherValue));
 	}
 
+	@Override
 	public void cleanUp() {
 		abstract_.cleanUp();
 		transfer.cleanUp();

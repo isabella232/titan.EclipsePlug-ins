@@ -57,7 +57,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;

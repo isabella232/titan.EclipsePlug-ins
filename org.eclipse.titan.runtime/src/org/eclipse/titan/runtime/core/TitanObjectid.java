@@ -66,6 +66,7 @@ public class TitanObjectid extends Base_Type {
 		overflow_idx = otherValue.overflow_idx;
 	}
 
+	@Override
 	public void cleanUp() {
 		components_ptr = null;
 	}

@@ -70,7 +70,7 @@ public class TitanComponent_template extends Base_Template {
 		copyTemplate(otherValue);
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case VALUE_LIST:

@@ -337,7 +337,7 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("//originally clean_up\n");
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		if (!fieldInfos.isEmpty()) {
 			source.append("field = null;\n");

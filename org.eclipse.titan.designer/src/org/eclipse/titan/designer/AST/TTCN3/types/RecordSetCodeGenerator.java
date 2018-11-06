@@ -466,7 +466,8 @@ public final class RecordSetCodeGenerator {
 	 *                sequence field variable and type names
 	 */
 	private static void generateCleanUp( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic void cleanUp() {\n" );
+		aSb.append("\n\t\t@Override\n");
+		aSb.append( "\t\tpublic void cleanUp() {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			aSb.append( "\t\t\t" );
 			aSb.append( fi.mVarName );
@@ -2673,7 +2674,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", className));
 		source.append("}\n\n");
 
-		source.append("//originally clean_up\n");
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		source.append("bound_flag = false;\n");
 		source.append("}\n\n");

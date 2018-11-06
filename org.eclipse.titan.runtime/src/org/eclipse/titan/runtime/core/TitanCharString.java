@@ -528,6 +528,7 @@ public class TitanCharString extends Base_Type {
 		return !operatorEquals(otherValue);
 	}
 
+	@Override
 	public void cleanUp() {
 		val_ptr = null;
 	}

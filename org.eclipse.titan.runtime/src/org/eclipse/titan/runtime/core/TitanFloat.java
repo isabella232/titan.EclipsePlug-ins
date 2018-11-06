@@ -484,6 +484,7 @@ public class TitanFloat extends Base_Type {
 		}
 	}
 
+	@Override
 	public void cleanUp() {
 		float_value = null;
 	}

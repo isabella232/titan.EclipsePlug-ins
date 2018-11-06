@@ -68,7 +68,7 @@ public class TitanBoolean_template extends Base_Template {
 		copyTemplate(otherValue);
 	}
 
-	// originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

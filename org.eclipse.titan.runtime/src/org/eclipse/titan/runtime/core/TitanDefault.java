@@ -248,6 +248,7 @@ public class TitanDefault extends Base_Type {
 		return default_ptr != UNBOUND_DEFAULT;
 	}
 
+	@Override
 	public void cleanUp() {
 		default_ptr = UNBOUND_DEFAULT;
 	}

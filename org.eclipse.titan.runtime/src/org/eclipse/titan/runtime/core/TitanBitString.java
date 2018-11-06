@@ -316,6 +316,7 @@ public class TitanBitString extends Base_Type {
 		return !operatorEquals(otherValue);
 	}
 
+	@Override
 	public void cleanUp() {
 		n_bits = 0;
 		bits_ptr = null;

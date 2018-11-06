@@ -369,6 +369,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		indexOffset = offset;
 	}
 
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

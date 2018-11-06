@@ -74,7 +74,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		set_selection(otherValue);
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case VALUE_LIST:

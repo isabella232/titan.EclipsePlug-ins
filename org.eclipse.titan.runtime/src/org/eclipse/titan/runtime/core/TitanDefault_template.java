@@ -108,7 +108,7 @@ public class TitanDefault_template extends Base_Template {
 		set_selection(otherValue);
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

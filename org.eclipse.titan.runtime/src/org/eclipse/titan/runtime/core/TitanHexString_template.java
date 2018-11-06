@@ -137,7 +137,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		throw new TtcnError("Internal error: invalid element in hexstring pattern.");
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

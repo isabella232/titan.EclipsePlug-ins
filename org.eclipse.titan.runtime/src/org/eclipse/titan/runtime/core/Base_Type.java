@@ -85,6 +85,13 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null);
 
 	/**
+	 * Deletes the value, setting it to unbound.
+	 *
+	 * clean_up() in the core
+	 * */
+	public abstract void cleanUp();
+
+	/**
 	 * Whether the value is present.
 	 * Note: this is not the TTCN-3 ispresent()!
 	 * causes DTE, must be used only if the field is OPTIONAL<>

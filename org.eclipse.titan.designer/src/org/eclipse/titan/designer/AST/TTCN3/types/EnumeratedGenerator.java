@@ -799,6 +799,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateValueCleanUp(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		source.append("enum_value = enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
@@ -1004,6 +1005,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateCleanUp(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		source.append("if (templateSelection == template_sel.VALUE_LIST || templateSelection == template_sel.COMPLEMENTED_LIST) {\n");
 		source.append("value_list.clear();\n");

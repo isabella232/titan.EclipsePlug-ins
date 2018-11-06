@@ -53,7 +53,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		}
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		valueElements = null;
 	}

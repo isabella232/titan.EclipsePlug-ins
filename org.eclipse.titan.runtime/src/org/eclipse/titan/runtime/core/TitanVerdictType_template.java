@@ -68,7 +68,7 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

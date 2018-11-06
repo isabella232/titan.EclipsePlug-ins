@@ -63,6 +63,7 @@ public class TitanObjectid_template extends Base_Template {
 		copyTemplate(otherValue);
 	}
 
+	@Override
 	public void cleanUp() {
 		if (templateSelection == template_sel.VALUE_LIST || templateSelection == template_sel.COMPLEMENTED_LIST) {
 			value_list = null;

@@ -354,6 +354,8 @@ public final class FunctionReferenceGenerator {
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n");
+
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		source.append("referred_function = null;\n");
 		source.append("}\n");
@@ -668,6 +670,7 @@ public final class FunctionReferenceGenerator {
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 
+		source.append("@Override\n");
 		source.append("public void cleanUp(){\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");

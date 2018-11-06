@@ -108,7 +108,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		pattern_value_nocase = p_nocase;
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

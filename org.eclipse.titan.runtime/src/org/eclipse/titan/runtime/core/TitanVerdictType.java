@@ -78,6 +78,7 @@ public class TitanVerdictType extends Base_Type {
 		verdict_value = otherValue.verdict_value;
 	}
 
+	@Override
 	public void cleanUp() {
 		verdict_value = VerdictTypeEnum.UNBOUND;
 	}

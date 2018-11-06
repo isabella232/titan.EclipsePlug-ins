@@ -44,10 +44,6 @@ public class TitanUniversalCharString_Element {
 		}
 	}
 
-	public void cleanUp() {
-		str_val = null;
-	}
-
 	// originally operator=
 	public TitanUniversalCharString_Element assign(final TitanUniversalCharString_Element other_value) {
 		other_value.mustBound("Assignment of an unbound universal charstring element.");

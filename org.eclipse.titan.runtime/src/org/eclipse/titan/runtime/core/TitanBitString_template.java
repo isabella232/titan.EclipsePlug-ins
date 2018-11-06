@@ -123,7 +123,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		throw new TtcnError("Internal error: invalid element in bitstring pattern.");
 	}
 
-	//originally clean_up
+	@Override
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:

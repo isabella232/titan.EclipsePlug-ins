@@ -173,6 +173,7 @@ public class TitanComponent extends Base_Type {
 		return componentValue;
 	}
 
+	@Override
 	public void cleanUp() {
 		componentValue = UNBOUND_COMPREF;
 	}

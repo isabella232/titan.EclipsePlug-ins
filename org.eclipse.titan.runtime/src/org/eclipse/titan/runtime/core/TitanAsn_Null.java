@@ -57,6 +57,7 @@ public class TitanAsn_Null extends Base_Type {
 		boundFlag = true;
 	}
 
+	@Override
 	public void cleanUp() {
 		boundFlag = false;
 	}

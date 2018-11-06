@@ -536,7 +536,11 @@ public final class SignatureGenerator {
 			source.append("//originally a union which can not be mapped to Java\n");
 			source.append("private Base_Type field;\n");
 
-			source.append("//originally clean_up\n");
+			source.append("/**\n");
+			source.append(" * Deletes the value, setting it to unbound.\n");
+			source.append(" *\n");
+			source.append(" * clean_up() in the core\n");
+			source.append(" * */\n");
 			source.append("public void cleanUp() {\n");
 			source.append("field = null;\n");
 			source.append("exception_selection = exception_selection_type.UNBOUND_VALUE;\n");
