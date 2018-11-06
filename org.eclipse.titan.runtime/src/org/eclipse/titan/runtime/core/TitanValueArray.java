@@ -367,7 +367,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return array_size;
 	}
 
-	// originally size_of()
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger sizeOf() {
 		return new TitanInteger(array_size);
 	}

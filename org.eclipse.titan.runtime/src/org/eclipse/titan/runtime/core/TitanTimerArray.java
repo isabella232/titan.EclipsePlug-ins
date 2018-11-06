@@ -133,6 +133,15 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	public int n_elem() {
 		return array_size;
 	}
+
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public int sizeOf() {
 		return array_size;
 	}

@@ -711,9 +711,16 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\treturn constGetAt( index_value.getInt() );\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
+		source.append("\t/**\n");
+		source.append("\t * Returns the number of elements, that is, the largest used index plus\n");
+		source.append("\t * one and zero for the empty value.\n");
+		source.append("\t *\n");
+		source.append("\t * size_of in the core\n");
+		source.append("\t *\n");
+		source.append("\t * @return the number of elements.\n");
+		source.append("\t * */\n");
 		source.append("\tpublic TitanInteger sizeOf() {\n");
 		source.append( MessageFormat.format( "\t\tmustBound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\treturn new TitanInteger(valueElements.size());\n");
@@ -1985,9 +1992,16 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tvalue_elements.remove( new_size );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 
-		source.append('\n');
+		source.append("\t/**\n");
+		source.append("\t * Returns the number of elements, that is, the largest used index plus\n");
+		source.append("\t * one and zero for the empty value.\n");
+		source.append("\t *\n");
+		source.append("\t * size_of in the core\n");
+		source.append("\t *\n");
+		source.append("\t * @return the number of elements.\n");
+		source.append("\t * */\n");
 		source.append("\tpublic TitanInteger sizeOf() {\n");
 		source.append("\t\treturn sizeOf(true);\n");
 		source.append("\t}\n");

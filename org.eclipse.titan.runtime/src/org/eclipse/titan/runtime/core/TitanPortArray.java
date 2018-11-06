@@ -108,7 +108,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return array_size;
 	}
 
-	//originally size_of
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public int sizeOf() {
 		return array_size;
 	}

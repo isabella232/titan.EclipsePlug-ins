@@ -213,6 +213,14 @@ public class TitanObjectid extends Base_Type {
 		return getAt(index_value.getInt());
 	}
 
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger sizeOf() {
 		if (components_ptr == null) {
 			throw new TtcnError("Getting the size of an unbound objid value.");

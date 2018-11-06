@@ -187,7 +187,7 @@ public final class RecordSetCodeGenerator {
 		generateIsValue( source, fieldInfos );
 		generateOperatorEquals( aData, source, fieldInfos, className, classDisplayname);
 		generateGettersSetters( aData, source, fieldInfos );
-		generateSizeOf( source, fieldInfos );
+		generateSizeOf( aData, source, fieldInfos );
 		generateLog( source, fieldInfos );
 		generateValueSetParam(source, classDisplayname, fieldInfos, isSet);
 		generateValueSetImplicitOmit(source, fieldInfos);
@@ -251,7 +251,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsValue( source, fieldInfos );
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
-		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
+		generateTemplateSizeOf( aData, source, fieldInfos, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
 		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
@@ -550,19 +550,30 @@ public final class RecordSetCodeGenerator {
 			}
 		}
 		aSb.append( "\t\t\treturn true;\n" +
-				"\t\t}\n" );
+				"\t\t}\n\n" );
 	}
 
 	/**
 	 * Generating sizeOf() function
 	 * 
+	 * @param aData
+	 *                the generated java code with other info
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
 	 *                sequence field variable and type names
 	 */
-	private static void generateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
+	private static void generateSizeOf( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Returns the size (number of fields).\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * size_of in the core\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * @return the size of the structure.\n");
+			aSb.append("\t\t * */\n");
+		}
+		aSb.append( "\t\tpublic TitanInteger sizeOf() {\n" );
 		//number of non-optional fields
 		int size = 0;
 		for ( final FieldInfo fi : aNamesList ) {
@@ -2213,12 +2224,14 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
 	 * Generating sizeOf() function
 	 * 
+	 * @param aData
+	 *                the generated java code with other info
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -2226,8 +2239,17 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String displayName ) {
-		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
+	private static void generateTemplateSizeOf( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList, final String displayName ) {
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Returns the size (number of fields).\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * size_of in the core\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * @return the size of the structure.\n");
+			aSb.append("\t\t * */\n");
+		}
+		aSb.append( "\t\tpublic TitanInteger sizeOf() {\n" );
 		aSb.append( "\t\t\tif (is_ifPresent) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} which has an ifpresent attribute.\");\n", displayName ) );
 		aSb.append( "\t\t\t}\n" );
