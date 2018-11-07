@@ -2298,7 +2298,7 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_message(incoming_par, sender_component, new TitanFloat()");
+				source.append(MessageFormat.format("incoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", slider");
 				}
@@ -2316,7 +2316,7 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_message(incoming_par, sender_component, new TitanFloat()");
+				source.append(MessageFormat.format("incoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", slider");
 				}
@@ -3663,7 +3663,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3711,7 +3711,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append("final TitanAlt_Status ret_val = getAt(i).trigger(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n");
+		source.append("final TitanAlt_Status ret_val = getAt(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3764,7 +3764,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3817,7 +3817,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3869,7 +3869,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(catch_template, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
