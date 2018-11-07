@@ -59,7 +59,7 @@ public final class Getreply_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".parameter";
 	private static final String FULLNAMEPART3 = ".valuematch";
 	private static final String FULLNAMEPART4 = ".from";
-	private static final String FULLNAMEPART5 = ".redirecvalue";
+	private static final String FULLNAMEPART5 = ".redirectValue";
 	private static final String FULLNAMEPART6 = ".parameters";
 	private static final String FULLNAMEPART7 = ".redirectSender";
 	private static final String FULLNAMEPART8 = ".redirectIndex";

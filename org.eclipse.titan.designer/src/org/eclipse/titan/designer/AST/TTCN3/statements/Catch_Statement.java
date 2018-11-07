@@ -69,7 +69,7 @@ public final class Catch_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".signaturereference";
 	private static final String FULLNAMEPART3 = ".parameter";
 	private static final String FULLNAMEPART4 = ".from";
-	private static final String FULLNAMEPART5 = ".redirecvalue";
+	private static final String FULLNAMEPART5 = ".redirectValue";
 	private static final String FULLNAMEPART6 = ".redirectSender";
 	private static final String FULLNAMEPART7 = ".redirectIndex";
 	private static final String FULLNAMEPART8 = ".redirectTimestamp";
