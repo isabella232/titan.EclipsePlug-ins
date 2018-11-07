@@ -587,9 +587,11 @@ pr_XStructFieldRef returns [ArrayList<Identifier> values]:
 
 pr_XRValue returns [String value, Value v_value]:
 (	IDENTIFIER	{
+			if($IDENTIFIER != null && $IDENTIFIER.text != null) {
 			$value = $IDENTIFIER.text;
 			$v_value = new Undefined_LowerIdentifier_Value(new Identifier( Identifier_type.ID_TTCN, $IDENTIFIER.text, getLocation( $IDENTIFIER ) ));
 			$v_value.setLocation(getLocation( $IDENTIFIER ));
+			}
 			}
 |	BSTRING		{final String text = $BSTRING.text;
 			if (text != null) {
