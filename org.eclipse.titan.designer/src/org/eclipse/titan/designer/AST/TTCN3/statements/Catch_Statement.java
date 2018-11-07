@@ -72,6 +72,7 @@ public final class Catch_Statement extends Statement {
 	private static final String FULLNAMEPART5 = ".redirecvalue";
 	private static final String FULLNAMEPART6 = ".redirectSender";
 	private static final String FULLNAMEPART7 = ".redirectIndex";
+	private static final String FULLNAMEPART8 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "catch";
 
 	private final Reference portReference;
@@ -83,6 +84,7 @@ public final class Catch_Statement extends Statement {
 	private final Reference redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
+	private final Reference redirectTimestamp;
 	private boolean inCall = false;
 	private boolean callHasTimer = false;
 	
@@ -91,7 +93,8 @@ public final class Catch_Statement extends Statement {
 	private Signature_Type signature;
 
 	public Catch_Statement(final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter,
-			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender,
+			final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyfrom = anyFrom;
 		this.signatureReference = signatureReference;
@@ -101,6 +104,7 @@ public final class Catch_Statement extends Statement {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -122,6 +126,9 @@ public final class Catch_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -164,6 +171,8 @@ public final class Catch_Statement extends Statement {
 			return builder.append(FULLNAMEPART6);
 		} else if (redirectIndex == child) {
 			return builder.append(FULLNAMEPART7);
+		} else if (redirectTimestamp == child) {
+			return builder.append(FULLNAMEPART8);
 		}
 
 		return builder;
@@ -193,6 +202,9 @@ public final class Catch_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
 		}
 	}
 
@@ -231,7 +243,8 @@ public final class Catch_Statement extends Statement {
 			signature = Port_Utility.checkSignatureReference(timestamp, signatureReference);
 		}
 
-		checkCatch(timestamp, this, "catch", portReference, anyfrom, signatureReference, parameter, timeout, fromClause, redirectValue, redirectSender, redirectIndex);
+		checkCatch(timestamp, this, "catch", portReference, anyfrom, signatureReference, parameter, timeout, fromClause, redirectValue,
+				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -242,13 +255,17 @@ public final class Catch_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.setUsedOnLeftHandSide();
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setUsedOnLeftHandSide();
+		}
 
 		lastTimeChecked = timestamp;
 	}
 
 	public static void checkCatch(final CompilationTimeStamp timestamp, final Statement statement, final String statementName,
 			final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter, final boolean timeout,
-			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex,
+			final Reference redirectTimestamp) {
 
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, statement, portReference, anyFrom);
 		if (signatureReference == null) {
@@ -414,6 +431,8 @@ public final class Catch_Statement extends Statement {
 			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
 			checkIndexRedirection(timestamp, redirectIndex, assignment == null ? null : ((Def_Port)assignment).getDimensions(), anyFrom, "timer");
 		}
+
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 	}
 
 	@Override
@@ -488,6 +507,11 @@ public final class Catch_Statement extends Statement {
 			redirectIndex.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectIndex.getLocation());
 		}
+
+		if (redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -514,6 +538,9 @@ public final class Catch_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -538,6 +565,9 @@ public final class Catch_Statement extends Statement {
 			return false;
 		}
 		if (redirectIndex != null && !redirectIndex.accept(v)) {
+			return false;
+		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
 			return false;
 		}
 		return true;
@@ -583,6 +613,13 @@ public final class Catch_Statement extends Statement {
 			expression.expression.append("null");
 		} else {
 			redirectSender.generateCode(aData, expression);
+		}
+
+		expression.expression.append(", ");
+		if (redirectTimestamp == null) {
+			expression.expression.append("null");
+		}else {
+			redirectTimestamp.generateCode(aData, expression);
 		}
 
 		if (portReference != null) {

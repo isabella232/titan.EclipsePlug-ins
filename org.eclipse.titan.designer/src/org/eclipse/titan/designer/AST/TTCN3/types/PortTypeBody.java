@@ -144,6 +144,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	private Definitions vardefs;
 
+	private boolean realtime;
+
 	/** the time when this assignment was checked the last time. */
 	private CompilationTimeStamp lastTimeChecked;
 	private CompilationTimeStamp lastTimeAttributesChecked;
@@ -274,6 +276,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 	}
 
+	public void setRealtime() {
+		realtime = true;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
@@ -355,6 +361,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * */
 	public Definitions getVariableDefinitions() {
 		return vardefs;
+	}
+
+	/**
+	 * @return whether the port is a realtime port or not.
+	 * */
+	public boolean isRealtime() {
+		return realtime;
 	}
 
 	/** @returns true if this port is internal, false otherwise */
@@ -1931,6 +1944,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		final PortDefinition portDefinition = new PortDefinition(genName, getFullName());
 		portDefinition.legacy = legacy;
+		portDefinition.realtime = realtime;
 		if (inMessages != null) {
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				final IType inType = inMessages.getTypeByIndex(i);

@@ -588,13 +588,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return all_check_port_state(type.getValue().toString());
 	}
 
-	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
-	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -602,7 +602,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch(port.receive(sender_template, sender_pointer, null)) {
+			switch(port.receive(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -617,13 +617,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, true, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
-	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
@@ -631,7 +631,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check_receive(sender_template, sender_pointer, null)) {
+			switch (port.check_receive(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -646,14 +646,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, false, false, port_name);
 
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
-	public static TitanAlt_Status any_trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -661,7 +661,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.trigger(sender_template, sender_pointer, null)) {
+			switch (port.trigger(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -676,12 +676,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_getcall
-	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -689,7 +689,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.getcall(sender_template, sender_pointer, null)) {
+			switch (port.getcall(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -704,12 +704,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_check_getcall
-	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
@@ -717,7 +717,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check_getcall(sender_template, sender_pointer, null)) {
+			switch (port.check_getcall(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -732,12 +732,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_getreply
-	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -745,7 +745,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.getreply(sender_template, sender_pointer, null)) {
+			switch (port.getreply(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -760,12 +760,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_check_getreply
-	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
@@ -773,7 +773,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check_getreply(sender_template, sender_pointer, null)) {
+			switch (port.check_getreply(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -788,12 +788,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_catch
-	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -801,7 +801,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.get_exception(sender_template, sender_pointer, null)) {
+			switch (port.get_exception(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -816,12 +816,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_check_catch
-	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
@@ -829,7 +829,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check_catch(sender_template, sender_pointer, null)) {
+			switch (port.check_catch(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -844,10 +844,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
-	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		// the procedure-based queue must have the higher priority
-		switch (check_getcall(sender_template, sender_pointer, null)) {
+		switch (check_getcall(sender_template, sender_pointer, timestemp_redirect, null)) {
 		case ALT_YES:
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
@@ -860,7 +860,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
 			// don't try getreply if the procedure-based queue is empty
 			// (i.e. check_getcall() returned ALT_MAYBE)
-			switch (check_getreply(sender_template, sender_pointer, null)) {
+			switch (check_getreply(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -874,7 +874,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
 			// don't try catch if the procedure-based queue is empty
 			// (i.e. check_getcall() or check_getreply() returned ALT_MAYBE)
-			switch (check_catch(sender_template, sender_pointer, null)) {
+			switch (check_catch(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -885,7 +885,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0}.", port_name));
 			}
 		}
-		switch (check_receive(sender_template, sender_pointer, null)) {
+		switch (check_receive(sender_template, sender_pointer, timestemp_redirect, null)) {
 		case ALT_YES:
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
@@ -900,7 +900,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	//originally any_check
-	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect) {
 		if (PORTS.get().isEmpty()) {
 			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.check__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
@@ -908,7 +908,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check(sender_template, sender_pointer, null)) {
+			switch (port.check(sender_template, sender_pointer, timestemp_redirect, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:

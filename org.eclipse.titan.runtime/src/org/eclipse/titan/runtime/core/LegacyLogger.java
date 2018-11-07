@@ -458,7 +458,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		if (!TTCN_Communication.send_log(event.gettimestamp().getseconds().getInt(), event.gettimestamp().getmicroSeconds().getInt(), event.getseverity().getInt(), event_str)) {
+		if (!TTCN_Communication.send_log(event.gettimestamp__().getseconds().getInt(), event.gettimestamp__().getmicroSeconds().getInt(), event.getseverity().getInt(), event_str)) {
 			// The event text shall be printed to stderr when there is no control
 			// connection towards MC (e.g. in single mode or in case of network
 			// error).
@@ -516,8 +516,8 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
-				final int event_timestamp_seconds = event.gettimestamp().getseconds().getInt();
-				final int event_timestamp_microseconds = event.gettimestamp().getmicroSeconds().getInt();
+				final int event_timestamp_seconds = event.gettimestamp__().getseconds().getInt();
+				final int event_timestamp_microseconds = event.gettimestamp__().getmicroSeconds().getInt();
 				int diff_seconds = 0;
 				int diff_microseconds = 0;
 				// If the specified time period has elapsed retry logging to file.
@@ -576,7 +576,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				if (new_filename != current_filename_) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
-					switched_event.gettimestamp().assign(event.gettimestamp());
+					switched_event.gettimestamp__().assign(event.gettimestamp__());
 					switched_event.getsourceInfo__list().assign(event.getsourceInfo__list());
 					switched_event.getseverity().assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
 					switched_event.getlogEvent().getchoice().getunhandledEvent().assign(switched);
@@ -604,8 +604,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case DISKFULL_RETRY:
 				is_disk_full_ = true;
-				disk_full_time_seconds = event.gettimestamp().getseconds().getInt();
-				disk_full_time_microseconds = event.gettimestamp().getmicroSeconds().getInt();
+				disk_full_time_seconds = event.gettimestamp__().getseconds().getInt();
+				disk_full_time_microseconds = event.gettimestamp__().getmicroSeconds().getInt();
 				break;
 			case DISKFULL_DELETE:
 				// Try to delete older logfiles while writing fails, must leave at least
@@ -749,7 +749,7 @@ public class LegacyLogger implements ILoggerPlugin {
 
 		final int severityIndex = event.getseverity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
-		append_header(returnValue, event.gettimestamp().getseconds().getInt(), event.gettimestamp().getmicroSeconds().getInt(), severity, sourceInfo);
+		append_header(returnValue, event.gettimestamp__().getseconds().getInt(), event.gettimestamp__().getmicroSeconds().getInt(), severity, sourceInfo);
 
 		final LogEventType_choice choice = event.getlogEvent().getchoice();
 		switch (choice.get_selection()) {

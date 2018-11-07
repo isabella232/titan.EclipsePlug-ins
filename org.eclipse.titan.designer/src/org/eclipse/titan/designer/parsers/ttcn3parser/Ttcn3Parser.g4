@@ -1481,6 +1481,8 @@ pr_MessageAttribs returns[Port_Type portType, PortTypeBody body]
 }:
 (	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); 
 			    $portType = new Port_Type($body);}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	(	opt = pr_PortMap
 		{	final List<Reference> outerPortTypeRefs = $opt.outerPortTypeRefs;
 			$body.addUserAttribute(outerPortTypeRefs, false);
@@ -1605,6 +1607,10 @@ pr_MessageListToAttribute returns[TypeMappingTarget mappingTarget]:
 	$mappingTarget.setLocation(getLocation($start, getStopToken()));
 };
 
+pr_RealtimeKeyword:
+	REALTIME
+;
+
 pr_MessageKeyword:
 	MESSAGE
 ;
@@ -1639,6 +1645,8 @@ pr_ProcedureAttribs returns[Port_Type portType, PortTypeBody body]
 }:
 (	pr_ProcedureKeyword { $body = new PortTypeBody(OperationModes.OP_Procedure);
 				$portType = new Port_Type($body);}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	pr_BeginChar
 	(	pr_ProcedureList[$body]
 		pr_SemiColon?
@@ -1666,6 +1674,8 @@ pr_MixedAttribs returns[Port_Type portType, PortTypeBody body]
 			$portType = new Port_Type($body);
 			reportWarning( "Mixed ports are deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $col.start, $col.stop );
 		}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	pr_BeginChar
 	(	pr_MixedList[$body]
 		pr_SemiColon?
@@ -5301,15 +5311,15 @@ pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from, bo
 {
 	if( helper == null ) {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, null, translate );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, null, translate );
 		}
 	} else {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp, translate );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp, translate );
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5338,20 +5348,23 @@ pr_PortRedirect [boolean is_any_from]
 	Reference value = null;
 	Reference sender = null;
 	Reference index = null;
+	Reference timestamp = null;
 }:
 (	pr_PortRedirectSymbol
-	(	(	vs = pr_ValueSpec { value = $vs.reference; }
-			( ss = pr_SenderSpec { sender = $ss.reference; } )?
-		|	ss2 = pr_SenderSpec { sender = $ss2.reference; }
-		)
-		( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-		|
-		)
-	|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
+	(	vs = pr_ValueSpec { value = $vs.reference; }
+		(	ss = pr_SenderSpec { sender = $ss.reference; } )?
+		(	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; } )?
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	ss = pr_SenderSpec { sender = $ss.reference; }
+		(	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; } )?
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	ts = pr_TimestampSpec { timestamp = $ts.reference; }
 	)
 )
 {
-	$helper = new PortRedirect_Helper(value, sender, index);
+	$helper = new PortRedirect_Helper(value, sender, index, timestamp);
 };
 
 pr_PortRedirectSymbol:
@@ -5454,9 +5467,9 @@ pr_PortTriggerOp [Reference reference, boolean is_any_from]
 )
 {
 	if(helper == null) {
-		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, null, null, null);
+		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, null, null, null, null);
 	} else {
-		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex);
+		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp);
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
@@ -5480,15 +5493,15 @@ pr_PortGetCallOp [Reference reference, boolean is_check, boolean is_any_from]
 {
 	if(helper == null) {
 		if($is_check) {
-			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, null, null, null);
+			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, null, null, null, null);
 		} else {
-			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, null, null, null);
+			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, null, null, null, null);
 		}
 	} else {
 		if($is_check) {
-			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		} else {
-			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5501,24 +5514,28 @@ pr_PortRedirectWithParam [boolean is_any_from] returns[Redirection_Helper helper
 
 pr_RedirectWithParamSpec [boolean is_any_from] returns[Redirection_Helper helper]
 @init {
-	$helper = new Redirection_Helper(null, null, null, null);
+	$helper = new Redirection_Helper(null, null, null, null, null);
 	Parameter_Redirect redirectParameters = null;
-	Reference sender_reference = null;
-	Reference index = null;
+	Reference senderReference = null;
+	Reference indexReference = null;
+	Reference timestampReference = null;
 }:
-(	(	r = pr_ParamSpec { redirectParameters = $r.redirect; }
-		( s = pr_SenderSpec { sender_reference = $s.reference; } )?
-	|	s = pr_SenderSpec { sender_reference = $s.reference; }
-	)
-	( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-	|
-	)
-|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
+(	r = pr_ParamSpec { redirectParameters = $r.redirect; }
+	(	s = pr_SenderSpec { senderReference = $s.reference; } )?
+	(	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; } )?
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	s = pr_SenderSpec { senderReference = $s.reference; }
+	(	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; } )?
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; }
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	ts = pr_TimestampSpec { timestampReference = $ts.reference; }
 )
 {
 	$helper.redirectParameters = redirectParameters;
-	$helper.senderReference = sender_reference;
-	$helper.indexReference = index;
+	$helper.senderReference = senderReference;
+	$helper.indexReference = indexReference;
+	$helper.timestampReference = timestampReference;
 };
 
 pr_ParamSpec returns[Parameter_Redirect redirect]
@@ -5598,17 +5615,15 @@ pr_RedirectWithValueAndParamSpec [boolean is_any_from] returns[Redirection_Helpe
 	Parameter_Redirect redirect = null;
 	Reference sender = null;
 	Reference index = null;
+	Reference timestamp = null;
 }:
 (	(	vs = pr_ValueSpec
-		( r = pr_ParamSpec { redirect = $r.redirect; } )?
-		( s = pr_SenderSpec { sender = $s.reference; } )?
-			{ $helper = new Redirection_Helper($vs.reference, redirect, sender, null); }
+		( h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;} )?
+		{	if ($helper == null) {new Redirection_Helper($vs.reference, null, null, null, null);}
+			else {$helper.redirectValue = $vs.reference;}
+		}
 	|	h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;}
 	)
-	( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-	|
-	)
-|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
 );
 
 pr_VariableList returns[Variable_Entries entries]
@@ -5655,15 +5670,15 @@ pr_PortGetReplyOp [Reference reference, boolean is_check, boolean is_any_from]
 {
 	if(helper == null) {
 		if($is_check) {
-			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null);
+			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null, null);
 		} else {
-			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null);
+			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null, null);
 		}
 	} else {
 		if($is_check) {
-			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		} else {
-			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5691,7 +5706,7 @@ pr_PortCheckOp [Reference reference, boolean is_any_from]
 		s = pr_CheckParameter[reference, is_any_from] { $statement = $s.statement; }
 		pr_RParen
 	|	{
-			$statement = new Check_Port_Statement(reference, is_any_from, null, null, null);
+			$statement = new Check_Port_Statement(reference, is_any_from, null, null, null, null);
 			$statement.setLocation(getLocation( $col.start, $col.stop)); }
 	)
 );
@@ -5717,19 +5732,21 @@ pr_FromClausePresent [Reference reference, boolean is_any_from]
 	TemplateInstance fromClause = null;
 	Reference redirectSender = null;
 	Reference redirectIndex = null;
+	Reference redirectTimestamp = null;
 }:
 (	f = pr_FromClause { fromClause = $f.templateInstance; }
 	(	pr_PortRedirectSymbol
 		(	r = pr_SenderSpec { redirectSender = $r.reference; }
-			(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
-			|
-			)
-		|	{$is_any_from}? is2 = pr_IndexSpec { redirectIndex = $is2.reference; }
+			(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; } )?
+			(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+		|	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
+			(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+		|	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; }
 		)
 	)?
 )
 {
-	$statement = new Check_Port_Statement(reference, is_any_from, fromClause, redirectSender, redirectIndex);
+	$statement = new Check_Port_Statement(reference, is_any_from, fromClause, redirectSender, redirectIndex, redirectTimestamp);
 	$statement.setLocation(getLocation( $f.start, getStopToken()));
 };
 
@@ -5755,17 +5772,19 @@ pr_RedirectPresent [Reference reference, boolean is_any_from]
 	$statement = null;
 	Reference redirectSender = null;
 	Reference redirectIndex = null;
+	Reference redirectTimestamp = null;
 }:
 (	pr_PortRedirectSymbol
 	(	r = pr_SenderSpec { redirectSender = $r.reference; }
-		(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
-			|
-			)
-		|	{$is_any_from}? is2 = pr_IndexSpec { redirectIndex = $is2.reference; }
+		(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; } )?
+		(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+	|	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
+		(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+	|	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; }
 	)
 )
 {
-	$statement = new Check_Port_Statement( $reference, is_any_from, null, redirectSender, redirectIndex);
+	$statement = new Check_Port_Statement( $reference, is_any_from, null, redirectSender, redirectIndex, redirectTimestamp);
 	$statement.setLocation( getLocation( $start, getStopToken() ) );
 };
 
@@ -5790,14 +5809,14 @@ pr_PortCatchOp [Reference reference, boolean is_check, boolean is_any_from]
 		catchopHelper = new CatchOp_Helper(null, null, false);
 	}
 	if(redirectHelper == null) {
-		redirectHelper = new PortRedirect_Helper(null, null, null);
+		redirectHelper = new PortRedirect_Helper(null, null, null, null);
 	}
 	if(is_check) {
 		$statement = new Check_Catch_Statement(reference, is_any_from, catchopHelper.signatureReference, catchopHelper.parameter, catchopHelper.timeout,
-		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex);
+		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex, redirectHelper.redirectTimestamp);
 	} else {
 		$statement = new Catch_Statement(reference, is_any_from, catchopHelper.signatureReference, catchopHelper.parameter, catchopHelper.timeout,
-		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex);
+		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex, redirectHelper.redirectTimestamp);
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
@@ -8509,6 +8528,15 @@ pr_IndexSpec returns[Reference reference]:
 {
 	$reference = $vss.reference;
 };
+
+pr_TimestampSpec returns[Reference reference]:
+	i = pr_TimestampKeyword
+	vss = pr_VariableRef
+{
+	$reference = $vss.reference;
+};
+
+pr_TimestampKeyword: TIMESTAMP;
 
 //------------------------------------------------------
 // Miscellaneous productions  1.6.9

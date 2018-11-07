@@ -171,14 +171,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
 
-	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -197,14 +197,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	// originally check_receive
-	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -222,14 +222,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -247,14 +247,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -272,14 +272,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -298,14 +298,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	public TitanAlt_Status getException(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
-			final Index_Redirect index_redirect) {
+			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -324,14 +324,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	public TitanAlt_Status checkCatch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
-			final Index_Redirect index_redirect) {
+			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -349,14 +349,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);

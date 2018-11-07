@@ -18,10 +18,12 @@ public class PortRedirect_Helper {
 	public Reference redirectValue;
 	public Reference redirectSender;
 	public Reference redirectIndex;
+	public Reference redirectTimestamp;
 
-	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
+		this.redirectTimestamp = redirectTimestamp;
 	}
 }

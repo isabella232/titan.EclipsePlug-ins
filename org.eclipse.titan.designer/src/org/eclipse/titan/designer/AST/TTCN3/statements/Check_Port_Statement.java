@@ -41,6 +41,7 @@ public final class Check_Port_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".from";
 	private static final String FULLNAMEPART3 = ".redirectSender";
 	private static final String FULLNAMEPART4 = ".redirectIndex";
+	private static final String FULLNAMEPART5 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "check";
 
 	private final Reference portReference;
@@ -48,13 +49,16 @@ public final class Check_Port_Statement extends Statement {
 	private final TemplateInstance fromClause;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
+	private final Reference redirectTimestamp;
 
-	public Check_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance fromClause, final Reference redirectSender, final Reference redirectIndex) {
+	public Check_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance fromClause, final Reference redirectSender,
+			final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.fromClause = fromClause;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -67,6 +71,9 @@ public final class Check_Port_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -95,6 +102,8 @@ public final class Check_Port_Statement extends Statement {
 			return builder.append(FULLNAMEPART3);
 		} else if (redirectIndex == child) {
 			return builder.append(FULLNAMEPART4);
+		} else if (redirectTimestamp == child) {
+			return builder.append(FULLNAMEPART5);
 		}
 
 		return builder;
@@ -115,6 +124,9 @@ public final class Check_Port_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
 		}
 	}
 
@@ -149,11 +161,16 @@ public final class Check_Port_Statement extends Statement {
 			checkIndexRedirection(timestamp, redirectIndex, assignment == null ? null : ((Def_Port)assignment).getDimensions(), anyFrom, "port");
 		}
 
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
+
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setUsedOnLeftHandSide();
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setUsedOnLeftHandSide();
 		}
 
 		lastTimeChecked = timestamp;
@@ -204,6 +221,11 @@ public final class Check_Port_Statement extends Statement {
 			redirectIndex.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectIndex.getLocation());
 		}
+
+		if (redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -221,6 +243,9 @@ public final class Check_Port_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -236,6 +261,9 @@ public final class Check_Port_Statement extends Statement {
 			return false;
 		}
 		if (redirectIndex != null && !redirectIndex.accept(v)) {
+			return false;
+		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
 			return false;
 		}
 		return true;
@@ -272,6 +300,14 @@ public final class Check_Port_Statement extends Statement {
 		} else {
 			redirectSender.generateCode(aData, expression);
 		}
+
+		expression.expression.append(", ");
+		if (redirectTimestamp == null) {
+			expression.expression.append("null");
+		}else {
+			redirectTimestamp.generateCode(aData, expression);
+		}
+
 		if (portReference != null) {
 			expression.expression.append(",");
 			if (redirectIndex == null) {

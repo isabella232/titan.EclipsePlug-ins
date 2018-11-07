@@ -206,10 +206,11 @@ tokens {
   PERMUTATION,                PORT,                       PUBLIC,
   PRESENT,                    PRIVATE,                    PROCEDURE,
 
-  RAISE,                      READ,                       RECEIVE,
-  RECORD,                     RECURSIVE,                  REFERS,
-  REM,                        REPEAT,                     REPLY,
-  RETURN,                     RUNNING,                    RUNS,
+  RAISE,                      READ,                       REALTIME,
+  RECEIVE,                    RECORD,                     RECURSIVE,
+  REFERS,                     REM,                        REPEAT,
+  REPLY,                      RETURN,                     RUNNING,
+  RUNS,
 
   SELECT,                     SELF,                       SEND,
   SENDER,                     SET,                        SETVERDICT,
@@ -218,8 +219,8 @@ tokens {
   SYSTEM,
 
   TEMPLATE,                   TESTCASE,                   TIMEOUT,
-  TIMER,                      TO,                         TRIGGER,
-  TRUE,                       TYPE,
+  TIMER,                      TIMESTAMP,                  TO,
+  TRIGGER,                    TRUE,                       TYPE,
 
   UNION,                      UNIVERSAL,                  UNMAP,
 

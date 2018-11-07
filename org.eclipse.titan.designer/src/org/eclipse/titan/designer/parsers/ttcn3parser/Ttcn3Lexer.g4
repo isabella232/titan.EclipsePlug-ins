@@ -85,10 +85,11 @@ import Ttcn3BaseLexer;
   PERMUTATION: 'permutation';       PORT: 'port';                     PUBLIC: 'public';
   PRESENT: 'present';               PRIVATE: 'private';               PROCEDURE: 'procedure';
 
-  RAISE: 'raise';                   READ: 'read';                     RECEIVE: 'receive';
-  RECORD: 'record';                 RECURSIVE: 'recursive';           REFERS: 'refers';
-  REM: 'rem';                       REPEAT: 'repeat';                 REPLY: 'reply';
-  RETURN: 'return';                 RUNNING: 'running';               RUNS: 'runs';
+  RAISE: 'raise';                   READ: 'read';                     REALTIME: 'realtime';
+  RECEIVE: 'receive';               RECORD: 'record';                 RECURSIVE: 'recursive';
+  REFERS: 'refers';                 REM: 'rem';                       REPEAT: 'repeat';
+  REPLY: 'reply';                   RETURN: 'return';                 RUNNING: 'running';
+  RUNS: 'runs';
 
   SELECT: 'select';                 SELF: 'self';                     SEND: 'send';
   SENDER: 'sender';                 SET: 'set';                       SETVERDICT: 'setverdict';
@@ -97,8 +98,8 @@ import Ttcn3BaseLexer;
   SYSTEM: 'system';
 
   TEMPLATE: 'template';             TESTCASE: 'testcase';             TIMEOUT: 'timeout';
-  TIMER: 'timer';                   TO: 'to';                         TRIGGER: 'trigger';
-  TRUE: 'true';                     TYPE: 'type';
+  TIMER: 'timer';                   TIMESTAMP: 'timestamp';           TO: 'to';
+  TRIGGER: 'trigger';               TRUE: 'true';                     TYPE: 'type';
 
   UNION: 'union';                   UNIVERSAL: 'universal';           UNMAP: 'unmap';
 

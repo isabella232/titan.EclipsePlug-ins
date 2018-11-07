@@ -722,6 +722,33 @@ public final class Port_Utility {
 	}
 
 	/**
+	 * Checks a timestamp redirect to see if it references a variable of a valid type.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param portType
+	 *                the type of the port used in the statement. Used to
+	 *                find the address type in effect.
+	 * @param redirectTimestamp
+	 *                the timestamp redirect to check.
+	 * */
+	public static void checkTimestampRedirect(final CompilationTimeStamp timestamp, final Port_Type portType,
+			final Reference redirectTimestamp) {
+		if (redirectTimestamp == null) {
+			return;
+		}
+
+		if (portType != null && !portType.getPortBody().isRealtime()) {
+			redirectTimestamp.getLocation().reportSemanticError(MessageFormat.format("The timestamp cannot be redirected, because port type `{0}'' does not have the ''realtime'' clause", portType.getTypename()));
+		}
+
+		IType variableType = redirectTimestamp.checkVariableReference(timestamp);
+		if (variableType != null && variableType.getTypeRefdLast(timestamp).getTypetype() != Type_type.TYPE_REAL) {
+			redirectTimestamp.getLocation().reportSemanticError(MessageFormat.format("The type of the variable should be float instead of `{0}''", variableType.getTypename()));
+		}
+	}
+
+	/**
 	 * Calculates the type of a template instance when it was to be used as
 	 * a parameter of a receiving statement (receive / trigger /
 	 * check-receive).
