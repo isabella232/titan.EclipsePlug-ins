@@ -1725,7 +1725,7 @@ public final class RecordSetCodeGenerator {
 				aSb.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
 				aSb.append(" * */\n");
 			}
-			aSb.append( "\n\t\tpublic " );
+			aSb.append( "\t\tpublic " );
 			if (fi.isOptional) {
 				aSb.append("Optional<");
 				aSb.append( fi.mJavaTypeName );
@@ -1748,7 +1748,7 @@ public final class RecordSetCodeGenerator {
 				aSb.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
 				aSb.append(" * */\n");
 			}
-			aSb.append( "\n\t\tpublic " );
+			aSb.append( "\t\tpublic " );
 			if (fi.isOptional) {
 				aSb.append("Optional<");
 				aSb.append( fi.mJavaTypeName );
