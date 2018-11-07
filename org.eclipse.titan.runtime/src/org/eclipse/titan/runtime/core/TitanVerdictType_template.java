@@ -247,12 +247,24 @@ public class TitanVerdictType_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", match_value));
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanVerdictType otherValue) {
 		return match(otherValue, false);
 	}
 
-	//originally boolean VERDICTTYPE_template::match(verdicttype other_value, boolean legacy ) const
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final VerdictTypeEnum otherValue, final boolean legacy) {
 		if (!TitanVerdictType.isValid(otherValue)) {
 			throw new TtcnError("Matching a verdict template with an invalid value (" + otherValue + ").");
@@ -279,7 +291,15 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 	}
 
-	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param other_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanVerdictType other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;

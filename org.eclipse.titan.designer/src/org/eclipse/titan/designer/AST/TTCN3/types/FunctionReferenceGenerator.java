@@ -830,12 +830,28 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append("}\n");
 
-		source.append("// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value) '{'\n", def.genName));
 		source.append("return match(other_value, false);\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", def.genName));
 		source.append("if (!other_value.isBound()) {\n");
 		source.append("return false;\n");

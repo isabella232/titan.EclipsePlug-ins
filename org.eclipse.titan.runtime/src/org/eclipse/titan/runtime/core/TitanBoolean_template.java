@@ -244,11 +244,24 @@ public class TitanBoolean_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", match_value));
 	}
 
-	// match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final boolean otherValue) {
 		return match(otherValue, false);
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final boolean otherValue, final boolean legacy) {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
@@ -271,10 +284,24 @@ public class TitanBoolean_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanBoolean otherValue) {
 		return match(otherValue, false);
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanBoolean otherValue, final boolean legacy) {
 		if (!otherValue.isBound()) {
 			return false;

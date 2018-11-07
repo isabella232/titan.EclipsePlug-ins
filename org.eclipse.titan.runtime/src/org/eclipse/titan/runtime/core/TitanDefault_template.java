@@ -252,12 +252,24 @@ public class TitanDefault_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
-	//originally match has component parameter
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final int otherValue) {
 		return match(otherValue, false);
 	}
 
-	// originally match has component parameter
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final int otherValue, final boolean legacy) {
 		if (otherValue == TitanComponent.NULL_COMPREF) {
 			return false;
@@ -266,12 +278,24 @@ public class TitanDefault_template extends Base_Template {
 		return match((Default_Base) null);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final Default_Base otherValue) {
 		return match(otherValue, false);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final Default_Base otherValue, final boolean legacy) {
 		if (otherValue == TitanDefault.UNBOUND_DEFAULT) {
 			return false;
@@ -298,12 +322,24 @@ public class TitanDefault_template extends Base_Template {
 		}
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanDefault otherValue) {
 		return match(otherValue, false);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanDefault otherValue, final boolean legacy) {
 		if (!otherValue.isBound()) {
 			return false;

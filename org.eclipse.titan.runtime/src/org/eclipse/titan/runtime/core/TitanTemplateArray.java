@@ -847,10 +847,24 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanValueArray<Tvalue> otherValue) {
 		return match(otherValue,false);
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanValueArray<Tvalue> otherValue, final boolean legacy) {
 		if (!match_length(array_size)) {
 			return false;

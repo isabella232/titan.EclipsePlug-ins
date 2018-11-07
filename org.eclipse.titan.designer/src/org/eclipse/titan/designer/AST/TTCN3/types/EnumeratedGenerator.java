@@ -189,7 +189,7 @@ public final class EnumeratedGenerator {
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
 		generateTemplateAssign(aData, source,e_defs.name);
-		generateTemplateMatch(source,  e_defs.name);
+		generateTemplateMatch(aData, source,  e_defs.name);
 		generateTemplateValueOf(source, e_defs.name);
 		generateTemplateSetType(source,  e_defs.name);
 		generateTemplateListItem(source, e_defs.name);
@@ -1093,7 +1093,7 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateTemplateMatch(final StringBuilder source, final String name) {
+	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String name) {
 		// name.enum_type
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue) '{'\n", name));
@@ -1124,12 +1124,28 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// name type
-		source.append("// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} otherValue) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
 
-		source.append("// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} otherValue, final boolean legacy) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");

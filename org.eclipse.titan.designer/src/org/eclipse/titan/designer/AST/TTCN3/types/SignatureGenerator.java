@@ -694,9 +694,20 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("redirection_field = value_redirect;\n");
-				source.append("}\n");
+				source.append("}\n\n");
 			}
 
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Matches the provided ecpetion value against this template. In legacy mode\n");
+				source.append(" * omitted value fields are not matched against the template field.\n");
+				source.append(" *\n");
+				source.append(" * @param other_value\n");
+				source.append(" *                the value to be matched.\n");
+				source.append(" * @param legacy\n");
+				source.append(" *                use legacy mode.\n");
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public boolean match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
 			source.append("if (exception_selection != other_value.get_selection()) {\n");
 			source.append("return false;\n");
@@ -712,7 +723,7 @@ public final class SignatureGenerator {
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
 			source.append(MessageFormat.format("public void log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));

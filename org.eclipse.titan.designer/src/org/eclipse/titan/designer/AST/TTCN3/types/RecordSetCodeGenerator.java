@@ -250,7 +250,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateSetType( source, className, classDisplayName );
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsValue( source, fieldInfos );
-		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
+		generateTemplateMatch( aData, source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( aData, source, fieldInfos, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
@@ -1762,7 +1762,7 @@ public final class RecordSetCodeGenerator {
 					"\t\t\treturn " );
 			aSb.append( fi.mVarName );
 			aSb.append( ";\n" +
-					"\t\t}\n" );
+					"\t\t}\n\n" );
 		}
 	}
 
@@ -2215,12 +2215,14 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
         aSb.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", genName));
         aSb.append("\t\t\t}\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate the match function for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param aNamesList
@@ -2231,13 +2233,29 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateMatch( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
-		source.append('\n');
+	private static void generateTemplateMatch( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic boolean match(final {0} other_value) '{'\n", genName ) );
 		source.append("\t\t\treturn match(other_value, false);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif (!other_value.isBound()) {\n");
 		source.append("\t\t\t\treturn false;\n");
@@ -2273,7 +2291,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		source.append('\n');
 		source.append("\t@Override\n");
@@ -3202,10 +3220,28 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "public boolean match(final {0} other_value) '{'\n", className ) );
 		source.append("return match(other_value, false);\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "public boolean match(final {0} other_value, final boolean legacy) '{'\n", className ) );
 		source.append("if (!other_value.isBound()) {\n");
 		source.append("return false;\n");

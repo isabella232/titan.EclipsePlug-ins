@@ -208,12 +208,24 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded_PDV_identification_template.");
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanEmbedded_PDV_identification other_value) {
 		return match(other_value, false);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanEmbedded_PDV_identification other_value, final boolean legacy) {
 		if(!other_value.isBound()) {
 			return false;

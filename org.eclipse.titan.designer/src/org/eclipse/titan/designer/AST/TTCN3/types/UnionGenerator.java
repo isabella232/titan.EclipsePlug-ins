@@ -186,7 +186,7 @@ public final class UnionGenerator {
 		generateTemplateConstructors(source, genName);
 		generateTemplateCleanup(source, fieldInfos);
 		generateTemplateAssign(aData, source, genName);
-		generateTemplateMatch(source, genName, displayName, fieldInfos);
+		generateTemplateMatch(aData, source, genName, displayName, fieldInfos);
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
 		generateTemplateValueOf(source, genName, displayName, fieldInfos);
@@ -1303,6 +1303,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the match function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1313,13 +1315,29 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateTemplateMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("// originally match\n");
+	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value) '{'\n", genName));
 		source.append("return match(other_value, false);\n");
 		source.append("}\n\n");
 
-		source.append("// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
 		source.append("if(!other_value.isBound()) {\n");
 		source.append("return false;\n");
@@ -1360,16 +1378,15 @@ public final class UnionGenerator {
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
-		source.append("\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**

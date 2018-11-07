@@ -151,7 +151,7 @@ public final class RecordOfGenerator {
 		}
 		generateTemplateConstructors( source, genName, ofTypeName, displayName );
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
-		generateTemplateMatch( source, genName, displayName, isSetOf );
+		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign(aData, source, genName, displayName );
 		generateTemplateCleanup( source );
@@ -1437,6 +1437,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the match function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1447,15 +1449,31 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateMatch( final StringBuilder source, final String genName, final String displayName, final boolean isSetOf ) {
+	private static void generateTemplateMatch( final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final boolean isSetOf ) {
 		source.append('\n');
-		source.append("\t// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic boolean match(final {0} other_value) '{'\n", genName ) );
 		source.append("\t\treturn match(other_value, false);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\t// originally match\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Matches the provided value against this template. In legacy mode\n");
+			source.append(" * omitted value fields are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif(!other_value.isBound()) {\n");
 		source.append("\t\t\treturn false;\n");

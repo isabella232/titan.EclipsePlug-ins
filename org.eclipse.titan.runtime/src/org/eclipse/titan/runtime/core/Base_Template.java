@@ -249,7 +249,17 @@ public abstract class Base_Template {
 	 */
 	public abstract Base_Template assign(final template_sel otherValue);
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public abstract boolean match(final Base_Type otherValue, final boolean legacy);
+
 	public abstract Base_Type valueOf();
 	public abstract void log();
 

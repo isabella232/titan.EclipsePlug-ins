@@ -212,12 +212,24 @@ public class TitanComponent_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param otherValue the value to be matched.
+	 * */
 	public boolean match(final TitanComponent otherValue) {
 		return match(otherValue, false);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanComponent otherValue, final boolean legacy) {
 		if (otherValue.componentValue == TitanComponent.UNBOUND_COMPREF) {
 			throw new TtcnError("Matching an unbound component reference with a template.");
@@ -226,7 +238,15 @@ public class TitanComponent_template extends Base_Template {
 		return match(otherValue.componentValue, legacy);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final int otherValue, final boolean legacy) {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
