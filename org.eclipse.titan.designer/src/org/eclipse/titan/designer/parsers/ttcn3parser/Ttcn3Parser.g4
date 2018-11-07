@@ -1300,9 +1300,10 @@ pr_SubTypeDef returns[Def_Type def_type]
 		$t.type.setParsedRestrictions(parsedSubTypes);
 	}
 	if (dimensions != null) {
+		final Location location = getLocation( $a.start, $a.stop);
 		for (int i = dimensions.size() - 1; i >= 0; i--) {
 			$t.type = new Array_Type($t.type, dimensions.get(i), true);
-			$t.type.setLocation(getLocation( $a.start, $a.stop));
+			$t.type.setLocation(location);
 		}
 	}
 	if(identifier != null && $t.type != null) {
