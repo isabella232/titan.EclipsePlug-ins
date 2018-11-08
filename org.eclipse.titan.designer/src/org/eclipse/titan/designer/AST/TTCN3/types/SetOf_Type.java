@@ -598,7 +598,7 @@ public final class SetOf_Type extends AbstractOfType {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
-		return getGenNameOwn();
+		return getGenNameOwn(scope);
 	}
 
 	@Override

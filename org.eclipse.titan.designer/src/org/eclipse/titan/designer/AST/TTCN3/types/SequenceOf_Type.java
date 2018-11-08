@@ -916,7 +916,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
-		return getGenNameOwn();
+		return getGenNameOwn(scope);
 	}
 
 	@Override
