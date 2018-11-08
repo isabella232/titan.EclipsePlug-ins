@@ -1184,7 +1184,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					if (i > 0) {
 						tempSource.append("TTCN_Logger.log_event_str(\", \");\n");
 					}
-					tempSource.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
+					tempSource.append(MessageFormat.format("{0}{1}.log();\n", formalParList.getParameterByIndex(i).getGeneratedReferenceName()));
 				}
 			}
 			tempSource.append("TTCN_Logger.log_event_str(\") on component \");\n");
@@ -1196,7 +1196,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			tempSource.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
-					tempSource.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGenName()));
+					tempSource.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGeneratedReferenceName()));
 				}
 			}
 			tempSource.append("TTCN_Runtime.send_start_component(text_buf);\n");
@@ -1210,7 +1210,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 
 					formalParameter.generateCodeObject(aData, startFunction, "", true);
-					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGenName()));
+					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGeneratedReferenceName()));
 				}
 
 				startFunction.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
@@ -1220,7 +1220,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					if (i > 0) {
 						startFunction.append("TTCN_Logger.log_event_str(\", \");\n");
 					}
-					startFunction.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
+					startFunction.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGeneratedReferenceName()));
 				}
 
 				startFunction.append("TTCN_Logger.log_event_str(\").\");\n");

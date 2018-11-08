@@ -1250,4 +1250,18 @@ public final class FormalParameter extends Definition {
 
 		return result;
 	}
+
+	/**
+	 * Generate code for referencing the value of formal parameters.
+	 * Where we need to reference through a formal parameter to reach the actual value.
+	 * */
+	public String getGeneratedReferenceName() {
+		final StringBuilder builder = new StringBuilder(getIdentifier().getName());
+		if (evaluationType != parameterEvaluationType.NORMAL_EVAL) {
+			builder.append(".evaluate()");
+		}
+
+		return builder.toString();
+		
+	}
 }
