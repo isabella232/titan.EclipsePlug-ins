@@ -81,7 +81,7 @@ public final class CfgAnalyzer {
 		final RuntimeCfgLexer lexer = new RuntimeCfgLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
 		lexer.removeErrorListeners(); // remove ConsoleErrorListener
-		CFGListener lexerListener = new CFGListener(fileName);
+		final CFGListener lexerListener = new CFGListener(fileName);
 		lexer.addErrorListener(lexerListener);
 
 		// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
@@ -96,7 +96,7 @@ public final class CfgAnalyzer {
 		parser.setBuildParseTree(false);
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
-		CFGListener parserListener = new CFGListener(fileName);
+		final  CFGListener parserListener = new CFGListener(fileName);
 		parser.addErrorListener(parserListener);
 
 		parser.pr_ConfigFile();
