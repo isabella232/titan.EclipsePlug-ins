@@ -22,6 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
 /**
  * The class handling internal communication.
@@ -989,9 +990,9 @@ public class TTCN_Communication {
 			System.arraycopy(incoming_data, local_incoming_buf.get_begin() + config_str_begin, config_bytes, 0, config_str_len);
 			config_str = new String(config_bytes);
 		}
-		//FIXME process config string
-		// for now assume successful processing
-		boolean success = true;
+
+		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+		boolean success = !cfgAnalyzer.directParse(null, null, config_str);
 		TTCN_Logger.open_file();
 		if (success) {
 			try {
