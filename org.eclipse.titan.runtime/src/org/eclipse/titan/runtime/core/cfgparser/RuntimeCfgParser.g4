@@ -1439,9 +1439,11 @@ pr_ModuleParam
 	)
 	param = pr_ParameterValue
 		{	final Module_Parameter mp = $param.moduleparameter;
-			mp.set_id(new Module_Param_Name($name.names));
-			mp.set_operation_type(operation);
-			set_param(mp);
+			if (mp != null) {
+				mp.set_id(new Module_Param_Name($name.names));
+				mp.set_operation_type(operation);
+				set_param(mp);
+			}
 		}
 ;
 
