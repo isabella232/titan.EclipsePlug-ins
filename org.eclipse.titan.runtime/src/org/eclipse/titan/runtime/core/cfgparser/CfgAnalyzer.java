@@ -56,8 +56,10 @@ public final class CfgAnalyzer {
 	 * @param file the file to parse
 	 * @param fileName the name of the file, to refer to.
 	 * @param code the contents of an editor, or null.
+	 *
+	 * @return {@code true} if there were errors in the file, {@code false} otherwise
 	 */
-	public void directParse(final File file, final String fileName, final String code) {
+	public boolean directParse(final File file, final String fileName, final String code) {
 		final Reader reader;
 		if (null != code) {
 			reader = new StringReader(code);
@@ -72,7 +74,7 @@ public final class CfgAnalyzer {
 		} else {
 			//TODO
 			//ErrorReporter.INTERNAL_ERROR("CfgAnalyzer.directParse(): nothing to parse");
-			return;
+			return true;
 		}
 
 		final CharStream charStream = new UnbufferedCharStream(reader);
@@ -105,5 +107,7 @@ public final class CfgAnalyzer {
 			reader.close();
 		} catch (IOException e) {
 		}
+
+		return lexerListener.encounteredError() || parserListener.encounteredError();
 	}
 }

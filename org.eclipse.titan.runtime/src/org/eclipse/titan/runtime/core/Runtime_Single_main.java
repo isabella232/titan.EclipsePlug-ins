@@ -56,25 +56,27 @@ public final class Runtime_Single_main {
 				System.err.println(MessageFormat.format( "Using configuration file: `{0}''", config_file ) );
 				TTCN_Logger.log_configdata(TitanLoggerApi.ExecutorConfigdata_reason.enum_type.using__config__file, config_file.getName());
 				final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
-				cfgAnalyzer.directParse(config_file, config_file.getName(), null);
+				final boolean config_file_failure = cfgAnalyzer.directParse(config_file, config_file.getName(), null);
 
-				// EXECUTE section
-				final List<ExecuteItem> executeItems = cfgAnalyzer.getExecuteSectionHandler().getExecuteitems();
-				
-				TTCN_Logger.open_file();
-				TTCN_Logger.write_logger_settings();
+				if (!config_file_failure) {
+					// EXECUTE section
+					final List<ExecuteItem> executeItems = cfgAnalyzer.getExecuteSectionHandler().getExecuteitems();
 
-				Module_List.post_init_modules();
-				// run testcases
-				for (final ExecuteItem executeItem : executeItems) {
-					final String module = executeItem.getModuleName();
-					final String testcase = executeItem.getTestcaseName();
-					if ("*".equals(testcase) ) {
-						Module_List.execute_all_testcases(module);
-					} else if (testcase == null || "control".equals(testcase)) {
-						Module_List.execute_control(module);
-					} else {
-						Module_List.execute_testcase(module, testcase);
+					TTCN_Logger.open_file();
+					TTCN_Logger.write_logger_settings();
+
+					Module_List.post_init_modules();
+					// run testcases
+					for (final ExecuteItem executeItem : executeItems) {
+						final String module = executeItem.getModuleName();
+						final String testcase = executeItem.getTestcaseName();
+						if ("*".equals(testcase) ) {
+							Module_List.execute_all_testcases(module);
+						} else if (testcase == null || "control".equals(testcase)) {
+							Module_List.execute_control(module);
+						} else {
+							Module_List.execute_testcase(module, testcase);
+						}
 					}
 				}
 			} else {
