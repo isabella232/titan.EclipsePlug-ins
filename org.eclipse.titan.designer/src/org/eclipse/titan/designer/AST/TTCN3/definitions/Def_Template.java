@@ -985,11 +985,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					arrayType.generateCodeValue(aData, sb);
 					arrayType.generateCodeTemplate(aData, sb);
 				}
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
-				if ( body != null ) {
-					//TODO can optimize for single expressions;
-					body.generateCodeInit( aData, source, genName );
+				if (body != null && body.hasSingleExpression()) {
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, body.getSingleExpression(aData, false)));
+				} else {
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+					if ( body != null ) {
+						body.generateCodeInit( aData, source, genName );
+					}
 				}
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
