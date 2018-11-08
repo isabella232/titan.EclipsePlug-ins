@@ -1184,7 +1184,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					if (i > 0) {
 						tempSource.append("TTCN_Logger.log_event_str(\", \");\n");
 					}
-					tempSource.append(MessageFormat.format("{0}{1}.log();\n", formalParList.getParameterByIndex(i).getGeneratedReferenceName()));
+					tempSource.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGeneratedReferenceName()));
 				}
 			}
 			tempSource.append("TTCN_Logger.log_event_str(\") on component \");\n");
