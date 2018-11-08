@@ -120,7 +120,7 @@ public final class RecordSetCodeGenerator {
 	 * defRecordClass in compilers/record.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param className
@@ -204,7 +204,7 @@ public final class RecordSetCodeGenerator {
 	 * defRecordClass in compilers/record.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param className
@@ -264,7 +264,7 @@ public final class RecordSetCodeGenerator {
 	 * Generating declaration of the member variables
 	 * 
 	 * @param aData
-	 *                the generated java code with other info
+	 *                used to access build settings.
 	 * @param source
 	 *                the source to be updated
 	 * @param aNamesList
@@ -583,7 +583,7 @@ public final class RecordSetCodeGenerator {
 	 * Generating sizeOf() function
 	 * 
 	 * @param aData
-	 *                the generated java code with other info
+	 *                used to access build settings.
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -778,7 +778,7 @@ public final class RecordSetCodeGenerator {
 	 * Generate encode/decode
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1770,7 +1770,7 @@ public final class RecordSetCodeGenerator {
 	 * Generate member variables for template
 	 *
 	 * @param aData
-	 *                the generated java code with other info
+	 *                used to access build settings.
 	 * @param source
 	 *                the source to be updated
 	 * @param aNamesList
@@ -1802,7 +1802,7 @@ public final class RecordSetCodeGenerator {
 	 * Generate getters for template
 	 *
 	 * @param aData
-	 *                the generated java code with other info
+	 *                used to access build settings.
 	 * @param source
 	 *                the source to be updated
 	 * @param aNamesList
@@ -1915,7 +1915,7 @@ public final class RecordSetCodeGenerator {
 	 * Generate assign functions for template
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -2307,7 +2307,7 @@ public final class RecordSetCodeGenerator {
 	 * Generating sizeOf() function
 	 * 
 	 * @param aData
-	 *                the generated java code with other info
+	 *                used to access build settings.
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -2716,7 +2716,7 @@ public final class RecordSetCodeGenerator {
 	 * defEmptyRecordClass in compilers/record.c
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param className
@@ -3006,7 +3006,7 @@ public final class RecordSetCodeGenerator {
 	 * defEmptyRecordTemplate in compilers/record.c
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param className
@@ -3551,7 +3551,7 @@ public final class RecordSetCodeGenerator {
 	 * This function generates the conditional check decoding length limit.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param fieldInfos
@@ -3597,7 +3597,7 @@ public final class RecordSetCodeGenerator {
 	 * This function generates the code for decoding a record field.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param fieldInfos

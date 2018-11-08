@@ -53,7 +53,7 @@ public final class FunctionReferenceGenerator {
 	 * defFunctionrefClass in compiler2/functionref.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -631,7 +631,7 @@ public final class FunctionReferenceGenerator {
 	 * defFunctionrefTemplate in compiler2/functionref.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def

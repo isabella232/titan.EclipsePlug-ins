@@ -91,7 +91,7 @@ public final class UnionGenerator {
 	 * defUnionClass in compiler2/union.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -160,7 +160,7 @@ public final class UnionGenerator {
 	 * defUnionClass in compiler2/union.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -232,7 +232,7 @@ public final class UnionGenerator {
 	 * Generate constructors
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -299,7 +299,7 @@ public final class UnionGenerator {
 	 * Generate assign functions
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -432,7 +432,7 @@ public final class UnionGenerator {
 	 * Generate equals operators (originally ==)
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -493,7 +493,7 @@ public final class UnionGenerator {
 	 * Generate not equals operators (originally !=)
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -521,7 +521,7 @@ public final class UnionGenerator {
 	 * Generate getters/setters
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -575,7 +575,7 @@ public final class UnionGenerator {
 	 * Generate the get_selection function
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1119,7 +1119,7 @@ public final class UnionGenerator {
 	 * Generate the copy_value and copy_template functions
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1227,7 +1227,7 @@ public final class UnionGenerator {
 	 * Generate assign functions
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1582,7 +1582,7 @@ public final class UnionGenerator {
 	 * Generate getters/setters
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName

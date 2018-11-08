@@ -95,7 +95,7 @@ public final class SignatureGenerator {
 	 * defSignatureClasses in compiler2/ttcn3/signature.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -123,7 +123,7 @@ public final class SignatureGenerator {
 	 * that handles calls.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -220,7 +220,7 @@ public final class SignatureGenerator {
 	 * that handles redirections.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -289,7 +289,7 @@ public final class SignatureGenerator {
 	 * that handles replies.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -420,7 +420,7 @@ public final class SignatureGenerator {
 	 * that handles reply redirections.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -516,7 +516,7 @@ public final class SignatureGenerator {
 	 * that handles exceptions.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def
@@ -801,7 +801,7 @@ public final class SignatureGenerator {
 	 * template class.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param def

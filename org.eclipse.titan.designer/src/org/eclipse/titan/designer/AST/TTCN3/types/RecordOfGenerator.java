@@ -27,7 +27,7 @@ public final class RecordOfGenerator {
 	 * Generate "record of/set of" class
 	 * 
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -105,7 +105,7 @@ public final class RecordOfGenerator {
 	 * Generate "record of/set of" template class
 	 * 
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -446,7 +446,7 @@ public final class RecordOfGenerator {
 	 * Generate assign functions
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1579,7 +1579,7 @@ public final class RecordOfGenerator {
 	 * Generate assign functions for template
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName

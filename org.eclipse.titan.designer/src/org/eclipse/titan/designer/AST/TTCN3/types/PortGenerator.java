@@ -313,7 +313,7 @@ public final class PortGenerator {
 	 * defPortClass in compiler2/port.{h,c}
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -839,7 +839,7 @@ public final class PortGenerator {
 	 * other cases the user has to provide it.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -881,7 +881,7 @@ public final class PortGenerator {
 	 * class.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -1124,7 +1124,7 @@ public final class PortGenerator {
 	 * This function generates the sending functions.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -1327,7 +1327,7 @@ public final class PortGenerator {
 	 * This function generates the sending functions.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param outType
@@ -3437,7 +3437,7 @@ public final class PortGenerator {
 	 * /check-getreply/check-catch/timeout/done/killed statements.
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param statement
@@ -3557,7 +3557,7 @@ public final class PortGenerator {
 	 *
 	 *
 	 * @param aData
-	 *                only used to update imports if needed.
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
