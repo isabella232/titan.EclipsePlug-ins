@@ -1111,7 +1111,7 @@ public final class FormalParameter extends Definition {
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
 				if (generateInitialized) {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new final Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
 				} else {
 					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2};\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName()));
 				}
