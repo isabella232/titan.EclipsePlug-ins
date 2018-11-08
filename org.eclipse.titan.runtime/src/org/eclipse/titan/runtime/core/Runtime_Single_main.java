@@ -62,9 +62,7 @@ public final class Runtime_Single_main {
 					// EXECUTE section
 					final List<ExecuteItem> executeItems = cfgAnalyzer.getExecuteSectionHandler().getExecuteitems();
 
-					TTCN_Logger.open_file();
-					TTCN_Logger.write_logger_settings();
-
+					//FIXME implement Module_List.log_param();
 					Module_List.post_init_modules();
 					// run testcases
 					for (final ExecuteItem executeItem : executeItems) {
@@ -80,9 +78,6 @@ public final class Runtime_Single_main {
 					}
 				}
 			} else {
-				TTCN_Logger.open_file();
-				TTCN_Logger.write_logger_settings();
-
 				Module_List.post_init_modules();
 
 				for (final TTCN_Module module : Module_List.modules) {
