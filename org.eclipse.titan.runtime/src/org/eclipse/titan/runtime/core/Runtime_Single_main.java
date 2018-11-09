@@ -46,10 +46,6 @@ public final class Runtime_Single_main {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 			Module_List.pre_init_modules();
 
-			TTCN_Runtime.set_logger_parameters();
-			TTCN_Logger.open_file();
-			TTCN_Logger.write_logger_settings();
-
 			//TODO: getting cfg file name will be more complicated
 			final File config_file = args.length > 0 ?  new File( args[ 0 ] ) : null;
 			if (config_file != null) {
@@ -57,6 +53,10 @@ public final class Runtime_Single_main {
 				TTCN_Logger.log_configdata(TitanLoggerApi.ExecutorConfigdata_reason.enum_type.using__config__file, config_file.getName());
 				final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 				final boolean config_file_failure = cfgAnalyzer.directParse(config_file, config_file.getName(), null);
+
+				TTCN_Runtime.set_logger_parameters();
+				TTCN_Logger.open_file();
+				TTCN_Logger.write_logger_settings();
 
 				if (!config_file_failure) {
 					// EXECUTE section
@@ -78,6 +78,10 @@ public final class Runtime_Single_main {
 					}
 				}
 			} else {
+				TTCN_Runtime.set_logger_parameters();
+				TTCN_Logger.open_file();
+				TTCN_Logger.write_logger_settings();
+
 				Module_List.post_init_modules();
 
 				for (final TTCN_Module module : Module_List.modules) {
