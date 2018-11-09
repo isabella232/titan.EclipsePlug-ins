@@ -45,15 +45,31 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	private IDecode_Match dec_match;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanOctetString_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanOctetString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanOctetString_template(final TitanOctetString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound octetstring value.");
@@ -61,6 +77,13 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		single_value = new TitanOctetString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanOctetString_template(final TitanOctetString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound octetstring value.");
@@ -68,6 +91,14 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		single_value = new TitanOctetString(otherValue.get_nibble());
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanOctetString_template(final Optional<TitanOctetString> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -82,6 +113,12 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanOctetString_template(final TitanOctetString_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -575,6 +612,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 	}
 
+	@Override
 	public TitanOctetString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific octetstring template.");

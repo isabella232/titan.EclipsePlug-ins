@@ -28,22 +28,46 @@ public class TitanObjectid_template extends Base_Template {
 
 	private List<TitanObjectid_template> value_list;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanObjectid_template() {
 
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanObjectid_template(final template_sel otherValue) {
 		super(otherValue);
 
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanObjectid_template(final TitanObjectid otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
 		single_value = new TitanObjectid(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanObjectid_template(final Optional<TitanObjectid> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -58,6 +82,12 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanObjectid_template(final TitanObjectid_template otherValue) {
 
 		copyTemplate(otherValue);

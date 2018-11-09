@@ -184,7 +184,7 @@ public final class EnumeratedGenerator {
 
 		generateTemplateDeclaration(source, e_defs.name);
 		generatetemplateCopyTemplate(source, e_defs.name);
-		generateTemplateConstructors(source, e_defs.name);
+		generateTemplateConstructors(aData, source, e_defs.name);
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
@@ -845,19 +845,41 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", name));
 	}
 
-	private static void generateTemplateConstructors( final StringBuilder source, final String name){
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String name){
 		// empty
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", name));
 		source.append("// do nothing\n");
 		source.append("}\n\n");
 
 		// template_sel
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", name));
 		source.append("super(otherValue);\n");
 		source.append("checkSingleSelection(otherValue);\n");
 		source.append("}\n\n");
 
 		// int
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final int otherValue) '{'\n", name));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
@@ -867,6 +889,15 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// name type
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", name));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
@@ -876,11 +907,28 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// own type
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", name));
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n\n");
 
 		// name.enum_type
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}.enum_type otherValue) '{'\n", name));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
@@ -1160,6 +1208,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", name));
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));

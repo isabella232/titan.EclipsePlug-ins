@@ -671,6 +671,11 @@ public final class FunctionReferenceGenerator {
 		source.append("set_selection(other_value);\n");
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", def.genName));
 		source.append("// do nothing\n");
 		source.append("}\n");
@@ -679,17 +684,44 @@ public final class FunctionReferenceGenerator {
 		source.append("checkSingleSelection(otherValue);\n");
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}.function_pointer otherValue) '{'\n", def.genName));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", def.genName));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append(MessageFormat.format("otherValue.mustBound(\"Creating a template from an unbound {0} value.\");\n", def.displayName));
 		source.append("single_value = otherValue.referred_function;\n");
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", def.genName));
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
@@ -857,8 +889,9 @@ public final class FunctionReferenceGenerator {
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return match(other_value.referred_function);\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", def.genName));
 		source.append("if (!templateSelection.equals(template_sel.SPECIFIC_VALUE) || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific {0} template.\");\n", def.displayName));

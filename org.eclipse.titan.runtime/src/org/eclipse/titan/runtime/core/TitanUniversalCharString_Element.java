@@ -624,6 +624,9 @@ public class TitanUniversalCharString_Element {
 		return ucharValue.operatorEquals(otherValue.get_char());
 	}
 
+	/**
+	 * Logs this element.
+	 */
 	public void log() {
 		if (bound_flag) {
 			if (str_val.charstring) {

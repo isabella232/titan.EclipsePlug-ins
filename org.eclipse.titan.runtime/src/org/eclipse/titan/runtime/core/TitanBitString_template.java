@@ -49,10 +49,19 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	private IDecode_Match dec_match;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanBitString_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanBitString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
@@ -63,17 +72,39 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		single_value = new TitanBitString(otherValue, aNoBits);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBitString_template(final TitanBitString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound bitstring value.");
 		single_value = new TitanBitString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBitString_template(final TitanBitString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString((byte) (otherValue.get_bit() ? 1 : 0));
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBitString_template(final Optional<TitanBitString> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -88,6 +119,12 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanBitString_template(final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -492,7 +529,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally valueof
+	@Override
 	public TitanBitString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific bitstring template.");

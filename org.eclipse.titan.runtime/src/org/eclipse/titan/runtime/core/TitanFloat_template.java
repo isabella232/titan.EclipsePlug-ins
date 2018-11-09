@@ -33,26 +33,55 @@ public class TitanFloat_template extends Base_Template {
 	private boolean min_is_exclusive, max_is_exclusive;
 	private TitanFloat min_value, max_value;
 
-
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanFloat_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanFloat_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanFloat_template(final double otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanFloat_template(final Ttcn3Float otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanFloat_template(final TitanFloat otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound float value.");
@@ -60,6 +89,14 @@ public class TitanFloat_template extends Base_Template {
 		single_value = new TitanFloat(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanFloat_template(final Optional<TitanFloat> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -74,6 +111,12 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanFloat_template(final TitanFloat_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -443,6 +486,7 @@ public class TitanFloat_template extends Base_Template {
 		max_is_exclusive = maxExclusive;
 	}
 
+	@Override
 	public TitanFloat valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific float template.");

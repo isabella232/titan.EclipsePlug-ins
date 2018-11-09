@@ -59,20 +59,43 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	private Unichar_Decmatch dec_match;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanUniversalCharString_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final String otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
@@ -80,6 +103,13 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanCharString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
@@ -87,6 +117,13 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		single_value = new TitanUniversalCharString(String.valueOf(otherValue.get_char()));
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound universal charstring value.");
@@ -94,6 +131,13 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound universal charstring value.");
@@ -101,10 +145,24 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public  TitanUniversalCharString_template(final Optional< TitanUniversalCharString> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -119,6 +177,12 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanUniversalCharString_template(final TitanCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -559,6 +623,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "universal charstring template"));
 	}
 
+	@Override
 	public TitanUniversalCharString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific universal charstring template.");

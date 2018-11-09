@@ -34,10 +34,19 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 	List<Pair_of_elements> permutation_intervals;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public Record_Of_Template() {
 		permutation_intervals = null;
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param other_value
+	 *                the template kind to initialize to.
+	 * */
 	public Record_Of_Template(final template_sel other_value) {
 		super(other_value);
 		permutation_intervals = null;

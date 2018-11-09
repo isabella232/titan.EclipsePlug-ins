@@ -51,11 +51,20 @@ public abstract class Base_Template {
 	protected template_sel templateSelection;
 	protected boolean is_ifPresent;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	protected Base_Template() {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		is_ifPresent = false;
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param other_value
+	 *                the template kind to initialize to.
+	 * */
 	protected Base_Template(final template_sel otherValue) {
 		templateSelection = otherValue;
 		is_ifPresent = false;
@@ -260,7 +269,18 @@ public abstract class Base_Template {
 	 * */
 	public abstract boolean match(final Base_Type otherValue, final boolean legacy);
 
+	/**
+	 * Returns the value of a specific value template, causes dynamic testcase error otherwise.
+	 *<p>
+	 * valueof() in the core.
+	 *
+	 * @return the value of the specific value template.
+	 * */
 	public abstract Base_Type valueOf();
+
+	/**
+	 * Logs this template.
+	 */
 	public abstract void log();
 
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);

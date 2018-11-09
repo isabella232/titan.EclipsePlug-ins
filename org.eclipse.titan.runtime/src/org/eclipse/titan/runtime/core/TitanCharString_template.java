@@ -55,20 +55,43 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 	protected Unichar_Decmatch dec_match;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanCharString_template() {
 		//do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanCharString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharString_template(final String otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharString_template(final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
@@ -76,6 +99,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		single_value = new TitanCharString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharString_template(final Optional<TitanCharString> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -90,6 +121,12 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanCharString_template(final TitanCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -411,6 +448,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
+	@Override
 	public TitanCharString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific charstring template.");

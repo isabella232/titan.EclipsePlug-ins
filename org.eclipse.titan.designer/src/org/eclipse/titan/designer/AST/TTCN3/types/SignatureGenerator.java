@@ -192,9 +192,12 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName));
 			}
 		}
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("public void log() {");
+		source.append("/**\n");
+		source.append(" * Logs this value.\n");
+		source.append(" */\n");
+		source.append("public void log() {\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 		boolean isFirst = true;
 		for (int i = 0; i < def.formalParameters.size(); i++) {
@@ -385,8 +388,11 @@ public final class SignatureGenerator {
 			if (def.returnType != null) {
 				source.append("reply_value.decode_text(text_buf);\n");
 			}
-			source.append("}\n");
+			source.append("}\n\n");
 
+			source.append("/**\n");
+			source.append(" * Logs this value.\n");
+			source.append(" */\n");
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 			boolean isFirst = true;
@@ -656,8 +662,11 @@ public final class SignatureGenerator {
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received for an exception of signature {0}.\");\n", def.displayName));
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
+			source.append("/**\n");
+			source.append(" * Logs this value.\n");
+			source.append(" */\n");
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("switch (exception_selection) {\n");
@@ -819,6 +828,11 @@ public final class SignatureGenerator {
 			source.append(MessageFormat.format("private {0} reply_value;\n", def.returnType.mJavaTemplateName));
 		}
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -826,7 +840,16 @@ public final class SignatureGenerator {
 			source.append(MessageFormat.format("param_{0} = new {1}(template_sel.ANY_VALUE);\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
+
 		if (def.formalParameters.isEmpty()) {
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Initializes to an empty specific value template.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the null value.\n");
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0}_template(final TitanNull_Type otherValue) '{'\n", def.genName));
 			if (def.returnType != null) {
 				source.append(MessageFormat.format("reply_value = new {0}(template_sel.ANY_VALUE);\n", def.returnType.mJavaTemplateName));
@@ -834,6 +857,15 @@ public final class SignatureGenerator {
 			source.append("}\n\n");
 		}
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -972,8 +1004,9 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName ));
 			}
 		}
-		source.append("}\n");
+		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void log() {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {

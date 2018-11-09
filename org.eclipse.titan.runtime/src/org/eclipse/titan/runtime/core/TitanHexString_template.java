@@ -45,15 +45,31 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	private IDecode_Match dec_match;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanHexString_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanHexString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanHexString_template(final TitanHexString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound hexstring value.");
@@ -61,6 +77,14 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		single_value = new TitanHexString(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanHexString_template(final Optional<TitanHexString> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -75,10 +99,23 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanHexString_template(final TitanHexString_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanHexString_template(final TitanHexString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
@@ -482,7 +519,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally valueof
+	@Override
 	public TitanHexString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific hexstring template.");

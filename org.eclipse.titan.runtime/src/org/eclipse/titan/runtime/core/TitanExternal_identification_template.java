@@ -97,16 +97,39 @@ public class TitanExternal_identification_template extends Base_Template {
 		set_selection(other_value);
 	}
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanExternal_identification_template() {
 		// do nothing
 	}
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param other_value
+	 *                the template kind to initialize to.
+	 * */
 	public TitanExternal_identification_template(final template_sel other_value) {
 		super(other_value);
 		checkSingleSelection(other_value);
 	}
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the elements of the provided value are copied.
+	 *
+	 * @param other_value
+	 *                the value to initialize to.
+	 * */
 	public TitanExternal_identification_template(final TitanExternal_identification other_value) {
 		copy_value(other_value);
 	}
+	/**
+	 * Initializes to a given template.
+	 * The elements of the provided template are copied.
+	 *
+	 * @param other_value
+	 *                the value to initialize to.
+	 * */
 	public TitanExternal_identification_template(final TitanExternal_identification_template other_value) {
 		copy_template(other_value);
 	}
@@ -208,12 +231,24 @@ public class TitanExternal_identification_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to TitanExternal_identification_template.");
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param other_value the value to be matched.
+	 * */
 	public boolean match(final TitanExternal_identification other_value) {
 		return match(other_value, false);
 	}
 
-	// originally match
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param other_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanExternal_identification other_value, final boolean legacy) {
 		if(!other_value.isBound()) {
 			return false;
@@ -269,6 +304,7 @@ public class TitanExternal_identification_template extends Base_Template {
 
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanExternal_identification.");
 	}
+
 	public boolean isChosen(final TitanExternal_identification.union_selection_type checked_selection) {
 		if(checked_selection == TitanExternal_identification.union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type EXTERNAL.identification.");
@@ -317,6 +353,7 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanExternal_identification valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type EXTERNAL.identification.");

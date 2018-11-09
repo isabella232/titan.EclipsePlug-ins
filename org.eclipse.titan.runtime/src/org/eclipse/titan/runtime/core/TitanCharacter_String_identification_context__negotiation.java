@@ -157,7 +157,6 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field presentation-context-id.
 	 * */
-
 	public TitanInteger getpresentation__context__id() {
 		return presentation__context__id;
 	}
@@ -167,16 +166,15 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field presentation-context-id.
 	 * */
-
 	public TitanInteger constGetpresentation__context__id() {
 		return presentation__context__id;
 	}
+
 	/**
 	 * Gives access to the field transfer-syntax.
 	 *
 	 * @return the field transfer-syntax.
 	 * */
-
 	public TitanObjectid gettransfer__syntax() {
 		return transfer__syntax;
 	}
@@ -186,10 +184,10 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field transfer-syntax.
 	 * */
-
 	public TitanObjectid constGettransfer__syntax() {
 		return transfer__syntax;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

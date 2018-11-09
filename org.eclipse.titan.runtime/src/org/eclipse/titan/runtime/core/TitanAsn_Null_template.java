@@ -24,20 +24,43 @@ import org.eclipse.titan.runtime.core.TitanAsn_Null.Asn_Null_Type;
 public class TitanAsn_Null_template extends Base_Template {
 	private ArrayList<TitanAsn_Null_template> value_list;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanAsn_Null_template() {
 		// intentionally empty
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanAsn_Null_template(final template_sel otherValue) {
 		super(otherValue);
 
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanAsn_Null_template(final Asn_Null_Type otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanAsn_Null_template(final TitanAsn_Null otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
@@ -46,6 +69,12 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanAsn_Null_template(final TitanAsn_Null_template otherValue) {
 		super();
 
@@ -280,7 +309,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		return match(Asn_Null_Type.ASN_NULL_VALUE, legacy);
 	}
 
-	// originally valueof
+	@Override
 	public TitanAsn_Null valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of ASN.1 NULL type.");

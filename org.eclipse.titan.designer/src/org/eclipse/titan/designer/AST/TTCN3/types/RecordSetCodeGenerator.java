@@ -240,18 +240,18 @@ public final class RecordSetCodeGenerator {
 
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
-		generateTemplateGetter( aData, source, fieldInfos, classDisplayName );
-		generateTemplateConstructors( source, className, classDisplayName );
+		generateTemplateConstructors( aData, source, className, classDisplayName );
 		generateTemplateAssign( aData, source, className, classDisplayName );
 		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
-		generateTemplateIsPresent( source );
-		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
-		generateTemplateListItem( source, className, classDisplayName );
 		generateTemplateSetType( source, className, classDisplayName );
 		generateTemplateIsBound( source, fieldInfos );
+		generateTemplateIsPresent( source );
 		generateTemplateIsValue( source, fieldInfos );
+		generateTemplateGetter( aData, source, fieldInfos, classDisplayName );
 		generateTemplateMatch( aData, source, fieldInfos, className, classDisplayName );
+		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( aData, source, fieldInfos, classDisplayName );
+		generateTemplateListItem( source, className, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
 		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
@@ -1866,6 +1866,8 @@ public final class RecordSetCodeGenerator {
 	/**
 	 * Generate constructors for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1874,33 +1876,74 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
 		source.append("// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
-		source.append("\t\tsuper( other_value );\n");
-		source.append("\t\tcheckSingleSelection( other_value );\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel otherValue ) '{'\n", genName));
+		source.append("\t\tsuper( otherValue );\n");
+		source.append("\t\tcheckSingleSelection( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyValue(otherValue);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
-		source.append("\t\tswitch (other_value.get_selection()) {\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" * Causes a dynamic testcase error if the value is neither present nor optional.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", genName ) );
+		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopyValue(other_value.constGet());\n");
+		source.append("\t\t\tcopyValue(otherValue.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
 		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
@@ -2147,6 +2190,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		aSb.append('\n');
+		aSb.append("@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
 		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
@@ -3031,18 +3075,48 @@ public final class RecordSetCodeGenerator {
 		source.append("//originally value_list/list_value\n");
 		source.append(MessageFormat.format("private List<{0}_template> list_value;\n", className));
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", className));
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", className));
 		source.append("super( other_value );\n");
 		source.append("checkSingleSelection( other_value );\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to an empty specific value template.\n");
+			source.append(" *\n");
+			source.append(" * @param null_value\n");
+			source.append(" *                the null value.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final TitanNull_Type other_value) '{'\n", className));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", className));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append("if (!other_value.isBound()) {\n");
@@ -3050,10 +3124,29 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", className));
 		source.append("copyTemplate( other_value );\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" * Causes a dynamic testcase error if the value is neither present nor optional.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final Optional<{0}> other_value) '{'\n", className));
 		source.append("switch (other_value.get_selection()) {\n");
 		source.append("case OPTIONAL_PRESENT:\n");
@@ -3191,6 +3284,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));

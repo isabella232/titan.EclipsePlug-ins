@@ -51,6 +51,9 @@ public class Lazy_Fuzzy_ValueExpr<E extends Base_Type> {
 		return expr_cache;
 	}
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		if (!expressionEvaluated) {
 			TTCN_Logger.log_event_str("<not evaluated>");

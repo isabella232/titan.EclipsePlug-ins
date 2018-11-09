@@ -14,23 +14,47 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public class TitanTeletexString_template extends TitanUniversalCharString_template {
+
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanTeletexString_template() {
 		//intentionally empty
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanTeletexString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanTeletexString_template(final TitanTeletexString aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString_template(final TitanTeletexString otherValue) {
+		super(otherValue);
 	}
 
-	public TitanTeletexString_template(final TitanTeletexString_template aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
+	public TitanTeletexString_template(final TitanTeletexString_template otherValue) {
+		super(otherValue);
 	}
 
+	@Override
 	public TitanTeletexString valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `teletex string' template.");

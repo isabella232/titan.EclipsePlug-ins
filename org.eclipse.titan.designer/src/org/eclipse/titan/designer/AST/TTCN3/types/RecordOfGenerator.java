@@ -149,7 +149,7 @@ public final class RecordOfGenerator {
 		if ( isSetOf ) {
 			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
 		}
-		generateTemplateConstructors( source, genName, ofTypeName, displayName );
+		generateTemplateConstructors( aData, source, genName, ofTypeName, displayName );
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
@@ -1303,6 +1303,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate constructors for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1313,33 +1315,74 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
 		source.append("\t\t// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
-		source.append("\t\tsuper( other_value );\n");
-		source.append("\t\tcheckSingleSelection( other_value );\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel otherValue ) '{'\n", genName));
+		source.append("\t\tsuper( otherValue );\n");
+		source.append("\t\tcheckSingleSelection( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopy_value( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
-		source.append("\t\tswitch (other_value.get_selection()) {\n");
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template with the provided value.\n");
+			source.append(" * Causes a dynamic testcase error if the value is neither present nor optional.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
+		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", genName ) );
+		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopy_value(other_value.constGet());\n");
+		source.append("\t\t\tcopy_value(otherValue.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
 		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
@@ -1350,6 +1393,14 @@ public final class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to an empty specific value template.\n");
+			source.append(" *\n");
+			source.append(" * @param nullValue\n");
+			source.append(" *                the null value.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final TitanNull_Type nullValue ) '{'\n", genName ) );
 		source.append("\t\tsuper( template_sel.SPECIFIC_VALUE );\n");
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
@@ -2411,6 +2462,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
+		aSb.append("@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
 		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );

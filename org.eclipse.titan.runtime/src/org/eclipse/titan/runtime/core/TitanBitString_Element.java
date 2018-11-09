@@ -268,6 +268,9 @@ public class TitanBitString_Element {
 		return str_val.getBit(bit_pos);
 	}
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		if (bound_flag) {
 			TTCN_Logger.log_char('\'');

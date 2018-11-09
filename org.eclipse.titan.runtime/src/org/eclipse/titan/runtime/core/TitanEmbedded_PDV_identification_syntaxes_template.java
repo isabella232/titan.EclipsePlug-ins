@@ -24,89 +24,59 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	//originally value_list/list_value
 	private List<TitanEmbedded_PDV_identification_syntaxes_template> list_value;
 
-	/**
-	 * Gives access to the field abstract.
-	 * Turning the template into a specific value template if needed.
-	 *
-	 * @return the field abstract.
-	 * */
-	public TitanObjectid_template getabstract_() {
-		setSpecific();
-		return abstract_;
-	}
 
 	/**
-	 * Gives read-only access to the field abstract.
-	 * Being called on a non specific value template causes dynamic test case error.
-	 *
-	 * @return the field abstract.
+	 * Initializes to unbound/uninitialized template.
 	 * */
-	public TitanObjectid_template constGetabstract_() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field abstract of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		return abstract_;
-	}
-
-	/**
-	 * Gives access to the field transfer.
-	 * Turning the template into a specific value template if needed.
-	 *
-	 * @return the field transfer.
-	 * */
-	public TitanObjectid_template gettransfer() {
-		setSpecific();
-		return transfer;
-	}
-
-	/**
-	 * Gives read-only access to the field transfer.
-	 * Being called on a non specific value template causes dynamic test case error.
-	 *
-	 * @return the field transfer.
-	 * */
-	public TitanObjectid_template constGettransfer() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field transfer of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		return transfer;
-	}
-
-	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
-			set_selection(template_sel.SPECIFIC_VALUE);
-			abstract_ = new TitanObjectid_template();
-			transfer = new TitanObjectid_template();
-			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				abstract_.assign(template_sel.ANY_VALUE);
-				transfer.assign(template_sel.ANY_VALUE);
-			}
-		}
-	}
-
 	public TitanEmbedded_PDV_identification_syntaxes_template() {
 		// do nothing
 	}
 
-	public TitanEmbedded_PDV_identification_syntaxes_template(final template_sel other_value ) {
-		super( other_value );
-		checkSingleSelection( other_value );
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
+	public TitanEmbedded_PDV_identification_syntaxes_template(final template_sel otherValue ) {
+		super( otherValue );
+		checkSingleSelection( otherValue );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the elements of the provided value are copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanEmbedded_PDV_identification_syntaxes_template( final TitanEmbedded_PDV_identification_syntaxes otherValue ) {
 		copyValue(otherValue);
 	}
 
+	/**
+	 * Initializes to a given template.
+	 * The elements of the provided template are copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanEmbedded_PDV_identification_syntaxes_template( final TitanEmbedded_PDV_identification_syntaxes_template otherValue ) {
 		copyTemplate( otherValue );
 	}
 
-	public TitanEmbedded_PDV_identification_syntaxes_template( final Optional<TitanEmbedded_PDV_identification_syntaxes> other_value ) {
-		switch (other_value.get_selection()) {
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template with the provided value.
+	 * Causes a dynamic testcase error if the value is neither present nor optional.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanEmbedded_PDV_identification_syntaxes_template( final Optional<TitanEmbedded_PDV_identification_syntaxes> otherValue ) {
+		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
+			copyValue(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -247,6 +217,36 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		set_selection(other_value);
 	}
 
+	public void setType(final template_sel template_type, final int list_length) {
+		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Setting an invalid list for a template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		cleanUp();
+		set_selection(template_type);
+		list_value = new ArrayList<TitanEmbedded_PDV_identification_syntaxes_template>(list_length);
+		for(int i = 0 ; i < list_length; i++) {
+			list_value.add(new TitanEmbedded_PDV_identification_syntaxes_template());
+		}
+	}
+
+
+	@Override
+	public boolean isBound() {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+			return false;
+		}
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			return true;
+		}
+		if (abstract_.isBound()) {
+			return true;
+		}
+		if (transfer.isBound()) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean isPresent(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -285,59 +285,6 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 	}
 
-	public TitanEmbedded_PDV_identification_syntaxes valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		final TitanEmbedded_PDV_identification_syntaxes ret_val = new TitanEmbedded_PDV_identification_syntaxes();
-		if (abstract_.isBound()) {
-			ret_val.getabstract_().assign(abstract_.valueOf());
-		}
-		if (transfer.isBound()) {
-			ret_val.gettransfer().assign(transfer.valueOf());
-		}
-		return ret_val;
-	}
-
-	public TitanEmbedded_PDV_identification_syntaxes_template listItem(final int list_index) {
-		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Accessing a list element of a non-list template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		if (list_index >= list_value.size()) {
-			throw new TtcnError("Index overflow in a value list template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		return list_value.get(list_index);
-	}
-
-	public void setType(final template_sel template_type, final int list_length) {
-		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Setting an invalid list for a template of type EMBEDDED PDV.identification.syntaxes.");
-		}
-		cleanUp();
-		set_selection(template_type);
-		list_value = new ArrayList<TitanEmbedded_PDV_identification_syntaxes_template>(list_length);
-		for(int i = 0 ; i < list_length; i++) {
-			list_value.add(new TitanEmbedded_PDV_identification_syntaxes_template());
-		}
-	}
-
-	@Override
-	public boolean isBound() {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-			return false;
-		}
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			return true;
-		}
-		if (abstract_.isBound()) {
-			return true;
-		}
-		if (transfer.isBound()) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -351,11 +298,85 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		return true;
 	}
+	/**
+	 * Gives access to the field abstract.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field abstract.
+	 * */
+	public TitanObjectid_template getabstract_() {
+		setSpecific();
+		return abstract_;
+	}
 
+	/**
+	 * Gives read-only access to the field abstract.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field abstract.
+	 * */
+	public TitanObjectid_template constGetabstract_() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field abstract of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		return abstract_;
+	}
+
+	/**
+	 * Gives access to the field transfer.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field transfer.
+	 * */
+	public TitanObjectid_template gettransfer() {
+		setSpecific();
+		return transfer;
+	}
+
+	/**
+	 * Gives read-only access to the field transfer.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field transfer.
+	 * */
+	public TitanObjectid_template constGettransfer() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field transfer of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		return transfer;
+	}
+
+	private void setSpecific() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = templateSelection;
+			cleanUp();
+			set_selection(template_sel.SPECIFIC_VALUE);
+			abstract_ = new TitanObjectid_template();
+			transfer = new TitanObjectid_template();
+			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
+				abstract_.assign(template_sel.ANY_VALUE);
+				transfer.assign(template_sel.ANY_VALUE);
+			}
+		}
+	}
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param other_value the value to be matched.
+	 * */
 	public boolean match(final TitanEmbedded_PDV_identification_syntaxes other_value) {
 		return match(other_value, false);
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param other_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanEmbedded_PDV_identification_syntaxes other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
@@ -393,6 +414,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 	}
 
+
 	@Override
 	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_syntaxes) {
@@ -402,6 +424,21 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV_identification_syntaxes.");
 	}
 
+
+	@Override
+	public TitanEmbedded_PDV_identification_syntaxes valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		final TitanEmbedded_PDV_identification_syntaxes ret_val = new TitanEmbedded_PDV_identification_syntaxes();
+		if (abstract_.isBound()) {
+			ret_val.getabstract_().assign(abstract_.valueOf());
+		}
+		if (transfer.isBound()) {
+			ret_val.gettransfer().assign(transfer.valueOf());
+		}
+		return ret_val;
+	}
 	/**
 	 * Returns the size (number of fields).
 	 *
@@ -437,6 +474,16 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		default:
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EMBEDDED PDV.identification.syntaxes.");
 		}
+	}
+
+	public TitanEmbedded_PDV_identification_syntaxes_template listItem(final int list_index) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		if (list_index >= list_value.size()) {
+			throw new TtcnError("Index overflow in a value list template of type EMBEDDED PDV.identification.syntaxes.");
+		}
+		return list_value.get(list_index);
 	}
 
 	@Override

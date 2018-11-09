@@ -175,7 +175,6 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-
 	public TitanCharacter_String_identification getidentification() {
 		return identification;
 	}
@@ -185,16 +184,15 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-
 	public TitanCharacter_String_identification constGetidentification() {
 		return identification;
 	}
+
 	/**
 	 * Gives access to the field data-value-descriptor.
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-
 	public Optional<TitanUniversalCharString> getdata__value__descriptor() {
 		return data__value__descriptor;
 	}
@@ -204,16 +202,15 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-
 	public Optional<TitanUniversalCharString> constGetdata__value__descriptor() {
 		return data__value__descriptor;
 	}
+
 	/**
 	 * Gives access to the field string-value.
 	 *
 	 * @return the field string-value.
 	 * */
-
 	public TitanOctetString getstring__value() {
 		return string__value;
 	}
@@ -223,10 +220,10 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * @return the field string-value.
 	 * */
-
 	public TitanOctetString constGetstring__value() {
 		return string__value;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

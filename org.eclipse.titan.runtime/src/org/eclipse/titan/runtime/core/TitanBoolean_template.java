@@ -29,20 +29,43 @@ public class TitanBoolean_template extends Base_Template {
 	// value_list part
 	private ArrayList<TitanBoolean_template> value_list;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanBoolean_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanBoolean_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBoolean_template(final boolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBoolean_template(final TitanBoolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound boolean value.");
@@ -50,6 +73,14 @@ public class TitanBoolean_template extends Base_Template {
 		single_value = new TitanBoolean(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanBoolean_template(final Optional<TitanBoolean> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -64,6 +95,12 @@ public class TitanBoolean_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanBoolean_template(final TitanBoolean_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -310,7 +347,7 @@ public class TitanBoolean_template extends Base_Template {
 		return match(otherValue.getValue(), legacy);
 	}
 
-	// valueof
+	@Override
 	public TitanBoolean valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing valueof or send operation on a non-specific boolean template.");

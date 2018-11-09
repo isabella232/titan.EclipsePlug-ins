@@ -268,6 +268,9 @@ public class TitanOctetString_Element {
 		return (char) str_val.get_nibble(nibble_pos);
 	}
 
+	/**
+	 * Logs this value element.
+	 */
 	public void log() {
 		if (bound_flag) {
 			TTCN_Logger.log_char('\'');

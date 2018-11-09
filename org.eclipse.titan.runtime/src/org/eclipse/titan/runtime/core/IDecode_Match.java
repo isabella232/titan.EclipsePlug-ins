@@ -23,7 +23,11 @@ import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 public interface IDecode_Match {
 	public boolean match(final TTCN_Buffer buffer);
 
+	/**
+	 * Logs this value.
+	 */
 	public void log();
+
 	/** this returns the decoding result of the last successfully matched value,
 	 * which may be used by value and parameter redirect classes for optimization
 	 * (so they don't have to decode the same value again)

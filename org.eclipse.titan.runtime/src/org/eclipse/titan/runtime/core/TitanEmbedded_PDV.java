@@ -175,7 +175,6 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-
 	public TitanEmbedded_PDV_identification getidentification() {
 		return identification;
 	}
@@ -185,16 +184,15 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-
 	public TitanEmbedded_PDV_identification constGetidentification() {
 		return identification;
 	}
+
 	/**
 	 * Gives access to the field data-value-descriptor.
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-
 	public Optional<TitanUniversalCharString> getdata__value__descriptor() {
 		return data__value__descriptor;
 	}
@@ -204,16 +202,15 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-
 	public Optional<TitanUniversalCharString> constGetdata__value__descriptor() {
 		return data__value__descriptor;
 	}
+
 	/**
 	 * Gives access to the field data-value.
 	 *
 	 * @return the field data-value.
 	 * */
-
 	public TitanOctetString getdata__value() {
 		return data__value;
 	}
@@ -223,10 +220,10 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value.
 	 * */
-
 	public TitanOctetString constGetdata__value() {
 		return data__value;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

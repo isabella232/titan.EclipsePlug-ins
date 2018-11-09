@@ -1152,26 +1152,76 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		generateCodeTypedescriptor(aData, source);
 
 		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound value.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}() '{'\n", ownName));
 		source.append(MessageFormat.format("super({0}.class, {1},{2});\n",elementName,dimension.getSize(), dimension.getOffset()));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", ownName));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
 		source.append("}\n\n");
+
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class, {1}, {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName));
 		source.append("super(otherValue);\n");
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * Copies all of the fields and the template becomes a specific template.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template({0} otherValue) '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}_template.class, otherValue);\n", elementName));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final Base_Template.template_sel otherValue) '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class, otherValue);\n",elementName));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", ownName));
 		source.append(MessageFormat.format("return ({0})super.valueOf();\n", ownName));
 		source.append("}\n");
@@ -1263,8 +1313,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("case OPTIONAL_UNBOUND:\n");
 		source.append("throw new TtcnError(\"Creating an array template from an unbound optional field.\");\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
 		source.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
 		source.append("}\n");

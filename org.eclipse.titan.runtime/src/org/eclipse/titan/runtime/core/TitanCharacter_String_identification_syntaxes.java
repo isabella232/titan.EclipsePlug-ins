@@ -157,7 +157,6 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field abstract.
 	 * */
-
 	public TitanObjectid getabstract_() {
 		return abstract_;
 	}
@@ -167,16 +166,15 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field abstract.
 	 * */
-
 	public TitanObjectid constGetabstract_() {
 		return abstract_;
 	}
+
 	/**
 	 * Gives access to the field transfer.
 	 *
 	 * @return the field transfer.
 	 * */
-
 	public TitanObjectid gettransfer() {
 		return transfer;
 	}
@@ -186,10 +184,10 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field transfer.
 	 * */
-
 	public TitanObjectid constGettransfer() {
 		return transfer;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

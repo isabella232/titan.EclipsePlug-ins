@@ -342,6 +342,9 @@ public class TitanCharString_Element {
 		return builder.toString();
 	}
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		if (bound_flag) {
 			final char c = str_val.getAt(char_pos).get_char();

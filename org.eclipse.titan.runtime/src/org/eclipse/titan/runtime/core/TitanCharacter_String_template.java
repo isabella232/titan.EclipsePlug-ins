@@ -25,115 +25,59 @@ public class TitanCharacter_String_template extends Base_Template {
 	//originally value_list/list_value
 	private List<TitanCharacter_String_template> list_value;
 
-	/**
-	 * Gives access to the field identification.
-	 * Turning the template into a specific value template if needed.
-	 *
-	 * @return the field identification.
-	 * */
-	public TitanCharacter_String_identification_template getidentification() {
-		setSpecific();
-		return identification;
-	}
 
 	/**
-	 * Gives read-only access to the field identification.
-	 * Being called on a non specific value template causes dynamic test case error.
-	 *
-	 * @return the field identification.
+	 * Initializes to unbound/uninitialized template.
 	 * */
-	public TitanCharacter_String_identification_template constGetidentification() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field identification of a non-specific template of type CHARACTER STRING.");
-		}
-		return identification;
-	}
-
-	/**
-	 * Gives access to the field data-value-descriptor.
-	 * Turning the template into a specific value template if needed.
-	 *
-	 * @return the field data-value-descriptor.
-	 * */
-	public TitanUniversalCharString_template getdata__value__descriptor() {
-		setSpecific();
-		return data__value__descriptor;
-	}
-
-	/**
-	 * Gives read-only access to the field data-value-descriptor.
-	 * Being called on a non specific value template causes dynamic test case error.
-	 *
-	 * @return the field data-value-descriptor.
-	 * */
-	public TitanUniversalCharString_template constGetdata__value__descriptor() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type CHARACTER STRING.");
-		}
-		return data__value__descriptor;
-	}
-
-	/**
-	 * Gives access to the field string-value.
-	 * Turning the template into a specific value template if needed.
-	 *
-	 * @return the field string-value.
-	 * */
-	public TitanOctetString_template getstring__value() {
-		setSpecific();
-		return string__value;
-	}
-
-	/**
-	 * Gives read-only access to the field string-value.
-	 * Being called on a non specific value template causes dynamic test case error.
-	 *
-	 * @return the field string-value.
-	 * */
-	public TitanOctetString_template constGetstring__value() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field string-value of a non-specific template of type CHARACTER STRING.");
-		}
-		return string__value;
-	}
-
-	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
-			set_selection(template_sel.SPECIFIC_VALUE);
-			identification = new TitanCharacter_String_identification_template();
-			data__value__descriptor = new TitanUniversalCharString_template();
-			string__value = new TitanOctetString_template();
-			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				identification.assign(template_sel.ANY_VALUE);
-				data__value__descriptor.assign(template_sel.ANY_OR_OMIT);
-				string__value.assign(template_sel.ANY_VALUE);
-			}
-		}
-	}
-
 	public TitanCharacter_String_template() {
 		// do nothing
 	}
 
-	public TitanCharacter_String_template(final template_sel other_value ) {
-		super( other_value );
-		checkSingleSelection( other_value );
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
+	public TitanCharacter_String_template(final template_sel otherValue ) {
+		super( otherValue );
+		checkSingleSelection( otherValue );
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the elements of the provided value are copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharacter_String_template( final TitanCharacter_String otherValue ) {
 		copyValue(otherValue);
 	}
 
+	/**
+	 * Initializes to a given template.
+	 * The elements of the provided template are copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharacter_String_template( final TitanCharacter_String_template otherValue ) {
 		copyTemplate( otherValue );
 	}
 
-	public TitanCharacter_String_template( final Optional<TitanCharacter_String> other_value ) {
-		switch (other_value.get_selection()) {
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template with the provided value.
+	 * Causes a dynamic testcase error if the value is neither present nor optional.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharacter_String_template( final Optional<TitanCharacter_String> otherValue ) {
+		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
+			copyValue(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -288,6 +232,39 @@ public class TitanCharacter_String_template extends Base_Template {
 		set_selection(other_value);
 	}
 
+	public void setType(final template_sel template_type, final int list_length) {
+		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.");
+		}
+		cleanUp();
+		set_selection(template_type);
+		list_value = new ArrayList<TitanCharacter_String_template>(list_length);
+		for(int i = 0 ; i < list_length; i++) {
+			list_value.add(new TitanCharacter_String_template());
+		}
+	}
+
+
+	@Override
+	public boolean isBound() {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+			return false;
+		}
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			return true;
+		}
+		if (identification.isBound()) {
+			return true;
+		}
+		if (data__value__descriptor.isOmit() || data__value__descriptor.isBound()) {
+			return true;
+		}
+		if (string__value.isBound()) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean isPresent(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -326,67 +303,6 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 	}
 
-	public TitanCharacter_String valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.");
-		}
-		final TitanCharacter_String ret_val = new TitanCharacter_String();
-		if (identification.isBound()) {
-			ret_val.getidentification().assign(identification.valueOf());
-		}
-		if (data__value__descriptor.isOmit()) {
-			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
-		} else if (data__value__descriptor.isBound()) {
-			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueOf());
-		}
-		if (string__value.isBound()) {
-			ret_val.getstring__value().assign(string__value.valueOf());
-		}
-		return ret_val;
-	}
-
-	public TitanCharacter_String_template listItem(final int list_index) {
-		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.");
-		}
-		if (list_index >= list_value.size()) {
-			throw new TtcnError("Index overflow in a value list template of type CHARACTER STRING.");
-		}
-		return list_value.get(list_index);
-	}
-
-	public void setType(final template_sel template_type, final int list_length) {
-		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.");
-		}
-		cleanUp();
-		set_selection(template_type);
-		list_value = new ArrayList<TitanCharacter_String_template>(list_length);
-		for(int i = 0 ; i < list_length; i++) {
-			list_value.add(new TitanCharacter_String_template());
-		}
-	}
-
-	@Override
-	public boolean isBound() {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-			return false;
-		}
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			return true;
-		}
-		if (identification.isBound()) {
-			return true;
-		}
-		if (data__value__descriptor.isOmit() || data__value__descriptor.isBound()) {
-			return true;
-		}
-		if (string__value.isBound()) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -403,11 +319,111 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		return true;
 	}
+	/**
+	 * Gives access to the field identification.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field identification.
+	 * */
+	public TitanCharacter_String_identification_template getidentification() {
+		setSpecific();
+		return identification;
+	}
 
+	/**
+	 * Gives read-only access to the field identification.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field identification.
+	 * */
+	public TitanCharacter_String_identification_template constGetidentification() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field identification of a non-specific template of type CHARACTER STRING.");
+		}
+		return identification;
+	}
+
+	/**
+	 * Gives access to the field data-value-descriptor.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
+	public TitanUniversalCharString_template getdata__value__descriptor() {
+		setSpecific();
+		return data__value__descriptor;
+	}
+
+	/**
+	 * Gives read-only access to the field data-value-descriptor.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field data-value-descriptor.
+	 * */
+	public TitanUniversalCharString_template constGetdata__value__descriptor() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type CHARACTER STRING.");
+		}
+		return data__value__descriptor;
+	}
+
+	/**
+	 * Gives access to the field string-value.
+	 * Turning the template into a specific value template if needed.
+	 *
+	 * @return the field string-value.
+	 * */
+	public TitanOctetString_template getstring__value() {
+		setSpecific();
+		return string__value;
+	}
+
+	/**
+	 * Gives read-only access to the field string-value.
+	 * Being called on a non specific value template causes dynamic test case error.
+	 *
+	 * @return the field string-value.
+	 * */
+	public TitanOctetString_template constGetstring__value() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field string-value of a non-specific template of type CHARACTER STRING.");
+		}
+		return string__value;
+	}
+
+	private void setSpecific() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = templateSelection;
+			cleanUp();
+			set_selection(template_sel.SPECIFIC_VALUE);
+			identification = new TitanCharacter_String_identification_template();
+			data__value__descriptor = new TitanUniversalCharString_template();
+			string__value = new TitanOctetString_template();
+			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
+				identification.assign(template_sel.ANY_VALUE);
+				data__value__descriptor.assign(template_sel.ANY_OR_OMIT);
+				string__value.assign(template_sel.ANY_VALUE);
+			}
+		}
+	}
+	/**
+	 * Matches the provided value against this template.
+	 *
+	 * @param other_value the value to be matched.
+	 * */
 	public boolean match(final TitanCharacter_String other_value) {
 		return match(other_value, false);
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param other_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public boolean match(final TitanCharacter_String other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
@@ -451,6 +467,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 	}
 
+
 	@Override
 	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanCharacter_String) {
@@ -460,6 +477,26 @@ public class TitanCharacter_String_template extends Base_Template {
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanCharacter_String.");
 	}
 
+
+	@Override
+	public TitanCharacter_String valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.");
+		}
+		final TitanCharacter_String ret_val = new TitanCharacter_String();
+		if (identification.isBound()) {
+			ret_val.getidentification().assign(identification.valueOf());
+		}
+		if (data__value__descriptor.isOmit()) {
+			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
+		} else if (data__value__descriptor.isBound()) {
+			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueOf());
+		}
+		if (string__value.isBound()) {
+			ret_val.getstring__value().assign(string__value.valueOf());
+		}
+		return ret_val;
+	}
 	/**
 	 * Returns the size (number of fields).
 	 *
@@ -499,6 +536,16 @@ public class TitanCharacter_String_template extends Base_Template {
 		default:
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type CHARACTER STRING.");
 		}
+	}
+
+	public TitanCharacter_String_template listItem(final int list_index) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.");
+		}
+		if (list_index >= list_value.size()) {
+			throw new TtcnError("Index overflow in a value list template of type CHARACTER STRING.");
+		}
+		return list_value.get(list_index);
 	}
 
 	@Override

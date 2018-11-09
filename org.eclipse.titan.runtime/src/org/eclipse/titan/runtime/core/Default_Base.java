@@ -41,6 +41,9 @@ public abstract class Default_Base {
 	// originally call_altstep
 	public abstract TitanAlt_Status call_altstep();
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		TTCN_Logger.log_event("default reference: altstep: %s, id: %u", altstepName, defaultId);
 	}

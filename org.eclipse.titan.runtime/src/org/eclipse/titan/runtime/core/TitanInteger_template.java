@@ -33,26 +33,55 @@ public class TitanInteger_template extends Base_Template {
 	private boolean min_is_exclusive, max_is_exclusive;
 	private TitanInteger min_value, max_value;
 
-
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanInteger_template() {
 		// do nothing
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanInteger_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger_template(final int otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger_template(final BigInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger_template(final TitanInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound integer value.");
@@ -60,6 +89,14 @@ public class TitanInteger_template extends Base_Template {
 		single_value = new TitanInteger(otherValue);
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger_template(final Optional<TitanInteger> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -74,6 +111,12 @@ public class TitanInteger_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanInteger_template(final TitanInteger_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -319,6 +362,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanInteger valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific integer template.");

@@ -55,6 +55,9 @@ public class Module_Param_Length_Restriction {
 		return has_max && min == max;
 	}
 
+	/**
+	 * Logs this length restriction.
+	 */
 	public void log() {
 		TTCN_Logger.log_event_str(MessageFormat.format(" length({0}", min));
 		if (min != max) {

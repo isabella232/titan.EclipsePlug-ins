@@ -484,7 +484,9 @@ public class TitanTimer {
 		controlTimerSaved = false;
 	}
 
-	// originally TIMER::log()
+	/**
+	 * Logs this timer.
+	 */
 	public void log() {
 		// the time is not frozen (i.e. time_now() is used)
 		TTCN_Logger.log_event("timer: { name: " + timerName + ", default duration: ");

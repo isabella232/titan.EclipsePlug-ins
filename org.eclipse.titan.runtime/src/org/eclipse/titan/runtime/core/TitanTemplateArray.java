@@ -634,6 +634,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public TitanValueArray<Tvalue> valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific array template.");

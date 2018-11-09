@@ -183,7 +183,7 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
 		generateTemplateDeclaration(source, genName, fieldInfos);
 		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
-		generateTemplateConstructors(source, genName);
+		generateTemplateConstructors(aData, source, genName);
 		generateTemplateCleanup(source, fieldInfos);
 		generateTemplateAssign(aData, source, genName);
 		generateTemplateMatch(aData, source, genName, displayName, fieldInfos);
@@ -1093,23 +1093,59 @@ public final class UnionGenerator {
 	/**
 	 * Generate constructors
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                union/choice type.
 	 * */
-	private static void generateTemplateConstructors( final StringBuilder source, final String genName){
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName){
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
 		source.append("// do nothing\n");
 		source.append("}\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", genName));
 		source.append("super(other_value);\n");
 		source.append("checkSingleSelection(other_value);\n");
 		source.append("}\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", genName));
 		source.append("copy_value(other_value);\n");
 		source.append("}\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param other_value\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", genName));
 		source.append("copy_template(other_value);\n");
 		source.append("}\n\n");
@@ -1470,6 +1506,7 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", genName));
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));

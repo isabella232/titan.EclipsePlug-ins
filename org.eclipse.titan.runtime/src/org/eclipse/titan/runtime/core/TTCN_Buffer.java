@@ -536,6 +536,9 @@ public class TTCN_Buffer {
 		throw new TtcnError("contains_complete_TLV() for TTCN_Buffer is not implemented!");
 	}
 
+	/**
+	 * Logs this buffer.
+	 */
 	public void log() {
 		TTCN_Logger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
 		if (buf_len > 0) {

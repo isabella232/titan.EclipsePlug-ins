@@ -27,17 +27,34 @@ public class TitanDefault_template extends Base_Template {
 	// value_list part
 	private ArrayList<TitanDefault_template> value_list;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public TitanDefault_template() {
 		//intentionally empty
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
 	public TitanDefault_template(final template_sel otherValue) {
 		super(otherValue);
 
 		checkSingleSelection(otherValue);
 	}
 
-	//originally has component parameter
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * <p>
+	 * with component parameter in the core.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanDefault_template(final int otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
@@ -48,12 +65,26 @@ public class TitanDefault_template extends Base_Template {
 		single_value = null;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanDefault_template(final Default_Base otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
 		single_value = otherValue;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanDefault_template(final TitanDefault otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
@@ -64,6 +95,14 @@ public class TitanDefault_template extends Base_Template {
 		single_value = otherValue.default_ptr;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
+	 * Causes dynamic testcase error if the parameter is not present or omit.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanDefault_template(final Optional<TitanDefault> otherValue) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -78,6 +117,12 @@ public class TitanDefault_template extends Base_Template {
 		}
 	}
 
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
 	public TitanDefault_template(final TitanDefault_template otherValue) {
 		super();
 
@@ -348,7 +393,7 @@ public class TitanDefault_template extends Base_Template {
 		return match(otherValue.default_ptr);
 	}
 
-	// originally valueof
+	@Override
 	public TitanDefault valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific default reference template.");
