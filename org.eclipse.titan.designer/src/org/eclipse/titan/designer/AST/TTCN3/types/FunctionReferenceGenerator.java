@@ -916,9 +916,9 @@ public final class FunctionReferenceGenerator {
 		source.append("for(int i = 0; i < listLength; i++) {\n");
 		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", def.genName));
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("// originally list_iem\n");
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int listIndex) '{'\n", def.genName));
 		source.append("if (!template_sel.VALUE_LIST.equals(templateSelection) &&\n");
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {\n");

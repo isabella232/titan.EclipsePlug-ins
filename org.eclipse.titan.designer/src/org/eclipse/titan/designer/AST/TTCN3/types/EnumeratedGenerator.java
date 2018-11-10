@@ -1218,6 +1218,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int list_index) '{'\n", name));
 		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));

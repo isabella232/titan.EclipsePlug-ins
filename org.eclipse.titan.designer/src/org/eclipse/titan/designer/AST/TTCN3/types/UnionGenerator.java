@@ -1568,6 +1568,7 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int list_index)  '{'\n", genName));
 		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
