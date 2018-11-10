@@ -2133,6 +2133,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append('\n');
+		aSb.append("@Override\n");
 		aSb.append("\t\tpublic boolean isPresent(final boolean legacy) {\n");
 		aSb.append("\t\t\treturn isPresent_(legacy);\n");
 		aSb.append("\t\t}\n");
@@ -3246,6 +3247,7 @@ public final class RecordSetCodeGenerator {
 		source.append("set_selection(other_value);\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public boolean isPresent(final boolean legacy) {\n");
 		source.append("return isPresent_(legacy);\n");
 		source.append("}\n\n");
