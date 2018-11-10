@@ -1590,6 +1590,7 @@ public final class UnionGenerator {
 	 *                where the source code is to be generated.
 	 * */
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");

@@ -928,8 +928,9 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("return value_list.get(listIndex);\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");

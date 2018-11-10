@@ -2147,6 +2147,7 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
+		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic boolean match_omit(final boolean legacy) {\n");
 		aSb.append("\t\t\treturn match_omit_(legacy);\n");
 		aSb.append("\t\t}\n");
@@ -3259,6 +3260,7 @@ public final class RecordSetCodeGenerator {
 		source.append("return !match_omit_(legacy);\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("return match_omit_(legacy);\n");
 		source.append("}\n\n");

@@ -1601,6 +1601,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateMatchOmit( final StringBuilder source ) {
 		source.append('\n');
+		source.append("\t@Override\n");
 		source.append("\tpublic boolean match_omit(final boolean legacy) {\n");
 		source.append("\t\tif (is_ifPresent) {\n");
 		source.append("\t\t\treturn true;\n");
