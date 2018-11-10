@@ -557,7 +557,8 @@ public final class UnionGenerator {
 			if (aData.isDebug()) {
 				source.append("/**\n");
 				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * If other field is not selected, this function will cause a dynamic test case error.\n");
+				source.append(MessageFormat.format(" * If field {0} is not selected,\n", fieldInfo.mDisplayName));
+				source.append(" * this function will cause a dynamic test case error.\n");
 				source.append(" *\n");
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
@@ -1641,7 +1642,8 @@ public final class UnionGenerator {
 			if (aData.isDebug()) {
 				source.append("/**\n");
 				source.append(MessageFormat.format(" * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * If other field was previously selected, its value will be destroyed.\n");
+				source.append(MessageFormat.format(" * If field {0} was previously selected,\n", fieldInfo.mDisplayName));
+				source.append(" * its value will be destroyed.\n");
 				source.append(" *\n");
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
@@ -1664,7 +1666,8 @@ public final class UnionGenerator {
 			if (aData.isDebug()) {
 				source.append("/**\n");
 				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * If other field is not selected, this function will cause a dynamic test case error.\n");
+				source.append(MessageFormat.format(" * If field {0} is not selected,\n", fieldInfo.mDisplayName));
+				source.append(" * this function will cause a dynamic test case error.\n");
 				source.append(" *\n");
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
