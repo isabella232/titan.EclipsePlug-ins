@@ -1905,7 +1905,8 @@ public final class RecordSetCodeGenerator {
 		if (aData.isDebug()) {
 			source.append("/**\n");
 			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" * The template becomes a specific template.\n");
+			source.append(" * The elements of the provided value are copied.\n");
 			source.append(" *\n");
 			source.append(" * @param otherValue\n");
 			source.append(" *                the value to initialize to.\n");
@@ -3139,7 +3140,8 @@ public final class RecordSetCodeGenerator {
 		if (aData.isDebug()) {
 			source.append("/**\n");
 			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template and the elements of the provided value are copied.\n");
+			source.append(" * The template becomes a specific template.\n");
+			source.append(" * The elements of the provided value are copied.\n");
 			source.append(" *\n");
 			source.append(" * @param other_value\n");
 			source.append(" *                the value to initialize to.\n");
