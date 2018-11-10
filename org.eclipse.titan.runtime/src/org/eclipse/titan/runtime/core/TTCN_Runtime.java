@@ -2723,7 +2723,7 @@ public final class TTCN_Runtime {
 		}
 
 		final ArrayList<component_status_table_struct> localTables = component_status_table.get();
-		if (localTables.size() == 0) {
+		if (localTables.isEmpty()) {
 			//the table is empty, this will be the first entry
 			final component_status_table_struct temp = new component_status_table_struct();
 			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
