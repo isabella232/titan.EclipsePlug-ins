@@ -247,6 +247,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		return false;
 	}
 
+	@Override
 	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -476,6 +477,17 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 	}
 
+	/**
+	 * Returns the template at the specified position in a value list
+	 * template.
+	 * <p>
+	 * Under and over indexing causes dyanimc testcase error, also if the
+	 * template is not a value list or complemente list template.
+	 * 
+	 * @param list_index
+	 *                index of the element to return
+	 * @return the template at the specified position in this list
+	 */
 	public TitanEmbedded_PDV_identification_syntaxes_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EMBEDDED PDV.identification.syntaxes.");

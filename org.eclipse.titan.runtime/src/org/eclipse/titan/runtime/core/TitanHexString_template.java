@@ -577,7 +577,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "hexstring template"));
 	}
 
-	// originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST
 				&& templateType != template_sel.DECODE_MATCH) {
@@ -594,7 +594,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally list_item
+	@Override
 	public TitanHexString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list hexstring template.");

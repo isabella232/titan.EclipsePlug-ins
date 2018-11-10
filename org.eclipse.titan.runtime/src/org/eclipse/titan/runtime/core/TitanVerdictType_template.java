@@ -365,6 +365,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return new TitanVerdictType(single_value);
 	}
 
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list type for a verdict template.");
@@ -375,6 +376,7 @@ public class TitanVerdictType_template extends Base_Template {
 		value_list = new ArrayList<TitanVerdictType_template>(list_length);
 	}
 
+	@Override
 	public TitanVerdictType_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");

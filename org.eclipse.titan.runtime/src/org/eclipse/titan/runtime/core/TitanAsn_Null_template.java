@@ -318,7 +318,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		return new TitanAsn_Null(Asn_Null_Type.ASN_NULL_VALUE);
 	}
 
-	//originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for a template of ASN.1 NULL type.");
@@ -332,6 +332,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanAsn_Null_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template for ASN.1 NULL type.");

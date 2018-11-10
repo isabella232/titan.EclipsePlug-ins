@@ -652,6 +652,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return result;
 	}
 
+	@Override
 	public void setType(final template_sel templateType, final int length) {
 		cleanUp();
 		switch (templateType) {
@@ -671,6 +672,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public TitanTemplateArray<Tvalue, Ttemplate> listItem(final int index) {
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST) {

@@ -592,7 +592,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 
-	//originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength /* = 0 */) {
 		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
 				templateType != template_sel.DECODE_MATCH) {
@@ -608,6 +608,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 	}
 
+	@Override
 	public TitanBitString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list bitstring template.");

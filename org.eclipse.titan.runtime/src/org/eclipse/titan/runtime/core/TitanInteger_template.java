@@ -371,12 +371,7 @@ public class TitanInteger_template extends Base_Template {
 		return new TitanInteger(single_value);
 	}
 
-	// originally set_type
-	public void setType(final template_sel templateType) {
-		setType(templateType, 0);
-	}
-
-	// originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
@@ -400,7 +395,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 	}
 
-	// originally list_iem
+	@Override
 	public TitanInteger_template listItem(final int listIndex) {
 		if (!template_sel.VALUE_LIST.equals(templateSelection) &&
 				!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {

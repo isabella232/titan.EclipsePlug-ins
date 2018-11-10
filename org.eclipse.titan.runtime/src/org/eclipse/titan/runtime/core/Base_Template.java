@@ -279,6 +279,55 @@ public abstract class Base_Template {
 	public abstract Base_Type valueOf();
 
 	/**
+	 * Sets the type of the template to the provided value list or
+	 * complemented list kind, initializing the list to be empty.
+	 * <p>
+	 * Using any other template kind than value list or complemented list
+	 * causes dynamic testcase error.
+	 * <p>
+	 * set_type in the core (with default parameter).
+	 *
+	 * @param template_type
+	 *                the template kind to set (value list or complemented
+	 *                list).
+	 * */
+	public void setType(final template_sel template_type) {
+		setType(template_type, 0);
+	}
+
+	/**
+	 * Sets the type of the template to the provided value list or
+	 * complemented list kind, also setting its expected size.
+	 * <p>
+	 * Using any other template kind than value list or complemented list
+	 * causes dynamic testcase error.
+	 * <p>
+	 * set_type in the core.
+	 *
+	 * @param template_type
+	 *                the template kind to set (value list or complemented
+	 *                list).
+	 * @param list_length
+	 *                the length the list should be initialized to.
+	 * */
+	public abstract void setType(final template_sel template_type, final int list_length);
+
+	/**
+	 * Returns the template at the specified position in a value list or
+	 * complemented list template.
+	 * <p>
+	 * Under and over indexing causes dyanimc testcase error, also if the
+	 * template is not a value list or complemente list template.
+	 * <p>
+	 * list_item in the core.
+	 * 
+	 * @param list_index
+	 *                index of the element to return
+	 * @return the template at the specified position in this list
+	 */
+	public abstract Base_Template listItem(final int list_index);
+
+	/**
 	 * Logs this template.
 	 */
 	public abstract void log();

@@ -1095,6 +1095,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateSetType(final StringBuilder source, final String name){
+		source.append("@Override\n");
 		source.append("public void setType(final template_sel templateType, final int list_length) {\n");
 		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));

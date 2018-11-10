@@ -2252,6 +2252,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
+		aSb.append("@Override\n");
 		aSb.append("\t\tpublic void setType(final template_sel template_type, final int list_length) {\n");
 		aSb.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
@@ -3308,6 +3309,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\treturn list_value.get(list_index);\n");
 		source.append("\t\t}\n\n");
 
+		source.append("@Override\n");
 		source.append("\t\tpublic void setType(final template_sel template_type, final int list_length) {\n");
 		source.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", classDisplayName ) );

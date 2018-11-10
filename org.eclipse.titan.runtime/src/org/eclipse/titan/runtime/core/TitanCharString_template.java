@@ -457,12 +457,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return new TitanCharString(single_value);
 	}
 
-	// originally set_type
-	public void setType(final template_sel templateType) {
-		setType(templateType, 0);
-	}
-
-	// originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
@@ -489,7 +484,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally list_item
+	@Override
 	public TitanCharString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");

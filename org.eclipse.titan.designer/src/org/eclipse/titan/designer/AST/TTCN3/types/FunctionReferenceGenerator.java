@@ -899,12 +899,7 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("return new {0}(single_value);\n", def.genName));
 		source.append("}\n");
 
-		source.append("// originally set_type\n");
-		source.append("public void setType(final template_sel templateType) {\n");
-		source.append("setType(templateType, 0);\n");
-		source.append("}\n");
-
-		source.append("// originally set_type\n");
+		source.append("@Override\n");
 		source.append("public void setType(final template_sel templateType, final int listLength) {\n");
 		source.append("if (!template_sel.VALUE_LIST.equals(templateType) &&\n");
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateType)) {\n");

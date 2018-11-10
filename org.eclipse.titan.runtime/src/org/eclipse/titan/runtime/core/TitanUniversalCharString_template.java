@@ -632,10 +632,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return single_value;
 	}
 
-	public void setType(final template_sel otherValue) {
-		setType(otherValue, 0);
-	}
-
+	@Override
 	public void setType(final template_sel otherValue, final int lenght) {
 		cleanUp();
 		switch (otherValue) {
@@ -662,6 +659,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
+	@Override
 	public TitanUniversalCharString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST) {

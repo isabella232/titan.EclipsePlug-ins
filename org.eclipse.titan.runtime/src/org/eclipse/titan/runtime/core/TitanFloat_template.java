@@ -365,10 +365,7 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	public void setType(final template_sel templateType) {
-		setType(templateType, 0);
-	}
-
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
@@ -392,6 +389,7 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanFloat_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list float template.");

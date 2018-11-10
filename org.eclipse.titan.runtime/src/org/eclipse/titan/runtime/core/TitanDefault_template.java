@@ -402,7 +402,7 @@ public class TitanDefault_template extends Base_Template {
 		return new TitanDefault(single_value);
 	}
 
-	// originally set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for a default reference template.");
@@ -413,7 +413,7 @@ public class TitanDefault_template extends Base_Template {
 		value_list = new ArrayList<TitanDefault_template>(listLength);
 	}
 
-	// originally list_iem
+	@Override
 	public TitanDefault_template listItem(final int listIndex) {
 		if (!template_sel.VALUE_LIST.equals(templateSelection) &&
 				!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {

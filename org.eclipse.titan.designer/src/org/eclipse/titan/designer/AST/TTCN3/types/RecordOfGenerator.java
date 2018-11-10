@@ -2373,6 +2373,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateSetType( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
+		source.append("@Override\n");
 		source.append("\tpublic void setType(final template_sel template_type, final int list_length) {\n");
 		source.append("\t\tcleanUp();\n");
 		source.append("\t\tswitch (template_type) {\n");

@@ -1542,6 +1542,7 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
+		source.append("@Override\n");
 		source.append("public void setType(final template_sel template_type, final int list_length) {\n");
 		source.append("if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));

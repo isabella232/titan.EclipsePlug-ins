@@ -356,7 +356,7 @@ public class TitanBoolean_template extends Base_Template {
 		return single_value;
 	}
 
-	// set_type
+	@Override
 	public void setType(final template_sel templateType, final int listLength) {
 		if (!template_sel.VALUE_LIST.equals(templateType) && !template_sel.COMPLEMENTED_LIST.equals(templateType)) {
 			throw new TtcnError("Setting an invalid list type for a boolean template.");
@@ -370,7 +370,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 	}
 
-	// listItem
+	@Override
 	public TitanBoolean_template listItem(final int listIndex) {
 		if (!template_sel.VALUE_LIST.equals(templateSelection) && !template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
 			throw new TtcnError("Accessing a list element of a non-list boolean template.");

@@ -681,10 +681,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "an", "octetstring template"));
 	}
 
-	public void setType(final template_sel template_type) {
-		setType(template_type,0);
-	}
-
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST &&
 				template_type != template_sel.DECODE_MATCH) {
@@ -700,6 +697,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 	}
 
+	@Override
 	public TitanOctetString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST) {

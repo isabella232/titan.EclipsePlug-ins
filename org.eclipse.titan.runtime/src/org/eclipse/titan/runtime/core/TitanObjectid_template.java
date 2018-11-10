@@ -300,10 +300,7 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
-	public void setType(final template_sel template_type) {
-		setType(template_type, 0);
-	}
-
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for an objid template.");
@@ -316,6 +313,7 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanObjectid_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list objid template.");
