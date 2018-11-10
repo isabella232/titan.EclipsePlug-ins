@@ -537,7 +537,7 @@ public class RAW {
 		}
 
 		public RAW_coding_par() {
-
+			//intentionally left empty
 		}
 	}
 

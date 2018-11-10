@@ -32,7 +32,7 @@ public class TitanObjectid_template extends Base_Template {
 	 * Initializes to unbound/uninitialized template.
 	 * */
 	public TitanObjectid_template() {
-
+		super();
 	}
 
 	/**

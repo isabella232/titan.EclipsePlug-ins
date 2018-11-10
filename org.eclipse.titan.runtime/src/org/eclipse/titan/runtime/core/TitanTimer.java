@@ -44,7 +44,7 @@ public class TitanTimer {
 	private static boolean controlTimerSaved = false;
 
 	protected TitanTimer(){
-
+		//intentionally left empty
 	}
 
 	/**

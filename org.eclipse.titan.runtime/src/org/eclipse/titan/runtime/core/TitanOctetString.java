@@ -48,6 +48,7 @@ public class TitanOctetString extends Base_Type {
 	 * Initializes to unbound value.
 	 * */
 	public TitanOctetString() {
+		super();
 	}
 
 	/**

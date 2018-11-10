@@ -44,6 +44,7 @@ public class TitanHexString extends Base_Type {
 	 * Initializes to unbound value.
 	 * */
 	public TitanHexString() {
+		super();
 	}
 
 	/**

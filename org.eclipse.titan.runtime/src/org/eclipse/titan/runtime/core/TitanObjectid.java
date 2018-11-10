@@ -33,7 +33,7 @@ public class TitanObjectid extends Base_Type {
 	 * Initializes to unbound value.
 	 * */
 	public TitanObjectid() {
-
+		super();
 	}
 
 	public TitanObjectid(final int init_n_components, final TitanInteger... values) {
