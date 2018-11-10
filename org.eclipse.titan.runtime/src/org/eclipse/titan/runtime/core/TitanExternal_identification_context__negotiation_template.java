@@ -217,6 +217,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		set_selection(other_value);
 	}
 
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EXTERNAL.identification.context-negotiation.");
@@ -247,6 +248,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		return false;
 	}
 
+	@Override
 	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -258,6 +260,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		return !match_omit_(legacy);
 	}
 
+	@Override
 	public boolean match_omit(final boolean legacy) {
 		return match_omit_(legacy);
 	}
@@ -476,6 +479,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 	}
 
+	@Override
 	public TitanExternal_identification_context__negotiation_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EXTERNAL.identification.context-negotiation.");
@@ -517,6 +521,13 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		log_ifpresent();
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * */
 	public void log_match(final TitanExternal_identification_context__negotiation match_value) {
 		log_match(match_value, false);
 	}
@@ -531,6 +542,16 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.context-negotiation.");
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public void log_match(final TitanExternal_identification_context__negotiation match_value, final boolean legacy) {
 		if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {

@@ -384,6 +384,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		return ret_val;
 	}
 
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list for a template of union type EMBEDDED PDV.identification.");
@@ -396,6 +397,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanEmbedded_PDV_identification_template listItem(final int list_index)  {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type EMBEDDED PDV.identification.");
@@ -409,6 +411,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		return value_list.get(list_index);
 	}
 
+	@Override
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
@@ -690,6 +693,16 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.");
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public void log_match(final TitanEmbedded_PDV_identification match_value, final boolean legacy) {
 		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {
 			TTCN_Logger.print_logmatch_buffer();

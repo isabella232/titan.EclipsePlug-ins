@@ -233,7 +233,7 @@ public class TitanExternal extends Base_Type {
 	 * */
 	public TitanInteger sizeOf() {
 		int sizeof = 2;
-		if (data__value__descriptor.is_present()) {
+		if (data__value__descriptor.ispresent()) {
 			sizeof++;
 		}
 		return new TitanInteger(sizeof);

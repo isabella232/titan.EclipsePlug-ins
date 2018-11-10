@@ -179,7 +179,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			getidentification().cleanUp();
 		}
 		if (other_value.getdata__value__descriptor().isBound()) {
-			if (other_value.getdata__value__descriptor().is_present()) {
+			if (other_value.getdata__value__descriptor().ispresent()) {
 				getdata__value__descriptor().assign(other_value.getdata__value__descriptor().get());
 			} else {
 				getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
@@ -232,6 +232,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		set_selection(other_value);
 	}
 
+	@Override
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.");
@@ -265,6 +266,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		return false;
 	}
 
+	@Override
 	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
@@ -276,6 +278,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		return !match_omit_(legacy);
 	}
 
+	@Override
 	public boolean match_omit(final boolean legacy) {
 		return match_omit_(legacy);
 	}
@@ -444,7 +447,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			if(!other_value.getdata__value__descriptor().isBound()) {
 				return false;
 			}
-			if((other_value.getdata__value__descriptor().is_present() ? !data__value__descriptor.match(other_value.getdata__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
+			if((other_value.getdata__value__descriptor().ispresent() ? !data__value__descriptor.match(other_value.getdata__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
 			if(!other_value.getstring__value().isBound()) {
@@ -538,6 +541,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public TitanCharacter_String_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.");
@@ -582,6 +586,13 @@ public class TitanCharacter_String_template extends Base_Template {
 		log_ifpresent();
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * */
 	public void log_match(final TitanCharacter_String match_value) {
 		log_match(match_value, false);
 	}
@@ -596,6 +607,16 @@ public class TitanCharacter_String_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.");
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public void log_match(final TitanCharacter_String match_value, final boolean legacy) {
 		if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
@@ -609,7 +630,7 @@ public class TitanCharacter_String_template extends Base_Template {
 						identification.log_match(match_value.constGetidentification(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if (match_value.constGetdata__value__descriptor().is_present()) {
+					if (match_value.constGetdata__value__descriptor().ispresent()) {
 						if( !data__value__descriptor.match(match_value.constGetdata__value__descriptor().get(), legacy) ) {
 							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
 							data__value__descriptor.log_match(match_value.constGetdata__value__descriptor().get(), legacy);
