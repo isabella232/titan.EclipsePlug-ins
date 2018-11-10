@@ -297,7 +297,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			msg_tail_count = 0;
 			proc_head_count = 0;
 
-			if (system_mappings.size() == 0) {
+			if (system_mappings.isEmpty()) {
 				init_port_variables();
 			}
 		}
@@ -999,7 +999,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", port_name));
 			}
 		} else {
-			if (system_mappings.size() > 0) {
+			if (!system_mappings.isEmpty()) {
 				throw new TtcnError(MessageFormat.format("Port {0} has both connection(s) and mapping(s). Message can be sent on it only with explicit addressing.", port_name));
 			} else if (connection_list.size() > 1) {
 				throw new TtcnError(MessageFormat.format("Port {0} has more than one active connections. Message can be sent on it only with explicit addressing.", port_name));
@@ -1162,7 +1162,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			}
 		}
 
-		if (system_mappings.size() > 0) {
+		if (!system_mappings.isEmpty()) {
 			throw new TtcnError(MessageFormat.format("Connect operation cannot be performed on a mapped port ({0}).", port_name));
 		}
 
@@ -1608,7 +1608,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		user_unmap(system_port);
 
-		if (system_mappings.size() == 0) {
+		if (system_mappings.isEmpty()) {
 			reset_port_variables();
 		}
 

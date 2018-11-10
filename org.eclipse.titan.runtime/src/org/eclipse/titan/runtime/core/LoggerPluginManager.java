@@ -200,7 +200,7 @@ public class LoggerPluginManager {
 	}
 
 	public void set_parameters(final TitanComponent component_reference, final String component_name) {
-		if (logparams.size() == 0) {
+		if (logparams.isEmpty()) {
 			return;
 		}
 

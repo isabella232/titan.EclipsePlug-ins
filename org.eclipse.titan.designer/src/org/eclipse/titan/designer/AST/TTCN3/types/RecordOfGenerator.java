@@ -2234,7 +2234,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\t{\n");
-		source.append("\t\t\tif (list_value.size()<1) {\n");
+		source.append("\t\t\tif (list_value.isEmpty()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing an empty list.\", op_name ) );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfinal int item_size = list_value.get(0).sizeOf(is_size).getInt();\n");
@@ -2520,7 +2520,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tswitch (templateSelection) {\n");
 		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		aSb.append("\t\t\t\tif (value_elements.size() > 0) {\n");
+		aSb.append("\t\t\t\tif (!value_elements.isEmpty()) {\n");
 		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 		aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 		aSb.append("\t\t\t\t\t\tif (elem_count > 0) {\n");
@@ -2654,7 +2654,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
 
-			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
 			aSb.append("\t\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGetAt(elem_count), legacy) ) {\n");
@@ -2674,7 +2674,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t\treturn;\n");
 			aSb.append("\t\t}\n");
-			aSb.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 			aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\tif (elem_count > 0) {\n");

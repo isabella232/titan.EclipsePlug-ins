@@ -405,7 +405,7 @@ public class TitanComponent extends Base_Type {
 
 		int min = 0;
 		final ArrayList<ComponentNameStruct> localComponentNames = componentNames.get();
-		if (localComponentNames.size() > 0) {
+		if (!localComponentNames.isEmpty()) {
 			// perform a binary search to find the place for the component reference
 			int max = localComponentNames.size() - 1;
 			while (min < max) {

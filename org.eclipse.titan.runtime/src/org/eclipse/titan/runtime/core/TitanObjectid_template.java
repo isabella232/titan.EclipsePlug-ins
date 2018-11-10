@@ -281,9 +281,10 @@ public class TitanObjectid_template extends Base_Template {
 		case ANY_OR_OMIT:
 			throw new TtcnError("Performing sizeof() operation on a */? objid template.");
 		case VALUE_LIST: {
-			if (value_list.size() < 1) {
+			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on an objid template containing an empty list.");
 			}
+
 			final TitanInteger item_size = value_list.get(0).sizeOf();
 			for (int i = 1; i < value_list.size(); i++) {
 				if (!value_list.get(i).sizeOf().operatorEquals(item_size)) {

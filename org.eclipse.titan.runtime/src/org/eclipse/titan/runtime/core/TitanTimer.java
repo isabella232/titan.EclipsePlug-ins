@@ -370,7 +370,7 @@ public class TitanTimer {
 	 * */
 	public static void allStop() {
 		final LinkedList<TitanTimer> localTimers = TIMERS.get();
-		while (localTimers.size() != 0) {
+		while (!localTimers.isEmpty()) {
 			localTimers.get(0).stop();
 		}
 	}
