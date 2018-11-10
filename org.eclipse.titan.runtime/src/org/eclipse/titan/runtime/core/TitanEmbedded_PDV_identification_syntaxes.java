@@ -116,7 +116,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 

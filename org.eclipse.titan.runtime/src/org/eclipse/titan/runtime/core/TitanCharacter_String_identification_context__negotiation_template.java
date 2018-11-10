@@ -247,7 +247,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		return false;
 	}
 
-	public boolean isPresent(final boolean legacy) {
+	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
 

@@ -132,7 +132,7 @@ public class TitanExternal extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 
@@ -233,7 +233,7 @@ public class TitanExternal extends Base_Type {
 	 * */
 	public TitanInteger sizeOf() {
 		int sizeof = 2;
-		if (data__value__descriptor.isPresent()) {
+		if (data__value__descriptor.is_present()) {
 			sizeof++;
 		}
 		return new TitanInteger(sizeof);

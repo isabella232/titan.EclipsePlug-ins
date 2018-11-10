@@ -1535,7 +1535,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				if (optype == Operation_type.ISBOUND_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-					expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
+					expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
 				}

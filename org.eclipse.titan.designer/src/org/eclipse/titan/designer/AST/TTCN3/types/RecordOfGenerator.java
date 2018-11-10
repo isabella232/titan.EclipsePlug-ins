@@ -298,7 +298,7 @@ public final class RecordOfGenerator {
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isPresent() {\n");
+		source.append("\tpublic boolean is_present() {\n");
 		source.append("\t\treturn isBound();\n");
 		source.append("\t}\n");
 	}

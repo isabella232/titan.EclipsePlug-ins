@@ -247,7 +247,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		return false;
 	}
 
-	public boolean isPresent(final boolean legacy) {
+	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
 

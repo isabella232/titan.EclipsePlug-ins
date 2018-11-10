@@ -179,7 +179,7 @@ public class TitanExternal_template extends Base_Template {
 			getidentification().cleanUp();
 		}
 		if (other_value.getdata__value__descriptor().isBound()) {
-			if (other_value.getdata__value__descriptor().isPresent()) {
+			if (other_value.getdata__value__descriptor().is_present()) {
 				getdata__value__descriptor().assign(other_value.getdata__value__descriptor().get());
 			} else {
 				getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
@@ -265,7 +265,7 @@ public class TitanExternal_template extends Base_Template {
 		return false;
 	}
 
-	public boolean isPresent(final boolean legacy) {
+	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
 
@@ -444,7 +444,7 @@ public class TitanExternal_template extends Base_Template {
 			if(!other_value.getdata__value__descriptor().isBound()) {
 				return false;
 			}
-			if((other_value.getdata__value__descriptor().isPresent() ? !data__value__descriptor.match(other_value.getdata__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
+			if((other_value.getdata__value__descriptor().is_present() ? !data__value__descriptor.match(other_value.getdata__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
 			if(!other_value.getdata__value().isBound()) {
@@ -511,7 +511,7 @@ public class TitanExternal_template extends Base_Template {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			int sizeof = 2;
-			if (data__value__descriptor.isPresent()) {
+			if (data__value__descriptor.is_present()) {
 				sizeof++;
 			}
 			return new TitanInteger(sizeof);
@@ -609,7 +609,7 @@ public class TitanExternal_template extends Base_Template {
 						identification.log_match(match_value.constGetidentification(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if (match_value.constGetdata__value__descriptor().isPresent()) {
+					if (match_value.constGetdata__value__descriptor().is_present()) {
 						if( !data__value__descriptor.match(match_value.constGetdata__value__descriptor().get(), legacy) ) {
 							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
 							data__value__descriptor.log_match(match_value.constGetdata__value__descriptor().get(), legacy);

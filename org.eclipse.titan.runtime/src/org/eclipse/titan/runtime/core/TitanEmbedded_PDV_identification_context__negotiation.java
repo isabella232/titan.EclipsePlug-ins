@@ -116,7 +116,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 

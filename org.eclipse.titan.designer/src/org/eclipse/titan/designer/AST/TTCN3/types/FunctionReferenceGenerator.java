@@ -375,7 +375,7 @@ public final class FunctionReferenceGenerator {
 		source.append("return referred_function != null;\n");
 		source.append("}\n");
 		source.append("@Override\n");
-		source.append("public boolean isPresent() {\n");
+		source.append("public boolean is_present() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n");
 

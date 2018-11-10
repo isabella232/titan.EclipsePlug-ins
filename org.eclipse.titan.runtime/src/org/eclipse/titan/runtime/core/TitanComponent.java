@@ -197,7 +197,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 

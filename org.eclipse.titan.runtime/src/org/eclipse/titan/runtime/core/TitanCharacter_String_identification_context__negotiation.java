@@ -116,7 +116,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 

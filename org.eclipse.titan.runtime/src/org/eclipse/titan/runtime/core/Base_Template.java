@@ -287,13 +287,37 @@ public abstract class Base_Template {
 
 	public abstract void set_param(final Param_Types.Module_Parameter param);
 
-	// originally is_present (with default parameter)
-	public boolean isPresent() {
-		return isPresent(false);
+	/**
+	 * Checks whether the template is present. A template is_present if it
+	 * is not uninitialized and does not match omit.
+	 * 
+	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
+	 * only if the field is OPTIONAL<>
+	 *
+	 * is_present() in the core (with default parameter).
+	 *
+	 * @return {@code true} if the template is present.
+	 */
+	public boolean is_present() {
+		return is_present(false);
 	}
 
-	// originally is_present
-	public boolean isPresent(final boolean legacy) {
+	/**
+	 * Checks whether the template is present. A template is_present if it
+	 * is not uninitialized and does not match omit.
+	 * 
+	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
+	 * only if the field is OPTIONAL<>
+	 *
+	 * is_present() in the core.
+	 *
+	 * @param legacy
+	 *                in this mode if any of the list restriction of the
+	 *                template matching omit, the template is recognized as
+	 *                matching omit.
+	 * @return {@code true} if the template is present.
+	 */
+	public boolean is_present(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}

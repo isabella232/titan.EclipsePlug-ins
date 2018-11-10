@@ -532,7 +532,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating isPresent() function
+	 * Generating is_present() function
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -541,7 +541,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
-		aSb.append( "\t\tpublic boolean isPresent() {\n" );
+		aSb.append( "\t\tpublic boolean is_present() {\n" );
 		aSb.append( "\t\t\treturn isBound();\n");
 		aSb.append( "\t\t}\n" );
 	}
@@ -614,7 +614,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append( MessageFormat.format( "\t\t\tint sizeof = {0};\n", size ) );
 			for ( final FieldInfo fi : aNamesList ) {
 				if (fi.isOptional) {
-					aSb.append( MessageFormat.format( "\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
+					aSb.append( MessageFormat.format( "\t\t\tif ({0}.ispresent()) '{'\n", fi.mVarName ) );
 					aSb.append( "\t\t\t\tsizeof++;\n" );
 					aSb.append( "\t\t\t}\n" );
 				}
@@ -879,7 +879,7 @@ public final class RecordSetCodeGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 	
 				if (fieldInfo.isOptional) {
-					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
 					source.append("} else {\n");
 					source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", i));
@@ -915,7 +915,7 @@ public final class RecordSetCodeGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 
 				if (fieldInfo.isOptional) {
-					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 				}
 
 				if (raw_options.get(i).lengthto && fieldInfo.raw.lengthindex == null && fieldInfo.raw.union_member_num == 0) {
@@ -931,7 +931,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
-							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
 						source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
@@ -945,7 +945,7 @@ public final class RecordSetCodeGenerator {
 					aData.addBuiltinTypeImport("RAW.RAW_enc_pointer");
 
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
-						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.pointerto).mVarName));
+						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.pointerto).mVarName));
 					}
 					source.append(MessageFormat.format("encoded_length += {0};\n", fieldInfo.raw.fieldlength));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
@@ -974,7 +974,7 @@ public final class RecordSetCodeGenerator {
 					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
 
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
 
 					source.append(MessageFormat.format("if (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
@@ -985,7 +985,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
-							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
 						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(myleaf.nodes[{3}].curr_pos.level, myleaf.nodes[{3}].curr_pos.pos);\n", i, fieldInfo.raw.lengthindex.nthfield, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
@@ -1005,7 +1005,7 @@ public final class RecordSetCodeGenerator {
 					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
 
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("if ({0}.isPresent()) ", fieldInfo.mVarName));
+						source.append(MessageFormat.format("if ({0}.is_present()) ", fieldInfo.mVarName));
 					}
 					source.append("{\n");
 
@@ -1022,7 +1022,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
-							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
 						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
@@ -1042,7 +1042,7 @@ public final class RecordSetCodeGenerator {
 					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type -1);
 					source.append("if (");
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("{0}.isPresent() && (", fieldInfo.mVarName));
+						source.append(MessageFormat.format("{0}.is_present() && (", fieldInfo.mVarName));
 					}
 					genRawFieldChecker(source, cur_choice, false);
 					if (fieldInfo.isOptional) {
@@ -1056,7 +1056,7 @@ public final class RecordSetCodeGenerator {
 				if (fieldInfo.hasRaw && presenceLength > 0) {
 					source.append("if (");
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("{0}.isPresent() && (", fieldInfo.mVarName));
+						source.append(MessageFormat.format("{0}.is_present() && (", fieldInfo.mVarName));
 					}
 					genRawFieldChecker(source, fieldInfo.raw.presence, false);
 					if (fieldInfo.isOptional) {
@@ -1069,7 +1069,7 @@ public final class RecordSetCodeGenerator {
 				final int crosstagLength = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
 				if (fieldInfo.hasRaw && crosstagLength > 0) {
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
 					source.append(MessageFormat.format("switch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 					for (int a = 0; a < crosstagLength; a++) {
@@ -2079,7 +2079,7 @@ public final class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
-				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
 				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(other_value.get{0}().get());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t} else {\n");
 				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
@@ -2126,7 +2126,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating isPresent() function for template
+	 * Generating is_present() function for template
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -2134,7 +2134,7 @@ public final class RecordSetCodeGenerator {
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append('\n');
 		aSb.append("@Override\n");
-		aSb.append("\t\tpublic boolean isPresent(final boolean legacy) {\n");
+		aSb.append("\t\tpublic boolean is_present(final boolean legacy) {\n");
 		aSb.append("\t\t\treturn isPresent_(legacy);\n");
 		aSb.append("\t\t}\n");
 
@@ -2318,7 +2318,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent() ? !{1}.match(other_value.get{0}().get(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().ispresent() ? !{1}.match(other_value.get{0}().get(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
 			} else {
 				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get{0}(), legacy)) '{'\n", fi.mJavaVarName, fi.mVarName )  );
 			}
@@ -2391,7 +2391,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append( MessageFormat.format( "\t\t\t\tint sizeof = {0};\n", size ) );
 			for ( final FieldInfo fi : aNamesList ) {
 				if (fi.isOptional) {
-					aSb.append( MessageFormat.format( "\t\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
+					aSb.append( MessageFormat.format( "\t\t\t\tif ({0}.is_present()) '{'\n", fi.mVarName ) );
 					aSb.append( "\t\t\t\t\tsizeof++;\n" );
 					aSb.append( "\t\t\t\t}\n" );
 				}
@@ -2502,7 +2502,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (fi.isOptional) {
-				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
@@ -2829,7 +2829,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append("public boolean isPresent() {\n");
+		source.append("public boolean is_present() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 
@@ -3249,7 +3249,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append("public boolean isPresent(final boolean legacy) {\n");
+		source.append("public boolean is_present(final boolean legacy) {\n");
 		source.append("return isPresent_(legacy);\n");
 		source.append("}\n\n");
 //TODO check the underscore versions if they are needed.
@@ -3589,7 +3589,7 @@ public final class RecordSetCodeGenerator {
 					if (!is_equal) {
 						source.append('!');
 					}
-					source.append(MessageFormat.format("{0}.isPresent()", fieldName));
+					source.append(MessageFormat.format("{0}.is_present()", fieldName));
 					fieldName = MessageFormat.format("{0}.get()", fieldName);
 				}
 			}
@@ -3898,7 +3898,7 @@ public final class RecordSetCodeGenerator {
 		if (tempRawOption.lengthto) {
 			if (fieldInfo.raw.lengthindex != null) {
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
-					source.append(MessageFormat.format("if ({0}{1}.get{2}().isPresent()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
+					source.append(MessageFormat.format("if ({0}{1}.get{2}().is_present()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
 				}
 				if (fieldInfo.raw.lengthto_offset != 0) {
 					source.append(MessageFormat.format("{0}{1}.get{2}(){3}.assign({0}{1}.get{2}(){3} - {4});\n",

@@ -810,7 +810,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 

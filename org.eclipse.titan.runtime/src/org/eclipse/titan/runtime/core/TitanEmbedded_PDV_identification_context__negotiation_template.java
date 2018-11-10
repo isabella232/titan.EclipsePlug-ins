@@ -247,7 +247,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return false;
 	}
 
-	public boolean isPresent(final boolean legacy) {
+	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
 

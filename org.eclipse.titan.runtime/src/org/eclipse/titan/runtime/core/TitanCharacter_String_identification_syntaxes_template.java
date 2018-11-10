@@ -247,7 +247,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return false;
 	}
 
-	public boolean isPresent(final boolean legacy) {
+	public boolean is_present(final boolean legacy) {
 		return isPresent_(legacy);
 	}
 

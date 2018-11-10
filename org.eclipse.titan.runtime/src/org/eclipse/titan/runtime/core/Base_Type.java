@@ -100,7 +100,7 @@ public abstract class Base_Type {
 	 *
 	 * @return {@code true} if the value is present.
 	 */
-	public abstract boolean isPresent();
+	public abstract boolean is_present();
 
 	/**
 	 * Whether the value is bound.

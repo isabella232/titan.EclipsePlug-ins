@@ -423,7 +423,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("@Override\n");
-		source.append("public boolean isPresent() {\n");
+		source.append("public boolean is_present() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}
@@ -2031,7 +2031,7 @@ public final class UnionGenerator {
 					if (!is_equal) {
 						source.append('!');
 					}
-					source.append(MessageFormat.format("{0}.isPresent()", fieldName));
+					source.append(MessageFormat.format("{0}.is_present()", fieldName));
 					fieldName = MessageFormat.format("{0}.get()", fieldName);
 				}
 			}

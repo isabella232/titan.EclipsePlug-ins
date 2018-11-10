@@ -1133,13 +1133,13 @@ public class LegacyLogger implements ILoggerPlugin {
 			final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 			if (set.getnewVerdict().isGreaterThan(set.getoldVerdict())) {
-				if (!set.getoldReason().isPresent() || !set.getnewReason().isPresent()) {
+				if (!set.getoldReason().is_present() || !set.getnewReason().is_present()) {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdictName, oldVerdictName, localVerdictName));
 				} else {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdictName, oldVerdictName, localVerdictName, set.getoldReason().get().getValue(), set.getnewReason().get().getValue()));
 				}
 			} else {
-				if (!set.getoldReason().isPresent() || !set.getnewReason().isPresent()) {
+				if (!set.getoldReason().is_present() || !set.getnewReason().is_present()) {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}, component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
 				} else {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.getoldReason().get().getValue()));
@@ -1160,8 +1160,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			case ALT_info: {
 				final FinalVerdictInfo info = choice.getfinalVerdict().getchoice().getinfo();
 				if (info.getis__ptc().getValue()) {
-					if (info.getptc__compref().isPresent() && info.getptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
-						if (info.getptc__name().isPresent() && info.getptc__name().get().lengthOf().getInt() > 0) {
+					if (info.getptc__compref().is_present() && info.getptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
+						if (info.getptc__name().is_present() && info.getptc__name().get().lengthOf().getInt() > 0) {
 							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.getptc__name().get().getValue(), info.getptc__compref().get().getInt()));
 						} else {
 							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.getptc__compref().get().getInt()));
@@ -1175,7 +1175,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", ptcVerdictName, localVerdictName, newVerdictName));
-						if (info.getverdict__reason().isPresent() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 						}
 					} else {
@@ -1183,7 +1183,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", localVerdictName));
-						if (info.getverdict__reason().isPresent() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 						}
 					}
@@ -1192,7 +1192,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", localVerdictName));
-					if (info.getverdict__reason().isPresent() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+					if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
 						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 					}
 				}
@@ -1456,7 +1456,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_matchingTimeout: {
 			final MatchingTimeout mt = choice.getmatchingTimeout();
-			if (mt.gettimer__name().isPresent()) {
+			if (mt.gettimer__name().is_present()) {
 				returnValue.append(MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", mt.gettimer__name().get().getValue()));
 			} else {
 				returnValue.append("Operation `any timer.timeout' failed: The test component does not have active timers.");

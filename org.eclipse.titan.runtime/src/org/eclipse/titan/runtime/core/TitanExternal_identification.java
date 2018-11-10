@@ -136,7 +136,7 @@ public class TitanExternal_identification extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 

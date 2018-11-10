@@ -268,18 +268,24 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection);
 	}
 
 	/**
-	 * Note: this is not the TTCN-3 ispresent(), kept for backward compatibility
-	 *       with the runtime and existing testports which use this version where
-	 *       unbound errors are caught before causing more trouble
+	 * Checks if this optional value contains a value. Please note the
+	 * optional value itself can be present (checked with is_present), while
+	 * its value is set to omit (checked with ispresent).
+	 * <p>
+	 * Note: this is not the TTCN-3 ispresent(), kept for backward
+	 * compatibility with the runtime and existing testports which use this
+	 * version where unbound errors are caught before causing more trouble.
 	 *
-	 * originally ispresent
+	 * @return {@code true} if the value in this optional value is present
+	 *         (optionalSelection == OPTIONAL_PRESENT), {@code false}
+	 *         otherwise.
 	 * */
-	public boolean isPresentOld() {
+	public boolean ispresent() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 			return true;

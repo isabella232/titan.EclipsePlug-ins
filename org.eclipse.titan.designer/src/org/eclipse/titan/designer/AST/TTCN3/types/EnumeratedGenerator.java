@@ -538,7 +538,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("@Override\n");
-		source.append("public boolean isPresent() {\n");
+		source.append("public boolean is_present() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}

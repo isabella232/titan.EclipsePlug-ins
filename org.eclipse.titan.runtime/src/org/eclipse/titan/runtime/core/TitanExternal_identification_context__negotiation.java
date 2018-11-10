@@ -116,7 +116,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return isBound();
 	}
 
