@@ -2716,8 +2716,34 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.text.MessageFormat");
 		final StringBuilder encoderString = new StringBuilder();
+		encoderString.append("/**\n");
+		encoderString.append(MessageFormat.format(" * The encoder function for type {0}.\n", getTypename()));
+		encoderString.append(" *\n");
+		encoderString.append(" * @param input_value\n");
+		encoderString.append(" *                the input value to encode.\n");
+		encoderString.append(" * @param output_stream\n");
+		encoderString.append(" *                the octetstring to be extend with the result of the\n");
+		encoderString.append(" *                encoding.\n");
+		encoderString.append(" * @param coding_name\n");
+		encoderString.append(" *                the name of the coding to use.\n");
+		encoderString.append(" * */\n");
 		encoderString.append(MessageFormat.format("public static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+
 		final StringBuilder decoderString = new StringBuilder();
+		decoderString.append("/**\n");
+		decoderString.append(MessageFormat.format(" * The decoder function for type {0}. In case\n", getTypename()));
+		decoderString.append(" * of successful decoding the bits used for decoding are removed from\n");
+		decoderString.append(" * the beginning of the input_stream.\n");
+		decoderString.append(" *\n");
+		decoderString.append(" * @param input_stream\n");
+		decoderString.append(" *                the octetstring starting with the value to be decoded.\n");
+		decoderString.append(" * @param output_value\n");
+		decoderString.append(" *                the decoded value if the decoding was successful.\n");
+		decoderString.append(" * @param coding_name\n");
+		decoderString.append(" *                the name of the coding to use.\n");
+		decoderString.append(" * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
+		decoderString.append(" *         case of error (incomplete message or length)\n");
+		decoderString.append(" * */\n");
 		decoderString.append(MessageFormat.format("public static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 
 		// user defined codecs
