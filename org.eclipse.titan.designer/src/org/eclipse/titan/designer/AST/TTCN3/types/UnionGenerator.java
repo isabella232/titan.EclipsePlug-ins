@@ -195,7 +195,7 @@ public final class UnionGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(aData, source, genName, displayName, fieldInfos);
 		generateTemplateLog(source, fieldInfos);
-		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
+		generateTemplateLogMatch(aData, source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateTemplateSetParam(source, displayName, fieldInfos);
 		generateTemplateCheckSelection(source, displayName, fieldInfos);
@@ -1721,6 +1721,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate log_match
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1731,7 +1733,7 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateTemplateLogMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generateTemplateLogMatch(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", genName));
@@ -1741,6 +1743,18 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append(" * are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
 		source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {\n");
 		source.append("TTCN_Logger.print_logmatch_buffer();\n");

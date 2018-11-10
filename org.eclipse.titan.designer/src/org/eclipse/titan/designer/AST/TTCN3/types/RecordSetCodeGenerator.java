@@ -252,7 +252,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( aData, source, fieldInfos, classDisplayName );
 		generateTemplateListItem( source, className, classDisplayName );
-		generateTemplateLog( source, fieldInfos, className, classDisplayName );
+		generateTemplateLog( aData, source, fieldInfos, className, classDisplayName );
 		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
 		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
 		generateTemplateCheckRestriction(source, classDisplayName, fieldInfos, isSet);
@@ -2428,7 +2428,9 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating log() function
-	 * 
+	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -2439,7 +2441,7 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
+	private static void generateTemplateLog(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append('\n');
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void log() {\n");
@@ -2477,6 +2479,16 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		source.append("\t\t\tlog_match(match_value, false);\n");
 		source.append("\t\t}\n");
@@ -2492,6 +2504,18 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t}\n");
 
 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append(" * are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");
 		source.append("\t\t\t\tif(match(match_value, legacy)) {\n");
@@ -3406,6 +3430,15 @@ public final class RecordSetCodeGenerator {
 		source.append("log_ifpresent();\n");
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "public void log_match(final {0} match_value) '{'\n", className ) );
 		source.append("log_match(match_value, false);\n");
 		source.append("}\n\n");
@@ -3419,6 +3452,18 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayName ) );
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append(" * are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append( MessageFormat.format( "public void log_match(final {0} match_value, final boolean legacy) '{'\n", className ) );
 		source.append("match_value.log();\n");
 		source.append("TTCN_Logger.log_event_str(\" with \");\n");

@@ -170,7 +170,7 @@ public final class RecordOfGenerator {
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateSubstr( source, genName );
-		generateTemplateLog( source, genName, displayName, isSetOf );
+		generateTemplateLog( aData, source, genName, displayName, isSetOf );
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
 		generateTemplateSetParam(source, displayName, isSetOf);
 		generateTemplateGetIstemplateKind( source, genName );
@@ -2501,7 +2501,9 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating log() function for template
-	 * 
+	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
@@ -2512,7 +2514,7 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final String displayName, final boolean isSetOf ) {
+	private static void generateTemplateLog(final JavaGenData aData, final StringBuilder aSb, final String genName, final String displayName, final boolean isSetOf ) {
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void log() {\n");
@@ -2574,6 +2576,15 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
+		if (aData.isDebug()) {
+			aSb.append("/**\n");
+			aSb.append(" * Logs the matching of the provided value to this template, to help\n");
+			aSb.append(" * identify the reason for mismatch.\n");
+			aSb.append(" *\n");
+			aSb.append(" * @param match_value\n");
+			aSb.append(" *                the value to be matched.\n");
+			aSb.append(" * */\n");
+		}
 		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		aSb.append("\t\tlog_match(match_value, false);\n");
 		aSb.append("\t}\n");
@@ -2589,6 +2600,18 @@ public final class RecordOfGenerator {
 		aSb.append("\t}\n");
 
 		aSb.append('\n');
+		if (aData.isDebug()) {
+			aSb.append("/**\n");
+			aSb.append(" * Logs the matching of the provided value to this template, to help\n");
+			aSb.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			aSb.append(" * are not matched against the template field.\n");
+			aSb.append(" *\n");
+			aSb.append(" * @param match_value\n");
+			aSb.append(" *                the value to be matched.\n");
+			aSb.append(" * @param legacy\n");
+			aSb.append(" *                use legacy mode.\n");
+			aSb.append(" * */\n");
+		}
 		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		if ( isSetOf ) {
 			aSb.append("\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");

@@ -689,6 +689,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		log_ifpresent();
 	}
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public void log_match(final TitanBitString match_value, final boolean legacy) {
 		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()
 				&& TTCN_Logger.get_logmatch_buffer_len() != 0) {

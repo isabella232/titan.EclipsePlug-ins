@@ -988,6 +988,18 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", def.displayName));
 		source.append("}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append(" * are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", def.genName));
 		source.append("match_value.log();\n");
 		source.append("TTCN_Logger.log_event_str(\" with \");\n");

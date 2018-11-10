@@ -734,23 +734,35 @@ public final class SignatureGenerator {
 			source.append("}\n");
 			source.append("}\n\n");
 
-			source.append(MessageFormat.format("public void log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Logs the matching of the provided value to this template, to help\n");
+				source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+				source.append(" * are not matched against the template field.\n");
+				source.append(" *\n");
+				source.append(" * @param match_value\n");
+				source.append(" *                the value to be matched.\n");
+				source.append(" * @param legacy\n");
+				source.append(" *                use legacy mode.\n");
+				source.append(" * */\n");
+			}
+			source.append(MessageFormat.format("public void log_match(final {0}_exception match_value, final boolean legacy) '{'\n", def.genName));
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
-			source.append("if (exception_selection == other_value.get_selection()) {\n");
+			source.append("if (exception_selection == match_value.get_selection()) {\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
-				source.append(MessageFormat.format("field.log_match(other_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("field.log_match(match_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
 				source.append("break;");
 			}
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
 			source.append("}\n");
 			source.append("} else {\n");
-			source.append("other_value.log();\n");
+			source.append("match_value.log();\n");
 			source.append("TTCN_Logger.log_event_str(\" with \");\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
@@ -764,7 +776,7 @@ public final class SignatureGenerator {
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
 			source.append("}\n");
-			source.append("if (match(other_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
+			source.append("if (match(match_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
 			source.append("else TTCN_Logger.log_event_str(\" unmatched\");\n");
 			source.append("}\n");
 			source.append("}\n");

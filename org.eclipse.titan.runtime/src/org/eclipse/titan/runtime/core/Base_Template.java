@@ -332,6 +332,16 @@ public abstract class Base_Template {
 	 */
 	public abstract void log();
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
 	public abstract void set_param(final Param_Types.Module_Parameter param);

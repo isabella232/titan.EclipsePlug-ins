@@ -195,7 +195,7 @@ public final class EnumeratedGenerator {
 		generateTemplateListItem(source, e_defs.name);
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
-		generateTemplateLogMatch(source, e_defs.name, e_defs.displayName);
+		generateTemplateLogMatch(aData, source, e_defs.name, e_defs.displayName);
 		generateTemplateSetParam(source, e_defs.name, e_defs.displayName);
 		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 		generateTemplateCheckRestriction(source, e_defs.displayName);
@@ -1288,7 +1288,7 @@ public final class EnumeratedGenerator {
 		source.append("}\n");
 	}
 
-	private static void generateTemplateLogMatch(final StringBuilder source, final String name, final String displayName ){
+	private static void generateTemplateLogMatch(final JavaGenData aData, final StringBuilder source, final String name, final String displayName ){
 		source.append("@Override\n");
 		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", name));
@@ -1298,6 +1298,18 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n");
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Logs the matching of the provided value to this template, to help\n");
+			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append(" * are not matched against the template field.\n");
+			source.append(" *\n");
+			source.append(" * @param match_value\n");
+			source.append(" *                the value to be matched.\n");
+			source.append(" * @param legacy\n");
+			source.append(" *                use legacy mode.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
 		source.append("match_value.log();\n");
 		source.append("TTCN_Logger.log_event_str(\" with \");\n");
