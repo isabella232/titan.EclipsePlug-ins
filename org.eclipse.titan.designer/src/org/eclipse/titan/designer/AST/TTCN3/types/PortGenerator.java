@@ -2211,8 +2211,6 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("p_{0}.get(i).incoming_message(incoming_par, sender_component", j));
 				if (portDefinition.realtime) {
 					source.append(", timestamp");
-				} else {
-					source.append(", new TitanFloat()");
 				}
 				source.append(");\n");
 				source.append("return;\n");
