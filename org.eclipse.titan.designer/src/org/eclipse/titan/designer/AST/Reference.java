@@ -1348,6 +1348,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			ass_id2 = newId.toString();
 		}
 
+		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
+			ass_id2 = ass_id2 + ".get()";
+		}
+
 		if (subReferences.size() > 1) {
 			final String tempGeneralId = aData.getTemporaryVariableName();
 			final ExpressionStruct isboundExpression = new ExpressionStruct();
