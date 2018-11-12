@@ -3067,6 +3067,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+		aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addCommonLibraryImport("Index_Redirect");
 		aData.addCommonLibraryImport("TTCN_Runtime");
