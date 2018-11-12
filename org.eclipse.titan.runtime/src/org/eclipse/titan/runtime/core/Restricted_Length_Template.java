@@ -317,7 +317,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	@Override
-	public boolean isOmit() {
+	public boolean is_omit() {
 		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent
 				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}

@@ -191,11 +191,9 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	/**
 	 * Returns the size (number of fields).
 	 *
-	 * size_of in the core
-	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		return new TitanInteger(2);
 	}
 

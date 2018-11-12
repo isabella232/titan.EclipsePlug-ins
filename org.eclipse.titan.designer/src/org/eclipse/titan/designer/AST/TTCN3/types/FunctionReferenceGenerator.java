@@ -916,7 +916,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public void setType(final template_sel templateType, final int listLength) {\n");
+		source.append("public void set_type(final template_sel templateType, final int listLength) {\n");
 		source.append("if (!template_sel.VALUE_LIST.equals(templateType) &&\n");
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateType)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid type for an {0} template.\");\n", def.displayName));
@@ -930,7 +930,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template listItem(final int listIndex) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template list_item(final int listIndex) '{'\n", def.genName));
 		source.append("if (!template_sel.VALUE_LIST.equals(template_selection) &&\n");
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", def.displayName));

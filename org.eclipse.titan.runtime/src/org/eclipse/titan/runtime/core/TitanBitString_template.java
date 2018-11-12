@@ -126,7 +126,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 *                the template to initialize to.
 	 * */
 	public TitanBitString_template(final TitanBitString_template otherValue) {
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	public TitanBitString_template(final int pattern_elements[]) {
@@ -276,7 +276,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	public TitanBitString_template assign(final TitanBitString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
@@ -308,7 +308,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	private void copyTemplate(final TitanBitString_template otherValue) {
+	private void copy_template(final TitanBitString_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanBitString(otherValue.single_value);
@@ -413,7 +413,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			return false;
 		}
 
-		final TitanInteger value_length = otherValue.lengthOf();
+		final TitanInteger value_length = otherValue.lengthof();
 		if (!match_length(value_length.getInt())) {
 			return false;
 		}
@@ -539,7 +539,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	// originally lengthof
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a bitstring template which has an ifpresent attribute.");
 		}
@@ -547,7 +547,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		boolean has_any_or_none = false;
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthOf().getInt();
+			min_length = single_value.lengthof().getInt();
 			has_any_or_none = false;
 			break;
 		case OMIT_VALUE:
@@ -562,9 +562,9 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a bitstring template containing an empty list.");
 			}
-			final int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthof().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthOf().getInt() != item_length) {
+				if (value_list.get(i).lengthof().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a bitstring template containing a value list with different lengths.");
 				}
 			}
@@ -593,7 +593,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 
 	@Override
-	public void setType(final template_sel templateType, final int listLength /* = 0 */) {
+	public void set_type(final template_sel templateType, final int listLength /* = 0 */) {
 		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
 				templateType != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting an invalid list type for a bitstring template.");
@@ -609,7 +609,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBitString_template listItem(final int listIndex) {
+	public TitanBitString_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list bitstring template.");
 		}
@@ -731,9 +731,9 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanBitString_template temp = new TitanBitString_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

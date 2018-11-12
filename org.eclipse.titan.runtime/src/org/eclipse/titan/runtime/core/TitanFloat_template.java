@@ -118,7 +118,7 @@ public class TitanFloat_template extends Base_Template {
 	 *                the template to initialize to.
 	 * */
 	public TitanFloat_template(final TitanFloat_template otherValue) {
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	@Override
@@ -236,13 +236,13 @@ public class TitanFloat_template extends Base_Template {
 	public TitanFloat_template assign(final TitanFloat_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
 	}
 
-	private void copyTemplate(final TitanFloat_template otherValue) {
+	private void copy_template(final TitanFloat_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanFloat(otherValue.single_value);
@@ -366,7 +366,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel templateType, final int listLength) {
+	public void set_type(final template_sel templateType, final int listLength) {
 		clean_up();
 		switch (templateType) {
 		case VALUE_LIST:
@@ -390,7 +390,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanFloat_template listItem(final int listIndex) {
+	public TitanFloat_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list float template.");
 		}
@@ -686,10 +686,10 @@ public class TitanFloat_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanFloat_template temp = new TitanFloat_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ?
+			temp.set_type(param.get_type() == type_t.MP_List_Template ?
 					template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			assign(temp);
 			break;
@@ -698,7 +698,7 @@ public class TitanFloat_template extends Base_Template {
 			assign(param.get_float());
 			break;
 		case MP_FloatRange: {
-			setType(template_sel.VALUE_RANGE);
+			set_type(template_sel.VALUE_RANGE);
 			if (param.has_lower_float()) {
 				setMin(param.get_lower_float());
 			}

@@ -70,7 +70,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * */
 	public TitanVerdictType_template(final TitanVerdictType otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		copyValue(otherValue);
+		copy_value(otherValue);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class TitanVerdictType_template extends Base_Template {
 	public TitanVerdictType_template(final Optional<TitanVerdictType> other_value) {
 		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(other_value.get());
+			copy_value(other_value.get());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -102,7 +102,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * */
 	public TitanVerdictType_template(final TitanVerdictType_template other_value) {
 		super();
-		copyTemplate(other_value);
+		copy_template(other_value);
 	}
 
 	@Override
@@ -185,7 +185,7 @@ public class TitanVerdictType_template extends Base_Template {
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
-		copyValue(otherValue);
+		copy_value(otherValue);
 
 		return this;
 	}
@@ -204,7 +204,7 @@ public class TitanVerdictType_template extends Base_Template {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(otherValue.get());
+			copy_value(otherValue.get());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -228,20 +228,20 @@ public class TitanVerdictType_template extends Base_Template {
 	public TitanVerdictType_template assign(final TitanVerdictType_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
 	}
 
-	private void copyValue(final TitanVerdictType otherValue)	{
+	private void copy_value(final TitanVerdictType otherValue)	{
 		otherValue.mustBound("Creating a template from an unbound verdict value.");
 
 		single_value = new TitanVerdictType(otherValue);
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
-	private void copyTemplate(final TitanVerdictType_template otherValue) {
+	private void copy_template(final TitanVerdictType_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanVerdictType(otherValue.single_value);
@@ -366,7 +366,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel template_type, final int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list type for a verdict template.");
 		}
@@ -377,7 +377,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	@Override
-	public TitanVerdictType_template listItem(final int listIndex) {
+	public TitanVerdictType_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");
 		}
@@ -464,9 +464,9 @@ public class TitanVerdictType_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanVerdictType_template temp = new TitanVerdictType_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

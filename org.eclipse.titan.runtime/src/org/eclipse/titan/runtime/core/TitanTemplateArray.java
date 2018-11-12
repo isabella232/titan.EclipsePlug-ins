@@ -547,11 +547,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		return sizeOf(false);
 	}
 
-	public TitanInteger sizeOf(){
+	public TitanInteger size_of(){
 		return sizeOf(true);
 	}
 
@@ -653,7 +653,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@Override
-	public void setType(final template_sel templateType, final int length) {
+	public void set_type(final template_sel templateType, final int length) {
 		clean_up();
 		switch (templateType) {
 		case VALUE_LIST:
@@ -673,7 +673,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanTemplateArray<Tvalue, Ttemplate> listItem(final int index) {
+	public TitanTemplateArray<Tvalue, Ttemplate> list_item(final int index) {
 		if (template_selection != template_sel.VALUE_LIST &&
 				template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list array template.");
@@ -751,9 +751,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate);
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

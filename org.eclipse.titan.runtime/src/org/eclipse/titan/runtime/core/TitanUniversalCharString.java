@@ -88,7 +88,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanUniversalCharString(final List<TitanUniversalChar> otherValue) {
-		val_ptr = copyList(otherValue);
+		val_ptr = copy_list(otherValue);
 		charstring = false;
 	}
 
@@ -149,7 +149,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			cstr = new StringBuilder(otherValue.cstr);
 		} else {
-			val_ptr = copyList(otherValue.val_ptr);
+			val_ptr = copy_list(otherValue.val_ptr);
 		}
 	}
 
@@ -173,7 +173,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	private static List<TitanUniversalChar> copyList(final List<TitanUniversalChar> uList) {
+	private static List<TitanUniversalChar> copy_list(final List<TitanUniversalChar> uList) {
 		if (uList == null) {
 			return null;
 		}
@@ -403,7 +403,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally lengthof
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		mustBound("Performing lengthof operation on an unbound universal charstring value.");
 
 		if (charstring) {
@@ -496,7 +496,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			return otherValue.getValue().toString().equals(cstr.toString());
 		}
-		if (val_ptr.size() != otherValue.lengthOf().getInt()) {
+		if (val_ptr.size() != otherValue.lengthof().getInt()) {
 			return false;
 		}
 
@@ -2031,7 +2031,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
 		if(buff_str.is_bound()) {
 			charstring = true;
-			for (int i = 0; i < buff_str.lengthOf().getInt(); ++i) {
+			for (int i = 0; i < buff_str.lengthof().getInt(); ++i) {
 				if(buff_str.getValue().charAt(i) > 127) {
 					charstring = false;
 					break;

@@ -257,7 +257,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	// originally lengthof
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		mustBound("Performing lengthof operation on an unbound bitstring value.");
 
 		return new TitanInteger(n_bits);

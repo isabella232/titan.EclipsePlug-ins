@@ -61,7 +61,7 @@ public class TitanCharString extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharString(final String otherValue) {
-		copyValue(otherValue);
+		copy_value(otherValue);
 	}
 
 	/**
@@ -95,11 +95,11 @@ public class TitanCharString extends Base_Type {
 		return val_ptr;
 	}
 
-	private void copyValue(final String aOtherValue) {
+	private void copy_value(final String aOtherValue) {
 		val_ptr = new StringBuilder(aOtherValue);
 	}
 
-	private void copyValue(final StringBuilder aOtherValue) {
+	private void copy_value(final StringBuilder aOtherValue) {
 		val_ptr = new StringBuilder(aOtherValue);
 	}
 
@@ -139,7 +139,7 @@ public class TitanCharString extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound charstring value.");
 
 		if (otherValue != this) {
-			copyValue(otherValue.val_ptr);
+			copy_value(otherValue.val_ptr);
 		}
 
 		return this;
@@ -229,7 +229,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// originally lengthOf
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		mustBound("Performing lengthof operation on an unbound charstring value.");
 
 		return new TitanInteger(val_ptr.length());

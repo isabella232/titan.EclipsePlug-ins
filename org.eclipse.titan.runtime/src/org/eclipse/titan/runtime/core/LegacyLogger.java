@@ -464,8 +464,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			// error).
 			if (event_str.length() > 0) {
 				// Write the location info to the console for user logs only.
-				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.getsourceInfo__list().lengthOf().getInt() > 0) {
-					final int stackdepth = event.getsourceInfo__list().lengthOf().getInt();
+				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.getsourceInfo__list().lengthof().getInt() > 0) {
+					final int stackdepth = event.getsourceInfo__list().lengthof().getInt();
 					final LocationInfo loc = event.getsourceInfo__list().getAt(stackdepth - 1);
 					System.err.print(MessageFormat.format("{0}:{1}", loc.getfilename().getValue(), loc.getline().getInt()));
 				}
@@ -690,7 +690,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		final StringBuilder sourceInfo = new StringBuilder();
 		if (event.getsourceInfo__list().is_bound()) {
 			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
-			final int stack_size = event.getsourceInfo__list().sizeOf().getInt();
+			final int stack_size = event.getsourceInfo__list().size_of().getInt();
 			if (stack_size > 0) {
 				int i = 0;
 				switch (source_info_format) {
@@ -772,7 +772,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		case ALT_actionEvent: {
 			final Strings_str__list slist = choice.getactionEvent().getstr__list();
-			final int size = slist.sizeOf().getInt();
+			final int size = slist.size_of().getInt();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.getAt(i).getValue());
 			}
@@ -780,7 +780,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_userLog: {
 			final Strings_str__list slist = choice.getuserLog().getstr__list();
-			final int size = slist.sizeOf().getInt();
+			final int size = slist.size_of().getInt();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.getAt(i).getValue());
 			}
@@ -890,7 +890,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_defaultopDeactivate: {
 			final DefaultOp dflt = choice.getdefaultopDeactivate();
-			if (dflt.getname().lengthOf().isGreaterThan(0)) {
+			if (dflt.getname().lengthof().isGreaterThan(0)) {
 				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.getid().getInt(), dflt.getname().getValue()));
 			} else {
 				returnValue.append("Deactivate operation on a null default reference was ignored.");
@@ -1161,7 +1161,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				final FinalVerdictInfo info = choice.getfinalVerdict().getchoice().getinfo();
 				if (info.getis__ptc().getValue()) {
 					if (info.getptc__compref().is_present() && info.getptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
-						if (info.getptc__name().is_present() && info.getptc__name().get().lengthOf().getInt() > 0) {
+						if (info.getptc__name().is_present() && info.getptc__name().get().lengthof().getInt() > 0) {
 							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.getptc__name().get().getValue(), info.getptc__compref().get().getInt()));
 						} else {
 							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.getptc__compref().get().getInt()));
@@ -1175,7 +1175,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", ptcVerdictName, localVerdictName, newVerdictName));
-						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthof().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 						}
 					} else {
@@ -1183,7 +1183,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", localVerdictName));
-						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+						if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthof().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 						}
 					}
@@ -1192,7 +1192,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", localVerdictName));
-					if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthOf().getInt() > 0) {
+					if (info.getverdict__reason().is_present() && info.getverdict__reason().get().lengthof().getInt() > 0) {
 						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getverdict__reason().get().getValue()));
 					}
 				}
@@ -1262,7 +1262,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case init__component__start:
 				returnValue.append(MessageFormat.format("Initializing variables, timers and ports of component type {0}.{1}", ptc.getmodule__().getValue(), ptc.getname().getValue()));
-				if (ptc.gettc__loc().lengthOf().getInt() > 0) {
+				if (ptc.gettc__loc().lengthof().getInt() > 0) {
 					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.gettc__loc().getValue()));
 				}
 				returnValue.append('.');
@@ -1275,7 +1275,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case component__shut__down:
 				returnValue.append(MessageFormat.format("Component type {0}.{1} was shut down", ptc.getmodule__().getValue(), ptc.getname().getValue()));
-				if (ptc.gettc__loc().lengthOf().getInt() > 0) {
+				if (ptc.gettc__loc().lengthof().getInt() > 0) {
 					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.gettc__loc().getValue()));
 				}
 				returnValue.append('.');
@@ -1285,20 +1285,20 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case ptc__created:
 				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.getcompref().getInt(), ptc.getalive__pid().getInt() > 0 ? "yes" : "no", ptc.getmodule__().getValue(), ptc.getname().getValue()));
-				if (ptc.getcompname().lengthOf().getInt() > 0) {
+				if (ptc.getcompname().lengthof().getInt() > 0) {
 					returnValue.append(MessageFormat.format(", component name: {0}", ptc.getcompname().getValue()));
 				}
-				if (ptc.gettc__loc().lengthOf().getInt() != 0) {
+				if (ptc.gettc__loc().lengthof().getInt() != 0) {
 					returnValue.append(MessageFormat.format(", location: {0}", ptc.gettc__loc().getValue()));
 				}
 				returnValue.append('.');
 				break;
 			case ptc__created__pid:
 				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.getcompref().getInt(), ptc.getmodule__().getValue(), ptc.getname().getValue()));
-				if (ptc.getcompname().lengthOf().getInt() > 0) {
+				if (ptc.getcompname().lengthof().getInt() > 0) {
 					returnValue.append(MessageFormat.format(", component name: {0}", ptc.getcompname().getValue()));
 				}
-				if (ptc.gettc__loc().lengthOf().getInt() != 0) {
+				if (ptc.gettc__loc().lengthof().getInt() != 0) {
 					returnValue.append(MessageFormat.format(", testcase name: {0}", ptc.gettc__loc().getValue()));
 				}
 				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.getalive__pid().getInt()));
@@ -1738,7 +1738,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_setState: {
 			final Setstate setstate = choice.getsetState();
 			returnValue.append(MessageFormat.format("The state of the {0} port was changed by a setstate operation to {1}.", setstate.getport__name().getValue(), setstate.getstate().getValue()));
-			if (setstate.getinfo().lengthOf().getInt() != 0) {
+			if (setstate.getinfo().lengthof().getInt() != 0) {
 				returnValue.append(MessageFormat.format(" Information: {0}", setstate.getinfo().getValue()));
 			}
 			break;

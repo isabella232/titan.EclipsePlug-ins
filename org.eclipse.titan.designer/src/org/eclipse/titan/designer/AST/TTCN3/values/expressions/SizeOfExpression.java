@@ -870,6 +870,6 @@ public final class SizeOfExpression extends Expression_Value {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(".sizeOf()");
+		expression.expression.append(".size_of()");
 	}
 }

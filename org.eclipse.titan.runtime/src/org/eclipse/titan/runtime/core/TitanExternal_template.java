@@ -52,7 +52,7 @@ public class TitanExternal_template extends Base_Template {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_template( final TitanExternal otherValue ) {
-		copyValue(otherValue);
+		copy_value(otherValue);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class TitanExternal_template extends Base_Template {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_template( final TitanExternal_template otherValue ) {
-		copyTemplate( otherValue );
+		copy_template( otherValue );
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class TitanExternal_template extends Base_Template {
 	public TitanExternal_template( final Optional<TitanExternal> otherValue ) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(otherValue.constGet());
+			copy_value(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -107,7 +107,7 @@ public class TitanExternal_template extends Base_Template {
 	 */
 	public TitanExternal_template assign( final TitanExternal otherValue ) {
 		clean_up();
-		copyValue(otherValue);
+		copy_value(otherValue);
 		return this;
 	}
 
@@ -124,7 +124,7 @@ public class TitanExternal_template extends Base_Template {
 	public TitanExternal_template assign( final TitanExternal_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 		return this;
 	}
@@ -161,7 +161,7 @@ public class TitanExternal_template extends Base_Template {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(otherValue.constGet());
+			copy_value(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -172,7 +172,7 @@ public class TitanExternal_template extends Base_Template {
 		return this;
 	}
 
-	private void copyValue(final TitanExternal other_value) {
+	private void copy_value(final TitanExternal other_value) {
 		if (other_value.getidentification().is_bound()) {
 			getidentification().assign(other_value.getidentification());
 		} else {
@@ -195,7 +195,7 @@ public class TitanExternal_template extends Base_Template {
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
-	private void copyTemplate(final TitanExternal_template other_value) {
+	private void copy_template(final TitanExternal_template other_value) {
 		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getidentification().get_selection()) {
@@ -233,7 +233,7 @@ public class TitanExternal_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel template_type, final int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EXTERNAL.");
 		}
@@ -257,7 +257,7 @@ public class TitanExternal_template extends Base_Template {
 		if (identification.is_bound()) {
 			return true;
 		}
-		if (data__value__descriptor.isOmit() || data__value__descriptor.is_bound()) {
+		if (data__value__descriptor.is_omit() || data__value__descriptor.is_bound()) {
 			return true;
 		}
 		if (data__value.is_bound()) {
@@ -314,7 +314,7 @@ public class TitanExternal_template extends Base_Template {
 		if (!identification.is_value()) {
 			return false;
 		}
-		if (!data__value__descriptor.isOmit() && !data__value__descriptor.is_value()) {
+		if (!data__value__descriptor.is_omit() && !data__value__descriptor.is_value()) {
 			return false;
 		}
 		if (!data__value.is_value()) {
@@ -329,7 +329,7 @@ public class TitanExternal_template extends Base_Template {
 	 * @return the field identification.
 	 * */
 	public TitanExternal_identification_template getidentification() {
-		setSpecific();
+		set_specific();
 		return identification;
 	}
 
@@ -353,7 +353,7 @@ public class TitanExternal_template extends Base_Template {
 	 * @return the field data-value-descriptor.
 	 * */
 	public TitanUniversalCharString_template getdata__value__descriptor() {
-		setSpecific();
+		set_specific();
 		return data__value__descriptor;
 	}
 
@@ -377,7 +377,7 @@ public class TitanExternal_template extends Base_Template {
 	 * @return the field data-value.
 	 * */
 	public TitanOctetString_template getdata__value() {
-		setSpecific();
+		set_specific();
 		return data__value;
 	}
 
@@ -394,7 +394,7 @@ public class TitanExternal_template extends Base_Template {
 		return data__value;
 	}
 
-	private void setSpecific() {
+	private void set_specific() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -490,7 +490,7 @@ public class TitanExternal_template extends Base_Template {
 		if (identification.is_bound()) {
 			ret_val.getidentification().assign(identification.valueof());
 		}
-		if (data__value__descriptor.isOmit()) {
+		if (data__value__descriptor.is_omit()) {
 			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
 		} else if (data__value__descriptor.is_bound()) {
 			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueof());
@@ -507,7 +507,7 @@ public class TitanExternal_template extends Base_Template {
 	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL which has an ifpresent attribute.");
 		}
@@ -522,9 +522,9 @@ public class TitanExternal_template extends Base_Template {
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EXTERNAL containing an empty list.");
 			}
-			final int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).size_of().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
+				if (list_value.get(l_idx).size_of().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL containing a value list with different sizes.");
 				}
 			}
@@ -542,7 +542,7 @@ public class TitanExternal_template extends Base_Template {
 	}
 
 	@Override
-	public TitanExternal_template listItem(final int list_index) {
+	public TitanExternal_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EXTERNAL.");
 		}
@@ -754,9 +754,9 @@ public class TitanExternal_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final int size = param.get_size();
-			setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+			set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
 			for (int i = 0; i < size; i++) {
-				listItem(i).set_param(param.get_elem(i));
+				list_item(i).set_param(param.get_elem(i));
 			}
 			break;
 		}

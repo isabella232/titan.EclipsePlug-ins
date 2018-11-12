@@ -126,10 +126,10 @@ public class TitanDefault_template extends Base_Template {
 	public TitanDefault_template(final TitanDefault_template otherValue) {
 		super();
 
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
-	private void copyTemplate(final TitanDefault_template otherValue) {
+	private void copy_template(final TitanDefault_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = otherValue.single_value;
@@ -282,7 +282,7 @@ public class TitanDefault_template extends Base_Template {
 	public TitanDefault_template assign(final TitanDefault_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
@@ -403,7 +403,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel templateType, final int listLength) {
+	public void set_type(final template_sel templateType, final int listLength) {
 		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for a default reference template.");
 		}
@@ -414,7 +414,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault_template listItem(final int listIndex) {
+	public TitanDefault_template list_item(final int listIndex) {
 		if (!template_sel.VALUE_LIST.equals(template_selection) &&
 				!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {
 			throw new TtcnError("Accessing a list element of a non-list default reference template.");
@@ -470,9 +470,9 @@ public class TitanDefault_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanDefault_template temp = new TitanDefault_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

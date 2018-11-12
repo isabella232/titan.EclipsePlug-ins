@@ -1537,7 +1537,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+					expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 				}
 
 				expression.expression.append("break;}\n");
@@ -1581,7 +1581,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 				if (subReferenceIndex==subreferences.size()-1) {
 					expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+					expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 					expression.expression.append("}\n");
 				}
 			}

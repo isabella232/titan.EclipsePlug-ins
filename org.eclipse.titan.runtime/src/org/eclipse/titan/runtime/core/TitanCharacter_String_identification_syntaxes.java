@@ -195,7 +195,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		return new TitanInteger(2);
 	}
 

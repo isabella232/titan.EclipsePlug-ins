@@ -175,7 +175,7 @@ public class TitanUniversalCharString_Element {
 	public TitanUniversalCharString_Element assign(final TitanCharString otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring value to a universal charstring element.");
 
-		if (otherValue.lengthOf().getInt() != 1) {
+		if (otherValue.lengthof().getInt() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a universal charstring element.");
 		}
 		bound_flag = true;
@@ -310,7 +310,7 @@ public class TitanUniversalCharString_Element {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.mustBound("The right operand of comparison is an unbound charstring value.");
 
-		if (otherValue.lengthOf().getInt() != 1) {
+		if (otherValue.lengthof().getInt() != 1) {
 			return false;
 		}
 		if (str_val.charstring) {
@@ -491,14 +491,14 @@ public class TitanUniversalCharString_Element {
 		if (str_val.charstring) {
 			result.cstr = new StringBuilder();
 			result.cstr.append(str_val.cstr.charAt(char_pos));
-			for (int i = 0; i < otherValue.lengthOf().getInt(); ++i) {
+			for (int i = 0; i < otherValue.lengthof().getInt(); ++i) {
 				result.cstr.append(otherValue.getAt(i).get_char());
 			}
 			result.charstring = true;
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.val_ptr.add(0, str_val.val_ptr.get(char_pos));
-			for (int i = 0; i < otherValue.lengthOf().getInt(); ++i) {
+			for (int i = 0; i < otherValue.lengthof().getInt(); ++i) {
 				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.getAt(i).get_char()));
 			}
 			result.charstring = false;

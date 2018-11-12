@@ -208,7 +208,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	// originally lengthof
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		mustBound("Performing lengthof operation on an unbound octetstring value.");
 
 		return new TitanInteger(val_ptr.length);

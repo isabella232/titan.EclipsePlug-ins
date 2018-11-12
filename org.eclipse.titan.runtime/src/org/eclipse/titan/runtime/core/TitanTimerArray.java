@@ -150,10 +150,10 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	 *
 	 * @return the number of elements.
 	 * */
-	public int sizeOf() {
+	public int size_of() {
 		return array_size;
 	}
-	public int lengthOf() {
+	public int lengthof() {
 		return array_size;
 	}
 

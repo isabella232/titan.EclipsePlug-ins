@@ -101,7 +101,7 @@ public class TitanExternal_identification extends Base_Type {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	}
 
-	public boolean isChosen(final TitanExternal_identification.union_selection_type checked_selection) {
+	public boolean ischosen(final TitanExternal_identification.union_selection_type checked_selection) {
 		if(checked_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type EXTERNAL.identification.");
 		}

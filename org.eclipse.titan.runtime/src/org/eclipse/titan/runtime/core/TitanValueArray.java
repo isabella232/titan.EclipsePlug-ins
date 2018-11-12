@@ -132,7 +132,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return true;
 	}
 
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		for (int i = array_size - 1; i >= 0; --i) {
 			if (array_elements[i].is_bound()) {
 				return new TitanInteger(i + 1);
@@ -375,7 +375,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	 *
 	 * @return the number of elements.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		return new TitanInteger(array_size);
 	}
 

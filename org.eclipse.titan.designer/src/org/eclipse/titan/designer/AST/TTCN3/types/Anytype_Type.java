@@ -909,7 +909,7 @@ public final class Anytype_Type extends Type {
 				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+					expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 				}
 
 				expression.expression.append("break;}\n");
@@ -953,7 +953,7 @@ public final class Anytype_Type extends Type {
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 				if (subReferenceIndex==subreferences.size()-1) {
 					expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+					expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 					expression.expression.append("}\n");
 				}
 			}

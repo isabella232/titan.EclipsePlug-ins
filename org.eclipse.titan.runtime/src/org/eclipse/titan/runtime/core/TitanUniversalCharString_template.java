@@ -152,7 +152,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 *                the template to initialize to.
 	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString_template otherValue) {
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 *                the template to initialize to.
 	 * */
 	public TitanUniversalCharString_template(final TitanCharString_template otherValue) {
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	public TitanUniversalCharString_template(final template_sel selValue, final TitanCharString otherValue) {
@@ -325,7 +325,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	public TitanUniversalCharString_template assign(final TitanCharString_template otherValue) {
 		clean_up();
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 
 		return this;
 	}
@@ -334,14 +334,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public TitanUniversalCharString_template assign(final TitanUniversalCharString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
 	}
 
 
-	private void copyTemplate(final TitanCharString_template otherValue) {
+	private void copy_template(final TitanCharString_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanUniversalCharString(otherValue.single_value);
@@ -387,7 +387,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		set_selection(otherValue);
 	}
 
-	private void copyTemplate(final TitanUniversalCharString_template otherValue) {
+	private void copy_template(final TitanUniversalCharString_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanUniversalCharString(otherValue.single_value);
@@ -498,7 +498,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		final List<TitanUniversalChar> otherStr = otherValue.getValue();
 		final int otherLen = otherStr.size();
-		if (!match_length(otherValue.lengthOf().getInt())) {
+		if (!match_length(otherValue.lengthof().getInt())) {
 			return false;
 		}
 
@@ -576,7 +576,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a universal charstring template which has an ifpresent attribute.");
 		}
@@ -585,7 +585,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		boolean has_any_or_none;
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthOf().getInt();
+			min_length = single_value.lengthof().getInt();
 			has_any_or_none = false;
 			break;
 		case OMIT_VALUE:
@@ -602,9 +602,9 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a universal charstring template containing an empty list.");
 			}
-			final int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthof().getInt();
 			for (int i = 1; i < value_list.size(); ++i) {
-				if (value_list.get(i).lengthOf().getInt() != item_length) {
+				if (value_list.get(i).lengthof().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a universal charstring template containing a value list with different lengths.");
 				}
 			}
@@ -633,7 +633,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
-	public void setType(final template_sel otherValue, final int lenght) {
+	public void set_type(final template_sel otherValue, final int lenght) {
 		clean_up();
 		switch (otherValue) {
 		case VALUE_LIST:
@@ -660,7 +660,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
-	public TitanUniversalCharString_template listItem(final int listIndex) {
+	public TitanUniversalCharString_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST &&
 				template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list universal charstring template.");
@@ -681,7 +681,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
-		final int length = minValue.lengthOf().getInt();
+		final int length = minValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
 		}
@@ -701,7 +701,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
-		final int length = maxValue.lengthOf().getInt();
+		final int length = maxValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
 		}
@@ -760,7 +760,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
-		final int length = minValue.lengthOf().getInt();
+		final int length = minValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
 		}
@@ -780,7 +780,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
-		final int length = maxValue.lengthOf().getInt();
+		final int length = maxValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
 		}
@@ -857,7 +857,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public void log() {
 		switch (template_selection) {
 		case STRING_PATTERN:
-			TitanCharString_template.log_pattern(pattern_string.lengthOf().getInt(), pattern_string.getValue().toString(), pattern_value_nocase);
+			TitanCharString_template.log_pattern(pattern_string.lengthof().getInt(), pattern_string.getValue().toString(), pattern_value_nocase);
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
@@ -992,9 +992,9 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

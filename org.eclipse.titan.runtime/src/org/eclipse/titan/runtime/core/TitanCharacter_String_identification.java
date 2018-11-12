@@ -102,7 +102,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	}
 
-	public boolean isChosen(final TitanCharacter_String_identification.union_selection_type checked_selection) {
+	public boolean ischosen(final TitanCharacter_String_identification.union_selection_type checked_selection) {
 		if(checked_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type CHARACTER STRING.identification.");
 		}

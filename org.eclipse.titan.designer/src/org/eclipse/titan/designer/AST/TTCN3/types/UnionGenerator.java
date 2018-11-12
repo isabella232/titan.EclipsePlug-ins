@@ -360,7 +360,7 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * Generate the isChosen function
+	 * Generate the ischosen function
 	 *
 	 * @param source
 	 *                where the source code is to be generated.
@@ -368,7 +368,7 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
-		source.append("public boolean isChosen(final union_selection_type checked_selection) {\n");
+		source.append("public boolean ischosen(final union_selection_type checked_selection) {\n");
 		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -1428,7 +1428,7 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * Generate the isChosen function
+	 * Generate the ischosen function
 	 *
 	 * @param source
 	 *                where the source code is to be generated.
@@ -1439,7 +1439,7 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
-		source.append(MessageFormat.format("public boolean isChosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
+		source.append(MessageFormat.format("public boolean ischosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
 		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -1454,7 +1454,7 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
 		source.append("}\n");
 		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
-		source.append("if(!value_list.get(i).isChosen(checked_selection)) {\n");
+		source.append("if(!value_list.get(i).ischosen(checked_selection)) {\n");
 						//FIXME this is incorrect in the compiler
 		source.append("return false;\n");
 		source.append("}\n");
@@ -1533,7 +1533,7 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * Generate the setType function
+	 * Generate the set_type function
 	 *
 	 * @param source
 	 *                where the source code is to be generated.
@@ -1545,7 +1545,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
 		source.append("@Override\n");
-		source.append("public void setType(final template_sel template_type, final int list_length) {\n");
+		source.append("public void set_type(final template_sel template_type, final int list_length) {\n");
 		source.append("if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -1560,7 +1560,7 @@ public final class UnionGenerator {
 	}
 
 	/**
-	 * Generate the listItem function
+	 * Generate the list_item function
 	 *
 	 * @param source
 	 *                where the source code is to be generated.
@@ -1572,7 +1572,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template listItem(final int list_index)  '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template list_item(final int list_index)  '{'\n", genName));
 		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -1927,9 +1927,9 @@ public final class UnionGenerator {
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
 		source.append("final int size = param.get_size();\n");
-		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
 		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("list_item(i).set_param(param.get_elem(i));\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");

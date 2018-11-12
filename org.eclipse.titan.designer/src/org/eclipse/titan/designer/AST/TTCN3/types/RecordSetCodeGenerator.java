@@ -580,7 +580,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating sizeOf() function
+	 * Generating size_of() function
 	 * 
 	 * @param aData
 	 *                used to access build settings.
@@ -599,7 +599,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append("\t\t * @return the size of the structure.\n");
 			aSb.append("\t\t * */\n");
 		}
-		aSb.append( "\t\tpublic TitanInteger sizeOf() {\n" );
+		aSb.append( "\t\tpublic TitanInteger size_of() {\n" );
 		//number of non-optional fields
 		int size = 0;
 		for ( final FieldInfo fi : aNamesList ) {
@@ -1619,7 +1619,7 @@ public final class RecordSetCodeGenerator {
 				+ "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit() || {0}.is_bound()) '{'\n"
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_omit() || {0}.is_bound()) '{'\n"
 						+ "\t\t\t\treturn true;\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			} else {
@@ -1648,7 +1648,7 @@ public final class RecordSetCodeGenerator {
 				+ "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isOmit() && !{0}.is_value()) '{'\n"
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.is_omit() && !{0}.is_value()) '{'\n"
 						+ "\t\t\t\treturn false;\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			} else {
@@ -1822,7 +1822,7 @@ public final class RecordSetCodeGenerator {
 				source.append(" * */\n");
 			}
 			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append("\t\tsetSpecific();\n");
+			source.append("\t\tset_specific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n\n");
 
@@ -1842,7 +1842,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t}\n\n");
 		}
 
-		source.append("\tprivate void setSpecific() {\n");
+		source.append("\tprivate void set_specific() {\n");
 		source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tfinal template_sel old_selection = template_selection;\n");
 		source.append("\t\t\tclean_up();\n");
@@ -1913,7 +1913,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
-		source.append("\t\tcopyValue(otherValue);\n");
+		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1927,7 +1927,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
-		source.append("\t\tcopyTemplate( otherValue );\n");
+		source.append("\t\tcopy_template( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1944,7 +1944,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", genName ) );
 		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopyValue(otherValue.constGet());\n");
+		source.append("\t\t\tcopy_value(otherValue.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
 		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
@@ -1991,7 +1991,7 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tclean_up();\n");
-		source.append("\t\tcopyValue(otherValue);\n");
+		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n\n");
 
@@ -2010,7 +2010,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tif (otherValue != this) {\n");
 		source.append("\t\t\tclean_up();\n");
-		source.append("\t\t\tcopyTemplate(otherValue);\n");
+		source.append("\t\t\tcopy_template(otherValue);\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
@@ -2049,7 +2049,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopyValue(otherValue.constGet());\n");
+		source.append("\t\t\tcopy_value(otherValue.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
 		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
@@ -2076,7 +2076,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate void copyValue(final {0} other_value) '{'\n", genName));
+		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
@@ -2096,7 +2096,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
+		source.append( MessageFormat.format( "\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		for ( final FieldInfo fi : aNamesList ) {
@@ -2201,7 +2201,7 @@ public final class RecordSetCodeGenerator {
 		aSb.append( MessageFormat.format( "\t\t\tfinal {0} ret_val = new {0}();\n", genName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit()) '{'\n", fi.mVarName )  );
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_omit()) '{'\n", fi.mVarName )  );
 				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				aSb.append("\t\t\t} else ");
 			} else {
@@ -2216,7 +2216,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating listItem() function for template
+	 * Generating list_item() function for template
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -2229,7 +2229,7 @@ public final class RecordSetCodeGenerator {
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("@Override\n");
-		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic {0}_template list_item(final int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
@@ -2241,7 +2241,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating setType() function for template
+	 * Generating set_type() function for template
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -2254,7 +2254,7 @@ public final class RecordSetCodeGenerator {
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("@Override\n");
-		aSb.append("\t\tpublic void setType(final template_sel template_type, final int list_length) {\n");
+		aSb.append("\t\tpublic void set_type(final template_sel template_type, final int list_length) {\n");
 		aSb.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
@@ -2353,7 +2353,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating sizeOf() function
+	 * Generating size_of() function
 	 * 
 	 * @param aData
 	 *                used to access build settings.
@@ -2374,7 +2374,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append("\t\t * @return the size of the structure.\n");
 			aSb.append("\t\t * */\n");
 		}
-		aSb.append( "\t\tpublic TitanInteger sizeOf() {\n" );
+		aSb.append( "\t\tpublic TitanInteger size_of() {\n" );
 		aSb.append( "\t\t\tif (is_ifPresent) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} which has an ifpresent attribute.\");\n", displayName ) );
 		aSb.append( "\t\t\t}\n" );
@@ -2407,9 +2407,9 @@ public final class RecordSetCodeGenerator {
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t}\n" );
-		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).sizeOf().getInt();\n" );
+		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).size_of().getInt();\n" );
 		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_value.size(); l_idx++) {\n" );
-		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).sizeOf().getInt() != item_size) {\n" );
+		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).size_of().getInt() != item_size) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing a value list with different sizes.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\t}\n" );
@@ -2687,9 +2687,9 @@ public final class RecordSetCodeGenerator {
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
 		source.append("final int size = param.get_size();\n");
-		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
 		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("list_item(i).set_param(param.get_elem(i));\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");
@@ -3164,7 +3164,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", className));
-		source.append("copyTemplate( other_value );\n");
+		source.append("copy_template( other_value );\n");
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -3219,7 +3219,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("public {0}_template assign(final {0}_template other_value) '{'\n", className));
 		source.append("if (other_value != this) {\n");
 		source.append("clean_up();\n");
-		source.append("copyTemplate(other_value);\n");
+		source.append("copy_template(other_value);\n");
 		source.append("}\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -3255,7 +3255,7 @@ public final class RecordSetCodeGenerator {
 		source.append("return this;\n");
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public void copyTemplate(final {0}_template other_value) '{'\n", className));
+		source.append(MessageFormat.format("public void copy_template(final {0}_template other_value) '{'\n", className));
 		source.append("switch (other_value.template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("case OMIT_VALUE:\n");
@@ -3325,7 +3325,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", className ) );
+		source.append( MessageFormat.format( "\t\tpublic {0}_template list_item(final int list_index) '{'\n", className ) );
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
@@ -3336,7 +3336,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t}\n\n");
 
 		source.append("@Override\n");
-		source.append("\t\tpublic void setType(final template_sel template_type, final int list_length) {\n");
+		source.append("\t\tpublic void set_type(final template_sel template_type, final int list_length) {\n");
 		source.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
@@ -3539,9 +3539,9 @@ public final class RecordSetCodeGenerator {
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
 		source.append("final int size = param.get_size();\n");
-		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
 		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("list_item(i).set_param(param.get_elem(i));\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");

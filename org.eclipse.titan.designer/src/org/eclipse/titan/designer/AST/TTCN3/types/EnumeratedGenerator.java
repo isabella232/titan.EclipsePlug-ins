@@ -1096,7 +1096,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateSetType(final StringBuilder source, final String name){
 		source.append("@Override\n");
-		source.append("public void setType(final template_sel templateType, final int list_length) {\n");
+		source.append("public void set_type(final template_sel templateType, final int list_length) {\n");
 		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
@@ -1236,7 +1236,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template listItem(final int list_index) '{'\n", name));
+		source.append(MessageFormat.format("public {0}_template list_item(final int list_index) '{'\n", name));
 		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
@@ -1355,9 +1355,9 @@ public final class EnumeratedGenerator {
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
 		source.append("final int size = param.get_size();\n");
-		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
 		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("list_item(i).set_param(param.get_elem(i));\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");

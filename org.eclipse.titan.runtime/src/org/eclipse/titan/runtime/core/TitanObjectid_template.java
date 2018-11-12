@@ -90,7 +90,7 @@ public class TitanObjectid_template extends Base_Template {
 	 * */
 	public TitanObjectid_template(final TitanObjectid_template otherValue) {
 
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
-	private void copyTemplate(final TitanObjectid_template otherValue) {
+	private void copy_template(final TitanObjectid_template otherValue) {
 		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = otherValue.single_value;
@@ -169,7 +169,7 @@ public class TitanObjectid_template extends Base_Template {
 	public TitanObjectid_template assign(final TitanObjectid_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
@@ -271,10 +271,10 @@ public class TitanObjectid_template extends Base_Template {
 	 *
 	 * @return the number of elements.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.sizeOf();
+			return single_value.size_of();
 		case OMIT_VALUE:
 			throw new TtcnError("Performing sizeof() operation on an objid template containing omit value.");
 		case ANY_VALUE:
@@ -285,9 +285,9 @@ public class TitanObjectid_template extends Base_Template {
 				throw new TtcnError("Internal error: Performing sizeof() operation on an objid template containing an empty list.");
 			}
 
-			final TitanInteger item_size = value_list.get(0).sizeOf();
+			final TitanInteger item_size = value_list.get(0).size_of();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (!value_list.get(i).sizeOf().operatorEquals(item_size)) {
+				if (!value_list.get(i).size_of().operatorEquals(item_size)) {
 					throw new TtcnError(
 							"Performing sizeof() operation on an objid template containing a value list with different sizes.");
 				}
@@ -302,7 +302,7 @@ public class TitanObjectid_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel template_type, final int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for an objid template.");
 		}
@@ -315,7 +315,7 @@ public class TitanObjectid_template extends Base_Template {
 	}
 
 	@Override
-	public TitanObjectid_template listItem(final int list_index) {
+	public TitanObjectid_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list objid template.");
 		}
@@ -368,9 +368,9 @@ public class TitanObjectid_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanObjectid_template temp = new TitanObjectid_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			this.assign(temp);
 			break;

@@ -51,7 +51,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_context__negotiation_template( final TitanCharacter_String_identification_context__negotiation otherValue ) {
-		copyValue(otherValue);
+		copy_value(otherValue);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_context__negotiation_template( final TitanCharacter_String_identification_context__negotiation_template otherValue ) {
-		copyTemplate( otherValue );
+		copy_template( otherValue );
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	public TitanCharacter_String_identification_context__negotiation_template( final Optional<TitanCharacter_String_identification_context__negotiation> otherValue ) {
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(otherValue.constGet());
+			copy_value(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -106,7 +106,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 */
 	public TitanCharacter_String_identification_context__negotiation_template assign( final TitanCharacter_String_identification_context__negotiation otherValue ) {
 		clean_up();
-		copyValue(otherValue);
+		copy_value(otherValue);
 		return this;
 	}
 
@@ -123,7 +123,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	public TitanCharacter_String_identification_context__negotiation_template assign( final TitanCharacter_String_identification_context__negotiation_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 		return this;
 	}
@@ -160,7 +160,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
-			copyValue(otherValue.constGet());
+			copy_value(otherValue.constGet());
 			break;
 		case OPTIONAL_OMIT:
 			set_selection(template_sel.OMIT_VALUE);
@@ -171,7 +171,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		return this;
 	}
 
-	private void copyValue(final TitanCharacter_String_identification_context__negotiation other_value) {
+	private void copy_value(final TitanCharacter_String_identification_context__negotiation other_value) {
 		if (other_value.getpresentation__context__id().is_bound()) {
 			getpresentation__context__id().assign(other_value.getpresentation__context__id());
 		} else {
@@ -185,7 +185,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
-	private void copyTemplate(final TitanCharacter_String_identification_context__negotiation_template other_value) {
+	private void copy_template(final TitanCharacter_String_identification_context__negotiation_template other_value) {
 		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getpresentation__context__id().get_selection()) {
@@ -218,7 +218,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	}
 
 	@Override
-	public void setType(final template_sel template_type, final int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.identification.context-negotiation.");
 		}
@@ -308,7 +308,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 * @return the field presentation-context-id.
 	 * */
 	public TitanInteger_template getpresentation__context__id() {
-		setSpecific();
+		set_specific();
 		return presentation__context__id;
 	}
 
@@ -332,7 +332,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 * @return the field transfer-syntax.
 	 * */
 	public TitanObjectid_template gettransfer__syntax() {
-		setSpecific();
+		set_specific();
 		return transfer__syntax;
 	}
 
@@ -349,7 +349,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		return transfer__syntax;
 	}
 
-	private void setSpecific() {
+	private void set_specific() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -449,7 +449,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing sizeof() operation on a template of type CHARACTER STRING.identification.context-negotiation which has an ifpresent attribute.");
 		}
@@ -460,9 +460,9 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type CHARACTER STRING.identification.context-negotiation containing an empty list.");
 			}
-			final int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).size_of().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
+				if (list_value.get(l_idx).size_of().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type CHARACTER STRING.identification.context-negotiation containing a value list with different sizes.");
 				}
 			}
@@ -480,7 +480,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	}
 
 	@Override
-	public TitanCharacter_String_identification_context__negotiation_template listItem(final int list_index) {
+	public TitanCharacter_String_identification_context__negotiation_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.identification.context-negotiation.");
 		}
@@ -669,9 +669,9 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final int size = param.get_size();
-			setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+			set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
 			for (int i = 0; i < size; i++) {
-				listItem(i).set_param(param.get_elem(i));
+				list_item(i).set_param(param.get_elem(i));
 			}
 			break;
 		}

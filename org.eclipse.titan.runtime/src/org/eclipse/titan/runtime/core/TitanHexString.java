@@ -233,7 +233,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally lengthof
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		mustBound("Performing lengthof operation on an unbound charstring value.");
 
 		return new TitanInteger(nibbles_ptr.length);

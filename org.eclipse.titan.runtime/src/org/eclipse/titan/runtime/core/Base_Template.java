@@ -227,7 +227,7 @@ public abstract class Base_Template {
 		return get_istemplate_kind(type.getValue().toString());
 	}
 
-	public boolean isOmit() {
+	public boolean is_omit() {
 		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent;
 	}
 
@@ -303,8 +303,8 @@ public abstract class Base_Template {
 	 *                the template kind to set (value list or complemented
 	 *                list).
 	 * */
-	public void setType(final template_sel template_type) {
-		setType(template_type, 0);
+	public void set_type(final template_sel template_type) {
+		set_type(template_type, 0);
 	}
 
 	/**
@@ -322,14 +322,14 @@ public abstract class Base_Template {
 	 * @param list_length
 	 *                the length the list should be initialized to.
 	 * */
-	public abstract void setType(final template_sel template_type, final int list_length);
+	public abstract void set_type(final template_sel template_type, final int list_length);
 
 	/**
 	 * Returns the template at the specified position in a value list or
 	 * complemented list template.
 	 * <p>
-	 * Under and over indexing causes dyanimc testcase error, also if the
-	 * template is not a value list or complemente list template.
+	 * Under and over indexing causes dynamic testcase error, also if the
+	 * template is not a value list or complemented list template.
 	 * <p>
 	 * list_item in the core.
 	 * 
@@ -337,7 +337,7 @@ public abstract class Base_Template {
 	 *                index of the element to return
 	 * @return the template at the specified position in this list
 	 */
-	public abstract Base_Template listItem(final int list_index);
+	public abstract Base_Template list_item(final int list_index);
 
 	/**
 	 * Logs this template.

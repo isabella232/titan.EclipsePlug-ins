@@ -231,7 +231,7 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		int sizeof = 2;
 		if (data__value__descriptor.ispresent()) {
 			sizeof++;

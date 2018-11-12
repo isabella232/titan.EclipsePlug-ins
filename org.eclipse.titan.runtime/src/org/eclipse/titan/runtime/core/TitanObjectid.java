@@ -230,7 +230,7 @@ public class TitanObjectid extends Base_Type {
 	 *
 	 * @return the number of elements.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		if (components_ptr == null) {
 			throw new TtcnError("Getting the size of an unbound objid value.");
 		}

@@ -1382,7 +1382,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
 		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
-				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"sizeOf()"));
+				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"size_of()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		closingBrackets.insert(0, "}\n");
@@ -1405,7 +1405,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId, field));
+				expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId, field));
 				expression.expression.append("}\n");
 			}
 		}

@@ -195,7 +195,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 *
 	 * @return the size of the structure.
 	 * */
-	public TitanInteger sizeOf() {
+	public TitanInteger size_of() {
 		return new TitanInteger(2);
 	}
 

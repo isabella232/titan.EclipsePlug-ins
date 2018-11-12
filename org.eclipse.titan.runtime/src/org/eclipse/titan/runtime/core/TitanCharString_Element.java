@@ -269,7 +269,7 @@ public class TitanCharString_Element {
 		mustBound("Unbound operand of charstring element concatenation.");
 		aOtherValue.mustBound("Unbound operand of charstring concatenation.");
 
-		final int nChars = aOtherValue.lengthOf().getInt();
+		final int nChars = aOtherValue.lengthof().getInt();
 		final StringBuilder ret_val = new StringBuilder(nChars + 1);
 		ret_val.append(str_val.constGetAt(char_pos).get_char());
 		ret_val.append(aOtherValue.getValue());
@@ -301,7 +301,7 @@ public class TitanCharString_Element {
 		} else {
 			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 			ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char()));
-			for (int i = 0; i < aOtherValue.lengthOf().getInt(); i++) {
+			for (int i = 0; i < aOtherValue.lengthof().getInt(); i++) {
 				ret_val.add(aOtherValue.charAt(i));
 			}
 

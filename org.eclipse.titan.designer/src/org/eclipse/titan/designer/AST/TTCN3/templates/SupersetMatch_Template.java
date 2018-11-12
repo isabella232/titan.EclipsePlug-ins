@@ -190,7 +190,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			final StringBuilder setType = new StringBuilder();
 			final StringBuilder variableReferences[] = new StringBuilder[templates.getNofTemplates()];
 
-			setType.append(MessageFormat.format("{0}.setType(template_sel.SUPERSET_MATCH, {1}", name, fixedPart));
+			setType.append(MessageFormat.format("{0}.set_type(template_sel.SUPERSET_MATCH, {1}", name, fixedPart));
 
 			for (int v = 0; v < variables.size(); v++) {
 				final TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
@@ -269,7 +269,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				}
 			}
 		} else {
-			source.append(MessageFormat.format("{0}.setType(template_sel.SUPERSET_MATCH, {1});\n", name, templates.getNofTemplates()));
+			source.append(MessageFormat.format("{0}.set_type(template_sel.SUPERSET_MATCH, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
 				final TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.needsTemporaryReference()) {

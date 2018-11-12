@@ -245,8 +245,8 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {0}_default_coding).operatorNotEquals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope)));
 		source.append("TtcnError.TtcnWarning(\"Decoded content matching failed, because the data could not be decoded.\");\n");
 		source.append("ret_val = false;\n");
-		source.append("} else if (os.lengthOf().operatorNotEquals(0)) {\n");
-		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthOf().getInt()));\n");
+		source.append("} else if (os.lengthof().operatorNotEquals(0)) {\n");
+		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthof().getInt()));\n");
 		source.append("ret_val = false;\n");
 		source.append("} else {\n");
 		source.append("ret_val = target.match(dec_val, true);\n");
@@ -274,7 +274,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append("}\n");
 		source.append( "};\n" );
 
-		source.append(MessageFormat.format("{0}.setType(template_sel.DECODE_MATCH, 0);\n", name));
+		source.append(MessageFormat.format("{0}.set_type(template_sel.DECODE_MATCH, 0);\n", name));
 		source.append("{\n");
 		// generate the decoding target into a temporary
 		final String target_tempID = aData.getTemporaryVariableName();

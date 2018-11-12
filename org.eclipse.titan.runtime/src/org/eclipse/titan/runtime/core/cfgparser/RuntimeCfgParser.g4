@@ -2050,14 +2050,14 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 	s1 = pr_UniversalOrNotStringValue
 	{	if ($s1.cstr instanceof TitanCharString) {
 			final TitanCharString cs = (TitanCharString)$s1.cstr;
-			if (cs.lengthOf().operatorNotEquals(1)) {
+			if (cs.lengthof().operatorNotEquals(1)) {
 				config_process_error("Lower bound of char range must be 1 character only");
 			} else {
 				lower = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
 			}
 		} else {
 			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s1.cstr;
-			if (ucs.lengthOf().operatorNotEquals(1)) {
+			if (ucs.lengthof().operatorNotEquals(1)) {
 				config_process_error("Lower bound of char range must be 1 character only");
 			} else {
 				lower = ucs.getValue().get(0);
@@ -2068,14 +2068,14 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 	s2 = pr_UniversalOrNotStringValue
 	{	if ($s2.cstr instanceof TitanCharString) {
 			final TitanCharString cs = (TitanCharString)$s2.cstr;
-			if (cs.lengthOf().operatorNotEquals(1)) {
+			if (cs.lengthof().operatorNotEquals(1)) {
 				config_process_error("Upper bound of char range must be 1 character only");
 			} else {
 				upper = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
 			}
 		} else {
 			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s2.cstr;
-			if (ucs.lengthOf().operatorNotEquals(1)) {
+			if (ucs.lengthof().operatorNotEquals(1)) {
 				config_process_error("Upper bound of char range must be 1 character only");
 			} else {
 				upper = ucs.getValue().get(0);

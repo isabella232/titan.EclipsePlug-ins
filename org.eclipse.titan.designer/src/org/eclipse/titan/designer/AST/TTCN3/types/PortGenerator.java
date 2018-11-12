@@ -2007,7 +2007,7 @@ public final class PortGenerator {
 					source.append("} else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
-					source.append("if (slider.lengthOf().getInt() == 0) {\n");
+					source.append("if (slider.lengthof().getInt() == 0) {\n");
 					source.append("return;\n");
 					source.append("}\n");
 					source.append("if (decoding_result == 2) {\n");

@@ -128,7 +128,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	 *                the template to initialize to.
 	 * */
 	public TitanCharString_template(final TitanCharString_template otherValue) {
-		copyTemplate(otherValue);
+		copy_template(otherValue);
 	}
 
 	public TitanCharString_template(final template_sel p_sel, final TitanCharString p_str) {
@@ -251,13 +251,13 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	public TitanCharString_template assign(final TitanCharString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
-			copyTemplate(otherValue);
+			copy_template(otherValue);
 		}
 
 		return this;
 	}
 
-	private void copyTemplate(final TitanCharString_template otherValue) {
+	private void copy_template(final TitanCharString_template otherValue) {
 		switch (otherValue.template_selection) {
 		case STRING_PATTERN:
 			pattern_value_regexp_init = false;
@@ -372,7 +372,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			return false;
 		}
 
-		final TitanInteger value_length = otherValue.lengthOf();
+		final TitanInteger value_length = otherValue.lengthof();
 		if (!match_length(value_length.getInt())) {
 			return false;
 		}
@@ -458,7 +458,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public void setType(final template_sel templateType, final int listLength) {
+	public void set_type(final template_sel templateType, final int listLength) {
 		clean_up();
 		switch (templateType) {
 		case VALUE_LIST:
@@ -485,7 +485,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanCharString_template listItem(final int listIndex) {
+	public TitanCharString_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");
 		}
@@ -525,7 +525,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally lengthOf
-	public TitanInteger lengthOf() {
+	public TitanInteger lengthof() {
 		int min_length = 0;
 		boolean has_any_or_none = false;
 		if (is_ifPresent) {
@@ -533,7 +533,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthOf().getInt();
+			min_length = single_value.lengthof().getInt();
 			has_any_or_none = false;
 			break;
 		case OMIT_VALUE:
@@ -550,9 +550,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a charstring template containing an empty list.");
 			}
-			final int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthof().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthOf().getInt() != item_length) {
+				if (value_list.get(i).lengthof().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a charstring template containing a value list with different lengths.");
 				}
 			}
@@ -583,7 +583,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		min_is_set = true;
 		min_is_exclusive = false;
 		min_value = new TitanCharString(otherMinValue);
-		if (max_is_set && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
+		if (max_is_set && min_value.lengthof().getInt() > (max_value.lengthof().getInt())) {
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 		}
 	}
@@ -595,14 +595,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
 
-		final int length = otherMinValue.lengthOf().getInt();
+		final int length = otherMinValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of `{0}''. ", length));
 		}
 		min_is_set = true;
 		min_is_exclusive = false;
 		min_value = new TitanCharString(otherMinValue);
-		if (max_is_set && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
+		if (max_is_set && min_value.lengthof().getInt() > (max_value.lengthof().getInt())) {
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 		}
 	}
@@ -620,7 +620,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		max_is_set = true;
 		max_is_exclusive = false;
 		max_value = new TitanCharString(otherMaxValue);
-		if (min_is_set && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
+		if (min_is_set && min_value.lengthof().getInt() > max_value.lengthof().getInt()) {
 			throw new TtcnError(MessageFormat.format("The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
 		}
 	}
@@ -632,14 +632,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		otherMaxValue.mustBound("Setting an unbound value as upper bound in a charstring value range template.");
 
-		final int length = otherMaxValue.lengthOf().getInt();
+		final int length = otherMaxValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError(MessageFormat.format("The length of the upper bound in a charstring value range template must be 1 instead of {0}.", length));
 		}
 		max_is_set = true;
 		max_is_exclusive = false;
 		max_value = new TitanCharString(otherMaxValue);
-		if (min_is_set && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
+		if (min_is_set && min_value.lengthof().getInt() > max_value.lengthof().getInt()) {
 			throw new TtcnError(MessageFormat.format("The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
 		}
 	}
@@ -690,7 +690,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	public void log() {
 		switch (template_selection) {
 		case STRING_PATTERN:
-			log_pattern(single_value.lengthOf().getInt(), single_value.getValue().toString(), pattern_value_nocase);
+			log_pattern(single_value.lengthof().getInt(), single_value.getValue().toString(), pattern_value_nocase);
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
@@ -771,9 +771,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final TitanCharString_template temp = new TitanCharString_template();
-			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				temp.listItem(i).set_param(param.get_elem(i));
+				temp.list_item(i).set_param(param.get_elem(i));
 			}
 			assign(temp);
 			break;

@@ -309,7 +309,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		final ExpressionStruct expression = new ExpressionStruct();
 		final StringBuilder initStatement = new StringBuilder();
 		initStatement.append(name);
-		initStatement.append(".setType( template_sel.VALUE_RANGE );\n");
+		initStatement.append(".set_type( template_sel.VALUE_RANGE );\n");
 		if(min != null) {
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IValue last = min.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);

@@ -305,7 +305,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV_identification.");
 	}
 
-	public boolean isChosen(final TitanEmbedded_PDV_identification.union_selection_type checked_selection) {
+	public boolean ischosen(final TitanEmbedded_PDV_identification.union_selection_type checked_selection) {
 		if(checked_selection == TitanEmbedded_PDV_identification.union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type EMBEDDED PDV.identification.");
 		}
@@ -320,7 +320,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 				throw new TtcnError("Internal error: Performing ischosen() operation on a template of union type EMBEDDED PDV.identification containing an empty list.");
 			}
 			for (int i = 0; i < value_list.size(); i++) {
-				if(!value_list.get(i).isChosen(checked_selection)) {
+				if(!value_list.get(i).ischosen(checked_selection)) {
 					return false;
 				}
 			}
@@ -385,7 +385,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 	}
 
 	@Override
-	public void setType(final template_sel template_type, final int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list for a template of union type EMBEDDED PDV.identification.");
 		}
@@ -398,7 +398,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanEmbedded_PDV_identification_template listItem(final int list_index)  {
+	public TitanEmbedded_PDV_identification_template list_item(final int list_index)  {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type EMBEDDED PDV.identification.");
 		}
@@ -909,9 +909,9 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
 			final int size = param.get_size();
-			setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
+			set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);
 			for (int i = 0; i < size; i++) {
-				listItem(i).set_param(param.get_elem(i));
+				list_item(i).set_param(param.get_elem(i));
 			}
 			break;
 		}

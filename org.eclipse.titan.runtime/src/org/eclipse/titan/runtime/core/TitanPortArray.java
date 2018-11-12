@@ -125,12 +125,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	 *
 	 * @return the number of elements.
 	 * */
-	public int sizeOf() {
+	public int size_of() {
 		return array_size;
 	}
 
 	//originally lengthof
-	public int lengthOf() {
+	public int lengthof() {
 		return array_size;
 	}
 

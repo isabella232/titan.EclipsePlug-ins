@@ -34,7 +34,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	public TitanRecordOf(final TitanRecordOf other_value) {
 		other_value.mustBound("Copying an unbound record of/set of value.");
 		ofType = other_value.ofType;
-		valueElements = copyList(other_value.valueElements);
+		valueElements = copy_list(other_value.valueElements);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		}
 		valueElements = new ArrayList<Base_Type>(new_size);
 		for (int i = 0; i < new_size; i++) {
-			final Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = get_unbound_elem();
 			newElem.decode_text(text_buf);
 			valueElements.add(newElem);
 		}
@@ -176,14 +176,14 @@ public abstract class TitanRecordOf extends Base_Type {
 		return this;
 	}
 
-	public final List<Base_Type> copyList(final List<Base_Type> srcList) {
+	public final List<Base_Type> copy_list(final List<Base_Type> srcList) {
 		if (srcList == null) {
 			return null;
 		}
 
 		final List<Base_Type> newList = new ArrayList<Base_Type>(srcList.size());
 		for (final Base_Type srcElem : srcList) {
-			final Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = get_unbound_elem();
 			newElem.assign(srcElem);
 			newList.add(newElem);
 		}
@@ -204,7 +204,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		}
 
 		if (valueElements.get(index_value) == null) {
-			final Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = get_unbound_elem();
 			valueElements.set(index_value, newElem);
 		}
 		return valueElements.get(index_value);
@@ -231,7 +231,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		}
 
 		final Base_Type elem = valueElements.get(index_value);
-		return (elem != null) ? elem : getUnboundElem();
+		return (elem != null) ? elem : get_unbound_elem();
 	}
 
 	//originally get_at(const INTEGER&) const
@@ -241,7 +241,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		return constGetAt(index_value.getInt());
 	}
 
-	private Base_Type getUnboundElem() {
+	private Base_Type get_unbound_elem() {
 		try {
 			return ofType.newInstance();
 		} catch (Exception e) {

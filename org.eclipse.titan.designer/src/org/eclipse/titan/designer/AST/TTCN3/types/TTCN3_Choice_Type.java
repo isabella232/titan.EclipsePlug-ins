@@ -765,7 +765,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append("}\n");
 
 		final CompField compField = getComponentByName(fieldId.getName());
@@ -787,7 +787,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+				expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 				expression.expression.append("}\n");
 			}
 		}

@@ -1373,7 +1373,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				expression.expression.append(MessageFormat.format("{0}.is_present({1})", ass_id2, isTemplate && aData.getAllowOmitInValueList()? "true":""));
 				break;
 			case ISCHOOSEN_OPERATION:
-				expression.expression.append(MessageFormat.format("{0}.isChosen({1})", ass_id2, field));
+				expression.expression.append(MessageFormat.format("{0}.ischosen({1})", ass_id2, field));
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");
