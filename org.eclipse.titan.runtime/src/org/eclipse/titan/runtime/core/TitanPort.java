@@ -1840,7 +1840,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public void setName(final String name) {
+	public void set_name(final String name) {
 		if (name == null) {
 			throw new TtcnError("Internal error: Setting an invalid name for a single element of a port array.");
 		}

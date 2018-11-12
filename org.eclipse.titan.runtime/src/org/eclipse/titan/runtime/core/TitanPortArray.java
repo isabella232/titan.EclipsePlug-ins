@@ -134,11 +134,11 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return array_size;
 	}
 
-	//originally set_name
+	@Override
 	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
 			names[i] = name_string + '[' + i + ']';
-			array_elements[i].setName(names[i]);
+			array_elements[i].set_name(names[i]);
 		}
 	}
 
