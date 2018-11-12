@@ -506,7 +506,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 
 		final String tempID = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
-		expression.preamble.append(MessageFormat.format("{0}_encoder({1}{2}, {3}, {4});\n", governor.getGenNameCoder(aData, expression.expression, scope), expression2.expression, isValue?"":".valueOf()", tempID, expression3.expression));
+		expression.preamble.append(MessageFormat.format("{0}_encoder({1}{2}, {3}, {4});\n", governor.getGenNameCoder(aData, expression.expression, scope), expression2.expression, isValue?"":".valueof()", tempID, expression3.expression));
 		expression.expression.append(MessageFormat.format("AdditionalFunctions.oct2unichar({0}, {1})", tempID, v2_code));
 		if (expression2.postamble.length() > 0) {
 			expression.postamble.append(expression2.postamble);

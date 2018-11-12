@@ -283,13 +283,12 @@ public abstract class Base_Template {
 	public abstract boolean match(final Base_Type otherValue, final boolean legacy);
 
 	/**
-	 * Returns the value of a specific value template, causes dynamic testcase error otherwise.
-	 *<p>
-	 * valueof() in the core.
+	 * Returns the value of a specific value template, causes dynamic
+	 * testcase error otherwise.
 	 *
 	 * @return the value of the specific value template.
 	 * */
-	public abstract Base_Type valueOf();
+	public abstract Base_Type valueof();
 
 	/**
 	 * Sets the type of the template to the provided value list or

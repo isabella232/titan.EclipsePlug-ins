@@ -55,7 +55,7 @@ public class TitanGeneralString_template extends TitanUniversalCharString_templa
 	}
 
 	@Override
-	public TitanGeneralString valueOf() {
+	public TitanGeneralString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `general string' template.");
 		}

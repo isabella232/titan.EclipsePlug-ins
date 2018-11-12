@@ -635,7 +635,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanValueArray<Tvalue> valueOf() {
+	public TitanValueArray<Tvalue> valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific array template.");
 		}
@@ -645,7 +645,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 		final TitanValueArray<Tvalue> result = new TitanValueArray<Tvalue>(classValue, array_size, indexOffset);
 		for (int i = 0; i < array_size; ++i) {
-			result.array_elements[i] = (Tvalue)single_value[i].valueOf();
+			result.array_elements[i] = (Tvalue)single_value[i].valueof();
 		}
 //		result.array_size = array_size;
 //		result.setOffset(indexOffset);

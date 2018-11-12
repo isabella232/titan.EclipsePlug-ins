@@ -530,7 +530,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBitString valueOf() {
+	public TitanBitString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific bitstring template.");
 		}

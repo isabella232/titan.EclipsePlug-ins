@@ -1226,7 +1226,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", name));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", name));
 		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
 		source.append("}\n");

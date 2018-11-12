@@ -348,7 +348,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean valueOf() {
+	public TitanBoolean valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing valueof or send operation on a non-specific boolean template.");
 		}

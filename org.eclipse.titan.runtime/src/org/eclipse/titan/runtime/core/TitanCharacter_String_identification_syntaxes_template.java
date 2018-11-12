@@ -429,16 +429,16 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 
 
 	@Override
-	public TitanCharacter_String_identification_syntaxes valueOf() {
+	public TitanCharacter_String_identification_syntaxes valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.identification.syntaxes.");
 		}
 		final TitanCharacter_String_identification_syntaxes ret_val = new TitanCharacter_String_identification_syntaxes();
 		if (abstract_.is_bound()) {
-			ret_val.getabstract_().assign(abstract_.valueOf());
+			ret_val.getabstract_().assign(abstract_.valueof());
 		}
 		if (transfer.is_bound()) {
-			ret_val.gettransfer().assign(transfer.valueOf());
+			ret_val.gettransfer().assign(transfer.valueof());
 		}
 		return ret_val;
 	}

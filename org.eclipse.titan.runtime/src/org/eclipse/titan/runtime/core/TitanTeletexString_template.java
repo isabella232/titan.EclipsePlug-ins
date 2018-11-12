@@ -55,7 +55,7 @@ public class TitanTeletexString_template extends TitanUniversalCharString_templa
 	}
 
 	@Override
-	public TitanTeletexString valueOf() {
+	public TitanTeletexString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `teletex string' template.");
 		}

@@ -2179,7 +2179,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating valueOf() function for template
+	 * Generating valueof() function for template
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -2194,7 +2194,7 @@ public final class RecordSetCodeGenerator {
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("@Override\n");
-		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic {0} valueof() '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
@@ -2208,7 +2208,7 @@ public final class RecordSetCodeGenerator {
 				aSb.append("\t\t\t ");
 			}
 			aSb.append( MessageFormat.format( "if ({0}.is_bound()) '{'\n", fi.mVarName )  );
-			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get{0}().assign({0}.valueOf());\n", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get{0}().assign({0}.valueof());\n", fi.mVarName ) );
 			aSb.append("\t\t\t}\n");
 		}
 		aSb.append("\t\t\treturn ret_val;\n");
@@ -3317,7 +3317,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", className));
 		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");

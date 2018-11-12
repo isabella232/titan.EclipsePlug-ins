@@ -482,21 +482,21 @@ public class TitanExternal_template extends Base_Template {
 
 
 	@Override
-	public TitanExternal valueOf() {
+	public TitanExternal valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EXTERNAL.");
 		}
 		final TitanExternal ret_val = new TitanExternal();
 		if (identification.is_bound()) {
-			ret_val.getidentification().assign(identification.valueOf());
+			ret_val.getidentification().assign(identification.valueof());
 		}
 		if (data__value__descriptor.isOmit()) {
 			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
 		} else if (data__value__descriptor.is_bound()) {
-			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueOf());
+			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueof());
 		}
 		if (data__value.is_bound()) {
-			ret_val.getdata__value().assign(data__value.valueOf());
+			ret_val.getdata__value().assign(data__value.valueof());
 		}
 		return ret_val;
 	}

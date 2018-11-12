@@ -53,7 +53,7 @@ public class TitanAsn_Any_template extends TitanOctetString_template {
 	}
 
 	@Override
-	public TitanAsn_Any valueOf() {
+	public TitanAsn_Any valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `ANY' template.");
 		}

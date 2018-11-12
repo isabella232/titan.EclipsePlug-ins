@@ -890,7 +890,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn replace(index, len, repl.valueOf());\n");
+		source.append("\t\treturn replace(index, len, repl.valueof());\n");
 		source.append("\t}\n");
 		//int,TitanInteger
 		source.append('\n');
@@ -898,7 +898,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn replace(index, len.getInt(), repl.valueOf());\n");
+		source.append("\t\treturn replace(index, len.getInt(), repl.valueof());\n");
 		source.append("\t}\n");
 		//TitanInteger,int
 		source.append('\n');
@@ -906,7 +906,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn replace(index.getInt(), len, repl.valueOf());\n");
+		source.append("\t\treturn replace(index.getInt(), len, repl.valueof());\n");
 		source.append("\t}\n");
 		//TitanInteger,TitanInteger
 		source.append('\n');
@@ -914,7 +914,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn replace(index.getInt(), len.getInt(), repl.valueOf());\n");
+		source.append("\t\treturn replace(index.getInt(), len.getInt(), repl.valueof());\n");
 		source.append("\t}\n");
 		//===
 	}
@@ -1782,7 +1782,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn valueOf().replace(index, len, repl.valueOf());\n");
+		source.append("\t\treturn valueof().replace(index, len, repl.valueof());\n");
 		source.append("\t}\n");
 		//TitanInteger, TitanInteger
  		source.append('\n');
@@ -1793,7 +1793,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());\n");
+		source.append("\t\treturn valueof().replace(index.getInt(), len.getInt(), repl.valueof());\n");
 		source.append("\t}\n");
 
 		//int,int
@@ -1802,7 +1802,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn valueOf().replace(index, len, repl);\n");
+		source.append("\t\treturn valueof().replace(index, len, repl);\n");
 		source.append("\t}\n");
 		//TitanInteger, TitanInteger
  		source.append('\n');
@@ -1810,7 +1810,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl);\n");
+		source.append("\t\treturn valueof().replace(index.getInt(), len.getInt(), repl);\n");
 		source.append("\t}\n\n");
 
 		//TODO: perhaps one case is enough, if it is rethought
@@ -2454,7 +2454,7 @@ public final class RecordOfGenerator {
 	}
 
 	/**
-	 * Generating valueOf() function for template
+	 * Generating valueof() function for template
 	 * 
 	 * @param aSb
 	 *                the output, where the java code is written
@@ -2467,14 +2467,14 @@ public final class RecordOfGenerator {
 	private static void generateTemplateValueOf( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("@Override\n");
-		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic {0} valueof() '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append( MessageFormat.format( "\t\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 		aSb.append("\t\t\t\tif (value_elements.get(elem_count).is_bound()) {\n");
-		aSb.append("\t\t\t\t\tret_val.valueElements.add( value_elements.get(elem_count).valueOf() );\n");
+		aSb.append("\t\t\t\t\tret_val.valueElements.add( value_elements.get(elem_count).valueof() );\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn ret_val;\n");
@@ -2496,7 +2496,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t\tif (!is_value()) {\n");
 		aSb.append("\t\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template with non-specific value.\");\n");
 		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t\treturn valueOf().substr(index, returncount);\n");
+		aSb.append("\t\t\treturn valueof().substr(index, returncount);\n");
 		aSb.append("\t\t}\n");
 	}
 

@@ -310,7 +310,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	}
 
 	@Override
-	public TitanAsn_Null valueOf() {
+	public TitanAsn_Null valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of ASN.1 NULL type.");
 		}

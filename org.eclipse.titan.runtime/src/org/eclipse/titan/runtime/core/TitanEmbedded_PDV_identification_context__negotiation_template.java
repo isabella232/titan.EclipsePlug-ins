@@ -429,16 +429,16 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 
 
 	@Override
-	public TitanEmbedded_PDV_identification_context__negotiation valueOf() {
+	public TitanEmbedded_PDV_identification_context__negotiation valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		final TitanEmbedded_PDV_identification_context__negotiation ret_val = new TitanEmbedded_PDV_identification_context__negotiation();
 		if (presentation__context__id.is_bound()) {
-			ret_val.getpresentation__context__id().assign(presentation__context__id.valueOf());
+			ret_val.getpresentation__context__id().assign(presentation__context__id.valueof());
 		}
 		if (transfer__syntax.is_bound()) {
-			ret_val.gettransfer__syntax().assign(transfer__syntax.valueOf());
+			ret_val.gettransfer__syntax().assign(transfer__syntax.valueof());
 		}
 		return ret_val;
 	}

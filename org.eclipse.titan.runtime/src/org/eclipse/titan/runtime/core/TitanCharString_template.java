@@ -449,7 +449,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanCharString valueOf() {
+	public TitanCharString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific charstring template.");
 		}

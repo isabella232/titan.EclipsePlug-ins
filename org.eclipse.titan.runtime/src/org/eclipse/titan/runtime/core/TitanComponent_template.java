@@ -307,7 +307,7 @@ public class TitanComponent_template extends Base_Template {
 	}
 
 	@Override
-	public TitanComponent valueOf() {
+	public TitanComponent valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific component reference template.");
 		}

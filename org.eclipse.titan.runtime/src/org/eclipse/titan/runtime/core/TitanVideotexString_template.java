@@ -55,7 +55,7 @@ public class TitanVideotexString_template extends TitanUniversalCharString_templ
 	}
 
 	@Override
-	public TitanVideotexString valueOf() {
+	public TitanVideotexString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `videotex string' template.");
 		}

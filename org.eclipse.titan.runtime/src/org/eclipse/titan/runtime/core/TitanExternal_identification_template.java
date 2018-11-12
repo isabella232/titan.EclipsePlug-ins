@@ -354,29 +354,29 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanExternal_identification valueOf() {
+	public TitanExternal_identification valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type EXTERNAL.identification.");
 		}
 		final TitanExternal_identification ret_val = new TitanExternal_identification();
 		switch (single_value_union_selection) {
 		case ALT_syntaxes:
-			ret_val.getsyntaxes().assign(((TitanExternal_identification_syntaxes_template)single_value).valueOf());
+			ret_val.getsyntaxes().assign(((TitanExternal_identification_syntaxes_template)single_value).valueof());
 			break;
 		case ALT_syntax:
-			ret_val.getsyntax().assign(((TitanObjectid_template)single_value).valueOf());
+			ret_val.getsyntax().assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_presentation__context__id:
-			ret_val.getpresentation__context__id().assign(((TitanInteger_template)single_value).valueOf());
+			ret_val.getpresentation__context__id().assign(((TitanInteger_template)single_value).valueof());
 			break;
 		case ALT_context__negotiation:
-			ret_val.getcontext__negotiation().assign(((TitanExternal_identification_context__negotiation_template)single_value).valueOf());
+			ret_val.getcontext__negotiation().assign(((TitanExternal_identification_context__negotiation_template)single_value).valueof());
 			break;
 		case ALT_transfer__syntax:
-			ret_val.gettransfer__syntax().assign(((TitanObjectid_template)single_value).valueOf());
+			ret_val.gettransfer__syntax().assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_fixed:
-			ret_val.getfixed().assign(((TitanAsn_Null_template)single_value).valueOf());
+			ret_val.getfixed().assign(((TitanAsn_Null_template)single_value).valueof());
 			break;
 		default:
 			throw new TtcnError("Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type EXTERNAL.identification.");

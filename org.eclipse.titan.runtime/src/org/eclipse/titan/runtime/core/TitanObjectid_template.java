@@ -255,7 +255,7 @@ public class TitanObjectid_template extends Base_Template {
 	}
 
 	@Override
-	public Base_Type valueOf() {
+	public Base_Type valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific objid template.");
 		}

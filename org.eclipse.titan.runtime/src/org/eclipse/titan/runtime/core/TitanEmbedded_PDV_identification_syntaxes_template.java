@@ -429,16 +429,16 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 
 
 	@Override
-	public TitanEmbedded_PDV_identification_syntaxes valueOf() {
+	public TitanEmbedded_PDV_identification_syntaxes valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
 		}
 		final TitanEmbedded_PDV_identification_syntaxes ret_val = new TitanEmbedded_PDV_identification_syntaxes();
 		if (abstract_.is_bound()) {
-			ret_val.getabstract_().assign(abstract_.valueOf());
+			ret_val.getabstract_().assign(abstract_.valueof());
 		}
 		if (transfer.is_bound()) {
-			ret_val.gettransfer().assign(transfer.valueOf());
+			ret_val.gettransfer().assign(transfer.valueof());
 		}
 		return ret_val;
 	}

@@ -482,21 +482,21 @@ public class TitanCharacter_String_template extends Base_Template {
 
 
 	@Override
-	public TitanCharacter_String valueOf() {
+	public TitanCharacter_String valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.");
 		}
 		final TitanCharacter_String ret_val = new TitanCharacter_String();
 		if (identification.is_bound()) {
-			ret_val.getidentification().assign(identification.valueOf());
+			ret_val.getidentification().assign(identification.valueof());
 		}
 		if (data__value__descriptor.isOmit()) {
 			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
 		} else if (data__value__descriptor.is_bound()) {
-			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueOf());
+			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueof());
 		}
 		if (string__value.is_bound()) {
-			ret_val.getstring__value().assign(string__value.valueOf());
+			ret_val.getstring__value().assign(string__value.valueof());
 		}
 		return ret_val;
 	}

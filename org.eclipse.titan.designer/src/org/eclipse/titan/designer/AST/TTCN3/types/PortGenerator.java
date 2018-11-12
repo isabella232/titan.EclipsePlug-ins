@@ -1412,19 +1412,19 @@ public final class PortGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
-		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
 		source.append("send(send_par_value, destination_component);\n");
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
-			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
 			source.append("send(send_par_value, destination_address);\n");
 			source.append("}\n\n");
 		}
 
 		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTemplateName));
-		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
 		source.append("send(send_par_value, new TitanComponent(get_default_destination()));\n");
 		source.append("}\n\n");
 	}

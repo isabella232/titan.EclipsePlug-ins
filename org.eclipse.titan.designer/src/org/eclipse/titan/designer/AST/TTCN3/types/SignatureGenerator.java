@@ -582,7 +582,7 @@ public final class SignatureGenerator {
 				source.append("}\n");
 
 				source.append(MessageFormat.format("public {0}_exception( final {1}_template otherValue) '{'\n", def.genName, exception.mJavaTypeName));
-				source.append(MessageFormat.format("field = new {0}(otherValue.valueOf());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("field = new {0}(otherValue.valueof());\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
 				source.append("}\n");
 			}
@@ -928,7 +928,7 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return return_value;\n");
@@ -941,12 +941,12 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 				}
 			}
 
 			if (def.returnType != null) {
-				source.append("return_value.getreturn_value().assign(reply_value.valueOf());\n");
+				source.append("return_value.getreturn_value().assign(reply_value.valueof());\n");
 			}
 			source.append("return return_value;\n");
 			source.append("}\n");

@@ -908,7 +908,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", def.genName));
 		source.append("if (!template_selection.equals(template_sel.SPECIFIC_VALUE) || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific {0} template.\");\n", def.displayName));
 		source.append("}\n");

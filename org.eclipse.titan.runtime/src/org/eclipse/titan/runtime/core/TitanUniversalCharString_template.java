@@ -624,7 +624,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
-	public TitanUniversalCharString valueOf() {
+	public TitanUniversalCharString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific universal charstring template.");
 		}

@@ -1509,7 +1509,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", genName));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", genName));
 		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -1520,7 +1520,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("ret_val.get{0}().assign((({1})single_value).valueOf());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
+			source.append(MessageFormat.format("ret_val.get{0}().assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
 			source.append("break;\n");
 		}
 		source.append("default:\n");

@@ -394,7 +394,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault valueOf() {
+	public TitanDefault valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific default reference template.");
 		}

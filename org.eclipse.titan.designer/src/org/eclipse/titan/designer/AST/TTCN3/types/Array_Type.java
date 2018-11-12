@@ -1222,8 +1222,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", ownName));
-		source.append(MessageFormat.format("return ({0})super.valueOf();\n", ownName));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", ownName));
+		source.append(MessageFormat.format("return ({0})super.valueof();\n", ownName));
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -1316,8 +1316,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
-		source.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", className));
+		source.append(MessageFormat.format("return ({0})super.valueof();\n", className));
 		source.append("}\n");
 		source.append("}\n");
 	}

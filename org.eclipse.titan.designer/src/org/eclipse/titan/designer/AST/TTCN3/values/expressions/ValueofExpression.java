@@ -315,7 +315,7 @@ public final class ValueofExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (templateInstance != null) {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
-			expression.expression.append( ".valueOf()" );
+			expression.expression.append( ".valueof()" );
 		}
 	}
 }

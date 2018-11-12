@@ -520,7 +520,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanHexString valueOf() {
+	public TitanHexString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific hexstring template.");
 		}

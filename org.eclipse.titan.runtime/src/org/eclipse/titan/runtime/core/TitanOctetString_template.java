@@ -613,7 +613,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanOctetString valueOf() {
+	public TitanOctetString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific octetstring template.");
 		}
