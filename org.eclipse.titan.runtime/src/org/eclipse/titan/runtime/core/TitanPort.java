@@ -1032,7 +1032,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
-		if (!destination_component.isBound()) {
+		if (!destination_component.is_bound()) {
 			throw new TtcnError(MessageFormat.format("Internal error: The destination component reference is unbound when sending data on port {0}.", port_name));
 		}
 

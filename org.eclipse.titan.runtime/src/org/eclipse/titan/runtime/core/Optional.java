@@ -58,7 +58,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;
 		}
@@ -114,7 +114,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			}
 			break;
 		default:
-			cleanUp();
+			clean_up();
 			break;
 		}
 
@@ -159,7 +159,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			}
 			break;
 		default:
-			cleanUp();
+			clean_up();
 			break;
 		}
 
@@ -218,8 +218,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 		setToPresent();
 		optionalValue.set_param(param);
-		if (!optionalValue.isBound()) {
-			cleanUp();
+		if (!optionalValue.is_bound()) {
+			clean_up();
 		}
 	}
 
@@ -242,7 +242,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		final int temp = text_buf.pull_int().getInt();
 		if (temp == 1) {
@@ -254,14 +254,14 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 		case OPTIONAL_OMIT:
 			return true;
 		default:
 			if (null != optionalValue) {
-				return optionalValue.isBound();
+				return optionalValue.is_bound();
 			}
 			return false;
 		}
@@ -297,13 +297,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
-				&& optionalValue.isValue();
+				&& optionalValue.is_value();
 	}
 
 	@Override
-	public boolean isOptional() {
+	public boolean is_optional() {
 		return true;
 	}
 
@@ -384,13 +384,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-				if (!otherValue.isBound()) {
+				if (!otherValue.is_bound()) {
 					return true;
 				} else {
 					throw new TtcnError("The left operand of comparison is an unbound optional value.");
 				}
 			} else {
-				if (!otherValue.isBound()) {
+				if (!otherValue.is_bound()) {
 					throw new TtcnError("The right operand of comparison is an unbound optional value.");
 				} else {
 					if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {

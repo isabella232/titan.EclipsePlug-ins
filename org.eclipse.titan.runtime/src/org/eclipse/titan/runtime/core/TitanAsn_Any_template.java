@@ -28,7 +28,7 @@ public class TitanAsn_Any_template extends TitanOctetString_template {
 	 * */
 	public TitanAsn_Any_template(final template_sel otherValue) {
 		super(otherValue);
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class TitanAsn_Any_template extends TitanOctetString_template {
 
 	@Override
 	public TitanAsn_Any valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `ANY' template.");
 		}
 

@@ -192,12 +192,12 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return val_ptr != null;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return val_ptr != null;
 	}
 
@@ -296,7 +296,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		val_ptr = null;
 	}
 
@@ -391,12 +391,12 @@ public class TitanOctetString extends Base_Type {
 		case MP_Octetstring:
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
-				cleanUp();
+				clean_up();
 				val_ptr = new char[param.get_string_size()];
 				System.arraycopy((char[])param.get_string_data(), 0, val_ptr, 0, param.get_string_size());
 				break;
 			case OT_CONCAT:
-				if (isBound()) {
+				if (is_bound()) {
 					this.assign(this.concatenate(new TitanOctetString((char[]) param.get_string_data())));
 				} else {
 					this.assign(new TitanOctetString((char[]) param.get_string_data()));
@@ -476,7 +476,7 @@ public class TitanOctetString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		final int n_octets = text_buf.pull_int().getInt();
 		if (n_octets < 0) {
@@ -496,7 +496,7 @@ public class TitanOctetString extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	/**
@@ -839,7 +839,7 @@ public class TitanOctetString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 

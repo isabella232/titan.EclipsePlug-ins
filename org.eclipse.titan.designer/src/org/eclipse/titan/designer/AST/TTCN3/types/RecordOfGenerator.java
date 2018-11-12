@@ -280,7 +280,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tfinal List<{0}> newList = new ArrayList<{0}>( srcList.size() );\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tfor (final {0} srcElem : srcList) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tfinal {0} newElem = getUnboundElem();\n", ofTypeName ) );
-		source.append("\t\t\tif (srcElem.isBound()) {\n");
+		source.append("\t\t\tif (srcElem.is_bound()) {\n");
 		source.append("\t\t\t\tnewElem.assign( srcElem );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tnewList.add( ( newElem ) );\n");
@@ -299,7 +299,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic boolean is_present() {\n");
-		source.append("\t\treturn isBound();\n");
+		source.append("\t\treturn is_bound();\n");
 		source.append("\t}\n");
 	}
 
@@ -312,12 +312,12 @@ public final class RecordOfGenerator {
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isBound() {\n");
+		source.append("\tpublic boolean is_bound() {\n");
 		source.append("\t\treturn valueElements != null;\n");
 		source.append("\t}\n");
 		source.append('\n');
 		source.append("\tpublic void mustBound( final String aErrorMessage ) {\n");
-		source.append("\t\tif ( !isBound() ) {\n");
+		source.append("\t\tif ( !is_bound() ) {\n");
 		source.append("\t\t\tthrow new TtcnError( aErrorMessage );\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
@@ -334,13 +334,13 @@ public final class RecordOfGenerator {
 	private static void generateValueIsValue(final StringBuilder source, final String ofTypeName) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isValue() {\n");
+		source.append("\tpublic boolean is_value() {\n");
 		source.append("\t\tif (valueElements == null) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
 		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeName ) );
-		source.append("\t\t\tif (elem == null || !elem.isValue()) {\n");
+		source.append("\t\t\tif (elem == null || !elem.is_value()) {\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
@@ -404,15 +404,15 @@ public final class RecordOfGenerator {
 			source.append("\t\tfor ( int i = 0; i < size; i++ ) {\n");
 			source.append( MessageFormat.format( "\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
 			source.append( MessageFormat.format( "\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
-			source.append("\t\t\tif (leftElem.isBound()) {\n");
-			source.append("\t\t\t\tif (rightElem.isBound()) {\n");
+			source.append("\t\t\tif (leftElem.is_bound()) {\n");
+			source.append("\t\t\t\tif (rightElem.is_bound()) {\n");
 			source.append("\t\t\t\t\tif ( !leftElem.operatorEquals( rightElem ) ) {\n");
 			source.append("\t\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t} else {\n");
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
-			source.append("\t\t\t} else if (rightElem.isBound()) {\n");
+			source.append("\t\t\t} else if (rightElem.is_bound()) {\n");
 			source.append("\t\t\t\treturn false;\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t}\n");
@@ -429,14 +429,14 @@ public final class RecordOfGenerator {
 			source.append("\t\tif (right_ptr.valueElements == null) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append("\t\t}\n");
-			source.append("\t\tif (left_ptr.valueElements.get(left_index).isBound()) {\n");
-			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).isBound()){\n");
+			source.append("\t\tif (left_ptr.valueElements.get(left_index).is_bound()) {\n");
+			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).is_bound()){\n");
 			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) );\n");
 			source.append("\t\t\t} else  {\n");
 			source.append("\t\t\t\treturn false;\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t} else {\n");
-			source.append("\t\t\treturn !right_ptr.valueElements.get(right_index).isBound();\n");
+			source.append("\t\t\treturn !right_ptr.valueElements.get(right_index).is_bound();\n");
 			source.append("\t\t}\n");
 			source.append("\t}\n");
 		}
@@ -625,7 +625,7 @@ public final class RecordOfGenerator {
 	private static void generateValueCleanup(final StringBuilder source) {
 		source.append('\n');
 		source.append("@Override\n");
-		source.append("\tpublic void cleanUp() {\n");
+		source.append("\tpublic void clean_up() {\n");
 		source.append("\t\tvalueElements = null;\n");
 		source.append("\t}\n\n");
 	}
@@ -704,7 +704,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format("\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
-		source.append("\t\tif ( !isBound() ) {\n");
+		source.append("\t\tif ( !is_bound() ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (index_value < 0) {\n");
@@ -759,7 +759,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tmustBound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfor ( int i = valueElements.size() - 1; i >= 0; i-- ) {\n");
 		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get( i );\n", ofTypeName ) );
-		source.append("\t\t\tif ( elem != null && elem.isBound() ) {\n");
+		source.append("\t\t\tif ( elem != null && elem.is_bound() ) {\n");
 		source.append("\t\t\t\treturn new TitanInteger(i + 1);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
@@ -807,7 +807,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic String toString() {\n");
-		source.append("\t\tif (!isBound()) {\n");
+		source.append("\t\tif (!is_bound()) {\n");
 		source.append("\t\t\treturn \"<unbound>\";\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfinal StringBuilder sb = new StringBuilder();\n");
@@ -887,7 +887,7 @@ public final class RecordOfGenerator {
 		//int index,int len:
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index, len, repl.valueOf());\n");
@@ -895,7 +895,7 @@ public final class RecordOfGenerator {
 		//int,TitanInteger
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index, len.getInt(), repl.valueOf());\n");
@@ -903,7 +903,7 @@ public final class RecordOfGenerator {
 		//TitanInteger,int
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final int len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index.getInt(), len, repl.valueOf());\n");
@@ -911,7 +911,7 @@ public final class RecordOfGenerator {
 		//TitanInteger,TitanInteger
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index.getInt(), len.getInt(), repl.valueOf());\n");
@@ -971,7 +971,7 @@ public final class RecordOfGenerator {
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
 		source.append("getAt(i).set_param(current);\n");
-		source.append("if (!constGetAt(i).isBound()) {\n");
+		source.append("if (!constGetAt(i).is_bound()) {\n");
 		source.append("valueElements.set(i, null);\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -981,7 +981,7 @@ public final class RecordOfGenerator {
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("getAt(current.get_id().get_index()).set_param(current);\n");
-		source.append("if (!constGetAt(current.get_id().get_index()).isBound()) {\n");
+		source.append("if (!constGetAt(current.get_id().get_index()).is_bound()) {\n");
 		source.append("valueElements.set(i, null);\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -993,7 +993,7 @@ public final class RecordOfGenerator {
 		source.append("case OT_CONCAT:\n");
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Value_List: {\n");
-		source.append("if (!isBound()) {\n");
+		source.append("if (!is_bound()) {\n");
 		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
 		source.append("}\n");
 		source.append("final int start_idx = lengthOf().getInt();\n");
@@ -1059,7 +1059,7 @@ public final class RecordOfGenerator {
 
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
-		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
 		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>(temp);\n", ofTypeName));
 		source.append("\t\t\tfor (int i = 0; i < temp; i++) {\n");
@@ -1175,7 +1175,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\tint decoded_field_length = 0;\n");
 			source.append("\t\t\tint start_of_field = 0;\n");
 			source.append("\t\t\tif (first_call) {\n");
-			source.append("\t\t\t\tcleanUp();\n");
+			source.append("\t\t\t\tclean_up();\n");
 			source.append(MessageFormat.format("\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName));
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tint start_field = valueElements.size();\n");
@@ -1337,7 +1337,7 @@ public final class RecordOfGenerator {
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel otherValue ) '{'\n", genName));
 		source.append("\t\tsuper( otherValue );\n");
-		source.append("\t\tcheckSingleSelection( otherValue );\n");
+		source.append("\t\tcheck_single_selection( otherValue );\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1428,13 +1428,13 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName ) );
-		source.append("\t\tif (!other_value.isBound()) {\n");
+		source.append("\t\tif (!other_value.is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\tfinal int otherSize = other_value.valueElements.size();\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
-		source.append("\t\t\tif (other_value.constGetAt(elem_count).isBound()) {\n");
+		source.append("\t\t\tif (other_value.constGetAt(elem_count).is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
 		source.append("\t\t\t} else {\n");
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
@@ -1445,12 +1445,12 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
-		source.append("\t\tswitch (other_value.templateSelection) {\n");
+		source.append("\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\t\tfinal int otherSize = other_value.value_elements.size();\n");
 		source.append("\t\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
-		source.append("\t\t\t\tif (other_value.constGetAt(elem_count).isBound()) {\n");
+		source.append("\t\t\t\tif (other_value.constGetAt(elem_count).is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
 		source.append("\t\t\t\t} else {\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
@@ -1527,14 +1527,14 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
-		source.append("\t\tif(!other_value.isBound()) {\n");
+		source.append("\t\tif(!other_value.is_bound()) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfinal int value_length = other_value.sizeOf().getInt();\n");
 		source.append("\t\tif (!match_length(value_length)) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\treturn true;\n");
@@ -1550,10 +1550,10 @@ public final class RecordOfGenerator {
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tfor(int i = 0 ; i < list_value.size(); i++) {\n");
 		source.append("\t\t\t\tif(list_value.get(i).match(other_value, legacy)) {\n");
-		source.append("\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		if ( isSetOf ) {
 			source.append("\t\tcase SUPERSET_MATCH:\n");
 			source.append("\t\tcase SUBSET_MATCH:\n");
@@ -1607,7 +1607,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (is_ifPresent) {\n");
 		source.append("\t\t\treturn true;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\treturn true;\n");
@@ -1616,10 +1616,10 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tif (legacy) {\n");
 		source.append("\t\t\t\tfor (int i = 0 ; i < list_value.size(); i++) {\n");
 		source.append("\t\t\t\t\tif (list_value.get(i).match_omit(legacy)) {\n");
-		source.append("\t\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\tdefault:\n");
@@ -1644,8 +1644,8 @@ public final class RecordOfGenerator {
 	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel otherValue ) '{'\n", genName ) );
-		source.append("\t\tcheckSingleSelection(otherValue);\n");
-		source.append("\t\tcleanUp();\n");
+		source.append("\t\tcheck_single_selection(otherValue);\n");
+		source.append("\t\tclean_up();\n");
 		source.append("\t\tset_selection(otherValue);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n\n");
@@ -1663,7 +1663,7 @@ public final class RecordOfGenerator {
 			source.append(" */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
-		source.append("\t\tcleanUp();\n");
+		source.append("\t\tclean_up();\n");
 		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n\n");
@@ -1682,7 +1682,7 @@ public final class RecordOfGenerator {
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tif (otherValue != this) {\n");
-		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tcopyTemplate(otherValue);\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn this;\n");
@@ -1719,7 +1719,7 @@ public final class RecordOfGenerator {
 			source.append(" */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
-		source.append("\t\tcleanUp();\n");
+		source.append("\t\tclean_up();\n");
 		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
 		source.append("\t\t\tcopy_value(other_value.constGet());\n");
@@ -1743,8 +1743,8 @@ public final class RecordOfGenerator {
 	private static void generateTemplateCleanup(final StringBuilder source) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic void cleanUp() {\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\tpublic void clean_up() {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\tvalue_elements.clear();\n");
 		source.append("\t\t\tvalue_elements = null;\n");
@@ -1757,7 +1757,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\t}\n");
-		source.append("\t\ttemplateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("\t\ttemplate_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
 		source.append("\t}\n");
 	}
 
@@ -1776,10 +1776,10 @@ public final class RecordOfGenerator {
  		//int,int
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index, len, repl.valueOf());\n");
@@ -1787,10 +1787,10 @@ public final class RecordOfGenerator {
 		//TitanInteger, TitanInteger
  		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
-		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
-		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());\n");
@@ -1799,7 +1799,7 @@ public final class RecordOfGenerator {
 		//int,int
  		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
-		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index, len, repl);\n");
@@ -1807,7 +1807,7 @@ public final class RecordOfGenerator {
 		//TitanInteger, TitanInteger
  		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0} repl) '{'\n", genName ) );
-		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\tif (!is_value()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl);\n");
@@ -1853,7 +1853,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
 		source.append('\n');
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\tif(index_value < value_elements.size()) {\n\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1888,7 +1888,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append("\t\tif (!index_value.is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
@@ -1912,7 +1912,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
 		source.append('\n');
-		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing an element of a non-specific template for type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
@@ -1936,7 +1936,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append("\t\tif (!index_value.is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
@@ -1960,7 +1960,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateGetterSettersSetOf(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} setItem(final int set_index) '{'\n", ofTypeName ) );
-		source.append("\t\tif (templateSelection != template_sel.SUPERSET_MATCH && templateSelection != template_sel.SUBSET_MATCH) {\n");
+		source.append("\t\tif (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (set_index >= set_items.size() ) {\n");
@@ -1986,14 +1986,14 @@ public final class RecordOfGenerator {
 	private static void generateTemplateConcat(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append("\tprivate int get_length_for_concat(final AtomicBoolean is_any_value) {\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn value_elements.size();\n");
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\tswitch (length_restriction_type) {\n");
 		source.append("\t\t\tcase NO_LENGTH_RESTRICTION:\n");
-		source.append("\t\t\t\tif (templateSelection == template_sel.ANY_VALUE) {\n");
+		source.append("\t\t\t\tif (template_selection == template_sel.ANY_VALUE) {\n");
 		source.append("\t\t\t\t\t// ? => { * }\n");
 		source.append("\t\t\t\t\tis_any_value.set( true );\n");
 		source.append("\t\t\t\t\treturn 1;\n");
@@ -2001,7 +2001,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction\");\n");
 		source.append("\t\t\tcase RANGE_LENGTH_RESTRICTION:\n");
 		source.append("\t\t\t\tif (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {\n");
-		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction\", templateSelection == template_sel.ANY_VALUE ? \"AnyValue (?)\" : \"AnyValueOrNone (*)\" ) );\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction\", template_selection == template_sel.ANY_VALUE ? \"AnyValue (?)\" : \"AnyValueOrNone (*)\" ) );\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\t// else fall through (range length restriction is allowed if the minimum\n");
 		source.append("\t\t\t\t// and maximum value are the same)\n");
@@ -2037,7 +2037,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t// get_length_for_concat() call;\n");
 		source.append("\t\t// the result template (this) should already be set to SPECIFIC_VALUE and\n");
 		source.append("\t\t// single_value.value_elements should already be allocated\n");
-		source.append("\t\tswitch (operand.templateSelection) {\n");
+		source.append("\t\tswitch (operand.template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\tfor (int i = 0; i < operand.value_elements.size(); ++i) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.set( pos.get() + i, new {0}(operand.value_elements.get(i)) );\n", ofTypeName ) );
@@ -2093,9 +2093,9 @@ public final class RecordOfGenerator {
 		source.append("\t\tif (new_size < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
-		source.append("\t\tfinal template_sel old_selection = templateSelection;\n");
+		source.append("\t\tfinal template_sel old_selection = template_selection;\n");
 		source.append("\t\tif (old_selection != template_sel.SPECIFIC_VALUE) {\n");
-		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\tvalue_elements = null;\n");
 		source.append("\t\t}\n");
@@ -2145,14 +2145,14 @@ public final class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tint min_size;\n");
 		source.append("\t\tboolean has_any_or_none;\n");
-		source.append("\t\tswitch (templateSelection)\n");
+		source.append("\t\tswitch (template_selection)\n");
 		source.append("\t\t{\n");
 		source.append("\t\tcase SPECIFIC_VALUE: {\n");
 		source.append("\t\t\tmin_size = 0;\n");
 		source.append("\t\t\thas_any_or_none = false;\n");
 		source.append("\t\t\tint elem_count = value_elements.size();\n");
 		source.append("\t\t\tif (!is_size) {\n");
-		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {\n");
+		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).is_bound()) {\n");
 		source.append("\t\t\t\t\telem_count--;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
@@ -2179,7 +2179,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t	has_any_or_none = false;\n");
 			source.append("\t\t	int elem_count = set_items.size();\n");
 			source.append("\t\t	if (!is_size) {\n");
-			source.append("\t\t		while (elem_count>0 && !set_items.get(elem_count-1).isBound()) {\n");
+			source.append("\t\t		while (elem_count>0 && !set_items.get(elem_count-1).is_bound()) {\n");
 			source.append("\t\t			elem_count--;\n");
 			source.append("\t\t		}\n");
 			source.append("\t\t	}\n");
@@ -2195,7 +2195,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t			break;\n");
 			source.append("\t\t		}\n");
 			source.append("\t\t	}\n");
-			source.append("\t\t	if (templateSelection == template_sel.SUPERSET_MATCH) {\n");
+			source.append("\t\t	if (template_selection == template_sel.SUPERSET_MATCH) {\n");
 			source.append("\t\t		has_any_or_none = true;\n");
 			source.append("\t\t	} else {\n");
 			source.append("\t\t		int max_size = min_size;\n");
@@ -2269,7 +2269,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateNElem(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\tpublic TitanInteger n_elem() {\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn new TitanInteger(value_elements.size());\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
@@ -2302,14 +2302,14 @@ public final class RecordOfGenerator {
 	private static void generateTemplateMatchv(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, final boolean legacy) '{'\n", genName ) );
-		source.append("\t\tif (!other_value.isBound()) {\n");
+		source.append("\t\tif (!other_value.is_bound()) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfinal int value_length = other_value.sizeOf().getInt();\n");
 		source.append("\t\tif (!match_length(value_length)) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
@@ -2321,10 +2321,10 @@ public final class RecordOfGenerator {
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
 		source.append("\t\t\t\tif (list_value.get(list_count).matchv(other_value, legacy)) {\n");
-		source.append("\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", genName ) );
 		source.append("\t\t}\n");
@@ -2343,12 +2343,12 @@ public final class RecordOfGenerator {
 	private static void generateTemplateIsValue(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isValue() {\n");
-		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\tpublic boolean is_value() {\n");
+		source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		source.append("\t\t\tif (!value_elements.get(elem_count).isValue()) {\n");
+		source.append("\t\t\tif (!value_elements.get(elem_count).is_value()) {\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
@@ -2376,7 +2376,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("@Override\n");
 		source.append("\tpublic void setType(final template_sel template_type, final int list_length) {\n");
-		source.append("\t\tcleanUp();\n");
+		source.append("\t\tclean_up();\n");
 		source.append("\t\tswitch (template_type) {\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
@@ -2416,7 +2416,7 @@ public final class RecordOfGenerator {
 		aSb.append('\n');
 		aSb.append("@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", genName ) );
-		aSb.append("\t\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\tif (list_index >= list_value.size()) {\n");
@@ -2440,7 +2440,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateGetListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template get_list_item(final int list_index) '{'\n", genName ) );
-		source.append("\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (list_index < 0) {\n");
@@ -2468,12 +2468,12 @@ public final class RecordOfGenerator {
 		aSb.append('\n');
 		aSb.append("@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
-		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		aSb.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append( MessageFormat.format( "\t\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		aSb.append("\t\t\t\tif (value_elements.get(elem_count).isBound()) {\n");
+		aSb.append("\t\t\t\tif (value_elements.get(elem_count).is_bound()) {\n");
 		aSb.append("\t\t\t\t\tret_val.valueElements.add( value_elements.get(elem_count).valueOf() );\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");
@@ -2493,7 +2493,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateSubstr( final StringBuilder aSb, final String genName ) {
 		aSb.append('\n');
 		aSb.append( MessageFormat.format( "\t\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
-		aSb.append("\t\t\tif (!isValue()) {\n");
+		aSb.append("\t\t\tif (!is_value()) {\n");
 		aSb.append("\t\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template with non-specific value.\");\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn valueOf().substr(index, returncount);\n");
@@ -2519,7 +2519,7 @@ public final class RecordOfGenerator {
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void log() {\n");
-		aSb.append("\t\t\tswitch (templateSelection) {\n");
+		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		aSb.append("\t\t\t\tif (!value_elements.isEmpty()) {\n");
 		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
@@ -2559,7 +2559,7 @@ public final class RecordOfGenerator {
 		if ( isSetOf ) {
 			aSb.append("\t\t\tcase SUPERSET_MATCH:\n");
 			aSb.append("\t\t\tcase SUBSET_MATCH:\n");
-			aSb.append("\t\t\t\tTTCN_Logger.log_event(\"%s(\", templateSelection == template_sel.SUPERSET_MATCH ? \"superset\" : \"subset\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event(\"%s(\", template_selection == template_sel.SUPERSET_MATCH ? \"superset\" : \"subset\");\n");
 			aSb.append("\t\t\t\tfor (int set_count = 0; set_count < set_items.size(); set_count++) {\n");
 			aSb.append("\t\t\t\t\tif (set_count > 0) {\n");
 			aSb.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
@@ -2621,7 +2621,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
 			aSb.append("\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
-			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+			aSb.append("\t\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE) {\n");
 			aSb.append("\t\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t\t} else {\n");
 			aSb.append("\t\t\t\t\tif(previous_size != 0) {\n");
@@ -2644,7 +2644,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t} else {\n");
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
-			aSb.append("\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+			aSb.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE) {\n");
 			aSb.append("\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
@@ -2655,7 +2655,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
 
-			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
 			aSb.append("\t\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGetAt(elem_count), legacy) ) {\n");
@@ -2675,7 +2675,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t\treturn;\n");
 			aSb.append("\t\t}\n");
-			aSb.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\tif (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 			aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\tif (elem_count > 0) {\n");
@@ -2717,7 +2717,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		aSb.append("\t\t\tencode_text_permutation(text_buf);\n");
-		aSb.append("\t\t\tswitch (templateSelection) {\n");
+		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
@@ -2742,9 +2742,9 @@ public final class RecordOfGenerator {
 
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
-		aSb.append("\t\t\tcleanUp();\n");
+		aSb.append("\t\t\tclean_up();\n");
 		aSb.append("\t\t\tdecode_text_permutation(text_buf);\n");
-		aSb.append("\t\t\tswitch (templateSelection) {\n");
+		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
@@ -2813,7 +2813,7 @@ public final class RecordOfGenerator {
 		aSb.append("break;\n");
 		aSb.append("}\n");
 		aSb.append("case MP_Indexed_List:\n");
-		aSb.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		aSb.append("if (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 		aSb.append("setSize(0);\n");
 		aSb.append("}\n");
 		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
@@ -2883,7 +2883,7 @@ public final class RecordOfGenerator {
 				TTCN_Logger.log_event_str(" matched");
 			} else {
 				final Record_Of_Type recof_value = (Record_Of_Type)(match_value);
-				if (templateSelection == SPECIFIC_VALUE &&
+				if (template_selection == SPECIFIC_VALUE &&
 						single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
 						single_value.n_elements == recof_value.size_of()) {
 					size_t previous_size = TTCN_Logger.get_logmatch_buffer_len();
@@ -2905,7 +2905,7 @@ public final class RecordOfGenerator {
 			}
 		} else {
 			final Record_Of_Type recof_value = static_cast<const Record_Of_Type*>(match_value);
-			if (templateSelection == SPECIFIC_VALUE &&
+			if (template_selection == SPECIFIC_VALUE &&
 					single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
 					single_value.n_elements == recof_value.size_of()) {
 				TTCN_Logger.log_event_str("{ ");
@@ -2941,7 +2941,7 @@ public final class RecordOfGenerator {
 		source.append("\t@Override\n");
 		source.append("\tpublic boolean get_istemplate_kind(final String type) {\n");
 		source.append("\t\tif (\"AnyElement\".equals(type)) {\n");
-		source.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
@@ -2951,7 +2951,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t} else if (\"AnyElementsOrNone\".equals(type)) {\n");
-		source.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
@@ -2981,17 +2981,17 @@ public final class RecordOfGenerator {
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
 		source.append("\t@Override\n");
 		source.append("\tpublic void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("\t\tif (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tswitch ((name != null && (restriction==template_res.TR_VALUE)) ? template_res.TR_OMIT : restriction) {\n");
 		source.append("\t\tcase TR_OMIT:\n");
-		source.append("\t\t\tif (templateSelection==template_sel.OMIT_VALUE) {\n");
+		source.append("\t\t\tif (template_selection==template_sel.OMIT_VALUE) {\n");
 		source.append("\t\t\t\treturn;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\t// no break\n");
 		source.append("\t\tcase TR_VALUE:\n");
-		source.append("\t\t\tif (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\tif (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++) {\n");
@@ -3006,7 +3006,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("\t}\n");
 	}
 }

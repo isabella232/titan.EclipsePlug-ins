@@ -44,7 +44,7 @@ public class TitanObjectid_template extends Base_Template {
 	public TitanObjectid_template(final template_sel otherValue) {
 		super(otherValue);
 
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -94,16 +94,16 @@ public class TitanObjectid_template extends Base_Template {
 	}
 
 	@Override
-	public void cleanUp() {
-		if (templateSelection == template_sel.VALUE_LIST || templateSelection == template_sel.COMPLEMENTED_LIST) {
+	public void clean_up() {
+		if (template_selection == template_sel.VALUE_LIST || template_selection == template_sel.COMPLEMENTED_LIST) {
 			value_list = null;
 		} else {
-			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 	}
 
 	private void copyTemplate(final TitanObjectid_template otherValue) {
-		switch (otherValue.templateSelection) {
+		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = otherValue.single_value;
 			break;
@@ -128,8 +128,8 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	public TitanObjectid_template assign(final template_sel otherValue) {
-		checkSingleSelection(otherValue);
-		cleanUp();
+		check_single_selection(otherValue);
+		clean_up();
 		set_selection(otherValue);
 
 		return this;
@@ -146,10 +146,10 @@ public class TitanObjectid_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanObjectid_template assign(final TitanObjectid otherValue) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			throw new TtcnError("Assignment of an unbound objid value to a template.");
 		}
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanObjectid(otherValue);
 
@@ -168,7 +168,7 @@ public class TitanObjectid_template extends Base_Template {
 	 */
 	public TitanObjectid_template assign(final TitanObjectid_template otherValue) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copyTemplate(otherValue);
 		}
 
@@ -212,11 +212,11 @@ public class TitanObjectid_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanObjectid otherValue, final boolean legacy) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			return false;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
@@ -228,10 +228,10 @@ public class TitanObjectid_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
 				if (value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported objid template.");
 		}
@@ -256,7 +256,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	public Base_Type valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific objid template.");
 		}
 
@@ -272,7 +272,7 @@ public class TitanObjectid_template extends Base_Template {
 	 * @return the number of elements.
 	 * */
 	public TitanInteger sizeOf() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return single_value.sizeOf();
 		case OMIT_VALUE:
@@ -306,7 +306,7 @@ public class TitanObjectid_template extends Base_Template {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for an objid template.");
 		}
-		cleanUp();
+		clean_up();
 		set_selection(template_type);
 		value_list = new ArrayList<TitanObjectid_template>(list_length);
 		for (int i = 0; i < list_length; i++) {
@@ -316,7 +316,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	public TitanObjectid_template listItem(final int list_index) {
-		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list objid template.");
 		}
 		if (list_index >= value_list.size()) {
@@ -327,7 +327,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	public void log() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			single_value.log();
 			break;
@@ -415,7 +415,7 @@ public class TitanObjectid_template extends Base_Template {
 		if (is_ifPresent) {
 			return true;
 		}
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -426,10 +426,10 @@ public class TitanObjectid_template extends Base_Template {
 				// value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
 					if (value_list.get(i).match_omit()) {
-						return templateSelection == template_sel.VALUE_LIST;
+						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
+				return template_selection == template_sel.COMPLEMENTED_LIST;
 			}
 			// else fall through
 		default:
@@ -442,7 +442,7 @@ public class TitanObjectid_template extends Base_Template {
 	public void encode_text(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -465,10 +465,10 @@ public class TitanObjectid_template extends Base_Template {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 		decode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -494,18 +494,18 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
 		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_VALUE:
-			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+			if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {
 				return;
 			}
 			break;
 		case TR_OMIT:
-			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+			if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {
 				return;
 			}
 			break;
@@ -518,6 +518,6 @@ public class TitanObjectid_template extends Base_Template {
 			return;
 		}
 
-		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "objid" : name));
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "objid" : name));
 	}
 }

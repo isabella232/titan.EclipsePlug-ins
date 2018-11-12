@@ -262,21 +262,21 @@ public class TitanDefault extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return default_ptr != UNBOUND_DEFAULT;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return default_ptr != UNBOUND_DEFAULT;
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		default_ptr = UNBOUND_DEFAULT;
 	}
 

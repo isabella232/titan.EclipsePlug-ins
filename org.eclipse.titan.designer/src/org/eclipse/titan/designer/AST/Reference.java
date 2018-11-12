@@ -1356,7 +1356,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			final String tempGeneralId = aData.getTemporaryVariableName();
 			final ExpressionStruct isboundExpression = new ExpressionStruct();
 
-			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id2));
+			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.is_bound();\n", tempGeneralId, ass_id2));
 
 			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			type.generateCodeIsPresentBoundChosen(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, optype, field);
@@ -1367,7 +1367,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		} else {
 			switch (optype) {
 			case ISBOUND_OPERATION:
-				expression.expression.append(MessageFormat.format("{0}.isBound()", ass_id2));
+				expression.expression.append(MessageFormat.format("{0}.is_bound()", ass_id2));
 				break;
 			case ISPRESENT_OPERATION:
 				expression.expression.append(MessageFormat.format("{0}.is_present({1})", ass_id2, isTemplate && aData.getAllowOmitInValueList()? "true":""));

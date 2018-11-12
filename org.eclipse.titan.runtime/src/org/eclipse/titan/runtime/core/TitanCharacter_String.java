@@ -62,7 +62,7 @@ public class TitanCharacter_String extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String( final TitanCharacter_String otherValue) {
-		if(!otherValue.isBound()) {
+		if(!otherValue.is_bound()) {
 			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.");
 		}
 		identification = new TitanCharacter_String_identification();
@@ -82,25 +82,25 @@ public class TitanCharacter_String extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanCharacter_String assign(final TitanCharacter_String otherValue ) {
-		if ( !otherValue.isBound() ) {
+		if ( !otherValue.is_bound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING");
 		}
 
 		if (otherValue != this) {
-			if ( otherValue.getidentification().isBound() ) {
+			if ( otherValue.getidentification().is_bound() ) {
 				this.identification.assign( otherValue.getidentification() );
 			} else {
-				this.identification.cleanUp();
+				this.identification.clean_up();
 			}
-			if ( otherValue.getdata__value__descriptor().isBound() ) {
+			if ( otherValue.getdata__value__descriptor().is_bound() ) {
 				this.data__value__descriptor.assign( otherValue.getdata__value__descriptor() );
 			} else {
-				this.data__value__descriptor.cleanUp();
+				this.data__value__descriptor.clean_up();
 			}
-			if ( otherValue.getstring__value().isBound() ) {
+			if ( otherValue.getstring__value().is_bound() ) {
 				this.string__value.assign( otherValue.getstring__value() );
 			} else {
-				this.string__value.cleanUp();
+				this.string__value.clean_up();
 			}
 		}
 
@@ -117,30 +117,30 @@ public class TitanCharacter_String extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
-		identification.cleanUp();
-		data__value__descriptor.cleanUp();
-		string__value.cleanUp();
+	public void clean_up() {
+		identification.clean_up();
+		data__value__descriptor.clean_up();
+		string__value.clean_up();
 	}
 
 	@Override
-	public boolean isBound() {
-		if ( identification.isBound() ) { return true; }
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.isBound() ) { return true; }
-		if ( string__value.isBound() ) { return true; }
+	public boolean is_bound() {
+		if ( identification.is_bound() ) { return true; }
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.is_bound() ) { return true; }
+		if ( string__value.is_bound() ) { return true; }
 		return false;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
-		if ( !identification.isValue() ) { return false; }
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.isValue() ) { return false; }
-		if ( !string__value.isValue() ) { return false; }
+	public boolean is_value() {
+		if ( !identification.is_value() ) { return false; }
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.is_value() ) { return false; }
+		if ( !string__value.is_value() ) { return false; }
 		return true;
 	}
 
@@ -241,7 +241,7 @@ public class TitanCharacter_String extends Base_Type {
 
 	@Override
 	public void log() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_Logger.log_event_unbound();
 			return;
 		}
@@ -320,15 +320,15 @@ public class TitanCharacter_String extends Base_Type {
 
 	@Override
 	public void set_implicit_omit() {
-		if (identification.isBound()) {
+		if (identification.is_bound()) {
 			identification.set_implicit_omit();
 		}
-		if (data__value__descriptor.isBound()) {
+		if (data__value__descriptor.is_bound()) {
 			data__value__descriptor.set_implicit_omit();
 		} else {
 			data__value__descriptor.assign(template_sel.OMIT_VALUE);
 		}
-		if (string__value.isBound()) {
+		if (string__value.is_bound()) {
 			string__value.set_implicit_omit();
 		}
 	}

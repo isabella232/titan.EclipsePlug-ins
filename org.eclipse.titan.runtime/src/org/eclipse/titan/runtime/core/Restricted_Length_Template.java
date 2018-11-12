@@ -44,13 +44,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	@Override
 	protected void set_selection(final template_sel other_value) {
-		templateSelection = other_value;
+		template_selection = other_value;
 		is_ifPresent = false;
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	protected void set_selection(final Restricted_Length_Template other_value) {
-		templateSelection = other_value.templateSelection;
+		template_selection = other_value.template_selection;
 		is_ifPresent = other_value.is_ifPresent;
 		length_restriction_type = other_value.length_restriction_type;
 
@@ -318,13 +318,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	@Override
 	public boolean isOmit() {
-		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent
+		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent
 				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	@Override
 	public boolean is_any_or_omit() {
-		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent
+		return template_selection == template_sel.ANY_OR_OMIT && !is_ifPresent
 				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 }

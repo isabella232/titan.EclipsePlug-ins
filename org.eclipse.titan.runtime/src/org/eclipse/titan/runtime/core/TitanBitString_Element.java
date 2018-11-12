@@ -19,12 +19,12 @@ public class TitanBitString_Element {
 		bit_pos = par_bit_pos;
 	}
 
-	public boolean isBound() {
+	public boolean is_bound() {
 		return bound_flag;
 	}
 
-	public boolean isValue() {
-		return isBound();
+	public boolean is_value() {
+		return is_bound();
 	}
 
 	public void mustBound(final String aErrorMessage) {

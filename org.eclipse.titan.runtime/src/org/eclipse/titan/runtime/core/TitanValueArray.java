@@ -100,13 +100,13 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		for (int i = 0; i < array_size; ++i) {
-			if (array_elements[i].isBound()) {
+			if (array_elements[i].is_bound()) {
 				return true;
 			}
 		}
@@ -116,15 +116,15 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	//FIXME: originally array_elements.get(i).clean_up()
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		//array_elements.clear();
 		array_elements = null;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		for (int i = 0; i < array_size; ++i) {
-			if (!array_elements[i].isValue()) {
+			if (!array_elements[i].is_value()) {
 				return false;
 			}
 		}
@@ -134,7 +134,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public TitanInteger lengthOf() {
 		for (int i = array_size - 1; i >= 0; --i) {
-			if (array_elements[i].isBound()) {
+			if (array_elements[i].is_bound()) {
 				return new TitanInteger(i + 1);
 			}
 		}
@@ -169,7 +169,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
-		cleanUp();
+		clean_up();
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new Base_Type[array_size];
@@ -355,7 +355,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
-		if (! index.isBound()) {
+		if (! index.is_bound()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 
@@ -424,7 +424,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	public static int getArrayIndex(final TitanInteger index, final int arraySize, final int indexofset) {
-		if (! index.isBound()) {
+		if (! index.is_bound()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 

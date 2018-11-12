@@ -192,7 +192,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		componentValue = UNBOUND_COMPREF;
 	}
 
@@ -202,12 +202,12 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 

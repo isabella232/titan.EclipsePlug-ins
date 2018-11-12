@@ -65,7 +65,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	void set_selection(final Record_Of_Template other_value) {
 		super.set_selection(other_value);
 		clean_up_intervals();
-		if (other_value.templateSelection == template_sel.SPECIFIC_VALUE) {
+		if (other_value.template_selection == template_sel.SPECIFIC_VALUE) {
 			permutation_intervals = copyPermutations(other_value.permutation_intervals);
 		}
 	}

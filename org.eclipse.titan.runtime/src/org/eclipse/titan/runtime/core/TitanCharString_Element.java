@@ -28,11 +28,11 @@ public class TitanCharString_Element {
 		char_pos = par_char_pos;
 	}
 
-	public boolean isBound() {
+	public boolean is_bound() {
 		return bound_flag;
 	}
 
-	public boolean isValue() {
+	public boolean is_value() {
 		return bound_flag;
 	}
 

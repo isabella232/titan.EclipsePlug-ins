@@ -119,7 +119,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		if (!nativeFlag) {
 			openSSL = null;
 		}
@@ -137,7 +137,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanInteger assign(final int otherValue) {
-		cleanUp();
+		clean_up();
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
@@ -156,7 +156,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanInteger assign(final BigInteger otherValue) {
-		cleanUp();
+		clean_up();
 		boundFlag = true;
 		nativeFlag = false;
 		openSSL = otherValue;
@@ -178,7 +178,7 @@ public class TitanInteger extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound integer value.");
 
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			boundFlag = true;
 			nativeFlag = otherValue.nativeFlag;
 			if (nativeFlag) {
@@ -659,17 +659,17 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return boundFlag;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return boundFlag;
 	}
 
@@ -1013,7 +1013,7 @@ public class TitanInteger extends Base_Type {
 		int len_bits = 0; // only for IntX
 		int value = getInt();
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
 			value = 0;
 			neg_sgbit = false;
@@ -1142,7 +1142,7 @@ public class TitanInteger extends Base_Type {
 		BigInteger D = new BigInteger(openSSL.toString());
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			neg_sgbit = false;
 		}
@@ -1375,7 +1375,7 @@ public class TitanInteger extends Base_Type {
 			}
 			decode_length = nof_unread_bits;
 		}
-		cleanUp();
+		clean_up();
 		if (decode_length < 0) {
 			errorContext.leaveContext();
 			return -1;

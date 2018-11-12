@@ -688,7 +688,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
 		final StringBuilder returnValue = new StringBuilder();
 		final StringBuilder sourceInfo = new StringBuilder();
-		if (event.getsourceInfo__list().isBound()) {
+		if (event.getsourceInfo__list().is_bound()) {
 			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
 			final int stack_size = event.getsourceInfo__list().sizeOf().getInt();
 			if (stack_size > 0) {
@@ -1534,7 +1534,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			returnValue.append("' ");
 
-			if (mp.getport__name().isBound()) {
+			if (mp.getport__name().is_bound()) {
 				returnValue.append(MessageFormat.format("on port {0} ", mp.getport__name().getValue()));
 			}
 			// we could also check that any__port is false

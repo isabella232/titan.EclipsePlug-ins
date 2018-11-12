@@ -144,17 +144,17 @@ public class TitanFloat extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return float_value != null;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	};
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return float_value != null;
 	}
 
@@ -512,7 +512,7 @@ public class TitanFloat extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		float_value = null;
 	}
 
@@ -701,7 +701,7 @@ public class TitanFloat extends Base_Type {
 		char[] dv;
 		final int length = p_td.raw.fieldlength / 8;
 		double tmp = float_value.getValue();
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			tmp = 0.0;
 		}

@@ -43,7 +43,7 @@ public class TitanDefault_template extends Base_Template {
 	public TitanDefault_template(final template_sel otherValue) {
 		super(otherValue);
 
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	private void copyTemplate(final TitanDefault_template otherValue) {
-		switch (otherValue.templateSelection) {
+		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = otherValue.single_value;
 			break;
@@ -154,8 +154,8 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public void cleanUp() {
-		switch (templateSelection) {
+	public void clean_up() {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = null;
 			break;
@@ -167,7 +167,7 @@ public class TitanDefault_template extends Base_Template {
 		default:
 			break;
 		}
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
 	@Override
@@ -200,8 +200,8 @@ public class TitanDefault_template extends Base_Template {
 
 	@Override
 	public TitanDefault_template assign(final template_sel otherValue) {
-		checkSingleSelection(otherValue);
-		cleanUp();
+		check_single_selection(otherValue);
+		clean_up();
 		set_selection(otherValue);
 
 		return this;
@@ -222,7 +222,7 @@ public class TitanDefault_template extends Base_Template {
 			throw new TtcnError("Assignment of an invalid default reference to a template.");
 		}
 
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = null;
 
@@ -240,7 +240,7 @@ public class TitanDefault_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanDefault_template assign(final Default_Base otherValue) {
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
 
@@ -262,7 +262,7 @@ public class TitanDefault_template extends Base_Template {
 			throw new TtcnError("Assignment of an unbound default reference to a template.");
 		}
 
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue.default_ptr;
 
@@ -281,7 +281,7 @@ public class TitanDefault_template extends Base_Template {
 	 */
 	public TitanDefault_template assign(final TitanDefault_template otherValue) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copyTemplate(otherValue);
 		}
 
@@ -346,7 +346,7 @@ public class TitanDefault_template extends Base_Template {
 			return false;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return single_value == otherValue;
 		case OMIT_VALUE:
@@ -358,10 +358,10 @@ public class TitanDefault_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
 				if (value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported default reference template.");
 		}
@@ -386,7 +386,7 @@ public class TitanDefault_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanDefault otherValue, final boolean legacy) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			return false;
 		}
 
@@ -395,7 +395,7 @@ public class TitanDefault_template extends Base_Template {
 
 	@Override
 	public TitanDefault valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific default reference template.");
 		}
 
@@ -408,15 +408,15 @@ public class TitanDefault_template extends Base_Template {
 			throw new TtcnError("Setting an invalid list type for a default reference template.");
 		}
 
-		cleanUp();
+		clean_up();
 		set_selection(templateType);
 		value_list = new ArrayList<TitanDefault_template>(listLength);
 	}
 
 	@Override
 	public TitanDefault_template listItem(final int listIndex) {
-		if (!template_sel.VALUE_LIST.equals(templateSelection) &&
-				!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
+		if (!template_sel.VALUE_LIST.equals(template_selection) &&
+				!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {
 			throw new TtcnError("Accessing a list element of a non-list default reference template.");
 		}
 		if (listIndex < 0) {
@@ -431,7 +431,7 @@ public class TitanDefault_template extends Base_Template {
 
 	@Override
 	public void log() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			TTCN_Default.log(single_value);
 			break;
@@ -514,7 +514,7 @@ public class TitanDefault_template extends Base_Template {
 			return true;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -524,10 +524,10 @@ public class TitanDefault_template extends Base_Template {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
 					if (value_list.get(i).match_omit()) {
-						return templateSelection == template_sel.VALUE_LIST;
+						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
+				return template_selection == template_sel.COMPLEMENTED_LIST;
 			}
 			return false;
 		default:
@@ -549,18 +549,18 @@ public class TitanDefault_template extends Base_Template {
 
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
 		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_VALUE:
-			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+			if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {
 				return;
 			}
 			break;
 		case TR_OMIT:
-			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+			if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {
 				return;
 			}
 			break;
@@ -573,6 +573,6 @@ public class TitanDefault_template extends Base_Template {
 			return;
 		}
 
-		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "default reference" : name));
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "default reference" : name));
 	}
 }

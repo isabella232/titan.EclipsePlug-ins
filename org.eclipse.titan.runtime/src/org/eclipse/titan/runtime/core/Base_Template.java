@@ -48,14 +48,14 @@ public abstract class Base_Template {
 		TR_PRESENT
 	};
 
-	protected template_sel templateSelection;
+	protected template_sel template_selection;
 	protected boolean is_ifPresent;
 
 	/**
 	 * Initializes to unbound/uninitialized template.
 	 * */
 	protected Base_Template() {
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		is_ifPresent = false;
 	}
 
@@ -66,22 +66,22 @@ public abstract class Base_Template {
 	 *                the template kind to initialize to.
 	 * */
 	protected Base_Template(final template_sel otherValue) {
-		templateSelection = otherValue;
+		template_selection = otherValue;
 		is_ifPresent = false;
 	}
 
 	protected void set_selection(final template_sel otherValue) {
-		templateSelection = otherValue;
+		template_selection = otherValue;
 		is_ifPresent = false;
 	}
 
 	protected void set_selection(final Base_Template otherValue) {
-		templateSelection = otherValue.templateSelection;
+		template_selection = otherValue.template_selection;
 		is_ifPresent = otherValue.is_ifPresent;
 	}
 
 	public template_sel get_selection() {
-		return templateSelection;
+		return template_selection;
 	}
 
 	public void set_ifPresent() {
@@ -95,8 +95,8 @@ public abstract class Base_Template {
 	 * 
 	 * @return {@code true} if the value is bound.
 	 */
-	public boolean isBound() {
-		return templateSelection != template_sel.UNINITIALIZED_TEMPLATE;
+	public boolean is_bound() {
+		return template_selection != template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
 	/**
@@ -106,8 +106,8 @@ public abstract class Base_Template {
 	 *
 	 * @return {@code true} if the value is a actual value.
 	 */
-	public boolean isValue() {
-		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
+	public boolean is_value() {
+		return !is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE;
 	}
 
 	/**
@@ -115,12 +115,18 @@ public abstract class Base_Template {
 	 *
 	 * clean_up() in the core
 	 * */
-	public void cleanUp() {
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	public void clean_up() {
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	//originally check_single_selection
-	protected static void checkSingleSelection(final template_sel otherValue) {
+	/**
+	 * Checks that the provided template selection is ?, * or omit. Any
+	 * other selection type causes a dynamic testcase error.
+	 *
+	 * @param otherValue
+	 *                the template selection to check.
+	 * */
+	protected static void check_single_selection(final template_sel otherValue) {
 		switch (otherValue) {
 		case ANY_VALUE:
 		case OMIT_VALUE:
@@ -131,7 +137,14 @@ public abstract class Base_Template {
 		}
 	}
 
-	protected static String getResName(final template_res tr) {
+	/**
+	 * returns the name of template restriction.
+	 *
+	 * @param tr
+	 *                the template restriction.
+	 * @return the name of the provided template restriction.
+	 * */
+	protected static String get_res_name(final template_res tr) {
 		switch (tr) {
 		case TR_VALUE: return "value";
 		case TR_OMIT: return "omit";
@@ -142,7 +155,7 @@ public abstract class Base_Template {
 	}
 
 	protected void log_generic() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case UNINITIALIZED_TEMPLATE:
 			TTCN_Logger.log_event_uninitialized();
 			break;
@@ -168,41 +181,41 @@ public abstract class Base_Template {
 	}
 
 	protected void encode_text_base(final Text_Buf text_buf) {
-		text_buf.push_int(templateSelection.getValue());
+		text_buf.push_int(template_selection.getValue());
 		text_buf.push_int(is_ifPresent ? 1 : 0);
 	}
 
 	protected void decode_text_base(final Text_Buf text_buf) {
-		templateSelection = template_sel.getWithValue(text_buf.pull_int().getInt());
+		template_selection = template_sel.getWithValue(text_buf.pull_int().getInt());
 		is_ifPresent = text_buf.pull_int().getInt() == 1;
 	}
 
 	public boolean get_istemplate_kind(final String type) {
 		if ("value".equals(type)) {
-			return isValue();
+			return is_value();
 		} else if ("list".equals(type)) {
-			return templateSelection == template_sel.VALUE_LIST;
+			return template_selection == template_sel.VALUE_LIST;
 		} else if ("complement".equals(type)) {
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		} else if ("?".equals(type) || "AnyValue".equals(type)) {
-			return templateSelection == template_sel.ANY_VALUE;
+			return template_selection == template_sel.ANY_VALUE;
 		} else if ("*".equals(type) || "AnyValueOrNone".equals(type)) {
-			return templateSelection == template_sel.ANY_OR_OMIT;
+			return template_selection == template_sel.ANY_OR_OMIT;
 		} else if ("range".equals(type)) {
-			return templateSelection == template_sel.VALUE_RANGE;
+			return template_selection == template_sel.VALUE_RANGE;
 		} else if ("superset".equals(type)) {
-			return templateSelection == template_sel.SUPERSET_MATCH;
+			return template_selection == template_sel.SUPERSET_MATCH;
 		} else if ("subset".equals(type)) {
-			return templateSelection == template_sel.SUBSET_MATCH;
+			return template_selection == template_sel.SUBSET_MATCH;
 		} else if ("omit".equals(type)) {
-			return templateSelection == template_sel.OMIT_VALUE;
+			return template_selection == template_sel.OMIT_VALUE;
 		} else if ("decmatch".equals(type)) {
-			return templateSelection == template_sel.DECODE_MATCH;
+			return template_selection == template_sel.DECODE_MATCH;
 		} else if ("ifpresent".equals(type)) {
 			return is_ifPresent;
 		} else if ("pattern".equals(type)) {
 			throw new TtcnError("Pattenr support is not yet implement!");
-//			return templateSelection == template_sel.STRING_PATTERN;
+//			return template_selection == template_sel.STRING_PATTERN;
 		} else if ("AnyElement".equals(type) || "AnyElementsOrNone".equals(type) ||
 				"permutation".equals(type) || "length".equals(type)) {
 			return false;
@@ -215,11 +228,11 @@ public abstract class Base_Template {
 	}
 
 	public boolean isOmit() {
-		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent;
+		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent;
 	}
 
 	public boolean is_any_or_omit() {
-		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
+		return template_selection == template_sel.ANY_OR_OMIT && !is_ifPresent;
 	}
 
 	/**
@@ -377,7 +390,7 @@ public abstract class Base_Template {
 	 * @return {@code true} if the template is present.
 	 */
 	public boolean is_present(final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
 

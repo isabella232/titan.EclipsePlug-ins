@@ -48,7 +48,7 @@ public class TitanFloat_template extends Base_Template {
 	 * */
 	public TitanFloat_template(final template_sel otherValue) {
 		super(otherValue);
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -122,8 +122,8 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public void cleanUp() {
-		switch (templateSelection) {
+	public void clean_up() {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = null;
 			break;
@@ -137,7 +137,7 @@ public class TitanFloat_template extends Base_Template {
 		default:
 			break;
 		}
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
 	@Override
@@ -160,8 +160,8 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public TitanFloat_template assign(final template_sel otherValue) {
-		checkSingleSelection(otherValue);
-		cleanUp();
+		check_single_selection(otherValue);
+		clean_up();
 		set_selection(otherValue);
 
 		return this;
@@ -178,7 +178,7 @@ public class TitanFloat_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanFloat_template assign(final double otherValue) {
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
@@ -196,7 +196,7 @@ public class TitanFloat_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanFloat_template assign(final Ttcn3Float otherValue) {
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
@@ -216,7 +216,7 @@ public class TitanFloat_template extends Base_Template {
 	public TitanFloat_template assign(final TitanFloat otherValue) {
 		otherValue.mustBound("Assignment of an unbound float value to a template.");
 
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
@@ -235,7 +235,7 @@ public class TitanFloat_template extends Base_Template {
 	 */
 	public TitanFloat_template assign(final TitanFloat_template otherValue) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copyTemplate(otherValue);
 		}
 
@@ -243,7 +243,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	private void copyTemplate(final TitanFloat_template otherValue) {
-		switch (otherValue.templateSelection) {
+		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanFloat(otherValue.single_value);
 			break;
@@ -316,11 +316,11 @@ public class TitanFloat_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanFloat otherValue, final boolean legacy) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			return false;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
@@ -332,10 +332,10 @@ public class TitanFloat_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
 				if (value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		case VALUE_RANGE: {
 			boolean lowerMatch = false;
 			boolean upperMatch = false;
@@ -367,7 +367,7 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public void setType(final template_sel templateType, final int listLength) {
-		cleanUp();
+		clean_up();
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
@@ -391,7 +391,7 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public TitanFloat_template listItem(final int listIndex) {
-		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list float template.");
 		}
 		if (listIndex < 0) {
@@ -405,7 +405,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMin(final double minValue) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
 		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
@@ -418,7 +418,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMin(final Ttcn3Float minValue) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
 		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
@@ -437,7 +437,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMax(final double maxValue) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
 		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
@@ -450,7 +450,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMax(final Ttcn3Float maxValue) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
 		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
@@ -469,7 +469,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMinExclusive(final boolean minExclusive) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit exclusiveness.");
 		}
 
@@ -477,7 +477,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMaxExclusive(final boolean maxExclusive) {
-		if (templateSelection != template_sel.VALUE_RANGE) {
+		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit exclusiveness.");
 		}
 
@@ -486,7 +486,7 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public TitanFloat valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific float template.");
 		}
 
@@ -495,7 +495,7 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public void log() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE: {
 			TitanFloat.log_float(single_value.getValue());
 			break;
@@ -572,7 +572,7 @@ public class TitanFloat_template extends Base_Template {
 			return true;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -581,10 +581,10 @@ public class TitanFloat_template extends Base_Template {
 			if (legacy) {
 				for (int i = 0; i < value_list.size(); i++) {
 					if (value_list.get(i).match_omit()) {
-						return templateSelection == template_sel.VALUE_LIST;
+						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
+				return template_selection == template_sel.COMPLEMENTED_LIST;
 			}
 			return false;
 		default:
@@ -597,7 +597,7 @@ public class TitanFloat_template extends Base_Template {
 	public void encode_text(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -630,10 +630,10 @@ public class TitanFloat_template extends Base_Template {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 		decode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -765,18 +765,18 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
 		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_VALUE:
-			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+			if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {
 				return;
 			}
 			break;
 		case TR_OMIT:
-			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+			if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {
 				return;
 			}
 			break;
@@ -789,6 +789,6 @@ public class TitanFloat_template extends Base_Template {
 			return;
 		}
 
-		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "float" : name));
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "float" : name));
 	}
 }

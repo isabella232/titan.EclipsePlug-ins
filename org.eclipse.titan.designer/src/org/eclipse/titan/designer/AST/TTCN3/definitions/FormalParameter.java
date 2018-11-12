@@ -1182,7 +1182,7 @@ public final class FormalParameter extends Definition {
 		switch(assignmentType) {
 		case A_PAR_TEMP_OUT:
 		case A_PAR_VAL_OUT:
-			source.append(MessageFormat.format("{0}.cleanUp();\n", identifier.getName()));
+			source.append(MessageFormat.format("{0}.clean_up();\n", identifier.getName()));
 			break;
 		default:
 			break;

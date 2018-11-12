@@ -367,24 +367,24 @@ public final class FunctionReferenceGenerator {
 		}
 
 		source.append("@Override\n");
-		source.append("public boolean isBound() {\n");
+		source.append("public boolean is_bound() {\n");
 		source.append("return referred_function != null;\n");
 		source.append("}\n");
 		source.append("@Override\n");
-		source.append("public boolean isValue() {\n");
+		source.append("public boolean is_value() {\n");
 		source.append("return referred_function != null;\n");
 		source.append("}\n");
 		source.append("@Override\n");
 		source.append("public boolean is_present() {\n");
-		source.append("return isBound();\n");
+		source.append("return is_bound();\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public void cleanUp() {\n");
+		source.append("public void clean_up() {\n");
 		source.append("referred_function = null;\n");
 		source.append("}\n");
 		source.append("public void mustBound( final String aErrorMessage ) {\n");
-		source.append("if ( !isBound() ) {\n");
+		source.append("if ( !is_bound() ) {\n");
 		source.append("throw new TtcnError( aErrorMessage );\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -649,7 +649,7 @@ public final class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n", def.genName));
 
 		source.append(MessageFormat.format("private void copy_template(final {0}_template other_value) '{'\n", def.genName));
-		source.append("switch (other_value.templateSelection) {\n");
+		source.append("switch (other_value.template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = other_value.single_value;\n");
 		source.append("break;\n");
@@ -681,7 +681,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", def.genName));
 		source.append("super(otherValue);\n");
-		source.append("checkSingleSelection(otherValue);\n");
+		source.append("check_single_selection(otherValue);\n");
 		source.append("}\n");
 
 		if (aData.isDebug()) {
@@ -727,8 +727,8 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public void cleanUp(){\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("public void clean_up(){\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = null;\n");
 		source.append("break;\n");
@@ -740,13 +740,13 @@ public final class FunctionReferenceGenerator {
 		source.append("default:\n");
 		source.append("break;\n");
 		source.append("}\n");
-		source.append("templateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("template_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template assign( final template_sel otherValue ) '{'\n", def.genName));
-		source.append("checkSingleSelection(otherValue);\n");
-		source.append("cleanUp();\n");
+		source.append("check_single_selection(otherValue);\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -764,7 +764,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template assign( final {0}.function_pointer otherValue ) '{'\n", def.genName));
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
 		source.append("return this;\n");
@@ -784,7 +784,7 @@ public final class FunctionReferenceGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template assign( final {0} otherValue ) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue.referred_function;\n");
 		source.append("return this;\n");
@@ -804,7 +804,7 @@ public final class FunctionReferenceGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template assign( final {0}_template otherValue ) '{'\n", def.genName));
 		source.append("if (otherValue != this) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 		source.append("return this;\n");
@@ -857,7 +857,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public boolean match(final {0}.function_pointer other_value, final boolean legacy) '{'\n", def.genName));
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -869,10 +869,10 @@ public final class FunctionReferenceGenerator {
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if(value_list.get(i).match(other_value, legacy)) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Matching with an uninitialized/unsupported {0} template.\");\n", def.displayName));
 		source.append("}\n");
@@ -901,7 +901,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", def.genName));
-		source.append("if (!other_value.isBound()) {\n");
+		source.append("if (!other_value.is_bound()) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return match(other_value.referred_function);\n");
@@ -909,7 +909,7 @@ public final class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", def.genName));
-		source.append("if (!templateSelection.equals(template_sel.SPECIFIC_VALUE) || is_ifPresent) {\n");
+		source.append("if (!template_selection.equals(template_sel.SPECIFIC_VALUE) || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific {0} template.\");\n", def.displayName));
 		source.append("}\n");
 		source.append(MessageFormat.format("return new {0}(single_value);\n", def.genName));
@@ -921,7 +921,7 @@ public final class FunctionReferenceGenerator {
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateType)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid type for an {0} template.\");\n", def.displayName));
 		source.append("}\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(templateType);\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(listLength);\n", def.genName));
 		source.append("for(int i = 0; i < listLength; i++) {\n");
@@ -931,8 +931,8 @@ public final class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int listIndex) '{'\n", def.genName));
-		source.append("if (!template_sel.VALUE_LIST.equals(templateSelection) &&\n");
-		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {\n");
+		source.append("if (!template_sel.VALUE_LIST.equals(template_selection) &&\n");
+		source.append("!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("if (listIndex > value_list.size()) {\n");
@@ -946,7 +946,7 @@ public final class FunctionReferenceGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -955,10 +955,10 @@ public final class FunctionReferenceGenerator {
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if (value_list.get(i).match_omit(legacy)) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
 		source.append("return false;\n");
 		source.append("default:\n");
@@ -968,7 +968,7 @@ public final class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append("public void log() {\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("if(single_value == null) {\n");
 		source.append("TTCN_Logger.log_event_unbound();\n");
@@ -1030,7 +1030,7 @@ public final class FunctionReferenceGenerator {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1073,7 +1073,7 @@ public final class FunctionReferenceGenerator {
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1104,17 +1104,17 @@ public final class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
 		source.append("case TR_VALUE:\n");
-		source.append("if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("case TR_OMIT:\n");
-		source.append("if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {\n");
+		source.append("if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("break;\n");
@@ -1126,7 +1126,7 @@ public final class FunctionReferenceGenerator {
 		source.append("default:\n");
 		source.append("return;\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", def.displayName));
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", def.displayName));
 		source.append("}\n");
 
 		source.append("}\n\n");

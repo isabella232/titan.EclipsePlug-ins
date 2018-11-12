@@ -539,20 +539,20 @@ public final class EnumeratedGenerator {
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("@Override\n");
 		source.append("public boolean is_present() {\n");
-		source.append("return isBound();\n");
+		source.append("return is_bound();\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsBound(final StringBuilder source){
 		source.append("@Override\n");
-		source.append("public boolean isBound() {\n");
+		source.append("public boolean is_bound() {\n");
 		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsValue(final StringBuilder source){
 		source.append("@Override\n");
-		source.append("public boolean isValue() {\n");
+		source.append("public boolean is_value() {\n");
 		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
@@ -663,7 +663,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateMustBound(final StringBuilder source ) {
 		source.append("public void mustBound(final String errorMessage) {\n");
-		source.append("if ( !isBound() ) {\n");
+		source.append("if ( !is_bound() ) {\n");
 		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -833,7 +833,7 @@ public final class EnumeratedGenerator {
 
 	private static void generateValueCleanUp(final StringBuilder source) {
 		source.append("@Override\n");
-		source.append("public void cleanUp() {\n");
+		source.append("public void clean_up() {\n");
 		source.append("enum_value = enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
@@ -867,7 +867,7 @@ public final class EnumeratedGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", name));
 		source.append("super(otherValue);\n");
-		source.append("checkSingleSelection(otherValue);\n");
+		source.append("check_single_selection(otherValue);\n");
 		source.append("}\n\n");
 
 		// int
@@ -940,7 +940,7 @@ public final class EnumeratedGenerator {
 	private static void generatetemplateCopyTemplate(final StringBuilder source, final String name) {
 		source.append(MessageFormat.format("private void copy_template(final {0}_template otherValue) '{'\n", name));
 		source.append("set_selection(otherValue);");
-		source.append("switch (otherValue.templateSelection) {\n");
+		source.append("switch (otherValue.template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = otherValue.single_value;\n");
 		source.append("break;\n");
@@ -966,8 +966,8 @@ public final class EnumeratedGenerator {
 		// arg: template_sel
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
-		source.append("checkSingleSelection(otherValue);\n");
-		source.append("cleanUp();\n");
+		source.append("check_single_selection(otherValue);\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -989,7 +989,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
 		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -1008,7 +1008,7 @@ public final class EnumeratedGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
 		source.append("return this;\n");
@@ -1030,7 +1030,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue)'{'\n", name));
 		source.append("// otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 		source.append("return this;\n");
@@ -1051,7 +1051,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
 		source.append("throw new TtcnError(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
 		source.append("}\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue.enum_value;\n");
 		source.append("return this;\n");
@@ -1100,7 +1100,7 @@ public final class EnumeratedGenerator {
 		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(templateType);\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", name));
 		source.append("for(int i = 0 ; i < list_length; i++) {\n");
@@ -1110,8 +1110,8 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateIsBound(final StringBuilder source) {
-		source.append("public boolean isBound() {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
+		source.append("public boolean is_bound() {\n");
+		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return true;\n");
@@ -1120,8 +1120,8 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateIsValue(final StringBuilder source, final String name) {
 		source.append("@Override\n");
-		source.append("public boolean isValue() {\n");
-		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("public boolean is_value() {\n");
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append(MessageFormat.format("return single_value != {0}.enum_type.UNBOUND_VALUE;\n", name));
@@ -1130,15 +1130,15 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateCleanUp(final StringBuilder source) {
 		source.append("@Override\n");
-		source.append("public void cleanUp() {\n");
-		source.append("if (templateSelection == template_sel.VALUE_LIST || templateSelection == template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("public void clean_up() {\n");
+		source.append("if (template_selection == template_sel.VALUE_LIST || template_selection == template_sel.COMPLEMENTED_LIST) {\n");
 		source.append("value_list.clear();\n");
 		source.append("value_list = null;\n");
 		source.append("}\n");
-		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("if (template_selection == template_sel.SPECIFIC_VALUE) {\n");
 		source.append("single_value = null;\n");
 		source.append("}\n");
-		source.append("templateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("template_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
 		source.append("}\n\n");
 	}
 
@@ -1167,7 +1167,7 @@ public final class EnumeratedGenerator {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue, final boolean legacy) '{'\n", name));
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("return single_value == otherValue;\n");
 		source.append("case OMIT_VALUE:\n");
@@ -1179,10 +1179,10 @@ public final class EnumeratedGenerator {
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if(value_list.get(i).match(otherValue)) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
 		source.append("}\n");
@@ -1227,7 +1227,7 @@ public final class EnumeratedGenerator {
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", name));
-		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
 		source.append(MessageFormat.format("return new {0}(single_value);\n", name));
@@ -1237,7 +1237,7 @@ public final class EnumeratedGenerator {
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int list_index) '{'\n", name));
-		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
 
@@ -1257,7 +1257,7 @@ public final class EnumeratedGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -1266,10 +1266,10 @@ public final class EnumeratedGenerator {
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if (value_list.get(i).match_omit()) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
 		source.append("default:\n");
 		source.append("return false;\n");
@@ -1280,7 +1280,7 @@ public final class EnumeratedGenerator {
 	private static void generateTemplateLog(final StringBuilder source, final String name) {
 		source.append("@Override\n");
 		source.append("public void log() {\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
 		source.append("break;\n");
@@ -1380,7 +1380,7 @@ public final class EnumeratedGenerator {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1402,9 +1402,9 @@ public final class EnumeratedGenerator {
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1437,17 +1437,17 @@ public final class EnumeratedGenerator {
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
 		source.append("@Override\n");
 		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
 		source.append("case TR_VALUE:\n");
-		source.append("if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("case TR_OMIT:\n");
-		source.append("if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {\n");
+		source.append("if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("break;\n");
@@ -1459,7 +1459,7 @@ public final class EnumeratedGenerator {
 		source.append("default:\n");
 		source.append("return;\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("}\n");
 	}
 }

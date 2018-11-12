@@ -325,7 +325,7 @@ public final class UnionGenerator {
 		}
 		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
 		source.append("if (otherValue != this) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("copy_value(otherValue);\n");
 		source.append("}\n\n");
 		source.append("return this;\n");
@@ -351,7 +351,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public void cleanUp() {\n");
+		source.append("public void clean_up() {\n");
 		if (!fieldInfos.isEmpty()) {
 			source.append("field = null;\n");
 		}
@@ -384,7 +384,7 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append("@Override\n");
-		source.append("public boolean isBound() {\n");
+		source.append("public boolean is_bound() {\n");
 		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
@@ -399,14 +399,14 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public boolean isValue() {\n");
+		source.append("public boolean is_value() {\n");
 		source.append("switch (union_selection) {\n");
 		source.append("case UNBOUND_VALUE:\n");
 		source.append("return false;\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append("return field.isValue();\n");
+			source.append("return field.is_value();\n");
 		}
 
 		source.append("default:\n");
@@ -424,7 +424,7 @@ public final class UnionGenerator {
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("@Override\n");
 		source.append("public boolean is_present() {\n");
-		source.append("return isBound();\n");
+		source.append("return is_bound();\n");
 		source.append("}\n\n");
 	}
 
@@ -547,7 +547,7 @@ public final class UnionGenerator {
 			}
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append("cleanUp();\n");
+			source.append("clean_up();\n");
 			source.append(MessageFormat.format("field = new {0}();\n", fieldInfo.mJavaTypeName));
 			source.append(MessageFormat.format("union_selection = union_selection_type.ALT_{0};\n", fieldInfo.mJavaVarName));
 			source.append("}\n");
@@ -658,8 +658,8 @@ public final class UnionGenerator {
 
 			source.append(MessageFormat.format("if (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
 			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
-			source.append("if (!field.isBound()) {\n");
-			source.append("cleanUp();\n");
+			source.append("if (!field.is_bound()) {\n");
+			source.append("clean_up();\n");
 			source.append("}\n");
 			source.append("return;\n");
 			source.append("}\n");
@@ -1063,7 +1063,7 @@ public final class UnionGenerator {
 			}
 
 			source.append("}\n");
-			source.append("cleanUp();\n");
+			source.append("clean_up();\n");
 			source.append("return -1;\n");
 			source.append("}\n\n");
 		}
@@ -1122,7 +1122,7 @@ public final class UnionGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", genName));
 		source.append("super(other_value);\n");
-		source.append("checkSingleSelection(other_value);\n");
+		source.append("check_single_selection(other_value);\n");
 		source.append("}\n");
 
 		if (aData.isDebug()) {
@@ -1187,7 +1187,7 @@ public final class UnionGenerator {
 		source.append("}\n");
 
 		source.append(MessageFormat.format("private void copy_template(final {0}_template other_value) '{'\n", genName));
-		source.append("switch (other_value.templateSelection) {\n");
+		source.append("switch (other_value.template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value_union_selection = other_value.single_value_union_selection;\n");
 		if (!fieldInfos.isEmpty()) {
@@ -1232,15 +1232,15 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public void cleanUp() {\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("public void clean_up() {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
 			source.append("switch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("(({0})single_value).cleanUp();\n", fieldInfo.mJavaTemplateName));
+				source.append(MessageFormat.format("(({0})single_value).clean_up();\n", fieldInfo.mJavaTemplateName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -1257,7 +1257,7 @@ public final class UnionGenerator {
 		source.append("default:\n");
 		source.append("break;\n");
 		source.append("}\n");
-		source.append("templateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("template_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
 		source.append("}\n\n");
 	}
 
@@ -1275,8 +1275,8 @@ public final class UnionGenerator {
 	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName) {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue ) '{'\n", genName));
-		source.append("checkSingleSelection(otherValue);\n");
-		source.append("cleanUp();\n");
+		source.append("check_single_selection(otherValue);\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -1294,7 +1294,7 @@ public final class UnionGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue ) '{'\n", genName));
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("copy_value(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -1313,7 +1313,7 @@ public final class UnionGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue ) '{'\n", genName));
 		source.append("if (otherValue != this) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");
 		source.append("}\n");
 		source.append("return this;\n");
@@ -1377,11 +1377,11 @@ public final class UnionGenerator {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
-		source.append("if(!other_value.isBound()) {\n");
+		source.append("if(!other_value.is_bound()) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -1409,10 +1409,10 @@ public final class UnionGenerator {
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if(value_list.get(i).match(other_value, legacy)) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
 		source.append("}\n");
@@ -1443,7 +1443,7 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append(MessageFormat.format("if (single_value_union_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
@@ -1478,15 +1478,15 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateIsValue(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public boolean isValue() {\n");
-		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("public boolean is_value() {\n");
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("switch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})single_value).isValue();\n", fieldInfo.mJavaTemplateName));
+			source.append(MessageFormat.format("return (({0})single_value).is_value();\n", fieldInfo.mJavaTemplateName));
 		}
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
@@ -1510,7 +1510,7 @@ public final class UnionGenerator {
 	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", genName));
-		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		if (!fieldInfos.isEmpty()) {
@@ -1550,7 +1550,7 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("set_selection(template_type);\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(list_length);\n", genName));
 		source.append("for(int i = 0 ; i < list_length; i++) {\n");
@@ -1573,7 +1573,7 @@ public final class UnionGenerator {
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0}_template listItem(final int list_index)  '{'\n", genName));
-		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 
@@ -1599,7 +1599,7 @@ public final class UnionGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -1608,10 +1608,10 @@ public final class UnionGenerator {
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
 		source.append("if (value_list.get(i).match_omit(legacy)) {\n");
-		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("return template_selection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
 		source.append("return false;\n");
 		source.append("default:\n");
@@ -1650,9 +1650,9 @@ public final class UnionGenerator {
 				source.append(" * */\n");
 			}
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append("final template_sel old_selection = templateSelection;\n");
-			source.append("cleanUp();\n");
+			source.append(MessageFormat.format("if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
+			source.append("final template_sel old_selection = template_selection;\n");
+			source.append("clean_up();\n");
 			source.append("if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("single_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
 			source.append("} else {\n");
@@ -1674,7 +1674,7 @@ public final class UnionGenerator {
 				source.append(" * */\n");
 			}
 			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-			source.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+			source.append("if (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("if (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
@@ -1696,7 +1696,7 @@ public final class UnionGenerator {
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append("public void log() {\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
 			source.append("single_value.log();\n");
@@ -1765,7 +1765,7 @@ public final class UnionGenerator {
 		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("return;\n");
 		source.append("}\n");
-		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
+		source.append("if (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
 		source.append("switch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -1816,7 +1816,7 @@ public final class UnionGenerator {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1841,9 +1841,9 @@ public final class UnionGenerator {
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("cleanUp();\n");
+		source.append("clean_up();\n");
 		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
+		source.append("switch (template_selection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1974,16 +1974,16 @@ public final class UnionGenerator {
 	private static void generateTemplateCheckSelection(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
 		source.append("case TR_OMIT:\n");
-		source.append("if (templateSelection == template_sel.OMIT_VALUE) {\n");
+		source.append("if (template_selection == template_sel.OMIT_VALUE) {\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("case TR_VALUE:\n");
-		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("switch (single_value_union_selection) {\n");
@@ -2005,7 +2005,7 @@ public final class UnionGenerator {
 		source.append("default:\n");
 		source.append("return;\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", getResName(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("}\n");
 	}
 

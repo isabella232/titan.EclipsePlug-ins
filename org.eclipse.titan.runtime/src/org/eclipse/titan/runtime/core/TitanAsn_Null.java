@@ -58,7 +58,7 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		boundFlag = false;
 	}
 
@@ -180,7 +180,7 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return boundFlag;
 	}
 
@@ -190,7 +190,7 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return boundFlag;
 	}
 
@@ -228,7 +228,7 @@ public class TitanAsn_Null extends Base_Type {
 
 	// static operator==
 	public static boolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
 		}
 

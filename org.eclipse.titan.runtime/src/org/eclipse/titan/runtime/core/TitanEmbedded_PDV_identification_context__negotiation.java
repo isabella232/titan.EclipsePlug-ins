@@ -54,7 +54,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 *                the value to initialize to.
 	 * */
 	public TitanEmbedded_PDV_identification_context__negotiation( final TitanEmbedded_PDV_identification_context__negotiation otherValue) {
-		if(!otherValue.isBound()) {
+		if(!otherValue.is_bound()) {
 			throw new TtcnError("Copying of an unbound value of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		presentation__context__id = new TitanInteger();
@@ -73,20 +73,20 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 * @return the new value object.
 	 */
 	public TitanEmbedded_PDV_identification_context__negotiation assign(final TitanEmbedded_PDV_identification_context__negotiation otherValue ) {
-		if ( !otherValue.isBound() ) {
+		if ( !otherValue.is_bound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EMBEDDED PDV.identification.context-negotiation");
 		}
 
 		if (otherValue != this) {
-			if ( otherValue.getpresentation__context__id().isBound() ) {
+			if ( otherValue.getpresentation__context__id().is_bound() ) {
 				this.presentation__context__id.assign( otherValue.getpresentation__context__id() );
 			} else {
-				this.presentation__context__id.cleanUp();
+				this.presentation__context__id.clean_up();
 			}
-			if ( otherValue.gettransfer__syntax().isBound() ) {
+			if ( otherValue.gettransfer__syntax().is_bound() ) {
 				this.transfer__syntax.assign( otherValue.gettransfer__syntax() );
 			} else {
-				this.transfer__syntax.cleanUp();
+				this.transfer__syntax.clean_up();
 			}
 		}
 
@@ -103,27 +103,27 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	@Override
-	public void cleanUp() {
-		presentation__context__id.cleanUp();
-		transfer__syntax.cleanUp();
+	public void clean_up() {
+		presentation__context__id.clean_up();
+		transfer__syntax.clean_up();
 	}
 
 	@Override
-	public boolean isBound() {
-		if ( presentation__context__id.isBound() ) { return true; }
-		if ( transfer__syntax.isBound() ) { return true; }
+	public boolean is_bound() {
+		if ( presentation__context__id.is_bound() ) { return true; }
+		if ( transfer__syntax.is_bound() ) { return true; }
 		return false;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
-		if ( !presentation__context__id.isValue() ) { return false; }
-		if ( !transfer__syntax.isValue() ) { return false; }
+	public boolean is_value() {
+		if ( !presentation__context__id.is_value() ) { return false; }
+		if ( !transfer__syntax.is_value() ) { return false; }
 		return true;
 	}
 
@@ -201,7 +201,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 
 	@Override
 	public void log() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_Logger.log_event_unbound();
 			return;
 		}
@@ -265,10 +265,10 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 
 	@Override
 	public void set_implicit_omit() {
-		if (presentation__context__id.isBound()) {
+		if (presentation__context__id.is_bound()) {
 			presentation__context__id.set_implicit_omit();
 		}
-		if (transfer__syntax.isBound()) {
+		if (transfer__syntax.is_bound()) {
 			transfer__syntax.set_implicit_omit();
 		}
 	}

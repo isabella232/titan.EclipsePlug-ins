@@ -547,7 +547,7 @@ public final class SignatureGenerator {
 			source.append(" *\n");
 			source.append(" * clean_up() in the core\n");
 			source.append(" * */\n");
-			source.append("public void cleanUp() {\n");
+			source.append("public void clean_up() {\n");
 			source.append("field = null;\n");
 			source.append("exception_selection = exception_selection_type.UNBOUND_VALUE;\n");
 			source.append("}\n");
@@ -601,7 +601,7 @@ public final class SignatureGenerator {
 			}
 			source.append(MessageFormat.format("public {0}_exception assign( final {0}_exception otherValue ) '{'\n", def.genName));
 			source.append("if(this != otherValue) {\n");
-			source.append("cleanUp();\n");
+			source.append("clean_up();\n");
 			source.append("copy_value(otherValue);\n");
 			source.append("}\n");
 			source.append("return this;\n");
@@ -613,7 +613,7 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("//originally {0}_field\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("public {0} get{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
-				source.append("cleanUp();\n");
+				source.append("clean_up();\n");
 				source.append(MessageFormat.format("field = new {0}();\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
 				source.append("}\n");

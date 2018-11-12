@@ -1340,7 +1340,7 @@ public final class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
 		source.append("final TTCN_Logger.Severity log_severity = destination_component.getComponent() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMSEND : TTCN_Logger.Severity.PORTEVENT_MCSEND;\n");
@@ -1501,7 +1501,7 @@ public final class PortGenerator {
 
 		source.append(" else {\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && my_head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(my_head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -1620,7 +1620,7 @@ public final class PortGenerator {
 
 		source.append(" else {\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && my_head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(my_head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -1732,7 +1732,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && my_head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(my_head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -1827,7 +1827,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && my_head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(my_head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -2135,7 +2135,7 @@ public final class PortGenerator {
 			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 			source.append("new_item.sender_component = sender_component;\n");
 			if (portDefinition.realtime) {
-				source.append("if(timestamp.isBound()) {\n");
+				source.append("if(timestamp.is_bound()) {\n");
 				source.append("new_item.timestamp.assign(timestamp);\n");
 				source.append("}\n");
 			}
@@ -2243,7 +2243,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 		source.append("new_item.sender_component = sender_component;\n");
 		if (portDefinition.realtime) {
-			source.append("if(timestamp.isBound()) {\n");
+			source.append("if(timestamp.is_bound()) {\n");
 			source.append("new_item.timestamp = new TitanFloat(timestamp);\n");
 			source.append("}\n");
 		}
@@ -2346,7 +2346,7 @@ public final class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
 		source.append("}\n\n");
 
@@ -2413,7 +2413,7 @@ public final class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.is_bound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
 			source.append("}\n\n");
 
@@ -2480,7 +2480,7 @@ public final class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.is_bound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("}\n\n");
 
@@ -2590,7 +2590,7 @@ public final class PortGenerator {
 
 		source.append("{\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -2698,7 +2698,7 @@ public final class PortGenerator {
 		source.append("} else {\n");
 		source.append(MessageFormat.format("param_ref.set_parameters(head.call_{0});\n", index));
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -2781,7 +2781,7 @@ public final class PortGenerator {
 
 		source.append("{\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -2896,7 +2896,7 @@ public final class PortGenerator {
 		source.append("} else {\n");
 		source.append(MessageFormat.format("param_ref.set_parameters(head.reply_{0});\n", index));
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -2979,7 +2979,7 @@ public final class PortGenerator {
 
 		source.append("{\n");
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -3093,7 +3093,7 @@ public final class PortGenerator {
 		source.append("} else {\n");
 		source.append(MessageFormat.format("catch_template.set_value(head.exception_{0});\n", index));
 		if (portDefinition.realtime) {
-			source.append("if (timestamp_redirect != null && head.timestamp.isBound()) {\n");
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
 			source.append("timestamp_redirect.assign(head.timestamp);\n");
 			source.append("}\n");
 		}
@@ -3160,7 +3160,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
 		if (portDefinition.realtime) {
-			source.append("if(timestamp.isBound()) {\n");
+			source.append("if(timestamp.is_bound()) {\n");
 			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
 			source.append("}\n");
 		}
@@ -3232,7 +3232,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("newItem.reply_{0} = new {1}_reply(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
 		if (portDefinition.realtime) {
-			source.append("if(timestamp.isBound()) {\n");
+			source.append("if(timestamp.is_bound()) {\n");
 			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
 			source.append("}\n");
 		}
@@ -3305,7 +3305,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("newItem.exception_{0} = new {1}_exception(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
 		if (portDefinition.realtime) {
-			source.append("if(timestamp.isBound()) {\n");
+			source.append("if(timestamp.is_bound()) {\n");
 			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
 			source.append("}\n");
 		}

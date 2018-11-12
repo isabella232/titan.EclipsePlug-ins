@@ -40,7 +40,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 * */
 	public TitanExternal_identification_syntaxes_template(final template_sel otherValue ) {
 		super( otherValue );
-		checkSingleSelection( otherValue );
+		check_single_selection( otherValue );
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public TitanExternal_identification_syntaxes_template assign( final template_sel otherValue ) {
-		checkSingleSelection(otherValue);
-		cleanUp();
+		check_single_selection(otherValue);
+		clean_up();
 		set_selection(otherValue);
 		return this;
 	}
@@ -105,7 +105,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 * @return the new template object.
 	 */
 	public TitanExternal_identification_syntaxes_template assign( final TitanExternal_identification_syntaxes otherValue ) {
-		cleanUp();
+		clean_up();
 		copyValue(otherValue);
 		return this;
 	}
@@ -122,7 +122,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 */
 	public TitanExternal_identification_syntaxes_template assign( final TitanExternal_identification_syntaxes_template otherValue ) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copyTemplate(otherValue);
 		}
 		return this;
@@ -157,7 +157,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 * @return the new template object.
 	 */
 	public TitanExternal_identification_syntaxes_template assign( final Optional<TitanExternal_identification_syntaxes> otherValue ) {
-		cleanUp();
+		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(otherValue.constGet());
@@ -172,29 +172,29 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	}
 
 	private void copyValue(final TitanExternal_identification_syntaxes other_value) {
-		if (other_value.getabstract_().isBound()) {
+		if (other_value.getabstract_().is_bound()) {
 			getabstract_().assign(other_value.getabstract_());
 		} else {
-			getabstract_().cleanUp();
+			getabstract_().clean_up();
 		}
-		if (other_value.gettransfer().isBound()) {
+		if (other_value.gettransfer().is_bound()) {
 			gettransfer().assign(other_value.gettransfer());
 		} else {
-			gettransfer().cleanUp();
+			gettransfer().clean_up();
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
 	private void copyTemplate(final TitanExternal_identification_syntaxes_template other_value) {
-		switch (other_value.templateSelection) {
+		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getabstract_().get_selection()) {
-				getabstract_().cleanUp();
+				getabstract_().clean_up();
 			} else {
 				getabstract_().assign(other_value.getabstract_());
 			}
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.gettransfer().get_selection()) {
-				gettransfer().cleanUp();
+				gettransfer().clean_up();
 			} else {
 				gettransfer().assign(other_value.gettransfer());
 			}
@@ -222,7 +222,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EXTERNAL.identification.syntaxes.");
 		}
-		cleanUp();
+		clean_up();
 		set_selection(template_type);
 		list_value = new ArrayList<TitanExternal_identification_syntaxes_template>(list_length);
 		for(int i = 0 ; i < list_length; i++) {
@@ -232,17 +232,17 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 
 	@Override
-	public boolean isBound() {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+	public boolean is_bound() {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 			return false;
 		}
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			return true;
 		}
-		if (abstract_.isBound()) {
+		if (abstract_.is_bound()) {
 			return true;
 		}
-		if (transfer.isBound()) {
+		if (transfer.is_bound()) {
 			return true;
 		}
 		return false;
@@ -254,7 +254,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	}
 
 	private boolean isPresent_(final boolean legacy) {
-		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
 		return !match_omit_(legacy);
@@ -269,7 +269,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		if (is_ifPresent) {
 			return true;
 		}
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -278,10 +278,10 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 			if (legacy) {
 				for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
 					if (list_value.get(l_idx).match_omit_(legacy)) {
-						return templateSelection==template_sel.VALUE_LIST;
+						return template_selection==template_sel.VALUE_LIST;
 					}
 				}
-				return templateSelection==template_sel.COMPLEMENTED_LIST;
+				return template_selection==template_sel.COMPLEMENTED_LIST;
 			} // else fall through
 		default:
 			return false;
@@ -289,14 +289,14 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	}
 
 	@Override
-	public boolean isValue() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+	public boolean is_value() {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;
 		}
-		if (!abstract_.isValue()) {
+		if (!abstract_.is_value()) {
 			return false;
 		}
-		if (!transfer.isValue()) {
+		if (!transfer.is_value()) {
 			return false;
 		}
 		return true;
@@ -319,7 +319,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 * @return the field abstract.
 	 * */
 	public TitanObjectid_template constGetabstract_() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field abstract of a non-specific template of type EXTERNAL.identification.syntaxes.");
 		}
 		return abstract_;
@@ -343,16 +343,16 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 * @return the field transfer.
 	 * */
 	public TitanObjectid_template constGettransfer() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer of a non-specific template of type EXTERNAL.identification.syntaxes.");
 		}
 		return transfer;
 	}
 
 	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = template_selection;
+			clean_up();
 			set_selection(template_sel.SPECIFIC_VALUE);
 			abstract_ = new TitanObjectid_template();
 			transfer = new TitanObjectid_template();
@@ -381,23 +381,23 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanExternal_identification_syntaxes other_value, final boolean legacy) {
-		if (!other_value.isBound()) {
+		if (!other_value.is_bound()) {
 			return false;
 		}
-		switch (templateSelection) {
+		switch (template_selection) {
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
 			return true;
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getabstract_().isBound()) {
+			if(!other_value.getabstract_().is_bound()) {
 				return false;
 			}
 			if(!abstract_.match(other_value.getabstract_(), legacy)) {
 				return false;
 			}
-			if(!other_value.gettransfer().isBound()) {
+			if(!other_value.gettransfer().is_bound()) {
 				return false;
 			}
 			if(!transfer.match(other_value.gettransfer(), legacy)) {
@@ -408,10 +408,10 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		case COMPLEMENTED_LIST:
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type EXTERNAL.identification.syntaxes.");
 		}
@@ -430,14 +430,14 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public TitanExternal_identification_syntaxes valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EXTERNAL.identification.syntaxes.");
 		}
 		final TitanExternal_identification_syntaxes ret_val = new TitanExternal_identification_syntaxes();
-		if (abstract_.isBound()) {
+		if (abstract_.is_bound()) {
 			ret_val.getabstract_().assign(abstract_.valueOf());
 		}
-		if (transfer.isBound()) {
+		if (transfer.is_bound()) {
 			ret_val.gettransfer().assign(transfer.valueOf());
 		}
 		return ret_val;
@@ -453,7 +453,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		if (is_ifPresent) {
 			throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL.identification.syntaxes which has an ifpresent attribute.");
 		}
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return new TitanInteger(2);
 		case VALUE_LIST:
@@ -481,7 +481,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public TitanExternal_identification_syntaxes_template listItem(final int list_index) {
-		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EXTERNAL.identification.syntaxes.");
 		}
 		if (list_index >= list_value.size()) {
@@ -492,7 +492,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public void log() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			TTCN_Logger.log_char('{');
 			TTCN_Logger.log_event_str(" abstract := ");
@@ -558,7 +558,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 				TTCN_Logger.print_logmatch_buffer();
 				TTCN_Logger.log_event_str(" matched");
 			} else {
-				if (templateSelection == template_sel.SPECIFIC_VALUE) {
+				if (template_selection == template_sel.SPECIFIC_VALUE) {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if( !abstract_.match(match_value.constGetabstract_(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".abstract");
@@ -580,7 +580,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 			}
 			return;
 		}
-		if (templateSelection == template_sel.SPECIFIC_VALUE) {
+		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ abstract := ");
 			abstract_.log_match(match_value.constGetabstract_(), legacy);
 			TTCN_Logger.log_event_str("{ transfer := ");
@@ -601,7 +601,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	@Override
 	public void encode_text(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -624,9 +624,9 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 		decode_text_base(text_buf);
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -723,16 +723,16 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_OMIT:
-			if (templateSelection == template_sel.OMIT_VALUE) {
+			if (template_selection == template_sel.OMIT_VALUE) {
 				return;
 			}
 		case TR_VALUE:
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				break;
 			}
 			this.abstract_.check_restriction(restriction, name == null ? "EXTERNAL.identification.syntaxes" : name, legacy);
@@ -746,6 +746,6 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		default:
 			return;
 		}
-		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "EXTERNAL.identification.syntaxes" : name));
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "EXTERNAL.identification.syntaxes" : name));
 	}
 }

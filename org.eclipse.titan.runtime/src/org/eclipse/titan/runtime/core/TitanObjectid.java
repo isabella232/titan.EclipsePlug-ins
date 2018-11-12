@@ -67,7 +67,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		components_ptr = null;
 	}
 
@@ -86,7 +86,7 @@ public class TitanObjectid extends Base_Type {
 			throw new TtcnError("Assignment of an unbound objid value.");
 		}
 
-		cleanUp();
+		clean_up();
 		components_ptr = new ArrayList<TitanInteger>();
 		components_ptr.addAll(otherValue.components_ptr);
 		n_components = otherValue.n_components;
@@ -152,7 +152,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return components_ptr != null;
 	}
 
@@ -271,7 +271,7 @@ public class TitanObjectid extends Base_Type {
 		if (param.get_type() != type_t.MP_Objid) {
 			param.type_error("objid value");
 		}
-		cleanUp();
+		clean_up();
 		n_components = param.get_string_size();
 		components_ptr = new ArrayList<TitanInteger>(Arrays.asList((TitanInteger[]) param.get_string_data()));
 		overflow_idx = -1;
@@ -293,7 +293,7 @@ public class TitanObjectid extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		n_components = text_buf.pull_int().getInt();
 		if (n_components < 0) {

@@ -86,17 +86,13 @@ public abstract class Base_Type {
 
 	/**
 	 * Deletes the value, setting it to unbound.
-	 *
-	 * clean_up() in the core
 	 * */
-	public abstract void cleanUp();
+	public abstract void clean_up();
 
 	/**
 	 * Whether the value is present.
 	 * Note: this is not the TTCN-3 ispresent()!
 	 * causes DTE, must be used only if the field is OPTIONAL<>
-	 *
-	 * is_present() in the core.
 	 *
 	 * @return {@code true} if the value is present.
 	 */
@@ -105,31 +101,25 @@ public abstract class Base_Type {
 	/**
 	 * Whether the value is bound.
 	 * 
-	 * is_bound() in the core.
-	 * 
 	 * @return {@code true} if the value is bound.
 	 */
-	public abstract boolean isBound();
+	public abstract boolean is_bound();
 
 	/**
 	 * Whether the value is a actual value.
 	 *
-	 * is_value in the core.
-	 *
 	 * @return {@code true} if the value is a actual value.
 	 */
-	public boolean isValue() {
-		return isBound();
+	public boolean is_value() {
+		return is_bound();
 	}
 
 	/**
 	 * Whether the value is optional.
 	 *
-	 * is_optional in the core.
-	 *
 	 * @return {@code true} if the value is optional.
 	 */
-	public boolean isOptional() {
+	public boolean is_optional() {
 		return false;
 	}
 

@@ -419,7 +419,7 @@ public class TTCN_Buffer {
 	 * @param p_os the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanOctetString p_os) {
-		p_os.cleanUp();
+		p_os.clean_up();
 		if (buf_len > 0) {
 			final char[] data = new char[buf_len];
 			System.arraycopy(data_ptr, 0, data, 0, buf_len);
@@ -435,7 +435,7 @@ public class TTCN_Buffer {
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanCharString p_cs) {
-		p_cs.cleanUp();
+		p_cs.clean_up();
 		if (buf_len > 0) {
 			final StringBuilder str = new StringBuilder();
 			for (int i = 0; i < buf_len; i++) {
@@ -453,7 +453,7 @@ public class TTCN_Buffer {
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanUniversalCharString p_cs) {
-		p_cs.cleanUp();
+		p_cs.clean_up();
 		if (buf_len > 0) {
 			final List<TitanUniversalChar> data = new ArrayList<TitanUniversalChar>(data_ptr.length / 4);
 			for (int i = 0; i < buf_len / 4; i++) {

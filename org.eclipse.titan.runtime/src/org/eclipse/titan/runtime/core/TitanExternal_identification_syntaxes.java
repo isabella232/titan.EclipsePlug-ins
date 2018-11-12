@@ -54,7 +54,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_identification_syntaxes( final TitanExternal_identification_syntaxes otherValue) {
-		if(!otherValue.isBound()) {
+		if(!otherValue.is_bound()) {
 			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");
 		}
 		abstract_ = new TitanObjectid();
@@ -73,20 +73,20 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanExternal_identification_syntaxes assign(final TitanExternal_identification_syntaxes otherValue ) {
-		if ( !otherValue.isBound() ) {
+		if ( !otherValue.is_bound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.syntaxes");
 		}
 
 		if (otherValue != this) {
-			if ( otherValue.getabstract_().isBound() ) {
+			if ( otherValue.getabstract_().is_bound() ) {
 				this.abstract_.assign( otherValue.getabstract_() );
 			} else {
-				this.abstract_.cleanUp();
+				this.abstract_.clean_up();
 			}
-			if ( otherValue.gettransfer().isBound() ) {
+			if ( otherValue.gettransfer().is_bound() ) {
 				this.transfer.assign( otherValue.gettransfer() );
 			} else {
-				this.transfer.cleanUp();
+				this.transfer.clean_up();
 			}
 		}
 
@@ -103,27 +103,27 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
-		abstract_.cleanUp();
-		transfer.cleanUp();
+	public void clean_up() {
+		abstract_.clean_up();
+		transfer.clean_up();
 	}
 
 	@Override
-	public boolean isBound() {
-		if ( abstract_.isBound() ) { return true; }
-		if ( transfer.isBound() ) { return true; }
+	public boolean is_bound() {
+		if ( abstract_.is_bound() ) { return true; }
+		if ( transfer.is_bound() ) { return true; }
 		return false;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
-		if ( !abstract_.isValue() ) { return false; }
-		if ( !transfer.isValue() ) { return false; }
+	public boolean is_value() {
+		if ( !abstract_.is_value() ) { return false; }
+		if ( !transfer.is_value() ) { return false; }
 		return true;
 	}
 
@@ -201,7 +201,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 
 	@Override
 	public void log() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_Logger.log_event_unbound();
 			return;
 		}
@@ -265,10 +265,10 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 
 	@Override
 	public void set_implicit_omit() {
-		if (abstract_.isBound()) {
+		if (abstract_.is_bound()) {
 			abstract_.set_implicit_omit();
 		}
-		if (transfer.isBound()) {
+		if (transfer.is_bound()) {
 			transfer.set_implicit_omit();
 		}
 	}

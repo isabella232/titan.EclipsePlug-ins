@@ -79,7 +79,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
@@ -90,11 +90,11 @@ public class TitanVerdictType extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return verdict_value != VerdictTypeEnum.UNBOUND;
 	}
 

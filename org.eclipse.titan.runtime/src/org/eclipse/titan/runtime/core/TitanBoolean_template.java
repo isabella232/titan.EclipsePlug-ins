@@ -44,7 +44,7 @@ public class TitanBoolean_template extends Base_Template {
 	 * */
 	public TitanBoolean_template(final template_sel otherValue) {
 		super(otherValue);
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	@Override
-	public void cleanUp() {
-		switch (templateSelection) {
+	public void clean_up() {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = null;
 			break;
@@ -118,7 +118,7 @@ public class TitanBoolean_template extends Base_Template {
 		default:
 			break;
 		}
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
 	@Override
@@ -141,8 +141,8 @@ public class TitanBoolean_template extends Base_Template {
 
 	@Override
 	public TitanBoolean_template assign(final template_sel otherValue) {
-		checkSingleSelection(otherValue);
-		cleanUp();
+		check_single_selection(otherValue);
+		clean_up();
 		set_selection(otherValue);
 
 		return this;
@@ -159,7 +159,7 @@ public class TitanBoolean_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanBoolean_template assign(final boolean otherValue) {
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 
@@ -179,7 +179,7 @@ public class TitanBoolean_template extends Base_Template {
 	public TitanBoolean_template assign(final TitanBoolean otherValue) {
 		otherValue.mustBound("Assignment of an unbound boolean value to a template.");
 
-		cleanUp();
+		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 
@@ -198,7 +198,7 @@ public class TitanBoolean_template extends Base_Template {
 	 */
 	public TitanBoolean_template assign(final TitanBoolean_template otherValue) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copyTemplate(otherValue);
 		}
 
@@ -206,7 +206,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	private void copyTemplate(final TitanBoolean_template otherValue) {
-		switch (otherValue.templateSelection) {
+		switch (otherValue.template_selection) {
 		case SPECIFIC_VALUE:
 			single_value = new TitanBoolean(otherValue.single_value);
 			break;
@@ -230,7 +230,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	public boolean and(final TitanBoolean otherValue) {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("And operation of a non specific value template");
 		}
 
@@ -238,7 +238,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	public boolean and(final TitanBoolean_template otherTemplate) {
-		if (otherTemplate.templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (otherTemplate.template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("And operation of a non specific value template argument");
 		}
 
@@ -255,7 +255,7 @@ public class TitanBoolean_template extends Base_Template {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanBoolean otherValue) {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Equals operation of a non specific value template");
 		}
 
@@ -300,7 +300,7 @@ public class TitanBoolean_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final boolean otherValue, final boolean legacy) {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
@@ -312,10 +312,10 @@ public class TitanBoolean_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
 				if (value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported boolean template.");
 		}
@@ -340,7 +340,7 @@ public class TitanBoolean_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanBoolean otherValue, final boolean legacy) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.is_bound()) {
 			return false;
 		}
 
@@ -349,7 +349,7 @@ public class TitanBoolean_template extends Base_Template {
 
 	@Override
 	public TitanBoolean valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing valueof or send operation on a non-specific boolean template.");
 		}
 
@@ -362,7 +362,7 @@ public class TitanBoolean_template extends Base_Template {
 			throw new TtcnError("Setting an invalid list type for a boolean template.");
 		}
 
-		cleanUp();
+		clean_up();
 		set_selection(templateType);
 		value_list = new ArrayList<TitanBoolean_template>(listLength);
 		for (int i = 0; i < listLength; i++) {
@@ -372,7 +372,7 @@ public class TitanBoolean_template extends Base_Template {
 
 	@Override
 	public TitanBoolean_template listItem(final int listIndex) {
-		if (!template_sel.VALUE_LIST.equals(templateSelection) && !template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
+		if (!template_sel.VALUE_LIST.equals(template_selection) && !template_sel.COMPLEMENTED_LIST.equals(template_selection)) {
 			throw new TtcnError("Accessing a list element of a non-list boolean template.");
 		}
 		if (listIndex < 0) {
@@ -387,7 +387,7 @@ public class TitanBoolean_template extends Base_Template {
 
 	@Override
 	public void log() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			TTCN_Logger.log_event_str(single_value.getValue() ? "true" : "false");
 			break;
@@ -473,7 +473,7 @@ public class TitanBoolean_template extends Base_Template {
 			return true;
 		}
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -483,10 +483,10 @@ public class TitanBoolean_template extends Base_Template {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
 					if (value_list.get(i).match_omit()) {
-						return templateSelection == template_sel.VALUE_LIST;
+						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
+				return template_selection == template_sel.COMPLEMENTED_LIST;
 			}
 			return false;
 		default:
@@ -499,7 +499,7 @@ public class TitanBoolean_template extends Base_Template {
 	public void encode_text(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -522,10 +522,10 @@ public class TitanBoolean_template extends Base_Template {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 		decode_text_base(text_buf);
 
-		switch (templateSelection) {
+		switch (template_selection) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -552,18 +552,18 @@ public class TitanBoolean_template extends Base_Template {
 
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
-		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
 		switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {
 		case TR_VALUE:
-			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+			if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {
 				return;
 			}
 			break;
 		case TR_OMIT:
-			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
+			if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {
 				return;
 			}
 			break;
@@ -576,7 +576,7 @@ public class TitanBoolean_template extends Base_Template {
 			return;
 		}
 
-		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", getResName(restriction), name == null ? "boolean" : name));
+		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "boolean" : name));
 	}
 }
 

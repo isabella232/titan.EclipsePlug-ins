@@ -23,11 +23,11 @@ public class TitanOctetString_Element {
 		nibble_pos = par_nibble_pos;
 	}
 
-	public boolean isBound() {
+	public boolean is_bound() {
 		return bound_flag;
 	}
 
-	public boolean isValue() {
+	public boolean is_value() {
 		return bound_flag;
 	}
 

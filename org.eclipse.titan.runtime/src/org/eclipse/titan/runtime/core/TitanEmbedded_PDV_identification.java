@@ -82,7 +82,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 */
 	public TitanEmbedded_PDV_identification assign( final TitanEmbedded_PDV_identification otherValue ) {
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			copy_value(otherValue);
 		}
 
@@ -97,7 +97,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		field = null;
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	}
@@ -110,27 +110,27 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return union_selection != union_selection_type.UNBOUND_VALUE;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		switch (union_selection) {
 		case UNBOUND_VALUE:
 			return false;
 		case ALT_syntaxes:
-			return field.isValue();
+			return field.is_value();
 		case ALT_syntax:
-			return field.isValue();
+			return field.is_value();
 		case ALT_presentation__context__id:
-			return field.isValue();
+			return field.is_value();
 		case ALT_context__negotiation:
-			return field.isValue();
+			return field.is_value();
 		case ALT_transfer__syntax:
-			return field.isValue();
+			return field.is_value();
 		case ALT_fixed:
-			return field.isValue();
+			return field.is_value();
 		default:
 			throw new TtcnError("Invalid selection in union is_bound");
 		}
@@ -138,7 +138,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanEmbedded_PDV_identification_syntaxes getsyntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
-			cleanUp();
+			clean_up();
 			field = new TitanEmbedded_PDV_identification_syntaxes();
 			union_selection = union_selection_type.ALT_syntaxes;
 		}
@@ -234,7 +234,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanObjectid getsyntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
-			cleanUp();
+			clean_up();
 			field = new TitanObjectid();
 			union_selection = union_selection_type.ALT_syntax;
 		}
@@ -262,7 +262,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanInteger getpresentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
-			cleanUp();
+			clean_up();
 			field = new TitanInteger();
 			union_selection = union_selection_type.ALT_presentation__context__id;
 		}
@@ -290,7 +290,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanEmbedded_PDV_identification_context__negotiation getcontext__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
-			cleanUp();
+			clean_up();
 			field = new TitanEmbedded_PDV_identification_context__negotiation();
 			union_selection = union_selection_type.ALT_context__negotiation;
 		}
@@ -318,7 +318,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanObjectid gettransfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
-			cleanUp();
+			clean_up();
 			field = new TitanObjectid();
 			union_selection = union_selection_type.ALT_transfer__syntax;
 		}
@@ -346,7 +346,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * */
 	public TitanAsn_Null getfixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
-			cleanUp();
+			clean_up();
 			field = new TitanAsn_Null();
 			union_selection = union_selection_type.ALT_fixed;
 		}
@@ -427,43 +427,43 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		final String last_name = mp_last.get_id().get_name();
 		if ("syntaxes".equals(last_name)) {
 			getsyntaxes().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}
 		if ("syntax".equals(last_name)) {
 			getsyntax().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}
 		if ("presentation-context-id".equals(last_name)) {
 			getpresentation__context__id().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}
 		if ("context-negotiation".equals(last_name)) {
 			getcontext__negotiation().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}
 		if ("transfer-syntax".equals(last_name)) {
 			gettransfer__syntax().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}
 		if ("fixed".equals(last_name)) {
 			getfixed().set_param(mp_last);
-			if (!field.isBound()) {
-				cleanUp();
+			if (!field.is_bound()) {
+				clean_up();
 			}
 			return;
 		}

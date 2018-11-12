@@ -1398,11 +1398,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"isBound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
 				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId, field));

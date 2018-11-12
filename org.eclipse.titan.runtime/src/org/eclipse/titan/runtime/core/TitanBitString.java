@@ -200,7 +200,7 @@ public class TitanBitString extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
 
 		final boolean bitValue = otherValue.get_bit();
-		cleanUp();
+		clean_up();
 		n_bits = 1;
 		bits_ptr = new int[1];
 		bits_ptr[0] = (int) (bitValue ? 1 : 0);
@@ -223,7 +223,7 @@ public class TitanBitString extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound bitstring value.");
 
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			bits_ptr = TitanStringUtils.copyIntegerList(otherValue.bits_ptr);
 			n_bits = otherValue.n_bits;
 		}
@@ -241,17 +241,17 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return bits_ptr != null;
 	}
 
 	@Override
-	public boolean isValue() {
-		return isBound();
+	public boolean is_value() {
+		return is_bound();
 	}
 
 	public void mustBound(final String aErrorMessage) {
-		if (!isBound()) {
+		if (!is_bound()) {
 			throw new TtcnError(aErrorMessage);
 		}
 	}
@@ -335,7 +335,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		n_bits = 0;
 		bits_ptr = null;
 	}
@@ -772,13 +772,13 @@ public class TitanBitString extends Base_Type {
 		case MP_Bitstring:
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
-				cleanUp();
+				clean_up();
 				n_bits = param.get_string_size();
 				bits_ptr = (int[]) param.get_string_data();
 				clear_unused_bits();
 				break;
 			case OT_CONCAT:
-				if (isBound()) {
+				if (is_bound()) {
 					this.assign(this.concatenate(new TitanBitString((int[]) param.get_string_data(), param.get_string_size())));
 				} else {
 					this.assign(new TitanBitString((int[]) param.get_string_data(), param.get_string_size()));
@@ -811,7 +811,7 @@ public class TitanBitString extends Base_Type {
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	/** 
@@ -854,7 +854,7 @@ public class TitanBitString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		n_bits = text_buf.pull_int().getInt();
 		if (n_bits < 0) {
@@ -933,7 +933,7 @@ public class TitanBitString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 
@@ -997,7 +997,7 @@ public class TitanBitString extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
 			decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
 		}
-		cleanUp();
+		clean_up();
 		n_bits = decode_length;
 		bits_ptr = new int[(decode_length + 7) / 8];
 		final RAW_coding_par cp = new RAW_coding_par();

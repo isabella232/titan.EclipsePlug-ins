@@ -114,7 +114,7 @@ public class TitanCharString extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanCharString assign(final String otherValue) {
-		cleanUp();
+		clean_up();
 
 		if (otherValue == null) {
 			val_ptr = new StringBuilder();
@@ -155,17 +155,17 @@ public class TitanCharString extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return val_ptr != null;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return val_ptr != null;
 	}
 
@@ -188,7 +188,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString assign(final TitanCharString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
 
-		cleanUp();
+		clean_up();
 		val_ptr = new StringBuilder(1);
 		val_ptr.append(otherValue.get_char());
 
@@ -211,7 +211,7 @@ public class TitanCharString extends Base_Type {
 		if (otherValue.charstring) {
 			return assign(otherValue.cstr.toString());
 		} else {
-			cleanUp();
+			clean_up();
 			final StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < otherValue.val_ptr.size(); ++i) {
 				final TitanUniversalChar uc = otherValue.val_ptr.get(i);
@@ -318,7 +318,7 @@ public class TitanCharString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		final int n_chars = text_buf.pull_int().getInt();
 		if (n_chars < 0) {
@@ -563,7 +563,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		val_ptr = null;
 	}
 
@@ -850,7 +850,7 @@ public class TitanCharString extends Base_Type {
 		int bl = val_ptr.length() * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		if ((bl + align_length) < val_ptr.length() * 8) {
@@ -921,7 +921,7 @@ public class TitanCharString extends Base_Type {
 		cp.fieldorder = p_td.raw.fieldorder;
 		cp.hexorder = raw_order_t.ORDER_LSB;
 		if (p_td.raw.fieldlength >= 0) {
-			cleanUp();
+			clean_up();
 			val_ptr = new StringBuilder(decode_length / 8);
 			final char[] val_tmp = new char[decode_length / 8];
 			buff.get_b(decode_length, val_tmp, cp, top_bit_ord);
@@ -969,7 +969,7 @@ public class TitanCharString extends Base_Type {
 		case MP_Charstring:
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
-				cleanUp();
+				clean_up();
 				// no break
 			case OT_CONCAT: {
 				// The universal charstring will decode the string value if it is UTF-8 encoded
@@ -977,7 +977,7 @@ public class TitanCharString extends Base_Type {
 				ucs.set_param(mp);
 				if (ucs.charstring) {
 					// No special characters were found
-					if (isBound()) {
+					if (is_bound()) {
 						concatenate(ucs);
 					} else {
 						assign(ucs);
@@ -993,7 +993,7 @@ public class TitanCharString extends Base_Type {
 						}
 					}
 					final TitanCharString new_cs = new TitanCharString(ucs);
-					if (isBound()) {
+					if (is_bound()) {
 						concatenate(new_cs);
 					} else {
 						assign(new_cs);

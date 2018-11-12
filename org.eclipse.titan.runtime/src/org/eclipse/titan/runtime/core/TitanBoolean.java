@@ -116,17 +116,17 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return boolean_value != null;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return boolean_value != null;
 	}
 
@@ -279,7 +279,7 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		boolean_value = null;
 	}
 
@@ -455,7 +455,7 @@ public class TitanBoolean extends Base_Type {
 		final int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
 		final int length = (loc_length + 7) / 8;
 		int tmp;
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			tmp = 0;
 		} else {

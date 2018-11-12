@@ -2164,7 +2164,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						case A_VAR:
 							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
 							if(((Def_Var)def).getInitialValue() == null) {
-								portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+								portDefinition.varInit.append(MessageFormat.format("{0}.clean_up();\n", def.getGenName()));
 							} else {
 								def.generateCodeInitComp(aData, portDefinition.varInit, def);
 							}
@@ -2176,7 +2176,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						case A_VAR_TEMPLATE:
 							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, myScope);
 							if(((Def_Var_Template)def).getInitialValue() == null) {
-								portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+								portDefinition.varInit.append(MessageFormat.format("{0}.clean_up();\n", def.getGenName()));
 							} else {
 								def.generateCodeInitComp(aData, portDefinition.varInit, def);
 							}

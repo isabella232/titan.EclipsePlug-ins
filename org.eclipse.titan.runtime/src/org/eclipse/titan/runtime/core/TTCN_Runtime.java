@@ -756,7 +756,7 @@ public final class TTCN_Runtime {
 		} else if (is_single()) {
 			throw new TtcnError("Start test component operation cannot be performed in single mode.");
 		}
-		if (!component_reference.isBound()) {
+		if (!component_reference.is_bound()) {
 			throw new TtcnError("Performing a start operation on an unbound component reference.");
 		}
 
@@ -1797,7 +1797,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponent.isBound()) {
+		if (!sourceComponent.is_bound()) {
 			throw new TtcnError("The first argument of connect operation contains an unbound component reference.");
 		}
 		switch (sourceComponent.getComponent()) {
@@ -1809,7 +1809,7 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (!destinationComponent.isBound()) {
+		if (!destinationComponent.is_bound()) {
 			throw new TtcnError("The second argument of connect operation contains an unbound component reference.");
 		}
 		switch (destinationComponent.getComponent()) {
@@ -1862,7 +1862,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponent.isBound()) {
+		if (!sourceComponent.is_bound()) {
 			throw new TtcnError("The first argument of disconnect operation contains an unbound component reference.");
 		}
 		switch (sourceComponent.getComponent()) {
@@ -1874,7 +1874,7 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (!destinationComponent.isBound()) {
+		if (!destinationComponent.is_bound()) {
 			throw new TtcnError("The second argument of disconnect operation contains an unbound component reference.");
 		}
 		switch (destinationComponent.getComponent()) {
@@ -1929,7 +1929,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponentRef.isBound()) {
+		if (!sourceComponentRef.is_bound()) {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
 		}
 
@@ -1938,7 +1938,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("The first argument of map operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound()) {
+		if (!destinationComponentRef.is_bound()) {
 			throw new TtcnError("The second argument of map operation contains an unbound component reference.");
 		}
 
@@ -2010,7 +2010,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponentRef.isBound()) {
+		if (!sourceComponentRef.is_bound()) {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
 		}
 
@@ -2019,7 +2019,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound()) {
+		if (!destinationComponentRef.is_bound()) {
 			throw new TtcnError("The second argument of unmap operation contains an unbound component reference.");
 		}
 
@@ -2291,7 +2291,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void setverdict(final TitanVerdictType newValue, final String reason) {
-		if (!newValue.isBound()) {
+		if (!newValue.is_bound()) {
 			throw new TtcnError("The argument of setverdict operation is an unbound verdict value.");
 		}
 

@@ -30,7 +30,7 @@ public class TitanGraphicString_template extends TitanUniversalCharString_templa
 	 * */
 	public TitanGraphicString_template(final template_sel otherValue) {
 		super(otherValue);
-		checkSingleSelection(otherValue);
+		check_single_selection(otherValue);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class TitanGraphicString_template extends TitanUniversalCharString_templa
 
 	@Override
 	public TitanGraphicString valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific `graphic string' template.");
 		}
 

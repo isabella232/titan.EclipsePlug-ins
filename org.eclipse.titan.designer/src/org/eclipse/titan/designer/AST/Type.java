@@ -3074,7 +3074,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
-		source.append("if (!component_reference.isBound()) {\n");
+		source.append("if (!component_reference.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
 		source.append("}\n");
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
@@ -3240,11 +3240,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).isBound();\n",
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).is_bound();\n",
 					globalId, externalId, temporalIndexId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
-					globalId, externalId, temporalIndexId, (!isLast)?"isBound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
+					globalId, externalId, temporalIndexId, (!isLast)?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		}
 
 		generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);

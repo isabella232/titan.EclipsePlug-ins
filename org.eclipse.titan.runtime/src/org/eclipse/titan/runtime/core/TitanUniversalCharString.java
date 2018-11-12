@@ -270,7 +270,7 @@ public class TitanUniversalCharString extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound charstring value.");
 
 		if (!charstring) {
-			cleanUp();
+			clean_up();
 			charstring = true;
 		}
 		cstr = new StringBuilder(otherValue.getValue());
@@ -292,7 +292,7 @@ public class TitanUniversalCharString extends Base_Type {
 		otherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
 
 		if (!charstring) {
-			cleanUp();
+			clean_up();
 			charstring = true;
 		}
 		cstr = new StringBuilder();
@@ -324,7 +324,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanUniversalCharString assign(final TitanUniversalChar otherValue) {
-		cleanUp();
+		clean_up();
 		if (otherValue.is_char()) {
 			charstring = true;
 			cstr = new StringBuilder();
@@ -379,18 +379,18 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return charstring ? cstr != null : val_ptr != null;
 	}
 
 	@Override
 	public boolean is_present() {
-		return isBound();
+		return is_bound();
 	};
 
 	@Override
-	public boolean isValue() {
-		return isBound();
+	public boolean is_value() {
+		return is_bound();
 	}
 
 	public void mustBound(final String aErrorMessage) {
@@ -844,7 +844,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	@Override
-	public void cleanUp() {
+	public void clean_up() {
 		val_ptr = null;
 		cstr = null;
 	}
@@ -858,7 +858,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	//originally operator[](int)
 	public TitanUniversalCharString_Element getAt(final int index_value) {
-		if (!isBound() && index_value == 0) {
+		if (!is_bound() && index_value == 0) {
 			if (charstring) {
 				cstr = new StringBuilder();
 			} else {
@@ -1014,12 +1014,12 @@ public class TitanUniversalCharString extends Base_Type {
 		case MP_Charstring:
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
-				cleanUp();
+				clean_up();
 				//no break
 			case OT_CONCAT:
 				final TTCN_Buffer buff = new TTCN_Buffer();
 				buff.put_s(((String)param.get_string_data()).toCharArray());
-				if (isBound()) {
+				if (is_bound()) {
 					this.assign(this.concatenate(from_UTF8_buffer(buff)));
 				} else {
 					this.assign(from_UTF8_buffer(buff));
@@ -1032,10 +1032,10 @@ public class TitanUniversalCharString extends Base_Type {
 		case MP_Universal_Charstring:
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
-				cleanUp();
+				clean_up();
 				//no break
 			case OT_CONCAT:
-				if (isBound()) {
+				if (is_bound()) {
 					this.assign(this.concatenate((TitanUniversalCharString)param.get_string_data()));
 				} else {
 					this.assign((TitanUniversalCharString)param.get_string_data());
@@ -1086,7 +1086,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 *  */
 	@Override
 	public String toString() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			return "<unbound>";
 		}
 
@@ -1147,7 +1147,7 @@ public class TitanUniversalCharString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
 		final int n_uchars = text_buf.pull_int().getInt();
 		if (n_uchars < 0) {
@@ -1382,7 +1382,7 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		}
 		// allocate enough memory, start from clean state
-		cleanUp();
+		clean_up();
 		charstring = false;
 		val_ptr = new ArrayList<TitanUniversalChar>(lenghtUnichars);
 		for (int i = 0; i < lenghtUnichars; i++) {
@@ -1506,7 +1506,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				val_ptr = helper;
 			} else {
-				cleanUp();
+				clean_up();
 			}
 		}
 	}
@@ -1518,7 +1518,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		final int start = check_BOM(expected_coding, octets_ptr);
 		int n_uchars = n_octets / 2;
-		cleanUp();
+		clean_up();
 		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 		n_uchars = 0;
 		boolean isBig = true;
@@ -1577,7 +1577,7 @@ public class TitanUniversalCharString extends Base_Type {
 			if (n_uchars > 0) {
 				val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 			} else {
-				cleanUp();
+				clean_up();
 			}
 		}
 	}
@@ -1630,7 +1630,7 @@ public class TitanUniversalCharString extends Base_Type {
 			if (n_uchars > 0 ) {
 				val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 			} else {
-				cleanUp();
+				clean_up();
 			}
 		}
 	}
@@ -1973,7 +1973,7 @@ public class TitanUniversalCharString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		if (charstring) {
@@ -2029,7 +2029,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
 		final char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
-		if(buff_str.isBound()) {
+		if(buff_str.is_bound()) {
 			charstring = true;
 			for (int i = 0; i < buff_str.lengthOf().getInt(); ++i) {
 				if(buff_str.getValue().charAt(i) > 127) {
