@@ -301,7 +301,8 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status getException(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
+	@Override
+	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
 			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
@@ -327,7 +328,8 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return result;
 	}
 
-	public TitanAlt_Status checkCatch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
+	@Override
+	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
 			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
