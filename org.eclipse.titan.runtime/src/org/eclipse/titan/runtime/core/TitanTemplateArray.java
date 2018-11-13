@@ -199,7 +199,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		for (int i = 0; i < singleSize; ++i) {
 			try {
 				final Ttemplate helper = classTemplate.newInstance();
-				helper.assign(otherValue.getAt(i));
+				helper.assign(otherValue.get_at(i));
 				single_value[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
@@ -479,7 +479,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	// originally T& operator[](int)
 	@SuppressWarnings("unchecked")
-	public Ttemplate getAt(int index) {
+	public Ttemplate get_at(int index) {
 		if (index < indexOffset || index >= indexOffset + array_size) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of an array template using invalid index: {0}. "
 					+ "Index range is [{1},{2}].",
@@ -503,15 +503,15 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	//originally T& operator[](const INTEGER)
-	public Ttemplate getAt(final TitanInteger index) {
+	public Ttemplate get_at(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
 
-		return getAt(index.getInt());
+		return get_at(index.getInt());
 	}
 
 	// originally const T& operator[](int)
 	@SuppressWarnings("unchecked")
-	public Ttemplate constGetAt(int index) {
+	public Ttemplate constGet_at(int index) {
 		if (index < indexOffset) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of an array template using invalid index: {0}. "
 					+ "Index range is [{1},{2}].", index, indexOffset, indexOffset + (int) array_size));
@@ -530,10 +530,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	// originally T& operator[](const INTEGER)
-	public Ttemplate constGetAt(final TitanInteger index) {
+	public Ttemplate constGet_at(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
 
-		return constGetAt(index.getInt());
+		return constGet_at(index.getInt());
 	}
 
 	public int n_elem() {
@@ -732,7 +732,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			if (param_index >= array_size) {
 				param.error("Invalid array index: %u. The array only has %u elements.", param_index, array_size);
 			}
-			this.getAt(param_index).set_param(param);
+			this.get_at(param_index).set_param(param);
 			return;
 		}
 
@@ -763,14 +763,14 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
 				if (curr.get_type() != type_t.MP_NotUsed) {
-					this.getAt(i + indexOffset).set_param(curr);
+					this.get_at(i + indexOffset).set_param(curr);
 				}
 			}
 			break;
 		case MP_Indexed_List:
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
-				this.getAt(curr.get_id().get_index()).set_param(curr);
+				this.get_at(curr.get_id().get_index()).set_param(curr);
 			}
 			break;
 		default:

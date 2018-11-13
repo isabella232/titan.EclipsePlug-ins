@@ -692,7 +692,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	public TitanBitString_Element getAt(final int index_value) {
+	public TitanBitString_Element get_at(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
 			bits_ptr = new int[1];
 			n_bits = 1;
@@ -722,14 +722,14 @@ public class TitanBitString extends Base_Type {
 	}
 
 	// originally operator[](const INTEGER&)
-	public TitanBitString_Element getAt(final TitanInteger index_value) {
+	public TitanBitString_Element get_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 
-		return getAt(index_value.getInt());
+		return get_at(index_value.getInt());
 	}
 
 	// originally operator[](int) const
-	public final TitanBitString_Element constGetAt(final int index_value) {
+	public final TitanBitString_Element constGet_at(final int index_value) {
 		mustBound("Accessing an element of an unbound bitstring value.");
 
 		if (index_value < 0) {
@@ -745,10 +745,10 @@ public class TitanBitString extends Base_Type {
 	}
 
 	// originally operator[](const INTEGER&) const
-	public final TitanBitString_Element constGetAt(final TitanInteger index_value) {
+	public final TitanBitString_Element constGet_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.getInt());
 	}
 
 	@Override

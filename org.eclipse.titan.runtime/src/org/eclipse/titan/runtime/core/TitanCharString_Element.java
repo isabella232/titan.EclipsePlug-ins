@@ -120,7 +120,7 @@ public class TitanCharString_Element {
 		if (otherValue == null || otherValue.length() != 1) {
 			return false;
 		} else {
-			return str_val.getAt(char_pos).get_char() == otherValue.charAt(0);
+			return str_val.get_at(char_pos).get_char() == otherValue.charAt(0);
 		}
 	}
 
@@ -176,11 +176,11 @@ public class TitanCharString_Element {
 		if (otherValue.val_ptr.size() != 1) {
 			return false;
 		} else if (otherValue.charstring) {
-			return str_val.getAt(char_pos).get_char() == otherValue.charAt(0).getUc_cell();
+			return str_val.get_at(char_pos).get_char() == otherValue.charAt(0).getUc_cell();
 		} else {
 			final TitanUniversalChar temp = otherValue.charAt(0);
 			return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-					&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
+					&& str_val.get_at(char_pos).get_char() == temp.getUc_cell();
 		}
 	}
 
@@ -199,7 +199,7 @@ public class TitanCharString_Element {
 
 		final TitanUniversalChar temp = otherValue.get_char();
 		return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-				&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
+				&& str_val.get_at(char_pos).get_char() == temp.getUc_cell();
 	}
 
 	/**
@@ -252,13 +252,13 @@ public class TitanCharString_Element {
 		if (aOtherValue != null) {
 			final int otherLen = aOtherValue.length();
 			final StringBuilder ret_val = new StringBuilder(otherLen + 1);
-			ret_val.append(str_val.constGetAt(char_pos).get_char());
+			ret_val.append(str_val.constGet_at(char_pos).get_char());
 			ret_val.append(aOtherValue);
 
 			return new TitanCharString(ret_val);
 		} else {
 			final StringBuilder ret_val = new StringBuilder();
-			ret_val.append(str_val.constGetAt(char_pos).get_char());
+			ret_val.append(str_val.constGet_at(char_pos).get_char());
 
 			return new TitanCharString(ret_val);
 		}
@@ -271,7 +271,7 @@ public class TitanCharString_Element {
 
 		final int nChars = aOtherValue.lengthof().getInt();
 		final StringBuilder ret_val = new StringBuilder(nChars + 1);
-		ret_val.append(str_val.constGetAt(char_pos).get_char());
+		ret_val.append(str_val.constGet_at(char_pos).get_char());
 		ret_val.append(aOtherValue.getValue());
 
 		return new TitanCharString(ret_val);
@@ -283,7 +283,7 @@ public class TitanCharString_Element {
 		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
 
 		final StringBuilder ret_val = new StringBuilder(2);
-		ret_val.append(str_val.constGetAt(char_pos).get_char());
+		ret_val.append(str_val.constGet_at(char_pos).get_char());
 		ret_val.append(aOtherValue.get_char());
 
 		return new TitanCharString(ret_val);
@@ -347,7 +347,7 @@ public class TitanCharString_Element {
 	 */
 	public void log() {
 		if (bound_flag) {
-			final char c = str_val.getAt(char_pos).get_char();
+			final char c = str_val.get_at(char_pos).get_char();
 			if (TTCN_Logger.isPrintable(c)) {
 				TTCN_Logger.log_char('"');
 				TTCN_Logger.logCharEscaped(c);

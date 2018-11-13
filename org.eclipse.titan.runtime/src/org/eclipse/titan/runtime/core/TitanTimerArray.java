@@ -102,25 +102,25 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	// originally T& operator[](int)
 	@SuppressWarnings("unchecked")
-	public T getAt(final int index) {
+	public T get_at(final int index) {
 		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
 	}
 
 	//originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
-	public T getAt(final TitanInteger index) {
+	public T get_at(final TitanInteger index) {
 		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
 	}
 
 	//const originally T& operator[](int)
 	@SuppressWarnings("unchecked")
-	public T constGetAt(final int index) {
+	public T constGet_at(final int index) {
 		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
 	}
 
 	// const // originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
-	public T constGetAt(final TitanInteger index) {
+	public T constGet_at(final TitanInteger index) {
 		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
 	}
 

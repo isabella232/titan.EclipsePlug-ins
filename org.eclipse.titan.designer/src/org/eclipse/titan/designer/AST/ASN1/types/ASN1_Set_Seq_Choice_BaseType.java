@@ -473,7 +473,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			closingBrackets.insert(0, "}\n");
 			final String temporalId = aData.getTemporaryVariableName();
 			aData.addBuiltinTypeImport("Optional");
-			expression.expression.append(MessageFormat.format("final Optional<{0}{1}> {2} = {3}.get{4}();\n",
+			expression.expression.append(MessageFormat.format("final Optional<{0}{1}> {2} = {3}.get_{4}();\n",
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (subReferenceIndex == subreferences.size()-1) {
@@ -529,7 +529,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			final String temporalId = aData.getTemporaryVariableName();
 			final String temporalId2 = aData.getTemporaryVariableName();
 			expression.expression.append(MessageFormat.format("final {0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
-			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (optype == Operation_type.ISBOUND_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));

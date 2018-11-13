@@ -558,12 +558,12 @@ public final class Indexed_Template_List extends TTCN3Template {
 			source.append("{\n");
 			final Value index = indexedTemplate.getIndex().getValue();
 			if (Value_type.INTEGER_VALUE.equals(index.getValuetype())) {
-				source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
 			} else {
 				final String tempId2 = aData.getTemporaryVariableName();
 				source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempId2));
 				index.generateCodeInit(aData, source, tempId2);
-				source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, tempId2));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId, name, tempId2));
 			}
 			indexedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
 			source.append("}\n");

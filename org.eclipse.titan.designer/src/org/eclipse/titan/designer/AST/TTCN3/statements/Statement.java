@@ -592,7 +592,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 			expression.expression.append(MessageFormat.format("{0}.assign(p_index);\n", tempId));
 			break;
 		case TYPE_SEQUENCE_OF:
-			expression.expression.append(MessageFormat.format("{0}.getAt(pos).assign(p_index);\n", tempId));
+			expression.expression.append(MessageFormat.format("{0}.get_at(pos).assign(p_index);\n", tempId));
 			break;
 		case TYPE_ARRAY: {
 			final ArrayDimension dimension = ((Array_Type)last).getDimension();
@@ -605,7 +605,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 			} else {
 				offsetString = MessageFormat.format(" + {0}", offset);
 			}
-			expression.expression.append(MessageFormat.format("{0}.getAt(pos{1}).assign(p_index);\n", tempId, offsetString));
+			expression.expression.append(MessageFormat.format("{0}.get_at(pos{1}).assign(p_index);\n", tempId, offsetString));
 			break;
 		}
 		default:

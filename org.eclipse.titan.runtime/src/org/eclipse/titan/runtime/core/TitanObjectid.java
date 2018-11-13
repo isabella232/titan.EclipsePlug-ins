@@ -157,7 +157,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	// originally operator[]
-	public final TitanInteger constGetAt(final int index_value) {
+	public final TitanInteger constGet_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
 				throw new TtcnError("Accessing a component of an unbound objid value.");
@@ -183,14 +183,14 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	// originally operator[]
-	public final TitanInteger constGetAt(final TitanInteger index_value) {
+	public final TitanInteger constGet_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a objid component with an unbound integer value.");
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.getInt());
 	}
 
 	// originally operator[]
-	public TitanInteger getAt(final int index_value) {
+	public TitanInteger get_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
 				throw new TtcnError("Accessing a component of an unbound objid value.");
@@ -216,10 +216,10 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	// originally operator[]
-	public TitanInteger getAt(final TitanInteger index_value) {
+	public TitanInteger get_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a objid component with an unbound integer value.");
 
-		return getAt(index_value.getInt());
+		return get_at(index_value.getInt());
 	}
 
 	/**

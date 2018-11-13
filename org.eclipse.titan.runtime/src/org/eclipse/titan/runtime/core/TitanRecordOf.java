@@ -191,7 +191,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	//originally get_at(int)
-	public Base_Type getAt(final int index_value) {
+	public Base_Type get_at(final int index_value) {
 		if (index_value < 0) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
 		}
@@ -211,13 +211,13 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	//originally get_at(const INTEGER&)
-	public Base_Type getAt(final TitanInteger index_value) {
+	public Base_Type get_at(final TitanInteger index_value) {
 		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
-		return getAt(index_value.getInt());
+		return get_at(index_value.getInt());
 	}
 
 	//originally get_at(int) const
-	public Base_Type constGetAt(final int index_value) {
+	public Base_Type constGet_at(final int index_value) {
 		if (!is_bound()) {
 			throw new TtcnError(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
 		}
@@ -235,10 +235,10 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	//originally get_at(const INTEGER&) const
-	public Base_Type constGetAt(final TitanInteger index_value) {
+	public Base_Type constGet_at(final TitanInteger index_value) {
 		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.getInt());
 	}
 
 	private Base_Type get_unbound_elem() {

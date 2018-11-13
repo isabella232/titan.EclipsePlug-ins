@@ -155,7 +155,7 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get_{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 			}
 		}
 		source.append("}\n");
@@ -164,11 +164,11 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("public {0} get_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 				source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 				source.append("}\n");
 
-				source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("public {0} constGet_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 				source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 				source.append("}\n");
 			}
@@ -279,7 +279,7 @@ public final class SignatureGenerator {
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 				source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-				source.append(MessageFormat.format("ptr_{0}.assign(call_par.constGet{0}());\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("ptr_{0}.assign(call_par.constGet_{0}());\n", formalPar.mJavaName));
 				source.append("}\n");
 			}
 		}
@@ -332,7 +332,7 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("param_{0} = new {1}(other_value.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("param_{0} = new {1}(other_value.get_{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 				}
 			}
 			if (def.returnType != null) {
@@ -344,22 +344,22 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("public {0} get_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 					source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 					source.append("}\n");
 
-					source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("public {0} constGet_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 					source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
 			}
 
 			if (def.returnType != null) {
-				source.append(MessageFormat.format("public {0} getreturn_value() '{'\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} get_return_value() '{'\n", def.returnType.mJavaTypeName));
 				source.append("return reply_value;\n");
 				source.append("}\n");
 
-				source.append(MessageFormat.format("public {0} constGetreturn_value() '{'\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} constGet_return_value() '{'\n", def.returnType.mJavaTypeName));
 				source.append("return reply_value;\n");
 				source.append("}\n");
 			}
@@ -502,14 +502,14 @@ public final class SignatureGenerator {
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
 					source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet{0}());\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet_{0}());\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
 				
 			}
 			if (def.returnType != null) {
 				source.append("if (ret_val_redir != null) {\n");
-				source.append(MessageFormat.format("ret_val_redir.assign(reply_par.constGetreturn_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("ret_val_redir.assign(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
 				source.append("}\n");
 			}
 			source.append("}\n");
@@ -611,7 +611,7 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("//originally {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("public {0} get{0}() '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} get_{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
 				source.append("clean_up();\n");
 				source.append(MessageFormat.format("field = new {0}();\n", exception.mJavaTypeName));
@@ -621,7 +621,7 @@ public final class SignatureGenerator {
 				source.append("}\n");
 
 				source.append(MessageFormat.format("//originally const {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("public {0} constGet{0}() '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} constGet_{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
 
 				source.append(MessageFormat.format("throw new TtcnError(\"Referencing to non-selected type integer in an exception of signature {0}.\");\n", def.displayName));
@@ -656,7 +656,7 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case {0}:\n", i));
-				source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("get_{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -727,7 +727,7 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("return (({0}) field).match(other_value.get{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("return (({0}) field).match(other_value.get_{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
 			}
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
@@ -755,7 +755,7 @@ public final class SignatureGenerator {
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
-				source.append(MessageFormat.format("field.log_match(match_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("field.log_match(match_value.constGet_{0}(), legacy);\n", exception.mJavaTypeName));
 				source.append("break;");
 			}
 			source.append("default:\n");
@@ -789,7 +789,7 @@ public final class SignatureGenerator {
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append("if (redirection_field != null) {\n");
-				source.append(MessageFormat.format("redirection_field.assign(source_value.constGet{0}());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("redirection_field.assign(source_value.constGet_{0}());\n", exception.mJavaTypeName));
 				source.append("}\n");
 				source.append("return;\n");
 			}
@@ -882,7 +882,7 @@ public final class SignatureGenerator {
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
+			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get_{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
 
@@ -907,11 +907,11 @@ public final class SignatureGenerator {
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
+			source.append(MessageFormat.format("public {0} get_{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
 			source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName ));
 			source.append("}\n");
 
-			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
+			source.append(MessageFormat.format("public {0} constGet_{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
 			source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName ));
 			source.append("}\n");
 		}
@@ -928,7 +928,7 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("return_value.get_{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return return_value;\n");
@@ -941,7 +941,7 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("return_value.get_{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 				}
 			}
 
@@ -961,7 +961,7 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get_{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return true;\n");
@@ -977,7 +977,7 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get_{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 				}
 			}
 			if (def.returnType != null) {
@@ -1047,7 +1047,7 @@ public final class SignatureGenerator {
 				} else {
 					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 				}
-				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("param_{0}.log_match(match_value.get_{0}(), legacy);\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("TTCN_Logger.log_event_str(\" }\");\n");
@@ -1067,7 +1067,7 @@ public final class SignatureGenerator {
 						} else {
 							source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 						}
-						source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+						source.append(MessageFormat.format("param_{0}.log_match(match_value.get_{0}(), legacy);\n", formalPar.mJavaName ));
 					}
 				}
 				if (def.returnType != null) {

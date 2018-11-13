@@ -545,7 +545,7 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} get_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
 			source.append("clean_up();\n");
 			source.append(MessageFormat.format("field = new {0}();\n", fieldInfo.mJavaTypeName));
@@ -563,7 +563,7 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} constGet_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
@@ -657,7 +657,7 @@ public final class UnionGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			source.append(MessageFormat.format("if (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
 			source.append("if (!field.is_bound()) {\n");
 			source.append("clean_up();\n");
 			source.append("}\n");
@@ -734,7 +734,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case {0}:\n", i));
-			source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
 			source.append("break;\n");
 		}
 
@@ -894,7 +894,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case {0}: '{'\n", i));
 				source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("decoded_length = get_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 				source.append("break;\n");
 				source.append("}\n");
 			}
@@ -992,7 +992,7 @@ public final class UnionGenerator {
 							source.append(") {\n");
 							source.append("buff.set_pos_bit(starting_pos);\n");
 							source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("decoded_length = get_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 							source.append("if (decoded_length > 0) {\n");
 							source.append("if (");
 							genRawFieldChecker(source, cur_choice, true);
@@ -1017,7 +1017,7 @@ public final class UnionGenerator {
 							source.append("if (already_failed) {\n");
 							source.append("buff.set_pos_bit(starting_pos);\n");
 							source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("decoded_length = get_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 							source.append("if (decoded_length > 0) {\n");
 							source.append("if (");
 							genRawFieldChecker(source, cur_choice, true);
@@ -1040,7 +1040,7 @@ public final class UnionGenerator {
 
 					source.append("buff.set_pos_bit(starting_pos);\n");
 					source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("decoded_length = get_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("if (");
 					genRawFieldChecker(source, cur_choice, true);
@@ -1055,7 +1055,7 @@ public final class UnionGenerator {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 					source.append("buff.set_pos_bit(starting_pos);\n");
 					source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("decoded_length = get_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 					source.append("}\n");
@@ -1176,7 +1176,7 @@ public final class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -1195,7 +1195,7 @@ public final class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -1399,7 +1399,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})single_value).match(other_value.get{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("return (({0})single_value).match(other_value.get_{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 		}
 
 		source.append("default:\n");
@@ -1520,7 +1520,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("ret_val.get{0}().assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
+			source.append(MessageFormat.format("ret_val.get_{0}().assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
 			source.append("break;\n");
 		}
 		source.append("default:\n");
@@ -1649,7 +1649,7 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} get_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
 			source.append("final template_sel old_selection = template_selection;\n");
 			source.append("clean_up();\n");
@@ -1673,7 +1673,7 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} constGet_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append("if (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
@@ -1773,10 +1773,10 @@ public final class UnionGenerator {
 			source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
 
-			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("single_value.log_match(match_value.get_{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("single_value.log_match(match_value.get_{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("TTCN_Logger.log_event_str(\" }\");\n");
 			source.append("}\n");
 			source.append("break;\n");
@@ -1946,7 +1946,7 @@ public final class UnionGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			source.append(MessageFormat.format("if(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
 			source.append("break;\n");
 			source.append("}\n");
 		}
@@ -2035,7 +2035,7 @@ public final class UnionGenerator {
 						}
 						source.append(MessageFormat.format("{0}.get_selection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
 					}
-					fieldName = MessageFormat.format("{0}.get{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+					fieldName = MessageFormat.format("{0}.get_{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
 
 				}
 

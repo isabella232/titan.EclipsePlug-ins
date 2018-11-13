@@ -30,22 +30,22 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		single_value_union_selection = other_value.get_selection();
 		switch (other_value.get_selection()) {
 		case ALT_syntaxes:
-			single_value = new TitanCharacter_String_identification_syntaxes_template(other_value.constGetsyntaxes());
+			single_value = new TitanCharacter_String_identification_syntaxes_template(other_value.constGet_syntaxes());
 			break;
 		case ALT_syntax:
-			single_value = new TitanObjectid_template(other_value.constGetsyntax());
+			single_value = new TitanObjectid_template(other_value.constGet_syntax());
 			break;
 		case ALT_presentation__context__id:
-			single_value = new TitanInteger_template(other_value.constGetpresentation__context__id());
+			single_value = new TitanInteger_template(other_value.constGet_presentation__context__id());
 			break;
 		case ALT_context__negotiation:
-			single_value = new TitanCharacter_String_identification_context__negotiation_template(other_value.constGetcontext__negotiation());
+			single_value = new TitanCharacter_String_identification_context__negotiation_template(other_value.constGet_context__negotiation());
 			break;
 		case ALT_transfer__syntax:
-			single_value = new TitanObjectid_template(other_value.constGettransfer__syntax());
+			single_value = new TitanObjectid_template(other_value.constGet_transfer__syntax());
 			break;
 		case ALT_fixed:
-			single_value = new TitanAsn_Null_template(other_value.constGetfixed());
+			single_value = new TitanAsn_Null_template(other_value.constGet_fixed());
 			break;
 		default:
 			throw new TtcnError("Initializing a template with an unbound value of type CHARACTER STRING.identification.");
@@ -58,22 +58,22 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			single_value_union_selection = other_value.single_value_union_selection;
 			switch (single_value_union_selection) {
 			case ALT_syntaxes:
-				single_value = new TitanCharacter_String_identification_syntaxes_template(other_value.constGetsyntaxes());
+				single_value = new TitanCharacter_String_identification_syntaxes_template(other_value.constGet_syntaxes());
 				break;
 			case ALT_syntax:
-				single_value = new TitanObjectid_template(other_value.constGetsyntax());
+				single_value = new TitanObjectid_template(other_value.constGet_syntax());
 				break;
 			case ALT_presentation__context__id:
-				single_value = new TitanInteger_template(other_value.constGetpresentation__context__id());
+				single_value = new TitanInteger_template(other_value.constGet_presentation__context__id());
 				break;
 			case ALT_context__negotiation:
-				single_value = new TitanCharacter_String_identification_context__negotiation_template(other_value.constGetcontext__negotiation());
+				single_value = new TitanCharacter_String_identification_context__negotiation_template(other_value.constGet_context__negotiation());
 				break;
 			case ALT_transfer__syntax:
-				single_value = new TitanObjectid_template(other_value.constGettransfer__syntax());
+				single_value = new TitanObjectid_template(other_value.constGet_transfer__syntax());
 				break;
 			case ALT_fixed:
-				single_value = new TitanAsn_Null_template(other_value.constGetfixed());
+				single_value = new TitanAsn_Null_template(other_value.constGet_fixed());
 				break;
 			default:
 				throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type CHARACTER STRING.identification.");
@@ -115,7 +115,8 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 	/**
 	 * Initializes to a given value.
-	 * The template becomes a specific template and the elements of the provided value are copied.
+	 * The template becomes a specific template.
+	 * The elements of the provided value are copied.
 	 *
 	 * @param other_value
 	 *                the value to initialize to.
@@ -269,17 +270,17 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			}
 			switch (value_selection) {
 			case ALT_syntaxes:
-				return ((TitanCharacter_String_identification_syntaxes_template)single_value).match(other_value.getsyntaxes(), legacy);
+				return ((TitanCharacter_String_identification_syntaxes_template)single_value).match(other_value.get_syntaxes(), legacy);
 			case ALT_syntax:
-				return ((TitanObjectid_template)single_value).match(other_value.getsyntax(), legacy);
+				return ((TitanObjectid_template)single_value).match(other_value.get_syntax(), legacy);
 			case ALT_presentation__context__id:
-				return ((TitanInteger_template)single_value).match(other_value.getpresentation__context__id(), legacy);
+				return ((TitanInteger_template)single_value).match(other_value.get_presentation__context__id(), legacy);
 			case ALT_context__negotiation:
-				return ((TitanCharacter_String_identification_context__negotiation_template)single_value).match(other_value.getcontext__negotiation(), legacy);
+				return ((TitanCharacter_String_identification_context__negotiation_template)single_value).match(other_value.get_context__negotiation(), legacy);
 			case ALT_transfer__syntax:
-				return ((TitanObjectid_template)single_value).match(other_value.gettransfer__syntax(), legacy);
+				return ((TitanObjectid_template)single_value).match(other_value.get_transfer__syntax(), legacy);
 			case ALT_fixed:
-				return ((TitanAsn_Null_template)single_value).match(other_value.getfixed(), legacy);
+				return ((TitanAsn_Null_template)single_value).match(other_value.get_fixed(), legacy);
 			default:
 				throw new TtcnError("Internal error: Invalid selector in a specific value when matching a template of union type CHARACTER STRING.identification.");
 			}
@@ -361,22 +362,22 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		final TitanCharacter_String_identification ret_val = new TitanCharacter_String_identification();
 		switch (single_value_union_selection) {
 		case ALT_syntaxes:
-			ret_val.getsyntaxes().assign(((TitanCharacter_String_identification_syntaxes_template)single_value).valueof());
+			ret_val.get_syntaxes().assign(((TitanCharacter_String_identification_syntaxes_template)single_value).valueof());
 			break;
 		case ALT_syntax:
-			ret_val.getsyntax().assign(((TitanObjectid_template)single_value).valueof());
+			ret_val.get_syntax().assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_presentation__context__id:
-			ret_val.getpresentation__context__id().assign(((TitanInteger_template)single_value).valueof());
+			ret_val.get_presentation__context__id().assign(((TitanInteger_template)single_value).valueof());
 			break;
 		case ALT_context__negotiation:
-			ret_val.getcontext__negotiation().assign(((TitanCharacter_String_identification_context__negotiation_template)single_value).valueof());
+			ret_val.get_context__negotiation().assign(((TitanCharacter_String_identification_context__negotiation_template)single_value).valueof());
 			break;
 		case ALT_transfer__syntax:
-			ret_val.gettransfer__syntax().assign(((TitanObjectid_template)single_value).valueof());
+			ret_val.get_transfer__syntax().assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_fixed:
-			ret_val.getfixed().assign(((TitanAsn_Null_template)single_value).valueof());
+			ret_val.get_fixed().assign(((TitanAsn_Null_template)single_value).valueof());
 			break;
 		default:
 			throw new TtcnError("Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type CHARACTER STRING.identification.");
@@ -438,11 +439,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field syntaxes.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field syntaxes was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanCharacter_String_identification_syntaxes_template getsyntaxes() {
+	public TitanCharacter_String_identification_syntaxes_template get_syntaxes() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_syntaxes) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -459,11 +461,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field syntaxes.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field syntaxes is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanCharacter_String_identification_syntaxes_template constGetsyntaxes() {
+	public TitanCharacter_String_identification_syntaxes_template constGet_syntaxes() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntaxes in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -475,11 +478,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field syntax.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field syntax was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid_template getsyntax() {
+	public TitanObjectid_template get_syntax() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_syntax) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -496,11 +500,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field syntax.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field syntax is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid_template constGetsyntax() {
+	public TitanObjectid_template constGet_syntax() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntax in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -512,11 +517,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field presentation-context-id.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field presentation-context-id was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger_template getpresentation__context__id() {
+	public TitanInteger_template get_presentation__context__id() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_presentation__context__id) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -533,11 +539,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field presentation-context-id.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field presentation-context-id is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger_template constGetpresentation__context__id() {
+	public TitanInteger_template constGet_presentation__context__id() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field presentation-context-id in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -549,11 +556,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field context-negotiation.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field context-negotiation was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanCharacter_String_identification_context__negotiation_template getcontext__negotiation() {
+	public TitanCharacter_String_identification_context__negotiation_template get_context__negotiation() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_context__negotiation) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -570,11 +578,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field context-negotiation.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field context-negotiation is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanCharacter_String_identification_context__negotiation_template constGetcontext__negotiation() {
+	public TitanCharacter_String_identification_context__negotiation_template constGet_context__negotiation() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field context-negotiation in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -586,11 +595,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field transfer-syntax.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field transfer-syntax was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid_template gettransfer__syntax() {
+	public TitanObjectid_template get_transfer__syntax() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_transfer__syntax) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -607,11 +617,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field transfer-syntax.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field transfer-syntax is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid_template constGettransfer__syntax() {
+	public TitanObjectid_template constGet_transfer__syntax() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer-syntax in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -623,11 +634,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Selects and gives access to field fixed.
-	 * If other field was previously selected, its value will be destroyed.
+	 * If field fixed was previously selected,
+	 * its value will be destroyed.
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null_template getfixed() {
+	public TitanAsn_Null_template get_fixed() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanCharacter_String_identification.union_selection_type.ALT_fixed) {
 			final template_sel old_selection = template_selection;
 			clean_up();
@@ -644,11 +656,12 @@ public class TitanCharacter_String_identification_template extends Base_Template
 
 	/**
 	 * Gives read-only access to field fixed.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field fixed is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null_template constGetfixed() {
+	public TitanAsn_Null_template constGet_fixed() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field fixed in a non-specific template of union type CHARACTER STRING.identification.");
 		}
@@ -714,60 +727,60 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			case ALT_syntaxes:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".syntaxes");
-					single_value.log_match(match_value.getsyntaxes(), legacy);
+					single_value.log_match(match_value.get_syntaxes(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ syntaxes := ");
-					single_value.log_match(match_value.getsyntaxes(), legacy);
+					single_value.log_match(match_value.get_syntaxes(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
 			case ALT_syntax:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".syntax");
-					single_value.log_match(match_value.getsyntax(), legacy);
+					single_value.log_match(match_value.get_syntax(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ syntax := ");
-					single_value.log_match(match_value.getsyntax(), legacy);
+					single_value.log_match(match_value.get_syntax(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
 			case ALT_presentation__context__id:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".presentation-context-id");
-					single_value.log_match(match_value.getpresentation__context__id(), legacy);
+					single_value.log_match(match_value.get_presentation__context__id(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ presentation-context-id := ");
-					single_value.log_match(match_value.getpresentation__context__id(), legacy);
+					single_value.log_match(match_value.get_presentation__context__id(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
 			case ALT_context__negotiation:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".context-negotiation");
-					single_value.log_match(match_value.getcontext__negotiation(), legacy);
+					single_value.log_match(match_value.get_context__negotiation(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ context-negotiation := ");
-					single_value.log_match(match_value.getcontext__negotiation(), legacy);
+					single_value.log_match(match_value.get_context__negotiation(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
 			case ALT_transfer__syntax:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".transfer-syntax");
-					single_value.log_match(match_value.gettransfer__syntax(), legacy);
+					single_value.log_match(match_value.get_transfer__syntax(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ transfer-syntax := ");
-					single_value.log_match(match_value.gettransfer__syntax(), legacy);
+					single_value.log_match(match_value.get_transfer__syntax(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
 			case ALT_fixed:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".fixed");
-					single_value.log_match(match_value.getfixed(), legacy);
+					single_value.log_match(match_value.get_fixed(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ fixed := ");
-					single_value.log_match(match_value.getfixed(), legacy);
+					single_value.log_match(match_value.get_fixed(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
@@ -925,27 +938,27 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
 			final String last_name = mp_last.get_id().get_name();
 			if("syntaxes".equals(last_name)) {
-				getsyntaxes().set_param(mp_last);
+				get_syntaxes().set_param(mp_last);
 				break;
 			}
 			if("syntax".equals(last_name)) {
-				getsyntax().set_param(mp_last);
+				get_syntax().set_param(mp_last);
 				break;
 			}
 			if("presentation-context-id".equals(last_name)) {
-				getpresentation__context__id().set_param(mp_last);
+				get_presentation__context__id().set_param(mp_last);
 				break;
 			}
 			if("context-negotiation".equals(last_name)) {
-				getcontext__negotiation().set_param(mp_last);
+				get_context__negotiation().set_param(mp_last);
 				break;
 			}
 			if("transfer-syntax".equals(last_name)) {
-				gettransfer__syntax().set_param(mp_last);
+				get_transfer__syntax().set_param(mp_last);
 				break;
 			}
 			if("fixed".equals(last_name)) {
-				getfixed().set_param(mp_last);
+				get_fixed().set_param(mp_last);
 				break;
 			}
 			mp_last.error(MessageFormat.format("Field {0} does not exist in type CHARACTER STRING.identification.", last_name));

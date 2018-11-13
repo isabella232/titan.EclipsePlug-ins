@@ -518,13 +518,13 @@ public final class Array_Value extends Value {
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append(".getAt(").append(offset + i).append(')');
+				embeddedName.append(".get_at(").append(offset + i).append(')');
 				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
 				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append(".getAt(").append(offset + i).append(')');
+				embeddedName.append(".get_at(").append(offset + i).append(')');
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
 		}
@@ -557,12 +557,12 @@ public final class Array_Value extends Value {
 					source.append("{\n");
 					final Value index = indexedValue.getIndex().getValue();
 					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
-						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+						source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
 					} else {
 						final String tempId2 = aData.getTemporaryVariableName();
 						source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempId2));
 						index.generateCodeInit(aData, source, tempId2);
-						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+						source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId1, name, tempId2));
 					}
 					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
 					source.append("}\n");
@@ -584,7 +584,7 @@ public final class Array_Value extends Value {
 				} else // FIXME needs temporary reference branch
 					// (needs_temp_ref function missing)
 				{
-					final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, indexOffset + i);
+					final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, indexOffset + i);
 					value.generateCodeInit(aData, source, embeddedName);
 				}
 			}

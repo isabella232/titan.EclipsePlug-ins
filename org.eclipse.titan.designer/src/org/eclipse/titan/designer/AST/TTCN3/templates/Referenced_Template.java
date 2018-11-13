@@ -900,9 +900,9 @@ public final class Referenced_Template extends TTCN3Template {
 		while (!referenceStack.isEmpty()) {
 			final ISubReference subReference = referenceStack.pop();
 			if (subReference instanceof FieldSubReference) {
-				expression.expression.append(MessageFormat.format(".get{0}()", FieldSubReference.getJavaGetterName(((FieldSubReference) subReference).getId().getName())));
+				expression.expression.append(MessageFormat.format(".get_{0}()", FieldSubReference.getJavaGetterName(((FieldSubReference) subReference).getId().getName())));
 			} else {
-				expression.expression.append(".getAt(");
+				expression.expression.append(".get_at(");
 				((ArraySubReference) subReference).getValue().generateCodeExpression(aData, expression, false);
 				expression.expression.append(')');
 			}

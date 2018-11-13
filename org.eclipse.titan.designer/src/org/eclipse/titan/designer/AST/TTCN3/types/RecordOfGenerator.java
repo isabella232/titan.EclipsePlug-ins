@@ -656,7 +656,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format("\tpublic {0} getAt( final int index_value ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} get_at( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -686,9 +686,9 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format("\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
-		source.append("\t\treturn getAt( index_value.getInt() );\n");
+		source.append("\t\treturn get_at( index_value.getInt() );\n");
 		source.append("\t}\n\n");
 
 		if (aData.isDebug()) {
@@ -703,7 +703,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format("\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} constGet_at( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif ( !is_bound() ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t}\n");
@@ -731,9 +731,9 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
-		source.append("\t\treturn constGetAt( index_value.getInt() );\n");
+		source.append("\t\treturn constGet_at( index_value.getInt() );\n");
 		source.append("\t}\n\n");
 
 		source.append("\t/**\n");
@@ -970,8 +970,8 @@ public final class RecordOfGenerator {
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-		source.append("getAt(i).set_param(current);\n");
-		source.append("if (!constGetAt(i).is_bound()) {\n");
+		source.append("get_at(i).set_param(current);\n");
+		source.append("if (!constGet_at(i).is_bound()) {\n");
 		source.append("valueElements.set(i, null);\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -980,8 +980,8 @@ public final class RecordOfGenerator {
 		source.append("case MP_Indexed_List:\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
-		source.append("getAt(current.get_id().get_index()).set_param(current);\n");
-		source.append("if (!constGetAt(current.get_id().get_index()).is_bound()) {\n");
+		source.append("get_at(current.get_id().get_index()).set_param(current);\n");
+		source.append("if (!constGet_at(current.get_id().get_index()).is_bound()) {\n");
 		source.append("valueElements.set(i, null);\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -1000,7 +1000,7 @@ public final class RecordOfGenerator {
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-		source.append("getAt(start_idx + i).set_param(current);\n");
+		source.append("get_at(start_idx + i).set_param(current);\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("break;\n");
@@ -1155,7 +1155,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[encoded_num_of_records];\n"); //init_nodes_of_enc_tree
 			source.append("\t\t\tfor (int a = 0; a < encoded_num_of_records; a++) {\n");
 			source.append("\t\t\t\tmyleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);\n");
-			source.append("\t\t\t\tencoded_length += getAt(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
+			source.append("\t\t\t\tencoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn myleaf.length = encoded_length;\n");
 			source.append("\t\t}\n\n");
@@ -1185,7 +1185,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tsel_field = p_td.raw.fieldlength;\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tfor (a = 0; a < sel_field; a++) {\n");
-			source.append("\t\t\t\t\tdecoded_field_length = getAt(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
+			source.append("\t\t\t\t\tdecoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
 			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
 			source.append("\t\t\t\t\t\treturn decoded_field_length;\n");
 			source.append("\t\t\t\t\t}\n");
@@ -1206,7 +1206,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\twhile (limit > 0) {\n");
 			source.append("\t\t\t\t\tstart_of_field = buff.get_pos_bit();\n");
-			source.append("\t\t\t\t\tdecoded_field_length = getAt(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
+			source.append("\t\t\t\t\tdecoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
 			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
 			source.append("\t\t\t\t\t\tvalueElements.remove(a);\n");
 			source.append("\t\t\t\t\t\tbuff.set_pos_bit(start_of_field);\n");
@@ -1290,9 +1290,9 @@ public final class RecordOfGenerator {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {\n");
 		source.append("\t\t\tif (value_ptr != null && template_ptr != null) {\n");
-		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log_match((({0})value_ptr).constGetAt(index_value), legacy);\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log_match((({0})value_ptr).constGet_at(index_value), legacy);\n", genName ) );
 		source.append("\t\t\t} else if (value_ptr != null) {\n");
-		source.append( MessageFormat.format( "\t\t\t\t(({0})value_ptr).constGetAt(index_value).log();\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\t\t(({0})value_ptr).constGet_at(index_value).log();\n", genName ) );
 		source.append("\t\t\t} else if (template_ptr != null) {\n");
 		source.append( MessageFormat.format( "\t\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log();\n", genName ) );
 		source.append("\t\t\t}\n");
@@ -1434,8 +1434,8 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\tfinal int otherSize = other_value.valueElements.size();\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
-		source.append("\t\t\tif (other_value.constGetAt(elem_count).is_bound()) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
+		source.append("\t\t\tif (other_value.constGet_at(elem_count).is_bound()) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}(other_value.constGet_at(elem_count)) );\n", ofTypeName ) );
 		source.append("\t\t\t} else {\n");
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t}\n");
@@ -1450,8 +1450,8 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\t\tfinal int otherSize = other_value.value_elements.size();\n");
 		source.append("\t\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
-		source.append("\t\t\t\tif (other_value.constGetAt(elem_count).is_bound()) {\n");
-		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
+		source.append("\t\t\t\tif (other_value.constGet_at(elem_count).is_bound()) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGet_at(elem_count)) );\n", ofTypeName ) );
 		source.append("\t\t\t\t} else {\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t\t}\n");
@@ -1848,7 +1848,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} getAt(final int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} get_at(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1887,12 +1887,12 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
-		source.append("\t\treturn getAt(index_value.getInt());\n");
+		source.append("\t\treturn get_at(index_value.getInt());\n");
 		source.append("\t}\n\n");
 
 		if (aData.isDebug()) {
@@ -1907,7 +1907,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGet_at(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1935,12 +1935,12 @@ public final class RecordOfGenerator {
 			source.append(" * @return the element at the specified position in this list\n");
 			source.append(" * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.is_bound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
-		source.append("\t\treturn constGetAt(index_value.getInt());\n");
+		source.append("\t\treturn constGet_at(index_value.getInt());\n");
 		source.append("\t}\n");
 	}
 
@@ -2658,9 +2658,9 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {\n");
 			aSb.append("\t\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGetAt(elem_count), legacy) ) {\n");
+			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {\n");
 			aSb.append("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"[%d]\", elem_count);\n");
-			aSb.append("\t\t\t\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
+			aSb.append("\t\t\t\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );\n");
 			aSb.append("\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 			aSb.append("\t\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t\t}\n");
@@ -2681,7 +2681,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tif (elem_count > 0) {\n");
 			aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 			aSb.append("\t\t\t\t}\n");
-			aSb.append("\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
+			aSb.append("\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 			aSb.append("\t\t\tlog_match_length(value_elements.size());\n");
@@ -2817,7 +2817,7 @@ public final class RecordOfGenerator {
 		aSb.append("set_size(0);\n");
 		aSb.append("}\n");
 		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
-		aSb.append("getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));\n");
+		aSb.append("get_at(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));\n");
 		aSb.append("}\n");
 		aSb.append("break;\n");
 		if (isSetOf) {
@@ -2825,7 +2825,7 @@ public final class RecordOfGenerator {
 			aSb.append("set_size(param.get_size());\n");
 			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
 			aSb.append("if (param.get_elem(i).get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-			aSb.append("getAt(i).set_param(param.get_elem(i));\n");
+			aSb.append("get_at(i).set_param(param.get_elem(i));\n");
 			aSb.append("}\n");
 			aSb.append("}\n");
 			aSb.append("break;\n");
@@ -2850,7 +2850,7 @@ public final class RecordOfGenerator {
 			aSb.append("final int permutation_start_index = current_index;\n");
 			aSb.append("final Module_Parameter param_i = param.get_elem(i);\n");
 			aSb.append("for (int perm_i = 0; perm_i < param_i.get_size(); perm_i++) {\n");
-			aSb.append("getAt(current_index).set_param(param_i.get_elem(perm_i));\n");
+			aSb.append("get_at(current_index).set_param(param_i.get_elem(perm_i));\n");
 			aSb.append("current_index++;\n");
 			aSb.append("}\n");
 			aSb.append("final int permutation_end_index = current_index - 1;\n");
@@ -2858,7 +2858,7 @@ public final class RecordOfGenerator {
 			aSb.append("break;\n");
 			aSb.append("}\n");
 			aSb.append("default:\n");
-			aSb.append("getAt(current_index).set_param(param.get_elem(i));\n");
+			aSb.append("get_at(current_index).set_param(param.get_elem(i));\n");
 			aSb.append("current_index++;\n");
 			aSb.append("}\n");
 			aSb.append("}\n");
@@ -2888,9 +2888,9 @@ public final class RecordOfGenerator {
 						single_value.n_elements == recof_value.size_of()) {
 					size_t previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
-						if(!single_value.value_elements[elem_count].matchv(recof_value.getAt(elem_count), legacy)){
+						if(!single_value.value_elements[elem_count].matchv(recof_value.get_at(elem_count), legacy)){
 							TTCN_Logger.log_logmatch_info("[{0}]", elem_count);
-							single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
+							single_value.value_elements[elem_count].log_matchv(recof_value.get_at(elem_count), legacy);
 							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					}
@@ -2911,7 +2911,7 @@ public final class RecordOfGenerator {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
 					if (elem_count > 0) TTCN_Logger.log_event_str(", ");
-					single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
+					single_value.value_elements[elem_count].log_matchv(recof_value.get_at(elem_count), legacy);
 				}
 				TTCN_Logger.log_event_str(" }");
 				log_match_length(single_value.n_elements);

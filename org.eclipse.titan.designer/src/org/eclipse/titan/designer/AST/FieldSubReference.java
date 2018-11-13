@@ -169,7 +169,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 			if (isFirst) {
 				expression.expression.append( fieldId.getName() );
 			} else {
-				expression.expression.append( ".get" );
+				expression.expression.append( ".get_" );
 				expression.expression.append( getJavaGetterName(fieldId.getName()) );
 				expression.expression.append( "()" );
 			}

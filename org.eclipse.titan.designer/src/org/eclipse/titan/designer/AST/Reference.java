@@ -1172,9 +1172,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				final Identifier id = ((FieldSubReference) subreference).getId();
 				expression.expression.append(".");
 				if (isConst) {
-					expression.expression.append("constGet");
+					expression.expression.append("constGet_");
 				} else {
-					expression.expression.append("get");
+					expression.expression.append("get_");
 				}
 				expression.expression.append(FieldSubReference.getJavaGetterName(id.getName()));
 				expression.expression.append("()");
@@ -1226,36 +1226,36 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				if (pt.getTypetype() == Type_type.TYPE_ARRAY) {
 					long length = ((Array_Type)pt).getDimension().getSize();
 					long start = ((Array_Type)pt).getDimension().getOffset();
-					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {
-							expression.expression.append(".constGetAt(");
+							expression.expression.append(".constGet_at(");
 						} else {
-							expression.expression.append(".getAt(");
+							expression.expression.append(".get_at(");
 						}
 
 						value.generateCodeExpression(aData, expression, false);
-						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else if (pt.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
 					long length = ((SequenceOf_Type)pt).getSubtype().get_length_restriction();
 					long start = 0;
-					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {
-							expression.expression.append(".constGetAt(");
+							expression.expression.append(".constGet_at(");
 						} else {
-							expression.expression.append(".getAt(");
+							expression.expression.append(".get_at(");
 						}
 
 						value.generateCodeExpression(aData, expression, false);
-						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else {
 					if (isConst) {
-						expression.expression.append(".constGetAt(");
+						expression.expression.append(".constGet_at(");
 					} else {
-						expression.expression.append(".getAt(");
+						expression.expression.append(".get_at(");
 					}
 
 					value.generateCodeExpression(aData, expression, false);

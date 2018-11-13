@@ -204,7 +204,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanCharacter_String_identification_syntaxes getsyntaxes() {
+	public TitanCharacter_String_identification_syntaxes get_syntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			clean_up();
 			field = new TitanCharacter_String_identification_syntaxes();
@@ -215,11 +215,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field syntaxes.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field syntaxes is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanCharacter_String_identification_syntaxes constGetsyntaxes() {
+	public TitanCharacter_String_identification_syntaxes constGet_syntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			throw new TtcnError("Using non-selected field syntaxes in a value of union type CHARACTER STRING.identification.");
 		}
@@ -232,7 +233,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid getsyntax() {
+	public TitanObjectid get_syntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			clean_up();
 			field = new TitanObjectid();
@@ -243,11 +244,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field syntax.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field syntax is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid constGetsyntax() {
+	public TitanObjectid constGet_syntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			throw new TtcnError("Using non-selected field syntax in a value of union type CHARACTER STRING.identification.");
 		}
@@ -260,7 +262,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger getpresentation__context__id() {
+	public TitanInteger get_presentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			clean_up();
 			field = new TitanInteger();
@@ -271,11 +273,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field presentation-context-id.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field presentation-context-id is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger constGetpresentation__context__id() {
+	public TitanInteger constGet_presentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			throw new TtcnError("Using non-selected field presentation-context-id in a value of union type CHARACTER STRING.identification.");
 		}
@@ -288,7 +291,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanCharacter_String_identification_context__negotiation getcontext__negotiation() {
+	public TitanCharacter_String_identification_context__negotiation get_context__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			clean_up();
 			field = new TitanCharacter_String_identification_context__negotiation();
@@ -299,11 +302,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field context-negotiation.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field context-negotiation is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanCharacter_String_identification_context__negotiation constGetcontext__negotiation() {
+	public TitanCharacter_String_identification_context__negotiation constGet_context__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			throw new TtcnError("Using non-selected field context-negotiation in a value of union type CHARACTER STRING.identification.");
 		}
@@ -316,7 +320,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid gettransfer__syntax() {
+	public TitanObjectid get_transfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			clean_up();
 			field = new TitanObjectid();
@@ -327,11 +331,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field transfer-syntax.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field transfer-syntax is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid constGettransfer__syntax() {
+	public TitanObjectid constGet_transfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			throw new TtcnError("Using non-selected field transfer-syntax in a value of union type CHARACTER STRING.identification.");
 		}
@@ -344,7 +349,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null getfixed() {
+	public TitanAsn_Null get_fixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			clean_up();
 			field = new TitanAsn_Null();
@@ -355,11 +360,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	/**
 	 * Gives read-only access to field fixed.
-	 * If other field is not selected, this function will cause a dynamic test case error.
+	 * If field fixed is not selected,
+	 * this function will cause a dynamic test case error.
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null constGetfixed() {
+	public TitanAsn_Null constGet_fixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			throw new TtcnError("Using non-selected field fixed in a value of union type CHARACTER STRING.identification.");
 		}
@@ -426,42 +432,42 @@ public class TitanCharacter_String_identification extends Base_Type {
 		final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
 		final String last_name = mp_last.get_id().get_name();
 		if ("syntaxes".equals(last_name)) {
-			getsyntaxes().set_param(mp_last);
+			get_syntaxes().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("syntax".equals(last_name)) {
-			getsyntax().set_param(mp_last);
+			get_syntax().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("presentation-context-id".equals(last_name)) {
-			getpresentation__context__id().set_param(mp_last);
+			get_presentation__context__id().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("context-negotiation".equals(last_name)) {
-			getcontext__negotiation().set_param(mp_last);
+			get_context__negotiation().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("transfer-syntax".equals(last_name)) {
-			gettransfer__syntax().set_param(mp_last);
+			get_transfer__syntax().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("fixed".equals(last_name)) {
-			getfixed().set_param(mp_last);
+			get_fixed().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
@@ -518,22 +524,22 @@ public class TitanCharacter_String_identification extends Base_Type {
 		final int temp = text_buf.pull_int().getInt();
 		switch (temp) {
 		case 0:
-			getsyntaxes().decode_text(text_buf);
+			get_syntaxes().decode_text(text_buf);
 			break;
 		case 1:
-			getsyntax().decode_text(text_buf);
+			get_syntax().decode_text(text_buf);
 			break;
 		case 2:
-			getpresentation__context__id().decode_text(text_buf);
+			get_presentation__context__id().decode_text(text_buf);
 			break;
 		case 3:
-			getcontext__negotiation().decode_text(text_buf);
+			get_context__negotiation().decode_text(text_buf);
 			break;
 		case 4:
-			gettransfer__syntax().decode_text(text_buf);
+			get_transfer__syntax().decode_text(text_buf);
 			break;
 		case 5:
-			getfixed().decode_text(text_buf);
+			get_fixed().decode_text(text_buf);
 			break;
 		default:
 			throw new TtcnError("Text decoder: Unrecognized union selector was received for type CHARACTER STRING.identification.");

@@ -329,35 +329,35 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator[](int)
-	public TitanHexString_Element getAt(final int index_value) {
+	public TitanHexString_Element get_at(final int index_value) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
 
-		return single_value.getAt(index_value);
+		return single_value.get_at(index_value);
 	}
 
 	// originally operator[](const INTEGER&)
-	public TitanHexString_Element getAt(final TitanInteger index_value) {
+	public TitanHexString_Element get_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
 
-		return getAt(index_value.getInt());
+		return get_at(index_value.getInt());
 	}
 
 	// originally operator[](int) const
-	public TitanHexString_Element constGetAt(final int index_value) {
+	public TitanHexString_Element constGet_at(final int index_value) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
 
-		return single_value.constGetAt(index_value);
+		return single_value.constGet_at(index_value);
 	}
 
 	// originally operator[](const INTEGER&) const
-	public TitanHexString_Element constGetAt(final TitanInteger index_value) {
+	public TitanHexString_Element constGet_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.getInt());
 	}
 
 	@Override

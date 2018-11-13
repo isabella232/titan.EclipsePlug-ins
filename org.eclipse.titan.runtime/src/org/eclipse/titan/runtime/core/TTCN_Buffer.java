@@ -146,7 +146,7 @@ public class TTCN_Buffer {
 		buf_len = p_cs.lengthof().getInt();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
-			data_ptr[i] =  p_cs.getAt(i).get_char();
+			data_ptr[i] =  p_cs.get_at(i).get_char();
 		}
 		reset_buffer();
 	}
@@ -192,7 +192,7 @@ public class TTCN_Buffer {
 		buf_len = p_cs.lengthof().getInt();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
-			data_ptr[i] =  p_cs.getAt(i).get_char();
+			data_ptr[i] =  p_cs.get_at(i).get_char();
 		}
 		reset_buffer();
 		return this;

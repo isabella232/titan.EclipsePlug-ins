@@ -3661,7 +3661,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3709,7 +3709,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append("final TitanAlt_Status ret_val = getAt(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
+		source.append("final TitanAlt_Status ret_val = get_at(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3762,7 +3762,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3815,7 +3815,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
@@ -3867,7 +3867,7 @@ public final class PortGenerator {
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
 		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));

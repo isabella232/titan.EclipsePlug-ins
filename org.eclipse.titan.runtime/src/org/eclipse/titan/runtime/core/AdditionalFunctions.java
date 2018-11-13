@@ -515,7 +515,7 @@ public final class AdditionalFunctions {
 		if (value.lengthof().getInt() != 1) {
 			throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.", value.lengthof()));
 		}
-		return char2int(value.constGetAt(0).get_char());
+		return char2int(value.constGet_at(0).get_char());
 	}
 
 	public static TitanInteger char2int(final TitanCharString_Element value) {
@@ -1081,7 +1081,7 @@ public final class AdditionalFunctions {
 		final int n_nibbles = value.lengthof().getInt();
 		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_nibbles; i++) {
-			final int hexdigit = value.constGetAt(i).get_nibble();
+			final int hexdigit = value.constGet_at(i).get_nibble();
 			ret_val.append(hexdigit_to_char(hexdigit));
 		}
 
@@ -1198,7 +1198,7 @@ public final class AdditionalFunctions {
 		final int n_octets = value.lengthof().getInt();
 		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_octets; i++) {
-			final int digit = value.constGetAt(i).get_nibble();
+			final int digit = value.constGet_at(i).get_nibble();
 			ret_val.append(hexdigit_to_char(digit / 16));
 			ret_val.append(hexdigit_to_char(digit % 16));
 		}

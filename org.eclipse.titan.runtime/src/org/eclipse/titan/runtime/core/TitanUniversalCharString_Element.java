@@ -180,9 +180,9 @@ public class TitanUniversalCharString_Element {
 		}
 		bound_flag = true;
 		if (str_val.charstring) {
-			str_val.cstr.setCharAt(char_pos, otherValue.getAt(0).get_char());
+			str_val.cstr.setCharAt(char_pos, otherValue.get_at(0).get_char());
 		} else {
-			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.getAt(0).get_char()));
+			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.get_at(0).get_char()));
 		}
 
 		return this;
@@ -314,12 +314,12 @@ public class TitanUniversalCharString_Element {
 			return false;
 		}
 		if (str_val.charstring) {
-			return str_val.cstr.charAt(char_pos) == otherValue.getAt(0).get_char();
+			return str_val.cstr.charAt(char_pos) == otherValue.get_at(0).get_char();
 		}
 
 		final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
 		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0
-				&& uchar.getUc_cell() == otherValue.getAt(0).get_char();
+				&& uchar.getUc_cell() == otherValue.get_at(0).get_char();
 	}
 
 	/**
@@ -492,14 +492,14 @@ public class TitanUniversalCharString_Element {
 			result.cstr = new StringBuilder();
 			result.cstr.append(str_val.cstr.charAt(char_pos));
 			for (int i = 0; i < otherValue.lengthof().getInt(); ++i) {
-				result.cstr.append(otherValue.getAt(i).get_char());
+				result.cstr.append(otherValue.get_at(i).get_char());
 			}
 			result.charstring = true;
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.val_ptr.add(0, str_val.val_ptr.get(char_pos));
 			for (int i = 0; i < otherValue.lengthof().getInt(); ++i) {
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.getAt(i).get_char()));
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.get_at(i).get_char()));
 			}
 			result.charstring = false;
 		}

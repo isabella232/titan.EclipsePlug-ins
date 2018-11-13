@@ -420,7 +420,7 @@ public final class Choice_Value extends Value {
 		}
 
 		final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-		embeddedName.append(".get");
+		embeddedName.append(".get_");
 		if (name != null) {
 			embeddedName.append(name.getName());
 			embeddedName.append("()");
@@ -438,7 +438,7 @@ public final class Choice_Value extends Value {
 		final String altName = this.name.getName();
 
 		// TODO handle the case when temporary reference is needed
-		final String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
+		final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
 	}
 

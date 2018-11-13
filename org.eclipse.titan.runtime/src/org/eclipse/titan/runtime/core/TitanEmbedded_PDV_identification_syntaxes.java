@@ -78,13 +78,13 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		}
 
 		if (otherValue != this) {
-			if ( otherValue.getabstract_().is_bound() ) {
-				this.abstract_.assign( otherValue.getabstract_() );
+			if ( otherValue.get_abstract_().is_bound() ) {
+				this.abstract_.assign( otherValue.get_abstract_() );
 			} else {
 				this.abstract_.clean_up();
 			}
-			if ( otherValue.gettransfer().is_bound() ) {
-				this.transfer.assign( otherValue.gettransfer() );
+			if ( otherValue.get_transfer().is_bound() ) {
+				this.transfer.assign( otherValue.get_transfer() );
 			} else {
 				this.transfer.clean_up();
 			}
@@ -157,7 +157,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field abstract.
 	 * */
-	public TitanObjectid getabstract_() {
+	public TitanObjectid get_abstract_() {
 		return abstract_;
 	}
 
@@ -166,7 +166,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field abstract.
 	 * */
-	public TitanObjectid constGetabstract_() {
+	public TitanObjectid constGet_abstract_() {
 		return abstract_;
 	}
 
@@ -175,7 +175,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field transfer.
 	 * */
-	public TitanObjectid gettransfer() {
+	public TitanObjectid get_transfer() {
 		return transfer;
 	}
 
@@ -184,7 +184,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *
 	 * @return the field transfer.
 	 * */
-	public TitanObjectid constGettransfer() {
+	public TitanObjectid constGet_transfer() {
 		return transfer;
 	}
 
@@ -223,10 +223,10 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 				param.error(MessageFormat.format("set value of type EMBEDDED PDV.identification.syntaxes has 2 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				getabstract_().set_param(param.get_elem(0));
+				get_abstract_().set_param(param.get_elem(0));
 			}
 			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				gettransfer().set_param(param.get_elem(1));
+				get_transfer().set_param(param.get_elem(1));
 			}
 			break;
 		case MP_Assignment_List: {
@@ -235,7 +235,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("abstract".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						getabstract_().set_param(curr_param);
+						get_abstract_().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}
@@ -244,7 +244,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("transfer".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						gettransfer().set_param(curr_param);
+						get_transfer().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}

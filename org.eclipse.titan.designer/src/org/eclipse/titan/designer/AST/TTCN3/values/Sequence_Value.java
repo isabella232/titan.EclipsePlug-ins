@@ -939,7 +939,7 @@ public final class Sequence_Value extends Value {
 				// TODO handle the case when temporary reference is needed
 				final StringBuilder embeddedName = new StringBuilder();
 				embeddedName.append(name);
-				embeddedName.append(".get");
+				embeddedName.append(".get_");
 				embeddedName.append(javaGetterName);
 				embeddedName.append("()");
 				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
@@ -950,7 +950,7 @@ public final class Sequence_Value extends Value {
 			} else {
 				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
-				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
+				source.append(MessageFormat.format("{0}.get_{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
 

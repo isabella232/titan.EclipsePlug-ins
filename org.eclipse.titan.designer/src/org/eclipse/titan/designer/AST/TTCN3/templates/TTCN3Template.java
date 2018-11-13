@@ -1262,7 +1262,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
 		source.append("{\n");
 
-		final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
+		final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, index);
 		generateCodeInit(aData, source, embeddedName);
 		source.append("}\n");
 	}

@@ -777,7 +777,7 @@ public final class Def_Timer extends Definition {
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
-					final String embeddedName = MessageFormat.format("{0}.getAt({1})", genName, i + dim.getOffset());
+					final String embeddedName = MessageFormat.format("{0}.get_at({1})", genName, i + dim.getOffset());
 					generateCodeArrayDuration(aData, source, embeddedName, classNames, (Value) v_elem, startDim + 1);
 				}
 			} else {
@@ -789,7 +789,7 @@ public final class Def_Timer extends Definition {
 					}
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
-					expression.expression.append(".getAt(").append(i + dim.getOffset()).append(")");
+					expression.expression.append(".get_at(").append(i + dim.getOffset()).append(")");
 					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
@@ -816,7 +816,7 @@ public final class Def_Timer extends Definition {
 					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					index.generateCodeInit(aData, source, tempIdX);
 
-					source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
+					source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
 					generateCodeArrayDuration(aData, source, tempId1, classNames, (Value) v_elem, startDim + 1);
 					source.append("}\n");
 				}
@@ -834,7 +834,7 @@ public final class Def_Timer extends Definition {
 					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					v_elemIndex.generateCodeInit(aData, source, tempIdX);
 
-					final String embeddedName = MessageFormat.format("{0}.getAt(", genName);
+					final String embeddedName = MessageFormat.format("{0}.get_at(", genName);
 					expression.expression.append(embeddedName).append(tempIdX).append(")");
 					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
 

@@ -301,33 +301,33 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator[](int index_value)
-	public TitanCharString_Element getAt(final int index) {
+	public TitanCharString_Element get_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a charstring element of a non-specific charstring template.");
 		}
 
-		return single_value.getAt(index);
+		return single_value.get_at(index);
 	}
 
 	// originally operator[](const INTEGER&) const
-	public TitanCharString_Element getAt(final TitanInteger index_value) {
+	public TitanCharString_Element get_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
 
-		return getAt(index_value.getInt());
+		return get_at(index_value.getInt());
 	}
 
-	public TitanCharString_Element constGetAt(final TitanInteger index_value) {
+	public TitanCharString_Element constGet_at(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.getInt());
 	}
 
-	public TitanCharString_Element constGetAt(final int index) {
+	public TitanCharString_Element constGet_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a charstring element of a non-specific charstring template.");
 		}
 
-		return single_value.constGetAt(index);
+		return single_value.constGet_at(index);
 	}
 
 	@Override

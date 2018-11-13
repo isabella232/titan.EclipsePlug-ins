@@ -92,24 +92,24 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 	// originally operator[]
 	@SuppressWarnings("unchecked")
-	public T getAt(final int index_value) {
+	public T get_at(final int index_value) {
 		return (T)array_elements[get_port_array_index(index_value, array_size, indexofset)];
 	}
 
 	// originally operator[]
 	@SuppressWarnings("unchecked")
-	public T getAt(final TitanInteger index_value) {
+	public T get_at(final TitanInteger index_value) {
 		return (T)array_elements[get_port_array_index(index_value.getInt(), array_size, indexofset)];
 	}
 
 	// originally operator[]
-	public final T constGetAt(final int index_value) {
-		return getAt(index_value);
+	public final T constGet_at(final int index_value) {
+		return get_at(index_value);
 	}
 
 	//originally operator[]
-	public final T constGetAt(final TitanInteger index_value) {
-		return getAt(index_value);
+	public final T constGet_at(final TitanInteger index_value) {
+		return get_at(index_value);
 	}
 
 	public int n_elem() {

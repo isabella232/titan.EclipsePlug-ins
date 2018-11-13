@@ -3122,7 +3122,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 			source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 			source.append("for (int i = 0; i < component_array.n_elem(); i++) {\n");
-			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.getAt(i), value_template, value_redirect, index_redirect);\n");
+			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.get_at(i), value_template, value_redirect, index_redirect);\n");
 			source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 			source.append("if (index_redirect != null) {\n");
 			source.append("index_redirect.addIndex(i + component_array.getOffset());\n");
@@ -3240,10 +3240,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).is_bound();\n",
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGet_at({2}).is_bound();\n",
 					globalId, externalId, temporalIndexId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGet_at({2}).{3}({4});\n",
 					globalId, externalId, temporalIndexId, (!isLast)?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		}
 
