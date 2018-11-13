@@ -504,7 +504,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 	//originally T& operator[](const INTEGER)
 	public Ttemplate get_at(final TitanInteger index) {
-		index.mustBound("Using an unbound integer value for indexing an array template.");
+		index.must_bound("Using an unbound integer value for indexing an array template.");
 
 		return get_at(index.getInt());
 	}
@@ -531,7 +531,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 	// originally T& operator[](const INTEGER)
 	public Ttemplate constGet_at(final TitanInteger index) {
-		index.mustBound("Using an unbound integer value for indexing an array template.");
+		index.must_bound("Using an unbound integer value for indexing an array template.");
 
 		return constGet_at(index.getInt());
 	}

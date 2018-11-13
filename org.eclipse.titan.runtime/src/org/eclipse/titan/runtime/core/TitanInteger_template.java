@@ -84,7 +84,7 @@ public class TitanInteger_template extends Base_Template {
 	 * */
 	public TitanInteger_template(final TitanInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound integer value.");
+		otherValue.must_bound("Creating a template from an unbound integer value.");
 
 		single_value = new TitanInteger(otherValue);
 	}
@@ -226,7 +226,7 @@ public class TitanInteger_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanInteger_template assign(final TitanInteger otherValue) {
-		otherValue.mustBound("Assignment of an unbound integer value to a template.");
+		otherValue.must_bound("Assignment of an unbound integer value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -430,7 +430,7 @@ public class TitanInteger_template extends Base_Template {
 
 	// originally set_min
 	public void setMin(final TitanInteger otherMinValue) {
-		otherMinValue.mustBound("Using an unbound value when setting the lower bound in an integer range template.");
+		otherMinValue.must_bound("Using an unbound value when setting the lower bound in an integer range template.");
 
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting lower limit.");
@@ -471,7 +471,7 @@ public class TitanInteger_template extends Base_Template {
 
 	// originally set_max
 	public void setMax(final TitanInteger otherMaxValue) {
-		otherMaxValue.mustBound("Using an unbound value when setting the upper bound in an integer range template.");
+		otherMaxValue.must_bound("Using an unbound value when setting the upper bound in an integer range template.");
 
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting upper limit.");

@@ -284,7 +284,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	//originally  operator<<=
 	public TitanValue_Array<T> rotateLeft(final TitanInteger rotateCount) {
-		rotateCount.mustBound("Unbound integer operand of rotate left operator.");
+		rotateCount.must_bound("Unbound integer operand of rotate left operator.");
 
 		return rotateLeft(rotateCount.getInt());
 	}
@@ -320,7 +320,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	//originally  operator>>=
 	public TitanValue_Array<T> rotateRight(final TitanInteger rotateCount) {
-		rotateCount.mustBound("Unbound integer operand of rotate right operator.");
+		rotateCount.must_bound("Unbound integer operand of rotate right operator.");
 
 		return rotateRight(rotateCount.getInt());
 	}

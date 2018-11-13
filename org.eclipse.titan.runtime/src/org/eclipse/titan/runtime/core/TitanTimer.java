@@ -96,7 +96,7 @@ public class TitanTimer {
 	 * @return the new value object.
 	 */
 	public TitanTimer assign(final TitanFloat defaultValue) {
-		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
+		defaultValue.must_bound("Initializing a timer duration with an unbound float value.");
 
 		set_default_duration(defaultValue);
 		is_started = false;
@@ -138,7 +138,7 @@ public class TitanTimer {
 		if (name == null) {
 			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
 		}
-		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
+		defaultValue.must_bound("Initializing a timer duration with an unbound float value.");
 
 		timer_name = name;
 		set_default_duration(defaultValue);
@@ -192,7 +192,7 @@ public class TitanTimer {
 
 	// originally set_default_duration
 	public final void set_default_duration(final TitanFloat defaultValue) {
-		defaultValue.mustBound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timer_name));
+		defaultValue.must_bound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timer_name));
 
 		set_default_duration(defaultValue.getValue());
 	}
@@ -253,7 +253,7 @@ public class TitanTimer {
 
 	// originally start(const FLOAT& start_val)
 	public void start(final TitanFloat startValue) {
-		startValue.mustBound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timer_name));
+		startValue.must_bound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timer_name));
 
 		start(startValue.getValue());
 	}

@@ -72,7 +72,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * */
 	public TitanOctetString_template(final TitanOctetString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound octetstring value.");
+		otherValue.must_bound("Creating a template from an unbound octetstring value.");
 
 		single_value = new TitanOctetString(otherValue);
 	}
@@ -86,7 +86,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * */
 	public TitanOctetString_template(final TitanOctetString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound octetstring value.");
+		otherValue.must_bound("Creating a template from an unbound octetstring value.");
 
 		single_value = new TitanOctetString(otherValue.get_nibble());
 	}
@@ -292,7 +292,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanOctetString_template assign(final TitanOctetString otherValue) {
-		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound octetstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -312,7 +312,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanOctetString_template assign(final TitanOctetString_Element otherValue) {
-		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound octetstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -382,7 +382,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&)
 	public TitanOctetString_Element get_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a octetstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a octetstring template with an unbound integer value.");
 
 		return get_at(index_value.getInt());
 	}
@@ -398,7 +398,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&) const
 	public TitanOctetString_Element constGet_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a octetstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a octetstring template with an unbound integer value.");
 
 		return constGet_at(index_value.getInt());
 	}

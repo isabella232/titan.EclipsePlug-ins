@@ -81,7 +81,7 @@ public final class RecordOfGenerator {
 		generateValueConstructors( aData, source, genName, ofTypeName, displayName );
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
-		generateValueIsBound( source );
+		generateValueIsBound( aData, source );
 		generateValueIsValue(source, ofTypeName);
 		generateValueOperatorEquals( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateValueAssign(aData, source, genName, ofTypeName, displayName);
@@ -244,7 +244,7 @@ public final class RecordOfGenerator {
 			source.append( " * */\n" );
 		}
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format("\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format("\t\totherValue.must_bound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copy_list( otherValue.valueElements );\n");
 		source.append("\t}\n\n");
 
@@ -306,19 +306,31 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate the isBound function
 	 *
+	 *@param aData
+	 *                only used to update imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 */
-	private static void generateValueIsBound(final StringBuilder source) {
+	private static void generateValueIsBound(final JavaGenData aData, final StringBuilder source) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic boolean is_bound() {\n");
 		source.append("\t\treturn valueElements != null;\n");
 		source.append("\t}\n");
 		source.append('\n');
-		source.append("\tpublic void mustBound( final String aErrorMessage ) {\n");
+
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
+			source.append(" * dynamic testcase error with the provided error message.\n");
+			source.append(" *\n");
+			source.append(" * @param errorMessage\n");
+			source.append(" *                the error message to report.\n");
+			source.append(" * */\n");
+		}
+		source.append("\tpublic void must_bound( final String errorMessage ) {\n");
 		source.append("\t\tif ( !is_bound() ) {\n");
-		source.append("\t\t\tthrow new TtcnError( aErrorMessage );\n");
+		source.append("\t\t\tthrow new TtcnError( errorMessage );\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
 	}
@@ -390,8 +402,8 @@ public final class RecordOfGenerator {
 			source.append(" */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic boolean operatorEquals( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\tmustBound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		if ( isSetOf ) {
 			source.append("\t\treturn RecordOfMatch.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
@@ -480,7 +492,7 @@ public final class RecordOfGenerator {
 			source.append(" */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format("\t\totherValue.mustBound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
+		source.append( MessageFormat.format("\t\totherValue.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
 		source.append('\n');
 		source.append("\t\tvalueElements = copy_list( otherValue.valueElements );\n");
 		source.append("\t\treturn this;\n");
@@ -563,7 +575,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t//originally operator<<=\n");
 		source.append( MessageFormat.format( "\tpublic {0} rotateLeft(final TitanInteger rotate_count) '{'\n", genName ) );
-		source.append("\t\trotate_count.mustBound(\"Unbound integer operand of rotate left operator.\");\n");
+		source.append("\t\trotate_count.must_bound(\"Unbound integer operand of rotate left operator.\");\n");
 		source.append("\t\treturn rotateLeft(rotate_count.getInt());\n");
 		source.append("\t}\n");
 
@@ -576,7 +588,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t//originally operator>>=\n");
 		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final TitanInteger rotate_count) '{'\n", genName ) );
-		source.append("\t\trotate_count.mustBound(\"Unbound integer operand of rotate right operator.\");\n");
+		source.append("\t\trotate_count.must_bound(\"Unbound integer operand of rotate right operator.\");\n");
 		source.append("\t\treturn rotateRight(rotate_count.getInt());\n");
 		source.append("\t}\n");
 
@@ -687,7 +699,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format("\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tindex_value.must_bound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\treturn get_at( index_value.getInt() );\n");
 		source.append("\t}\n\n");
 
@@ -732,7 +744,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tindex_value.must_bound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\treturn constGet_at( index_value.getInt() );\n");
 		source.append("\t}\n\n");
 
@@ -745,7 +757,7 @@ public final class RecordOfGenerator {
 		source.append("\t * @return the number of elements.\n");
 		source.append("\t * */\n");
 		source.append("\tpublic TitanInteger size_of() {\n");
-		source.append( MessageFormat.format( "\t\tmustBound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tmust_bound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\treturn new TitanInteger(valueElements.size());\n");
 		source.append("\t}\n");
 
@@ -756,7 +768,7 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append("\tpublic TitanInteger lengthof() {\n");
-		source.append( MessageFormat.format( "\t\tmustBound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tmust_bound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfor ( int i = valueElements.size() - 1; i >= 0; i-- ) {\n");
 		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get( i );\n", ofTypeName ) );
 		source.append("\t\t\tif ( elem != null && elem.is_bound() ) {\n");
@@ -1050,7 +1062,7 @@ public final class RecordOfGenerator {
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String ofTypeName, final String displayName) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
-		source.append( MessageFormat.format( "\t\t\tmustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", displayName));
+		source.append( MessageFormat.format( "\t\t\tmust_bound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", displayName));
 		source.append("\t\t\ttext_buf.push_int(valueElements.size());\n");
 		source.append("\t\t\tfor (int i = 0; i < valueElements.size(); i++) {\n");
 		source.append("\t\t\t\tvalueElements.get(i).encode_text(text_buf);\n");
@@ -2016,7 +2028,7 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate int get_length_for_concat(final {0} operand) '{'\n", genName ) );
-		source.append("\t\toperand.mustBound(\"Operand of record of template concatenation is an unbound value.\");\n");
+		source.append("\t\toperand.must_bound(\"Operand of record of template concatenation is an unbound value.\");\n");
 		source.append("\t\treturn operand.valueElements.size();\n");
 		source.append("\t}\n");
 

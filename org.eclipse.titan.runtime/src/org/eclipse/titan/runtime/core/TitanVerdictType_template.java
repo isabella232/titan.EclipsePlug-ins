@@ -181,7 +181,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanVerdictType_template assign(final TitanVerdictType otherValue) {
-		otherValue.mustBound("Assignment of an unbound verdict value to a template.");
+		otherValue.must_bound("Assignment of an unbound verdict value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -235,7 +235,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	private void copy_value(final TitanVerdictType otherValue)	{
-		otherValue.mustBound("Creating a template from an unbound verdict value.");
+		otherValue.must_bound("Creating a template from an unbound verdict value.");
 
 		single_value = new TitanVerdictType(otherValue);
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -351,7 +351,7 @@ public class TitanVerdictType_template extends Base_Template {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
 		}
 
-		other_value.mustBound("The right operand of comparison is an unbound verdict value.");
+		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
 
 		return par_value == other_value.getValue();
 	}

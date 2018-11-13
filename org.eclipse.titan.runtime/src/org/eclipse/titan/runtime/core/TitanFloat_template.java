@@ -84,7 +84,7 @@ public class TitanFloat_template extends Base_Template {
 	 * */
 	public TitanFloat_template(final TitanFloat otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound float value.");
+		otherValue.must_bound("Creating a template from an unbound float value.");
 
 		single_value = new TitanFloat(otherValue);
 	}
@@ -214,7 +214,7 @@ public class TitanFloat_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanFloat_template assign(final TitanFloat otherValue) {
-		otherValue.mustBound("Assignment of an unbound float value to a template.");
+		otherValue.must_bound("Assignment of an unbound float value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -431,7 +431,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMin(final TitanFloat minValue) {
-		minValue.mustBound("Using an unbound value when setting the lower bound " + "in a float range template.");
+		minValue.must_bound("Using an unbound value when setting the lower bound " + "in a float range template.");
 
 		setMin(minValue.getValue());
 	}
@@ -463,7 +463,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMax(final TitanFloat maxValue) {
-		maxValue.mustBound("Using an unbound value when setting the upper bound " + "in a float range template.");
+		maxValue.must_bound("Using an unbound value when setting the upper bound " + "in a float range template.");
 
 		setMax(maxValue.getValue());
 	}

@@ -81,7 +81,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * */
 	public TitanBitString_template(final TitanBitString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound bitstring value.");
+		otherValue.must_bound("Creating a template from an unbound bitstring value.");
 		single_value = new TitanBitString(otherValue);
 	}
 
@@ -235,7 +235,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanBitString_template assign(final TitanBitString otherValue) {
-		otherValue.mustBound("Assignment of an unbound bitstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound bitstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -255,7 +255,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanBitString_template assign(final TitanBitString_Element otherValue) {
-		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");
+		otherValue.must_bound("Assignment of an unbound bitstring element to a template.");
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString((byte) (otherValue.get_bit() ? 1 : 0));
@@ -350,7 +350,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&)
 	public TitanBitString_Element get_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a bitstring template with an unbound integer value.");
 
 		return get_at(index_value.getInt());
 	}
@@ -366,7 +366,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&) const
 	public TitanBitString_Element constGet_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a bitstring template with an unbound integer value.");
 
 		return constGet_at(index_value.getInt());
 	}

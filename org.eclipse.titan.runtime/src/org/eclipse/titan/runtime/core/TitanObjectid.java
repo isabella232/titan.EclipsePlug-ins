@@ -184,7 +184,7 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator[]
 	public final TitanInteger constGet_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a objid component with an unbound integer value.");
+		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
 		return constGet_at(index_value.getInt());
 	}
@@ -217,7 +217,7 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator[]
 	public TitanInteger get_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a objid component with an unbound integer value.");
+		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
 		return get_at(index_value.getInt());
 	}

@@ -273,7 +273,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_single_length(final TitanInteger single_length) {
-		single_length.mustBound("Using an unbound integer value as length restriction.");
+		single_length.must_bound("Using an unbound integer value as length restriction.");
 
 		set_single_length(single_length.getInt());
 	}
@@ -289,7 +289,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_min_length(final TitanInteger min_length) {
-		min_length.mustBound("Using an unbound integer value as lower length restriction.");
+		min_length.must_bound("Using an unbound integer value as lower length restriction.");
 
 		set_min_length(min_length.getInt());
 	}
@@ -311,7 +311,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_max_length(final TitanInteger max_length) {
-		max_length.mustBound("Using an unbound integer value as upper length restriction.");
+		max_length.must_bound("Using an unbound integer value as upper length restriction.");
 
 		set_max_length(max_length.getInt());
 	}

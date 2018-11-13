@@ -72,7 +72,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * */
 	public TitanHexString_template(final TitanHexString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound hexstring value.");
+		otherValue.must_bound("Creating a template from an unbound hexstring value.");
 
 		single_value = new TitanHexString(otherValue);
 	}
@@ -249,7 +249,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanHexString_template assign(final TitanHexString otherValue) {
-		otherValue.mustBound("Assignment of an unbound hexstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound hexstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -269,7 +269,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanHexString_template assign(final TitanHexString_Element otherValue) {
-		otherValue.mustBound("Assignment of an unbound hexstring element to a template.");
+		otherValue.must_bound("Assignment of an unbound hexstring element to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -339,7 +339,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&)
 	public TitanHexString_Element get_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 
 		return get_at(index_value.getInt());
 	}
@@ -355,7 +355,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&) const
 	public TitanHexString_Element constGet_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 
 		return constGet_at(index_value.getInt());
 	}

@@ -73,7 +73,7 @@ public class TitanFloat extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanFloat(final TitanFloat otherValue) {
-		otherValue.mustBound("Copying an unbound float value.");
+		otherValue.must_bound("Copying an unbound float value.");
 
 		float_value = otherValue.float_value;
 	}
@@ -125,7 +125,7 @@ public class TitanFloat extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanFloat assign(final TitanFloat otherValue) {
-		otherValue.mustBound("Assignment of an unbound float value.");
+		otherValue.must_bound("Assignment of an unbound float value.");
 
 		if (otherValue != this) {
 			float_value = otherValue.float_value;
@@ -158,9 +158,16 @@ public class TitanFloat extends Base_Type {
 		return float_value != null;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (float_value == null) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
@@ -182,7 +189,7 @@ public class TitanFloat extends Base_Type {
 	 */
 
 	public TitanFloat add() {
-		mustBound("Unbound float operand of unary + operator.");
+		must_bound("Unbound float operand of unary + operator.");
 
 		return new TitanFloat(float_value);
 	}
@@ -192,7 +199,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator+
 	 */
 	public TitanFloat add(final double aOtherValue) {
-		mustBound("Unbound left operand of float addition.");
+		must_bound("Unbound left operand of float addition.");
 
 		return new TitanFloat(float_value.add(aOtherValue));
 	}
@@ -202,7 +209,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator+
 	 */
 	public TitanFloat add(final Ttcn3Float aOtherValue) {
-		mustBound("Unbound left operand of float addition.");
+		must_bound("Unbound left operand of float addition.");
 
 		return new TitanFloat(float_value.add(aOtherValue.getValue()));
 	}
@@ -212,8 +219,8 @@ public class TitanFloat extends Base_Type {
 	 * originally operator+
 	 */
 	public TitanFloat add(final TitanFloat aOtherValue) {
-		mustBound("Unbound left operand of float addition.");
-		aOtherValue.mustBound("Unbound right operand of float addition.");
+		must_bound("Unbound left operand of float addition.");
+		aOtherValue.must_bound("Unbound right operand of float addition.");
 
 		return new TitanFloat(float_value.add(aOtherValue.float_value.getValue()));
 	}
@@ -223,7 +230,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator-
 	 */
 	public TitanFloat sub() {
-		mustBound("Unbound float operand of unary - operator (negation).");
+		must_bound("Unbound float operand of unary - operator (negation).");
 
 		return new TitanFloat(-float_value.getValue());
 	}
@@ -233,7 +240,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator-
 	 */
 	public TitanFloat sub(final double aOtherValue) {
-		mustBound("Unbound left operand of float subtraction.");
+		must_bound("Unbound left operand of float subtraction.");
 
 		return new TitanFloat(float_value.sub(aOtherValue));
 	}
@@ -243,7 +250,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator-
 	 */
 	public TitanFloat sub(final Ttcn3Float aOtherValue) {
-		mustBound("Unbound left operand of float subtraction.");
+		must_bound("Unbound left operand of float subtraction.");
 
 		return new TitanFloat(float_value.sub(aOtherValue.getValue()));
 	}
@@ -253,8 +260,8 @@ public class TitanFloat extends Base_Type {
 	 * originally operator-
 	 */
 	public TitanFloat sub(final TitanFloat aOtherValue) {
-		mustBound("Unbound left operand of float subtraction.");
-		aOtherValue.mustBound("Unbound right operand of float subtraction.");
+		must_bound("Unbound left operand of float subtraction.");
+		aOtherValue.must_bound("Unbound right operand of float subtraction.");
 
 		return new TitanFloat(float_value.sub(aOtherValue.float_value.getValue()));
 	}
@@ -264,7 +271,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator*
 	 */
 	public TitanFloat mul(final double aOtherValue) {
-		mustBound("Unbound left operand of float multiplication.");
+		must_bound("Unbound left operand of float multiplication.");
 
 		return new TitanFloat(float_value.mul(aOtherValue));
 	}
@@ -274,7 +281,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator*
 	 */
 	public TitanFloat mul(final Ttcn3Float aOtherValue) {
-		mustBound("Unbound left operand of float multiplication.");
+		must_bound("Unbound left operand of float multiplication.");
 
 		return new TitanFloat(float_value.mul(aOtherValue.getValue()));
 	}
@@ -284,8 +291,8 @@ public class TitanFloat extends Base_Type {
 	 * originally operator*
 	 */
 	public TitanFloat mul(final TitanFloat aOtherValue) {
-		mustBound("Unbound left operand of float multiplication.");
-		aOtherValue.mustBound("Unbound right operand of float multiplication.");
+		must_bound("Unbound left operand of float multiplication.");
+		aOtherValue.must_bound("Unbound right operand of float multiplication.");
 
 		return new TitanFloat(float_value.mul(aOtherValue.float_value.getValue()));
 	}
@@ -295,7 +302,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator/
 	 */
 	public TitanFloat div(final double aOtherValue) {
-		mustBound("Unbound left operand of float division.");
+		must_bound("Unbound left operand of float division.");
 
 		if (aOtherValue == 0.0) {
 			throw new TtcnError("Float division by zero.");
@@ -309,7 +316,7 @@ public class TitanFloat extends Base_Type {
 	 * originally operator/
 	 */
 	public TitanFloat div(final Ttcn3Float aOtherValue) {
-		mustBound("Unbound left operand of float division.");
+		must_bound("Unbound left operand of float division.");
 
 		if (aOtherValue.getValue() == 0.0) {
 			throw new TtcnError("Float division by zero.");
@@ -323,8 +330,8 @@ public class TitanFloat extends Base_Type {
 	 * originally operator/
 	 */
 	public TitanFloat div(final TitanFloat aOtherValue) {
-		mustBound("Unbound left operand of float division.");
-		aOtherValue.mustBound("Unbound right operand of float division.");
+		must_bound("Unbound left operand of float division.");
+		aOtherValue.must_bound("Unbound right operand of float division.");
 
 		final double otherValue = aOtherValue.float_value.getValue();
 		if (otherValue == 0.0) {
@@ -344,7 +351,7 @@ public class TitanFloat extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final double otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.operatorEquals(otherValue);
 	}
@@ -359,7 +366,7 @@ public class TitanFloat extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Ttcn3Float otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.operatorEquals(otherValue.getValue());
 	}
@@ -374,8 +381,8 @@ public class TitanFloat extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanFloat otherValue) {
-		mustBound("Unbound left operand of float comparison.");
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return float_value.operatorEquals(otherValue.float_value.getValue());
 	}
@@ -430,44 +437,44 @@ public class TitanFloat extends Base_Type {
 
 	// originally operator <
 	public boolean isLessThan(final double otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.isLessThan(otherValue);
 	}
 
 	// originally operator <
 	public boolean isLessThan(final Ttcn3Float otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.isLessThan(otherValue.getValue());
 	}
 
 	// originally operator <
 	public boolean isLessThan(final TitanFloat otherValue) {
-		mustBound("Unbound left operand of float comparison.");
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return float_value.isLessThan(otherValue.float_value.getValue());
 	}
 
 	// originally operator >
 	public boolean isGreaterThan(final double otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.isGreaterThan(otherValue);
 	}
 
 	// originally operator >
 	public boolean isGreaterThan(final Ttcn3Float otherValue) {
-		mustBound("Unbound left operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
 
 		return float_value.isGreaterThan(otherValue.getValue());
 	}
 
 	// originally operator >
 	public boolean isGreaterThan(final TitanFloat otherValue) {
-		mustBound("Unbound left operand of float comparison.");
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		must_bound("Unbound left operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return float_value.isGreaterThan(otherValue.float_value.getValue());
 	}
@@ -553,7 +560,7 @@ public class TitanFloat extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound float value.");
+		must_bound("Text encoder: Encoding an unbound float value.");
 
 		text_buf.push_double(float_value.getValue());
 	}
@@ -566,28 +573,28 @@ public class TitanFloat extends Base_Type {
 
 	// static add
 	public static TitanFloat add(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float addition.");
+		otherValue.must_bound("Unbound right operand of float addition.");
 
 		return new TitanFloat(otherValue.add(doubleValue));
 	}
 
 	// static sub
 	public static TitanFloat sub(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float subtraction.");
+		otherValue.must_bound("Unbound right operand of float subtraction.");
 
 		return new TitanFloat(doubleValue - otherValue.getValue());
 	}
 
 	// static mul
 	public static TitanFloat mul(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float multiplication.");
+		otherValue.must_bound("Unbound right operand of float multiplication.");
 
 		return new TitanFloat(otherValue.mul(doubleValue));
 	}
 
 	// static div
 	public static TitanFloat div(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float division.");
+		otherValue.must_bound("Unbound right operand of float division.");
 
 		final double value = otherValue.float_value.getValue();
 		if (value == 0.0) {
@@ -599,42 +606,42 @@ public class TitanFloat extends Base_Type {
 
 	// static operatorEquals
 	public static boolean operatorEquals(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return otherValue.operatorEquals(doubleValue);
 	}
 
 	// static operatorNotEquals
 	public static boolean operatorNotEquals(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return otherValue.operatorNotEquals(doubleValue);
 	}
 
 	// static isLess
 	public static TitanBoolean isLessThan(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.isGreaterThan(new TitanFloat(doubleValue)));
 	}
 
 	// static isGreaterThan
 	public static TitanBoolean isGreaterThan(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.isLessThan(new TitanFloat(doubleValue)));
 	}
 
 	// static isLessThanOrEqual
 	public static TitanBoolean isLessThanOrEqual(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.isGreaterThanOrEqual(new TitanFloat(doubleValue)));
 	}
 
 	// static isGreaterThanOrEqual
 	public static TitanBoolean isGreaterThanOrEqual(final double doubleValue, final TitanFloat otherValue) {
-		otherValue.mustBound("Unbound right operand of float comparison.");
+		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(doubleValue)));
 	}

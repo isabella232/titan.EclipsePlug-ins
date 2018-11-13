@@ -181,7 +181,7 @@ public final class FunctionReferenceGenerator {
 			source.append( " * */\n" );
 		}
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", def.genName));
-		source.append(MessageFormat.format("otherValue.mustBound(\"Copying an unbound {0}.\");\n\n", def.displayName));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Copying an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
 		source.append("}\n\n");
 
@@ -215,7 +215,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0} assign(final {0} otherValue) '{'\n", def.genName));
-		source.append(MessageFormat.format("otherValue.mustBound(\"Assignment of an unbound {0}.\");\n\n", def.displayName));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Assignment of an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
 		source.append("return this;\n");
 		source.append("}\n");
@@ -240,7 +240,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" */\n");
 		}
 		source.append("public boolean operatorEquals(final function_pointer otherValue) {\n");
-		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
+		source.append(MessageFormat.format("must_bound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return referred_function.getModuleName().equals(otherValue.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.getDefinitionName());\n");
 		source.append("}\n");
 
@@ -256,8 +256,8 @@ public final class FunctionReferenceGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
-		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
-		source.append(MessageFormat.format("otherValue.mustBound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
+		source.append(MessageFormat.format("must_bound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return referred_function.getModuleName().equals(otherValue.referred_function.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.referred_function.getDefinitionName());\n");
 		source.append("}\n");
 
@@ -308,7 +308,7 @@ public final class FunctionReferenceGenerator {
 				source.append(def.returnType);
 			}
 			source.append(MessageFormat.format(" invoke({0}) '{'\n", def.formalParList));
-			source.append("mustBound(\"Call of unbound function.\");\n");
+			source.append("must_bound(\"Call of unbound function.\");\n");
 					//check for null
 			if (def.returnType != null) {
 				source.append("return ");
@@ -325,7 +325,7 @@ public final class FunctionReferenceGenerator {
 					source.append(def.formalParList);
 				}
 				source.append(") {\n");
-				source.append("mustBound(\"Start of unbound function.\");\n");
+				source.append("must_bound(\"Start of unbound function.\");\n");
 				source.append("referred_function.start(component_reference");
 				if (def.actualParList != null && def.actualParList.length() > 0) {
 					source.append(", ");
@@ -337,19 +337,19 @@ public final class FunctionReferenceGenerator {
 			break;
 		case ALTSTEP:
 			source.append(MessageFormat.format("public void invoke_standalone({0}) '{'\n", def.formalParList));
-			source.append("mustBound(\"Call of unbound altstep.\");\n");
+			source.append("must_bound(\"Call of unbound altstep.\");\n");
 			source.append("referred_function.invoke_standalone(");
 			source.append(def.actualParList);
 			source.append(");\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("public Default_Base activate({0}) '{'\n", def.formalParList));
-			source.append("mustBound(\"Activation of unbound altstep.\");\n");
+			source.append("must_bound(\"Activation of unbound altstep.\");\n");
 			source.append("return referred_function.activate(");
 			source.append(def.actualParList);
 			source.append(");\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("public TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
-			source.append("mustBound(\"Call of unbound altstep.\");\n");
+			source.append("must_bound(\"Call of unbound altstep.\");\n");
 			source.append("return referred_function.invoke(");
 			source.append(def.actualParList);
 			source.append(");\n");
@@ -357,7 +357,7 @@ public final class FunctionReferenceGenerator {
 			break;
 		case TESTCASE:
 			source.append(MessageFormat.format("public TitanVerdictType execute({0}) '{'\n", def.formalParList));
-			source.append("mustBound(\"Call of unbound testcase.\");\n");
+			source.append("must_bound(\"Call of unbound testcase.\");\n");
 			source.append("if (referred_function == null) {\n");
 			source.append("throw new TtcnError(\"null reference cannot be executed.\");\n");
 			source.append("}\n");
@@ -382,10 +382,20 @@ public final class FunctionReferenceGenerator {
 		source.append("@Override\n");
 		source.append("public void clean_up() {\n");
 		source.append("referred_function = null;\n");
-		source.append("}\n");
-		source.append("public void mustBound( final String aErrorMessage ) {\n");
+		source.append("}\n\n");
+
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
+			source.append(" * dynamic testcase error with the provided error message.\n");
+			source.append(" *\n");
+			source.append(" * @param errorMessage\n");
+			source.append(" *                the error message to report.\n");
+			source.append(" * */\n");
+		}
+		source.append("public void must_bound( final String errorMessage ) {\n");
 		source.append("if ( !is_bound() ) {\n");
-		source.append("throw new TtcnError( aErrorMessage );\n");
+		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
 		source.append("}\n");
 
@@ -709,7 +719,7 @@ public final class FunctionReferenceGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", def.genName));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append(MessageFormat.format("otherValue.mustBound(\"Creating a template from an unbound {0} value.\");\n", def.displayName));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Creating a template from an unbound {0} value.\");\n", def.displayName));
 		source.append("single_value = otherValue.referred_function;\n");
 		source.append("}\n");
 
@@ -783,7 +793,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template assign( final {0} otherValue ) '{'\n", def.genName));
-		source.append(MessageFormat.format("otherValue.mustBound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue.referred_function;\n");

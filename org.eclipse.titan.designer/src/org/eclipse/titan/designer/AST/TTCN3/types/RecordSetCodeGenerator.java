@@ -2865,9 +2865,18 @@ public final class RecordSetCodeGenerator {
 		source.append("return bound_flag;\n");
 		source.append("}\n\n");
 
-		source.append("public void mustBound( final String aErrorMessage ) {\n");
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
+			source.append(" * dynamic testcase error with the provided error message.\n");
+			source.append(" *\n");
+			source.append(" * @param errorMessage\n");
+			source.append(" *                the error message to report.\n");
+			source.append(" * */\n");
+		}
+		source.append("public void must_bound( final String errorMessage ) {\n");
 		source.append("if ( !bound_flag ) {\n");
-		source.append("throw new TtcnError( aErrorMessage );\n");
+		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -2983,7 +2992,7 @@ public final class RecordSetCodeGenerator {
 
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append(MessageFormat.format("mustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", classDisplayname));
+		source.append(MessageFormat.format("must_bound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("}\n\n");
 
 		source.append("@Override\n");

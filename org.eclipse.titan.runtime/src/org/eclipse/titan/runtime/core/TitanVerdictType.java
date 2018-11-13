@@ -73,7 +73,7 @@ public class TitanVerdictType extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanVerdictType(final TitanVerdictType otherValue) {
-		otherValue.mustBound("Copying an unbound verdict value.");
+		otherValue.must_bound("Copying an unbound verdict value.");
 
 		verdict_value = otherValue.verdict_value;
 	}
@@ -98,9 +98,16 @@ public class TitanVerdictType extends Base_Type {
 		return verdict_value != VerdictTypeEnum.UNBOUND;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (verdict_value == VerdictTypeEnum.UNBOUND) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
@@ -114,8 +121,8 @@ public class TitanVerdictType extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanVerdictType otherValue) {
-		mustBound("The left operand of comparison is an unbound verdict value.");
-		otherValue.mustBound("The right operand of comparison is an unbound verdict value.");
+		must_bound("The left operand of comparison is an unbound verdict value.");
+		otherValue.must_bound("The right operand of comparison is an unbound verdict value.");
 
 		return verdict_value.equals(otherValue.verdict_value);
 	}
@@ -139,7 +146,7 @@ public class TitanVerdictType extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final VerdictTypeEnum otherValue) {
-		mustBound("The left operand of comparison is an unbound verdict value.");
+		must_bound("The left operand of comparison is an unbound verdict value.");
 
 		if (!isValid(otherValue)) {
 			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
@@ -159,7 +166,7 @@ public class TitanVerdictType extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanVerdictType assign(final TitanVerdictType otherValue) {
-		otherValue.mustBound("Assignment of an unbound verdict value.");
+		otherValue.must_bound("Assignment of an unbound verdict value.");
 
 		if (otherValue != this) {
 			verdict_value = otherValue.verdict_value;
@@ -227,7 +234,7 @@ public class TitanVerdictType extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound verdict value.");
+		must_bound("Text encoder: Encoding an unbound verdict value.");
 
 		text_buf.push_int(verdict_value.getValue());
 	}

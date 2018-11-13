@@ -152,7 +152,7 @@ public final class EnumeratedGenerator {
 		generateValueIsGreaterThanOrEqual(source, e_defs.name);
 		generateValueIsPresent(source);
 		generateValueIsBound(source);
-		generateMustBound(source);
+		generateMustBound(aData, source);
 		generateValueIsValue(source);
 		generateValueCleanUp(source);
 		generateValueIsValidEnum(source, e_defs.name);
@@ -661,8 +661,17 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateMustBound(final StringBuilder source ) {
-		source.append("public void mustBound(final String errorMessage) {\n");
+	private static void generateMustBound(final JavaGenData aData, final StringBuilder source ) {
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
+			source.append(" * dynamic testcase error with the provided error message.\n");
+			source.append(" *\n");
+			source.append(" * @param errorMessage\n");
+			source.append(" *                the error message to report.\n");
+			source.append(" * */\n");
+		}
+		source.append("public void must_bound(final String errorMessage) {\n");
 		source.append("if ( !is_bound() ) {\n");
 		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
@@ -684,7 +693,7 @@ public final class EnumeratedGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0} assign(final {0} otherValue)'{'\n", name));
-		source.append("otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
+		source.append("otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
 		source.append(MessageFormat.format("this.enum_value = otherValue.enum_value;\n",  name));
 		source.append("}\n\n");
@@ -1028,7 +1037,7 @@ public final class EnumeratedGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue)'{'\n", name));
-		source.append("// otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
+		source.append("// otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
 		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");

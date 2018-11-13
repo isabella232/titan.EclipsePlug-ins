@@ -128,7 +128,7 @@ public class TTCN_Buffer {
 	 * @param p_os 
 	 * 			the {@link TitanOctetString} used to initialize the buffer. */
 	public  TTCN_Buffer(final TitanOctetString p_os) {
-		p_os.mustBound("Initializing a TTCN_Buffer with an unbound octetstring value.");
+		p_os.must_bound("Initializing a TTCN_Buffer with an unbound octetstring value.");
 
 		buf_len = p_os.lengthof().getInt();
 		data_ptr = new char[buf_len];
@@ -141,7 +141,7 @@ public class TTCN_Buffer {
 	 * @param p_cs 
 	 * 			the {@link TitanCharString} used to initialize the buffer.*/
 	public TTCN_Buffer(final TitanCharString p_cs) {
-		p_cs.mustBound("Initializing a TTCN_Buffer with an unbound charstring value.");
+		p_cs.must_bound("Initializing a TTCN_Buffer with an unbound charstring value.");
 
 		buf_len = p_cs.lengthof().getInt();
 		data_ptr = new char[buf_len];
@@ -173,7 +173,7 @@ public class TTCN_Buffer {
 	 * @param p_os
 	 * 				  */
 	public  TTCN_Buffer assign(final TitanOctetString p_os) {
-		p_os.mustBound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
+		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
 		buf_len = p_os.lengthof().getInt();
 		data_ptr = new char[buf_len];
 		System.arraycopy(p_os.getValue(), 0, data_ptr, 0, buf_len);
@@ -187,7 +187,7 @@ public class TTCN_Buffer {
 	 * 			the {@link TitanCharString}
 	 *  */
 	public TTCN_Buffer assign(final TitanCharString p_cs) {
-		p_cs.mustBound("Assignment of an unbound charstring value to a TTCN_Buffer.");
+		p_cs.must_bound("Assignment of an unbound charstring value to a TTCN_Buffer.");
 
 		buf_len = p_cs.lengthof().getInt();
 		data_ptr = new char[buf_len];
@@ -328,7 +328,7 @@ public class TTCN_Buffer {
 	 * @param p_os append to the buffer
 	 *  */
 	public void put_string(final TitanOctetString p_os) {
-		p_os.mustBound("Appending an unbound octetstring value to a TTCN_Buffer.");
+		p_os.must_bound("Appending an unbound octetstring value to a TTCN_Buffer.");
 
 		final int n_octets = p_os.lengthof().getInt();
 		if (n_octets > 0) {
@@ -355,7 +355,7 @@ public class TTCN_Buffer {
 	 * @param p_cs append to the buffer
 	 * */
 	public void put_string(final TitanCharString p_cs) {
-		p_cs.mustBound("Appending an unbound charstring value to a TTCN_Buffer.");
+		p_cs.must_bound("Appending an unbound charstring value to a TTCN_Buffer.");
 
 		final int n_chars = p_cs.lengthof().getInt();
 		if (n_chars > 0) { // there is something in the CHARSTRING

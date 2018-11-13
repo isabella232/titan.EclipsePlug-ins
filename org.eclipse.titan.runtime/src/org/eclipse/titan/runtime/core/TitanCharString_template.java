@@ -94,7 +94,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	 * */
 	public TitanCharString_template(final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound charstring value.");
+		otherValue.must_bound("Creating a template from an unbound charstring value.");
 
 		single_value = new TitanCharString(otherValue);
 	}
@@ -229,7 +229,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanCharString_template assign(final TitanCharString otherValue) {
-		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound charstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -311,13 +311,13 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 	// originally operator[](const INTEGER&) const
 	public TitanCharString_Element get_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a charstring template with an unbound integer value.");
 
 		return get_at(index_value.getInt());
 	}
 
 	public TitanCharString_Element constGet_at(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
+		index_value.must_bound("Indexing a charstring template with an unbound integer value.");
 
 		return constGet_at(index_value.getInt());
 	}
@@ -593,7 +593,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
 		}
-		otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
+		otherMinValue.must_bound("Setting an unbound value as lower bound in a charstring value range template.");
 
 		final int length = otherMinValue.lengthof().getInt();
 		if (length != 1) {
@@ -630,7 +630,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
 		}
-		otherMaxValue.mustBound("Setting an unbound value as upper bound in a charstring value range template.");
+		otherMaxValue.must_bound("Setting an unbound value as upper bound in a charstring value range template.");
 
 		final int length = otherMaxValue.lengthof().getInt();
 		if (length != 1) {

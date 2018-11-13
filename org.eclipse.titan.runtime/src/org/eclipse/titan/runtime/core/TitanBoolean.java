@@ -57,7 +57,7 @@ public class TitanBoolean extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanBoolean(final TitanBoolean otherValue) {
-		otherValue.mustBound("Copying an unbound boolean value.");
+		otherValue.must_bound("Copying an unbound boolean value.");
 
 		boolean_value = otherValue.boolean_value;
 	}
@@ -97,7 +97,7 @@ public class TitanBoolean extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanBoolean assign(final TitanBoolean otherValue) {
-		otherValue.mustBound("Assignment of an unbound boolean value.");
+		otherValue.must_bound("Assignment of an unbound boolean value.");
 
 		if (otherValue != this) {
 			boolean_value = otherValue.boolean_value;
@@ -130,9 +130,16 @@ public class TitanBoolean extends Base_Type {
 		return boolean_value != null;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (boolean_value == null) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
@@ -141,7 +148,7 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator or
 	 */
 	public boolean or(final boolean aOtherValue) {
-		mustBound("The left operand of or operator is an unbound boolean value.");
+		must_bound("The left operand of or operator is an unbound boolean value.");
 
 		return boolean_value || aOtherValue;
 	}
@@ -151,8 +158,8 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator or
 	 */
 	public boolean or(final TitanBoolean aOtherValue) {
-		mustBound("The left operand of or operator is an unbound boolean value.");
-		aOtherValue.mustBound("The right operand of or operator is an unbound boolean value.");
+		must_bound("The left operand of or operator is an unbound boolean value.");
+		aOtherValue.must_bound("The right operand of or operator is an unbound boolean value.");
 
 		return boolean_value || aOtherValue.boolean_value;
 	}
@@ -162,7 +169,7 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator and
 	 */
 	public boolean and(final boolean aOtherValue) {
-		mustBound("The left operand of and operator is an unbound boolean value.");
+		must_bound("The left operand of and operator is an unbound boolean value.");
 
 		return boolean_value && aOtherValue;
 	}
@@ -172,8 +179,8 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator and
 	 */
 	public boolean and(final TitanBoolean aOtherValue) {
-		mustBound("The left operand of and operator is an unbound boolean value.");
-		aOtherValue.mustBound("The right operand of and operator is an unbound boolean value.");
+		must_bound("The left operand of and operator is an unbound boolean value.");
+		aOtherValue.must_bound("The right operand of and operator is an unbound boolean value.");
 
 		return boolean_value && aOtherValue.boolean_value;
 	}
@@ -183,7 +190,7 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator ^
 	 */
 	public boolean xor(final boolean aOtherValue) {
-		mustBound("The left operand of xor operator is an unbound boolean value.");
+		must_bound("The left operand of xor operator is an unbound boolean value.");
 
 		return boolean_value.booleanValue() != aOtherValue;
 	}
@@ -193,8 +200,8 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator ^
 	 */
 	public boolean xor(final TitanBoolean aOtherValue) {
-		mustBound("The left operand of xor operator is an unbound boolean value.");
-		aOtherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
+		must_bound("The left operand of xor operator is an unbound boolean value.");
+		aOtherValue.must_bound("The right operand of xor operator is an unbound boolean value.");
 
 		return boolean_value.booleanValue() != aOtherValue.boolean_value.booleanValue();
 	}
@@ -204,7 +211,7 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator not
 	 */
 	public boolean not() {
-		mustBound("The operand of not operator is an unbound boolean value.");
+		must_bound("The operand of not operator is an unbound boolean value.");
 
 		return !boolean_value;
 	}
@@ -219,8 +226,8 @@ public class TitanBoolean extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanBoolean otherValue) {
-		mustBound("The left operand of comparison is an unbound boolean value.");
-		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+		must_bound("The left operand of comparison is an unbound boolean value.");
+		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
 		return boolean_value.equals(otherValue.boolean_value);
 	}
@@ -235,7 +242,7 @@ public class TitanBoolean extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final boolean otherValue) {
-		mustBound("The left operand of comparison is an unbound boolean value.");
+		must_bound("The left operand of comparison is an unbound boolean value.");
 
 		return boolean_value == otherValue;
 	}
@@ -260,7 +267,7 @@ public class TitanBoolean extends Base_Type {
 	 * @return {@code true} if the values are not equivalent.
 	 */
 	public boolean operatorNotEquals(final boolean otherValue) {
-		mustBound("The left operand of comparison is an unbound boolean value.");
+		must_bound("The left operand of comparison is an unbound boolean value.");
 
 		return !operatorEquals(otherValue);
 	}
@@ -323,7 +330,7 @@ public class TitanBoolean extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound boolean value.");
+		must_bound("Text encoder: Encoding an unbound boolean value.");
 
 		text_buf.push_int(boolean_value ? 1 : 0);
 	}
@@ -357,7 +364,7 @@ public class TitanBoolean extends Base_Type {
 		if (!boolValue) {
 			return false;
 		}
-		otherValue.mustBound("The right operand of and operator is an unbound boolean value.");
+		otherValue.must_bound("The right operand of and operator is an unbound boolean value.");
 
 		return otherValue.boolean_value;
 	}
@@ -367,28 +374,28 @@ public class TitanBoolean extends Base_Type {
 		if (boolValue) {
 			return true;
 		}
-		otherValue.mustBound("The right operand of or operator is an unbound boolean value.");
+		otherValue.must_bound("The right operand of or operator is an unbound boolean value.");
 
 		return otherValue.boolean_value;
 	}
 
 	// static xor
 	public static boolean xor(final boolean boolValue, final TitanBoolean otherValue) {
-		otherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
+		otherValue.must_bound("The right operand of xor operator is an unbound boolean value.");
 
 		return boolValue != otherValue.boolean_value;
 	}
 
 	// static equals
 	public static boolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue) {
-		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
 		return boolValue == otherValue.boolean_value;
 	}
 
 	// static notEquals
 	public static boolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue) {
-		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
 	}

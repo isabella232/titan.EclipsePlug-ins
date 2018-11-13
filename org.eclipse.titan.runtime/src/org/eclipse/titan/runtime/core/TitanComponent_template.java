@@ -212,7 +212,7 @@ public class TitanComponent_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanComponent_template assign(final TitanComponent otherValue) {
-		otherValue.mustBound("Assignment of an unbound component reference to a template.");
+		otherValue.must_bound("Assignment of an unbound component reference to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);

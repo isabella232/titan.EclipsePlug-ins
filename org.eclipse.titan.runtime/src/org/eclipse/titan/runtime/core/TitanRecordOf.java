@@ -32,7 +32,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	public TitanRecordOf(final TitanRecordOf other_value) {
-		other_value.mustBound("Copying an unbound record of/set of value.");
+		other_value.must_bound("Copying an unbound record of/set of value.");
 		ofType = other_value.ofType;
 		valueElements = copy_list(other_value.valueElements);
 	}
@@ -47,9 +47,16 @@ public abstract class TitanRecordOf extends Base_Type {
 		return valueElements != null;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (!is_bound()) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
@@ -130,8 +137,8 @@ public abstract class TitanRecordOf extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanRecordOf otherValue) {
-		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
-		otherValue.mustBound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
+		must_bound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
+		otherValue.must_bound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
 
 		final int size = valueElements.size();
 		if (size != otherValue.valueElements.size()) {
@@ -170,7 +177,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanRecordOf assign(final TitanRecordOf otherValue) {
-		otherValue.mustBound("Assignment of an unbound record of value.");
+		otherValue.must_bound("Assignment of an unbound record of value.");
 
 		valueElements = otherValue.valueElements;
 		return this;
@@ -212,7 +219,7 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	//originally get_at(const INTEGER&)
 	public Base_Type get_at(final TitanInteger index_value) {
-		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
 		return get_at(index_value.getInt());
 	}
 
@@ -236,7 +243,7 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	//originally get_at(const INTEGER&) const
 	public Base_Type constGet_at(final TitanInteger index_value) {
-		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
 
 		return constGet_at(index_value.getInt());
 	}

@@ -68,7 +68,7 @@ public class TitanBoolean_template extends Base_Template {
 	 * */
 	public TitanBoolean_template(final TitanBoolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound boolean value.");
+		otherValue.must_bound("Creating a template from an unbound boolean value.");
 
 		single_value = new TitanBoolean(otherValue);
 	}
@@ -177,7 +177,7 @@ public class TitanBoolean_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanBoolean_template assign(final TitanBoolean otherValue) {
-		otherValue.mustBound("Assignment of an unbound boolean value to a template.");
+		otherValue.must_bound("Assignment of an unbound boolean value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);

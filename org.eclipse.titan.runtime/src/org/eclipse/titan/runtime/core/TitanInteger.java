@@ -74,7 +74,7 @@ public class TitanInteger extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanInteger(final TitanInteger otherValue) {
-		otherValue.mustBound("Copying an unbound integer value.");
+		otherValue.must_bound("Copying an unbound integer value.");
 
 		boundFlag = true;
 		nativeFlag = otherValue.nativeFlag;
@@ -175,7 +175,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanInteger assign(final TitanInteger otherValue) {
-		otherValue.mustBound("Assignment of an unbound integer value.");
+		otherValue.must_bound("Assignment of an unbound integer value.");
 
 		if (otherValue != this) {
 			clean_up();
@@ -202,7 +202,7 @@ public class TitanInteger extends Base_Type {
 
 	//originally operator+ unary plus
 	public TitanInteger add() {
-		mustBound("Unbound integer operand of unary + operator.");
+		must_bound("Unbound integer operand of unary + operator.");
 
 		if (nativeFlag) {
 			return new TitanInteger(nativeInt);
@@ -213,7 +213,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator-
 	public TitanInteger sub() {
-		mustBound("Unbound integer operand of unary - operator (negation).");
+		must_bound("Unbound integer operand of unary - operator (negation).");
 
 		if (nativeFlag) {
 			final long temp = (long) nativeInt * -1;
@@ -242,8 +242,8 @@ public class TitanInteger extends Base_Type {
 	 * originally operator+
 	 */
 	public TitanInteger add(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer addition.");
-		otherValue.mustBound("Unbound right operand of integer addition.");
+		must_bound("Unbound left operand of integer addition.");
+		otherValue.must_bound("Unbound right operand of integer addition.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -278,8 +278,8 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator-
 	public TitanInteger sub(final TitanInteger otherValue) {
-		this.mustBound("Unbound left operand of integer addition. ");
-		otherValue.mustBound("Unbound right operand of integer addition. ");
+		this.must_bound("Unbound left operand of integer addition. ");
+		otherValue.must_bound("Unbound right operand of integer addition. ");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -314,9 +314,9 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator*
 	public TitanInteger mul(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer multiplication.");
+		must_bound("Unbound left operand of integer multiplication.");
 
-		otherValue.mustBound("Unbound right operand of integer multiplication.");
+		otherValue.must_bound("Unbound right operand of integer multiplication.");
 
 		if (nativeFlag && nativeInt == 0 || (otherValue.nativeFlag && otherValue.nativeInt == 0)) {
 			return new TitanInteger((int) 0);
@@ -355,8 +355,8 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator/
 	public TitanInteger div(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer division.");
-		otherValue.mustBound("Unbound right operand of integer division.");
+		must_bound("Unbound left operand of integer division.");
+		otherValue.must_bound("Unbound right operand of integer division.");
 
 		if (otherValue.operatorEquals(0)) {
 			throw new TtcnError("Integer division by zero.");
@@ -406,8 +406,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public TitanInteger rem(final TitanInteger rightValue) {
-		this.mustBound("Unbound left operand of rem operator ");
-		rightValue.mustBound("Unbound right operand of rem operator");
+		this.must_bound("Unbound left operand of rem operator ");
+		rightValue.must_bound("Unbound right operand of rem operator");
 
 		return this.sub(rightValue.mul(this.div(rightValue)));
 	}
@@ -422,7 +422,7 @@ public class TitanInteger extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt == otherValue;
@@ -442,7 +442,7 @@ public class TitanInteger extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (!nativeFlag) {
 			return openSSL.equals(otherValue);
@@ -462,8 +462,8 @@ public class TitanInteger extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -532,7 +532,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator <
 	public boolean isLessThan(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt < otherValue;
@@ -544,7 +544,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator <
 	public boolean isLessThan(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			final BigInteger this_int = BigInteger.valueOf(nativeInt);
@@ -556,8 +556,8 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator <
 	public boolean isLessThan(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -578,7 +578,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator >
 	public boolean isGreaterThan(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt > otherValue;
@@ -591,7 +591,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator >
 	public boolean isGreaterThan(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			final BigInteger this_int = BigInteger.valueOf(nativeInt);
@@ -604,8 +604,8 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator >
 	public boolean isGreaterThan(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -673,7 +673,14 @@ public class TitanInteger extends Base_Type {
 		return boundFlag;
 	}
 
-	public void mustBound(final String errorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (!boundFlag) {
 			throw new TtcnError(errorMessage);
 		}
@@ -712,7 +719,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally int()
 	public int getInt() {
-		mustBound("Using the value of an unbound integer variable.");
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (!nativeFlag) {
 			throw new TtcnError("Invalid conversion of a large integer value.");
@@ -723,7 +730,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally get_long_long_val
 	public long getLong() {
-		mustBound("Using the value of an unbound integer variable.");
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
 			return nativeInt;
@@ -734,7 +741,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally get_long_long_val
 	public BigInteger getBigInteger() {
-		mustBound("Using the value of an unbound integer variable.");
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
 			return BigInteger.valueOf(nativeInt);
@@ -746,7 +753,7 @@ public class TitanInteger extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound integer value.");
+		must_bound("Text encoder: Encoding an unbound integer value.");
 
 		text_buf.push_int(this);
 	}
@@ -814,7 +821,7 @@ public class TitanInteger extends Base_Type {
 
 	// static operator+
 	public static TitanInteger add(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer addition.");
+		otherValue.must_bound("Unbound right operand of integer addition.");
 
 		if (otherValue.nativeFlag) {
 			final long temp = (long) intValue + (long) otherValue.nativeInt;
@@ -831,7 +838,7 @@ public class TitanInteger extends Base_Type {
 
 	// static operator-
 	public static TitanInteger sub(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer subtraction.");
+		otherValue.must_bound("Unbound right operand of integer subtraction.");
 
 		if (otherValue.nativeFlag) {
 			final long temp = (long) intValue - (long) otherValue.nativeInt;
@@ -866,8 +873,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public static TitanInteger rem(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.mustBound("Unbound left operand of rem operator ");
-		rightValue.mustBound("Unbound right operand of rem operator");
+		leftValue.must_bound("Unbound left operand of rem operator ");
+		rightValue.must_bound("Unbound right operand of rem operator");
 
 		return leftValue.sub(rightValue.mul((leftValue.div(rightValue))));
 	}
@@ -900,8 +907,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public static TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.mustBound("Unbound left operand of mod operator.");
-		rightValue.mustBound("Unbound right operand of mod operator");
+		leftValue.must_bound("Unbound left operand of mod operator.");
+		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
 		if (rightValue.isLessThan(0)) {
@@ -942,8 +949,8 @@ public class TitanInteger extends Base_Type {
 
 	// mod with one parameter
 	public TitanInteger mod(final TitanInteger rightValue) {
-		mustBound("Unbound left operand of mod operator.");
-		rightValue.mustBound("Unbound right operand of mod operator");
+		must_bound("Unbound left operand of mod operator.");
+		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
 		if (rightValue.isLessThan(0)) {

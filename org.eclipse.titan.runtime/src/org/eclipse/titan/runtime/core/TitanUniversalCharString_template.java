@@ -98,7 +98,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 * */
 	public TitanUniversalCharString_template(final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound charstring value.");
+		otherValue.must_bound("Creating a template from an unbound charstring value.");
 
 		single_value = new TitanUniversalCharString(otherValue);
 	}
@@ -112,7 +112,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 * */
 	public TitanUniversalCharString_template(final TitanCharString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound charstring value.");
+		otherValue.must_bound("Creating a template from an unbound charstring value.");
 
 		single_value = new TitanUniversalCharString(String.valueOf(otherValue.get_char()));
 	}
@@ -126,7 +126,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound universal charstring value.");
+		otherValue.must_bound("Creating a template from an unbound universal charstring value.");
 
 		single_value = new TitanUniversalCharString(otherValue);
 	}
@@ -140,7 +140,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	 * */
 	public TitanUniversalCharString_template(final TitanUniversalCharString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		otherValue.mustBound("Creating a template from an unbound universal charstring value.");
+		otherValue.must_bound("Creating a template from an unbound universal charstring value.");
 
 		single_value = new TitanUniversalCharString(otherValue);
 	}
@@ -284,7 +284,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	// originally operator=
 	public TitanUniversalCharString_template assign(final TitanUniversalCharString otherValue) {
-		otherValue.mustBound("Assignment of an unbound universal charstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound universal charstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -294,7 +294,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public TitanUniversalCharString_template assign(final TitanUniversalCharString_Element otherValue) {
-		otherValue.mustBound("Assignment of an unbound universal charstring element to a template.");
+		otherValue.must_bound("Assignment of an unbound universal charstring element to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -304,7 +304,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public TitanUniversalCharString_template assign(final TitanCharString otherValue) {
-		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
+		otherValue.must_bound("Assignment of an unbound charstring value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -314,7 +314,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public TitanUniversalCharString_template assign(final TitanCharString_Element otherValue) {
-		otherValue.mustBound("Assignment of an unbound charstring element to a universal charstring template.");
+		otherValue.must_bound("Assignment of an unbound charstring element to a universal charstring template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
@@ -442,7 +442,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	// originally operator[](const INTEGER& index_value)
 	public TitanUniversalCharString_Element get_at(final TitanInteger index) {
-		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
+		index.must_bound("Indexing a universal charstring template with an unbound integer value.");
 
 		return get_at(index.getInt());
 	}
@@ -457,7 +457,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	// originally operator[](const INTEGER& index_value)
 	public TitanUniversalCharString_Element constGet_at(final TitanInteger index) {
-		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
+		index.must_bound("Indexing a universal charstring template with an unbound integer value.");
 
 		return constGet_at(index.getInt());
 	}
@@ -680,7 +680,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
 		}
 
-		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
+		minValue.must_bound("Setting an unbound value as lower bound in a universal charstring value range template.");
 		final int length = minValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
@@ -700,7 +700,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
 		}
 
-		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
+		maxValue.must_bound("Setting an unbound value as upper bound in a universal charstring value range template.");
 		final int length = maxValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
@@ -759,7 +759,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
 		}
 
-		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
+		minValue.must_bound("Setting an unbound value as lower bound in a universal charstring value range template.");
 		final int length = minValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
@@ -779,7 +779,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
 		}
 
-		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
+		maxValue.must_bound("Setting an unbound value as upper bound in a universal charstring value range template.");
 		final int length = maxValue.lengthof().getInt();
 		if (length != 1) {
 			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
