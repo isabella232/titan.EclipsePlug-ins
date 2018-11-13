@@ -663,7 +663,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t\tif (valueElements == null || index_value >= valueElements.size() ) {\n");
 		source.append("\t\t\t//increase list size\n");
-		source.append("\t\t\tsetSize(index_value + 1);\n");
+		source.append("\t\t\tset_size(index_value + 1);\n");
 		source.append("\t\t}\n");
 		source.append('\n');
 		source.append("\t\tif ( valueElements.get( index_value ) == null ) {\n");
@@ -767,7 +767,7 @@ public final class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\tpublic void setSize(final int newSize) {\n");
+		source.append("\tpublic void set_size(final int newSize) {\n");
 		source.append("\t\tif (newSize < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -966,7 +966,7 @@ public final class RecordOfGenerator {
 		source.append("}\n");
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Value_List:\n");
-		source.append("setSize(param.get_size());\n");
+		source.append("set_size(param.get_size());\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		source.append("final Module_Parameter current = param.get_elem(i);\n");
 		source.append("if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
@@ -1863,7 +1863,7 @@ public final class RecordOfGenerator {
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\tcase UNINITIALIZED_TEMPLATE:\n");
-		source.append("\t\t\tsetSize(index_value + 1);\n");
+		source.append("\t\t\tset_size(index_value + 1);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing an element of a non-specific template for type {0}.\");\n", displayName ) );
@@ -2089,7 +2089,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateSetSize( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
-		source.append("\tpublic void setSize(final int new_size) {\n");
+		source.append("\tpublic void set_size(final int new_size) {\n");
 		source.append("\t\tif (new_size < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -2814,7 +2814,7 @@ public final class RecordOfGenerator {
 		aSb.append("}\n");
 		aSb.append("case MP_Indexed_List:\n");
 		aSb.append("if (template_selection != template_sel.SPECIFIC_VALUE) {\n");
-		aSb.append("setSize(0);\n");
+		aSb.append("set_size(0);\n");
 		aSb.append("}\n");
 		aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
 		aSb.append("getAt(param.get_elem(i).get_id().get_index()).set_param(param.get_elem(i));\n");
@@ -2822,7 +2822,7 @@ public final class RecordOfGenerator {
 		aSb.append("break;\n");
 		if (isSetOf) {
 			aSb.append("case MP_Value_List: {\n");
-			aSb.append("setSize(param.get_size());\n");
+			aSb.append("set_size(param.get_size());\n");
 			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
 			aSb.append("if (param.get_elem(i).get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
 			aSb.append("getAt(i).set_param(param.get_elem(i));\n");
@@ -2839,7 +2839,7 @@ public final class RecordOfGenerator {
 			aSb.append("break;\n");
 		} else {
 			aSb.append("case MP_Value_List: {\n");
-			aSb.append("setSize(param.get_size());\n");
+			aSb.append("set_size(param.get_size());\n");
 			aSb.append("int current_index = 0;\n");
 			aSb.append("for (int i = 0; i < param.get_size(); i++) {\n");
 			aSb.append("switch (param.get_elem(i).get_type()) {\n");

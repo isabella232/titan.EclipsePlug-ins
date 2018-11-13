@@ -715,7 +715,7 @@ public final class SequenceOf_Value extends Value {
 
 				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
-				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
+				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
 				ofType.getGenNameValue(aData, source, myScope);
 

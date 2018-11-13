@@ -47,10 +47,10 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		indexofset = offset;
 		array_elements = new TitanPort[size];
 		names = new String[size];
-		setSize(size);
+		set_size(size);
 	}
 
-	public void setSize(final int length) {
+	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T empty = clazz.newInstance();
@@ -93,13 +93,13 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	// originally operator[]
 	@SuppressWarnings("unchecked")
 	public T getAt(final int index_value) {
-		return (T)array_elements[getPortArrayIndex(index_value, array_size, indexofset)];
+		return (T)array_elements[get_port_array_index(index_value, array_size, indexofset)];
 	}
 
 	// originally operator[]
 	@SuppressWarnings("unchecked")
 	public T getAt(final TitanInteger index_value) {
-		return (T)array_elements[getPortArrayIndex(index_value.getInt(), array_size, indexofset)];
+		return (T)array_elements[get_port_array_index(index_value.getInt(), array_size, indexofset)];
 	}
 
 	// originally operator[]
@@ -112,8 +112,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return getAt(index_value);
 	}
 
-	//originally n_elem
-	public int nElem() {
+	public int n_elem() {
 		return array_size;
 	}
 
@@ -382,9 +381,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	//Static methods
-
-	//originally get_port_array_index
-	public static int getPortArrayIndex(final int index_value,final int array_size,final int index_offset) {
+	public static int get_port_array_index(final int index_value,final int array_size,final int index_offset) {
 		if (index_value < index_offset) {
 			throw new TtcnError(MessageFormat.format("Index underflow when accessing an element of a port array. The index value should be between {0} and {1} instead of {2}."
 					, index_offset, index_offset + array_size - 1, index_value));
@@ -397,10 +394,10 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return ret_val;
 	}
 
-	public static int getPortArrayIndex(final TitanInteger index_value, final int array_size, final int index_offset) {
+	public static int get_port_array_index(final TitanInteger index_value, final int array_size, final int index_offset) {
 		index_value.mustBound("Accessing an element of a port array using an unbound index.");
 
-		return getPortArrayIndex(index_value.getInt(), array_size, index_offset);
+		return get_port_array_index(index_value.getInt(), array_size, index_offset);
 	}
 
 }

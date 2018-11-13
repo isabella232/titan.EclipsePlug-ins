@@ -77,12 +77,12 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		array_elements = new TitanTimer[size];
 		//TODO check strange usage
-		setSize(size);
+		set_size(size);
 
 		names = new String[size];
 	}
 
-	public void setSize(final int length) {
+	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T empty = clazz.newInstance();

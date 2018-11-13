@@ -69,7 +69,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//FIXME: implement
-/*	public void setSize(final int length) {
+/*	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T emply = clazz.newInstance();

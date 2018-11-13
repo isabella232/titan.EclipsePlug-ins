@@ -683,13 +683,11 @@ public final class Template_List extends CompositeTemplate {
 
 			source.append(preamble);
 
-			source.append(MessageFormat.format("{0}.setSize({1}", name, fixedPart));
+			source.append(MessageFormat.format("{0}.set_size({1}", name, fixedPart));
 			source.append(setSize);
 			source.append(");\n");
 			source.append(body);
 		} else {
-			//source.append(MessageFormat.format("{0}.setSize({1});\n", name, getNofTemplates()));
-
 			int index = 0;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 				final TTCN3Template template = templates.getTemplateByIndex(i);

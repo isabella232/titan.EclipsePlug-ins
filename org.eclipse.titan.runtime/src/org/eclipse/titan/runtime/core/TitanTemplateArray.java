@@ -296,7 +296,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		this.classTemplate = classTemplate;
 
 		indexOffset = offset;
-		setSize(size);
+		set_size(size);
 	}
 
 	public TitanTemplateArray(final Optional<TitanValueArray<Tvalue>> other_value) {
@@ -314,7 +314,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	//FIXME: actualization
-	public void setSize(final int length) {
+	public void set_size(final int length) {
 		if (length < 0) {
 			throw new TtcnError("Internal error: Setting a negative size for an array template.");
 		}
@@ -489,15 +489,15 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			if (index >= singleSize) {
-				setSize(index + 1);
+				set_size(index + 1);
 			}
 			break;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			setSize(listSize);
+			set_size(listSize);
 			break;
 		default:
-			setSize(index + 1);
+			set_size(index + 1);
 		}
 		return (Ttemplate)single_value[index];
 	}
@@ -759,7 +759,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			break;
 		}
 		case MP_Value_List:
-			setSize(param.get_size());
+			set_size(param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				final Module_Parameter curr = param.get_elem(i);
 				if (curr.get_type() != type_t.MP_NotUsed) {
