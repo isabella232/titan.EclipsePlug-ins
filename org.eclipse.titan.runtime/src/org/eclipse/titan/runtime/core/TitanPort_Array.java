@@ -17,7 +17,7 @@ import java.text.MessageFormat;
  * @author Gergo Ujhelyi
  **/
 
-public class TitanPortArray<T extends TitanPort> extends TitanPort {
+public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 
 	private TitanPort[] array_elements;
 	private String[] names;
@@ -28,7 +28,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	private int indexofset;
 
 	// Copy constructor
-	public TitanPortArray(final TitanPortArray<T> otherValue) {
+	public TitanPort_Array(final TitanPort_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
@@ -42,7 +42,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
-	public TitanPortArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanPort_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexofset = offset;
 		array_elements = new TitanPort[size];
@@ -74,7 +74,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanPortArray<T> assign(final TitanPortArray<T> otherValue) {
+	public TitanPort_Array<T> assign(final TitanPort_Array<T> otherValue) {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;

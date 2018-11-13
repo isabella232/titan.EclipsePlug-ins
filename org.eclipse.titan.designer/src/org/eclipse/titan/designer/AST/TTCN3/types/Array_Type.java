@@ -1255,16 +1255,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final ArrayDimension dim = getDimension();
 
-		aData.addBuiltinTypeImport("TitanValueArray");
+		aData.addBuiltinTypeImport("TitanValue_Array");
 
-		source.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
+		source.append(MessageFormat.format("public static class {0} extends TitanValue_Array<{1}> '{'\n", className, ofType));
 		source.append(MessageFormat.format("public {0}() '{'\n", className));
 		source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("public {0}(final TitanValueArray<{1}> otherValue) '{'\n", className, ofType));
+		source.append(MessageFormat.format("public {0}(final TitanValue_Array<{1}> otherValue) '{'\n", className, ofType));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -1291,11 +1291,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final ArrayDimension dim = getDimension();
 
-		aData.addBuiltinTypeImport("TitanTemplateArray");
+		aData.addBuiltinTypeImport("TitanTemplate_Array");
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 		aData.addBuiltinTypeImport("Optional");
 
-		source.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
+		source.append(MessageFormat.format("public static class {0} extends TitanTemplate_Array<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
 		source.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
 		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");

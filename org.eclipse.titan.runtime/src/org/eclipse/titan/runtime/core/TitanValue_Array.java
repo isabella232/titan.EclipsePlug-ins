@@ -16,7 +16,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 /**
  * @author Farkas Izabella Ingrid
  */
-public class TitanValueArray<T extends Base_Type> extends Base_Type {
+public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	Base_Type[] array_elements;
 
@@ -31,7 +31,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_elements = new ArrayList<T>();
 	}*/
 
-	public TitanValueArray(final TitanValueArray<T> otherValue) {
+	public TitanValue_Array(final TitanValue_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -50,7 +50,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public TitanValueArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanValue_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 
@@ -147,9 +147,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	// originally not implemented operator=
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanValueArray<T> assign(final Base_Type otherValue) {
-		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
+	public TitanValue_Array<T> assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanValue_Array<?>) {
+			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
 			return assign(arrayOther);
 		} else {
 			try {
@@ -168,7 +168,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
+	public TitanValue_Array<T> assign(final TitanValue_Array<T> otherValue) {
 		clean_up();
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -191,8 +191,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
+		if (otherValue instanceof TitanValue_Array<?>) {
+			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
 			return operatorEquals(arrayOther);
 		} else {
 			if (array_size == 1) {
@@ -212,7 +212,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanValueArray<T> otherValue) {
+	public boolean operatorEquals(final TitanValue_Array<T> otherValue) {
 		if (array_size != otherValue.array_size) {
 			return false;
 		}
@@ -248,12 +248,12 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanValueArray<T> otherValue) {
+	public boolean operatorNotEquals(final TitanValue_Array<T> otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
 	// originally  operator<<=
-	public TitanValueArray<T> rotateLeft(int rotateCount) {
+	public TitanValue_Array<T> rotateLeft(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
 		if (array_size == 0) {
 			return this;
@@ -264,7 +264,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+			final TitanValue_Array<T> result = new TitanValue_Array<T>(clazz, array_size, indexOffset);
 //			result.array_size = array_size;
 //			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -283,14 +283,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//originally  operator<<=
-	public TitanValueArray<T> rotateLeft(final TitanInteger rotateCount) {
+	public TitanValue_Array<T> rotateLeft(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate left operator.");
 
 		return rotateLeft(rotateCount.getInt());
 	}
 
 	//originally  operator>>=
-	public TitanValueArray<T> rotateRight(int rotateCount) {
+	public TitanValue_Array<T> rotateRight(int rotateCount) {
 		if (array_size == 0) {
 			return this;
 		}
@@ -300,7 +300,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+			final TitanValue_Array<T> result = new TitanValue_Array<T>(clazz, array_size, indexOffset);
 //			result.array_size = array_size;
 //			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -319,7 +319,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//originally  operator>>=
-	public TitanValueArray<T> rotateRight(final TitanInteger rotateCount) {
+	public TitanValue_Array<T> rotateRight(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate right operator.");
 
 		return rotateRight(rotateCount.getInt());

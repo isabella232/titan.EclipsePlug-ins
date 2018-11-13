@@ -3115,7 +3115,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("}\n");
 
 		if (needs_any_from_done) {
-			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValueArray<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
+			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValue_Array<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 			source.append("if (index_redirect != null) {\n");
 			source.append("index_redirect.incrPos();\n");
 			source.append("}\n");
