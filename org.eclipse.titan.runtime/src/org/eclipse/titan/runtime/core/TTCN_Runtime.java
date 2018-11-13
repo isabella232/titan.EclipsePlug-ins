@@ -423,7 +423,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
 			TTCN_Default.deactivate_all();
-			TitanTimer.allStop();
+			TitanTimer.all_stop();
 			TitanPort.deactivate_all();
 
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.component__shut__down, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
@@ -2087,7 +2087,7 @@ public final class TTCN_Runtime {
 	public static void end_controlpart() {
 		TTCN_Default.deactivate_all();
 		TTCN_Default.reset_counter();
-		TitanTimer.allStop();
+		TitanTimer.all_stop();
 		TTCN_Logger.log_controlpart_start_stop(control_module_name, true);
 		//FIXME implement execute_command
 		control_module_name = null;
@@ -2123,7 +2123,7 @@ public final class TTCN_Runtime {
 		default:
 			throw new TtcnError("Internal error: Executing a test case in an invalid state.");
 		}
-		TitanTimer.saveControlTimers();
+		TitanTimer.save_control_timers();
 		TTCN_Default.save_control_defaults();
 		set_testcase_name(moduleName, testcaseName);
 		set_system_type(system_comptype_module, system_comptype_name);
