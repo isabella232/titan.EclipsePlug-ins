@@ -5620,7 +5620,7 @@ pr_RedirectWithValueAndParamSpec [boolean is_any_from] returns[Redirection_Helpe
 }:
 (	(	vs = pr_ValueSpec
 		( h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;} )?
-		{	if ($helper == null) {new Redirection_Helper($vs.reference, null, null, null, null);}
+		{	if ($helper == null) {$helper = new Redirection_Helper($vs.reference, null, null, null, null);}
 			else {$helper.redirectValue = $vs.reference;}
 		}
 	|	h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;}
