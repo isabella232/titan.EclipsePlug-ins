@@ -566,12 +566,9 @@ public final class Named_Template_List extends TTCN3Template {
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 
-			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			final String javaGetterName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
-			embeddedName.append(".get_");
-			embeddedName.append(javaGetterName);
-			embeddedName.append("()");
-			namedTemplate.getTemplate().setGenNameRecursive(embeddedName.toString());
+			final String embeddedName = MessageFormat.format("{0}.get_{1}()", parameterGenName, javaGetterName);
+			namedTemplate.getTemplate().setGenNameRecursive(embeddedName);
 		}
 	}
 
