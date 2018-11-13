@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -169,9 +170,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 			if (isFirst) {
 				expression.expression.append( fieldId.getName() );
 			} else {
-				expression.expression.append( ".get_" );
-				expression.expression.append( getJavaGetterName(fieldId.getName()) );
-				expression.expression.append( "()" );
+				expression.expression.append(MessageFormat.format(".get_{0}()", getJavaGetterName(fieldId.getName())));
 			}
 		}
 	}
