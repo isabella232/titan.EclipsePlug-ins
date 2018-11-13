@@ -157,13 +157,13 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return array_size;
 	}
 
-	public void setName(final String name_string)
+	public void set_name(final String name_string)
 	{
 		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
 			names[i] = name_string + '[' + (indexOffset + i) + ']';
-			array_elements[i].setName(names[i]);
+			array_elements[i].set_name(names[i]);
 		}
 	}
 

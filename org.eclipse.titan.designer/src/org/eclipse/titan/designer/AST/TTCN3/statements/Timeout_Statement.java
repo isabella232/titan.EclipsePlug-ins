@@ -173,7 +173,7 @@ public final class Timeout_Statement extends Statement {
 		aData.addBuiltinTypeImport("TitanTimer");
 
 		if (timerReference == null) {
-			expression.expression.append("TitanTimer.anyTimeout()");
+			expression.expression.append("TitanTimer.any_timeout()");
 		} else {
 			timerReference.generateCode(aData, expression);
 			expression.expression.append(".timeout(");

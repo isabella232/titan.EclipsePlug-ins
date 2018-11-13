@@ -610,7 +610,7 @@ public final class Def_Timer extends Definition {
 
 						final ExpressionStruct expression = new ExpressionStruct();
 						expression.expression.append(genName);
-						expression.expression.append(".get().setDefaultDuration(");
+						expression.expression.append(".get().set_default_duration(");
 
 						defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -642,7 +642,7 @@ public final class Def_Timer extends Definition {
 				}
 
 				expression.expression.append(genName);
-				expression.expression.append(".get().setName(\"");
+				expression.expression.append(".get().set_name(\"");
 				expression.expression.append(identifier.getDisplayName());
 				expression.expression.append("\");\n");
 
@@ -662,7 +662,7 @@ public final class Def_Timer extends Definition {
 
 						final ExpressionStruct expression = new ExpressionStruct();
 						expression.expression.append(genName);
-						expression.expression.append(".setDefaultDuration(");
+						expression.expression.append(".set_default_duration(");
 
 						defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -687,7 +687,7 @@ public final class Def_Timer extends Definition {
 				}
 
 				expression.expression.append(genName);
-				expression.expression.append(".setName(\"");
+				expression.expression.append(".set_name(\"");
 				expression.expression.append(identifier.getDisplayName());
 				expression.expression.append("\");\n");
 
@@ -722,7 +722,7 @@ public final class Def_Timer extends Definition {
 
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
-					expression.expression.append(".setDefaultDuration(");
+					expression.expression.append(".set_default_duration(");
 
 					defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -743,7 +743,7 @@ public final class Def_Timer extends Definition {
 				generateCodeArrayDuration(aData, source, genName, classNames, defaultDuration, 0);
 			}
 
-			source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");
+			source.append(genName).append(".set_name(\"").append(identifier.getDisplayName()).append("\");\n");
 		}
 	}
 
@@ -894,7 +894,7 @@ public final class Def_Timer extends Definition {
 			if (dimensions == null) {
 				final ExpressionStruct expression = new ExpressionStruct();
 				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""));
-				expression.expression.append(".setDefaultDuration(");
+				expression.expression.append(".set_default_duration(");
 
 				defaultDuration.generateCodeExpression(aData, expression, true);
 

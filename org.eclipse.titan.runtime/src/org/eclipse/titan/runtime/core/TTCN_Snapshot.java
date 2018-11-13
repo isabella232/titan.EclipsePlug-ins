@@ -152,7 +152,7 @@ public final class TTCN_Snapshot {
 				boolean handleTimer = false;
 				if (blockExecution) {
 					final Changeable_Double timerTimeout = new Changeable_Double(0.0);
-					final boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+					final boolean isTimerTimeout = TitanTimer.get_min_expiration(timerTimeout);
 					//FIXME timeout handle still needed
 					if (isTimerTimeout) {
 						timeout = timerTimeout.getValue();
