@@ -26,7 +26,6 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
@@ -257,16 +256,6 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 
 			switch (tempType) {
 			case TYPE_CHARSTRING:
-				final IValue last = serialization.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (!last.isUnfoldable(timestamp)) {
-					final String originalString = ((Charstring_Value) last).getValue();
-					final CharstringExtractor cs = new CharstringExtractor( originalString );
-					if ( cs.isErrorneous() ) {
-						serialization.getLocation().reportSemanticError( cs.getErrorMessage() );
-						setIsErroneous(true);
-					}
-				}
-
 				break;
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);

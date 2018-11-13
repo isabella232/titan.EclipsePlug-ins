@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -459,16 +458,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = serialization.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor(originalString);
-				if (cs.isErrorneous()) {
-					serialization.getLocation().reportSemanticError(cs.getErrorMessage());
-					setIsErroneous(true);
-				}
-			}
-
 			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);

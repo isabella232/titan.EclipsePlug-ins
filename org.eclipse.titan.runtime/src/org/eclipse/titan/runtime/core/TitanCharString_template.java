@@ -902,7 +902,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 					}
 					// no break
 				default:
-					TTCN_Logger.log_event("\\q{0,0,0,%u}", c);
+					TTCN_Logger.log_event("\\q{0,0,0,"+(int)c+"}");
 					break;
 				}
 			}

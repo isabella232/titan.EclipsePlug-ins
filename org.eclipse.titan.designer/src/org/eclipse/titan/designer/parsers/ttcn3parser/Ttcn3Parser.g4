@@ -23,7 +23,7 @@ NOTE:
  Do NOT use CSTRING in any rule, use this instead.
 
 --------------------------
-Precedence of Operators with precedence levels (higher number is higher precedence)
+Precedence of TTCN-3 operators with precedence levels (higher number is higher precedence)
 
 15 ( ... )
 14 +, - (unary)
@@ -86,6 +86,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.CharstringExtractor;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
@@ -1480,7 +1481,7 @@ pr_MessageAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
-(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); 
+(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message);
 			    $portType = new Port_Type($body);}
 	(	pr_RealtimeKeyword {$body.setRealtime();}
 	)?
@@ -2365,44 +2366,50 @@ pr_ExtraMatchingAttributes [TTCN3Template template]:
 
 pr_BitString returns[String string]:
 	BSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'B$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'B$|\\s+", "");
+	}
 };
 
 pr_HexString returns[String string]:
 	HSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'H$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'H$|\\s+", "");
+	}
 };
 
 pr_OctetString returns[String string]:
 	OSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'O$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'O$|\\s+", "");
+	}
 };
 
 pr_BitStringMatch returns[String pattern]:
 	BSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'B$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'B$|\\s+", "");
+	}
 };
 
 pr_HexStringMatch returns[String pattern]:
 	HSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'H$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'H$|\\s+", "");
+	}
 };
 
 pr_OctetStringMatch returns[String pattern]:
 	OSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'O$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'O$|\\s+", "");
+	}
 };
 
 pr_SubsetMatch returns[ListOfTemplates templates]
@@ -2488,7 +2495,15 @@ pr_PatternKeyword:
 
 pr_PatternChunk[StringBuilder builder, boolean[] uni, boolean noCase]:
 //TODO: use noCase
-(	a = pr_CString { $builder.append($a.string); }
+(	a = pr_CString
+	// pr_CString.text is used instead of pr_CString.string,
+	// so the original text is used instead of the unescaped return value.
+	// This is done this way, because pattern string escape handling is done differently.
+	// But beginning and ending quotes must be removed.
+	{	if ( $a.text != null ) {
+			$builder.append($a.text.replaceAll("^\"|\"$", ""));
+		}
+	}
 |	v = pr_ReferencedValue
 		{	$builder.append('{');
 			$builder.append($v.text);
@@ -5938,7 +5953,6 @@ pr_TimerOps returns[Expression_Value value]
 	)
 )
 {
-	
 	$value.setLocation(getLocation( $col.start, getStopToken()));
 };
 
@@ -7642,7 +7656,6 @@ pr_Primary returns[Value value]
 						{	$value = new ComponentAliveExpression($value, index_reference, true);
 							$value.setLocation(getLocation( $t.start, $a25));	}
 				)
-				
 			)?
 		)
 	)
@@ -8465,11 +8478,12 @@ pr_Identifier returns [Identifier identifier]
 };
 
 pr_CString returns[String string]:
-	CSTRING
+	cs = CSTRING
 {
-	$string = $CSTRING.text;
-	if($string != null) {
-		$string = $string.replaceAll("^\"|\"$", "");
+	final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+	$string = cse.getExtractedString();
+	if ( cse.isErroneous() ) {
+		reportError( cse.getErrorMessage(), $cs, $cs );
 	}
 };
 

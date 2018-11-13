@@ -1368,9 +1368,13 @@ pr_StringValue returns [String string]
 ;
 
 pr_CString returns [String string]:
-(	a = STRING
+(	cs = STRING
 		{
-			$string = $a.text.replaceAll("^\"|\"$", "");
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				config_process_error( cse.getErrorMessage() );
+			}
 		}
 |	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
@@ -1758,7 +1762,11 @@ pr_BStringValue returns [String string]:
 ;
 
 pr_BString returns [String string]:
-(	b = BITSTRING { $string = $b.text.replaceAll("^\'|\'B$", ""); }
+(	b = BITSTRING
+	{	if ( $b.text != null ) {
+			$string = $b.text.replaceAll("^\'|\'B$|\\s+", "");
+		}
+	}
 |	macro = MACRO_BSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );	}
 )
 ;
@@ -1771,7 +1779,11 @@ pr_HStringValue returns [String string]:
 ;
 
 pr_HString returns [String string]:
-(	h = HEXSTRING { $string = $h.text.replaceAll("^\'|\'H$", ""); }
+(	h = HEXSTRING
+	{	if ( $h.text != null ) {
+			$string = $h.text.replaceAll("^\'|\'H$|\\s+", "");
+		}
+	}
 |	macro = MACRO_HSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );	}
 )
 ;
@@ -1784,7 +1796,11 @@ pr_OStringValue returns [String string]:
 ;
 
 pr_OString returns [String string]:
-(	o = OCTETSTRING { $string = $o.text.replaceAll("^\'|\'O$", ""); }
+(	o = OCTETSTRING
+	{	if ( $o.text != null ) {
+			$string = $o.text.replaceAll("^\'|\'O$|\\s+", "");
+		}
+	}
 |	macro = MACRO_OSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );	}
 |	macro_bin = MACRO_BINARY	{	$string = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );	}
 )
@@ -2101,18 +2117,38 @@ pr_PatternChunkList returns [TitanUniversalCharString ucstr]:
 ;
 
 pr_PatternChunk returns [TitanUniversalCharString ucstr]:
-	cstr = pr_CString	{	$ucstr = new TitanUniversalCharString($cstr.string);	}
+	cstr = pr_CString
+	// pr_CString.text is used instead of pr_CString.string,
+	// so the original text is used instead of the unescaped return value.
+	// This is done this way, because pattern string escape handling is done differently.
+	// But beginning and ending quotes must be removed.
+	{	if ( $cstr.text != null ) {
+			$ucstr = new TitanUniversalCharString($cstr.text.replaceAll("^\"|\"$", ""));
+		}
+	}
 |	q = pr_Quadruple	{	$ucstr = $q.ucstr;	}
 ;
 
 pr_BStringMatch returns [String string]:
-	b = BITSTRINGMATCH { $string = $b.text.replaceAll("^\'|\'B$", ""); }
+	b = BITSTRINGMATCH
+	{	if ( $b.text != null ) {
+			$string = $b.text.replaceAll("^\'|\'B$|\\s+", "");
+		}
+	}
 ;
 
 pr_HStringMatch returns [String string]:
-	h = HEXSTRINGMATCH { $string = $h.text.replaceAll("^\'|\'H$", ""); }
+	h = HEXSTRINGMATCH
+	{	if ( $h.text != null ) {
+			$string = $h.text.replaceAll("^\'|\'H$|\\s+", "");
+		}
+	}
 ;
 
 pr_OStringMatch returns [String string]:
-	o = OCTETSTRINGMATCH { $string = $o.text.replaceAll("^\'|\'O$", ""); }
+	o = OCTETSTRINGMATCH
+	{	if ( $o.text != null ) {
+			$string = $o.text.replaceAll("^\'|\'O$|\\s+", "");
+		}
+	}
 ;

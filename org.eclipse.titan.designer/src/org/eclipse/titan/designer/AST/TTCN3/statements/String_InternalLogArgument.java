@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.TTCN3.Code;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -52,11 +53,11 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 				return;
 			} else if (argument.length() == 1) {
 				// the string has one character: use log_char member
-				//FIXME needs to use Code::translate_character
-				expression.expression.append(MessageFormat.format("TTCN_Logger.log_char(\'\'{0}\'\')", argument.charAt(0)));
+				final String escapedChar = Code.translate_character(argument.charAt(0));
+				expression.expression.append(MessageFormat.format("TTCN_Logger.log_char(\'\'{0}\'\')", escapedChar));
 			} else {
-				//FIXME needs to use Code::translate_string
-				expression.expression.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}\")", argument));
+				final String escaped = Code.translate_string(argument);
+				expression.expression.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}\")", escaped));
 			}
 		}
 	}

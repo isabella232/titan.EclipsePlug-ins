@@ -21,7 +21,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
@@ -140,17 +139,10 @@ public final class Char2IntExpression extends Expression_Value {
 		case TYPE_CHARSTRING:
 			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor(originalString);
-				if (cs.isErrorneous()) {
-					value.getLocation().reportSemanticError(cs.getErrorMessage());
+				final String string = ((Charstring_Value) last).getValue();
+				if (string != null && string.length() != 1) {
+					value.getLocation().reportSemanticError(OPERANDERROR2);
 					setIsErroneous(true);
-				} else {
-					final String string = cs.getExtractedString();
-					if (string != null && string.length() != 1) {
-						value.getLocation().reportSemanticError(OPERANDERROR2);
-						setIsErroneous(true);
-					}
 				}
 			}
 
@@ -202,8 +194,7 @@ public final class Char2IntExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
 			final String string = ((Charstring_Value) last).getValue();
-			final CharstringExtractor cs = new CharstringExtractor(string);
-			lastValue = new Integer_Value(cs.getExtractedString().charAt(0));
+			lastValue = new Integer_Value(string.charAt(0));
 			lastValue.copyGeneralProperties(this);
 			break;
 		default:

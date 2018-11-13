@@ -16,6 +16,7 @@ options{
 
 @header {
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
+import org.eclipse.titan.common.parsers.CharstringExtractor;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.cfg.indices.ComponentSectionHandler;
 import org.eclipse.titan.common.parsers.cfg.indices.DefineSectionHandler;
@@ -855,10 +856,8 @@ pr_PlainLoggingParam
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 	{	mCfgParseResult.setLogFileDefined( true );
-		String logFileName = $f.text;
+		String logFileName = $f.string;
 		if ( logFileName != null ) {
-			// remove quotes
-			logFileName = logFileName.replaceAll("^\"|\"$", "");
 			mCfgParseResult.setLogFileName( logFileName );
 		}
 		logParamEntry.setLogFileRoot( $ctx );
@@ -970,8 +969,8 @@ pr_LoggingMaskElement [ Map<LoggingBit, ParseTree> loggingBitMask ]:
 |	pr_deprecatedEventTypeSet [ $loggingBitMask ]
 ;
 
-pr_LogfileName:
-	pr_StringValue
+pr_LogfileName returns [String string]:
+	s = pr_StringValue	{	$string = $s.string;	}
 ;
 
 pr_YesNoOrBoolean:
@@ -1300,32 +1299,30 @@ pr_StringValue returns [String string]
 	$string = "";
 }:
 	a = pr_CString
-		{	if ( $a.string != null ) {
-				$string = $a.string.replaceAll("^\"|\"$", "");
-			}
+		{	$string = $a.string;
 		}
 	(	STRINGOP
 		b = pr_CString
 			{	if ( $b.string != null ) {
-					$string = $string + $b.string.replaceAll("^\"|\"$", "");
+					$string += $b.string;
 				}
 			}
 	)*
-	{	if ( $string != null ) {
-			$string = "\"" + $string + "\"";
-		}
-	}
 ;
 
 pr_CString returns [String string]:
-(	a = STRING
+(	cs = STRING
 		{
-			$string = $a.text;
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				reportError( cse.getErrorMessage(), $cs, $cs );
+			}
 		}
-|	macro2 = pr_MacroCString			{	$string = "\"" + $macro2.string + "\"";	}
-|	macro1 = pr_MacroExpliciteCString	{	$string = "\"" + $macro1.string + "\"";	}
+|	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
+|	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$string = "\"\""; // value is unknown yet, but it should not be null
+		{	$string = ""; // value is unknown yet, but it should not be null
 		}
 )
 ;

@@ -44,8 +44,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * Constructor
 	 * 
 	 * @param aValue
-	 *                TTCN-3 charstring value, it can contain escape
-	 *                characters
+	 *                TTCN-3 charstring value
 	 */
 	public UniversalCharstring(final String string, final Location location) {
 		// TODO: this kind of check might be better done at semantic checking time.
@@ -75,17 +74,10 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			return;
 		}
 
-		final CharstringExtractor cs = new CharstringExtractor(string);
-		if (cs.isErrorneous()) {
-			mErrorneous = true;
-			mErrorMessage = cs.getErrorMessage();
-		}
-
-		final String extracted = cs.getExtractedString();
-		if (extracted != null) {
-			value = new ArrayList<UniversalChar>(extracted.length());
-			for (int i = 0; i < extracted.length(); i++) {
-				value.add(new UniversalChar(extracted.charAt(i)));
+		if (string != null) {
+			value = new ArrayList<UniversalChar>(string.length());
+			for (int i = 0; i < string.length(); i++) {
+				value.add(new UniversalChar(string.charAt(i)));
 			}
 		}
 	}

@@ -214,7 +214,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		final String escaped = Charstring_Value.getEscapedValue(patternstring.getFullString());
+		final String escaped = Charstring_Value.get_stringRepr(patternstring.getFullString());
 		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result, myScope), escaped ) );
 
 		//TODO handle cast needed
