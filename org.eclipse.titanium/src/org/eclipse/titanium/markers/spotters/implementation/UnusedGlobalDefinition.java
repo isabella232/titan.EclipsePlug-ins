@@ -21,7 +21,6 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
