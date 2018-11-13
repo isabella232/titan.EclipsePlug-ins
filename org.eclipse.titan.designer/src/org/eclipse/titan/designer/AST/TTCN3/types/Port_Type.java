@@ -307,7 +307,7 @@ public final class Port_Type extends Type {
 				elementName = aData.getTemporaryVariableName();
 			}
 
-			source.append(MessageFormat.format("public static class {0} extends TitanPortArray<{1}> '{'\n", className, elementName));
+			source.append(MessageFormat.format("public static class {0} extends TitanPort_Array<{1}> '{'\n", className, elementName));
 			source.append(MessageFormat.format("public {0}() '{'\n", className));
 			source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
 			source.append("}\n");
@@ -322,7 +322,7 @@ public final class Port_Type extends Type {
 			className = elementName;
 		}
 
-		aData.addBuiltinTypeImport("TitanPortArray");
+		aData.addBuiltinTypeImport("TitanPort_Array");
 
 		return typeName;
 	}

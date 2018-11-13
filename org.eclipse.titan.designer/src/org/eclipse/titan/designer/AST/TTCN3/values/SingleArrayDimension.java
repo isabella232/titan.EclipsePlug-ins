@@ -172,9 +172,9 @@ public final class SingleArrayDimension extends ArrayDimension {
 			return "FATAL ERROR in SingleArrayDImension:getValueType";
 		}
 
-		aData.addBuiltinTypeImport("TitanValueArray");
+		aData.addBuiltinTypeImport("TitanValue_Array");
 
-		return MessageFormat.format("TitanValueArray<{0}>", elementType.getGenNameValue(aData, source, scope));
+		return MessageFormat.format("TitanValue_Array<{0}>", elementType.getGenNameValue(aData, source, scope));
 	}
 
 	@Override
@@ -185,8 +185,8 @@ public final class SingleArrayDimension extends ArrayDimension {
 			return "FATAL ERROR in SingleArrayDImension:getTemplateType";
 		}
 
-		aData.addBuiltinTypeImport("TitanTemplateArray");
+		aData.addBuiltinTypeImport("TitanTemplate_Array");
 
-		return MessageFormat.format("TitanTemplateArray<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
+		return MessageFormat.format("TitanTemplate_Array<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
 	}
 }
