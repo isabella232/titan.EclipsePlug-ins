@@ -631,6 +631,25 @@ public final class SequenceOf_Value extends Value {
 	}
 
 	@Override
+	public boolean needsTempRef() {
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				if (values.getIndexedValueByIndex(i).getValue().getValuetype() != Value_type.NOTUSED_VALUE) {
+					return true;
+				}
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				if (values.getValueByIndex(i).getValuetype() != Value_type.NOTUSED_VALUE) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		if (convertedValue != null) {

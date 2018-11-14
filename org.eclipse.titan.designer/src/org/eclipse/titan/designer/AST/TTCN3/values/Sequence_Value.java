@@ -817,6 +817,21 @@ public final class Sequence_Value extends Value {
 	}
 
 	@Override
+	public boolean needsTempRef() {
+		if (isAsn()) {
+			// it depends on the type since fields with omit or default value
+			// may not be present
+			final IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+			return ((ASN1_Sequence_Type)lastType).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) > 1;
+		} else {
+			// incomplete values are allowed in TTCN-3
+			// we should check the number of value components
+			return values.getSize() > 1;
+		}
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		if (convertedValue != null) {

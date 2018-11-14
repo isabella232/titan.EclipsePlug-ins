@@ -453,6 +453,14 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Returns whether the Java initialization sequence requires a temporary
+	 * variable reference to be introduced for efficiency reasons.
+	 * */
+	public boolean needsTempRef() {
+		return false;
+	}
+
+	/**
 	 * Returns whether the evaluation of this value has side-effects that shall
 	 * be eliminated in case of short-circuit evaluation of logical "and" and
 	 * "or" operations. This function is applied on the second (right) operand

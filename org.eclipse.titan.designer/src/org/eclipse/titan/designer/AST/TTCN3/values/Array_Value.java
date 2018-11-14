@@ -531,6 +531,32 @@ public final class Array_Value extends Value {
 	}
 
 	@Override
+	public boolean needsTempRef() {
+		int nof_real_values = 0;
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				if (values.getIndexedValueByIndex(i).getValue().getValuetype() != Value_type.NOTUSED_VALUE) {
+					nof_real_values++;
+					if (nof_real_values > 1) {
+						return true;
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				if (values.getValueByIndex(i).getValuetype() != Value_type.NOTUSED_VALUE) {
+					nof_real_values++;
+					if (nof_real_values > 1) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		IType governor = myGovernor;

@@ -257,6 +257,11 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
+	public boolean needsTempRef() {
+		return !isNative();
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		return true;
