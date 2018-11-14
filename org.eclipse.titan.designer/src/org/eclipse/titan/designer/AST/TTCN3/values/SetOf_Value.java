@@ -653,6 +653,10 @@ public final class SetOf_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
@@ -702,6 +706,8 @@ public final class SetOf_Value extends Value {
 				}
 			}
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

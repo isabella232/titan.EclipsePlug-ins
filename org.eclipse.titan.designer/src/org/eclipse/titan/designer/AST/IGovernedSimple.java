@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 
 /**
  * @author Kristof Szabados
@@ -27,6 +28,11 @@ public interface IGovernedSimple extends IGoverned {
 	 * @param codeSection the code section where this governed simple should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection);
+
+	/**
+	 * Returns the build timestamp of the last time this governedsimple was built.
+	 *  */
+	public BuildTimestamp getLastTimeBuilt();
 
 	/***
 	 * Returns the Java expression that refers to the object, which has to be

@@ -198,8 +198,15 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	 * */
 	@Override
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		source.append(MessageFormat.format("{0}.assign({1}.enum_type.{2});\n", name,
-				this.getMyGovernor().getGenNameValue(aData, source, myScope), this.getValue().getName()));
+				getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		return source;
 	}
 

@@ -301,8 +301,15 @@ public final class Macro_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		if (lastValue != null && lastValue != this) {
 			lastValue.generateCodeInit(aData, source, name);
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
 			return source;
 		}
 
@@ -310,8 +317,13 @@ public final class Macro_Value extends Value {
 			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			source.append(MessageFormat.format("{0}.assign(TTCN_Runtime.get_testcase_id_macro());\n", name));
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
 			return source;
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

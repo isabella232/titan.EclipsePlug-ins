@@ -559,6 +559,10 @@ public final class Array_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
@@ -597,6 +601,8 @@ public final class Array_Value extends Value {
 		} else {
 			final int nofValues = values.getNofValues();
 			if (!Type_type.TYPE_ARRAY.equals(lastType.getTypetype())) {
+				lastTimeGenerated = aData.getBuildTimstamp();
+
 				return source;
 			}
 
@@ -615,6 +621,8 @@ public final class Array_Value extends Value {
 				}
 			}
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

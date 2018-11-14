@@ -347,12 +347,22 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		if (realValue != null) {
-			return realValue.generateCodeInit(aData, source, name);
+			realValue.generateCodeInit(aData, source, name);
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
+			return source;
 		}
 
 		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 		source.append("/* fatal error undefined lower identifier encountered */");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

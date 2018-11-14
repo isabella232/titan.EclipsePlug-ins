@@ -283,9 +283,15 @@ public final class UniversalCharstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
 		source.append(MessageFormat.format("{0}.assign(new TitanUniversalCharString({1}));\n", name, value.generateSingleExpression(aData)));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

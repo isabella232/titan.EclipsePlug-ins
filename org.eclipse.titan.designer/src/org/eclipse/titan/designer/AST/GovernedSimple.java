@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
+import org.eclipse.titan.designer.compiler.JavaGenData;
+
 /**
  * A governed thing that will be mapped to a Java entity.
  * (e.g. Value, Template)
@@ -66,6 +69,9 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * */
 	private CodeSectionType codeSection = CodeSectionType.CS_UNKNOWN;
 
+	/** the time when this governed simple was built the last time. */
+	protected BuildTimestamp lastTimeGenerated = null;
+
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
 	}
@@ -80,6 +86,12 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	/** {@inheritDoc} */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		this.codeSection = codeSection;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public BuildTimestamp getLastTimeBuilt() {
+		return lastTimeGenerated;
 	}
 
 	/***

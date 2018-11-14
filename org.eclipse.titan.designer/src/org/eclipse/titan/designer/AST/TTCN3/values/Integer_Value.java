@@ -292,6 +292,10 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		source.append(name);
 		source.append(".assign( ");
 		if (isNative()) {
@@ -302,6 +306,8 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 			source.append(MessageFormat.format("new BigInteger(\"{0}\")", value.toString()));
 		}
 		source.append(" );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

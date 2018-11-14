@@ -672,6 +672,10 @@ public final class Set_Value extends Value {
 	 * generate_code_init_se in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
@@ -697,6 +701,9 @@ public final class Set_Value extends Value {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
 			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
 			return source;
 		}
 
@@ -743,6 +750,8 @@ public final class Set_Value extends Value {
 				source.append(MessageFormat.format("{0}.get_{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
