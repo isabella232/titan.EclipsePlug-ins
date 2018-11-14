@@ -403,7 +403,7 @@ public final class Charstring_Value extends Value {
 				// the actual character is printable
 				append_stringRepr(ret_val, c);
 			} else {
-				ret_val.append(String.format("\\u%04x", c));
+				ret_val.append(String.format("\\u%04x", (int)c));
 			}
 		}
 		return ret_val.toString();
