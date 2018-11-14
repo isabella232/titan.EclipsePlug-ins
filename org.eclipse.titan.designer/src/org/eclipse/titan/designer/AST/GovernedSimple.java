@@ -96,4 +96,17 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 
 		return builder.toString();
 	}
+
+	@Override
+	public boolean isTopLevel() {
+		final String name = getGenNameOwn();
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c < '0' || c > '9') && c != '_') {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

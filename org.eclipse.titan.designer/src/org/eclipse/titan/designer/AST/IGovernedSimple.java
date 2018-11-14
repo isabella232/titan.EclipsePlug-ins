@@ -33,4 +33,11 @@ public interface IGovernedSimple extends IGoverned {
 	 * initialized.
 	 * */
 	public String get_lhs_name();
+
+	/**
+	 * Returns whether the entity is a top-level one (i.e. it is not
+	 * embedded into another entity). The function examines whether the
+	 * genname is a single identifier or not.
+	 * */
+	public boolean isTopLevel();
 }
