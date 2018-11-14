@@ -170,19 +170,6 @@ public class TitanCharString extends Base_Type {
 	}
 
 	/**
-	 * Checks that this value is bound or not. Unbound value results in
-	 * dynamic testcase error with the provided error message.
-	 *
-	 * @param errorMessage
-	 *                the error message to report.
-	 * */
-	public void must_bound(final String errorMessage) {
-		if (val_ptr == null) {
-			throw new TtcnError(errorMessage);
-		}
-	}
-
-	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
 	 *<p>

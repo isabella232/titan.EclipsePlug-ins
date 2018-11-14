@@ -64,9 +64,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	public TitanAsn_Null_template(final TitanAsn_Null otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
-		if (!otherValue.is_bound()) {
-			throw new TtcnError("Creating a template from an unbound ASN.1 NULL value.");
-		}
+		otherValue.must_bound("Creating a template from an unbound ASN.1 NULL value.");
 	}
 
 	/**
@@ -136,9 +134,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanAsn_Null_template assign(final TitanAsn_Null otherValue) {
-		if (!otherValue.is_bound()) {
-			throw new TtcnError("Assignment of an unbound ASN.1 NULL value to a template.");
-		}
+		otherValue.must_bound("Assignment of an unbound ASN.1 NULL value to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);

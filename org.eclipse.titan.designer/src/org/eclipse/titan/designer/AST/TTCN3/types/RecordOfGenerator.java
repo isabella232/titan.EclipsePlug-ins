@@ -318,21 +318,6 @@ public final class RecordOfGenerator {
 		source.append("\t\treturn valueElements != null;\n");
 		source.append("\t}\n");
 		source.append('\n');
-
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
-			source.append(" * dynamic testcase error with the provided error message.\n");
-			source.append(" *\n");
-			source.append(" * @param errorMessage\n");
-			source.append(" *                the error message to report.\n");
-			source.append(" * */\n");
-		}
-		source.append("\tpublic void must_bound( final String errorMessage ) {\n");
-		source.append("\t\tif ( !is_bound() ) {\n");
-		source.append("\t\t\tthrow new TtcnError( errorMessage );\n");
-		source.append("\t\t}\n");
-		source.append("\t}\n");
 	}
 
 	/**
@@ -435,12 +420,8 @@ public final class RecordOfGenerator {
 
 		if ( isSetOf ) {
 			source.append( MessageFormat.format( "\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
-			source.append("\t\tif (left_ptr.valueElements == null) {\n");
-			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-			source.append("\t\t}\n");
-			source.append("\t\tif (right_ptr.valueElements == null) {\n");
-			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-			source.append("\t\t}\n");
+			source.append( MessageFormat.format( "\t\t\tleft_ptr.must_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append( MessageFormat.format( "\t\t\tright_ptr.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append("\t\tif (left_ptr.valueElements.get(left_index).is_bound()) {\n");
 			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).is_bound()){\n");
 			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) );\n");
@@ -595,9 +576,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t//originally operator>>=\n");
 		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final int rotate_count) '{'\n", genName ) );
-		source.append("\t\tif (valueElements == null) {\n");
-		source.append( MessageFormat.format( "\t\t	throw new TtcnError(\"Performing rotation operation on an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tmust_bound(\"Performing rotation operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfinal int size = valueElements.size();\n");
 		source.append("\t\tif (size == 0) {\n");
 		source.append( MessageFormat.format( "\t\t\treturn new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
@@ -716,9 +695,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format("\tpublic {0} constGet_at( final int index_value ) '{'\n", ofTypeName ) );
-		source.append("\t\tif ( !is_bound() ) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tmust_bound( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -852,9 +829,7 @@ public final class RecordOfGenerator {
 	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
-		source.append("\t\tif (valueElements == null) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tAdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, \"{0}\",\"element\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		source.append("\t\tfor (int i=0; i<returncount; i++) {\n");
@@ -867,12 +842,8 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
-		source.append("\t\tif (valueElements == null) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
-		source.append("\t\tif (repl.valueElements == null) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The first argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\t\trepl.must_bound(\"The fourth argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tAdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, \"{0}\",\"element\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		source.append("\t\tfor (int i = 0; i < index; i++) {\n");
@@ -1440,9 +1411,7 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName ) );
-		source.append("\t\tif (!other_value.is_bound()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tother_value.must_bound(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\tfinal int otherSize = other_value.valueElements.size();\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
@@ -1900,9 +1869,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.is_bound()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		source.append("\t\treturn get_at(index_value.getInt());\n");
 		source.append("\t}\n\n");
@@ -1948,9 +1915,7 @@ public final class RecordOfGenerator {
 			source.append(" * */\n");
 		}
 		source.append( MessageFormat.format( "\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.is_bound()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		source.append("\t\treturn constGet_at(index_value.getInt());\n");
 		source.append("\t}\n");

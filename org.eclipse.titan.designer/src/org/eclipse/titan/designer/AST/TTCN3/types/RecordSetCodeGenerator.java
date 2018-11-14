@@ -410,9 +410,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append( " * */\n" );
 		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0}( final {0} otherValue) '{'\n", aClassName ) );
-		aSb.append( "\t\t\tif(!otherValue.is_bound()) {\n" );
-		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
-		aSb.append( "\t\t\t}\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\totherValue.must_bound(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append(MessageFormat.format("\t\t\t{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName));
@@ -457,9 +455,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} otherValue ) '{'\n", aClassName));
-		source.append("\t\t\tif ( !otherValue.is_bound() ) {\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
-		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\t\totherValue.must_bound( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
 		source.append("\t\t\tif (otherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get_{0}().is_bound() ) '{'\n", fi.mJavaVarName));
@@ -2816,9 +2812,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public {0}( final {0} otherValue ) '{'\n", className));
-		source.append("if ( !otherValue.is_bound() ) {\n");
-		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\totherValue.must_bound(\"Copying of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("bound_flag = true;\n");
 		source.append("}\n\n");
 
@@ -2830,9 +2824,7 @@ public final class RecordSetCodeGenerator {
 
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", className));
-		source.append("if ( !otherValue.is_bound() ) {\n");
-		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Assignment of an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\totherValue.must_bound(\"Assignment of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("bound_flag = true;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -2865,21 +2857,6 @@ public final class RecordSetCodeGenerator {
 		source.append("return bound_flag;\n");
 		source.append("}\n\n");
 
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
-			source.append(" * dynamic testcase error with the provided error message.\n");
-			source.append(" *\n");
-			source.append(" * @param errorMessage\n");
-			source.append(" *                the error message to report.\n");
-			source.append(" * */\n");
-		}
-		source.append("public void must_bound( final String errorMessage ) {\n");
-		source.append("if ( !bound_flag ) {\n");
-		source.append("throw new TtcnError( errorMessage );\n");
-		source.append("}\n");
-		source.append("}\n\n");
-
 		if (aData.isDebug()) {
 			source.append("/**\n");
 			source.append(" * Checks if the current value is equivalent to the provided one.\n");
@@ -2892,9 +2869,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" */\n");
 		}
 		source.append("public boolean operatorEquals( final TitanNull_Type otherValue ) {\n");
-		source.append("if (!is_bound()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
+		source.append(MessageFormat.format("must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("return true;\n");
 		source.append("}\n\n");
 
@@ -2910,12 +2885,8 @@ public final class RecordSetCodeGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", className));
-		source.append("if (!is_bound()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
-		source.append("if (!otherValue.is_bound()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
+		source.append(MessageFormat.format("must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append(MessageFormat.format("otherValue.must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("return true;\n");
 		source.append("}\n\n");
 
@@ -3158,9 +3129,7 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", className));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append("if (!other_value.is_bound()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Creating a template from an unbound value of type {0}.\");\n", classDisplayName));
-		source.append("}\n");
+		source.append(MessageFormat.format("other_value.must_bound(\"Creating a template from an unbound value of type {0}.\");\n", classDisplayName));
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -3216,9 +3185,7 @@ public final class RecordSetCodeGenerator {
 
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign(final {0} other_value) '{'\n", className));
-		source.append("if (!other_value.is_bound()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
-		source.append("}\n");
+		source.append(MessageFormat.format("other_value.must_bound(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");

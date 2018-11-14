@@ -152,7 +152,6 @@ public final class EnumeratedGenerator {
 		generateValueIsGreaterThanOrEqual(source, e_defs.name);
 		generateValueIsPresent(source);
 		generateValueIsBound(source);
-		generateMustBound(aData, source);
 		generateValueIsValue(source);
 		generateValueCleanUp(source);
 		generateValueIsValidEnum(source, e_defs.name);
@@ -330,9 +329,7 @@ public final class EnumeratedGenerator {
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String name) {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
-		source.append("}\n");
+		source.append(MessageFormat.format("must_bound(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
 		source.append("text_buf.push_int(enum_value.enum_num);\n");
 		source.append("}\n\n");
 
@@ -661,23 +658,6 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateMustBound(final JavaGenData aData, final StringBuilder source ) {
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
-			source.append(" * dynamic testcase error with the provided error message.\n");
-			source.append(" *\n");
-			source.append(" * @param errorMessage\n");
-			source.append(" *                the error message to report.\n");
-			source.append(" * */\n");
-		}
-		source.append("public void must_bound(final String errorMessage) {\n");
-		source.append("if ( !is_bound() ) {\n");
-		source.append("throw new TtcnError( errorMessage );\n");
-		source.append("}\n");
-		source.append("}\n\n");
-	}
-
 	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String name) {
 		//Arg type: own type
 		if ( aData.isDebug() ) {
@@ -752,21 +732,16 @@ public final class EnumeratedGenerator {
 		// arg: enum_type
 		source.append("// originally operator<\n");
 		source.append(MessageFormat.format("public boolean isLessThan(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+
 		source.append("return enum_value.enum_num < otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		//arg: own type
 		source.append("// originally operator<\n");
 		source.append(MessageFormat.format("public boolean isLessThan(final {0} otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
-		source.append("if (otherValue.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num < otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
@@ -775,21 +750,15 @@ public final class EnumeratedGenerator {
 		// arg: enum_type
 		source.append("// originally operator<=\n");
 		source.append(MessageFormat.format("public boolean isLessThanOrEqual(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num <= otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// own type
 		source.append("// originally operator<=\n");
 		source.append(MessageFormat.format("public boolean isLessThanOrEqual(final {0} otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
-		source.append("if (otherValue.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num <= otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
@@ -798,21 +767,15 @@ public final class EnumeratedGenerator {
 		// arg: enum_type
 		source.append("// originally operator>\n");
 		source.append(MessageFormat.format("public boolean isGreaterThan(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num > otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// own type
 		source.append("// originally operator>\n");
 		source.append(MessageFormat.format("public boolean isGreaterThan(final {0} otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
-		source.append("if (otherValue.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num > otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
@@ -821,21 +784,15 @@ public final class EnumeratedGenerator {
 		// arg: enum_type
 		source.append("// originally operator>=\n");
 		source.append(MessageFormat.format("public boolean isGreaterThanOrEqual(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num >= otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// arg: own type
 		source.append("// originally operator>=\n");
 		source.append(MessageFormat.format("public boolean isGreaterThanOrEqual(final {0} otherValue)'{'\n", name));
-		source.append("if (this.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
-		source.append("if (otherValue.enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("throw new TtcnError(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num >= otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
@@ -909,9 +866,7 @@ public final class EnumeratedGenerator {
 		}
 		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", name));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
-		source.append("throw new TtcnError(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
-		source.append("}\n");
+		source.append("otherValue.must_bound(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
 		source.append("single_value = otherValue.enum_value;\n");
 		source.append("}\n\n");
 
@@ -1057,9 +1012,7 @@ public final class EnumeratedGenerator {
 		 * @return the new template object.
 		 */
 		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue)'{'\n", name));
-		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
-		source.append("throw new TtcnError(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
-		source.append("}\n");
+		source.append("otherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue.enum_value;\n");

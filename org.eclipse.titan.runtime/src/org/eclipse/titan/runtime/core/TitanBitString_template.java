@@ -81,7 +81,9 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * */
 	public TitanBitString_template(final TitanBitString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
+
 		otherValue.must_bound("Creating a template from an unbound bitstring value.");
+
 		single_value = new TitanBitString(otherValue);
 	}
 
@@ -256,11 +258,12 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 */
 	public TitanBitString_template assign(final TitanBitString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound bitstring element to a template.");
+
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString((byte) (otherValue.get_bit() ? 1 : 0));
-		return this;
 
+		return this;
 	}
 
 	/**

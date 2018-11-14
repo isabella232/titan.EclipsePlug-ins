@@ -355,9 +355,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
-		if (! index.is_bound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
 		return (T)array_elements[index.getInt()];
 	}
@@ -424,9 +422,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	}
 
 	public static int getArrayIndex(final TitanInteger index, final int arraySize, final int indexofset) {
-		if (! index.is_bound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
 		return getArrayIndex(index.getInt(), arraySize, indexofset);
 	}

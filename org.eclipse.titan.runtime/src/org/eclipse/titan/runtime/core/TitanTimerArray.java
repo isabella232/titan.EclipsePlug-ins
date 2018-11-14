@@ -131,9 +131,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
-		if (!index.is_bound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
 		return (T)array_elements[index.getInt()];
 	}
@@ -200,9 +198,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return result;
 	}
 	public static int getTimerArrayIndex(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
-		if (! indexValue.is_bound()) {
-			throw new TtcnError("Accessing an element of a timer array using an unbound index.");
-		}
+		indexValue.must_bound("Accessing an element of a timer array using an unbound index.");
 
 		return getTimerArrayIndex(indexValue.getInt(), arraySize, indexOffset);
 	}

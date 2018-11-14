@@ -673,19 +673,6 @@ public class TitanInteger extends Base_Type {
 		return boundFlag;
 	}
 
-	/**
-	 * Checks that this value is bound or not. Unbound value results in
-	 * dynamic testcase error with the provided error message.
-	 *
-	 * @param errorMessage
-	 *                the error message to report.
-	 * */
-	public void must_bound(final String errorMessage) {
-		if (!boundFlag) {
-			throw new TtcnError(errorMessage);
-		}
-	}
-
 	/** 
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.

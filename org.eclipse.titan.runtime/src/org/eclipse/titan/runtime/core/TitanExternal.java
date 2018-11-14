@@ -62,9 +62,7 @@ public class TitanExternal extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal( final TitanExternal otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type EXTERNAL.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.");
 		identification = new TitanExternal_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();
@@ -82,10 +80,7 @@ public class TitanExternal extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanExternal assign(final TitanExternal otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type EXTERNAL");
 		if (otherValue != this) {
 			if ( otherValue.get_identification().is_bound() ) {
 				this.identification.assign( otherValue.get_identification() );

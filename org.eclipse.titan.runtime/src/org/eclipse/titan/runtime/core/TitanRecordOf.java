@@ -47,19 +47,6 @@ public abstract class TitanRecordOf extends Base_Type {
 		return valueElements != null;
 	}
 
-	/**
-	 * Checks that this value is bound or not. Unbound value results in
-	 * dynamic testcase error with the provided error message.
-	 *
-	 * @param errorMessage
-	 *                the error message to report.
-	 * */
-	public void must_bound(final String errorMessage) {
-		if (!is_bound()) {
-			throw new TtcnError(errorMessage);
-		}
-	}
-
 	@Override
 	public void clean_up() {
 		valueElements = null;
@@ -225,9 +212,8 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	//originally get_at(int) const
 	public Base_Type constGet_at(final int index_value) {
-		if (!is_bound()) {
-			throw new TtcnError(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
-		}
+		must_bound(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
+
 		if (index_value < 0) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
 		}

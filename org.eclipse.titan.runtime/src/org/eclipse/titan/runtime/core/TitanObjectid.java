@@ -56,9 +56,7 @@ public class TitanObjectid extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanObjectid(final TitanObjectid otherValue) {
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("Copying an unbound objid value.");
-		}
+		otherValue.must_bound("Copying an unbound objid value.");
 
 		components_ptr = new ArrayList<TitanInteger>();
 		components_ptr.addAll(otherValue.components_ptr);
@@ -82,9 +80,7 @@ public class TitanObjectid extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanObjectid assign(final TitanObjectid otherValue) {
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("Assignment of an unbound objid value.");
-		}
+		otherValue.must_bound("Assignment of an unbound objid value.");
 
 		clean_up();
 		components_ptr = new ArrayList<TitanInteger>();
@@ -115,12 +111,8 @@ public class TitanObjectid extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanObjectid otherValue) {
-		if (components_ptr == null) {
-			throw new TtcnError("The left operand of comparison is an unbound objid value.");
-		}
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("The right operand of comparison is an unbound objid value.");
-		}
+		must_bound("The left operand of comparison is an unbound objid value.");
+		otherValue.must_bound("The right operand of comparison is an unbound objid value.");
 
 		if (n_components != otherValue.n_components) {
 			return false;
@@ -231,9 +223,7 @@ public class TitanObjectid extends Base_Type {
 	 * @return the number of elements.
 	 * */
 	public TitanInteger size_of() {
-		if (components_ptr == null) {
-			throw new TtcnError("Getting the size of an unbound objid value.");
-		}
+		must_bound("Getting the size of an unbound objid value.");
 
 		return new TitanInteger(n_components);
 	}
@@ -280,9 +270,7 @@ public class TitanObjectid extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		if (components_ptr == null) {
-			throw new TtcnError("Text encoder: Encoding an unbound objid value.");
-		}
+		must_bound("Text encoder: Encoding an unbound objid value.");
 
 		text_buf.push_int(n_components);
 		for (int i = 0; i < n_components; i++) {

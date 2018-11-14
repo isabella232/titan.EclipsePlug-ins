@@ -54,9 +54,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
 		assign( otherValue );
@@ -73,10 +71,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 * @return the new value object.
 	 */
 	public TitanExternal_identification_context__negotiation assign(final TitanExternal_identification_context__negotiation otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
 		if (otherValue != this) {
 			if ( otherValue.get_presentation__context__id().is_bound() ) {
 				this.presentation__context__id.assign( otherValue.get_presentation__context__id() );

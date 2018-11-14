@@ -393,22 +393,6 @@ public class TitanUniversalCharString extends Base_Type {
 		return is_bound();
 	}
 
-	/**
-	 * Checks that this value is bound or not. Unbound value results in
-	 * dynamic testcase error with the provided error message.
-	 *
-	 * @param errorMessage
-	 *                the error message to report.
-	 * */
-	public void must_bound(final String errorMessage) {
-		if (charstring && cstr == null) {
-			throw new TtcnError(errorMessage);
-		}
-		if (!charstring && val_ptr == null) {
-			throw new TtcnError(errorMessage);
-		}
-	}
-
 	// originally lengthof
 	public TitanInteger lengthof() {
 		must_bound("Performing lengthof operation on an unbound universal charstring value.");

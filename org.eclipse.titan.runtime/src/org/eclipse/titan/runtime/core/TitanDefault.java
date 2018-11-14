@@ -69,9 +69,7 @@ public class TitanDefault extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanDefault(final TitanDefault otherValue) {
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("Copying an unbound default reference.");
-		}
+		otherValue.must_bound("Copying an unbound default reference.");
 
 		default_ptr = otherValue.default_ptr;
 	}
@@ -125,9 +123,7 @@ public class TitanDefault extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanDefault assign(final TitanDefault otherValue) {
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("Assignment of an unbound default reference.");
-		}
+		otherValue.must_bound("Assignment of an unbound default reference.");
 
 		if (otherValue != this) {
 			default_ptr = otherValue.default_ptr;
@@ -155,9 +151,8 @@ public class TitanDefault extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final int otherValue) {
-		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The left operand of comparison is an unbound default reference.");
-		}
+		must_bound("The left operand of comparison is an unbound default reference.");
+
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Comparison of an invalid default value.");
 		}
@@ -175,9 +170,7 @@ public class TitanDefault extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Default_Base otherValue) {
-		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The left operand of comparison is an unbound default reference.");
-		}
+		must_bound("The left operand of comparison is an unbound default reference.");
 
 		return default_ptr == otherValue;
 	}
@@ -192,12 +185,9 @@ public class TitanDefault extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanDefault otherValue) {
-		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The left operand of comparison is an unbound default reference.");
-		}
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The right operand of comparison is an unbound default reference.");
-		}
+		must_bound("The left operand of comparison is an unbound default reference.");
+
+		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
 
 		return default_ptr == otherValue.default_ptr;
 	}
@@ -253,9 +243,7 @@ public class TitanDefault extends Base_Type {
 
 	//originally operator Default_Base*
 	public Default_Base getDefaultBase() {
-		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("Using the value of an unbound default reference.");
-		}
+		must_bound("Using the value of an unbound default reference.");
 
 		return default_ptr;
 	}
@@ -311,18 +299,14 @@ public class TitanDefault extends Base_Type {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an invalid default reference.");
 		}
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The right operand of comparison is an unbound default reference.");
-		}
+		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
 
 		return otherValue.default_ptr == null;
 	}
 
 	//originally static operator== with component parameter
 	public static boolean operatorEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError("The right operand of comparison is an unbound default reference.");
-		}
+		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
 
 		return defaultValue == otherValue.default_ptr;
 	}

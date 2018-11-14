@@ -50,9 +50,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the value to copy.
 	 * */
 	public TitanAsn_Null(final TitanAsn_Null otherValue) {
-		if (!otherValue.boundFlag) {
-			throw new TtcnError("Copying an unbound ASN.1 NULL value.");
-		}
+		otherValue.must_bound("Copying an unbound ASN.1 NULL value.");
 
 		boundFlag = true;
 	}
@@ -89,9 +87,7 @@ public class TitanAsn_Null extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanAsn_Null assign(final TitanAsn_Null otherValue) {
-		if (!otherValue.boundFlag) {
-			throw new TtcnError("Assignment of an unbound ASN.1 NULL value.");
-		}
+		otherValue.must_bound("Assignment of an unbound ASN.1 NULL value.");
 
 		boundFlag = true;
 
@@ -117,9 +113,7 @@ public class TitanAsn_Null extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final Asn_Null_Type otherValue) {
-		if (!boundFlag) {
-			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");
-		}
+		must_bound("The left operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
 	}
@@ -134,12 +128,8 @@ public class TitanAsn_Null extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operatorEquals(final TitanAsn_Null otherValue) {
-		if (!boundFlag) {
-			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");
-		}
-		if (!otherValue.boundFlag) {
-			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
-		}
+		must_bound("The left operand of comparison is an unbound ASN.1 NULL value.");
+		otherValue.must_bound("The right operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
 	}
@@ -228,9 +218,7 @@ public class TitanAsn_Null extends Base_Type {
 
 	// static operator==
 	public static boolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
-		if (!otherValue.is_bound()) {
-			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
-		}
+		otherValue.must_bound("The right operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
 	}

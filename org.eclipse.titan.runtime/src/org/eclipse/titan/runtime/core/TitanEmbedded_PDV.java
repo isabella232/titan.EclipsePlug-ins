@@ -62,9 +62,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanEmbedded_PDV( final TitanEmbedded_PDV otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type EMBEDDED PDV.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.");
 		identification = new TitanEmbedded_PDV_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();
@@ -82,10 +80,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanEmbedded_PDV assign(final TitanEmbedded_PDV otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type EMBEDDED PDV");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type EMBEDDED PDV");
 		if (otherValue != this) {
 			if ( otherValue.get_identification().is_bound() ) {
 				this.identification.assign( otherValue.get_identification() );

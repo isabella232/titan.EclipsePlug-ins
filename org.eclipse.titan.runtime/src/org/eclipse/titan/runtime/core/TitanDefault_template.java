@@ -88,9 +88,7 @@ public class TitanDefault_template extends Base_Template {
 	public TitanDefault_template(final TitanDefault otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
-		if (otherValue.default_ptr == TitanDefault.UNBOUND_DEFAULT) {
-			throw new TtcnError("Creating a template from an unbound default reference.");
-		}
+		otherValue.must_bound("Creating a template from an unbound default reference.");
 
 		single_value = otherValue.default_ptr;
 	}
@@ -258,9 +256,7 @@ public class TitanDefault_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanDefault_template assign(final TitanDefault otherValue) {
-		if (otherValue.default_ptr == TitanDefault.UNBOUND_DEFAULT) {
-			throw new TtcnError("Assignment of an unbound default reference to a template.");
-		}
+		otherValue.must_bound("Assignment of an unbound default reference to a template.");
 
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);

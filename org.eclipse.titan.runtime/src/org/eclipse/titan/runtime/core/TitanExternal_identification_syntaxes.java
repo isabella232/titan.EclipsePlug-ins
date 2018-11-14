@@ -54,9 +54,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_identification_syntaxes( final TitanExternal_identification_syntaxes otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
 		assign( otherValue );
@@ -73,10 +71,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanExternal_identification_syntaxes assign(final TitanExternal_identification_syntaxes otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.syntaxes");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type EXTERNAL.identification.syntaxes");
 		if (otherValue != this) {
 			if ( otherValue.get_abstract_().is_bound() ) {
 				this.abstract_.assign( otherValue.get_abstract_() );

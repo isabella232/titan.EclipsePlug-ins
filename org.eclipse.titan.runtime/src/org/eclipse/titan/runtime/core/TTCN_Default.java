@@ -56,9 +56,8 @@ public final class TTCN_Default {
 	}
 
 	public static void deactivate(final TitanDefault removableDefault) {
-		if (removableDefault.default_ptr == TitanDefault.UNBOUND_DEFAULT) {
-			throw new TtcnError("Performing a deactivate operation on an unbound default reference.");
-		}
+		removableDefault.must_bound("Performing a deactivate operation on an unbound default reference.");
+
 		if (removableDefault.default_ptr == null) {
 			TTCN_Logger.log_defaultop_deactivate(null, 0);
 		} else {

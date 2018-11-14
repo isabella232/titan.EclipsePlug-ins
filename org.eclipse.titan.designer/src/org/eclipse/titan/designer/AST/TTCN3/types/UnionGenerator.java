@@ -457,12 +457,8 @@ public final class UnionGenerator {
 			source.append(" */\n");
 		}
 		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", genName));
-		source.append("if (union_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
-		source.append("}\n");
-		source.append("if (otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
-		source.append("}\n");
+		source.append(MessageFormat.format("must_bound( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
+		source.append(MessageFormat.format("otherValue.must_bound( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
 		source.append("if (union_selection != otherValue.union_selection) {\n");
 		source.append("return false;\n");
 

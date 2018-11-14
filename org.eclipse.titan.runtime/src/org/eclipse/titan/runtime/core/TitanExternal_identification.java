@@ -150,12 +150,8 @@ public class TitanExternal_identification extends Base_Type {
 	 * @return {@code true} if the selections and field values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanExternal_identification otherValue ) {
-		if (union_selection == union_selection_type.UNBOUND_VALUE) {
-			throw new TtcnError( "The left operand of comparison is an unbound value of union type EXTERNAL.identification." );
-		}
-		if (otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {
-			throw new TtcnError( "The right operand of comparison is an unbound value of union type EXTERNAL.identification." );
-		}
+		must_bound( "The left operand of comparison is an unbound value of union type EXTERNAL.identification." );
+		otherValue.must_bound( "The right operand of comparison is an unbound value of union type EXTERNAL.identification." );
 		if (union_selection != otherValue.union_selection) {
 			return false;
 		}

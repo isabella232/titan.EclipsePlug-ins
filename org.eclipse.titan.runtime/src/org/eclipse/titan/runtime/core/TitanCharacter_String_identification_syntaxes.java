@@ -54,9 +54,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
 		assign( otherValue );
@@ -73,10 +71,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanCharacter_String_identification_syntaxes assign(final TitanCharacter_String_identification_syntaxes otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
 		if (otherValue != this) {
 			if ( otherValue.get_abstract_().is_bound() ) {
 				this.abstract_.assign( otherValue.get_abstract_() );

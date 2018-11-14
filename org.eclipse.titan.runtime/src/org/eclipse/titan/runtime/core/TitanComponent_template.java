@@ -68,9 +68,7 @@ public class TitanComponent_template extends Base_Template {
 	public TitanComponent_template(final TitanComponent otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 
-		if (otherValue.componentValue == TitanComponent.UNBOUND_COMPREF) {
-			throw new TtcnError("Creating a template from an unbound component reference.");
-		}
+		otherValue.must_bound("Creating a template from an unbound component reference.");
 
 		single_value = otherValue.componentValue;
 	}
@@ -268,9 +266,7 @@ public class TitanComponent_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final TitanComponent otherValue, final boolean legacy) {
-		if (otherValue.componentValue == TitanComponent.UNBOUND_COMPREF) {
-			throw new TtcnError("Matching an unbound component reference with a template.");
-		}
+		otherValue.must_bound("Matching an unbound component reference with a template.");
 
 		return match(otherValue.componentValue, legacy);
 	}

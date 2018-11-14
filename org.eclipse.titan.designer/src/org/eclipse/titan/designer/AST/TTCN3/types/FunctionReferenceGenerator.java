@@ -384,21 +384,6 @@ public final class FunctionReferenceGenerator {
 		source.append("referred_function = null;\n");
 		source.append("}\n\n");
 
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks that this value is bound or not. Unbound value results in\n");
-			source.append(" * dynamic testcase error with the provided error message.\n");
-			source.append(" *\n");
-			source.append(" * @param errorMessage\n");
-			source.append(" *                the error message to report.\n");
-			source.append(" * */\n");
-		}
-		source.append("public void must_bound( final String errorMessage ) {\n");
-		source.append("if ( !is_bound() ) {\n");
-		source.append("throw new TtcnError( errorMessage );\n");
-		source.append("}\n");
-		source.append("}\n");
-
 		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("if(referred_function == null) {\n");
@@ -415,19 +400,17 @@ public final class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("if (referred_function == null) {\n");
 		switch (def.type) {
 		case FUNCTION:
-			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound function reference.\");\n");
+			source.append("must_bound(\"Text encoder: Encoding an unbound function reference.\");\n");
 			break;
 		case ALTSTEP:
-			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound altstep reference.\");\n");
+			source.append("must_bound(\"Text encoder: Encoding an unbound altstep reference.\");\n");
 			break;
 		case TESTCASE:
-			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound testcase reference.\");\n");
+			source.append("must_bound(\"Text encoder: Encoding an unbound testcase reference.\");\n");
 			break;
 		}
-		source.append("}\n");
 		source.append("if (referred_function == nullValue) {\n");
 		source.append("text_buf.push_string(\"\");\n");
 		source.append("} else {\n");

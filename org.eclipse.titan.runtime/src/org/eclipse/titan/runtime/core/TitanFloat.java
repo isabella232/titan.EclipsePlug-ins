@@ -158,19 +158,6 @@ public class TitanFloat extends Base_Type {
 		return float_value != null;
 	}
 
-	/**
-	 * Checks that this value is bound or not. Unbound value results in
-	 * dynamic testcase error with the provided error message.
-	 *
-	 * @param errorMessage
-	 *                the error message to report.
-	 * */
-	public void must_bound(final String errorMessage) {
-		if (float_value == null) {
-			throw new TtcnError(errorMessage);
-		}
-	}
-
 	// isspecial
 	public static TitanBoolean isSpecial(final double aOtherValue) {
 		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));

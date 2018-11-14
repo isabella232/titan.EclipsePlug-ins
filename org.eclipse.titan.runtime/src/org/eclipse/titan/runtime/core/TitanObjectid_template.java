@@ -146,9 +146,8 @@ public class TitanObjectid_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanObjectid_template assign(final TitanObjectid otherValue) {
-		if (!otherValue.is_bound()) {
-			throw new TtcnError("Assignment of an unbound objid value to a template.");
-		}
+		otherValue.must_bound("Assignment of an unbound objid value to a template.");
+
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanObjectid(otherValue);

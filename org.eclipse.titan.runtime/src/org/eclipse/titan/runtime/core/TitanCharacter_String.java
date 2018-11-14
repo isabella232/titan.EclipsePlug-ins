@@ -62,9 +62,7 @@ public class TitanCharacter_String extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String( final TitanCharacter_String otherValue) {
-		if(!otherValue.is_bound()) {
-			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.");
-		}
+		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.");
 		identification = new TitanCharacter_String_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		string__value = new TitanOctetString();
@@ -82,10 +80,7 @@ public class TitanCharacter_String extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanCharacter_String assign(final TitanCharacter_String otherValue ) {
-		if ( !otherValue.is_bound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING");
-		}
-
+		otherValue.must_bound( "Assignment of an unbound value of type CHARACTER STRING");
 		if (otherValue != this) {
 			if ( otherValue.get_identification().is_bound() ) {
 				this.identification.assign( otherValue.get_identification() );

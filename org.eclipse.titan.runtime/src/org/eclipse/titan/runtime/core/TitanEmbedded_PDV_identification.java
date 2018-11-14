@@ -151,12 +151,8 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	 * @return {@code true} if the selections and field values are equivalent.
 	 */
 	public boolean operatorEquals( final TitanEmbedded_PDV_identification otherValue ) {
-		if (union_selection == union_selection_type.UNBOUND_VALUE) {
-			throw new TtcnError( "The left operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
-		}
-		if (otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {
-			throw new TtcnError( "The right operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
-		}
+		must_bound( "The left operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
+		otherValue.must_bound( "The right operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
 		if (union_selection != otherValue.union_selection) {
 			return false;
 		}
