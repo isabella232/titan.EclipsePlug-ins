@@ -1763,8 +1763,9 @@ pr_BStringValue returns [String string]:
 
 pr_BString returns [String string]:
 (	b = BITSTRING
-	{	if ( $b.text != null ) {
-			$string = $b.text.replaceAll("^\'|\'B$|\\s+", "");
+	{	final String temp = $b.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'B$|\\s+", "");
 		}
 	}
 |	macro = MACRO_BSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );	}
@@ -1780,8 +1781,9 @@ pr_HStringValue returns [String string]:
 
 pr_HString returns [String string]:
 (	h = HEXSTRING
-	{	if ( $h.text != null ) {
-			$string = $h.text.replaceAll("^\'|\'H$|\\s+", "");
+	{	final String temp = $h.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'H$|\\s+", "");
 		}
 	}
 |	macro = MACRO_HSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );	}
@@ -1797,8 +1799,9 @@ pr_OStringValue returns [String string]:
 
 pr_OString returns [String string]:
 (	o = OCTETSTRING
-	{	if ( $o.text != null ) {
-			$string = $o.text.replaceAll("^\'|\'O$|\\s+", "");
+	{	final String temp = $o.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'O$|\\s+", "");
 		}
 	}
 |	macro = MACRO_OSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );	}
@@ -2131,24 +2134,27 @@ pr_PatternChunk returns [TitanUniversalCharString ucstr]:
 
 pr_BStringMatch returns [String string]:
 	b = BITSTRINGMATCH
-	{	if ( $b.text != null ) {
-			$string = $b.text.replaceAll("^\'|\'B$|\\s+", "");
+	{	final String temp = $b.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'B$|\\s+", "");
 		}
 	}
 ;
 
 pr_HStringMatch returns [String string]:
 	h = HEXSTRINGMATCH
-	{	if ( $h.text != null ) {
-			$string = $h.text.replaceAll("^\'|\'H$|\\s+", "");
+	{	final String temp = $h.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'H$|\\s+", "");
 		}
 	}
 ;
 
 pr_OStringMatch returns [String string]:
 	o = OCTETSTRINGMATCH
-	{	if ( $o.text != null ) {
-			$string = $o.text.replaceAll("^\'|\'O$|\\s+", "");
+	{	final String temp = $o.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'O$|\\s+", "");
 		}
 	}
 ;
