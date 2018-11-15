@@ -483,10 +483,10 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		case SEQUENCE_VALUE:
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
 			if (last.isAsn()) {
-				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
+				selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
 						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
-				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet_T(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit,
 						valueCheckingOptions.str_elem);
 			}
@@ -517,17 +517,17 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			break;
 		case SET_VALUE:
 			if (last.isAsn()) {
-				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
+				selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
 						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
-				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet_T(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit,
 						valueCheckingOptions.str_elem);
 			}
 			break;
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
-			selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
+			selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value, false,
 					valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -546,7 +546,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	}
 
 	/**
-	 * Checks the Set_Value kind value against this type.
+	 * Checks the TTCN-3 Set_Value kind value against this type.
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of set type.
@@ -558,35 +558,31 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	 * @param expectedValue
 	 *                the kind of value expected here.
 	 * @param incompleteAllowed
-	 *                wheather incomplete value is allowed or not.
+	 *                whether incomplete value is allowed or not.
 	 * @param implicitOmit
 	 *                true if the implicit omit optional attribute was set
 	 *                for the value, false otherwise
 	 * */
-	private boolean checkThisValueSet(final CompilationTimeStamp timestamp, final Set_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
+	private boolean checkThisValueSet_T(final CompilationTimeStamp timestamp, final Set_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
 		boolean selfReference = false;
 		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 
 		value.removeGeneratedValues();
 
-		final boolean isAsn = value.isAsn();
 		final int nofValueComponents = value.getNofComponents();
 		for (int i = 0; i < nofValueComponents; i++) {
 			final NamedValue namedValue = value.getSequenceValueByIndex(i);
 			final Identifier valueId = namedValue.getName();
 			if (!hasComponentWithName(valueId)) {
 				namedValue.getLocation().reportSemanticError(
-						MessageFormat.format(isAsn ? NONEXISTENTFIELDASN1 : NONEXISTENTFIELDTTCN3, namedValue.getName()
-								.getDisplayName(), getTypename()));
+						MessageFormat.format(NONEXISTENTFIELDTTCN3, namedValue.getName().getDisplayName(), getTypename()));
 			} else {
 				if (componentMap.containsKey(valueId.getName())) {
 					namedValue.getLocation().reportSemanticError(
-							MessageFormat.format(isAsn ? DUPLICATEFIELDAGAINASN1 : DUPLICATEFIELDAGAINTTCN3,
-									valueId.getDisplayName()));
+							MessageFormat.format(DUPLICATEFIELDAGAINTTCN3, valueId.getDisplayName()));
 					componentMap.get(valueId.getName()).getLocation().reportSingularSemanticError(
-							MessageFormat.format(isAsn ? DUPLICATEFIELDFIRSTASN1
-									: DUPLICATEFIELDFIRSTTTCN3, valueId.getDisplayName()));
+							MessageFormat.format(DUPLICATEFIELDFIRSTTTCN3, valueId.getDisplayName()));
 				} else {
 					componentMap.put(valueId.getName(), namedValue);
 				}
@@ -610,19 +606,92 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		if (!incompleteAllowed || strictConstantCheckingSeverity) {
 			final int nofTypeComponents = getNofComponents(timestamp);
-			CompField field;
 			for (int i = 0; i < nofTypeComponents; i++) {
-				field = getComponentByIndex(i);
+				final CompField field = getComponentByIndex(i);
 				final Identifier id = field.getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (field.isOptional() && implicitOmit) {
 						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
 								new Omit_Value(), false));
 					} else {
-						value.getLocation().reportSemanticError(
-								MessageFormat.format(isAsn ? MISSINGFIELDASN1 : MISSINGFIELDTTCN3,
-										id.getDisplayName()));
+						value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDTTCN3, id.getDisplayName()));
 					}
+				}
+			}
+		}
+
+		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
+	}
+
+	/**
+	 * Checks the ASN.1 Set_Value kind value against this type.
+	 * <p>
+	 * Please note, that this function can only be called once we know for
+	 * sure that the value is of set type.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param value
+	 *                the value to be checked
+	 * @param expectedValue
+	 *                the kind of value expected here.
+	 * @param incompleteAllowed
+	 *                whether incomplete value is allowed or not.
+	 * @param implicitOmit
+	 *                true if the implicit omit optional attribute was set
+	 *                for the value, false otherwise
+	 * */
+	private boolean checkThisValueSet_A(final CompilationTimeStamp timestamp, final Set_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
+			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+		boolean selfReference = false;
+		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
+
+		value.removeGeneratedValues();
+
+		final int nofValueComponents = value.getNofComponents();
+		for (int i = 0; i < nofValueComponents; i++) {
+			final NamedValue namedValue = value.getSequenceValueByIndex(i);
+			final Identifier valueId = namedValue.getName();
+			if (!hasComponentWithName(valueId)) {
+				namedValue.getLocation().reportSemanticError(
+						MessageFormat.format(NONEXISTENTFIELDASN1, namedValue.getName()
+								.getDisplayName(), getTypename()));
+			} else {
+				if (componentMap.containsKey(valueId.getName())) {
+					namedValue.getLocation().reportSemanticError(
+							MessageFormat.format(DUPLICATEFIELDAGAINASN1,
+									valueId.getDisplayName()));
+					componentMap.get(valueId.getName()).getLocation().reportSingularSemanticError(
+							MessageFormat.format(DUPLICATEFIELDFIRSTASN1, valueId.getDisplayName()));
+				} else {
+					componentMap.put(valueId.getName(), namedValue);
+				}
+
+				final CompField componentField = getComponentByName(valueId);
+				final Type type = componentField.getType();
+				final IValue componentValue = namedValue.getValue();
+
+				if (componentValue != null) {
+					componentValue.setMyGovernor(type);
+					final IValue temporalValue = type.checkThisValueRef(timestamp, componentValue);
+					selfReference |= type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(expectedValue, false,
+							false, true, implicitOmit, strElem));
+				}
+			}
+		}
+
+		final int nofTypeComponents = getNofComponents(timestamp);
+		for (int i = 0; i < nofTypeComponents; i++) {
+			final CompField field = getComponentByIndex(i);
+			final Identifier id = field.getIdentifier();
+			if (!componentMap.containsKey(id.getName())) {
+				if (field.isOptional() && implicitOmit) {
+					value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
+							new Omit_Value(), false));
+				} else if (!field.isOptional() && !field.hasDefault()) {
+					value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDASN1, id.getDisplayName()));
 				}
 			}
 		}
