@@ -958,8 +958,19 @@ public final class Sequence_Value extends Value {
 				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
 					fieldValue = null;
 				}
-			}// TODO add support for asn default values when needed
-			else {
+			} else if (isAsn()) {
+				if (compField.hasDefault()) {
+					// handle like a referenced value
+					final Value defaultValue = compField.getDefault();
+					if (needsInitPrecede(aData, defaultValue)) {
+						defaultValue.generateCodeInit(aData, source, defaultValue.get_lhs_name());
+					}
+					source.append(MessageFormat.format("{0}.get_{1}().assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
+					continue;
+				} else {
+					fieldValue = null;
+				}
+			} else {
 				continue;
 			}
 
