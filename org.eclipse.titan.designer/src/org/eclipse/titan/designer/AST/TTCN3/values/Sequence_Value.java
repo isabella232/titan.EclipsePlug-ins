@@ -817,7 +817,7 @@ public final class Sequence_Value extends Value {
 	}
 
 	@Override
-	public boolean needsTempRef() {
+	public boolean needsTemporaryReference() {
 		if (isAsn()) {
 			// it depends on the type since fields with omit or default value
 			// may not be present

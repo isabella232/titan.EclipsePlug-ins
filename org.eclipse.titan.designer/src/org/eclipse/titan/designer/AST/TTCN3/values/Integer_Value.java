@@ -257,7 +257,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
-	public boolean needsTempRef() {
+	public boolean needsTemporaryReference() {
 		return !isNative();
 	}
 

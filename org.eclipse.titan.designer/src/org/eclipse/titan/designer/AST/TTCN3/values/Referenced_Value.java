@@ -731,7 +731,7 @@ public final class Referenced_Value extends Value {
 			// use a simple reference to reduce code size
 			if (needsInitPrecede(aData, last)) {
 				// the referred value must be initialized first
-				if (!last.isTopLevel() && last.needsTempRef()) {
+				if (!last.isTopLevel() && last.needsTemporaryReference()) {
 					// temporary id should be introduced for the lhs
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");

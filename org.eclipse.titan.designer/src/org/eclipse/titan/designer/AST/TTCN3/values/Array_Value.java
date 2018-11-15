@@ -531,7 +531,7 @@ public final class Array_Value extends Value {
 	}
 
 	@Override
-	public boolean needsTempRef() {
+	public boolean needsTemporaryReference() {
 		int nof_real_values = 0;
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {

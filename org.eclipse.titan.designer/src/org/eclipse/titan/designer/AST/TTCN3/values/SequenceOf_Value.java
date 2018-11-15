@@ -631,7 +631,7 @@ public final class SequenceOf_Value extends Value {
 	}
 
 	@Override
-	public boolean needsTempRef() {
+	public boolean needsTemporaryReference() {
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				if (values.getIndexedValueByIndex(i).getValue().getValuetype() != Value_type.NOTUSED_VALUE) {

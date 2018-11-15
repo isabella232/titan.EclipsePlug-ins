@@ -416,7 +416,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * Returns whether the Java initialization sequence requires a temporary
 	 * variable reference to be introduced for efficiency reasons.
 	 * */
-	public boolean needsTempRef();
+	public boolean needsTemporaryReference();
 
 	/**
 	 * Returns whether the evaluation of this value has side-effects that shall

@@ -456,7 +456,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * Returns whether the Java initialization sequence requires a temporary
 	 * variable reference to be introduced for efficiency reasons.
 	 * */
-	public boolean needsTempRef() {
+	public boolean needsTemporaryReference() {
 		return false;
 	}
 
