@@ -600,21 +600,21 @@ public final class AdditionalFunctions {
 
 		final TTCN_Buffer buf = new TTCN_Buffer();
 
-		if (stringEncoding.operatorEquals("UTF-8")) {
+		if (stringEncoding.operator_equals("UTF-8")) {
 			value.encode_utf8(buf, false);
-		} else if (stringEncoding.operatorEquals("UTF-8 BOM")) {
+		} else if (stringEncoding.operator_equals("UTF-8 BOM")) {
 			value.encode_utf8(buf, true);
-		} else if (stringEncoding.operatorEquals("UTF-16")) {
+		} else if (stringEncoding.operator_equals("UTF-16")) {
 			value.encode_utf16(buf, CharCoding.UTF16);
-		} else if (stringEncoding.operatorEquals("UTF-16BE")) {
+		} else if (stringEncoding.operator_equals("UTF-16BE")) {
 			value.encode_utf16(buf, CharCoding.UTF16BE);
-		} else if (stringEncoding.operatorEquals("UTF-16LE")) {
+		} else if (stringEncoding.operator_equals("UTF-16LE")) {
 			value.encode_utf16(buf, CharCoding.UTF16LE);
-		} else if (stringEncoding.operatorEquals("UTF-32")) {
+		} else if (stringEncoding.operator_equals("UTF-32")) {
 			value.encode_utf32(buf, CharCoding.UTF32);
-		} else if (stringEncoding.operatorEquals("UTF-32BE")) {
+		} else if (stringEncoding.operator_equals("UTF-32BE")) {
 			value.encode_utf32(buf, CharCoding.UTF32BE);
-		} else if (stringEncoding.operatorEquals("UTF-32LE")) {
+		} else if (stringEncoding.operator_equals("UTF-32LE")) {
 			value.encode_utf32(buf, CharCoding.UTF32LE);
 		}
 		else {
@@ -631,7 +631,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
-		if (encoded_value.lengthof().operatorEquals(0)) {
+		if (encoded_value.lengthof().operator_equals(0)) {
 			return new TitanCharString("<unknown>");
 		}
 
@@ -1258,19 +1258,19 @@ public final class AdditionalFunctions {
 		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
-		if (encodeStr.operatorEquals("UTF-8")) {
+		if (encodeStr.operator_equals("UTF-8")) {
 			unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
-		} else if (encodeStr.operatorEquals("UTF-16")) {
+		} else if (encodeStr.operator_equals("UTF-16")) {
 			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16);
-		} else if (encodeStr.operatorEquals("UTF-16BE")) {
+		} else if (encodeStr.operator_equals("UTF-16BE")) {
 			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16BE);
-		} else if (encodeStr.operatorEquals("UTF-16LE")) {
+		} else if (encodeStr.operator_equals("UTF-16LE")) {
 			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16LE);
-		} else if (encodeStr.operatorEquals("UTF-32")) {
+		} else if (encodeStr.operator_equals("UTF-32")) {
 			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32);
-		} else if (encodeStr.operatorEquals("UTF-32BE")) {
+		} else if (encodeStr.operator_equals("UTF-32BE")) {
 			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32BE);
-		} else if (encodeStr.operatorEquals("UTF-32LE")) {
+		} else if (encodeStr.operator_equals("UTF-32LE")) {
 			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32LE);
 		}
 		else {
@@ -1468,13 +1468,13 @@ public final class AdditionalFunctions {
 		if (value_len == 0) {
 			throw new TtcnError("The argument of function str2float() is an empty string, which does not represent a valid float value.");
 		}
-		if (value.operatorEquals("infinity")) {
+		if (value.operator_equals("infinity")) {
 			return new TitanFloat(Double.POSITIVE_INFINITY);
 		}
-		if (value.operatorEquals("-infinity")) {
+		if (value.operator_equals("-infinity")) {
 			return new TitanFloat(Double.NEGATIVE_INFINITY);
 		}
-		if (value.operatorEquals("not_a_number")) {
+		if (value.operator_equals("not_a_number")) {
 			return new TitanFloat(Double.NaN);
 		}
 		final StringBuilder value_str = value.getValue();

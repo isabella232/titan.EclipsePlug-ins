@@ -197,7 +197,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign(final function_pointer otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0} operator_assign(final function_pointer otherValue) '{'\n", def.genName));
 		source.append("referred_function = otherValue;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -214,16 +214,16 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign(final {0} otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0} operator_assign(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.must_bound(\"Assignment of an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
 		source.append("return this;\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0} operator_assign(Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
-		source.append(MessageFormat.format("return assign(({0})otherValue);\n", def.genName));
+		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", def.genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
@@ -239,7 +239,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorEquals(final function_pointer otherValue) {\n");
+		source.append("public boolean operator_equals(final function_pointer otherValue) {\n");
 		source.append(MessageFormat.format("must_bound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return referred_function.getModuleName().equals(otherValue.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.getDefinitionName());\n");
 		source.append("}\n");
@@ -255,16 +255,16 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean operator_equals(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("must_bound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
 		source.append(MessageFormat.format("otherValue.must_bound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return referred_function.getModuleName().equals(otherValue.referred_function.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.referred_function.getDefinitionName());\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public boolean operatorEquals(final Base_Type otherValue) {\n");
+		source.append("public boolean operator_equals(final Base_Type otherValue) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
-		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", def.genName));
+		source.append(MessageFormat.format("return operator_equals(({0})otherValue);\n", def.genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
@@ -280,8 +280,8 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorNotEquals(final function_pointer otherValue) {\n");
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append("public boolean operator_not_equals(final function_pointer otherValue) {\n");
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -295,8 +295,8 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue) '{'\n", def.genName));
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append(MessageFormat.format("public boolean operator_not_equals(final {0} otherValue) '{'\n", def.genName));
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n");
 
 		switch (def.type) {
@@ -737,7 +737,7 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign( final template_sel otherValue ) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign( final template_sel otherValue ) '{'\n", def.genName));
 		source.append("check_single_selection(otherValue);\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
@@ -756,7 +756,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign( final {0}.function_pointer otherValue ) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign( final {0}.function_pointer otherValue ) '{'\n", def.genName));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
@@ -775,7 +775,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign( final {0} otherValue ) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign( final {0} otherValue ) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.must_bound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -795,7 +795,7 @@ public final class FunctionReferenceGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign( final {0}_template otherValue ) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign( final {0}_template otherValue ) '{'\n", def.genName));
 		source.append("if (otherValue != this) {\n");
 		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");
@@ -804,17 +804,17 @@ public final class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
-		source.append(MessageFormat.format("return assign(({0})otherValue);\n", def.genName));
+		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", def.genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(Base_Template otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(Base_Template otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", def.genName));
-		source.append(MessageFormat.format("return assign(({0}_template)otherValue);\n", def.genName));
+		source.append(MessageFormat.format("return operator_assign(({0}_template)otherValue);\n", def.genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", def.displayName));
 		source.append("}\n");

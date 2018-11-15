@@ -145,7 +145,7 @@ public abstract class Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public abstract boolean operatorEquals(final Base_Type otherValue);
+	public abstract boolean operator_equals(final Base_Type otherValue);
 
 	/**
 	 * Assigns the other value to this value.
@@ -157,7 +157,7 @@ public abstract class Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public abstract Base_Type assign(final Base_Type otherValue);
+	public abstract Base_Type operator_assign(final Base_Type otherValue);
 
 	/**
 	 * Logs this value.

@@ -70,7 +70,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanAsn_Null assign(final Asn_Null_Type otherValue) {
+	public TitanAsn_Null operator_assign(final Asn_Null_Type otherValue) {
 		boundFlag = true;
 
 		return this;
@@ -86,7 +86,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanAsn_Null assign(final TitanAsn_Null otherValue) {
+	public TitanAsn_Null operator_assign(final TitanAsn_Null otherValue) {
 		otherValue.must_bound("Assignment of an unbound ASN.1 NULL value.");
 
 		boundFlag = true;
@@ -95,9 +95,9 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public TitanAsn_Null assign(final Base_Type otherValue) {
+	public TitanAsn_Null operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanAsn_Null) {
-			return assign((TitanAsn_Null)otherValue);
+			return operator_assign((TitanAsn_Null)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL", otherValue));
@@ -112,7 +112,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final Asn_Null_Type otherValue) {
+	public boolean operator_equals(final Asn_Null_Type otherValue) {
 		must_bound("The left operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
@@ -127,7 +127,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanAsn_Null otherValue) {
+	public boolean operator_equals(final TitanAsn_Null otherValue) {
 		must_bound("The left operand of comparison is an unbound ASN.1 NULL value.");
 		otherValue.must_bound("The right operand of comparison is an unbound ASN.1 NULL value.");
 
@@ -135,9 +135,9 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanAsn_Null) {
-			return operatorEquals((TitanAsn_Null) otherValue);
+			return operator_equals((TitanAsn_Null) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL", otherValue));
@@ -152,8 +152,8 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Asn_Null_Type otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Asn_Null_Type otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -165,8 +165,8 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanAsn_Null otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanAsn_Null otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	@Override
@@ -217,14 +217,14 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	// static operator==
-	public static boolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
+	public static boolean operator_equals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
 	}
 
 	// static operator!=
-	public static boolean operatorNotEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
-		return !operatorEquals(parValue, otherValue);
+	public static boolean operator_not_equals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
+		return !operator_equals(parValue, otherValue);
 	}
 }

@@ -684,7 +684,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append(MessageFormat.format("TitanAlt_Status {0};\n", tempId));
 					source.append("{\n");
 					source.append(expression.preamble);
-					source.append(MessageFormat.format("{0}.assign({1});\n", tempId, expression.expression));
+					source.append(MessageFormat.format("{0}.operator_assign({1});\n", tempId, expression.expression));
 					source.append(expression.postamble);
 					source.append("}\n");
 					source.append(MessageFormat.format("switch ({0}) '{'\n", tempId));

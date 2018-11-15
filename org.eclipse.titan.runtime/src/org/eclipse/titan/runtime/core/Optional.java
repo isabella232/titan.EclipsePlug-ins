@@ -53,7 +53,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 			}
 
-			optionalValue.assign(otherValue.optionalValue);
+			optionalValue.operator_assign(otherValue.optionalValue);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public Optional<TYPE> assign(final template_sel otherValue) {
+	public Optional<TYPE> operator_assign(final template_sel otherValue) {
 		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
 			throw new TtcnError("Internal error: Setting an optional field to an invalid value.");
 		}
@@ -93,18 +93,18 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
+	public Optional<TYPE> operator_assign(final Optional<TYPE> otherValue) {
 		switch (otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(otherValue.optionalValue);
+				optionalValue.operator_assign(otherValue.optionalValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(otherValue.optionalValue);
+				optionalValue.operator_assign(otherValue.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
@@ -122,17 +122,17 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public Optional<TYPE> assign(final Base_Type otherValue) {
+	public Optional<TYPE> operator_assign(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(otherValue);
+				optionalValue.operator_assign(otherValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(otherValue);
+				optionalValue.operator_assign(otherValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			return this;
@@ -142,14 +142,14 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		switch (optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(optionalOther.optionalValue);
+				optionalValue.operator_assign(optionalOther.optionalValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(optionalOther.optionalValue);
+				optionalValue.operator_assign(optionalOther.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
@@ -334,7 +334,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final template_sel otherValue) {
+	public boolean operator_equals(final template_sel otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (template_sel.UNINITIALIZED_TEMPLATE.equals(otherValue)) {
 				return true;
@@ -358,7 +358,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final Optional<TYPE> otherValue) {
+	public boolean operator_equals(final Optional<TYPE> otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
 				return true;
@@ -372,7 +372,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				if (optionalSelection != otherValue.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-					return optionalValue.operatorEquals(otherValue.optionalValue);
+					return optionalValue.operator_equals(otherValue.optionalValue);
 				} else {
 					return true;
 				}
@@ -381,7 +381,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 				if (!otherValue.is_bound()) {
@@ -394,7 +394,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 					throw new TtcnError("The right operand of comparison is an unbound optional value.");
 				} else {
 					if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-						return optionalValue.operatorEquals(otherValue);
+						return optionalValue.operator_equals(otherValue);
 					} else {
 						return false;
 					}
@@ -416,7 +416,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				if (optionalSelection != optionalOther.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-					return optionalValue.operatorEquals(optionalOther.optionalValue);
+					return optionalValue.operator_equals(optionalOther.optionalValue);
 				} else {
 					return true;
 				}
@@ -433,8 +433,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final template_sel otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final template_sel otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Optional<TYPE> otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Optional<TYPE> otherValue) {
+		return !operator_equals(otherValue);
 	}
 }

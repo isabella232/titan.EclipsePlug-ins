@@ -312,7 +312,7 @@ public final class Charstring_Value extends Value {
 			return source;
 		}
 
-		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, get_stringRepr()));
+		source.append(MessageFormat.format("{0}.operator_assign(\"{1}\");\n", name, get_stringRepr()));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

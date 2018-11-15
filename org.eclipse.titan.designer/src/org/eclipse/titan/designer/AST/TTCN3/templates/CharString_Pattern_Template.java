@@ -182,7 +182,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, getSingleExpression(aData, false)));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {

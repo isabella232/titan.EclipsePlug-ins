@@ -105,13 +105,13 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (!isSameType(otherValue)) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
 		}
 
 		//compiler warning is incorrect, it is not unchecked
-		return operatorEquals((TitanRecordOf) otherValue);
+		return operator_equals((TitanRecordOf) otherValue);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanRecordOf otherValue) {
+	public boolean operator_equals(final TitanRecordOf otherValue) {
 		must_bound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
 		otherValue.must_bound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
 
@@ -135,7 +135,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		for (int i = 0; i < size; i++) {
 			final Base_Type leftElem = valueElements.get(i);
 			final Base_Type rightElem = otherValue.valueElements.get(i);
-			if (!leftElem.operatorEquals(rightElem)) {
+			if (!leftElem.operator_equals(rightElem)) {
 				return false;
 			}
 		}
@@ -144,13 +144,13 @@ public abstract class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
+	public Base_Type operator_assign(final Base_Type otherValue) {
 		if (!isSameType(otherValue)) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
 		}
 
 		// compiler warning is incorrect, it is not unchecked
-		return assign((TitanRecordOf) otherValue);
+		return operator_assign((TitanRecordOf) otherValue);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanRecordOf assign(final TitanRecordOf otherValue) {
+	public TitanRecordOf operator_assign(final TitanRecordOf otherValue) {
 		otherValue.must_bound("Assignment of an unbound record of value.");
 
 		valueElements = otherValue.valueElements;
@@ -178,7 +178,7 @@ public abstract class TitanRecordOf extends Base_Type {
 		final List<Base_Type> newList = new ArrayList<Base_Type>(srcList.size());
 		for (final Base_Type srcElem : srcList) {
 			final Base_Type newElem = get_unbound_elem();
-			newElem.assign(srcElem);
+			newElem.operator_assign(srcElem);
 			newList.add(newElem);
 		}
 		return newList;

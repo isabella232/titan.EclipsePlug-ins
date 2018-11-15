@@ -133,13 +133,13 @@ public final class UnionGenerator {
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
-		generateValueAssign(aData, source, genName, displayName, fieldInfos);
+		generateValueoperator_assign(aData, source, genName, displayName, fieldInfos);
 		generateValueCleanup(source, fieldInfos);
 		generateValueIsChosen(source, displayName);
 		generateValueIsBound(source);
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
-		generateValueOperatorEquals(aData, source, genName, displayName, fieldInfos);
+		generateValueoperator_equals(aData, source, genName, displayName, fieldInfos);
 		generateValueNotEquals(aData, source, genName);
 		generateValueGetterSetters(aData, source, genName, displayName, fieldInfos);
 		generateValueGetSelection(aData, source, genName, fieldInfos);
@@ -185,7 +185,7 @@ public final class UnionGenerator {
 		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateTemplateConstructors(aData, source, genName);
 		generateTemplateCleanup(source, fieldInfos);
-		generateTemplateAssign(aData, source, genName);
+		generateTemplateoperator_assign(aData, source, genName);
 		generateTemplateMatch(aData, source, genName, displayName, fieldInfos);
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
@@ -310,7 +310,7 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		if ( aData.isDebug() ) {
 			source.append("/**\n");
 			source.append(" * Assigns the other value to this value.\n");
@@ -323,7 +323,7 @@ public final class UnionGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0} operator_assign( final {0} otherValue ) '{'\n", genName));
 		source.append("if (otherValue != this) {\n");
 		source.append("clean_up();\n");
 		source.append("copy_value(otherValue);\n");
@@ -332,9 +332,9 @@ public final class UnionGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} assign( final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0} operator_assign( final Base_Type otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
+		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 
@@ -443,7 +443,7 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueOperatorEquals(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
+	private static void generateValueoperator_equals(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		if (aData.isDebug()) {
 			source.append("/**\n");
@@ -456,7 +456,7 @@ public final class UnionGenerator {
 			source.append(" * @return {@code true} if the selections and field values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public boolean operator_equals( final {0} otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("must_bound( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
 		source.append(MessageFormat.format("otherValue.must_bound( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
 		source.append("if (union_selection != otherValue.union_selection) {\n");
@@ -467,7 +467,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})field).operatorEquals(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("return (({0})field).operator_equals(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
 		}
 
 
@@ -477,9 +477,9 @@ public final class UnionGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public boolean operatorEquals( final Base_Type otherValue ) {\n");
+		source.append("public boolean operator_equals( final Base_Type otherValue ) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", genName));
+		source.append(MessageFormat.format("return operator_equals(({0})otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n\n");
@@ -508,8 +508,8 @@ public final class UnionGenerator {
 			source.append(" * @return {@code true} if either the selections or the field values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append(MessageFormat.format("public boolean operator_not_equals( final {0} otherValue ) '{'\n", genName));
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n\n");
 	}
 
@@ -978,11 +978,11 @@ public final class UnionGenerator {
 							}
 							tempVariable.decoded_for_element = i;
 							source.append(MessageFormat.format("if (decoded_{0}_length > 0) '{'\n", variableIndex));
-							source.append(MessageFormat.format("if (temporal_{0}.operatorEquals({1})", variableIndex, cur_field_list.expression.expression));
+							source.append(MessageFormat.format("if (temporal_{0}.operator_equals({1})", variableIndex, cur_field_list.expression.expression));
 							for (int k = j + 1; k < cur_choice.fields.size(); k++) {
 								final rawAST_coding_field_list tempFieldList = cur_choice.fields.get(k);
 								if (tempFieldList.temporal_variable_index == variableIndex) {
-									source.append(MessageFormat.format(" || temporal_{0}.operatorEquals({1})", variableIndex, tempFieldList.expression.expression));
+									source.append(MessageFormat.format(" || temporal_{0}.operator_equals({1})", variableIndex, tempFieldList.expression.expression));
 								}
 							}
 							source.append(") {\n");
@@ -1268,9 +1268,9 @@ public final class UnionGenerator {
 	 *                the name of the generated class representing the
 	 *                union/choice type.
 	 * */
-	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName) {
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final template_sel otherValue ) '{'\n", genName));
 		source.append("check_single_selection(otherValue);\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
@@ -1289,7 +1289,7 @@ public final class UnionGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0} otherValue ) '{'\n", genName));
 		source.append("clean_up();\n");
 		source.append("copy_value(otherValue);\n");
 		source.append("return this;\n");
@@ -1307,7 +1307,7 @@ public final class UnionGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}_template otherValue ) '{'\n", genName));
 		source.append("if (otherValue != this) {\n");
 		source.append("clean_up();\n");
 		source.append("copy_template(otherValue);\n");
@@ -1316,17 +1316,17 @@ public final class UnionGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Type otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
+		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", genName));
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Template otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Template otherValue ) '{'\n", genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", genName));
-		source.append(MessageFormat.format("return assign(({0}_template)otherValue);\n", genName));
+		source.append(MessageFormat.format("return operator_assign(({0}_template)otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}_template.\");\n", genName));
 		source.append("}\n\n");
@@ -1516,7 +1516,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("ret_val.get_{0}().assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
+			source.append(MessageFormat.format("ret_val.get_{0}().operator_assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
 			source.append("break;\n");
 		}
 		source.append("default:\n");
@@ -1912,13 +1912,13 @@ public final class UnionGenerator {
 		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"union template\");\n");
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Omit:\n");
-		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_Any:\n");
-		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("operator_assign(template_sel.ANY_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_AnyOrNone:\n");
-		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
 		source.append("break;\n");
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
@@ -2056,9 +2056,9 @@ public final class UnionGenerator {
 				source.append(is_equal ? " && " : " || ");
 			}
 			if (is_equal) {
-				source.append(MessageFormat.format("{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, fields.expression.expression));
 			} else {
-				source.append(MessageFormat.format("!{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, fields.expression.expression));
 			}
 
 			if (!firstExpr && taglist.fields.size() > 1) {

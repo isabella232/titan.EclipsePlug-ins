@@ -57,7 +57,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
-		assign( otherValue );
+		operator_assign( otherValue );
 	}
 
 	/**
@@ -70,16 +70,16 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanCharacter_String_identification_syntaxes assign(final TitanCharacter_String_identification_syntaxes otherValue ) {
+	public TitanCharacter_String_identification_syntaxes operator_assign(final TitanCharacter_String_identification_syntaxes otherValue ) {
 		otherValue.must_bound( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
 		if (otherValue != this) {
 			if ( otherValue.get_abstract_().is_bound() ) {
-				this.abstract_.assign( otherValue.get_abstract_() );
+				this.abstract_.operator_assign( otherValue.get_abstract_() );
 			} else {
 				this.abstract_.clean_up();
 			}
 			if ( otherValue.get_transfer().is_bound() ) {
-				this.transfer.assign( otherValue.get_transfer() );
+				this.transfer.operator_assign( otherValue.get_transfer() );
 			} else {
 				this.transfer.clean_up();
 			}
@@ -89,9 +89,9 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
-	public TitanCharacter_String_identification_syntaxes assign(final Base_Type otherValue) {
+	public TitanCharacter_String_identification_syntaxes operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharacter_String_identification_syntaxes ) {
-			return assign((TitanCharacter_String_identification_syntaxes) otherValue);
+			return operator_assign((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", otherValue));
@@ -132,16 +132,16 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes otherValue) {
-		if ( !this.abstract_.operatorEquals( otherValue.abstract_ ) ) { return false; }
-		if ( !this.transfer.operatorEquals( otherValue.transfer ) ) { return false; }
+	public boolean operator_equals( final TitanCharacter_String_identification_syntaxes otherValue) {
+		if ( !this.abstract_.operator_equals( otherValue.abstract_ ) ) { return false; }
+		if ( !this.transfer.operator_equals( otherValue.transfer ) ) { return false; }
 		return true;
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharacter_String_identification_syntaxes ) {
-			return operatorEquals((TitanCharacter_String_identification_syntaxes) otherValue);
+			return operator_equals((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", otherValue));

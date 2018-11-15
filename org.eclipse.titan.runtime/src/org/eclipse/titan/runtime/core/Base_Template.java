@@ -245,7 +245,7 @@ public abstract class Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public abstract Base_Template assign(final Base_Type otherValue);
+	public abstract Base_Template operator_assign(final Base_Type otherValue);
 
 	/**
 	 * Assigns the other template to this template.
@@ -257,7 +257,7 @@ public abstract class Base_Template {
 	 *                the other template to assign.
 	 * @return the new template object.
 	 */
-	public abstract Base_Template assign(final Base_Template otherValue);
+	public abstract Base_Template operator_assign(final Base_Template otherValue);
 
 	/**
 	 * Sets the current selection to the provided value.
@@ -269,7 +269,7 @@ public abstract class Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public abstract Base_Template assign(final template_sel otherValue);
+	public abstract Base_Template operator_assign(final template_sel otherValue);
 
 	/**
 	 * Matches the provided value against this template. In legacy mode

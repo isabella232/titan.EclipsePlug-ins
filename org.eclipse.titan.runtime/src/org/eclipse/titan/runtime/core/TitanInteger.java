@@ -136,7 +136,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanInteger assign(final int otherValue) {
+	public TitanInteger operator_assign(final int otherValue) {
 		clean_up();
 		boundFlag = true;
 		nativeFlag = true;
@@ -155,7 +155,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanInteger assign(final BigInteger otherValue) {
+	public TitanInteger operator_assign(final BigInteger otherValue) {
 		clean_up();
 		boundFlag = true;
 		nativeFlag = false;
@@ -174,7 +174,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanInteger assign(final TitanInteger otherValue) {
+	public TitanInteger operator_assign(final TitanInteger otherValue) {
 		otherValue.must_bound("Assignment of an unbound integer value.");
 
 		if (otherValue != this) {
@@ -192,9 +192,9 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public TitanInteger assign(final Base_Type otherValue) {
+	public TitanInteger operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
-			return assign((TitanInteger)otherValue);
+			return operator_assign((TitanInteger)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
@@ -358,7 +358,7 @@ public class TitanInteger extends Base_Type {
 		must_bound("Unbound left operand of integer division.");
 		otherValue.must_bound("Unbound right operand of integer division.");
 
-		if (otherValue.operatorEquals(0)) {
+		if (otherValue.operator_equals(0)) {
 			throw new TtcnError("Integer division by zero.");
 		}
 		if (nativeFlag && nativeInt == 0) {
@@ -421,7 +421,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final int otherValue) {
+	public boolean operator_equals(final int otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
@@ -441,7 +441,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final BigInteger otherValue) {
+	public boolean operator_equals(final BigInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (!nativeFlag) {
@@ -461,7 +461,7 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanInteger otherValue) {
+	public boolean operator_equals(final TitanInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 		otherValue.must_bound("Unbound right operand of integer comparison.");
 
@@ -483,9 +483,9 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
-			return operatorEquals((TitanInteger) otherValue);
+			return operator_equals((TitanInteger) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
@@ -500,8 +500,8 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final int otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final int otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -513,8 +513,8 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final BigInteger otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final BigInteger otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -526,8 +526,8 @@ public class TitanInteger extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanInteger otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanInteger otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally operator <
@@ -748,7 +748,7 @@ public class TitanInteger extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		assign(text_buf.pull_int());
+		operator_assign(text_buf.pull_int());
 	}
 
 	@Override
@@ -900,14 +900,14 @@ public class TitanInteger extends Base_Type {
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
 		if (rightValue.isLessThan(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operatorEquals(0)) {
+		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
 		if (leftValue.isGreaterThan(0)) {
 			return rem(leftValue, rightValue);
 		} else {
 			final TitanInteger result = rem(leftValue, rightValueAbs);
-			if (result.operatorEquals(0)) {
+			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -942,14 +942,14 @@ public class TitanInteger extends Base_Type {
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
 		if (rightValue.isLessThan(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operatorEquals(0)) {
+		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
 		if (isGreaterThan(0)) {
 			return rem(this, rightValue);
 		} else {
 			final TitanInteger result = rem(this, rightValueAbs);
-			if (result.operatorEquals(0)) {
+			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -958,13 +958,13 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// static operator==
-	public static boolean operatorEquals(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).operatorEquals(otherValue);
+	public static boolean operator_equals(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).operator_equals(otherValue);
 	}
 
 	// static operator!=
-	public static boolean operatorNotEquals(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).operatorNotEquals(otherValue);
+	public static boolean operator_not_equals(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).operator_not_equals(otherValue);
 	}
 
 	// static operator <
@@ -1474,21 +1474,21 @@ public class TitanInteger extends Base_Type {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "integer value");
 		switch (param.get_type()) {
 		case MP_Integer:
-			assign(param.get_integer());
+			operator_assign(param.get_integer());
 			break;
 		case MP_Expression:
 			switch (param.get_expr_type()) {
 			case EXPR_NEGATE: {
 				final TitanInteger operand = new TitanInteger();
 				operand.set_param(param.get_operand1());
-				assign(operand.sub());
+				operator_assign(operand.sub());
 				break; }
 			case EXPR_ADD: {
 				final TitanInteger operand1 = new TitanInteger();
 				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.add(operand2));
+				operator_assign(operand1.add(operand2));
 				break;
 			}
 			case EXPR_SUBTRACT: {
@@ -1496,7 +1496,7 @@ public class TitanInteger extends Base_Type {
 				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.sub(operand2));
+				operator_assign(operand1.sub(operand2));
 				break;
 			}
 			case EXPR_MULTIPLY: {
@@ -1504,7 +1504,7 @@ public class TitanInteger extends Base_Type {
 				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.mul(operand2));
+				operator_assign(operand1.mul(operand2));
 				break;
 			}
 			case EXPR_DIVIDE: {
@@ -1512,10 +1512,10 @@ public class TitanInteger extends Base_Type {
 				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				if (operand2.operatorEquals(0)) {
+				if (operand2.operator_equals(0)) {
 					param.error("Integer division by zero.");
 				}
-				assign(operand1.div(operand2));
+				operator_assign(operand1.div(operand2));
 				break; }
 			default:
 				param.expr_type_error("an integer");

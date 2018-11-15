@@ -159,7 +159,7 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport( "TitanHexString_template" );
-		source.append( MessageFormat.format( "{0}.assign(new TitanHexString_template(\"{1}\"));\n", name, pattern ) );
+		source.append( MessageFormat.format( "{0}.operator_assign(new TitanHexString_template(\"{1}\"));\n", name, pattern ) );
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {

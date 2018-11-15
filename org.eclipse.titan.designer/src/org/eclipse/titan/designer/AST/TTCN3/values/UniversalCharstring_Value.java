@@ -289,7 +289,7 @@ public final class UniversalCharstring_Value extends Value {
 
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
-		source.append(MessageFormat.format("{0}.assign(new TitanUniversalCharString({1}));\n", name, value.generateSingleExpression(aData)));
+		source.append(MessageFormat.format("{0}.operator_assign(new TitanUniversalCharString({1}));\n", name, value.generateSingleExpression(aData)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

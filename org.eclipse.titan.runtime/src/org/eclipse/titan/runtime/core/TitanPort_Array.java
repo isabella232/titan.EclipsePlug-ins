@@ -74,7 +74,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanPort_Array<T> assign(final TitanPort_Array<T> otherValue) {
+	public TitanPort_Array<T> operator_assign(final TitanPort_Array<T> otherValue) {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;

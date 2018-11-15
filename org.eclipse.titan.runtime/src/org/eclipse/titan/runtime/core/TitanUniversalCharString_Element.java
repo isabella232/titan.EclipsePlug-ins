@@ -61,7 +61,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final TitanUniversalCharString_Element otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final TitanUniversalCharString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound universal charstring element.");
 
 		if (otherValue != this) {
@@ -95,7 +95,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final TitanUniversalCharString otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("Assignment of an unbound universal charstring value to a universal charstring element.");
 
 		final int length = otherValue.charstring ? otherValue.cstr.length() : otherValue.val_ptr.size();
@@ -128,7 +128,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final TitanUniversalChar otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final TitanUniversalChar otherValue) {
 		bound_flag = true;
 
 		if (str_val.charstring) {
@@ -154,7 +154,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final String otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final String otherValue) {
 		if (otherValue == null || otherValue.length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a universal charstring element.");
 		}
@@ -179,7 +179,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final TitanCharString otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final TitanCharString otherValue) {
 		otherValue.must_bound("Assignment of an unbound charstring value to a universal charstring element.");
 
 		if (otherValue.lengthof().getInt() != 1) {
@@ -205,7 +205,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanUniversalCharString_Element assign(final TitanCharString_Element otherValue) {
+	public TitanUniversalCharString_Element operator_assign(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound charstring element to a universal charstring element.");
 
 		bound_flag = true;
@@ -227,11 +227,11 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
+	public boolean operator_equals(final TitanUniversalCharString_Element otherValue) {
 		must_bound("Unbound left operand of charstring element comparison.");
 		otherValue.must_bound("Unbound right operand of charstring comparison.");
 
-		return get_char().operatorEquals(otherValue.get_char());
+		return get_char().operator_equals(otherValue.get_char());
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
+	public boolean operator_equals(final TitanUniversalCharString otherValue) {
 		must_bound("Unbound left operand of charstring element comparison.");
 		otherValue.must_bound("Unbound right operand of charstring element comparison.");
 
@@ -251,7 +251,7 @@ public class TitanUniversalCharString_Element {
 			return false;
 		}
 
-		return get_char().operatorEquals(otherValue.charAt(0));
+		return get_char().operator_equals(otherValue.charAt(0));
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalChar otherValue) {
+	public boolean operator_equals(final TitanUniversalChar otherValue) {
 		must_bound("The left operand of comparison is an unbound universal charstring element.");
 
 		if (str_val.charstring && otherValue.is_char()) {
@@ -278,7 +278,7 @@ public class TitanUniversalCharString_Element {
 					&& uchar.getUc_cell() == otherValue.getUc_cell();
 		}
 
-		return str_val.val_ptr.get(char_pos).operatorEquals(otherValue);
+		return str_val.val_ptr.get(char_pos).operator_equals(otherValue);
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final String otherValue) {
+	public boolean operator_equals(final String otherValue) {
 		must_bound("The left operand of comparison is an unbound universal charstring element.");
 
 		if (otherValue == null || otherValue.length() != 1) {
@@ -313,7 +313,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanCharString otherValue) {
+	public boolean operator_equals(final TitanCharString otherValue) {
 		must_bound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of comparison is an unbound charstring value.");
 
@@ -338,7 +338,7 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanCharString_Element otherValue) {
+	public boolean operator_equals(final TitanCharString_Element otherValue) {
 		must_bound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of comparison is an unbound charstring element.");
 
@@ -360,8 +360,8 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanUniversalCharString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanUniversalCharString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -373,8 +373,8 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanUniversalCharString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanUniversalCharString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -386,8 +386,8 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanUniversalChar otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanUniversalChar otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -399,8 +399,8 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final String otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final String otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -412,8 +412,8 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanCharString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanCharString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -425,12 +425,12 @@ public class TitanUniversalCharString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanCharString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanCharString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanUniversalChar otherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalChar otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 
 		if (str_val.charstring && otherValue.is_char()) {
@@ -464,7 +464,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final String otherValue) {
+	public TitanUniversalCharString operator_concatenate(final String otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 
 		if (otherValue == null) {
@@ -489,7 +489,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanCharString otherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanCharString otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of concatenation is an unbound charstring value.");
 
@@ -515,7 +515,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanCharString_Element otherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanCharString_Element otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of concatenation is an unbound charstring element.");
 
@@ -537,7 +537,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString otherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring value.");
 
@@ -572,7 +572,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString_Element otherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element otherValue) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
@@ -625,10 +625,10 @@ public class TitanUniversalCharString_Element {
 
 	// static functions
 
-	public static boolean operatorEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
+	public static boolean operator_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
 
-		return ucharValue.operatorEquals(otherValue.get_char());
+		return ucharValue.operator_equals(otherValue.get_char());
 	}
 
 	/**
@@ -654,11 +654,11 @@ public class TitanUniversalCharString_Element {
 		}
 	}
 
-	public static boolean operatorNotEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
-		return !operatorEquals(ucharValue, otherValue);
+	public static boolean operator_not_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
+		return !operator_equals(ucharValue, otherValue);
 	}
 
-	public static TitanUniversalCharString concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
+	public static TitanUniversalCharString operator_concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
@@ -684,7 +684,7 @@ public class TitanUniversalCharString_Element {
 		return result;
 	}
 
-	public static boolean operatorEquals(final String otherValue, final TitanUniversalCharString_Element rightValue) {
+	public static boolean operator_equals(final String otherValue, final TitanUniversalCharString_Element rightValue) {
 		rightValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
 
 		if (otherValue == null || otherValue.length() != 1) {
@@ -698,7 +698,7 @@ public class TitanUniversalCharString_Element {
 				&& uc.getUc_cell() == otherValue.charAt(0);
 	}
 
-	public static TitanUniversalCharString concatenate(final String otherValue, final TitanUniversalCharString_Element rightValue) {
+	public static TitanUniversalCharString operator_concatenate(final String otherValue, final TitanUniversalCharString_Element rightValue) {
 		rightValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
 		if (otherValue == null) {

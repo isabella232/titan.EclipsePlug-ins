@@ -88,7 +88,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	}
 
 	@Override
-	public TitanEmbedded_PDV_identification_syntaxes_template assign( final template_sel otherValue ) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign( final template_sel otherValue ) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -105,7 +105,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanEmbedded_PDV_identification_syntaxes_template assign( final TitanEmbedded_PDV_identification_syntaxes otherValue ) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign( final TitanEmbedded_PDV_identification_syntaxes otherValue ) {
 		clean_up();
 		copy_value(otherValue);
 		return this;
@@ -121,7 +121,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanEmbedded_PDV_identification_syntaxes_template assign( final TitanEmbedded_PDV_identification_syntaxes_template otherValue ) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign( final TitanEmbedded_PDV_identification_syntaxes_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -130,18 +130,18 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	}
 
 	@Override
-	public TitanEmbedded_PDV_identification_syntaxes_template assign(final Base_Type otherValue) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_syntaxes) {
-			return assign((TitanEmbedded_PDV_identification_syntaxes) otherValue);
+			return operator_assign((TitanEmbedded_PDV_identification_syntaxes) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}", otherValue));
 	}
 
 	@Override
-	public TitanEmbedded_PDV_identification_syntaxes_template assign(final Base_Template otherValue) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_syntaxes_template) {
-			return assign((TitanEmbedded_PDV_identification_syntaxes_template) otherValue);
+			return operator_assign((TitanEmbedded_PDV_identification_syntaxes_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}_template", otherValue));
@@ -157,7 +157,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanEmbedded_PDV_identification_syntaxes_template assign( final Optional<TitanEmbedded_PDV_identification_syntaxes> otherValue ) {
+	public TitanEmbedded_PDV_identification_syntaxes_template operator_assign( final Optional<TitanEmbedded_PDV_identification_syntaxes> otherValue ) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -174,12 +174,12 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 
 	private void copy_value(final TitanEmbedded_PDV_identification_syntaxes other_value) {
 		if (other_value.get_abstract_().is_bound()) {
-			get_abstract_().assign(other_value.get_abstract_());
+			get_abstract_().operator_assign(other_value.get_abstract_());
 		} else {
 			get_abstract_().clean_up();
 		}
 		if (other_value.get_transfer().is_bound()) {
-			get_transfer().assign(other_value.get_transfer());
+			get_transfer().operator_assign(other_value.get_transfer());
 		} else {
 			get_transfer().clean_up();
 		}
@@ -192,12 +192,12 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_abstract_().get_selection()) {
 				get_abstract_().clean_up();
 			} else {
-				get_abstract_().assign(other_value.get_abstract_());
+				get_abstract_().operator_assign(other_value.get_abstract_());
 			}
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_transfer().get_selection()) {
 				get_transfer().clean_up();
 			} else {
-				get_transfer().assign(other_value.get_transfer());
+				get_transfer().operator_assign(other_value.get_transfer());
 			}
 			break;
 		case OMIT_VALUE:
@@ -251,10 +251,10 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 
 	@Override
 	public boolean is_present(final boolean legacy) {
-		return isPresent_(legacy);
+		return is_present_(legacy);
 	}
 
-	private boolean isPresent_(final boolean legacy) {
+	private boolean is_present_(final boolean legacy) {
 		if (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -358,8 +358,8 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			abstract_ = new TitanObjectid_template();
 			transfer = new TitanObjectid_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				abstract_.assign(template_sel.ANY_VALUE);
-				transfer.assign(template_sel.ANY_VALUE);
+				abstract_.operator_assign(template_sel.ANY_VALUE);
+				transfer.operator_assign(template_sel.ANY_VALUE);
 			}
 		}
 	}
@@ -436,10 +436,10 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		final TitanEmbedded_PDV_identification_syntaxes ret_val = new TitanEmbedded_PDV_identification_syntaxes();
 		if (abstract_.is_bound()) {
-			ret_val.get_abstract_().assign(abstract_.valueof());
+			ret_val.get_abstract_().operator_assign(abstract_.valueof());
 		}
 		if (transfer.is_bound()) {
-			ret_val.get_transfer().assign(transfer.valueof());
+			ret_val.get_transfer().operator_assign(transfer.valueof());
 		}
 		return ret_val;
 	}
@@ -659,13 +659,13 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			assign(template_sel.OMIT_VALUE);
+			operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			assign(template_sel.ANY_VALUE);
+			operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			assign(template_sel.ANY_OR_OMIT);
+			operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {

@@ -88,7 +88,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	}
 
 	@Override
-	public TitanExternal_identification_context__negotiation_template assign( final template_sel otherValue ) {
+	public TitanExternal_identification_context__negotiation_template operator_assign( final template_sel otherValue ) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -105,7 +105,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanExternal_identification_context__negotiation_template assign( final TitanExternal_identification_context__negotiation otherValue ) {
+	public TitanExternal_identification_context__negotiation_template operator_assign( final TitanExternal_identification_context__negotiation otherValue ) {
 		clean_up();
 		copy_value(otherValue);
 		return this;
@@ -121,7 +121,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanExternal_identification_context__negotiation_template assign( final TitanExternal_identification_context__negotiation_template otherValue ) {
+	public TitanExternal_identification_context__negotiation_template operator_assign( final TitanExternal_identification_context__negotiation_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -130,18 +130,18 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	}
 
 	@Override
-	public TitanExternal_identification_context__negotiation_template assign(final Base_Type otherValue) {
+	public TitanExternal_identification_context__negotiation_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanExternal_identification_context__negotiation) {
-			return assign((TitanExternal_identification_context__negotiation) otherValue);
+			return operator_assign((TitanExternal_identification_context__negotiation) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanExternal_identification_context__negotiation' can not be cast to {1}", otherValue));
 	}
 
 	@Override
-	public TitanExternal_identification_context__negotiation_template assign(final Base_Template otherValue) {
+	public TitanExternal_identification_context__negotiation_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanExternal_identification_context__negotiation_template) {
-			return assign((TitanExternal_identification_context__negotiation_template) otherValue);
+			return operator_assign((TitanExternal_identification_context__negotiation_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanExternal_identification_context__negotiation' can not be cast to {1}_template", otherValue));
@@ -157,7 +157,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanExternal_identification_context__negotiation_template assign( final Optional<TitanExternal_identification_context__negotiation> otherValue ) {
+	public TitanExternal_identification_context__negotiation_template operator_assign( final Optional<TitanExternal_identification_context__negotiation> otherValue ) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -174,12 +174,12 @@ public class TitanExternal_identification_context__negotiation_template extends 
 
 	private void copy_value(final TitanExternal_identification_context__negotiation other_value) {
 		if (other_value.get_presentation__context__id().is_bound()) {
-			get_presentation__context__id().assign(other_value.get_presentation__context__id());
+			get_presentation__context__id().operator_assign(other_value.get_presentation__context__id());
 		} else {
 			get_presentation__context__id().clean_up();
 		}
 		if (other_value.get_transfer__syntax().is_bound()) {
-			get_transfer__syntax().assign(other_value.get_transfer__syntax());
+			get_transfer__syntax().operator_assign(other_value.get_transfer__syntax());
 		} else {
 			get_transfer__syntax().clean_up();
 		}
@@ -192,12 +192,12 @@ public class TitanExternal_identification_context__negotiation_template extends 
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_presentation__context__id().get_selection()) {
 				get_presentation__context__id().clean_up();
 			} else {
-				get_presentation__context__id().assign(other_value.get_presentation__context__id());
+				get_presentation__context__id().operator_assign(other_value.get_presentation__context__id());
 			}
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_transfer__syntax().get_selection()) {
 				get_transfer__syntax().clean_up();
 			} else {
-				get_transfer__syntax().assign(other_value.get_transfer__syntax());
+				get_transfer__syntax().operator_assign(other_value.get_transfer__syntax());
 			}
 			break;
 		case OMIT_VALUE:
@@ -251,10 +251,10 @@ public class TitanExternal_identification_context__negotiation_template extends 
 
 	@Override
 	public boolean is_present(final boolean legacy) {
-		return isPresent_(legacy);
+		return is_present_(legacy);
 	}
 
-	private boolean isPresent_(final boolean legacy) {
+	private boolean is_present_(final boolean legacy) {
 		if (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -358,8 +358,8 @@ public class TitanExternal_identification_context__negotiation_template extends 
 			presentation__context__id = new TitanInteger_template();
 			transfer__syntax = new TitanObjectid_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				presentation__context__id.assign(template_sel.ANY_VALUE);
-				transfer__syntax.assign(template_sel.ANY_VALUE);
+				presentation__context__id.operator_assign(template_sel.ANY_VALUE);
+				transfer__syntax.operator_assign(template_sel.ANY_VALUE);
 			}
 		}
 	}
@@ -436,10 +436,10 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 		final TitanExternal_identification_context__negotiation ret_val = new TitanExternal_identification_context__negotiation();
 		if (presentation__context__id.is_bound()) {
-			ret_val.get_presentation__context__id().assign(presentation__context__id.valueof());
+			ret_val.get_presentation__context__id().operator_assign(presentation__context__id.valueof());
 		}
 		if (transfer__syntax.is_bound()) {
-			ret_val.get_transfer__syntax().assign(transfer__syntax.valueof());
+			ret_val.get_transfer__syntax().operator_assign(transfer__syntax.valueof());
 		}
 		return ret_val;
 	}
@@ -659,13 +659,13 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			assign(template_sel.OMIT_VALUE);
+			operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			assign(template_sel.ANY_VALUE);
+			operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			assign(template_sel.ANY_OR_OMIT);
+			operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {

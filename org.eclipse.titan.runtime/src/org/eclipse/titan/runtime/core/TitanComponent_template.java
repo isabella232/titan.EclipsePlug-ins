@@ -145,7 +145,7 @@ public class TitanComponent_template extends Base_Template {
 	}
 
 	@Override
-	public TitanComponent_template assign(final template_sel otherValue) {
+	public TitanComponent_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -154,18 +154,18 @@ public class TitanComponent_template extends Base_Template {
 	}
 
 	@Override
-	public TitanComponent_template assign(final Base_Type otherValue) {
+	public TitanComponent_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
-			return assign((TitanComponent)otherValue);
+			return operator_assign((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
 	}
 
 	@Override
-	public TitanComponent_template assign(final Base_Template otherValue) {
+	public TitanComponent_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanComponent_template) {
-			return assign((TitanComponent_template)otherValue);
+			return operator_assign((TitanComponent_template)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference template", otherValue));
@@ -191,7 +191,7 @@ public class TitanComponent_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanComponent_template assign(final int otherValue) {
+	public TitanComponent_template operator_assign(final int otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
@@ -209,7 +209,7 @@ public class TitanComponent_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanComponent_template assign(final TitanComponent otherValue) {
+	public TitanComponent_template operator_assign(final TitanComponent otherValue) {
 		otherValue.must_bound("Assignment of an unbound component reference to a template.");
 
 		clean_up();
@@ -229,7 +229,7 @@ public class TitanComponent_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanComponent_template assign(final TitanComponent_template otherValue) {
+	public TitanComponent_template operator_assign(final TitanComponent_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -401,13 +401,13 @@ public class TitanComponent_template extends Base_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "component reference (integer or null) template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -416,20 +416,20 @@ public class TitanComponent_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Integer:
-			this.assign(param.get_integer());
+			this.operator_assign(param.get_integer());
 			break;
 		case MP_Ttcn_Null:
-			this.assign(TitanComponent.NULL_COMPREF);
+			this.operator_assign(TitanComponent.NULL_COMPREF);
 			break;
 		case MP_Ttcn_mtc:
-			this.assign(TitanComponent.MTC_COMPREF);
+			this.operator_assign(TitanComponent.MTC_COMPREF);
 			break;
 		case MP_Ttcn_system:
-			this.assign(TitanComponent.SYSTEM_COMPREF);
+			this.operator_assign(TitanComponent.SYSTEM_COMPREF);
 			break;
 		default:
 			param.type_error("component reference (integer or null) template");

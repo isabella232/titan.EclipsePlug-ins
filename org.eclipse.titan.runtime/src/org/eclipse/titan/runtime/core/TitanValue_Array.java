@@ -40,7 +40,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_elements[i]);
+				helper.operator_assign(otherValue.array_elements[i]);
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -147,16 +147,16 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	// originally not implemented operator=
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanValue_Array<T> assign(final Base_Type otherValue) {
+	public TitanValue_Array<T> operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValue_Array<?>) {
 			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
-			return assign(arrayOther);
+			return operator_assign(arrayOther);
 		} else {
 			try {
 				array_size = 1;
 				array_elements = new Base_Type[1];
 				final T value = clazz.newInstance();
-				value.assign(otherValue);
+				value.operator_assign(otherValue);
 				array_elements[0] = value;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -168,7 +168,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public TitanValue_Array<T> assign(final TitanValue_Array<T> otherValue) {
+	public TitanValue_Array<T> operator_assign(final TitanValue_Array<T> otherValue) {
 		clean_up();
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -177,7 +177,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_element(i));
+				helper.operator_assign(otherValue.array_element(i));
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -190,13 +190,13 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValue_Array<?>) {
 			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
-			return operatorEquals(arrayOther);
+			return operator_equals(arrayOther);
 		} else {
 			if (array_size == 1) {
-				return array_elements[0].operatorEquals(otherValue);
+				return array_elements[0].operator_equals(otherValue);
 			}
 		}
 
@@ -212,13 +212,13 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanValue_Array<T> otherValue) {
+	public boolean operator_equals(final TitanValue_Array<T> otherValue) {
 		if (array_size != otherValue.array_size) {
 			return false;
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements[i].operatorEquals(otherValue.array_elements[i])) {
+			if (! array_elements[i].operator_equals(otherValue.array_elements[i])) {
 				return false;
 			}
 		}
@@ -235,8 +235,8 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Base_Type otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Base_Type otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -248,12 +248,12 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanValue_Array<T> otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanValue_Array<T> otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally  operator<<=
-	public TitanValue_Array<T> rotateLeft(int rotateCount) {
+	public TitanValue_Array<T> rotate_left(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
 		if (array_size == 0) {
 			return this;
@@ -278,19 +278,19 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			}
 			return result;
 		} else {
-			return rotateLeft(-rotateCount);
+			return rotate_left(-rotateCount);
 		}
 	}
 
 	//originally  operator<<=
-	public TitanValue_Array<T> rotateLeft(final TitanInteger rotateCount) {
+	public TitanValue_Array<T> rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotateLeft(rotateCount.getInt());
+		return rotate_left(rotateCount.getInt());
 	}
 
 	//originally  operator>>=
-	public TitanValue_Array<T> rotateRight(int rotateCount) {
+	public TitanValue_Array<T> rotate_right(int rotateCount) {
 		if (array_size == 0) {
 			return this;
 		}
@@ -314,15 +314,15 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			}
 			return result;
 		} else {
-			return rotateLeft(-rotateCount);
+			return rotate_left(-rotateCount);
 		}
 	}
 
 	//originally  operator>>=
-	public TitanValue_Array<T> rotateRight(final TitanInteger rotateCount) {
+	public TitanValue_Array<T> rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotateRight(rotateCount.getInt());
+		return rotate_right(rotateCount.getInt());
 	}
 
 	// originally T& operator[](int)

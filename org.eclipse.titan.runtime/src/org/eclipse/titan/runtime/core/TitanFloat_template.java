@@ -141,25 +141,25 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanFloat_template assign(final Base_Type otherValue) {
+	public TitanFloat_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
-			return assign((TitanFloat) otherValue);
+			return operator_assign((TitanFloat) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
 	}
 
 	@Override
-	public TitanFloat_template assign(final Base_Template otherValue) {
+	public TitanFloat_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanFloat_template) {
-			return assign((TitanFloat_template) otherValue);
+			return operator_assign((TitanFloat_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float template", otherValue));
 	}
 
 	@Override
-	public TitanFloat_template assign(final template_sel otherValue) {
+	public TitanFloat_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -177,7 +177,7 @@ public class TitanFloat_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanFloat_template assign(final double otherValue) {
+	public TitanFloat_template operator_assign(final double otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
@@ -195,7 +195,7 @@ public class TitanFloat_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanFloat_template assign(final Ttcn3Float otherValue) {
+	public TitanFloat_template operator_assign(final Ttcn3Float otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
@@ -213,7 +213,7 @@ public class TitanFloat_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanFloat_template assign(final TitanFloat otherValue) {
+	public TitanFloat_template operator_assign(final TitanFloat otherValue) {
 		otherValue.must_bound("Assignment of an unbound float value to a template.");
 
 		clean_up();
@@ -233,7 +233,7 @@ public class TitanFloat_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanFloat_template assign(final TitanFloat_template otherValue) {
+	public TitanFloat_template operator_assign(final TitanFloat_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -322,7 +322,7 @@ public class TitanFloat_template extends Base_Template {
 
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -675,13 +675,13 @@ public class TitanFloat_template extends Base_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "float template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			assign(template_sel.OMIT_VALUE);
+			operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			assign(template_sel.ANY_VALUE);
+			operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			assign(template_sel.ANY_OR_OMIT);
+			operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -691,11 +691,11 @@ public class TitanFloat_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			assign(temp);
+			operator_assign(temp);
 			break;
 		}
 		case MP_Float:
-			assign(param.get_float());
+			operator_assign(param.get_float());
 			break;
 		case MP_FloatRange: {
 			set_type(template_sel.VALUE_RANGE);
@@ -714,7 +714,7 @@ public class TitanFloat_template extends Base_Template {
 			case EXPR_NEGATE: {
 				final TitanFloat operand = new TitanFloat();
 				operand.set_param(param.get_operand1());
-				assign(operand.sub());
+				operator_assign(operand.sub());
 				break;
 			}
 			case EXPR_ADD: {
@@ -722,7 +722,7 @@ public class TitanFloat_template extends Base_Template {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.add(operand2));
+				operator_assign(operand1.add(operand2));
 				break;
 			}
 			case EXPR_SUBTRACT: {
@@ -730,7 +730,7 @@ public class TitanFloat_template extends Base_Template {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.sub(operand2));
+				operator_assign(operand1.sub(operand2));
 				break;
 			}
 			case EXPR_MULTIPLY: {
@@ -738,7 +738,7 @@ public class TitanFloat_template extends Base_Template {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.mul(operand2));
+				operator_assign(operand1.mul(operand2));
 				break;
 			}
 			case EXPR_DIVIDE: {
@@ -746,10 +746,10 @@ public class TitanFloat_template extends Base_Template {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				if (operand2.operatorEquals(0)) {
+				if (operand2.operator_equals(0)) {
 					param.error("Floating point division by zero.");
 				}
-				assign(operand1.div(operand2));
+				operator_assign(operand1.div(operand2));
 				break;
 			}
 			default:

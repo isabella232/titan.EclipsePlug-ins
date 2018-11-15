@@ -45,7 +45,7 @@ public class TitanUniversalChar {
 	}
 
 	//originally boolean operator==(const universal_char& left_value, const universal_char& right_value)
-	public static boolean operatorEquals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+	public static boolean operator_equals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		return left_value.getUc_group() == right_value.getUc_group() &&
 				left_value.getUc_plane() == right_value.getUc_plane() &&
 				left_value.getUc_row() == right_value.getUc_row() &&
@@ -61,13 +61,13 @@ public class TitanUniversalChar {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalChar right_value) {
-		return operatorEquals(this, right_value);
+	public boolean operator_equals(final TitanUniversalChar right_value) {
+		return operator_equals(this, right_value);
 	}
 
 	// originally inline boolean operator!=(const universal_char& uchar_value, const universal_char& other_value)
-	public static boolean operatorNotEquals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
-		return !operatorEquals(left_value, right_value);
+	public static boolean operator_not_equals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+		return !operator_equals(left_value, right_value);
 	}
 
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)

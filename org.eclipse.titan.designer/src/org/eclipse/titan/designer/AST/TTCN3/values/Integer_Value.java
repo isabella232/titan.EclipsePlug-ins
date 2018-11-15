@@ -297,7 +297,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		}
 
 		source.append(name);
-		source.append(".assign( ");
+		source.append(".operator_assign( ");
 		if (isNative()) {
 			source.append(value);
 		} else {

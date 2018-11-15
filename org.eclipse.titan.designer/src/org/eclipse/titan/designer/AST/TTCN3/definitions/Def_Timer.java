@@ -790,7 +790,7 @@ public final class Def_Timer extends Definition {
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
 					expression.expression.append(".get_at(").append(i + dim.getOffset()).append(")");
-					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+					expression.expression.append(".operator_assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
 
@@ -836,7 +836,7 @@ public final class Def_Timer extends Definition {
 
 					final String embeddedName = MessageFormat.format("{0}.get_at(", genName);
 					expression.expression.append(embeddedName).append(tempIdX).append(")");
-					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+					expression.expression.append(".operator_assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
 

@@ -57,7 +57,7 @@ public class TitanTimer {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	TitanTimer assign(final TitanTimer otherValue) {
+	TitanTimer operator_assign(final TitanTimer otherValue) {
 		timer_name = otherValue.timer_name;
 		has_default = otherValue.has_default;
 		is_started = otherValue.is_started;
@@ -78,7 +78,7 @@ public class TitanTimer {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanTimer assign(final Ttcn3Float defaultValue) {
+	public TitanTimer operator_assign(final Ttcn3Float defaultValue) {
 		set_default_duration(defaultValue);
 		is_started = false;
 
@@ -95,7 +95,7 @@ public class TitanTimer {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanTimer assign(final TitanFloat defaultValue) {
+	public TitanTimer operator_assign(final TitanFloat defaultValue) {
 		defaultValue.must_bound("Initializing a timer duration with an unbound float value.");
 
 		set_default_duration(defaultValue);

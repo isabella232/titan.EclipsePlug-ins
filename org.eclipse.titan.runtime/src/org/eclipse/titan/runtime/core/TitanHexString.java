@@ -177,7 +177,7 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanHexString assign(final TitanHexString otherValue) {
+	public TitanHexString operator_assign(final TitanHexString otherValue) {
 		otherValue.must_bound("Assignment of an unbound hexstring value.");
 
 		if (otherValue != this) {
@@ -197,7 +197,7 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanHexString assign(final TitanHexString_Element otherValue) {
+	public TitanHexString operator_assign(final TitanHexString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound hexstring element to a hexstring.");
 
 		clean_up();
@@ -208,9 +208,9 @@ public class TitanHexString extends Base_Type {
 	}
 
 	@Override
-	public TitanHexString assign(final Base_Type otherValue) {
+	public TitanHexString operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanHexString) {
-			return assign((TitanHexString) otherValue);
+			return operator_assign((TitanHexString) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
@@ -242,7 +242,7 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanHexString otherValue) {
+	public boolean operator_equals(final TitanHexString otherValue) {
 		must_bound("Unbound left operand of hexstring comparison.");
 		otherValue.must_bound("Unbound right operand of hexstring comparison.");
 
@@ -258,7 +258,7 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanHexString_Element otherValue) {
+	public boolean operator_equals(final TitanHexString_Element otherValue) {
 		must_bound("Unbound left operand of hexstring comparison.");
 		otherValue.must_bound("Unbound right operand of hexstring element comparison.");
 
@@ -270,9 +270,9 @@ public class TitanHexString extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanHexString) {
-			return operatorEquals((TitanHexString) otherValue);
+			return operator_equals((TitanHexString) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
@@ -287,8 +287,8 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanHexString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanHexString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -300,8 +300,8 @@ public class TitanHexString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanHexString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanHexString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	@Override
@@ -449,9 +449,9 @@ public class TitanHexString extends Base_Type {
 				break;
 			case OT_CONCAT:
 				if (is_bound()) {
-					this.assign(this.concatenate(new TitanHexString((byte[]) param.get_string_data())));
+					this.operator_assign(this.operator_concatenate(new TitanHexString((byte[]) param.get_string_data())));
 				} else {
-					this.assign(new TitanHexString((byte[]) param.get_string_data()));
+					this.operator_assign(new TitanHexString((byte[]) param.get_string_data()));
 				}
 				break;
 			default:
@@ -465,9 +465,9 @@ public class TitanHexString extends Base_Type {
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
-					this.assign(this.concatenate(operand1).concatenate(operand2));
+					this.operator_assign(this.operator_concatenate(operand1).operator_concatenate(operand2));
 				} else {
-					this.assign(operand1.concatenate(operand2));
+					this.operator_assign(operand1.operator_concatenate(operand2));
 				}
 			} else {
 				param.expr_type_error("a hexstring");
@@ -540,7 +540,7 @@ public class TitanHexString extends Base_Type {
 	 * this + otherValue (concatenation)
 	 * originally operator+
 	 */
-	public TitanHexString concatenate(final TitanHexString otherValue) {
+	public TitanHexString operator_concatenate(final TitanHexString otherValue) {
 		must_bound("Unbound left operand of hexstring concatenation.");
 		otherValue.must_bound("Unbound right operand of hexstring concatenation.");
 
@@ -559,7 +559,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally operator+
-	public TitanHexString concatenate(final TitanHexString_Element otherValue) {
+	public TitanHexString operator_concatenate(final TitanHexString_Element otherValue) {
 		must_bound("Unbound left operand of hexstring concatenation.");
 		otherValue.must_bound("Unbound right operand of hexstring element concatenation.");
 
@@ -698,7 +698,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally operator<<
-	public TitanHexString shiftLeft(int shiftCount) {
+	public TitanHexString shift_left(int shiftCount) {
 		must_bound("Unbound hexstring operand of shift left operator.");
 
 		if (shiftCount > 0) {
@@ -722,19 +722,19 @@ public class TitanHexString extends Base_Type {
 		} else if (shiftCount == 0) {
 			return this;
 		} else {
-			return this.shiftRight(-shiftCount);
+			return this.shift_right(-shiftCount);
 		}
 	}
 
 	// originally operator<<
-	public TitanHexString shiftLeft(final TitanInteger shiftCount) {
+	public TitanHexString shift_left(final TitanInteger shiftCount) {
 		shiftCount.must_bound("Unbound right operand of hexstring shift left operator.");
 
-		return this.shiftLeft(shiftCount.getInt());
+		return this.shift_left(shiftCount.getInt());
 	}
 
 	// originally operator>>
-	public TitanHexString shiftRight(int shiftCount) {
+	public TitanHexString shift_right(int shiftCount) {
 		must_bound("Unbound operand of hexstring shift right operator.");
 
 		if (shiftCount > 0) {
@@ -758,19 +758,19 @@ public class TitanHexString extends Base_Type {
 		} else if (shiftCount == 0) {
 			return this;
 		} else {
-			return this.shiftLeft(-shiftCount);
+			return this.shift_left(-shiftCount);
 		}
 	}
 
 	// originally operator>>
-	public TitanHexString shiftRight(final TitanInteger shiftCount) {
+	public TitanHexString shift_right(final TitanInteger shiftCount) {
 		shiftCount.must_bound("Unbound right operand of hexstring right left operator.");
 
-		return this.shiftRight(shiftCount.getInt());
+		return this.shift_right(shiftCount.getInt());
 	}
 
 	//originally operator<<=
-	public TitanHexString rotateLeft(int rotateCount){
+	public TitanHexString rotate_left(int rotateCount){
 		must_bound("Unbound hexstring operand of rotate left operator.");
 
 		if (nibbles_ptr.length == 0) {
@@ -782,20 +782,20 @@ public class TitanHexString extends Base_Type {
 				return this;
 			}
 
-			return this.shiftLeft(rotateCount).or4b(this.shiftRight(nibbles_ptr.length - rotateCount));
+			return this.shift_left(rotateCount).or4b(this.shift_right(nibbles_ptr.length - rotateCount));
 		} else {
-			return this.rotateRight(-rotateCount);
+			return this.rotate_right(-rotateCount);
 		}
 	}
 	//originally operator<<=
-	public TitanHexString rotateLeft(final TitanInteger rotateCount){
+	public TitanHexString rotate_left(final TitanInteger rotateCount){
 		rotateCount.must_bound("Unbound right operand of hexstring rotate left operator.");
 
-		return this.rotateLeft(rotateCount.getInt());
+		return this.rotate_left(rotateCount.getInt());
 	}
 
 	//originally operator>>=
-	public TitanHexString rotateRight(int rotateCount){
+	public TitanHexString rotate_right(int rotateCount){
 		must_bound("Unbound hexstring operand of rotate right operator.");
 
 		if (nibbles_ptr.length == 0) {
@@ -807,17 +807,17 @@ public class TitanHexString extends Base_Type {
 				return this;
 			}
 
-			return this.shiftRight(rotateCount).or4b(this.shiftLeft(nibbles_ptr.length - rotateCount));
+			return this.shift_right(rotateCount).or4b(this.shift_left(nibbles_ptr.length - rotateCount));
 		} else {
-			return this.rotateLeft(-rotateCount);
+			return this.rotate_left(-rotateCount);
 		}
 	}
 
 	//originally operator>>=
-	public TitanHexString rotateRight(final TitanInteger rotateCount){
+	public TitanHexString rotate_right(final TitanInteger rotateCount){
 		rotateCount.must_bound("Unbound right operand of hexstring rotate right operator.");
 
-		return this.rotateRight(rotateCount.getInt());
+		return this.rotate_right(rotateCount.getInt());
 	}
 
 	@Override

@@ -514,7 +514,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		// originally operatior+ is used for string concatenation
-		expression.expression.append( ".concatenate( " );
+		expression.expression.append( ".operator_concatenate( " );
 		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );
 	}

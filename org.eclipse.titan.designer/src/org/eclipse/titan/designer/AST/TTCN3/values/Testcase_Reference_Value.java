@@ -144,7 +144,7 @@ public final class Testcase_Reference_Value extends Value {
 		}
 
 		source.append(name);
-		source.append(".assign( ");
+		source.append(".operator_assign( ");
 		source.append(generateSingleExpression(aData));
 		source.append(" );\n");
 

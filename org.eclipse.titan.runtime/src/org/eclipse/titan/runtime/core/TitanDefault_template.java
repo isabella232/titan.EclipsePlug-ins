@@ -169,18 +169,18 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault_template assign(final Base_Type otherValue) {
+	public TitanDefault_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
-			return assign((TitanDefault)otherValue);
+			return operator_assign((TitanDefault)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
 	@Override
-	public TitanDefault_template assign(final Base_Template otherValue) {
+	public TitanDefault_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanDefault_template) {
-			return assign((TitanDefault_template)otherValue);
+			return operator_assign((TitanDefault_template)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
@@ -197,7 +197,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault_template assign(final template_sel otherValue) {
+	public TitanDefault_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -215,7 +215,7 @@ public class TitanDefault_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanDefault_template assign(final int otherValue) {
+	public TitanDefault_template operator_assign(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Assignment of an invalid default reference to a template.");
 		}
@@ -237,7 +237,7 @@ public class TitanDefault_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanDefault_template assign(final Default_Base otherValue) {
+	public TitanDefault_template operator_assign(final Default_Base otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
@@ -255,7 +255,7 @@ public class TitanDefault_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanDefault_template assign(final TitanDefault otherValue) {
+	public TitanDefault_template operator_assign(final TitanDefault otherValue) {
 		otherValue.must_bound("Assignment of an unbound default reference to a template.");
 
 		clean_up();
@@ -275,7 +275,7 @@ public class TitanDefault_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanDefault_template assign(final TitanDefault_template otherValue) {
+	public TitanDefault_template operator_assign(final TitanDefault_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -455,13 +455,13 @@ public class TitanDefault_template extends Base_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "default reference (null) template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -470,7 +470,7 @@ public class TitanDefault_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		default:

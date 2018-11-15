@@ -492,7 +492,7 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
-		expression.expression.append(MessageFormat.format("{0}.assign(", name));
+		expression.expression.append(MessageFormat.format("{0}.operator_assign(", name));
 		generateCodeExpressionInvoke(aData, expression);
 		expression.expression.append(')');
 

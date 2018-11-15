@@ -143,9 +143,9 @@ public final class EnumeratedGenerator {
 
 		//== functions ==
 		source.append("//===Methods===;\n");
-		generateValueAssign(aData, source, e_defs.name);
-		generateValueOperatorEquals(aData, source, e_defs.name, e_defs.displayName);
-		generateValueOperatorNotEquals(aData, source, e_defs.name);
+		generateValueoperator_assign(aData, source, e_defs.name);
+		generateValueoperator_equals(aData, source, e_defs.name, e_defs.displayName);
+		generateValueoperator_not_equals(aData, source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
 		generateValueIsLessThanOrEqual(source, e_defs.name);
 		generateValueIsGreaterThan(source, e_defs.name);
@@ -187,7 +187,7 @@ public final class EnumeratedGenerator {
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
-		generateTemplateAssign(aData, source,e_defs.name);
+		generateTemplateoperator_assign(aData, source,e_defs.name);
 		generateTemplateMatch(aData, source,  e_defs.name);
 		generateTemplateValueOf(source, e_defs.name);
 		generateTemplateSetType(source,  e_defs.name);
@@ -554,7 +554,7 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueOperatorEquals(final JavaGenData aData, final StringBuilder source, final String aName, final String displayName) {
+	private static void generateValueoperator_equals(final JavaGenData aData, final StringBuilder source, final String aName, final String displayName) {
 		//Arg type: own type
 		if (aData.isDebug()) {
 			source.append("/**\n");
@@ -567,7 +567,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("public boolean operator_equals(final {0} otherValue)'{'\n", aName));
 		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName));
 		source.append("}\n\n");
 
@@ -583,9 +583,9 @@ public final class EnumeratedGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorEquals(final Base_Type otherValue){\n");
+		source.append("public boolean operator_equals(final Base_Type otherValue){\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
-		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName));
+		source.append(MessageFormat.format("return operator_equals( ({0}) otherValue);\n", aName));
 		source.append("} else {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n");
@@ -603,12 +603,12 @@ public final class EnumeratedGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorEquals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("public boolean operator_equals(final {0}.enum_type otherValue)'{'\n",aName));
 		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName));
 		source.append("}\n\n");
 	}
 
-	private static void generateValueOperatorNotEquals(final JavaGenData aData, final StringBuilder source,final String aName) {
+	private static void generateValueoperator_not_equals(final JavaGenData aData, final StringBuilder source,final String aName) {
 		//Arg type: own type
 		if (aData.isDebug()) {
 			source.append("/**\n");
@@ -621,8 +621,8 @@ public final class EnumeratedGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
+		source.append(MessageFormat.format("public boolean operator_not_equals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: Base_Type
@@ -637,8 +637,8 @@ public final class EnumeratedGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorNotEquals(final Base_Type otherValue){\n");
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
+		source.append("public boolean operator_not_equals(final Base_Type otherValue){\n");
+		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: enum_type
@@ -653,12 +653,12 @@ public final class EnumeratedGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
+		source.append(MessageFormat.format("public boolean operator_not_equals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
 		source.append("}\n\n");
 	}
 
-	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String name) {
+	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String name) {
 		//Arg type: own type
 		if ( aData.isDebug() ) {
 			source.append("/**\n");
@@ -672,7 +672,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign(final {0} otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0} operator_assign(final {0} otherValue)'{'\n", name));
 		source.append("otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
 		source.append(MessageFormat.format("this.enum_value = otherValue.enum_value;\n",  name));
@@ -682,9 +682,9 @@ public final class EnumeratedGenerator {
 
 		//Arg: Base_Type
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} assign(final Base_Type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0} operator_assign(final Base_Type otherValue)'{'\n", name));
 		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
-		source.append(MessageFormat.format("return assign(({0}) otherValue);\n", name));
+		source.append(MessageFormat.format("return operator_assign(({0}) otherValue);\n", name));
 		source.append("}\n\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
 		source.append("}\n\n");
@@ -702,8 +702,8 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign(final {0}.enum_type otherValue)'{'\n", name));
-		source.append(MessageFormat.format("return assign( new {0}(otherValue) );\n",name));
+		source.append(MessageFormat.format("public {0} operator_assign(final {0}.enum_type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("return operator_assign( new {0}(otherValue) );\n",name));
 		source.append("}\n\n");
 
 		//Arg: int
@@ -719,7 +719,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0} assign(final int otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0} operator_assign(final int otherValue)'{'\n", name));
 		source.append("if (!isValidEnum(otherValue)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Assigning unknown numeric value {1} to a variable of enumerated type `{0}''.\", otherValue));\n", name));
 		source.append("}\n\n");
@@ -926,10 +926,10 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String name) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: template_sel
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final template_sel otherValue) '{'\n", name));
 		source.append("check_single_selection(otherValue);\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(otherValue);\n");
@@ -949,7 +949,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign(final int otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final int otherValue) '{'\n", name));
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
 		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
@@ -971,7 +971,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign(final {0}.enum_type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
@@ -991,7 +991,7 @@ public final class EnumeratedGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}_template otherValue)'{'\n", name));
 		source.append("// otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
 		source.append( "if (otherValue != this) {\n");
 		source.append("clean_up();\n");
@@ -1011,7 +1011,7 @@ public final class EnumeratedGenerator {
 		 *                the other value to assign.
 		 * @return the new template object.
 		 */
-		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0} otherValue)'{'\n", name));
 		source.append("otherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -1021,34 +1021,34 @@ public final class EnumeratedGenerator {
 
 		//Arg: Base_Type
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Type otherValue)'{'\n", name));
 		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
-		source.append(MessageFormat.format("return assign(({0}) otherValue);\n", name));
+		source.append(MessageFormat.format("return operator_assign(({0}) otherValue);\n", name));
 		source.append("}\n\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
 		source.append("}\n\n");
 
 		//Arg: Base_Template
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Template otherValue)'{'\n", name));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Template otherValue)'{'\n", name));
 		source.append(MessageFormat.format("if( otherValue instanceof {0}_template ) '{'\n", name));
-		source.append(MessageFormat.format("return assign(({0}_template) otherValue);\n", name));
+		source.append(MessageFormat.format("return operator_assign(({0}_template) otherValue);\n", name));
 		source.append("}\n\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
 		source.append("}\n\n");
 		/*@Override
-		public myenum1_template assign(Base_Type otherValue) {
+		public myenum1_template operator_assign(Base_Type otherValue) {
 			if( otherValue instanceof myenum1 ) {
-				return assign((myenum1) otherValue);
+				return operator_assign((myenum1) otherValue);
 			}
 
 			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
 		}
 
 		@Override
-		public myenum1_template assign(Base_Template otherValue) {
+		public myenum1_template operator_assign(Base_Template otherValue) {
 			if( otherValue instanceof myenum1_template ) {
-				return assign((myenum1_template) otherValue);
+				return operator_assign((myenum1_template) otherValue);
 			}
 
 			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
@@ -1306,13 +1306,13 @@ public final class EnumeratedGenerator {
 		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"enumerated template\");\n");
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Omit:\n");
-		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_Any:\n");
-		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("operator_assign(template_sel.ANY_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_AnyOrNone:\n");
-		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
 		source.append("break;\n");
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
@@ -1328,7 +1328,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(enum_value)) '{'\n", name));
 		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("assign(enum_value);\n");
+		source.append("operator_assign(enum_value);\n");
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("default:\n");

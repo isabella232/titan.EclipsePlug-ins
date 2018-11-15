@@ -74,7 +74,7 @@ public class TitanHexString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanHexString_Element assign(final TitanHexString_Element otherValue) {
+	public TitanHexString_Element operator_assign(final TitanHexString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound hexstring element.");
 
 		bound_flag = true;
@@ -92,7 +92,7 @@ public class TitanHexString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanHexString_Element assign(final TitanHexString otherValue) {
+	public TitanHexString_Element operator_assign(final TitanHexString otherValue) {
 		otherValue.must_bound("Assignment of unbound hexstring value.");
 
 		if (otherValue.getValue().length != 1) {
@@ -113,7 +113,7 @@ public class TitanHexString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanHexString_Element otherValue) {
+	public boolean operator_equals(final TitanHexString_Element otherValue) {
 		must_bound("Unbound left operand of hexstring element comparison.");
 		otherValue.must_bound("Unbound right operand of hexstring comparison.");
 
@@ -129,7 +129,7 @@ public class TitanHexString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanHexString otherValue) {
+	public boolean operator_equals(final TitanHexString otherValue) {
 		must_bound("Unbound left operand of hexstring element comparison.");
 		otherValue.must_bound("Unbound right operand of hexstring element comparison.");
 
@@ -141,7 +141,7 @@ public class TitanHexString_Element {
 	}
 
 	// originally operator+
-	public TitanHexString concatenate(final TitanHexString other_value) {
+	public TitanHexString operator_concatenate(final TitanHexString other_value) {
 		must_bound("Unbound left operand of hexstring element concatenation.");
 		other_value.must_bound("Unbound right operand of hexstring concatenation.");
 
@@ -155,7 +155,7 @@ public class TitanHexString_Element {
 	}
 
 	// originally operator+
-	public TitanHexString concatenate(final TitanHexString_Element other_value) {
+	public TitanHexString operator_concatenate(final TitanHexString_Element other_value) {
 		must_bound("Unbound left operand of hexstring element concatenation.");
 		other_value.must_bound("Unbound right operand of hexstring element concatenation.");
 

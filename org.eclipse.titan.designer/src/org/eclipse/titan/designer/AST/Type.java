@@ -2751,7 +2751,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final Coding_Type tempCodingType = tempCodingTable.get(i);
 			if (!tempCodingType.builtIn) {
 				//encoder
-				encoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				encoderString.append(MessageFormat.format("if (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
 				if (encoderFunction == null) {
 					encoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
@@ -2761,13 +2761,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 
-						encoderString.append(MessageFormat.format("output_stream.assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						encoderString.append(MessageFormat.format("output_stream.operator_assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
 					}
 				}
 				encoderString.append("}\n");
 
 				// decoder
-				decoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				decoderString.append(MessageFormat.format("if (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
 				if (decoderFunction == null) {
 					decoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
@@ -2780,7 +2780,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 						decoderString.append("final TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
 						decoderString.append(MessageFormat.format("final TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
-						decoderString.append("input_stream.assign(AdditionalFunctions.bit2oct(bit_stream));\n");
+						decoderString.append("input_stream.operator_assign(AdditionalFunctions.bit2oct(bit_stream));\n");
 						decoderString.append("return ret_val;\n");
 					}
 				}
@@ -3089,7 +3089,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("return_value.decode_text(text_buf_ref.get());\n");
 		source.append("if (value_template.match(return_value)) {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append("value_redirect.assign(return_value);\n");
+		source.append("value_redirect.operator_assign(return_value);\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
 		source.append("TTCN_Logger.log_event_str(\"PTC with component reference \");\n");

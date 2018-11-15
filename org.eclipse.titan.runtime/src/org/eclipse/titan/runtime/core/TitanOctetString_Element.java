@@ -73,7 +73,7 @@ public class TitanOctetString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanOctetString_Element assign(final TitanOctetString_Element otherValue) {
+	public TitanOctetString_Element operator_assign(final TitanOctetString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring element.");
 
 		bound_flag = true;
@@ -92,7 +92,7 @@ public class TitanOctetString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanOctetString_Element assign(final TitanOctetString otherValue) {
+	public TitanOctetString_Element operator_assign(final TitanOctetString otherValue) {
 		otherValue.must_bound("Assignment of unbound octetstring value.");
 
 		if (otherValue.getValue().length != 1) {
@@ -113,7 +113,7 @@ public class TitanOctetString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
+	public boolean operator_equals(final TitanOctetString_Element otherValue) {
 		must_bound("Unbound left operand of octetstring element comparison.");
 		otherValue.must_bound("Unbound right operand of octetstring comparison.");
 
@@ -129,7 +129,7 @@ public class TitanOctetString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanOctetString otherValue) {
+	public boolean operator_equals(final TitanOctetString otherValue) {
 		must_bound("Unbound left operand of octetstring element comparison.");
 		otherValue.must_bound("Unbound right operand of octetstring element comparison.");
 
@@ -149,8 +149,8 @@ public class TitanOctetString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanOctetString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanOctetString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -162,12 +162,12 @@ public class TitanOctetString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanOctetString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanOctetString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally operator+
-	public TitanOctetString concatenate(final TitanOctetString other_value) {
+	public TitanOctetString operator_concatenate(final TitanOctetString other_value) {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring concatenation.");
 
@@ -182,7 +182,7 @@ public class TitanOctetString_Element {
 	}
 
 	// originally operator+
-	public TitanOctetString concatenate(final TitanOctetString_Element other_value) {
+	public TitanOctetString operator_concatenate(final TitanOctetString_Element other_value) {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring element concatenation.");
 

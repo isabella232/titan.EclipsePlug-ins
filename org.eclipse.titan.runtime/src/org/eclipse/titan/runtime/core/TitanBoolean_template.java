@@ -122,25 +122,25 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean_template assign(final Base_Type otherValue) {
+	public TitanBoolean_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBoolean) {
-			return assign((TitanBoolean) otherValue);
+			return operator_assign((TitanBoolean) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
 	@Override
-	public TitanBoolean_template assign(final Base_Template otherValue) {
+	public TitanBoolean_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanBoolean_template) {
-			return assign((TitanBoolean_template) otherValue);
+			return operator_assign((TitanBoolean_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
 	@Override
-	public TitanBoolean_template assign(final template_sel otherValue) {
+	public TitanBoolean_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -158,7 +158,7 @@ public class TitanBoolean_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBoolean_template assign(final boolean otherValue) {
+	public TitanBoolean_template operator_assign(final boolean otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
@@ -176,7 +176,7 @@ public class TitanBoolean_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBoolean_template assign(final TitanBoolean otherValue) {
+	public TitanBoolean_template operator_assign(final TitanBoolean otherValue) {
 		otherValue.must_bound("Assignment of an unbound boolean value to a template.");
 
 		clean_up();
@@ -196,7 +196,7 @@ public class TitanBoolean_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBoolean_template assign(final TitanBoolean_template otherValue) {
+	public TitanBoolean_template operator_assign(final TitanBoolean_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -254,12 +254,12 @@ public class TitanBoolean_template extends Base_Template {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanBoolean otherValue) {
+	public boolean operator_equals(final TitanBoolean otherValue) {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Equals operation of a non specific value template");
 		}
 
-		return single_value.operatorEquals(otherValue);
+		return single_value.operator_equals(otherValue);
 	}
 
 	@Override
@@ -302,7 +302,7 @@ public class TitanBoolean_template extends Base_Template {
 	public boolean match(final boolean otherValue, final boolean legacy) {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -415,13 +415,13 @@ public class TitanBoolean_template extends Base_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "boolean template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -430,11 +430,11 @@ public class TitanBoolean_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Boolean:
-			this.assign(param.get_boolean());
+			this.operator_assign(param.get_boolean());
 			break;
 		default:
 			param.type_error("boolean template");

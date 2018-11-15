@@ -184,7 +184,7 @@ public final class Boolean_Value extends Value {
 			return source;
 		}
 
-		source.append(MessageFormat.format("{0}.assign( {1} );\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign( {1} );\n", name, value));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

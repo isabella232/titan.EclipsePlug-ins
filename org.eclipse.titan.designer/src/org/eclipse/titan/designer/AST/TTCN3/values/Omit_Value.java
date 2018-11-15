@@ -156,7 +156,7 @@ public final class Omit_Value extends Value {
 
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 
-		source.append(MessageFormat.format("{0}.assign( template_sel.OMIT_VALUE );\n", name));
+		source.append(MessageFormat.format("{0}.operator_assign( template_sel.OMIT_VALUE );\n", name));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

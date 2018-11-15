@@ -85,7 +85,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString(final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("Copying an unbound universal charstring to a charstring.");
 
-		assign(otherValue);
+		operator_assign(otherValue);
 	}
 
 	// originally char*()
@@ -113,7 +113,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanCharString assign(final String otherValue) {
+	public TitanCharString operator_assign(final String otherValue) {
 		clean_up();
 
 		if (otherValue == null) {
@@ -135,7 +135,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanCharString assign(final TitanCharString otherValue) {
+	public TitanCharString operator_assign(final TitanCharString otherValue) {
 		otherValue.must_bound("Assignment of an unbound charstring value.");
 
 		if (otherValue != this) {
@@ -146,9 +146,9 @@ public class TitanCharString extends Base_Type {
 	}
 
 	@Override
-	public TitanCharString assign(final Base_Type otherValue) {
+	public TitanCharString operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharString) {
-			return assign((TitanCharString)otherValue);
+			return operator_assign((TitanCharString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
@@ -179,7 +179,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanCharString assign(final TitanCharString_Element otherValue) {
+	public TitanCharString operator_assign(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound charstring element to a charstring.");
 
 		clean_up();
@@ -199,11 +199,11 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanCharString assign(final TitanUniversalCharString otherValue) {
+	public TitanCharString operator_assign(final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("Assignment of an unbound universal charstring to a charstring.");
 
 		if (otherValue.charstring) {
-			return assign(otherValue.cstr.toString());
+			return operator_assign(otherValue.cstr.toString());
 		} else {
 			clean_up();
 			final StringBuilder sb = new StringBuilder();
@@ -333,7 +333,7 @@ public class TitanCharString extends Base_Type {
 	 * this + aOtherValue
 	 * originally operator&
 	 */
-	public TitanCharString concatenate(final TitanCharString aOtherValue) {
+	public TitanCharString operator_concatenate(final TitanCharString aOtherValue) {
 		must_bound("Unbound left operand of charstring addition.");
 		aOtherValue.must_bound("Unbound right operand of charstring addition.");
 
@@ -345,7 +345,7 @@ public class TitanCharString extends Base_Type {
 
 	// originally operator+
 	// concatenate for String
-	public TitanCharString concatenate(final String aOtherValue) {
+	public TitanCharString operator_concatenate(final String aOtherValue) {
 		must_bound("Unbound operand of charstring concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(val_ptr);
@@ -381,7 +381,7 @@ public class TitanCharString extends Base_Type {
 
 	// originally operator+
 	// concatenate for charstring_element
-	public TitanCharString concatenate(final TitanCharString_Element aOtherValue) {
+	public TitanCharString operator_concatenate(final TitanCharString_Element aOtherValue) {
 		must_bound("Unbound operand of charstring concatenation.");
 		aOtherValue.must_bound("Unbound operand of charstring element concatenation.");
 
@@ -392,7 +392,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// originally operator+
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString aOtherValue) {
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString aOtherValue) {
 		must_bound("The left operand of concatenation is an unbound charstring value.");
 		aOtherValue.must_bound("The right operand of concatenation is an unbound universal charstring value.");
 
@@ -416,7 +416,7 @@ public class TitanCharString extends Base_Type {
 
 	}
 
-	/*public TitanUniversalCharString concatenate(final TitanUniversalCharString_Element aOtherValue)
+	/*public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element aOtherValue)
 	{
 		must_bound("The left operand of concatenation is an unbound charstring value.");
 		aOtherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
@@ -432,7 +432,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanCharString otherValue) {
+	public boolean operator_equals(final TitanCharString otherValue) {
 		must_bound("Unbound left operand of charstring comparison.");
 		otherValue.must_bound("Unbound right operand of charstring comparison.");
 
@@ -448,7 +448,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalCharString otherValue) {
+	public boolean operator_equals(final TitanUniversalCharString otherValue) {
 		must_bound("The left operand of comparison is an unbound charstring value.");
 		otherValue.must_bound("The right operand of comparison is an unbound universal charstring value.");
 
@@ -470,11 +470,11 @@ public class TitanCharString extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharString) {
-			return operatorEquals((TitanCharString)otherValue);
+			return operator_equals((TitanCharString)otherValue);
 		} else if (otherValue instanceof TitanUniversalCharString) {
-			return operatorEquals((TitanUniversalCharString)otherValue);
+			return operator_equals((TitanUniversalCharString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
@@ -489,7 +489,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final String otherValue) {
+	public boolean operator_equals(final String otherValue) {
 		must_bound("Unbound operand of charstring comparison.");
 
 		if (otherValue == null) {
@@ -507,7 +507,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanCharString_Element otherValue) {
+	public boolean operator_equals(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Unbound operand of charstring element comparison.");
 		must_bound("Unbound operand of charstring comparison.");
 
@@ -528,7 +528,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanUniversalCharString_Element otherValue) {
+	public boolean operator_equals(final TitanUniversalCharString_Element otherValue) {
 		must_bound("The left operand of comparison is an unbound charstring value.");
 		otherValue.must_bound("The right operand of comparison is an unbound universal charstring value");
 
@@ -552,8 +552,8 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanCharString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanCharString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	@Override
@@ -570,7 +570,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanCharString_Element otherValue) {
+	public boolean operator_not_equals(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Unbound operand of charstring element comparison.");
 		must_bound("Unbound operand of charstring comparison.");
 
@@ -589,7 +589,7 @@ public class TitanCharString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final String otherValue) {
+	public boolean operator_not_equals(final String otherValue) {
 		must_bound("Unbound operand of charstring comparison.");
 
 		if (otherValue != null) {
@@ -601,7 +601,7 @@ public class TitanCharString extends Base_Type {
 
 	// originally operator<<=
 	// rotateLeft for String
-	public TitanCharString rotateLeft(int rotatecount) {
+	public TitanCharString rotate_left(int rotatecount) {
 		must_bound("Unbound charstring operand of rotate left operator.");
 
 		if (val_ptr.length() == 0) {
@@ -619,20 +619,20 @@ public class TitanCharString extends Base_Type {
 			return new TitanCharString(rValue);
 		}
 
-		return rotateRight(-rotatecount);
+		return rotate_right(-rotatecount);
 	}
 
 	// originally operator<<=
 	// rotateLeft for TitanInteger
-	public TitanCharString rotateLeft(final TitanInteger rotatecount) {
+	public TitanCharString rotate_left(final TitanInteger rotatecount) {
 		rotatecount.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotateLeft(rotatecount.getInt());
+		return rotate_left(rotatecount.getInt());
 	}
 
 	// originally operator>>=
 	// rotateRight for String
-	public TitanCharString rotateRight(int rotatecount) {
+	public TitanCharString rotate_right(int rotatecount) {
 		must_bound("Unbound charstring operand of rotate right operator.");
 
 		if (val_ptr.length() == 0) {
@@ -653,15 +653,15 @@ public class TitanCharString extends Base_Type {
 			}
 			return new TitanCharString(rValue);
 		}
-		return rotateLeft(-rotatecount);
+		return rotate_left(-rotatecount);
 	}
 
 	// originally operator>>=
 	// rotateRight for TitanInteger
-	public TitanCharString rotateRight(final TitanInteger rotatecount) {
+	public TitanCharString rotate_right(final TitanInteger rotatecount) {
 		rotatecount.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotateRight(rotatecount.getInt());
+		return rotate_right(rotatecount.getInt());
 	}
 
 	//originally operator[](int)
@@ -740,8 +740,8 @@ public class TitanCharString extends Base_Type {
 		return val_ptr.toString();
 	}
 
-	// static operatorEquals
-	public static boolean operatorEquals(final String StringValue, final TitanCharString aOtherValue) {
+	// static operator_equals
+	public static boolean operator_equals(final String StringValue, final TitanCharString aOtherValue) {
 		aOtherValue.must_bound("Unbound operand of charstring comparison.");
 
 		if (StringValue == null) {
@@ -751,7 +751,7 @@ public class TitanCharString extends Base_Type {
 		return aOtherValue.val_ptr.toString().equals(StringValue);
 	}
 
-	public static boolean operatorEquals(final String StringValue, final TitanCharString_Element aOtherValue) {
+	public static boolean operator_equals(final String StringValue, final TitanCharString_Element aOtherValue) {
 		aOtherValue.must_bound("Unbound operand of charstring element comparison.");
 
 		if (StringValue.length() != 1) {
@@ -761,28 +761,28 @@ public class TitanCharString extends Base_Type {
 		return StringValue.charAt(0) == aOtherValue.get_char();
 	}
 
-	// static operatorNotEquals
-	public static boolean operatorNotEquals(final String StringValue, final TitanCharString aOtherValue) {
-		return !operatorEquals(StringValue, aOtherValue);
+	// static operator_not_equals
+	public static boolean operator_not_equals(final String StringValue, final TitanCharString aOtherValue) {
+		return !operator_equals(StringValue, aOtherValue);
 	}
 
-	public static boolean operatorNotEquals(final String StringValue, final TitanCharString_Element aOtherValue) {
-		return !operatorEquals(StringValue, aOtherValue);
+	public static boolean operator_not_equals(final String StringValue, final TitanCharString_Element aOtherValue) {
+		return !operator_equals(StringValue, aOtherValue);
 	}
 
 	// static concatenate
-	public static TitanCharString concatenate(final String StringValue, final TitanCharString aOtherValue) {
+	public static TitanCharString operator_concatenate(final String StringValue, final TitanCharString aOtherValue) {
 		aOtherValue.must_bound("Unbound operand of charstring concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(StringValue);
-		return ret_val.concatenate(aOtherValue);
+		return ret_val.operator_concatenate(aOtherValue);
 	}
 
-	public static TitanCharString concatenate(final String StringValue, final TitanCharString_Element aOtherValue) {
+	public static TitanCharString operator_concatenate(final String StringValue, final TitanCharString_Element aOtherValue) {
 		aOtherValue.must_bound("Unbound operand of charstring element concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(StringValue);
-		return ret_val.concatenate(aOtherValue);
+		return ret_val.operator_concatenate(aOtherValue);
 	}
 
 	@Override
@@ -972,9 +972,9 @@ public class TitanCharString extends Base_Type {
 				if (ucs.charstring) {
 					// No special characters were found
 					if (is_bound()) {
-						concatenate(ucs);
+						operator_concatenate(ucs);
 					} else {
-						assign(ucs);
+						operator_assign(ucs);
 					}
 				} else {
 					// Special characters found -> check if the UTF-8 decoding resulted in any multi-byte characters
@@ -988,9 +988,9 @@ public class TitanCharString extends Base_Type {
 					}
 					final TitanCharString new_cs = new TitanCharString(ucs);
 					if (is_bound()) {
-						concatenate(new_cs);
+						operator_concatenate(new_cs);
 					} else {
-						assign(new_cs);
+						operator_assign(new_cs);
 					}
 				}
 				break; }
@@ -1007,12 +1007,12 @@ public class TitanCharString extends Base_Type {
 						is_nocase_pattern);
 				operand2.set_param(mp.get_operand2());
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
-					concatenate(operand1);
-					concatenate(operand2);
+					operator_concatenate(operand1);
+					operator_concatenate(operand2);
 				}
 				else {
-					assign(operand1);
-					concatenate(operand2);
+					operator_assign(operand1);
+					operator_concatenate(operand2);
 				}
 			}
 			else {
@@ -1021,7 +1021,7 @@ public class TitanCharString extends Base_Type {
 			break;
 		case MP_Pattern:
 			if (allow_pattern) {
-				assign(new TitanCharString(mp.get_pattern()));
+				operator_assign(new TitanCharString(mp.get_pattern()));
 				is_pattern = true;
 				if (is_nocase_pattern != null) {
 					is_nocase_pattern.set(mp.get_nocase());

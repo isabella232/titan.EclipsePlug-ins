@@ -246,25 +246,25 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanOctetString_template assign(final Base_Type otherValue) {
+	public TitanOctetString_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
-			return assign((TitanOctetString)otherValue);
+			return operator_assign((TitanOctetString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
 	@Override
-	public TitanOctetString_template assign(final Base_Template otherValue) {
+	public TitanOctetString_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanOctetString_template) {
-			return assign((TitanOctetString_template)otherValue);
+			return operator_assign((TitanOctetString_template)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
 	@Override
-	public TitanOctetString_template assign(final template_sel otherValue) {
+	public TitanOctetString_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -273,7 +273,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator=
-	public TitanOctetString_template assign(final char[] otherValue) {
+	public TitanOctetString_template operator_assign(final char[] otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
@@ -291,7 +291,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanOctetString_template assign(final TitanOctetString otherValue) {
+	public TitanOctetString_template operator_assign(final TitanOctetString otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring value to a template.");
 
 		clean_up();
@@ -311,7 +311,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanOctetString_template assign(final TitanOctetString_Element otherValue) {
+	public TitanOctetString_template operator_assign(final TitanOctetString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring value to a template.");
 
 		clean_up();
@@ -331,7 +331,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanOctetString_template assign(final TitanOctetString_template otherValue) {
+	public TitanOctetString_template operator_assign(final TitanOctetString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -452,7 +452,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -815,13 +815,13 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "octetstring template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -830,14 +830,14 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Octetstring:
-			this.assign(new TitanOctetString((char[]) param.get_string_data()));
+			this.operator_assign(new TitanOctetString((char[]) param.get_string_data()));
 			break;
 		case MP_Octetstring_Template:
-			this.assign((TitanOctetString_template)param.get_string_data());
+			this.operator_assign((TitanOctetString_template)param.get_string_data());
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
@@ -845,7 +845,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 				final TitanOctetString operand2 = new TitanOctetString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				this.assign(operand1.concatenate(operand2));
+				this.operator_assign(operand1.operator_concatenate(operand2));
 			} else {
 				param.expr_type_error("an octetstring");
 			}

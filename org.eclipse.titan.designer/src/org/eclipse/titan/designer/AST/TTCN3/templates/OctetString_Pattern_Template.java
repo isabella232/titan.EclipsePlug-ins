@@ -159,7 +159,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport( "TitanOctetString_template" );
-		source.append( MessageFormat.format( "{0}.assign(new TitanOctetString_template(\"{1}\"));\n", name, pattern ) );
+		source.append( MessageFormat.format( "{0}.operator_assign(new TitanOctetString_template(\"{1}\"));\n", name, pattern ) );
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {

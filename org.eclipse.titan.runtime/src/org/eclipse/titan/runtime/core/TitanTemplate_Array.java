@@ -199,7 +199,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		for (int i = 0; i < singleSize; ++i) {
 			try {
 				final Ttemplate helper = classTemplate.newInstance();
-				helper.assign(otherValue.get_at(i));
+				helper.operator_assign(otherValue.get_at(i));
 				single_value[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
@@ -223,7 +223,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			for (int i = 0; i < singleSize; ++i) {
 				try {
 					final Ttemplate helper = classTemplate.newInstance();
-					helper.assign(otherValue.single_value[i]);
+					helper.operator_assign(otherValue.single_value[i]);
 					single_value[i] = helper;
 				} catch (InstantiationException e) {
 					throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
@@ -392,7 +392,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	}
 
 	@Override
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final template_sel otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -408,7 +408,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final TitanNull_Type otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final TitanNull_Type otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		return this;
@@ -425,7 +425,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final TitanValue_Array<Tvalue> otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final TitanValue_Array<Tvalue> otherValue) {
 		clean_up();
 		copy_value(otherValue);
 		return this;
@@ -442,7 +442,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final Optional<TitanValue_Array<Tvalue>> other_value) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final Optional<TitanValue_Array<Tvalue>> other_value) {
 		clean_up();
 		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -468,7 +468,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final TitanTemplate_Array<Tvalue,Ttemplate> otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final TitanTemplate_Array<Tvalue,Ttemplate> otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -740,13 +740,13 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -755,7 +755,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Value_List:
@@ -930,14 +930,14 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final Base_Type otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValue_Array<?>) {
 			final TitanValue_Array<Tvalue> arrayOther = (TitanValue_Array<Tvalue>)otherValue;
-			return assign(arrayOther);
+			return operator_assign(arrayOther);
 		} else {
 			try {
 				final Ttemplate value = classTemplate.newInstance();
-				value.assign(otherValue);
+				value.operator_assign(otherValue);
 				singleSize = 1;
 				single_value = new Base_Template[singleSize];
 				single_value[0] = value;
@@ -953,14 +953,14 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanTemplate_Array<Tvalue, Ttemplate> assign(final Base_Template otherValue) {
+	public TitanTemplate_Array<Tvalue, Ttemplate> operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanTemplate_Array<?,?>) {
 			final TitanTemplate_Array<Tvalue, Ttemplate> arrayOther = (TitanTemplate_Array<Tvalue, Ttemplate>)otherValue;
-			return assign(arrayOther);
+			return operator_assign(arrayOther);
 		} else {
 			try {
 				final Ttemplate value = classTemplate.newInstance();
-				value.assign(otherValue);
+				value.operator_assign(otherValue);
 				singleSize = 1;
 				single_value = new Base_Template[singleSize];
 				single_value[0] = value;

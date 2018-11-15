@@ -279,7 +279,7 @@ public final class SignatureGenerator {
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 				source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-				source.append(MessageFormat.format("ptr_{0}.assign(call_par.constGet_{0}());\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("ptr_{0}.operator_assign(call_par.constGet_{0}());\n", formalPar.mJavaName));
 				source.append("}\n");
 			}
 		}
@@ -502,14 +502,14 @@ public final class SignatureGenerator {
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
 					source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet_{0}());\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("ptr_{0}.operator_assign(reply_par.constGet_{0}());\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
 				
 			}
 			if (def.returnType != null) {
 				source.append("if (ret_val_redir != null) {\n");
-				source.append(MessageFormat.format("ret_val_redir.assign(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("ret_val_redir.operator_assign(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
 				source.append("}\n");
 			}
 			source.append("}\n");
@@ -599,7 +599,7 @@ public final class SignatureGenerator {
 				source.append(" * @return the new value object.\n");
 				source.append(" */\n");
 			}
-			source.append(MessageFormat.format("public {0}_exception assign( final {0}_exception otherValue ) '{'\n", def.genName));
+			source.append(MessageFormat.format("public {0}_exception operator_assign( final {0}_exception otherValue ) '{'\n", def.genName));
 			source.append("if(this != otherValue) {\n");
 			source.append("clean_up();\n");
 			source.append("copy_value(otherValue);\n");
@@ -789,7 +789,7 @@ public final class SignatureGenerator {
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append("if (redirection_field != null) {\n");
-				source.append(MessageFormat.format("redirection_field.assign(source_value.constGet_{0}());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("redirection_field.operator_assign(source_value.constGet_{0}());\n", exception.mJavaTypeName));
 				source.append("}\n");
 				source.append("return;\n");
 			}
@@ -899,7 +899,7 @@ public final class SignatureGenerator {
 				source.append(" * @return the new value object.\n");
 				source.append(" */\n");
 			}
-			source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type otherValue) '{'\n", def.genName));
+			source.append(MessageFormat.format("public {0}_template operator_assign(final TitanNull_Type otherValue) '{'\n", def.genName));
 			source.append("return this;\n");
 			source.append("}\n\n");
 		}
@@ -928,7 +928,7 @@ public final class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("return_value.get_{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("return_value.get_{0}().operator_assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return return_value;\n");
@@ -941,12 +941,12 @@ public final class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("return_value.get_{0}().assign(param_{0}.valueof());\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("return_value.get_{0}().operator_assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 				}
 			}
 
 			if (def.returnType != null) {
-				source.append("return_value.getreturn_value().assign(reply_value.valueof());\n");
+				source.append("return_value.getreturn_value().operator_assign(reply_value.valueof());\n");
 			}
 			source.append("return return_value;\n");
 			source.append("}\n");

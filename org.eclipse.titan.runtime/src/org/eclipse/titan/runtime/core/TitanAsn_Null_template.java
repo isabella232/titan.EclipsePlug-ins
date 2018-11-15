@@ -115,7 +115,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	}
 
 	@Override
-	public TitanAsn_Null_template assign(final template_sel otherValue) {
+	public TitanAsn_Null_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -133,7 +133,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanAsn_Null_template assign(final TitanAsn_Null otherValue) {
+	public TitanAsn_Null_template operator_assign(final TitanAsn_Null otherValue) {
 		otherValue.must_bound("Assignment of an unbound ASN.1 NULL value to a template.");
 
 		clean_up();
@@ -143,9 +143,9 @@ public class TitanAsn_Null_template extends Base_Template {
 	}
 
 	@Override
-	public TitanAsn_Null_template assign(final Base_Type otherValue) {
+	public TitanAsn_Null_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanAsn_Null) {
-			return assign((TitanAsn_Null) otherValue);
+			return operator_assign((TitanAsn_Null) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", otherValue));
@@ -161,7 +161,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanAsn_Null_template assign(final Asn_Null_Type otherValue) {
+	public TitanAsn_Null_template operator_assign(final Asn_Null_Type otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		
@@ -178,7 +178,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanAsn_Null_template assign(final Optional<TitanAsn_Null> otherValue) {
+	public TitanAsn_Null_template operator_assign(final Optional<TitanAsn_Null> otherValue) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -213,7 +213,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanAsn_Null_template assign(final TitanAsn_Null_template otherValue) {
+	public TitanAsn_Null_template operator_assign(final TitanAsn_Null_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -223,9 +223,9 @@ public class TitanAsn_Null_template extends Base_Template {
 	}
 
 	@Override
-	public TitanAsn_Null_template assign(final Base_Template otherValue) {
+	public TitanAsn_Null_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanAsn_Null_template) {
-			return assign((TitanAsn_Null_template) otherValue);
+			return operator_assign((TitanAsn_Null_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", otherValue));
@@ -399,13 +399,13 @@ public class TitanAsn_Null_template extends Base_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "NULL template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -414,11 +414,11 @@ public class TitanAsn_Null_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Asn_Null:
-			this.assign(Asn_Null_Type.ASN_NULL_VALUE);
+			this.operator_assign(Asn_Null_Type.ASN_NULL_VALUE);
 			break;
 		default:
 			param.type_error("NULL template");

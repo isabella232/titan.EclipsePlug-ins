@@ -154,7 +154,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanOctetString assign(final TitanOctetString otherValue) {
+	public TitanOctetString operator_assign(final TitanOctetString otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring value.");
 
 		if (otherValue != this) {
@@ -174,7 +174,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanOctetString assign(final TitanOctetString_Element otherValue) {
+	public TitanOctetString operator_assign(final TitanOctetString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring element to an octetstring.");
 		val_ptr = new char[1];
 		val_ptr[0] = otherValue.get_nibble();
@@ -183,9 +183,9 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public TitanOctetString assign(final Base_Type otherValue) {
+	public TitanOctetString operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
-			return assign((TitanOctetString)otherValue);
+			return operator_assign((TitanOctetString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
@@ -217,7 +217,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanOctetString otherValue) {
+	public boolean operator_equals(final TitanOctetString otherValue) {
 		must_bound("Unbound left operand of octetstring comparison.");
 		otherValue.must_bound("Unbound right operand of octetstring comparison.");
 
@@ -233,18 +233,18 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
+	public boolean operator_equals(final TitanOctetString_Element otherValue) {
 		must_bound("Unbound left operand of octetstring comparison.");
 		otherValue.must_bound("Unbound right operand of octetstring comparison.");
 
-		return otherValue.operatorEquals(this);
+		return otherValue.operator_equals(this);
 		// new TitanBoolean(val_ptr.equals( otherValue.get_nibble()));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
-			return operatorEquals((TitanOctetString)otherValue);
+			return operator_equals((TitanOctetString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
@@ -259,8 +259,8 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanOctetString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanOctetString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -272,8 +272,8 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanOctetString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanOctetString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -285,8 +285,8 @@ public class TitanOctetString extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Base_Type otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Base_Type otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	@Override
@@ -391,9 +391,9 @@ public class TitanOctetString extends Base_Type {
 				break;
 			case OT_CONCAT:
 				if (is_bound()) {
-					this.assign(this.concatenate(new TitanOctetString((char[]) param.get_string_data())));
+					this.operator_assign(this.operator_concatenate(new TitanOctetString((char[]) param.get_string_data())));
 				} else {
-					this.assign(new TitanOctetString((char[]) param.get_string_data()));
+					this.operator_assign(new TitanOctetString((char[]) param.get_string_data()));
 				}
 				break;
 			default:
@@ -407,9 +407,9 @@ public class TitanOctetString extends Base_Type {
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
-					this.assign(this.concatenate(operand1).concatenate(operand2));
+					this.operator_assign(this.operator_concatenate(operand1).operator_concatenate(operand2));
 				} else {
-					this.assign(operand1.concatenate(operand2));
+					this.operator_assign(operand1.operator_concatenate(operand2));
 				}
 			} else {
 				param.expr_type_error("a octetstring");
@@ -497,7 +497,7 @@ public class TitanOctetString extends Base_Type {
 	 * this + otherValue (concatenation)
 	 * originally operator+
 	 */
-	public TitanOctetString concatenate(final TitanOctetString otherValue) {
+	public TitanOctetString operator_concatenate(final TitanOctetString otherValue) {
 		must_bound("Unbound left operand of octetstring concatenation.");
 		otherValue.must_bound("Unbound right operand of octetstring concatenation.");
 
@@ -515,7 +515,7 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString(temp);
 	}
 
-	public TitanOctetString concatenate(final TitanOctetString_Element otherValue) {
+	public TitanOctetString operator_concatenate(final TitanOctetString_Element otherValue) {
 		must_bound("Unbound left operand of octetstring concatenation.");
 		otherValue.must_bound("Unbound right operand of octetstring element concatenation.");
 
@@ -636,7 +636,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator<<
-	public TitanOctetString shiftLeft(int shiftCount) {
+	public TitanOctetString shift_left(int shiftCount) {
 		must_bound("Unbound octetstring operand of shift left operator.");
 
 		if (shiftCount > 0) {
@@ -662,19 +662,19 @@ public class TitanOctetString extends Base_Type {
 			if (shiftCount == 0) {
 				return this;
 			} else {
-				return this.shiftRight(-shiftCount);
+				return this.shift_right(-shiftCount);
 			}
 		}
 	}
 
-	public TitanOctetString shiftLeft(final TitanInteger otherValue) {
+	public TitanOctetString shift_left(final TitanInteger otherValue) {
 		must_bound("Unbound right operand of octetstring shift left operator.");
 
-		return shiftLeft(otherValue.getInt());
+		return shift_left(otherValue.getInt());
 	}
 
 	// originally operator>>
-	public TitanOctetString shiftRight(int shiftCount) {
+	public TitanOctetString shift_right(int shiftCount) {
 		must_bound("Unbound octetstring operand of shift right operator.");
 
 		if (shiftCount > 0) {
@@ -698,19 +698,19 @@ public class TitanOctetString extends Base_Type {
 			if (shiftCount == 0) {
 				return this;
 			} else {
-				return this.shiftLeft(-shiftCount);
+				return this.shift_left(-shiftCount);
 			}
 		}
 	}
 
-	public TitanOctetString shiftRight(final TitanInteger otherValue){
+	public TitanOctetString shift_right(final TitanInteger otherValue){
 		must_bound("Unbound right operand of octetstring shift right operator.");
 
-		return shiftRight(otherValue.getInt());
+		return shift_right(otherValue.getInt());
 	}
 
 	// originally operator<<=
-	public TitanOctetString rotateLeft(int rotateCount) {
+	public TitanOctetString rotate_left(int rotateCount) {
 		must_bound("Unbound octetstring operand of rotate left operator.");
 
 		if (val_ptr.length == 0) {
@@ -733,18 +733,18 @@ public class TitanOctetString extends Base_Type {
 
 			return result;
 		} else {
-			return rotateRight(-rotateCount);
+			return rotate_right(-rotateCount);
 		}
 	}
 
-	public TitanOctetString rotateLeft(final TitanInteger rotateCount) {
+	public TitanOctetString rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotateLeft(rotateCount.getInt());
+		return rotate_left(rotateCount.getInt());
 	}
 
 	// originally operator>>=
-	public TitanOctetString rotateRight(int rotateCount) {
+	public TitanOctetString rotate_right(int rotateCount) {
 		must_bound("Unbound octetstring operand of rotate right operator.");
 
 		if (val_ptr.length == 0) {
@@ -768,14 +768,14 @@ public class TitanOctetString extends Base_Type {
 			}
 			return result;
 		} else {
-			return rotateLeft(-rotateCount);
+			return rotate_left(-rotateCount);
 		}
 	}
 
-	public TitanOctetString rotateRight(final TitanInteger rotateCount) {
+	public TitanOctetString rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotateRight(rotateCount.getInt());
+		return rotate_right(rotateCount.getInt());
 	}
 	
 	@Override

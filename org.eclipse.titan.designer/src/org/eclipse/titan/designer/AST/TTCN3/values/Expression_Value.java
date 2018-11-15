@@ -520,7 +520,7 @@ public abstract class Expression_Value extends Value {
 
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
-		expression.expression.append(".assign(");
+		expression.expression.append(".operator_assign(");
 
 		generateCodeExpression(aData, expression, false);
 

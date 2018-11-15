@@ -281,7 +281,7 @@ public final class ObjectIdentifier_Value extends Value {
 
 		aData.addBuiltinTypeImport("TitanObjectid");
 
-		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

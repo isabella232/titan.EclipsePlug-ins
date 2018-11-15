@@ -207,7 +207,7 @@ public final class Bitstring_Value extends Value {
 
 		aData.addBuiltinTypeImport("TitanBitString");
 
-		source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign(new TitanBitString(\"{1}\"));\n", name, value));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

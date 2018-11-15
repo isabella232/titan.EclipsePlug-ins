@@ -203,25 +203,25 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanHexString_template assign(final Base_Type otherValue) {
+	public TitanHexString_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanHexString) {
-			return assign((TitanHexString) otherValue);
+			return operator_assign((TitanHexString) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
 	@Override
-	public TitanHexString_template assign(final Base_Template otherValue) {
+	public TitanHexString_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanHexString_template) {
-			return assign((TitanHexString_template) otherValue);
+			return operator_assign((TitanHexString_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
 	@Override
-	public TitanHexString_template assign(final template_sel otherValue) {
+	public TitanHexString_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -230,7 +230,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator=
-	public TitanHexString_template assign(final byte otherValue[]) {
+	public TitanHexString_template operator_assign(final byte otherValue[]) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
@@ -248,7 +248,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanHexString_template assign(final TitanHexString otherValue) {
+	public TitanHexString_template operator_assign(final TitanHexString otherValue) {
 		otherValue.must_bound("Assignment of an unbound hexstring value to a template.");
 
 		clean_up();
@@ -268,7 +268,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanHexString_template assign(final TitanHexString_Element otherValue) {
+	public TitanHexString_template operator_assign(final TitanHexString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound hexstring element to a template.");
 
 		clean_up();
@@ -288,7 +288,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanHexString_template assign(final TitanHexString_template otherValue) {
+	public TitanHexString_template operator_assign(final TitanHexString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -409,7 +409,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -710,13 +710,13 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue() , "hexstring template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -725,14 +725,14 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Hexstring:
-			this.assign(new TitanHexString((byte[]) param.get_string_data()));
+			this.operator_assign(new TitanHexString((byte[]) param.get_string_data()));
 			break;
 		case MP_Hexstring_Template:
-			this.assign(new TitanHexString_template((TitanHexString_template)param.get_string_data()));
+			this.operator_assign(new TitanHexString_template((TitanHexString_template)param.get_string_data()));
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
@@ -740,7 +740,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 				final TitanHexString operand2 = new TitanHexString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				this.assign(operand1.concatenate(operand2));
+				this.operator_assign(operand1.operator_concatenate(operand2));
 			} else {
 				param.expr_type_error("a hexstring");
 			}

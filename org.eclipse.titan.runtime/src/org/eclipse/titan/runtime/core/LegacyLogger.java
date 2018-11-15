@@ -576,10 +576,10 @@ public class LegacyLogger implements ILoggerPlugin {
 				if (new_filename != current_filename_) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
-					switched_event.get_timestamp__().assign(event.get_timestamp__());
-					switched_event.get_sourceInfo__list().assign(event.get_sourceInfo__list());
-					switched_event.get_severity().assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
-					switched_event.get_logEvent().get_choice().get_unhandledEvent().assign(switched);
+					switched_event.get_timestamp__().operator_assign(event.get_timestamp__());
+					switched_event.get_sourceInfo__list().operator_assign(event.get_sourceInfo__list());
+					switched_event.get_severity().operator_assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
+					switched_event.get_logEvent().get_choice().get_unhandledEvent().operator_assign(switched);
 					log_file(switched_event, true);
 					switched = null;
 					close_file();

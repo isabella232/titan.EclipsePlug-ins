@@ -131,7 +131,7 @@ public final class ASN1_Null_Value extends Value {
 		aData.addBuiltinTypeImport("TitanAsn_Null");
 
 		source.append(name);
-		source.append(".assign( TitanAsn_Null.Asn_Null_Type.ASN_NULL_VALUE );\n");
+		source.append(".operator_assign( TitanAsn_Null.Asn_Null_Type.ASN_NULL_VALUE );\n");
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

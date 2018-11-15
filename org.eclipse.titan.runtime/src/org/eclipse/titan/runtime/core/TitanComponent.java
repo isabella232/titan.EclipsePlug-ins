@@ -94,7 +94,7 @@ public class TitanComponent extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanComponent assign(final int otherValue) {
+	public TitanComponent operator_assign(final int otherValue) {
 		componentValue = otherValue;
 
 		return this;
@@ -110,7 +110,7 @@ public class TitanComponent extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanComponent assign(final TitanComponent otherValue) {
+	public TitanComponent operator_assign(final TitanComponent otherValue) {
 		otherValue.must_bound("Copying an unbound component reference.");
 
 		componentValue = otherValue.componentValue;
@@ -119,9 +119,9 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public TitanComponent assign(final Base_Type otherValue) {
+	public TitanComponent operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
-			return assign((TitanComponent)otherValue);
+			return operator_assign((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
@@ -138,7 +138,7 @@ public class TitanComponent extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final int otherValue) {
+	public boolean operator_equals(final int otherValue) {
 		must_bound("The left operand of comparison is an unbound component reference.");
 		if (otherValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
@@ -156,7 +156,7 @@ public class TitanComponent extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanComponent otherValue) {
+	public boolean operator_equals(final TitanComponent otherValue) {
 		must_bound("The left operand of comparison is an unbound component reference.");
 		otherValue.must_bound("The right operand of comparison is an unbound component reference.");
 
@@ -164,9 +164,9 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
-			return operatorEquals((TitanComponent)otherValue);
+			return operator_equals((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
@@ -215,7 +215,7 @@ public class TitanComponent extends Base_Type {
 
 		final TitanAlt_Status status = TTCN_Runtime.component_done(componentValue, ptc_verdict);
 		if (value_redirect != null) {
-			value_redirect.assign(ptc_verdict.get());
+			value_redirect.operator_assign(ptc_verdict.get());
 		}
 
 		return status;

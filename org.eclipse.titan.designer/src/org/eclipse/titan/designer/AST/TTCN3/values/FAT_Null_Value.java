@@ -148,7 +148,7 @@ public final class FAT_Null_Value extends Value {
 
 		// get_fat_null is not needed
 		source.append(name);
-		source.append(MessageFormat.format(".assign(new {0}({0}.nullValue));\n", myGovernor.getGenNameValue(aData, source, myScope)));
+		source.append(MessageFormat.format(".operator_assign(new {0}({0}.nullValue));\n", myGovernor.getGenNameValue(aData, source, myScope)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

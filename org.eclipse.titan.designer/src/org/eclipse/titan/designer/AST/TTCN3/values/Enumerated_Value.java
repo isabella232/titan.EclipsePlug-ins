@@ -202,7 +202,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 			return source;
 		}
 
-		source.append(MessageFormat.format("{0}.assign({1}.enum_type.{2});\n", name,
+		source.append(MessageFormat.format("{0}.operator_assign({1}.enum_type.{2});\n", name,
 				getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
 
 		lastTimeGenerated = aData.getBuildTimstamp();

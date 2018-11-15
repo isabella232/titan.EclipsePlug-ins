@@ -155,7 +155,7 @@ public class TTCN_Buffer {
 	 * The read position and other attributes are reset.
 	 * @param p_buf
 	 *  */
-	public TTCN_Buffer assign(final TTCN_Buffer p_buf) {
+	public TTCN_Buffer operator_assign(final TTCN_Buffer p_buf) {
 		if (p_buf != this) {
 			buf_len = p_buf.buf_len;
 			if (p_buf.data_ptr != null) {
@@ -172,7 +172,7 @@ public class TTCN_Buffer {
 	/** Copies the contents of p_os into this. Other attributes are reset.
 	 * @param p_os
 	 * 				  */
-	public  TTCN_Buffer assign(final TitanOctetString p_os) {
+	public  TTCN_Buffer operator_assign(final TitanOctetString p_os) {
 		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
 		buf_len = p_os.lengthof().getInt();
 		data_ptr = new char[buf_len];
@@ -186,7 +186,7 @@ public class TTCN_Buffer {
 	 * @param p_cs 
 	 * 			the {@link TitanCharString}
 	 *  */
-	public TTCN_Buffer assign(final TitanCharString p_cs) {
+	public TTCN_Buffer operator_assign(final TitanCharString p_cs) {
 		p_cs.must_bound("Assignment of an unbound charstring value to a TTCN_Buffer.");
 
 		buf_len = p_cs.lengthof().getInt();
@@ -441,9 +441,9 @@ public class TTCN_Buffer {
 			for (int i = 0; i < buf_len; i++) {
 				str.append(data_ptr[i]);
 			}
-			p_cs.assign(str.toString());
+			p_cs.operator_assign(str.toString());
 		} else {
-			p_cs.assign("");
+			p_cs.operator_assign("");
 		}
 	}
 
@@ -461,7 +461,7 @@ public class TTCN_Buffer {
 			}
 			p_cs.setValue(data);
 		} else {
-			p_cs.assign("");
+			p_cs.operator_assign("");
 		}
 	}
 

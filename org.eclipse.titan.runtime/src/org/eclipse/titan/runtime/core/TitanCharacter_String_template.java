@@ -89,7 +89,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	@Override
-	public TitanCharacter_String_template assign( final template_sel otherValue ) {
+	public TitanCharacter_String_template operator_assign( final template_sel otherValue ) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -106,7 +106,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanCharacter_String_template assign( final TitanCharacter_String otherValue ) {
+	public TitanCharacter_String_template operator_assign( final TitanCharacter_String otherValue ) {
 		clean_up();
 		copy_value(otherValue);
 		return this;
@@ -122,7 +122,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanCharacter_String_template assign( final TitanCharacter_String_template otherValue ) {
+	public TitanCharacter_String_template operator_assign( final TitanCharacter_String_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -131,18 +131,18 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	@Override
-	public TitanCharacter_String_template assign(final Base_Type otherValue) {
+	public TitanCharacter_String_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharacter_String) {
-			return assign((TitanCharacter_String) otherValue);
+			return operator_assign((TitanCharacter_String) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String' can not be cast to {1}", otherValue));
 	}
 
 	@Override
-	public TitanCharacter_String_template assign(final Base_Template otherValue) {
+	public TitanCharacter_String_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanCharacter_String_template) {
-			return assign((TitanCharacter_String_template) otherValue);
+			return operator_assign((TitanCharacter_String_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String' can not be cast to {1}_template", otherValue));
@@ -158,7 +158,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanCharacter_String_template assign( final Optional<TitanCharacter_String> otherValue ) {
+	public TitanCharacter_String_template operator_assign( final Optional<TitanCharacter_String> otherValue ) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -175,21 +175,21 @@ public class TitanCharacter_String_template extends Base_Template {
 
 	private void copy_value(final TitanCharacter_String other_value) {
 		if (other_value.get_identification().is_bound()) {
-			get_identification().assign(other_value.get_identification());
+			get_identification().operator_assign(other_value.get_identification());
 		} else {
 			get_identification().clean_up();
 		}
 		if (other_value.get_data__value__descriptor().is_bound()) {
 			if (other_value.get_data__value__descriptor().ispresent()) {
-				get_data__value__descriptor().assign(other_value.get_data__value__descriptor().get());
+				get_data__value__descriptor().operator_assign(other_value.get_data__value__descriptor().get());
 			} else {
-				get_data__value__descriptor().assign(template_sel.OMIT_VALUE);
+				get_data__value__descriptor().operator_assign(template_sel.OMIT_VALUE);
 			}
 		} else {
 			get_data__value__descriptor().clean_up();
 		}
 		if (other_value.get_string__value().is_bound()) {
-			get_string__value().assign(other_value.get_string__value());
+			get_string__value().operator_assign(other_value.get_string__value());
 		} else {
 			get_string__value().clean_up();
 		}
@@ -202,17 +202,17 @@ public class TitanCharacter_String_template extends Base_Template {
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_identification().get_selection()) {
 				get_identification().clean_up();
 			} else {
-				get_identification().assign(other_value.get_identification());
+				get_identification().operator_assign(other_value.get_identification());
 			}
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_data__value__descriptor().get_selection()) {
 				get_data__value__descriptor().clean_up();
 			} else {
-				get_data__value__descriptor().assign(other_value.get_data__value__descriptor());
+				get_data__value__descriptor().operator_assign(other_value.get_data__value__descriptor());
 			}
 			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_string__value().get_selection()) {
 				get_string__value().clean_up();
 			} else {
-				get_string__value().assign(other_value.get_string__value());
+				get_string__value().operator_assign(other_value.get_string__value());
 			}
 			break;
 		case OMIT_VALUE:
@@ -269,10 +269,10 @@ public class TitanCharacter_String_template extends Base_Template {
 
 	@Override
 	public boolean is_present(final boolean legacy) {
-		return isPresent_(legacy);
+		return is_present_(legacy);
 	}
 
-	private boolean isPresent_(final boolean legacy) {
+	private boolean is_present_(final boolean legacy) {
 		if (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -404,9 +404,9 @@ public class TitanCharacter_String_template extends Base_Template {
 			data__value__descriptor = new TitanUniversalCharString_template();
 			string__value = new TitanOctetString_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				identification.assign(template_sel.ANY_VALUE);
-				data__value__descriptor.assign(template_sel.ANY_OR_OMIT);
-				string__value.assign(template_sel.ANY_VALUE);
+				identification.operator_assign(template_sel.ANY_VALUE);
+				data__value__descriptor.operator_assign(template_sel.ANY_OR_OMIT);
+				string__value.operator_assign(template_sel.ANY_VALUE);
 			}
 		}
 	}
@@ -489,15 +489,15 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		final TitanCharacter_String ret_val = new TitanCharacter_String();
 		if (identification.is_bound()) {
-			ret_val.get_identification().assign(identification.valueof());
+			ret_val.get_identification().operator_assign(identification.valueof());
 		}
 		if (data__value__descriptor.is_omit()) {
-			ret_val.get_data__value__descriptor().assign(template_sel.OMIT_VALUE);
+			ret_val.get_data__value__descriptor().operator_assign(template_sel.OMIT_VALUE);
 		} else if (data__value__descriptor.is_bound()) {
-			ret_val.get_data__value__descriptor().assign(data__value__descriptor.valueof());
+			ret_val.get_data__value__descriptor().operator_assign(data__value__descriptor.valueof());
 		}
 		if (string__value.is_bound()) {
-			ret_val.get_string__value().assign(string__value.valueof());
+			ret_val.get_string__value().operator_assign(string__value.valueof());
 		}
 		return ret_val;
 	}
@@ -744,13 +744,13 @@ public class TitanCharacter_String_template extends Base_Template {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			assign(template_sel.OMIT_VALUE);
+			operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			assign(template_sel.ANY_VALUE);
+			operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			assign(template_sel.ANY_OR_OMIT);
+			operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {

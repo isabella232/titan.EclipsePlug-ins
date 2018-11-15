@@ -175,7 +175,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanExternal_identification_template assign(final template_sel otherValue ) {
+	public TitanExternal_identification_template operator_assign(final template_sel otherValue ) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -192,7 +192,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanExternal_identification_template assign(final TitanExternal_identification otherValue ) {
+	public TitanExternal_identification_template operator_assign(final TitanExternal_identification otherValue ) {
 		clean_up();
 		copy_value(otherValue);
 		return this;
@@ -208,7 +208,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanExternal_identification_template assign(final TitanExternal_identification_template otherValue ) {
+	public TitanExternal_identification_template operator_assign(final TitanExternal_identification_template otherValue ) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -217,17 +217,17 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanExternal_identification_template assign(final Base_Type otherValue ) {
+	public TitanExternal_identification_template operator_assign(final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
-			return assign((TitanExternal_identification)otherValue);
+			return operator_assign((TitanExternal_identification)otherValue);
 		}
 		throw new TtcnError("Internal Error: value can not be cast to TitanExternal_identification.");
 	}
 
 	@Override
-	public TitanExternal_identification_template assign(final Base_Template otherValue ) {
+	public TitanExternal_identification_template operator_assign(final Base_Template otherValue ) {
 		if (otherValue instanceof TitanExternal_identification_template) {
-			return assign((TitanExternal_identification_template)otherValue);
+			return operator_assign((TitanExternal_identification_template)otherValue);
 		}
 		throw new TtcnError("Internal Error: value can not be cast to TitanExternal_identification_template.");
 	}
@@ -362,22 +362,22 @@ public class TitanExternal_identification_template extends Base_Template {
 		final TitanExternal_identification ret_val = new TitanExternal_identification();
 		switch (single_value_union_selection) {
 		case ALT_syntaxes:
-			ret_val.get_syntaxes().assign(((TitanExternal_identification_syntaxes_template)single_value).valueof());
+			ret_val.get_syntaxes().operator_assign(((TitanExternal_identification_syntaxes_template)single_value).valueof());
 			break;
 		case ALT_syntax:
-			ret_val.get_syntax().assign(((TitanObjectid_template)single_value).valueof());
+			ret_val.get_syntax().operator_assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_presentation__context__id:
-			ret_val.get_presentation__context__id().assign(((TitanInteger_template)single_value).valueof());
+			ret_val.get_presentation__context__id().operator_assign(((TitanInteger_template)single_value).valueof());
 			break;
 		case ALT_context__negotiation:
-			ret_val.get_context__negotiation().assign(((TitanExternal_identification_context__negotiation_template)single_value).valueof());
+			ret_val.get_context__negotiation().operator_assign(((TitanExternal_identification_context__negotiation_template)single_value).valueof());
 			break;
 		case ALT_transfer__syntax:
-			ret_val.get_transfer__syntax().assign(((TitanObjectid_template)single_value).valueof());
+			ret_val.get_transfer__syntax().operator_assign(((TitanObjectid_template)single_value).valueof());
 			break;
 		case ALT_fixed:
-			ret_val.get_fixed().assign(((TitanAsn_Null_template)single_value).valueof());
+			ret_val.get_fixed().operator_assign(((TitanAsn_Null_template)single_value).valueof());
 			break;
 		default:
 			throw new TtcnError("Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type EXTERNAL.identification.");
@@ -911,13 +911,13 @@ public class TitanExternal_identification_template extends Base_Template {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			assign(template_sel.OMIT_VALUE);
+			operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			assign(template_sel.ANY_VALUE);
+			operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			assign(template_sel.ANY_OR_OMIT);
+			operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {

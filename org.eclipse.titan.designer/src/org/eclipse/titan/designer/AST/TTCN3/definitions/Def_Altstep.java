@@ -771,13 +771,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			case A_PAR_VAL_IN:
 			case A_PAR_TEMP_IN:
 				if (formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL) {
-					source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+					source.append(MessageFormat.format("par_{0}.operator_assign({0});\n", FormalParName));
 				} else {
 					source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+				source.append(MessageFormat.format("par_{0}.operator_assign({0});\n", FormalParName));
 			}
 		}
 		source.append("}\n\n");

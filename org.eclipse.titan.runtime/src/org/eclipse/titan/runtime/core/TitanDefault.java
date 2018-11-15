@@ -84,7 +84,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanDefault assign(final int otherValue) {
+	public TitanDefault operator_assign(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Assignment of an invalid default reference.");
 		}
@@ -103,7 +103,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanDefault assign(final Default_Base otherValue) {
+	public TitanDefault operator_assign(final Default_Base otherValue) {
 		if (otherValue == UNBOUND_DEFAULT) {
 			throw new TtcnError("Assignment of an unbound default reference.");
 		}
@@ -122,7 +122,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanDefault assign(final TitanDefault otherValue) {
+	public TitanDefault operator_assign(final TitanDefault otherValue) {
 		otherValue.must_bound("Assignment of an unbound default reference.");
 
 		if (otherValue != this) {
@@ -133,9 +133,9 @@ public class TitanDefault extends Base_Type {
 	}
 
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
+	public Base_Type operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
-			return assign((TitanDefault)otherValue);
+			return operator_assign((TitanDefault)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
@@ -150,7 +150,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final int otherValue) {
+	public boolean operator_equals(final int otherValue) {
 		must_bound("The left operand of comparison is an unbound default reference.");
 
 		if (otherValue != TitanComponent.NULL_COMPREF) {
@@ -169,7 +169,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final Default_Base otherValue) {
+	public boolean operator_equals(final Default_Base otherValue) {
 		must_bound("The left operand of comparison is an unbound default reference.");
 
 		return default_ptr == otherValue;
@@ -184,7 +184,7 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanDefault otherValue) {
+	public boolean operator_equals(final TitanDefault otherValue) {
 		must_bound("The left operand of comparison is an unbound default reference.");
 
 		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
@@ -193,9 +193,9 @@ public class TitanDefault extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
-			return operatorEquals((TitanDefault)otherValue);
+			return operator_equals((TitanDefault)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
@@ -211,8 +211,8 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final int otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final int otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -224,8 +224,8 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Default_Base otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Default_Base otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -237,8 +237,8 @@ public class TitanDefault extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanDefault otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanDefault otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	//originally operator Default_Base*
@@ -295,7 +295,7 @@ public class TitanDefault extends Base_Type {
 	}
 
 	//originally static operator== with component parameter
-	public static boolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
+	public static boolean operator_equals(final int defaultValue, final TitanDefault otherValue) {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an invalid default reference.");
 		}
@@ -305,19 +305,19 @@ public class TitanDefault extends Base_Type {
 	}
 
 	//originally static operator== with component parameter
-	public static boolean operatorEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
+	public static boolean operator_equals(final Default_Base defaultValue, final TitanDefault otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
 
 		return defaultValue == otherValue.default_ptr;
 	}
 
 	//originally static operator!= with component parameter
-	public static boolean operatorNotEquals(final int defaultValue, final TitanDefault otherValue) {
-		return !operatorEquals(defaultValue, otherValue);
+	public static boolean operator_not_equals(final int defaultValue, final TitanDefault otherValue) {
+		return !operator_equals(defaultValue, otherValue);
 	}
 
 	//originally static operator!= with component parameter
-	public static boolean operatorNotEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
-		return !operatorEquals(defaultValue, otherValue);
+	public static boolean operator_not_equals(final Default_Base defaultValue, final TitanDefault otherValue) {
+		return !operator_equals(defaultValue, otherValue);
 	}
 }

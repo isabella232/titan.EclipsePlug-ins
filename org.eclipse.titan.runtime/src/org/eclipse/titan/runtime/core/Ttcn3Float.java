@@ -44,7 +44,7 @@ public class Ttcn3Float {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	Ttcn3Float assign(final double d){
+	Ttcn3Float operator_assign(final double d){
 		value = d;
 
 		return this;
@@ -60,7 +60,7 @@ public class Ttcn3Float {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	Ttcn3Float assign(final Ttcn3Float d){
+	Ttcn3Float operator_assign(final Ttcn3Float d){
 		this.value = d.value;
 		return this;
 	}
@@ -114,7 +114,7 @@ public class Ttcn3Float {
 	}
 
 	// originally operator==
-	boolean operatorEquals( final double d ) {
+	boolean operator_equals( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {

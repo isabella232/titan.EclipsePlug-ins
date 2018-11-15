@@ -711,7 +711,7 @@ public final class Referenced_Value extends Value {
 		if (last == this) {
 			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(name);
-			expression.expression.append(".assign(");
+			expression.expression.append(".operator_assign(");
 			reference.generateConstRef(aData, expression);
 			expression.expression.append(")");
 			expression.mergeExpression(source);
@@ -726,7 +726,7 @@ public final class Referenced_Value extends Value {
 		if (last.canGenerateSingleExpression() &&
 				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
-			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
 			// use a simple reference to reduce code size
 			if (needsInitPrecede(aData, last)) {
@@ -743,7 +743,7 @@ public final class Referenced_Value extends Value {
 				}
 			}
 
-			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
 
 		lastTimeGenerated = aData.getBuildTimstamp();
@@ -761,7 +761,7 @@ public final class Referenced_Value extends Value {
 		if (last == this) {
 			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(name);
-			expression.expression.append(".assign(");
+			expression.expression.append(".operator_assign(");
 			reference.generateConstRef(aData, expression);
 			generateCodeExpressionOptionalFieldReference(aData, expression, reference);
 			expression.expression.append(")");
@@ -775,12 +775,12 @@ public final class Referenced_Value extends Value {
 		if (last.canGenerateSingleExpression() &&
 				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
-			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
 			// TODO might need initialization see needs_init_precede
 			// TODO Value.cc:generate_code_init_refd
 
-			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
 
 		return source;

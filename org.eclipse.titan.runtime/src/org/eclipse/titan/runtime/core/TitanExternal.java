@@ -51,7 +51,7 @@ public class TitanExternal extends Base_Type {
 	public TitanExternal(final TitanExternal_identification identification, final Optional<TitanUniversalCharString> data__value__descriptor, final TitanOctetString data__value ) {
 		this.identification = new TitanExternal_identification( identification );
 		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		this.data__value__descriptor.assign( data__value__descriptor );
+		this.data__value__descriptor.operator_assign( data__value__descriptor );
 		this.data__value = new TitanOctetString( data__value );
 	}
 
@@ -66,7 +66,7 @@ public class TitanExternal extends Base_Type {
 		identification = new TitanExternal_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();
-		assign( otherValue );
+		operator_assign( otherValue );
 	}
 
 	/**
@@ -79,21 +79,21 @@ public class TitanExternal extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanExternal assign(final TitanExternal otherValue ) {
+	public TitanExternal operator_assign(final TitanExternal otherValue ) {
 		otherValue.must_bound( "Assignment of an unbound value of type EXTERNAL");
 		if (otherValue != this) {
 			if ( otherValue.get_identification().is_bound() ) {
-				this.identification.assign( otherValue.get_identification() );
+				this.identification.operator_assign( otherValue.get_identification() );
 			} else {
 				this.identification.clean_up();
 			}
 			if ( otherValue.get_data__value__descriptor().is_bound() ) {
-				this.data__value__descriptor.assign( otherValue.get_data__value__descriptor() );
+				this.data__value__descriptor.operator_assign( otherValue.get_data__value__descriptor() );
 			} else {
 				this.data__value__descriptor.clean_up();
 			}
 			if ( otherValue.get_data__value().is_bound() ) {
-				this.data__value.assign( otherValue.get_data__value() );
+				this.data__value.operator_assign( otherValue.get_data__value() );
 			} else {
 				this.data__value.clean_up();
 			}
@@ -103,9 +103,9 @@ public class TitanExternal extends Base_Type {
 	}
 
 	@Override
-	public TitanExternal assign(final Base_Type otherValue) {
+	public TitanExternal operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanExternal ) {
-			return assign((TitanExternal) otherValue);
+			return operator_assign((TitanExternal) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", otherValue));
@@ -149,17 +149,17 @@ public class TitanExternal extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operatorEquals( final TitanExternal otherValue) {
-		if ( !this.identification.operatorEquals( otherValue.identification ) ) { return false; }
-		if ( !this.data__value__descriptor.operatorEquals( otherValue.data__value__descriptor ) ) { return false; }
-		if ( !this.data__value.operatorEquals( otherValue.data__value ) ) { return false; }
+	public boolean operator_equals( final TitanExternal otherValue) {
+		if ( !this.identification.operator_equals( otherValue.identification ) ) { return false; }
+		if ( !this.data__value__descriptor.operator_equals( otherValue.data__value__descriptor ) ) { return false; }
+		if ( !this.data__value.operator_equals( otherValue.data__value ) ) { return false; }
 		return true;
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanExternal ) {
-			return operatorEquals((TitanExternal) otherValue);
+			return operator_equals((TitanExternal) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", otherValue));
@@ -321,7 +321,7 @@ public class TitanExternal extends Base_Type {
 		if (data__value__descriptor.is_bound()) {
 			data__value__descriptor.set_implicit_omit();
 		} else {
-			data__value__descriptor.assign(template_sel.OMIT_VALUE);
+			data__value__descriptor.operator_assign(template_sel.OMIT_VALUE);
 		}
 		if (data__value.is_bound()) {
 			data__value.set_implicit_omit();

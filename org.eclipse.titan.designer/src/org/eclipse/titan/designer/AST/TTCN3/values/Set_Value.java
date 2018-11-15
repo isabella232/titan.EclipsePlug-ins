@@ -700,7 +700,7 @@ public final class Set_Value extends Value {
 		if (nofComps == 0) {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
-			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 
 			lastTimeGenerated = aData.getBuildTimstamp();
 
@@ -736,7 +736,7 @@ public final class Set_Value extends Value {
 					if (needsInitPrecede(aData, defaultValue)) {
 						defaultValue.generateCodeInit(aData, source, defaultValue.get_lhs_name());
 					}
-					source.append(MessageFormat.format("{0}.get_{1}().assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
+					source.append(MessageFormat.format("{0}.get_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
 					continue;
 				} else {
 					fieldValue = null;
@@ -758,7 +758,7 @@ public final class Set_Value extends Value {
 			} else {
 				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
-				source.append(MessageFormat.format("{0}.get_{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
+				source.append(MessageFormat.format("{0}.get_{1}().operator_assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
 

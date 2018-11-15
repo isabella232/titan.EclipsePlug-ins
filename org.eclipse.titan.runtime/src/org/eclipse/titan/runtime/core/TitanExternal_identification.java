@@ -79,7 +79,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanExternal_identification assign( final TitanExternal_identification otherValue ) {
+	public TitanExternal_identification operator_assign( final TitanExternal_identification otherValue ) {
 		if (otherValue != this) {
 			clean_up();
 			copy_value(otherValue);
@@ -88,9 +88,9 @@ public class TitanExternal_identification extends Base_Type {
 		return this;
 	}
 	@Override
-	public TitanExternal_identification assign( final Base_Type otherValue ) {
+	public TitanExternal_identification operator_assign( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
-			return assign((TitanExternal_identification)otherValue);
+			return operator_assign((TitanExternal_identification)otherValue);
 		}
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.");
 	}
@@ -149,7 +149,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the selections and field values are equivalent.
 	 */
-	public boolean operatorEquals( final TitanExternal_identification otherValue ) {
+	public boolean operator_equals( final TitanExternal_identification otherValue ) {
 		must_bound( "The left operand of comparison is an unbound value of union type EXTERNAL.identification." );
 		otherValue.must_bound( "The right operand of comparison is an unbound value of union type EXTERNAL.identification." );
 		if (union_selection != otherValue.union_selection) {
@@ -157,25 +157,25 @@ public class TitanExternal_identification extends Base_Type {
 		}
 		switch (union_selection) {
 		case ALT_syntaxes:
-			return ((TitanExternal_identification_syntaxes)field).operatorEquals((TitanExternal_identification_syntaxes)otherValue.field);
+			return ((TitanExternal_identification_syntaxes)field).operator_equals((TitanExternal_identification_syntaxes)otherValue.field);
 		case ALT_syntax:
-			return ((TitanObjectid)field).operatorEquals((TitanObjectid)otherValue.field);
+			return ((TitanObjectid)field).operator_equals((TitanObjectid)otherValue.field);
 		case ALT_presentation__context__id:
-			return ((TitanInteger)field).operatorEquals((TitanInteger)otherValue.field);
+			return ((TitanInteger)field).operator_equals((TitanInteger)otherValue.field);
 		case ALT_context__negotiation:
-			return ((TitanExternal_identification_context__negotiation)field).operatorEquals((TitanExternal_identification_context__negotiation)otherValue.field);
+			return ((TitanExternal_identification_context__negotiation)field).operator_equals((TitanExternal_identification_context__negotiation)otherValue.field);
 		case ALT_transfer__syntax:
-			return ((TitanObjectid)field).operatorEquals((TitanObjectid)otherValue.field);
+			return ((TitanObjectid)field).operator_equals((TitanObjectid)otherValue.field);
 		case ALT_fixed:
-			return ((TitanAsn_Null)field).operatorEquals((TitanAsn_Null)otherValue.field);
+			return ((TitanAsn_Null)field).operator_equals((TitanAsn_Null)otherValue.field);
 		default:
 			return false;
 		}
 	}
 	@Override
-	public boolean operatorEquals( final Base_Type otherValue ) {
+	public boolean operator_equals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
-			return operatorEquals((TitanExternal_identification)otherValue);
+			return operator_equals((TitanExternal_identification)otherValue);
 		}
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.");
 	}
@@ -189,8 +189,8 @@ public class TitanExternal_identification extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if either the selections or the field values are not equivalent.
 	 */
-	public boolean operatorNotEquals( final TitanExternal_identification otherValue ) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals( final TitanExternal_identification otherValue ) {
+		return !operator_equals(otherValue);
 	}
 
 	/**

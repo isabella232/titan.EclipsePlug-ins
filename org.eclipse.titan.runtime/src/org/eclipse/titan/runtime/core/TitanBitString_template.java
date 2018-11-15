@@ -191,25 +191,25 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBitString_template assign(final Base_Type otherValue) {
+	public TitanBitString_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBitString) {
-			return assign((TitanBitString) otherValue);
+			return operator_assign((TitanBitString) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
 	@Override
-	public TitanBitString_template assign(final Base_Template otherValue) {
+	public TitanBitString_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanBitString_template) {
-			return assign((TitanBitString_template) otherValue);
+			return operator_assign((TitanBitString_template) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
 	@Override
-	public TitanBitString_template assign(final template_sel otherValue) {
+	public TitanBitString_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -218,7 +218,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator=
-	public TitanBitString_template assign(final int otherValue[], final int aNoBits) {
+	public TitanBitString_template operator_assign(final int otherValue[], final int aNoBits) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
@@ -236,7 +236,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBitString_template assign(final TitanBitString otherValue) {
+	public TitanBitString_template operator_assign(final TitanBitString otherValue) {
 		otherValue.must_bound("Assignment of an unbound bitstring value to a template.");
 
 		clean_up();
@@ -256,7 +256,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBitString_template assign(final TitanBitString_Element otherValue) {
+	public TitanBitString_template operator_assign(final TitanBitString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound bitstring element to a template.");
 
 		clean_up();
@@ -276,7 +276,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBitString_template assign(final TitanBitString_template otherValue) {
+	public TitanBitString_template operator_assign(final TitanBitString_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -295,7 +295,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanBitString_template assign(final Optional<TitanBitString> otherValue) {
+	public TitanBitString_template operator_assign(final Optional<TitanBitString> otherValue) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -423,7 +423,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -723,13 +723,13 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "bitstring template");
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -738,14 +738,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Bitstring:
-			this.assign(new TitanBitString((int[])param.get_string_data(), param.get_string_size()));
+			this.operator_assign(new TitanBitString((int[])param.get_string_data(), param.get_string_size()));
 			break;
 		case MP_Bitstring_Template:
-			this.assign(new TitanBitString_template((String)param.get_string_data()));
+			this.operator_assign(new TitanBitString_template((String)param.get_string_data()));
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
@@ -753,7 +753,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				final TitanBitString operand2 = new TitanBitString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				this.assign(operand1.concatenate(operand2));
+				this.operator_assign(operand1.operator_concatenate(operand2));
 			} else {
 				param.expr_type_error("a bitstring");
 			}

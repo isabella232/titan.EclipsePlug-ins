@@ -180,12 +180,12 @@ public final class RecordSetCodeGenerator {
 		generateConstructor( aData, source, fieldInfos, className );
 		generateConstructorManyParams( aData, source, fieldInfos, className );
 		generateConstructorCopy( aData, source, fieldInfos, className, classDisplayname );
-		generateAssign( aData, source, fieldInfos, className, classDisplayname );
+		generateoperator_assign( aData, source, fieldInfos, className, classDisplayname );
 		generateCleanUp( source, fieldInfos );
 		generateIsBound( source, fieldInfos );
 		generateIsPresent( source, fieldInfos );
 		generateIsValue( source, fieldInfos );
-		generateOperatorEquals( aData, source, fieldInfos, className, classDisplayname);
+		generateoperator_equals( aData, source, fieldInfos, className, classDisplayname);
 		generateGettersSetters( aData, source, fieldInfos );
 		generateSizeOf( aData, source, fieldInfos );
 		generateLog( source, fieldInfos );
@@ -241,7 +241,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
 		generateTemplateConstructors( aData, source, className, classDisplayName );
-		generateTemplateAssign( aData, source, className, classDisplayName );
+		generateTemplateoperator_assign( aData, source, className, classDisplayName );
 		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
 		generateTemplateSetType( source, className, classDisplayName );
 		generateTemplateIsBound( source, fieldInfos );
@@ -377,7 +377,7 @@ public final class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName ) );
-				aSb.append( MessageFormat.format( "\t\t\tthis.{0}.assign( {1} );\n", fi.mVarName, fi.mJavaVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0}.operator_assign( {1} );\n", fi.mVarName, fi.mJavaVarName ) );
 			} else {
 				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new {1}( {2} );\n", fi.mVarName, fi.mJavaTypeName, fi.mJavaVarName ) );
 			}
@@ -420,12 +420,12 @@ public final class RecordSetCodeGenerator {
 
 		}
 
-		aSb.append( "\t\t\tassign( otherValue );\n" );
+		aSb.append( "\t\t\toperator_assign( otherValue );\n" );
 		aSb.append( "\t\t}\n\n" );
 	}
 
 	/**
-	 * Generating assign() function
+	 * Generating operator_assign() function
 	 * 
 	 * @param aData
 	 *                only used to update imports if needed
@@ -438,7 +438,7 @@ public final class RecordSetCodeGenerator {
 	 * @param classReadableName
 	 *                the readable name of the class
 	 */
-	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
+	private static void generateoperator_assign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
 		aData.addCommonLibraryImport( "TtcnError" );
 
@@ -454,12 +454,12 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} otherValue ) '{'\n", aClassName));
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final {0} otherValue ) '{'\n", aClassName));
 		source.append(MessageFormat.format("\t\t\t\totherValue.must_bound( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
 		source.append("\t\t\tif (otherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get_{0}().is_bound() ) '{'\n", fi.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.assign( otherValue.get_{1}() );\n", fi.mVarName, fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.operator_assign( otherValue.get_{1}() );\n", fi.mVarName, fi.mJavaVarName));
 			source.append("\t\t\t\t} else {\n");
 			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.clean_up();\n", fi.mVarName));
 			source.append("\t\t\t\t}\n");
@@ -470,9 +470,9 @@ public final class RecordSetCodeGenerator {
 
 		source.append('\n');
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
+		source.append("\t\tpublic ").append( aClassName ).append(" operator_assign(final Base_Type otherValue) {\n");
 		source.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		source.append("\t\t\t\treturn assign((").append( aClassName ).append(") otherValue);\n");
+		source.append("\t\t\t\treturn operator_assign((").append( aClassName ).append(") otherValue);\n");
 		source.append("\t\t\t}\n\n");
 		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
 		source.append("\t\t}\n");
@@ -731,7 +731,7 @@ public final class RecordSetCodeGenerator {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_bound()) '{'\n", fieldInfo.mVarName ) );
 				aSb.append( MessageFormat.format( "\t\t\t\t{0}.set_implicit_omit();\n", fieldInfo.mVarName ) );
 				aSb.append("\t\t\t} else {\n");
-				aSb.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\t{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName ) );
 				aSb.append("\t\t\t}\n");
 			} else {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_bound()) '{'\n", fieldInfo.mVarName ) );
@@ -1151,7 +1151,7 @@ public final class RecordSetCodeGenerator {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+						source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 					}
 				}
 				source.append("raw_order_t local_top_order;\n");
@@ -1226,7 +1226,7 @@ public final class RecordSetCodeGenerator {
 								source.append(MessageFormat.format("buff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
 								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
-								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operatorEquals({1})) '{'\n", j, cur_field_list.expression.expression));
+								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operator_equals({1})) '{'\n", j, cur_field_list.expression.expression));
 								source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 								source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
 								source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
@@ -1242,7 +1242,7 @@ public final class RecordSetCodeGenerator {
 								source.append("} else {\n");
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
 								if (fieldInfo.isOptional) {
-									source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+									source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 								}
 								if (flag_needed) {
 									source.append("already_failed = true;\n");
@@ -1276,7 +1276,7 @@ public final class RecordSetCodeGenerator {
 							source.append("} else {\n");
 							source.append("buff.set_pos_bit(fl_start_pos);\n");
 							if (fieldInfo.isOptional) {
-								source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+								source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 							}
 							source.append("}\n");
 							if (flag_needed) {
@@ -1340,7 +1340,7 @@ public final class RecordSetCodeGenerator {
 							if (repeatable) {
 								source.append(MessageFormat.format("if (field_map[{0}] == 0) ", i));
 							}
-							source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+							source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 						}
 
 						source.append("}\n");
@@ -1372,7 +1372,7 @@ public final class RecordSetCodeGenerator {
 						source.append("} else {\n");
 						source.append("buff.set_pos_bit(fl_start_pos);\n");
 						if (fieldInfo.isOptional) {
-							source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+							source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 						}
 
 						source.append("}\n");
@@ -1658,7 +1658,7 @@ public final class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating operatorEquals() function
+	 * Generating operator_equals() function
 	 *
 	 * @param aData
 	 *                only used to update imports if needed
@@ -1671,7 +1671,7 @@ public final class RecordSetCodeGenerator {
 	 * @param classReadableName
 	 *                the readable name of the class
 	 */
-	private static void generateOperatorEquals( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList,
+	private static void generateoperator_equals( final JavaGenData aData, final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
 		aSb.append( '\n' );
 		if (aData.isDebug()) {
@@ -1685,18 +1685,18 @@ public final class RecordSetCodeGenerator {
 			aSb.append(" * @return {@code true} if all fields are equivalent, {@code false} otherwise.\n");
 			aSb.append(" */\n");
 		}
-		aSb.append( MessageFormat.format( "\t\tpublic boolean operatorEquals( final {0} otherValue) '{'\n", aClassName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue) '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operatorEquals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operator_equals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
 		}
 		aSb.append( "\t\t\treturn true;\n" +
 				"\t\t}\n" );
 
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
-		aSb.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
+		aSb.append("\t\tpublic boolean operator_equals(final Base_Type otherValue) {\n");
 		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
+		aSb.append("\t\t\t\treturn operator_equals((").append( aClassName ).append(") otherValue);\n");
 		aSb.append("\t\t\t}\n\n");
 		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
 		aSb.append("\t\t}\n\n");
@@ -1849,9 +1849,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0}.operator_assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0}.operator_assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
 			}
 		}
 		source.append("\t\t\t}\n");
@@ -1964,9 +1964,9 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateAssign(final JavaGenData aData,  final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData,  final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
 		source.append("\t\tcheck_single_selection(otherValue);\n");
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tset_selection(otherValue);\n");
@@ -1985,7 +1985,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t\treturn this;\n");
@@ -2003,7 +2003,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tif (otherValue != this) {\n");
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tcopy_template(otherValue);\n");
@@ -2013,18 +2013,18 @@ public final class RecordSetCodeGenerator {
 
 		source.append('\n');
 		source.append("\t\t@Override\n");
-		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Type otherValue) '{'\n", genName));
+		source.append( MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Type otherValue) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
-		source.append( MessageFormat.format("\t\t\t\treturn assign(({0}) otherValue);\n", genName));
+		source.append( MessageFormat.format("\t\t\t\treturn operator_assign(({0}) otherValue);\n", genName));
 		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", genName));
 		source.append("\t\t}\n");
 
 		source.append('\n');
 		source.append("\t\t@Override\n");
-		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Template otherValue) '{'\n", genName));
+		source.append( MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Template otherValue) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName));
-		source.append( MessageFormat.format("\t\t\t\treturn assign(({0}_template) otherValue);\n", genName));
+		source.append( MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template) otherValue);\n", genName));
 		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", otherValue));\n", genName));
 		source.append("\t\t}\n\n");
@@ -2041,7 +2041,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final Optional<{0}> otherValue ) '{'\n", genName ) );
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
@@ -2077,12 +2077,12 @@ public final class RecordSetCodeGenerator {
 			source.append( MessageFormat.format( "\t\tif (other_value.get_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
 				source.append( MessageFormat.format( "\t\t\tif (other_value.get_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append( MessageFormat.format( "\t\t\t\tget_{0}().assign(other_value.get_{0}().get());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(other_value.get_{0}().get());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t} else {\n");
-				source.append( MessageFormat.format( "\t\t\t\tget_{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				source.append("\t\t\t}\n");
 			} else {
-				source.append( MessageFormat.format( "\t\t\tget_{0}().assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tget_{0}().operator_assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
 			}
 			source.append("\t\t} else {\n");
 			source.append( MessageFormat.format( "\t\t\tget_{0}().clean_up();\n", fi.mJavaVarName ) );
@@ -2099,7 +2099,7 @@ public final class RecordSetCodeGenerator {
 			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
 			source.append( MessageFormat.format( "\t\t\t\tget_{0}().clean_up();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\t\tget_{0}().assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tbreak;\n");
@@ -2132,11 +2132,11 @@ public final class RecordSetCodeGenerator {
 		aSb.append('\n');
 		aSb.append("@Override\n");
 		aSb.append("\t\tpublic boolean is_present(final boolean legacy) {\n");
-		aSb.append("\t\t\treturn isPresent_(legacy);\n");
+		aSb.append("\t\t\treturn is_present_(legacy);\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
-		aSb.append("\t\tprivate boolean isPresent_(final boolean legacy) {\n");
+		aSb.append("\t\tprivate boolean is_present_(final boolean legacy) {\n");
 		aSb.append("\t\t\tif (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		aSb.append("\t\t\t\treturn false;\n");
 		aSb.append("\t\t\t}\n");
@@ -2198,13 +2198,13 @@ public final class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_omit()) '{'\n", fi.mVarName )  );
-				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				aSb.append("\t\t\t} else ");
 			} else {
 				aSb.append("\t\t\t ");
 			}
 			aSb.append( MessageFormat.format( "if ({0}.is_bound()) '{'\n", fi.mVarName )  );
-			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().assign({0}.valueof());\n", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().operator_assign({0}.valueof());\n", fi.mVarName ) );
 			aSb.append("\t\t\t}\n");
 		}
 		aSb.append("\t\t\treturn ret_val;\n");
@@ -2672,13 +2672,13 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} template\");\n", isSet ? "set" : "record"));
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Omit:\n");
-		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_Any:\n");
-		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("operator_assign(template_sel.ANY_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_AnyOrNone:\n");
-		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
 		source.append("break;\n");
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
@@ -2817,22 +2817,22 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0} assign( final TitanNull_Type otherValue ) '{'\n", className));
+		source.append(MessageFormat.format("public {0} operator_assign( final TitanNull_Type otherValue ) '{'\n", className));
 		source.append("bound_flag = true;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", className));
+		source.append(MessageFormat.format("public {0} operator_assign( final {0} otherValue ) '{'\n", className));
 		source.append(MessageFormat.format("\t\totherValue.must_bound(\"Assignment of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("bound_flag = true;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} assign( final Base_Type otherValue ) '{'\n", className));
+		source.append(MessageFormat.format("public {0} operator_assign( final Base_Type otherValue ) '{'\n", className));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", className));
-		source.append(MessageFormat.format("return assign(({0})otherValue);\n", className));
+		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", className));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", className));
 		source.append("}\n\n");
@@ -2868,7 +2868,7 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return {@code true} if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorEquals( final TitanNull_Type otherValue ) {\n");
+		source.append("public boolean operator_equals( final TitanNull_Type otherValue ) {\n");
 		source.append(MessageFormat.format("must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("return true;\n");
 		source.append("}\n\n");
@@ -2884,16 +2884,16 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return {@code true} if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", className));
+		source.append(MessageFormat.format("public boolean operator_equals( final {0} otherValue ) '{'\n", className));
 		source.append(MessageFormat.format("must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append(MessageFormat.format("otherValue.must_bound(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("return true;\n");
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append("public boolean operatorEquals( final Base_Type otherValue ) {\n");
+		source.append("public boolean operator_equals( final Base_Type otherValue ) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", className));
-		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", className));
+		source.append(MessageFormat.format("return operator_equals(({0})otherValue);\n", className));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayname));
 		source.append("}\n\n");
@@ -2909,8 +2909,8 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return {@code true} if the values are not equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorNotEquals( final TitanNull_Type otherValue ) {\n");
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append("public boolean operator_not_equals( final TitanNull_Type otherValue ) {\n");
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -2924,8 +2924,8 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
 			source.append(" */\n");
 		}
-		source.append(MessageFormat.format("public boolean operatorNotEquals( final {0} otherValue ) '{'\n", className));
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append(MessageFormat.format("public boolean operator_not_equals( final {0} otherValue ) '{'\n", className));
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -2939,8 +2939,8 @@ public final class RecordSetCodeGenerator {
 			source.append(" * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
 			source.append(" */\n");
 		}
-		source.append("public boolean operatorNotEquals( final Base_Type otherValue ) {\n");
-		source.append("return !operatorEquals(otherValue);\n");
+		source.append("public boolean operator_not_equals( final Base_Type otherValue ) {\n");
+		source.append("return !operator_equals(otherValue);\n");
 		source.append("}\n\n");
 
 		source.append("@Override\n");
@@ -3169,7 +3169,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign(final template_sel other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final template_sel other_value) '{'\n", className));
 		source.append("check_single_selection(other_value);\n");
 		source.append("clean_up();\n");
 		source.append("set_selection(other_value);\n");
@@ -3177,14 +3177,14 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final TitanNull_Type other_value) '{'\n", className));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign(final {0} other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0} other_value) '{'\n", className));
 		source.append(MessageFormat.format("other_value.must_bound(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
 		source.append("clean_up();\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -3192,7 +3192,7 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
-		source.append(MessageFormat.format("public {0}_template assign(final {0}_template other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}_template other_value) '{'\n", className));
 		source.append("if (other_value != this) {\n");
 		source.append("clean_up();\n");
 		source.append("copy_template(other_value);\n");
@@ -3201,22 +3201,22 @@ public final class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Type other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Type other_value) '{'\n", className));
 		source.append(MessageFormat.format("if (other_value instanceof {0}) '{'\n", className));
-		source.append(MessageFormat.format("return assign(({0}) other_value);\n", className));
+		source.append(MessageFormat.format("return operator_assign(({0}) other_value);\n", className));
 		source.append("}\n");
 		source.append( MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", className));
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Template other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Template other_value) '{'\n", className));
 		source.append(MessageFormat.format("if (other_value instanceof {0}_template) '{'\n", className));
-		source.append(MessageFormat.format("return assign(({0}_template) other_value);\n", className));
+		source.append(MessageFormat.format("return operator_assign(({0}_template) other_value);\n", className));
 		source.append("}\n");
 		source.append( MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public {0}_template assign(final Optional<{0}> other_value) '{'\n", className));
+		source.append(MessageFormat.format("public {0}_template operator_assign(final Optional<{0}> other_value) '{'\n", className));
 		source.append("clean_up();\n");
 		source.append("switch (other_value.get_selection()) {\n");
 		source.append("case OPTIONAL_PRESENT:\n");
@@ -3254,10 +3254,10 @@ public final class RecordSetCodeGenerator {
 
 		source.append("@Override\n");
 		source.append("public boolean is_present(final boolean legacy) {\n");
-		source.append("return isPresent_(legacy);\n");
+		source.append("return is_present_(legacy);\n");
 		source.append("}\n\n");
 //TODO check the underscore versions if they are needed.
-		source.append("private boolean isPresent_(final boolean legacy) {\n");
+		source.append("private boolean is_present_(final boolean legacy) {\n");
 		source.append("if (template_selection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
@@ -3504,13 +3504,13 @@ public final class RecordSetCodeGenerator {
 		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"empty record/set template\");\n");
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Omit:\n");
-		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_Any:\n");
-		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("operator_assign(template_sel.ANY_VALUE);\n");
 		source.append("break;\n");
 		source.append("case MP_AnyOrNone:\n");
-		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
 		source.append("break;\n");
 		source.append("case MP_List_Template:\n");
 		source.append("case MP_ComplementList_Template: {\n");
@@ -3525,7 +3525,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
 		source.append(MessageFormat.format("param.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
 		source.append("}\n");
-		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("operator_assign(TitanNull_Type.NULL_VALUE);\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("param.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
@@ -3625,9 +3625,9 @@ public final class RecordSetCodeGenerator {
 				source.append(is_equal ? " && " : " || ");
 			}
 			if (is_equal) {
-				source.append(MessageFormat.format("{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, fields.expression.expression));
 			} else {
-				source.append(MessageFormat.format("!{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, fields.expression.expression));
 			}
 
 			if (!firstExpr && taglist.fields.size() > 1) {
@@ -3848,7 +3848,7 @@ public final class RecordSetCodeGenerator {
 		}
 		if (fieldInfo.isOptional) {
 			source.append(MessageFormat.format("if (force_omit != null && force_omit.shouldOmit({0})) '{'\n", i));
-			source.append(MessageFormat.format("get_{0}().assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
 			source.append("final int fl_start_pos = buff.get_pos_bit();\n");
 		}
@@ -3891,7 +3891,7 @@ public final class RecordSetCodeGenerator {
 			source.append("}\n");
 		} else if(fieldInfo.isOptional) {
 			source.append("if (decoded_field_length < 1) {\n");
-			source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+			source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 			source.append("buff.set_pos_bit(fl_start_pos);\n");
 			source.append(" } else {\n");
 		} else {
@@ -3906,7 +3906,7 @@ public final class RecordSetCodeGenerator {
 			genRawFieldChecker(source, cur_choice, false);
 			source.append(") {\n");
 			if (fieldInfo.isOptional) {
-				source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+				source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 				source.append("buff.set_pos_bit(fl_start_pos);\n");
 				source.append(" } else {");
 			} else {
@@ -3928,7 +3928,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("if ({0}{1}.get_{2}().is_present()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
 				}
 				if (fieldInfo.raw.lengthto_offset != 0) {
-					source.append(MessageFormat.format("{0}{1}.get_{2}(){3}.assign({0}{1}.get_{2}(){3} - {4});\n",
+					source.append(MessageFormat.format("{0}{1}.get_{2}(){3}.operator_assign({0}{1}.get_{2}(){3} - {4});\n",
 							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
 				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_{3}(){4}.getLong() * {5};\n",
@@ -3941,7 +3941,7 @@ public final class RecordSetCodeGenerator {
 				for (int m = 0; m < fieldInfo.raw.member_name.size(); m++) {
 					source.append(MessageFormat.format("case {0}.{1}", fieldInfo.raw.member_name.get(0), fieldInfo.raw.member_name.get(m)));
 					if (fieldInfo.raw.lengthto_offset != 0) {
-						source.append(MessageFormat.format("{0}{1}.get_{2}().assign({0}{1}.get_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
+						source.append(MessageFormat.format("{0}{1}.get_{2}().operator_assign({0}{1}.get_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
 					}
 					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_{3}().getLong() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 					source.append("break;\n");
@@ -3951,7 +3951,7 @@ public final class RecordSetCodeGenerator {
 				source.append("}\n");
 			} else {
 				if (fieldInfo.raw.lengthto_offset != 0) {
-					source.append(MessageFormat.format("{0}{1}.assign({0}{1}.getInt() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("{0}{1}.operator_assign({0}{1}.getInt() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
 				}
 				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.getLong() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 			}
@@ -3979,7 +3979,7 @@ public final class RecordSetCodeGenerator {
 				source.append("\n}");
 			}
 			source.append(" else {\n");
-			source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+			source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 			source.append("}\n");
 		}
 	}

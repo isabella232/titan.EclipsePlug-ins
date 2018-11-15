@@ -50,7 +50,7 @@ public class TitanBitString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanBitString_Element assign(final TitanBitString_Element otherValue) {
+	public TitanBitString_Element operator_assign(final TitanBitString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound bitstring element.");
 
 		bound_flag = true;
@@ -68,7 +68,7 @@ public class TitanBitString_Element {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanBitString_Element assign(final TitanBitString otherValue) {
+	public TitanBitString_Element operator_assign(final TitanBitString otherValue) {
 		otherValue.must_bound("Assignment of unbound bitstring value.");
 
 		if (otherValue.lengthof().getInt() != 1) {
@@ -89,7 +89,7 @@ public class TitanBitString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanBitString_Element otherValue) {
+	public boolean operator_equals(final TitanBitString_Element otherValue) {
 		must_bound("Unbound left operand of bitstring element comparison.");
 		otherValue.must_bound("Unbound right operand of bitstring comparison.");
 
@@ -105,7 +105,7 @@ public class TitanBitString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanBitString otherValue) {
+	public boolean operator_equals(final TitanBitString otherValue) {
 		must_bound("Unbound left operand of bitstring element comparison.");
 		otherValue.must_bound("Unbound right operand of bitstring element comparison.");
 
@@ -125,8 +125,8 @@ public class TitanBitString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanBitString_Element otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanBitString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -138,12 +138,12 @@ public class TitanBitString_Element {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanBitString otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanBitString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	//originally operator+
-	public TitanBitString concatenate(final TitanBitString otherValue) {
+	public TitanBitString operator_concatenate(final TitanBitString otherValue) {
 		must_bound("Unbound left operand of bitstring element concatenation.");
 		otherValue.must_bound("Unbound right operand of bitstring concatenation.");
 
@@ -164,7 +164,7 @@ public class TitanBitString_Element {
 	}
 
 	// originally operator+
-	public TitanBitString concatenate(final TitanBitString_Element otherValue) {
+	public TitanBitString operator_concatenate(final TitanBitString_Element otherValue) {
 		must_bound("Unbound left operand of bitstring element concatenation.");
 		otherValue.must_bound("Unbound right operand of bitstring element concatenation.");
 

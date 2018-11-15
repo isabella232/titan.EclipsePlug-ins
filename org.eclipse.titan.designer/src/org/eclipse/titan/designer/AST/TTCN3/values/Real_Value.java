@@ -315,7 +315,7 @@ public final class Real_Value extends Value {
 			return source;
 		}
 
-		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

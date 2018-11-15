@@ -92,7 +92,7 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanFloat assign(final double otherValue) {
+	public TitanFloat operator_assign(final double otherValue) {
 		float_value = new Ttcn3Float(otherValue);
 
 		return this;
@@ -108,7 +108,7 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanFloat assign(final Ttcn3Float otherValue) {
+	public TitanFloat operator_assign(final Ttcn3Float otherValue) {
 		float_value = otherValue;
 
 		return this;
@@ -124,7 +124,7 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanFloat assign(final TitanFloat otherValue) {
+	public TitanFloat operator_assign(final TitanFloat otherValue) {
 		otherValue.must_bound("Assignment of an unbound float value.");
 
 		if (otherValue != this) {
@@ -135,9 +135,9 @@ public class TitanFloat extends Base_Type {
 	}
 
 	@Override
-	public TitanFloat assign(final Base_Type otherValue) {
+	public TitanFloat operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
-			return assign((TitanFloat) otherValue);
+			return operator_assign((TitanFloat) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
@@ -337,10 +337,10 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final double otherValue) {
+	public boolean operator_equals(final double otherValue) {
 		must_bound("Unbound left operand of float comparison.");
 
-		return float_value.operatorEquals(otherValue);
+		return float_value.operator_equals(otherValue);
 	}
 
 	/**
@@ -352,10 +352,10 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final Ttcn3Float otherValue) {
+	public boolean operator_equals(final Ttcn3Float otherValue) {
 		must_bound("Unbound left operand of float comparison.");
 
-		return float_value.operatorEquals(otherValue.getValue());
+		return float_value.operator_equals(otherValue.getValue());
 	}
 
 	/**
@@ -367,17 +367,17 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanFloat otherValue) {
+	public boolean operator_equals(final TitanFloat otherValue) {
 		must_bound("Unbound left operand of float comparison.");
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return float_value.operatorEquals(otherValue.float_value.getValue());
+		return float_value.operator_equals(otherValue.float_value.getValue());
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
-			return operatorEquals((TitanFloat) otherValue);
+			return operator_equals((TitanFloat) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
@@ -392,8 +392,8 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final double otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final double otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -405,8 +405,8 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final Ttcn3Float otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final Ttcn3Float otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -418,8 +418,8 @@ public class TitanFloat extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanFloat otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanFloat otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally operator <
@@ -555,7 +555,7 @@ public class TitanFloat extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		assign(text_buf.pull_double());
+		operator_assign(text_buf.pull_double());
 	}
 
 	// static add
@@ -591,18 +591,18 @@ public class TitanFloat extends Base_Type {
 		return new TitanFloat(doubleValue / otherValue.getValue());
 	}
 
-	// static operatorEquals
-	public static boolean operatorEquals(final double doubleValue, final TitanFloat otherValue) {
+	// static operator_equals
+	public static boolean operator_equals(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return otherValue.operatorEquals(doubleValue);
+		return otherValue.operator_equals(doubleValue);
 	}
 
-	// static operatorNotEquals
-	public static boolean operatorNotEquals(final double doubleValue, final TitanFloat otherValue) {
+	// static operator_not_equals
+	public static boolean operator_not_equals(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return otherValue.operatorNotEquals(doubleValue);
+		return otherValue.operator_not_equals(doubleValue);
 	}
 
 	// static isLess
@@ -866,21 +866,21 @@ public class TitanFloat extends Base_Type {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "float value");
 		switch (param.get_type()) {
 		case MP_Float:
-			assign(param.get_float());
+			operator_assign(param.get_float());
 			break;
 		case MP_Expression:
 			switch (param.get_expr_type()) {
 			case EXPR_NEGATE: {
 				final TitanFloat operand = new TitanFloat();
 				operand.set_param(param.get_operand1());
-				assign(operand.sub());
+				operator_assign(operand.sub());
 				break; }
 			case EXPR_ADD: {
 				final TitanFloat operand1 = new TitanFloat();
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.add(operand2));
+				operator_assign(operand1.add(operand2));
 				break;
 			}
 			case EXPR_SUBTRACT: {
@@ -888,7 +888,7 @@ public class TitanFloat extends Base_Type {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.sub(operand2));
+				operator_assign(operand1.sub(operand2));
 				break;
 			}
 			case EXPR_MULTIPLY: {
@@ -896,7 +896,7 @@ public class TitanFloat extends Base_Type {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				assign(operand1.mul(operand2));
+				operator_assign(operand1.mul(operand2));
 				break;
 			}
 			case EXPR_DIVIDE: {
@@ -904,10 +904,10 @@ public class TitanFloat extends Base_Type {
 				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
-				if (operand2.operatorEquals(0)) {
+				if (operand2.operator_equals(0)) {
 					param.error("Floating point division by zero.");
 				}
-				assign(operand1.div(operand2));
+				operator_assign(operand1.div(operand2));
 				break; }
 			default:
 				param.expr_type_error("a float");

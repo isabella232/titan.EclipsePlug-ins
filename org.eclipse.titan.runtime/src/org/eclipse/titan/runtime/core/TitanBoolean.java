@@ -80,7 +80,7 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanBoolean assign(final boolean otherValue) {
+	public TitanBoolean operator_assign(final boolean otherValue) {
 		boolean_value = otherValue;
 
 		return this;
@@ -96,7 +96,7 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanBoolean assign(final TitanBoolean otherValue) {
+	public TitanBoolean operator_assign(final TitanBoolean otherValue) {
 		otherValue.must_bound("Assignment of an unbound boolean value.");
 
 		if (otherValue != this) {
@@ -107,9 +107,9 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean assign(final Base_Type otherValue) {
+	public TitanBoolean operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBoolean) {
-			return assign((TitanBoolean)otherValue);
+			return operator_assign((TitanBoolean)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
@@ -212,7 +212,7 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanBoolean otherValue) {
+	public boolean operator_equals(final TitanBoolean otherValue) {
 		must_bound("The left operand of comparison is an unbound boolean value.");
 		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
@@ -228,7 +228,7 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final boolean otherValue) {
+	public boolean operator_equals(final boolean otherValue) {
 		must_bound("The left operand of comparison is an unbound boolean value.");
 
 		return boolean_value == otherValue;
@@ -236,9 +236,9 @@ public class TitanBoolean extends Base_Type {
 
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBoolean) {
-			return operatorEquals((TitanBoolean)otherValue);
+			return operator_equals((TitanBoolean)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
@@ -253,10 +253,10 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final boolean otherValue) {
+	public boolean operator_not_equals(final boolean otherValue) {
 		must_bound("The left operand of comparison is an unbound boolean value.");
 
-		return !operatorEquals(otherValue);
+		return !operator_equals(otherValue);
 	}
 
 	/**
@@ -268,8 +268,8 @@ public class TitanBoolean extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operatorNotEquals(final TitanBoolean otherValue) {
-		return !operatorEquals(otherValue);
+	public boolean operator_not_equals(final TitanBoolean otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	@Override
@@ -374,17 +374,17 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	// static equals
-	public static boolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue) {
+	public static boolean operator_equals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
 		return boolValue == otherValue.boolean_value;
 	}
 
 	// static notEquals
-	public static boolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue) {
+	public static boolean operator_not_equals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
-		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
+		return new TitanBoolean(boolValue).operator_not_equals(otherValue.boolean_value);
 	}
 
 	@Override

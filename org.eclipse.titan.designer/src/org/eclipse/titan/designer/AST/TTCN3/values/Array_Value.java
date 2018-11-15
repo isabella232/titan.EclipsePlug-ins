@@ -577,7 +577,7 @@ public final class Array_Value extends Value {
 			if (nofIndexedValues == 0) {
 				aData.addBuiltinTypeImport("TitanNull_Type");
 
-				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
 				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);

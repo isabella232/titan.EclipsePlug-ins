@@ -57,7 +57,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
-		assign( otherValue );
+		operator_assign( otherValue );
 	}
 
 	/**
@@ -70,16 +70,16 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanEmbedded_PDV_identification_context__negotiation assign(final TitanEmbedded_PDV_identification_context__negotiation otherValue ) {
+	public TitanEmbedded_PDV_identification_context__negotiation operator_assign(final TitanEmbedded_PDV_identification_context__negotiation otherValue ) {
 		otherValue.must_bound( "Assignment of an unbound value of type EMBEDDED PDV.identification.context-negotiation");
 		if (otherValue != this) {
 			if ( otherValue.get_presentation__context__id().is_bound() ) {
-				this.presentation__context__id.assign( otherValue.get_presentation__context__id() );
+				this.presentation__context__id.operator_assign( otherValue.get_presentation__context__id() );
 			} else {
 				this.presentation__context__id.clean_up();
 			}
 			if ( otherValue.get_transfer__syntax().is_bound() ) {
-				this.transfer__syntax.assign( otherValue.get_transfer__syntax() );
+				this.transfer__syntax.operator_assign( otherValue.get_transfer__syntax() );
 			} else {
 				this.transfer__syntax.clean_up();
 			}
@@ -89,9 +89,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	@Override
-	public TitanEmbedded_PDV_identification_context__negotiation assign(final Base_Type otherValue) {
+	public TitanEmbedded_PDV_identification_context__negotiation operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_context__negotiation ) {
-			return assign((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
+			return operator_assign((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.context-negotiation", otherValue));
@@ -132,16 +132,16 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operatorEquals( final TitanEmbedded_PDV_identification_context__negotiation otherValue) {
-		if ( !this.presentation__context__id.operatorEquals( otherValue.presentation__context__id ) ) { return false; }
-		if ( !this.transfer__syntax.operatorEquals( otherValue.transfer__syntax ) ) { return false; }
+	public boolean operator_equals( final TitanEmbedded_PDV_identification_context__negotiation otherValue) {
+		if ( !this.presentation__context__id.operator_equals( otherValue.presentation__context__id ) ) { return false; }
+		if ( !this.transfer__syntax.operator_equals( otherValue.transfer__syntax ) ) { return false; }
 		return true;
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_context__negotiation ) {
-			return operatorEquals((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
+			return operator_equals((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.context-negotiation", otherValue));

@@ -299,7 +299,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 					expression.expression.append(");\n");
 
-					condition.append(MessageFormat.format("{0}.operatorEquals({1})", tmp, name));
+					condition.append(MessageFormat.format("{0}.operator_equals({1})", tmp, name));
 				} else {
 					final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
 					expression.expression.append(MessageFormat.format("final {0} {1} = new {0} (", genName, tmp));

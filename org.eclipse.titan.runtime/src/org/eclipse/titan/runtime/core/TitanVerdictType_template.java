@@ -122,25 +122,25 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	@Override
-	public TitanVerdictType_template assign(final Base_Type otherValue) {
+	public TitanVerdictType_template operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanVerdictType) {
-			return assign((TitanVerdictType)otherValue);
+			return operator_assign((TitanVerdictType)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
 	}
 
 	@Override
-	public TitanVerdictType_template assign(final Base_Template otherValue) {
+	public TitanVerdictType_template operator_assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanVerdictType_template) {
-			return assign((TitanVerdictType_template)otherValue);
+			return operator_assign((TitanVerdictType_template)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type template", otherValue));
 	}
 
 	@Override
-	public TitanVerdictType_template assign(final template_sel otherValue) {
+	public TitanVerdictType_template operator_assign(final template_sel otherValue) {
 		check_single_selection(otherValue);
 		clean_up();
 		set_selection(otherValue);
@@ -158,7 +158,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanVerdictType_template assign(final VerdictTypeEnum otherValue) {
+	public TitanVerdictType_template operator_assign(final VerdictTypeEnum otherValue) {
 		if (!TitanVerdictType.isValid(otherValue)) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ") to a template.");
 		}
@@ -180,7 +180,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanVerdictType_template assign(final TitanVerdictType otherValue) {
+	public TitanVerdictType_template operator_assign(final TitanVerdictType otherValue) {
 		otherValue.must_bound("Assignment of an unbound verdict value to a template.");
 
 		clean_up();
@@ -200,7 +200,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanVerdictType_template assign(final Optional<TitanVerdictType> otherValue) {
+	public TitanVerdictType_template operator_assign(final Optional<TitanVerdictType> otherValue) {
 		clean_up();
 		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
@@ -225,7 +225,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 *                the other value to assign.
 	 * @return the new template object.
 	 */
-	public TitanVerdictType_template assign(final TitanVerdictType_template otherValue) {
+	public TitanVerdictType_template operator_assign(final TitanVerdictType_template otherValue) {
 		if (otherValue != this) {
 			clean_up();
 			copy_template(otherValue);
@@ -309,7 +309,7 @@ public class TitanVerdictType_template extends Base_Template {
 
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals(otherValue);
+			return single_value.operator_equals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -346,7 +346,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally boolean operator==(verdicttype par_value, const VERDICTTYPE& other_value)
-	public boolean operatorEquals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+	public boolean operator_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
 		if (!TitanVerdictType.isValid(par_value)) {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
 		}
@@ -453,13 +453,13 @@ public class TitanVerdictType_template extends Base_Template {
 
 		switch (param.get_type()) {
 		case MP_Omit:
-			this.assign(template_sel.OMIT_VALUE);
+			this.operator_assign(template_sel.OMIT_VALUE);
 			break;
 		case MP_Any:
-			this.assign(template_sel.ANY_VALUE);
+			this.operator_assign(template_sel.ANY_VALUE);
 			break;
 		case MP_AnyOrNone:
-			this.assign(template_sel.ANY_OR_OMIT);
+			this.operator_assign(template_sel.ANY_OR_OMIT);
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template: {
@@ -468,11 +468,11 @@ public class TitanVerdictType_template extends Base_Template {
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));
 			}
-			this.assign(temp);
+			this.operator_assign(temp);
 			break;
 		}
 		case MP_Verdict:
-			this.assign(param.get_verdict());
+			this.operator_assign(param.get_verdict());
 			break;
 		default:
 			param.type_error("verdict template");

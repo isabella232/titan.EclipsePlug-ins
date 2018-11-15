@@ -542,10 +542,10 @@ public class All_From_Template extends TTCN3Template {
 		}
 
 		// The caller will have to provide the for cycle with this variable
-		source.append(MessageFormat.format("{0}.assign({1}.get_at(i_i));\n", name, expression.expression));
+		source.append(MessageFormat.format("{0}.operator_assign({1}.get_at(i_i));\n", name, expression.expression));
 	}
 
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name, final StringBuilder referenceCache) {
-		source.append(MessageFormat.format("{0}.assign({1}.get_at(i_i));\n", name, referenceCache));
+		source.append(MessageFormat.format("{0}.operator_assign({1}.get_at(i_i));\n", name, referenceCache));
 	}
 }

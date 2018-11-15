@@ -83,8 +83,8 @@ public final class RecordOfGenerator {
 		generateValueIsPresent( source );
 		generateValueIsBound( aData, source );
 		generateValueIsValue(source, ofTypeName);
-		generateValueOperatorEquals( aData, source, genName, ofTypeName, displayName, isSetOf );
-		generateValueAssign(aData, source, genName, ofTypeName, displayName);
+		generateValueoperator_equals( aData, source, genName, ofTypeName, displayName, isSetOf );
+		generateValueoperator_assign(aData, source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
 		generateValueRotate( source, genName, ofTypeName, displayName );
 		generateValueCleanup( source );
@@ -153,7 +153,7 @@ public final class RecordOfGenerator {
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
-		generateTemplateAssign(aData, source, genName, displayName );
+		generateTemplateoperator_assign(aData, source, genName, displayName );
 		generateTemplateCleanup( source );
 		generateTemplateReplace( source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
@@ -281,7 +281,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tfor (final {0} srcElem : srcList) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tfinal {0} newElem = get_unbound_elem();\n", ofTypeName ) );
 		source.append("\t\t\tif (srcElem.is_bound()) {\n");
-		source.append("\t\t\t\tnewElem.assign( srcElem );\n");
+		source.append("\t\t\t\tnewElem.operator_assign( srcElem );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tnewList.add( ( newElem ) );\n");
 		source.append("\t\t}\n");
@@ -363,13 +363,13 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateValueOperatorEquals( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName,
+	private static void generateValueoperator_equals( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName,
 													 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
+		source.append("\tpublic boolean operator_equals(final Base_Type otherValue) {\n");
 		source.append( MessageFormat.format( "\t\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\t\treturn operatorEquals(({0})otherValue);\n", genName) );
+		source.append( MessageFormat.format( "\t\t\treturn operator_equals(({0})otherValue);\n", genName) );
 		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
@@ -386,7 +386,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return true if the values are equivalent.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic boolean operatorEquals( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic boolean operator_equals( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append('\n');
@@ -403,7 +403,7 @@ public final class RecordOfGenerator {
 			source.append( MessageFormat.format( "\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
 			source.append("\t\t\tif (leftElem.is_bound()) {\n");
 			source.append("\t\t\t\tif (rightElem.is_bound()) {\n");
-			source.append("\t\t\t\t\tif ( !leftElem.operatorEquals( rightElem ) ) {\n");
+			source.append("\t\t\t\t\tif ( !leftElem.operator_equals( rightElem ) ) {\n");
 			source.append("\t\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t} else {\n");
@@ -424,7 +424,7 @@ public final class RecordOfGenerator {
 			source.append( MessageFormat.format( "\t\t\tright_ptr.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append("\t\tif (left_ptr.valueElements.get(left_index).is_bound()) {\n");
 			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).is_bound()){\n");
-			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) );\n");
+			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );\n");
 			source.append("\t\t\t} else  {\n");
 			source.append("\t\t\t\treturn false;\n");
 			source.append("\t\t\t}\n");
@@ -450,12 +450,12 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0} assign(final Base_Type otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} operator_assign(final Base_Type otherValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn assign(({0})otherValue);\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn operator_assign(({0})otherValue);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n\n");
@@ -472,7 +472,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} operator_assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\totherValue.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
 		source.append('\n');
 		source.append("\t\tvalueElements = copy_list( otherValue.valueElements );\n");
@@ -491,7 +491,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the new value object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0} assign(final TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} operator_assign(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
@@ -513,7 +513,7 @@ public final class RecordOfGenerator {
 	private static void generateValueConcatenate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append("\t//originally operator+\n");
-		source.append( MessageFormat.format( "\tpublic {0} concatenate(final {0} other_value) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} operator_concatenate(final {0} other_value) '{'\n", genName ) );
 		source.append("\t\tif (valueElements == null || other_value.valueElements == null) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Unbound operand of {0} concatenation.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -534,7 +534,7 @@ public final class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} concatenate(final TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} operator_concatenate(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\treturn new {0}(this);\n", genName ) );
 		source.append("\t}\n");
 	}
@@ -555,27 +555,27 @@ public final class RecordOfGenerator {
 	private static void generateValueRotate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append("\t//originally operator<<=\n");
-		source.append( MessageFormat.format( "\tpublic {0} rotateLeft(final TitanInteger rotate_count) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} rotate_left(final TitanInteger rotate_count) '{'\n", genName ) );
 		source.append("\t\trotate_count.must_bound(\"Unbound integer operand of rotate left operator.\");\n");
-		source.append("\t\treturn rotateLeft(rotate_count.getInt());\n");
+		source.append("\t\treturn rotate_left(rotate_count.getInt());\n");
 		source.append("\t}\n");
 
 		source.append('\n');
 		source.append("\t//originally operator<<=\n");
-		source.append( MessageFormat.format( "\tpublic {0} rotateLeft(final int rotate_count) '{'\n", genName ) );
-		source.append("\t\treturn rotateRight(-rotate_count);\n");
+		source.append( MessageFormat.format( "\tpublic {0} rotate_left(final int rotate_count) '{'\n", genName ) );
+		source.append("\t\treturn rotate_right(-rotate_count);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
 		source.append("\t//originally operator>>=\n");
-		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final TitanInteger rotate_count) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} rotate_right(final TitanInteger rotate_count) '{'\n", genName ) );
 		source.append("\t\trotate_count.must_bound(\"Unbound integer operand of rotate right operator.\");\n");
-		source.append("\t\treturn rotateRight(rotate_count.getInt());\n");
+		source.append("\t\treturn rotate_right(rotate_count.getInt());\n");
 		source.append("\t}\n");
 
 		source.append('\n');
 		source.append("\t//originally operator>>=\n");
-		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final int rotate_count) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} rotate_right(final int rotate_count) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tmust_bound(\"Performing rotation operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfinal int size = valueElements.size();\n");
 		source.append("\t\tif (size == 0) {\n");
@@ -944,7 +944,7 @@ public final class RecordOfGenerator {
 		source.append("switch (param.get_operation_type()) {\n");
 		source.append("case OT_ASSIGN:\n");
 		source.append("if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
-		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("operator_assign(TitanNull_Type.NULL_VALUE);\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("switch (param.get_type()) {\n");
@@ -977,7 +977,7 @@ public final class RecordOfGenerator {
 		source.append("switch (param.get_type()) {\n");
 		source.append("case MP_Value_List: {\n");
 		source.append("if (!is_bound()) {\n");
-		source.append("assign(TitanNull_Type.NULL_VALUE);\n");
+		source.append("operator_assign(TitanNull_Type.NULL_VALUE);\n");
 		source.append("}\n");
 		source.append("final int start_idx = lengthof().getInt();\n");
 		source.append("for (int i = 0; i < param.get_size(); i++) {\n");
@@ -1622,9 +1622,9 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateAssign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
 		source.append("\t\tcheck_single_selection(otherValue);\n");
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tset_selection(otherValue);\n");
@@ -1643,7 +1643,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tcopy_value(otherValue);\n");
 		source.append("\t\treturn this;\n");
@@ -1661,7 +1661,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tif (otherValue != this) {\n");
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tcopy_template(otherValue);\n");
@@ -1671,18 +1671,18 @@ public final class RecordOfGenerator {
 
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign(final Base_Type otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign(final Base_Type otherValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn assign(({0})otherValue);\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn operator_assign(({0})otherValue);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
 
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template assign(final Base_Template otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign(final Base_Template otherValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}_template) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn assign(({0}_template)otherValue);\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn operator_assign(({0}_template)otherValue);\n", genName) );
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
 		source.append("\t}\n\n");
@@ -1699,7 +1699,7 @@ public final class RecordOfGenerator {
 			source.append(" * @return the new template object.\n");
 			source.append(" */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final Optional<{0}> other_value ) '{'\n", genName ) );
 		source.append("\t\tclean_up();\n");
 		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
@@ -2772,13 +2772,13 @@ public final class RecordOfGenerator {
 		aSb.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} of template\");\n", isSetOf ? "set" : "record"));
 		aSb.append("switch (param.get_type()) {\n");
 		aSb.append("case MP_Omit:\n");
-		aSb.append("assign(template_sel.OMIT_VALUE);\n");
+		aSb.append("operator_assign(template_sel.OMIT_VALUE);\n");
 		aSb.append("break;\n");
 		aSb.append("case MP_Any:\n");
-		aSb.append("assign(template_sel.ANY_VALUE);\n");
+		aSb.append("operator_assign(template_sel.ANY_VALUE);\n");
 		aSb.append("break;\n");
 		aSb.append("case MP_AnyOrNone:\n");
-		aSb.append("assign(template_sel.ANY_OR_OMIT);\n");
+		aSb.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
 		aSb.append("break;\n");
 		aSb.append("case MP_List_Template:\n");
 		aSb.append("case MP_ComplementList_Template: {\n");

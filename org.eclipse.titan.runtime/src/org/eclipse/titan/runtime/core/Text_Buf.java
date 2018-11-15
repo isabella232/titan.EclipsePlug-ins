@@ -234,9 +234,9 @@ public final class Text_Buf {
 				bigValue = bigValue.negate();
 			}
 			if (bigValue.bitLength() > 4 * 8 - 1) {
-				value.assign(bigValue);
+				value.operator_assign(bigValue);
 			} else {
-				value.assign(bigValue.intValue());
+				value.operator_assign(bigValue.intValue());
 			}
 		} else {
 			// can be stored in native int
@@ -251,9 +251,9 @@ public final class Text_Buf {
 					locValue <<= 7;
 				}
 				if ((data_ptr[0 + buf_pos] & 0x40) != 0) {
-					value.assign(-locValue);
+					value.operator_assign(-locValue);
 				} else {
-					value.assign(locValue);
+					value.operator_assign(locValue);
 				}
 			}
 		}

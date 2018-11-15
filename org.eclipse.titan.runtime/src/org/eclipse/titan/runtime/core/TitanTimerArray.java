@@ -33,7 +33,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_elements[i]);
+				helper.operator_assign(otherValue.array_elements[i]);
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -53,14 +53,14 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	TitanTimerArray<T> assign(final TitanTimerArray<T> otherValue){
+	TitanTimerArray<T> operator_assign(final TitanTimerArray<T> otherValue){
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new TitanTimer[array_size];
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_element(i));
+				helper.operator_assign(otherValue.array_element(i));
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));

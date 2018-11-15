@@ -79,7 +79,7 @@ public class TitanObjectid extends Base_Type {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public TitanObjectid assign(final TitanObjectid otherValue) {
+	public TitanObjectid operator_assign(final TitanObjectid otherValue) {
 		otherValue.must_bound("Assignment of an unbound objid value.");
 
 		clean_up();
@@ -93,9 +93,9 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator=
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
+	public Base_Type operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
-			return assign((TitanObjectid) otherValue);
+			return operator_assign((TitanObjectid) otherValue);
 		} else {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objectid", otherValue));
 		}
@@ -110,7 +110,7 @@ public class TitanObjectid extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
-	public boolean operatorEquals(final TitanObjectid otherValue) {
+	public boolean operator_equals(final TitanObjectid otherValue) {
 		must_bound("The left operand of comparison is an unbound objid value.");
 		otherValue.must_bound("The right operand of comparison is an unbound objid value.");
 
@@ -122,7 +122,7 @@ public class TitanObjectid extends Base_Type {
 		}
 
 		for (int i = 0; i < components_ptr.size(); i++) {
-			if (!components_ptr.get(i).operatorEquals(otherValue.components_ptr.get(i))) {
+			if (!components_ptr.get(i).operator_equals(otherValue.components_ptr.get(i))) {
 				return false;
 			}
 		}
@@ -130,9 +130,9 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
-			return operatorEquals((TitanObjectid) otherValue);
+			return operator_equals((TitanObjectid) otherValue);
 		} else {
 			return false;
 		}

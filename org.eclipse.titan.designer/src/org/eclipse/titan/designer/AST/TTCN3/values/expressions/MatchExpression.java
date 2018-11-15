@@ -304,7 +304,7 @@ public final class MatchExpression extends Expression_Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
-		expression.expression.append(".assign(");
+		expression.expression.append(".operator_assign(");
 		generateCodeExpressionExpression(aData, expression);
 		expression.expression.append(")");
 
