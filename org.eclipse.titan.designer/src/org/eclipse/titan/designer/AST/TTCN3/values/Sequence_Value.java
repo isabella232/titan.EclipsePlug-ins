@@ -397,6 +397,9 @@ public final class Sequence_Value extends Value {
 		if (values != null) {
 			values.setCodeSection(codeSection);
 		}
+		if (convertedValue != null) {
+			convertedValue.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

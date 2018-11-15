@@ -270,6 +270,9 @@ public final class SequenceOf_Value extends Value {
 		if (values != null) {
 			values.setCodeSection(codeSection);
 		}
+		if (convertedValue != null) {
+			convertedValue.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
