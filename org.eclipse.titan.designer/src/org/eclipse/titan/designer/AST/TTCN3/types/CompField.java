@@ -242,6 +242,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 		final IValue tempValue = lastType.checkThisValueRef(timestamp, defaultValue);
 		lastType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, false, false));
 
+		defaultValue.setGenNameRecursive(type.getGenNameOwn() + "_defval_");
 		defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
