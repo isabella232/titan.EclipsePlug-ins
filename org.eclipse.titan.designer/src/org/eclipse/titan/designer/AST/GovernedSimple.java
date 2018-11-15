@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
@@ -126,7 +127,8 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		}
 
 		if (codeSection == CodeSectionType.CS_UNKNOWN || refd.getCodeSection() == CodeSectionType.CS_UNKNOWN) {
-			//FIXME report fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "'', reached needsInitPreccede with `" + refd.getFullName() + "''");
+
 			return false;
 		}
 

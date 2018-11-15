@@ -352,7 +352,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *  return ALT_REPEAT. Applicable to receiving statements only.
 	 * */
 	public boolean canRepeat() {
-		//FIXME fatal error
+		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "'', reached canRepeat.");
+
 		return false;
 	}
 
