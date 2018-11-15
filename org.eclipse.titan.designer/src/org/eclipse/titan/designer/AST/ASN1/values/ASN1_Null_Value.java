@@ -124,10 +124,16 @@ public final class ASN1_Null_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		aData.addBuiltinTypeImport("TitanAsn_Null");
 
 		source.append(name);
 		source.append(".assign( TitanAsn_Null.Asn_Null_Type.ASN_NULL_VALUE );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

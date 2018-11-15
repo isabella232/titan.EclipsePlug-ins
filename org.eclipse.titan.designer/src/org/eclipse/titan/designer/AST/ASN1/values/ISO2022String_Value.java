@@ -182,10 +182,16 @@ public final class ISO2022String_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return source;
+		}
+
 		source.append(name);
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));
 		source.append( " );\n" );
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
@@ -193,8 +199,6 @@ public final class ISO2022String_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-
-
 		final StringBuilder result = new StringBuilder();
 
 		if (myGovernor != null) {
