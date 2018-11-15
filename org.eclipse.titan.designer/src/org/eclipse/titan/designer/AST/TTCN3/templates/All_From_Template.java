@@ -473,6 +473,12 @@ public class All_From_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (allFrom != null) {
 			allFrom.reArrangeInitCode(aData, source, usageModule);

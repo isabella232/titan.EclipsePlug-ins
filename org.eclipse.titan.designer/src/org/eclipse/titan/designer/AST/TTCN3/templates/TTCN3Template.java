@@ -1251,13 +1251,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Returns whether the template can be represented by an in-line
 	 *  Java expression.
 	 * */
-	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
-			return false;
-		}
-		//TODO fatal error
-		return false;
-	}
+	public abstract boolean hasSingleExpression();
 
 	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
 		source.append("{\n");
