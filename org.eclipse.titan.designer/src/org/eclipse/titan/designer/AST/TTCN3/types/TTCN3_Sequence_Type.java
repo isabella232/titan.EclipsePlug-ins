@@ -477,7 +477,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		switch (last.getValuetype()) {
 		case SEQUENCE_VALUE:
 			if (last.isAsn()) {
-				selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+				selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
 				selfReference = checkThisValueSeq_T(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
@@ -494,7 +494,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			} else {
 				last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
 				if (last.isAsn()) {
-					selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+					selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 							valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 				} else {
 					selfReference = checkThisValueSeq_T(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
@@ -505,7 +505,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			break;
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
-			selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+			selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -669,14 +669,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 *                the value to be checked
 	 * @param expectedValue
 	 *                the expected kind of the value.
-	 * @param incompleteAllowed
-	 *                whether incomplete value is allowed or not.
 	 * @param implicitOmit
 	 *                true if the implicit omit optional attribute was set
 	 *                for the value, false otherwise
 	 * */
 	private boolean checkThisValueSeq_A(final CompilationTimeStamp timestamp, final Sequence_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
-			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+			final boolean implicitOmit, final boolean strElem) {
 		boolean selfReference = false;
 
 		final CompilationTimeStamp valueTimeStamp = value.getLastTimeChecked();

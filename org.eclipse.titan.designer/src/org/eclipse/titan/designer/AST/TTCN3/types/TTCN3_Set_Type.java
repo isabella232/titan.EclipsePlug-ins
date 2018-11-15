@@ -430,7 +430,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
 			if (last.isAsn()) {
 				selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
-						false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
+						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
 				selfReference = checkThisValueSet_T(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
@@ -459,7 +459,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case SET_VALUE:
 			if (last.isAsn()) {
 				selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
-						false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
+						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
 				selfReference = checkThisValueSet_T(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
@@ -468,7 +468,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
 			selfReference = checkThisValueSet_A(timestamp, (Set_Value) last, lhs,
-					valueCheckingOptions.expected_value, false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
+					valueCheckingOptions.expected_value, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
 		case MACRO_VALUE:
@@ -580,12 +580,11 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param timestamp the timestamp of the actual semantic check cycle.
 	 * @param value the value to be checked
 	 * @param expectedValue the kind of value we expect to find.
-	 * @param incompleteAllowed whether incomplete value is allowed or not.
 	 * @param implicitOmit true if the implicit omit optional attribute was set
 	 *            for the value, false otherwise
 	 * */
 	private boolean checkThisValueSet_A(final CompilationTimeStamp timestamp, final Set_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
-			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+			final boolean implicitOmit, final boolean strElem) {
 		boolean selfReference = false;
 		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 		final Map<String, CompField> realComponents = compFieldMap.getComponentFieldMap(timestamp);
