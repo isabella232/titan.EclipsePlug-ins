@@ -1337,6 +1337,16 @@ pr_NaturalNumber returns [CFGNumber integer]:
 )
 ;
 
+pr_MPNaturalNumber returns [TitanInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new TitanInteger($a.text);}
+|	pr_MacroNaturalNumber
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
+)
+;
+
 pr_MacroNaturalNumber returns [CFGNumber integer]:
 (	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
@@ -1381,6 +1391,26 @@ pr_CString returns [String string]:
 |	TTCN3IDENTIFIER // module parameter name
 		{	$string = ""; // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPCString returns [String string]:
+(	cs = STRING
+		{
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				config_process_error( cse.getErrorMessage() );
+			}
+		}
+|	(	pr_MacroCString
+	|	pr_MacroExpliciteCString
+	)
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
+	
 )
 ;
 
@@ -1553,14 +1583,8 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 @init {
 	$moduleparameter = null;
 }:
-(	v = pr_ArithmeticValueExpression
-	{	final CFGNumber number = $v.number;
-		if (number.isFloat()) {
-			$moduleparameter = new Module_Param_Float(number.getValue());
-		} else {
-			$moduleparameter = new Module_Param_Integer(new TitanInteger(number.getIntegerValue()));
-		}
-	}
+(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer($i.integer);	}
+|	f = pr_MPFloat					{	$moduleparameter = new Module_Param_Float($f.floatnum);	}
 |	bool = pr_Boolean				{	$moduleparameter = new Module_Param_Boolean($bool.bool);	}
 |	oi = pr_ObjIdValue
 	{	final List<TitanInteger> cs = $oi.components;
@@ -1571,17 +1595,9 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	bstr = pr_BStringValue			{	$moduleparameter = new Module_Param_Bitstring($bstr.string);	}
 |	hstr = pr_HStringValue			{	$moduleparameter = new Module_Param_Hexstring($hstr.string);	}
 |	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
-|	cs = pr_UniversalOrNotStringValue
-	{	if ($cs.cstr instanceof TitanCharString) {
-			final TitanCharString cstr = (TitanCharString)$cs.cstr;
-			$moduleparameter = new Module_Param_Charstring(cstr);
-		} else {
-			final TitanUniversalCharString ucstr = (TitanUniversalCharString)$cs.cstr;
-			$moduleparameter = new Module_Param_Universal_Charstring(ucstr);
-		}
-	}
+|	cs = pr_MPCString				{	$moduleparameter = new Module_Param_Charstring(new TitanCharString($cs.string));	}
+|	ucs = pr_Quadruple				{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
 |	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
-|	enumvalue = pr_EnumeratedValue	{	$moduleparameter = new Module_Param_Enumerated($enumvalue.identifier);	}
 |	nulltext = pr_NULLKeyword
 	{	if ("null".equals($nulltext.text)) {
 			$moduleparameter = new Module_Param_Ttcn_Null();
@@ -1715,6 +1731,18 @@ pr_Float returns [CFGNumber floatnum]:
 |	TTCN3IDENTIFIER // module parameter name
 		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPFloat returns [double floatnum]:
+(	a = FLOAT {$floatnum = Double.parseDouble($a.text);}
+|	NANKEYWORD	{	$floatnum = Double.NaN;	}
+|	INFINITYKEYWORD	{	$floatnum = Double.POSITIVE_INFINITY;	}
+|	MACRO_FLOAT
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 

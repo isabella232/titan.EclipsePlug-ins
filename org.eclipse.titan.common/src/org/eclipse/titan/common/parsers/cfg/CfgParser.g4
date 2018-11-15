@@ -1282,6 +1282,12 @@ pr_NaturalNumber returns [CFGNumber number]:
 )
 ;
 
+pr_MPNaturalNumber:
+(	NATURAL_NUMBER
+|	pr_MacroNaturalNumber
+)
+;
+
 pr_MacroNaturalNumber returns [CFGNumber number]:
 (	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
@@ -1324,6 +1330,13 @@ pr_CString returns [String string]:
 |	TTCN3IDENTIFIER // module parameter name
 		{	$string = ""; // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPCString:
+(	STRING
+|	pr_MacroCString
+|	pr_MacroExpliciteCString
 )
 ;
 
@@ -1478,16 +1491,17 @@ pr_LengthBound:
 ;
 
 pr_SimpleParameterValue:
-(	pr_ArithmeticValueExpression
+(	pr_MPNaturalNumber
+|	pr_MPFloat
 |	pr_Boolean
 |	pr_ObjIdValue
 |	pr_VerdictValue
 |	pr_BStringValue
 |	pr_HStringValue
 |	pr_OStringValue
-|	pr_UniversalOrNotStringValue
+|	pr_MPCString
+|	pr_Quadruple
 |	OMITKEYWORD
-|	pr_EnumeratedValue
 |	pr_NULLKeyword
 |	MTCKEYWORD
 |	SYSTEMKEYWORD
@@ -1580,6 +1594,14 @@ pr_Float returns [CFGNumber number]:
 |	TTCN3IDENTIFIER // module parameter name
 		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPFloat:
+(	FLOAT
+|	NANKEYWORD
+|	INFINITYKEYWORD
+|	MACRO_FLOAT
 )
 ;
 
