@@ -81,6 +81,16 @@ public final class Undefined_Block_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (realValue != null) {
+			realValue.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
