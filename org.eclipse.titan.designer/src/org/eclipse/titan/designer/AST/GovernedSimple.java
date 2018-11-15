@@ -109,8 +109,41 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		return builder.toString();
 	}
 
+	/**
+	 * Checks if the referenced governed simple needs to precede the actual
+	 * one. Used in initializing values to reorder them for proper
+	 * initialization.
+	 *
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
+	 * @param refd
+	 *                the referenced governed simple.
+	 * */
+	public boolean needsInitPrecede(final JavaGenData aData, final IGovernedSimple refd) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return false;
+		}
+
+		if (codeSection == CodeSectionType.CS_UNKNOWN || refd.getCodeSection() == CodeSectionType.CS_UNKNOWN) {
+			//FIXME report fatal error
+			return false;
+		}
+
+		if (codeSection != refd.getCodeSection()) {
+			return false;
+		}
+
+		if (getMyScope().getModuleScopeGen() != refd.getMyScope().getModuleScopeGen()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public boolean isTopLevel() {
+		//TODO find a more semantic way to do this.
 		final String name = getGenNameOwn();
 		for (int i = 0; i < name.length(); i++) {
 			char c = name.charAt(i);

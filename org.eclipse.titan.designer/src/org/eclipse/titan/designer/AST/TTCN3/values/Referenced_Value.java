@@ -728,8 +728,20 @@ public final class Referenced_Value extends Value {
 			// simple substitution for in-line values within the same module
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
-			// TODO might need initialization see needs_init_precede
-			// TODO Value.cc:generate_code_init_refd
+			// use a simple reference to reduce code size
+			if (needsInitPrecede(aData, last)) {
+				// the referred value must be initialized first
+				if (!last.isTopLevel() && last.needsTempRef()) {
+					// temporary id should be introduced for the lhs
+					final String tempId = aData.getTemporaryVariableName();
+					source.append("{\n");
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", last.getMyGovernor().getGenNameValue(aData, source, myScope), tempId, last.get_lhs_name()));
+					last.generateCodeInit(aData, source, tempId);
+					source.append("}\n");
+				} else {
+					last.generateCodeInit(aData, source, last.get_lhs_name());
+				}
+			}
 
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
