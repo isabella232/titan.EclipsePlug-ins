@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -1179,6 +1180,23 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final CompField compField = components.getCompByIndex(i);
 			final StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateCode(aData, tempSource);
+
+			if (compField.hasDefault()) {
+				final Value defaultValue = compField.getDefault();
+				final StringBuilder defaultValueSource = new StringBuilder();
+				final Type type = compField.getType();
+				final String typeGeneratedName = type.getGenNameValue( aData, defaultValueSource, getMyScope() );
+				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+					final Array_Type arrayType = (Array_Type) type;
+					final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
+					arrayType.generateCodeValue(aData, temp_sb);
+				}
+
+				defaultValueSource.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", typeGeneratedName, defaultValue.get_lhs_name()));
+				defaultValue.generateCodeInit( aData, aData.getPreInit(), defaultValue.getGenNameOwn() );
+
+				aData.addGlobalVariable(typeGeneratedName, defaultValueSource.toString());
+			}
 		}
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
