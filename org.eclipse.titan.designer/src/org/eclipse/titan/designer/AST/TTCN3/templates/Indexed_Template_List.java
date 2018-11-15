@@ -142,7 +142,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	public void setCodeSection(final CodeSectionType codeSection) {
 		super.setCodeSection(codeSection);
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-			indexedTemplates.getTemplateByIndex(i).getTemplate().setCodeSection(codeSection);
+			indexedTemplates.getTemplateByIndex(i).setCodeSection(codeSection);
 		}
 		if (lengthRestriction != null) {
 			lengthRestriction.setCodeSection(codeSection);

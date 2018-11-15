@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -81,6 +82,20 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 		}
 		if (template != null) {
 			template.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code section attribute of the index and value.
+	 *
+	 * @param codeSection the code section where this governed simple should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (index != null) {
+			index.setCodeSection(codeSection);
+		}
+		if (template != null) {
+			template.setCodeSection(codeSection);
 		}
 	}
 
