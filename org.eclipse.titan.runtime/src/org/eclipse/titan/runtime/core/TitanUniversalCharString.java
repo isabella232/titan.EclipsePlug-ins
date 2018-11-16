@@ -981,7 +981,11 @@ public class TitanUniversalCharString extends Base_Type {
 			ret.decode_utf8(p_buff.get_data(), CharCoding.UTF_8, false);
 			return ret;
 		} else {
-			return new TitanUniversalCharString(String.valueOf(p_buff.get_data()));
+			if (p_buff.get_data() != null) {
+				return new TitanUniversalCharString(String.valueOf(p_buff.get_data()));
+			} else {
+				return new TitanUniversalCharString("");
+			}
 		}
 	}
 
