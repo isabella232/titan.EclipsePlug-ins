@@ -929,7 +929,6 @@ public final class Referenced_Template extends TTCN3Template {
 			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
 				// the reference points to (a field of) a template
-				//FIXME implement formal par check
 				if (((Def_Template) assignment).getFormalParameterList() != null) {
 					// the referred template is parameterized
 					// generate the initialization sequence first for all dependent
