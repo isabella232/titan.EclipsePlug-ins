@@ -48,6 +48,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button ignoreUntaggedOnTopLevelUnion;
 	private Button enableLegacyEncoding;
 	private Button disableUserInformation;
+	private Button enableRealtimeFeature;
 	private Button activateDebugger;
 
 	//private Composite namingRuleComposite;
@@ -80,6 +81,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			ignoreUntaggedOnTopLevelUnion.dispose();
 			enableLegacyEncoding.dispose();
 			disableUserInformation.dispose();
+			enableRealtimeFeature.dispose();
 			activateDebugger.dispose();
 		}
 	}
@@ -157,6 +159,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		disableUserInformation = new Button(mainComposite, SWT.CHECK);
 		disableUserInformation.setText("Disable user information and timestamp in headers (-D)");
 
+		enableRealtimeFeature = new Button(mainComposite, SWT.CHECK);
+		enableRealtimeFeature.setText("Enable Realtime testing feature (-I)");
+
 		activateDebugger = new Button(mainComposite, SWT.CHECK);
 		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
 
@@ -190,6 +195,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		ignoreUntaggedOnTopLevelUnion.setEnabled(enabled);
 		enableLegacyEncoding.setEnabled(enabled);
 		disableUserInformation.setEnabled(enabled);
+		enableRealtimeFeature.setEnabled(enabled);
 		activateDebugger.setEnabled(enabled);
 	}
 
@@ -262,6 +268,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		ignoreUntaggedOnTopLevelUnion.setSelection(false);
 		enableLegacyEncoding.setSelection(false);
 		disableUserInformation.setSelection(false);
+		enableRealtimeFeature.setSelection(false);
 		activateDebugger.setSelection(false);
 	}
 
@@ -371,6 +378,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			disableUserInformation.setSelection("true".equals(temp) ? true : false);
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ENABLE_REALTIME));
+			enableRealtimeFeature.setSelection("true".equals(temp) ? true : false);
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			activateDebugger.setSelection("true".equals(temp) ? true : false);
 
@@ -405,6 +416,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY, disableUserInformation.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.ENABLE_REALTIME, enableRealtimeFeature.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
 
 		} catch (CoreException e) {

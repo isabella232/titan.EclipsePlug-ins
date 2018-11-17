@@ -50,6 +50,7 @@ public final class TITANFlagsOptionsData {
 	public static final String ENABLE_LEGACY_ENCODING_PROPERTY ="enableLegacyEncoding";
 	public static final String DISABLE_USER_INFORMATION_PROPERTY ="disableUserInformation";
 	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
+	public static final String ENABLE_REALTIME = "enableRealtimeTesting";
 
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
 	//It should be according to the TPD.xsd otherwise the generated tpd will not be valid and the import will fail.
@@ -57,15 +58,15 @@ public final class TITANFlagsOptionsData {
 			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY, DISABLE_OER_PROPERTY,
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
 			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY, 
-			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, DISABLE_USER_INFORMATION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY,/*insert here the next new item*/
-			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY };
+			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, DISABLE_USER_INFORMATION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY,
+			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY, ENABLE_REALTIME /*insert here the next new item*/};
 	public static final String[] TAGS = PROPERTIES;
 	public static final String[] DEFAULT_VALUES = {
 		"false", "false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
-		"false",  "false",  "false", "false", "false",
-		"false", "false", "false", "false", /*insert here the next new item*/
-		"false","false"};
+		"false", "false", "false", "false", "false",
+		"false", "false", "false", "false", 
+		"false", "false", "false" /*insert here the next new item*/};
 
 	private TITANFlagsOptionsData() {
 		// Do nothing
@@ -164,7 +165,11 @@ public final class TITANFlagsOptionsData {
 			builder.append("true".equals(temp) ? "D" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData. ACTIVATE_DEBUGGER_PROPERTY));
+					TITANFlagsOptionsData.ENABLE_REALTIME));
+			builder.append("true".equals(temp) ? "I" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			builder.append("true".equals(temp) ? "n" : "");
 
 			if (builder.length() > 0) {
@@ -275,6 +280,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY));
 			builder.append("true".equals(temp) ? " + disable user information and timestamp in header" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ENABLE_REALTIME));
+			builder.append("true".equals(temp) ? " + enable realtime testing feature" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
