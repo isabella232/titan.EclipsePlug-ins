@@ -715,12 +715,6 @@ public final class InternalMakefileGenerator {
 			contents.append("CXX = ").append(compilerName).append("\n\n");
 		}
 
-		if (incrementalDependencyRefresh) {
-			contents.append("# Flags for dependency generation\n");
-			// -xM1 for SunPro
-			contents.append("CXXDEPFLAGS := -MM\n\n");
-		}
-
 		if (preprocess) {
 			contents.append("# C preprocessor used for TTCN-3 files:\n");
 			String preprocessorName = TTCN3PreprocessorOptionsData.getPreprocessorName(project);
@@ -782,6 +776,12 @@ public final class InternalMakefileGenerator {
 			}
 		}
 		contents.append("\n\n");
+
+		if (incrementalDependencyRefresh) {
+			contents.append("# Flags for dependency generation\n");
+			// -xM1 for SunPro
+			contents.append("CXXDEPFLAGS = -MM\n\n");
+		}
 
 		if (preprocess) {
 			contents.append("# Flags for preprocessing TTCN-3 files:\n");
