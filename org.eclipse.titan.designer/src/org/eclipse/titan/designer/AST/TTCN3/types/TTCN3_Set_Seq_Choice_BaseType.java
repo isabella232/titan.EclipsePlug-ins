@@ -1570,7 +1570,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 			final String temporalId = aData.getTemporaryVariableName();
 			final String temporalId2 = aData.getTemporaryVariableName();
-			expression.expression.append(MessageFormat.format("{0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
+			
+			//FIXME can be final
+			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3};\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
 			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.get_{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (optype == Operation_type.ISBOUND_OPERATION) {
