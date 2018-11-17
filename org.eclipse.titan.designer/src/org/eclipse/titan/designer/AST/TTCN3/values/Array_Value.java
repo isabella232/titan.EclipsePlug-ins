@@ -613,9 +613,10 @@ public final class Array_Value extends Value {
 				final IValue value = values.getValueByIndex(i);
 				if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
 					continue;
-				} else // FIXME needs temporary reference branch
-					// (needs_temp_ref function missing)
-				{
+				} else if (value.needsTemporaryReference()) {
+					// TODO handle the case when temporary reference is needed
+					source.append("Array_value not yet fully implemented\n");
+				} else {
 					final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, indexOffset + i);
 					value.generateCodeInit(aData, source, embeddedName);
 				}

@@ -441,9 +441,13 @@ public final class Choice_Value extends Value {
 
 		final String altName = this.name.getName();
 
-		// TODO handle the case when temporary reference is needed
-		final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, FieldSubReference.getJavaGetterName(altName));
-		value.generateCodeInit(aData, source, embeddedName);
+		if (value.needsTemporaryReference()) {
+			// TODO handle the case when temporary reference is needed
+			source.append("Choice_value not yet fully implemented\n");
+		} else {
+			final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, FieldSubReference.getJavaGetterName(altName));
+			value.generateCodeInit(aData, source, embeddedName);
+		}
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

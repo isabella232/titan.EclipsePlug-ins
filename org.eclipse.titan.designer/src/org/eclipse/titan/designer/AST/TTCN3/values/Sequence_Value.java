@@ -976,15 +976,21 @@ public final class Sequence_Value extends Value {
 
 			final String javaGetterName = FieldSubReference.getJavaGetterName(fieldName.getName());
 			if (fieldValue != null) {
-				// TODO handle the case when temporary reference is needed
-				final StringBuilder embeddedName = new StringBuilder();
-				embeddedName.append(MessageFormat.format("{0}.get_{1}()", name, javaGetterName));
-				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
-					embeddedName.append(".get()");
+				// the value is not omit
+				if (fieldValue.needsTemporaryReference()) {
+					// TODO handle the case when temporary reference is needed
+					source.append("Sequence_value not yet fully implemented\n");
+				} else {
+					final StringBuilder embeddedName = new StringBuilder();
+					embeddedName.append(MessageFormat.format("{0}.get_{1}()", name, javaGetterName));
+					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+						embeddedName.append(".get()");
+					}
+	
+					fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 				}
-
-				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
+				// the value is omit
 				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
 				source.append(MessageFormat.format("{0}.get_{1}().operator_assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
