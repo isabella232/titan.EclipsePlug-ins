@@ -2078,9 +2078,6 @@ public final class InternalMakefileGenerator {
 
 		contents.append("clean:\n");
 		contents.append("\t-").append(rmCommand).append(" $(EXECUTABLE) $(OBJECTS) $(LIBRARY) $(GENERATED_HEADERS)");
-		if (incrementalDependencyRefresh) {
-			contents.append(" $(DEPFILES)");
-		}
 		contents.append(" \\\n");
 		contents.append("\t$(GENERATED_SOURCES) ");
 		if (dynamicLinking) {
@@ -2093,11 +2090,11 @@ public final class InternalMakefileGenerator {
 		if (centralStorage) {
 			contents.append(" compile-all");
 		}
-		contents.append(" \\\n");
-		contents.append("\tbrowserdata.dat tags *.log");
 		if (incrementalDependencyRefresh) {
 			contents.append(" $(DEPFILES)");
 		}
+		contents.append(" \\\n");
+		contents.append("\tbrowserdata.dat tags *.log");
 		contents.append("\n\n");
 		contents.append("dep: $(GENERATED_SOURCES) $(USER_SOURCES)");
 		if (incrementalDependencyRefresh) {
