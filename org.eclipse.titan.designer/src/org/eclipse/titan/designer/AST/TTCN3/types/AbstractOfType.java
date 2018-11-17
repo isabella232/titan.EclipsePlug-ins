@@ -754,7 +754,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalIndexId = aData.getTemporaryVariableName();
-		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
 		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
