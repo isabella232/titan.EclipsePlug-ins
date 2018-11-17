@@ -45,15 +45,15 @@ This description contains detailed information on using the TitaniumRefactoring 
 The TitaniumRefactoring tool is an Eclipse plug-in, extending the TITAN Designer for the Eclipse IDE Toolset with refactoring functionality. The Designer is required to be installed and be present for the correct operation.
 
 [[the-titan-implementation-of-ttcn-3]]
-== The TITAN implementation of TTCN–3
+== The TITAN implementation of TTCN-3
 
-The TitaniumRefactoring plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCN–3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
+The TitaniumRefactoring plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCN-3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
 
-The limitations present in the Designer plug-in also apply here: there are TTCN–3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the <<_2, TITAN Programmerâ€™s Technical Reference>>.
+The limitations present in the Designer plug-in also apply here: there are TTCN-3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the <<_2, TITAN Programmerâ€™s Technical Reference>>.
 
 == Intended audience
 
-This document is intended for users of the TITAN TTCN–3 Test Toolset (product number: CRL 113 200/1).
+This document is intended for users of the TITAN TTCN-3 Test Toolset (product number: CRL 113 200/1).
 
 == Presumed knowledge
 
@@ -123,7 +123,7 @@ The TitaniumRefactoring plug-in extends some of the context-sensitive menus of E
 
 image::images/3_F3.png[title="Editor actions context menu"]
 
-While editing a TTCN3 source file, the context menu can be opened by right clicking in the editor on some selection. Under the TitaniumRefactoring menu item, the available actions on this file can be found.
+While editing a TTCN-3 source file, the context menu can be opened by right clicking in the editor on some selection. Under the TitaniumRefactoring menu item, the available actions on this file can be found.
 
 * *Extract definition into a new project:* Copies the selected definition and all of its dependencies to a new project. See Section 4 for details.
 * *Extract code into a new function:* Extracts the selected code into a new function. See Section 5 for details.
@@ -136,6 +136,9 @@ While editing a TTCN3 source file, the context menu can be opened by right click
 * *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit.
 * *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports.
 * *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
+* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
+* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
+* *Slicing:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
 
 == Project explorer actions
 
@@ -152,6 +155,9 @@ Some of the refactoring operations can work on files, folders or projects. These
 * *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit.
 * *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports.
 * *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
+* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
+* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
+* *Slicing:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
 
 = Headless mode
 
@@ -232,9 +238,9 @@ The algorithm searches for whole statements in the selection, half selected stat
 
 If the selection is valid for the operation, then a wizard is presented for the user to specify the name of the new function and the names of its parameters. After this, the produced changes can be reviewed and accepted by clicking on the *Finish* button.
 
-image::images/6_F6.png[title="Extract to function wizard – specify new function name"]
+image::images/6_F6.png[title="Extract to function wizard ï¿½ specify new function name"]
 
-image::images/6_F7.png[title="Extract to function wizard – specify parameter names"]
+image::images/6_F7.png[title="Extract to function wizard ï¿½ specify parameter names"]
 
 == Known limitations
 
@@ -266,7 +272,7 @@ The algorithm searches for log statements in the selection and modifies them if 
 
 After selecting the appropriate options, click on the *OK* button to finish the operation.
 
-image::images/8_F8.png[title="Add context info wizard – modify settings"]
+image::images/8_F8.png[title="Add context info wizard ï¿½ modify settings"]
 
 === Settings
 
@@ -314,11 +320,11 @@ This functionality allows users to rearrange local variable declarations in func
 
 == Usage
 
-To run the refactoring operation on a specific TTCN function, move the cursor into the function body and right click using the mouse. From the context menu choose *TitaniumRefactoring / Minimize scope of local variables in function*. To run the refactoring process on entire files, folders or projects, right click on the specific resource in the Package Explorer and choose the same entry from the context menu, as given above.
+To run the refactoring operation on a specific TTCN-3 function, move the cursor into the function body and right click using the mouse. From the context menu choose *TitaniumRefactoring / Minimize scope of local variables in function*. To run the refactoring process on entire files, folders or projects, right click on the specific resource in the Package Explorer and choose the same entry from the context menu, as given above.
 
 After selecting the appropriate options, click on the *OK* button to finish the operation, or use the *Preview* action to browse the changes before accepting them.
 
-image::images/10_F10.png[title="Minimize scope wizard – modify settings"]
+image::images/10_F10.png[title="Minimize scope wizard ï¿½ modify settings"]
 
 === Settings
 
@@ -372,7 +378,7 @@ Please note that the "Lazy-fication of formal parameters" feature is working onl
 * [3] link:http://www.etsi.org/deliver/etsi_es/201800_201899/20187301/04.01.01_60/es_20187301v040101p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 1: Core Language European Telecommunications Standards Institute. ES 201 873-1 Version 4.1.1, July 2009]
 
 [[_4]]
-* [4] link:http://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.01.01_60/es_20187307v040101p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 7: Using ASN.1 with TTCN–3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.1.1, July 2009]
+* [4] link:http://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.01.01_60/es_20187307v040101p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 7: Using ASN.1 with TTCN-3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.1.1, July 2009]
 
 = Glossary
 
@@ -380,4 +386,4 @@ ASN.1:: Abstract Syntax Notation One
 
 IDE:: Integrated Development Environment
 
-TTCN–3:: Tree and Tabular Combined Notation version 3 (formerly)Testing and Test Control Notation (new resolution)
+TTCN-3:: Tree and Tabular Combined Notation version 3 (formerly)Testing and Test Control Notation (new resolution)
