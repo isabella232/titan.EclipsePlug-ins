@@ -821,6 +821,10 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	public boolean needsTemporaryReference() {
+		if (convertedValue != null) {
+			return convertedValue.needsTemporaryReference();
+		}
+
 		if (isAsn()) {
 			// it depends on the type since fields with omit or default value
 			// may not be present
@@ -829,8 +833,15 @@ public final class Sequence_Value extends Value {
 			return ((ASN1_Sequence_Type)lastType).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) > 1;
 		} else {
 			// incomplete values are allowed in TTCN-3
-			// we should check the number of value components
-			return values.getSize() > 1;
+			// we should check the number of value components that would be generated
+			for (int i = 0; i < values.getSize(); i++) {
+				final IValue value = values.getNamedValueByIndex(i).getValue();
+				if (value.getValuetype() != Value_type.NOTUSED_VALUE && value.needsTemporaryReference()) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 
@@ -978,8 +989,17 @@ public final class Sequence_Value extends Value {
 			if (fieldValue != null) {
 				// the value is not omit
 				if (fieldValue.needsTemporaryReference()) {
-					// TODO handle the case when temporary reference is needed
-					source.append("Sequence_value not yet fully implemented\n");
+					final String tempId = aData.getTemporaryVariableName();
+					source.append("{\n");
+					final String embeddedTypeName = compField.getType().getGenNameValue(aData, source, myScope);
+					source.append(MessageFormat.format("{0} {1} = {2}.get_{3}()", embeddedTypeName, tempId, name, javaGetterName));
+					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+						source.append(".get()");
+					}
+					source.append(";\n");
+
+					fieldValue.generateCodeInit(aData, source, tempId);
+					source.append("}\n");
 				} else {
 					final StringBuilder embeddedName = new StringBuilder();
 					embeddedName.append(MessageFormat.format("{0}.get_{1}()", name, javaGetterName));

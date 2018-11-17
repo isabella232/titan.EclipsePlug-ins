@@ -635,15 +635,21 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	public boolean needsTemporaryReference() {
+		if (convertedValue != null) {
+			return convertedValue.needsTemporaryReference();
+		}
+
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
-				if (values.getIndexedValueByIndex(i).getValue().getValuetype() != Value_type.NOTUSED_VALUE) {
+				final IValue tempValue = values.getIndexedValueByIndex(i).getValue();
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
 					return true;
 				}
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
-				if (values.getValueByIndex(i).getValuetype() != Value_type.NOTUSED_VALUE) {
+				final IValue tempValue = values.getValueByIndex(i);
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
 					return true;
 				}
 			}
@@ -747,15 +753,18 @@ public final class SequenceOf_Value extends Value {
 			} else {
 				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
-				ofType.getGenNameValue(aData, source, myScope);
+				final String embeddedTypeName = ofType.getGenNameValue(aData, source, myScope);
 
 				for (int i = 0; i < nofValues; i++) {
 					final IValue value = values.getValueByIndex(i);
 					if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
 						continue;
 					} else if (value.needsTemporaryReference()) {
-						// TODO handle the case when temporary reference is needed
-						source.append("SequenceOf_value not yet fully implemented\n");
+						final String tempId = aData.getTemporaryVariableName();
+						source.append("{\n");
+						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId, name, i));
+						value.generateCodeInit(aData, source, tempId);
+						source.append("}\n");
 					} else {
 						final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, i);
 						value.generateCodeInit(aData, source, embeddedName);

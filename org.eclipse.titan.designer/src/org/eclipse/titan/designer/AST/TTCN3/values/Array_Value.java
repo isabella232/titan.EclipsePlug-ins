@@ -535,7 +535,8 @@ public final class Array_Value extends Value {
 		int nof_real_values = 0;
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
-				if (values.getIndexedValueByIndex(i).getValue().getValuetype() != Value_type.NOTUSED_VALUE) {
+				final IValue tempValue = values.getIndexedValueByIndex(i).getValue();
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
 					nof_real_values++;
 					if (nof_real_values > 1) {
 						return true;
@@ -544,7 +545,8 @@ public final class Array_Value extends Value {
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
-				if (values.getValueByIndex(i).getValuetype() != Value_type.NOTUSED_VALUE) {
+				final IValue tempValue = values.getValueByIndex(i);
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
 					nof_real_values++;
 					if (nof_real_values > 1) {
 						return true;
@@ -607,15 +609,18 @@ public final class Array_Value extends Value {
 			}
 
 			final long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
-			lastType.getGenNameValue(aData, source, myScope);
+			final String embeddedTypeName = ((Array_Type)lastType).getElementType().getGenNameValue(aData, source, myScope);
 
 			for (int i = 0; i < nofValues; i++) {
 				final IValue value = values.getValueByIndex(i);
 				if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
 					continue;
 				} else if (value.needsTemporaryReference()) {
-					// TODO handle the case when temporary reference is needed
-					source.append("Array_value not yet fully implemented\n");
+					final String tempId = aData.getTemporaryVariableName();
+					source.append("{\n");
+					source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId, name, i));
+					value.generateCodeInit(aData, source, tempId);
+					source.append("}\n");
 				} else {
 					final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, indexOffset + i);
 					value.generateCodeInit(aData, source, embeddedName);
