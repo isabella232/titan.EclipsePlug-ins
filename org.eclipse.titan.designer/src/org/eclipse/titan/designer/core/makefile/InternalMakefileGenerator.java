@@ -628,8 +628,8 @@ public final class InternalMakefileGenerator {
 		}
 		contents.append("# - make archive        Archives all source files.\n");
 		contents.append("# - make check          Checks the semantics of TTCN-3 and ASN.1 modules.\n");
-		contents.append("# - make clean          Removes all generated files.\n");
 		contents.append("# - make port           Generates port skeletons.\n");
+		contents.append("# - make clean          Removes all generated files.\n");
 		contents.append("# - make compile        Translates TTCN-3 and ASN.1 modules to C++.\n");
 		contents.append("# - make dep            Creates/updates dependency list.\n");
 		contents.append("# - make executable     Builds the executable test suite.\n");
