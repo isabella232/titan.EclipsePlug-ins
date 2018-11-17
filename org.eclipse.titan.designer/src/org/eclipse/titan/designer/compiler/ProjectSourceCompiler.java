@@ -360,6 +360,11 @@ public class ProjectSourceCompiler {
 			aSb.append("return false;\n");
 			aSb.append("}\n");
 			aSb.append("}\n\n");
+
+			aSb.append("@Override\n");
+			aSb.append("public boolean has_set_module_param() {\n");
+			aSb.append("return true;\n");
+			aSb.append("}\n\n");
 		}
 
 		if (aData.getPreInit().length() > 0) {

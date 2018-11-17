@@ -103,7 +103,7 @@ public final class Module_List {
 		// or the module parameter name - both must be checked
 
 		final String first_name = param.get_id().get_current_name();
-		String second_name;
+		String second_name = null;
 		boolean param_found = false;
 
 		// Check if the first name segment is an existing module name
@@ -128,7 +128,13 @@ public final class Module_List {
 
 		// Still not found -> error
 		if (!param_found) {
-			//FIXME implement error reporting
+			if (module == null) {
+				param.error(MessageFormat.format("Module parameter cannot be set, because module `{0}'' does not exist, and no parameter with name `{0}'' exists in any module.", first_name));
+			} else if (!module.has_set_module_param()) {
+				param.error(MessageFormat.format("Module parameter cannot be set, because module `{0}'' does not have parameters, and no parameter with name `{0}'' exists in other modules.", first_name));
+			} else {
+				param.error(MessageFormat.format("Module parameter cannot be set, because no parameter with name `{0}'' exists in module `{1}'', and no parameter with name `{1}'' exists in any module.", second_name, first_name));
+			}
 		}
 	}
 
