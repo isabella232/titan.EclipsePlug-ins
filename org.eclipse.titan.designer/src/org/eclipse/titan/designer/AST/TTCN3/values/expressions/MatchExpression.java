@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -327,8 +328,18 @@ public final class MatchExpression extends Expression_Value {
 	}
 
 	public void generateCodeLogMatch(final JavaGenData aData, final ExpressionStruct expression) {
-		//FIXME handle the needs template ref case
-		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+		if (templateInstance.getTemplateBody().needsTemporaryReference()) {
+			final StringBuilder expressionBackup = expression.expression;
+			expression.expression = new StringBuilder();
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+
+			final String tempId = aData.getTemporaryVariableName();
+			final IType governor = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId, expression.expression));
+			expression.expression = expressionBackup.append(tempId);
+		} else {
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+		}
 		expression.expression.append( ".log_match( " );
 		value.generateCodeExpressionMandatory(aData, expression, true);
 		if(aData.getAllowOmitInValueList()) {
