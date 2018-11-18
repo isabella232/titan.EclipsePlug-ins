@@ -428,10 +428,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		case STRING_PATTERN:
 			if (!pattern_value_regexp_init) {
-				pattern_value_posix_regexp = TtcnPattern.convertPattern(single_value.getValue().toString(), pattern_value_nocase);
+				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(single_value.getValue().toString(), pattern_value_nocase);
 			}
 			if (pattern_value_posix_regexp != null) {
-				return TtcnPattern.match(otherValue.getValue().toString(), pattern_value_posix_regexp, pattern_value_nocase);
+				return TTCN_Pattern.match(otherValue.getValue().toString(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
 			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", single_value.getValue().toString()));
 		case DECODE_MATCH: {

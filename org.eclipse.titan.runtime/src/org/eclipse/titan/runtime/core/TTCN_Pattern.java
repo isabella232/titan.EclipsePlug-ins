@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Utility for handling TTCN-3 pattern
  * @author Arpad Lovassy
  */
-public class TtcnPattern {
+public class TTCN_Pattern {
 
 	/**
 	 * Pattern for TTCN-3 dynamic reference
