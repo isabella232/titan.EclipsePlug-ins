@@ -445,11 +445,11 @@ public final class Choice_Value extends Value {
 			final String tempId = aData.getTemporaryVariableName();
 			source.append("{\n");
 			final String embeddedTypeName = value.getMyGovernor().getGenNameValue(aData, source, myScope);
-			source.append(MessageFormat.format("{0} {1} = {2}.get_{3}();\n", embeddedTypeName, tempId, name, FieldSubReference.getJavaGetterName(altName)));
+			source.append(MessageFormat.format("{0} {1} = {2}.get_field_{3}();\n", embeddedTypeName, tempId, name, FieldSubReference.getJavaGetterName(altName)));
 			value.generateCodeInit(aData, source, tempId);
 			source.append("}\n");
 		} else {
-			final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, FieldSubReference.getJavaGetterName(altName));
+			final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, FieldSubReference.getJavaGetterName(altName));
 			value.generateCodeInit(aData, source, embeddedName);
 		}
 

@@ -73,13 +73,13 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	public TitanCharacter_String_identification_context__negotiation operator_assign(final TitanCharacter_String_identification_context__negotiation otherValue ) {
 		otherValue.must_bound( "Assignment of an unbound value of type CHARACTER STRING.identification.context-negotiation");
 		if (otherValue != this) {
-			if ( otherValue.get_presentation__context__id().is_bound() ) {
-				this.presentation__context__id.operator_assign( otherValue.get_presentation__context__id() );
+			if ( otherValue.get_field_presentation__context__id().is_bound() ) {
+				this.presentation__context__id.operator_assign( otherValue.get_field_presentation__context__id() );
 			} else {
 				this.presentation__context__id.clean_up();
 			}
-			if ( otherValue.get_transfer__syntax().is_bound() ) {
-				this.transfer__syntax.operator_assign( otherValue.get_transfer__syntax() );
+			if ( otherValue.get_field_transfer__syntax().is_bound() ) {
+				this.transfer__syntax.operator_assign( otherValue.get_field_transfer__syntax() );
 			} else {
 				this.transfer__syntax.clean_up();
 			}
@@ -152,7 +152,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field presentation-context-id.
 	 * */
-	public TitanInteger get_presentation__context__id() {
+	public TitanInteger get_field_presentation__context__id() {
 		return presentation__context__id;
 	}
 
@@ -161,7 +161,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field presentation-context-id.
 	 * */
-	public TitanInteger constGet_presentation__context__id() {
+	public TitanInteger constGet_field_presentation__context__id() {
 		return presentation__context__id;
 	}
 
@@ -170,7 +170,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field transfer-syntax.
 	 * */
-	public TitanObjectid get_transfer__syntax() {
+	public TitanObjectid get_field_transfer__syntax() {
 		return transfer__syntax;
 	}
 
@@ -179,7 +179,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * @return the field transfer-syntax.
 	 * */
-	public TitanObjectid constGet_transfer__syntax() {
+	public TitanObjectid constGet_field_transfer__syntax() {
 		return transfer__syntax;
 	}
 
@@ -218,10 +218,10 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				param.error(MessageFormat.format("set value of type CHARACTER STRING.identification.context-negotiation has 2 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_presentation__context__id().set_param(param.get_elem(0));
+				get_field_presentation__context__id().set_param(param.get_elem(0));
 			}
 			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_transfer__syntax().set_param(param.get_elem(1));
+				get_field_transfer__syntax().set_param(param.get_elem(1));
 			}
 			break;
 		case MP_Assignment_List: {
@@ -230,7 +230,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("presentation-context-id".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_presentation__context__id().set_param(curr_param);
+						get_field_presentation__context__id().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}
@@ -239,7 +239,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("transfer-syntax".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_transfer__syntax().set_param(curr_param);
+						get_field_transfer__syntax().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}

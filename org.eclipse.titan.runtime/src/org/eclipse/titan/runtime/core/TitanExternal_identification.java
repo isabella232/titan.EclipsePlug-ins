@@ -199,7 +199,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanExternal_identification_syntaxes get_syntaxes() {
+	public TitanExternal_identification_syntaxes get_field_syntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			clean_up();
 			field = new TitanExternal_identification_syntaxes();
@@ -215,7 +215,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field syntaxes.
 	 * */
-	public TitanExternal_identification_syntaxes constGet_syntaxes() {
+	public TitanExternal_identification_syntaxes constGet_field_syntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
 			throw new TtcnError("Using non-selected field syntaxes in a value of union type EXTERNAL.identification.");
 		}
@@ -228,7 +228,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid get_syntax() {
+	public TitanObjectid get_field_syntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			clean_up();
 			field = new TitanObjectid();
@@ -244,7 +244,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field syntax.
 	 * */
-	public TitanObjectid constGet_syntax() {
+	public TitanObjectid constGet_field_syntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
 			throw new TtcnError("Using non-selected field syntax in a value of union type EXTERNAL.identification.");
 		}
@@ -257,7 +257,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger get_presentation__context__id() {
+	public TitanInteger get_field_presentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			clean_up();
 			field = new TitanInteger();
@@ -273,7 +273,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field presentation-context-id.
 	 * */
-	public TitanInteger constGet_presentation__context__id() {
+	public TitanInteger constGet_field_presentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
 			throw new TtcnError("Using non-selected field presentation-context-id in a value of union type EXTERNAL.identification.");
 		}
@@ -286,7 +286,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanExternal_identification_context__negotiation get_context__negotiation() {
+	public TitanExternal_identification_context__negotiation get_field_context__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			clean_up();
 			field = new TitanExternal_identification_context__negotiation();
@@ -302,7 +302,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field context-negotiation.
 	 * */
-	public TitanExternal_identification_context__negotiation constGet_context__negotiation() {
+	public TitanExternal_identification_context__negotiation constGet_field_context__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
 			throw new TtcnError("Using non-selected field context-negotiation in a value of union type EXTERNAL.identification.");
 		}
@@ -315,7 +315,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid get_transfer__syntax() {
+	public TitanObjectid get_field_transfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			clean_up();
 			field = new TitanObjectid();
@@ -331,7 +331,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field transfer-syntax.
 	 * */
-	public TitanObjectid constGet_transfer__syntax() {
+	public TitanObjectid constGet_field_transfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
 			throw new TtcnError("Using non-selected field transfer-syntax in a value of union type EXTERNAL.identification.");
 		}
@@ -344,7 +344,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null get_fixed() {
+	public TitanAsn_Null get_field_fixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			clean_up();
 			field = new TitanAsn_Null();
@@ -360,7 +360,7 @@ public class TitanExternal_identification extends Base_Type {
 	 *
 	 * @return field fixed.
 	 * */
-	public TitanAsn_Null constGet_fixed() {
+	public TitanAsn_Null constGet_field_fixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
 			throw new TtcnError("Using non-selected field fixed in a value of union type EXTERNAL.identification.");
 		}
@@ -427,42 +427,42 @@ public class TitanExternal_identification extends Base_Type {
 		final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
 		final String last_name = mp_last.get_id().get_name();
 		if ("syntaxes".equals(last_name)) {
-			get_syntaxes().set_param(mp_last);
+			get_field_syntaxes().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("syntax".equals(last_name)) {
-			get_syntax().set_param(mp_last);
+			get_field_syntax().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("presentation-context-id".equals(last_name)) {
-			get_presentation__context__id().set_param(mp_last);
+			get_field_presentation__context__id().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("context-negotiation".equals(last_name)) {
-			get_context__negotiation().set_param(mp_last);
+			get_field_context__negotiation().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("transfer-syntax".equals(last_name)) {
-			get_transfer__syntax().set_param(mp_last);
+			get_field_transfer__syntax().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
 			return;
 		}
 		if ("fixed".equals(last_name)) {
-			get_fixed().set_param(mp_last);
+			get_field_fixed().set_param(mp_last);
 			if (!field.is_bound()) {
 				clean_up();
 			}
@@ -519,22 +519,22 @@ public class TitanExternal_identification extends Base_Type {
 		final int temp = text_buf.pull_int().getInt();
 		switch (temp) {
 		case 0:
-			get_syntaxes().decode_text(text_buf);
+			get_field_syntaxes().decode_text(text_buf);
 			break;
 		case 1:
-			get_syntax().decode_text(text_buf);
+			get_field_syntax().decode_text(text_buf);
 			break;
 		case 2:
-			get_presentation__context__id().decode_text(text_buf);
+			get_field_presentation__context__id().decode_text(text_buf);
 			break;
 		case 3:
-			get_context__negotiation().decode_text(text_buf);
+			get_field_context__negotiation().decode_text(text_buf);
 			break;
 		case 4:
-			get_transfer__syntax().decode_text(text_buf);
+			get_field_transfer__syntax().decode_text(text_buf);
 			break;
 		case 5:
-			get_fixed().decode_text(text_buf);
+			get_field_fixed().decode_text(text_buf);
 			break;
 		default:
 			throw new TtcnError("Text decoder: Unrecognized union selector was received for type EXTERNAL.identification.");

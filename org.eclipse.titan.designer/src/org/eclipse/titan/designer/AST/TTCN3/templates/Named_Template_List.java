@@ -567,7 +567,7 @@ public final class Named_Template_List extends TTCN3Template {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 
 			final String javaGetterName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
-			final String embeddedName = MessageFormat.format("{0}.get_{1}()", parameterGenName, javaGetterName);
+			final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", parameterGenName, javaGetterName);
 			namedTemplate.getTemplate().setGenNameRecursive(embeddedName);
 		}
 	}
@@ -721,11 +721,11 @@ public final class Named_Template_List extends TTCN3Template {
 
 				final String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
-				source.append(MessageFormat.format("final {0} {1} = {2}.get_{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
-				final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, generatedFieldName);
+				final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, generatedFieldName);
 				template.generateCodeInit(aData, source, embeddedName);
 			}
 		}

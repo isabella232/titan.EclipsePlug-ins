@@ -743,7 +743,7 @@ public final class Set_Value extends Value {
 					if (needsInitPrecede(aData, defaultValue)) {
 						defaultValue.generateCodeInit(aData, source, defaultValue.get_lhs_name());
 					}
-					source.append(MessageFormat.format("{0}.get_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
+					source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
 					continue;
 				} else {
 					fieldValue = null;
@@ -759,7 +759,7 @@ public final class Set_Value extends Value {
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
 					final String embeddedTypeName = compField.getType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("{0} {1} = {2}.get_{3}()", embeddedTypeName, tempId, name, javaGetterName));
+					source.append(MessageFormat.format("{0} {1} = {2}.get_field_{3}()", embeddedTypeName, tempId, name, javaGetterName));
 					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 						source.append(".get()");
 					}
@@ -769,7 +769,7 @@ public final class Set_Value extends Value {
 					source.append("}\n");
 				} else {
 					final StringBuilder embeddedName = new StringBuilder();
-					embeddedName.append(MessageFormat.format("{0}.get_{1}()", name, javaGetterName));
+					embeddedName.append(MessageFormat.format("{0}.get_field_{1}()", name, javaGetterName));
 					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 						embeddedName.append(".get()");
 					}
@@ -779,7 +779,7 @@ public final class Set_Value extends Value {
 			} else {
 				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
-				source.append(MessageFormat.format("{0}.get_{1}().operator_assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
+				source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
 

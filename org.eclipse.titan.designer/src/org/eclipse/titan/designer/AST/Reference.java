@@ -1172,9 +1172,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				final Identifier id = ((FieldSubReference) subreference).getId();
 				expression.expression.append(".");
 				if (isConst) {
-					expression.expression.append("constGet_");
+					expression.expression.append("constGet_field_");
 				} else {
-					expression.expression.append("get_");
+					expression.expression.append("get_field_");
 				}
 				expression.expression.append(FieldSubReference.getJavaGetterName(id.getName()));
 				expression.expression.append("()");

@@ -458,8 +458,8 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\t\t\t\totherValue.must_bound( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
 		source.append("\t\t\tif (otherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get_{0}().is_bound() ) '{'\n", fi.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.operator_assign( otherValue.get_{1}() );\n", fi.mVarName, fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get_field_{0}().is_bound() ) '{'\n", fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.operator_assign( otherValue.get_field_{1}() );\n", fi.mVarName, fi.mJavaVarName));
 			source.append("\t\t\t\t} else {\n");
 			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.clean_up();\n", fi.mVarName));
 			source.append("\t\t\t\t}\n");
@@ -676,7 +676,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			aSb.append(MessageFormat.format("if (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
-			aSb.append(MessageFormat.format("get_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
+			aSb.append(MessageFormat.format("get_field_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
 			aSb.append("}\n");
 		}
 		aSb.append("break;\n");
@@ -690,7 +690,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
 
 			aSb.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-			aSb.append(MessageFormat.format("get_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			aSb.append(MessageFormat.format("get_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
 			aSb.append("}\n");
 			aSb.append("value_used[val_idx] = true;\n");
 			aSb.append("}\n");
@@ -1729,7 +1729,7 @@ public final class RecordSetCodeGenerator {
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
-			aSb.append( " get_" );
+			aSb.append( " get_field_" );
 			aSb.append( fi.mJavaVarName );
 			aSb.append( "() {\n" +
 					"\t\t\treturn " );
@@ -1752,7 +1752,7 @@ public final class RecordSetCodeGenerator {
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
-			aSb.append( " constGet_" );
+			aSb.append( " constGet_field_" );
 			aSb.append( fi.mJavaVarName );
 			aSb.append( "() {\n" +
 					"\t\t\treturn " );
@@ -1817,7 +1817,7 @@ public final class RecordSetCodeGenerator {
 				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append( MessageFormat.format( "\tpublic {0}_template get_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\tpublic {0}_template get_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tset_specific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n\n");
@@ -1830,7 +1830,7 @@ public final class RecordSetCodeGenerator {
 				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
 				source.append(" * */\n");
 			}
-			source.append( MessageFormat.format( "\tpublic {0}_template constGet_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\tpublic {0}_template constGet_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mDisplayName, displayName ) );
 			source.append("\t\t}\n");
@@ -2074,18 +2074,18 @@ public final class RecordSetCodeGenerator {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\tif (other_value.get_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\tif (other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
-				source.append( MessageFormat.format( "\t\t\tif (other_value.get_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(other_value.get_{0}().get());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tif (other_value.get_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}().get());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t} else {\n");
-				source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				source.append("\t\t\t}\n");
 			} else {
-				source.append( MessageFormat.format( "\t\t\tget_{0}().operator_assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
 			}
 			source.append("\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\tget_{0}().clean_up();\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
 			source.append("\t\t}\n");
 		}
 		source.append("\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -2096,10 +2096,10 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\t\t\tget_{0}().clean_up();\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_field_{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\t\tget_{0}().operator_assign(other_value.get_{0}());\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tbreak;\n");
@@ -2198,13 +2198,13 @@ public final class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_omit()) '{'\n", fi.mVarName )  );
-				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				aSb.append("\t\t\t} else ");
 			} else {
 				aSb.append("\t\t\t ");
 			}
 			aSb.append( MessageFormat.format( "if ({0}.is_bound()) '{'\n", fi.mVarName )  );
-			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_{0}().operator_assign({0}.valueof());\n", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_field_{0}().operator_assign({0}.valueof());\n", fi.mVarName ) );
 			aSb.append("\t\t\t}\n");
 		}
 		aSb.append("\t\t\treturn ret_val;\n");
@@ -2313,13 +2313,13 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\t\tif(!other_value.get_{0}().is_bound()) '{'\n", fi.mJavaVarName )  );
+			source.append( MessageFormat.format( "\t\t\t\tif(!other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName )  );
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get_{0}().ispresent() ? !{1}.match(other_value.get_{0}().get(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get_field_{0}().ispresent() ? !{1}.match(other_value.get_field_{0}().get(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get_{0}(), legacy)) '{'\n", fi.mJavaVarName, fi.mVarName )  );
+				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get_field_{0}(), legacy)) '{'\n", fi.mJavaVarName, fi.mVarName )  );
 			}
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
@@ -2525,10 +2525,10 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (fi.isOptional) {
-				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet_{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet_field_{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t} else {\n");
@@ -2541,9 +2541,9 @@ public final class RecordSetCodeGenerator {
 				source.append("\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t}\n");
 			} else {
-				source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet_{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet_field_{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append("\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t}\n");
 			}
@@ -2563,7 +2563,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 		}
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t\t} else {\n");
@@ -2697,7 +2697,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			source.append(MessageFormat.format("if (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
-			source.append(MessageFormat.format("get_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
+			source.append(MessageFormat.format("get_field_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
 			source.append("}\n");
 		}
 		source.append("break;\n");
@@ -2710,7 +2710,7 @@ public final class RecordSetCodeGenerator {
 			source.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
 			source.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
 			source.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-			source.append(MessageFormat.format("get_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
 			source.append("}\n");
 			source.append("value_used[val_idx] = true;\n");
 			source.append("}\n");
@@ -3600,7 +3600,7 @@ public final class RecordSetCodeGenerator {
 						}
 						source.append(MessageFormat.format("{0}.get_selection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
 					}
-					fieldName = MessageFormat.format("{0}.get_{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+					fieldName = MessageFormat.format("{0}.get_field_{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
 
 				}
 
@@ -3753,7 +3753,7 @@ public final class RecordSetCodeGenerator {
 					source.append("{\n");
 					source.append("int old_pos = buff.get_pos_bit();\n");
 					source.append(MessageFormat.format("if (start_of_field{0} != -1 && start_pos_of_field{1} != -1) '{'\n", i, pointedField.raw.pointerbase));
-					source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_{2}(){3}.getInt() * {4} + {5};\n", i, pointedField.raw.pointerbase, pointedField.mVarName, pointedField.isOptional ? ".get()" : "", pointedField.raw.unit, pointedField.raw.ptroffset));
+					source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.getInt() * {4} + {5};\n", i, pointedField.raw.pointerbase, pointedField.mVarName, pointedField.isOptional ? ".get()" : "", pointedField.raw.unit, pointedField.raw.ptroffset));
 					source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
 					source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
 				}
@@ -3842,13 +3842,13 @@ public final class RecordSetCodeGenerator {
 		}
 		if (tempRawOption.pointerof > 0) {
 			final FieldInfo tempPointed = fieldInfos.get(tempRawOption.pointerof - 1);
-			source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_{2}(){3}.getInt() * {4} + {5};\n", i, tempPointed.raw.pointerbase, tempPointed.mJavaVarName, tempPointed.isOptional ? ".get()":"", tempPointed.raw.unit, tempPointed.raw.ptroffset));
+			source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.getInt() * {4} + {5};\n", i, tempPointed.raw.pointerbase, tempPointed.mJavaVarName, tempPointed.isOptional ? ".get()":"", tempPointed.raw.unit, tempPointed.raw.ptroffset));
 			source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
 			source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
 		}
 		if (fieldInfo.isOptional) {
 			source.append(MessageFormat.format("if (force_omit != null && force_omit.shouldOmit({0})) '{'\n", i));
-			source.append(MessageFormat.format("get_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("get_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
 			source.append("final int fl_start_pos = buff.get_pos_bit();\n");
 		}
@@ -3864,7 +3864,7 @@ public final class RecordSetCodeGenerator {
 			source.append(expression.preamble);
 		}
 		source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-		source.append(MessageFormat.format("decoded_field_length = get_{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+		source.append(MessageFormat.format("decoded_field_length = get_field_{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
 		if (crosstagsize > 0) {
@@ -3925,13 +3925,13 @@ public final class RecordSetCodeGenerator {
 		if (tempRawOption.lengthto) {
 			if (fieldInfo.raw.lengthindex != null) {
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
-					source.append(MessageFormat.format("if ({0}{1}.get_{2}().is_present()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
+					source.append(MessageFormat.format("if ({0}{1}.get_field_{2}().is_present()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
 				}
 				if (fieldInfo.raw.lengthto_offset != 0) {
-					source.append(MessageFormat.format("{0}{1}.get_{2}(){3}.operator_assign({0}{1}.get_{2}(){3} - {4});\n",
+					source.append(MessageFormat.format("{0}{1}.get_field_{2}(){3}.operator_assign({0}{1}.get_field_{2}(){3} - {4});\n",
 							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
-				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_{3}(){4}.getLong() * {5};\n",
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}(){4}.getLong() * {5};\n",
 						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 					source.append("}\n");
@@ -3941,9 +3941,9 @@ public final class RecordSetCodeGenerator {
 				for (int m = 0; m < fieldInfo.raw.member_name.size(); m++) {
 					source.append(MessageFormat.format("case {0}.{1}", fieldInfo.raw.member_name.get(0), fieldInfo.raw.member_name.get(m)));
 					if (fieldInfo.raw.lengthto_offset != 0) {
-						source.append(MessageFormat.format("{0}{1}.get_{2}().operator_assign({0}{1}.get_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
+						source.append(MessageFormat.format("{0}{1}.get_field_{2}().operator_assign({0}{1}.get_field_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
 					}
-					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_{3}().getLong() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}().getLong() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 					source.append("break;\n");
 				}
 				source.append("default:\n");

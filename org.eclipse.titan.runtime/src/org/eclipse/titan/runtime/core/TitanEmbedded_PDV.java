@@ -82,18 +82,18 @@ public class TitanEmbedded_PDV extends Base_Type {
 	public TitanEmbedded_PDV operator_assign(final TitanEmbedded_PDV otherValue ) {
 		otherValue.must_bound( "Assignment of an unbound value of type EMBEDDED PDV");
 		if (otherValue != this) {
-			if ( otherValue.get_identification().is_bound() ) {
-				this.identification.operator_assign( otherValue.get_identification() );
+			if ( otherValue.get_field_identification().is_bound() ) {
+				this.identification.operator_assign( otherValue.get_field_identification() );
 			} else {
 				this.identification.clean_up();
 			}
-			if ( otherValue.get_data__value__descriptor().is_bound() ) {
-				this.data__value__descriptor.operator_assign( otherValue.get_data__value__descriptor() );
+			if ( otherValue.get_field_data__value__descriptor().is_bound() ) {
+				this.data__value__descriptor.operator_assign( otherValue.get_field_data__value__descriptor() );
 			} else {
 				this.data__value__descriptor.clean_up();
 			}
-			if ( otherValue.get_data__value().is_bound() ) {
-				this.data__value.operator_assign( otherValue.get_data__value() );
+			if ( otherValue.get_field_data__value().is_bound() ) {
+				this.data__value.operator_assign( otherValue.get_field_data__value() );
 			} else {
 				this.data__value.clean_up();
 			}
@@ -170,7 +170,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-	public TitanEmbedded_PDV_identification get_identification() {
+	public TitanEmbedded_PDV_identification get_field_identification() {
 		return identification;
 	}
 
@@ -179,7 +179,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field identification.
 	 * */
-	public TitanEmbedded_PDV_identification constGet_identification() {
+	public TitanEmbedded_PDV_identification constGet_field_identification() {
 		return identification;
 	}
 
@@ -188,7 +188,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-	public Optional<TitanUniversalCharString> get_data__value__descriptor() {
+	public Optional<TitanUniversalCharString> get_field_data__value__descriptor() {
 		return data__value__descriptor;
 	}
 
@@ -197,7 +197,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value-descriptor.
 	 * */
-	public Optional<TitanUniversalCharString> constGet_data__value__descriptor() {
+	public Optional<TitanUniversalCharString> constGet_field_data__value__descriptor() {
 		return data__value__descriptor;
 	}
 
@@ -206,7 +206,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value.
 	 * */
-	public TitanOctetString get_data__value() {
+	public TitanOctetString get_field_data__value() {
 		return data__value;
 	}
 
@@ -215,7 +215,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *
 	 * @return the field data-value.
 	 * */
-	public TitanOctetString constGet_data__value() {
+	public TitanOctetString constGet_field_data__value() {
 		return data__value;
 	}
 
@@ -261,13 +261,13 @@ public class TitanEmbedded_PDV extends Base_Type {
 				param.error(MessageFormat.format("set value of type EMBEDDED PDV has 3 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_identification().set_param(param.get_elem(0));
+				get_field_identification().set_param(param.get_elem(0));
 			}
 			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_data__value__descriptor().set_param(param.get_elem(1));
+				get_field_data__value__descriptor().set_param(param.get_elem(1));
 			}
 			if (param.get_size() > 2 && param.get_elem(2).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_data__value().set_param(param.get_elem(2));
+				get_field_data__value().set_param(param.get_elem(2));
 			}
 			break;
 		case MP_Assignment_List: {
@@ -276,7 +276,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("identification".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_identification().set_param(curr_param);
+						get_field_identification().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}
@@ -285,7 +285,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("data-value-descriptor".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_data__value__descriptor().set_param(curr_param);
+						get_field_data__value__descriptor().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}
@@ -294,7 +294,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("data-value".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_data__value().set_param(curr_param);
+						get_field_data__value().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}

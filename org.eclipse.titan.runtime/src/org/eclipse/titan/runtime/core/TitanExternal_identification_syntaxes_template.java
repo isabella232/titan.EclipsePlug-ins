@@ -173,15 +173,15 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	}
 
 	private void copy_value(final TitanExternal_identification_syntaxes other_value) {
-		if (other_value.get_abstract_().is_bound()) {
-			get_abstract_().operator_assign(other_value.get_abstract_());
+		if (other_value.get_field_abstract_().is_bound()) {
+			get_field_abstract_().operator_assign(other_value.get_field_abstract_());
 		} else {
-			get_abstract_().clean_up();
+			get_field_abstract_().clean_up();
 		}
-		if (other_value.get_transfer().is_bound()) {
-			get_transfer().operator_assign(other_value.get_transfer());
+		if (other_value.get_field_transfer().is_bound()) {
+			get_field_transfer().operator_assign(other_value.get_field_transfer());
 		} else {
-			get_transfer().clean_up();
+			get_field_transfer().clean_up();
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
@@ -189,15 +189,15 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	private void copy_template(final TitanExternal_identification_syntaxes_template other_value) {
 		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_abstract_().get_selection()) {
-				get_abstract_().clean_up();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_field_abstract_().get_selection()) {
+				get_field_abstract_().clean_up();
 			} else {
-				get_abstract_().operator_assign(other_value.get_abstract_());
+				get_field_abstract_().operator_assign(other_value.get_field_abstract_());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_transfer().get_selection()) {
-				get_transfer().clean_up();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_field_transfer().get_selection()) {
+				get_field_transfer().clean_up();
 			} else {
-				get_transfer().operator_assign(other_value.get_transfer());
+				get_field_transfer().operator_assign(other_value.get_field_transfer());
 			}
 			break;
 		case OMIT_VALUE:
@@ -308,7 +308,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 *
 	 * @return the field abstract.
 	 * */
-	public TitanObjectid_template get_abstract_() {
+	public TitanObjectid_template get_field_abstract_() {
 		set_specific();
 		return abstract_;
 	}
@@ -319,7 +319,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 *
 	 * @return the field abstract.
 	 * */
-	public TitanObjectid_template constGet_abstract_() {
+	public TitanObjectid_template constGet_field_abstract_() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field abstract of a non-specific template of type EXTERNAL.identification.syntaxes.");
 		}
@@ -332,7 +332,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 *
 	 * @return the field transfer.
 	 * */
-	public TitanObjectid_template get_transfer() {
+	public TitanObjectid_template get_field_transfer() {
 		set_specific();
 		return transfer;
 	}
@@ -343,7 +343,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	 *
 	 * @return the field transfer.
 	 * */
-	public TitanObjectid_template constGet_transfer() {
+	public TitanObjectid_template constGet_field_transfer() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer of a non-specific template of type EXTERNAL.identification.syntaxes.");
 		}
@@ -392,16 +392,16 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.get_abstract_().is_bound()) {
+			if(!other_value.get_field_abstract_().is_bound()) {
 				return false;
 			}
-			if(!abstract_.match(other_value.get_abstract_(), legacy)) {
+			if(!abstract_.match(other_value.get_field_abstract_(), legacy)) {
 				return false;
 			}
-			if(!other_value.get_transfer().is_bound()) {
+			if(!other_value.get_field_transfer().is_bound()) {
 				return false;
 			}
-			if(!transfer.match(other_value.get_transfer(), legacy)) {
+			if(!transfer.match(other_value.get_field_transfer(), legacy)) {
 				return false;
 			}
 			return true;
@@ -436,10 +436,10 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 		final TitanExternal_identification_syntaxes ret_val = new TitanExternal_identification_syntaxes();
 		if (abstract_.is_bound()) {
-			ret_val.get_abstract_().operator_assign(abstract_.valueof());
+			ret_val.get_field_abstract_().operator_assign(abstract_.valueof());
 		}
 		if (transfer.is_bound()) {
-			ret_val.get_transfer().operator_assign(transfer.valueof());
+			ret_val.get_field_transfer().operator_assign(transfer.valueof());
 		}
 		return ret_val;
 	}
@@ -561,14 +561,14 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 			} else {
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-					if( !abstract_.match(match_value.constGet_abstract_(), legacy) ) {
+					if( !abstract_.match(match_value.constGet_field_abstract_(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".abstract");
-						abstract_.log_match(match_value.constGet_abstract_(), legacy);
+						abstract_.log_match(match_value.constGet_field_abstract_(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !transfer.match(match_value.constGet_transfer(), legacy) ) {
+					if( !transfer.match(match_value.constGet_field_transfer(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".transfer");
-						transfer.log_match(match_value.constGet_transfer(), legacy);
+						transfer.log_match(match_value.constGet_field_transfer(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
@@ -583,9 +583,9 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ abstract := ");
-			abstract_.log_match(match_value.constGet_abstract_(), legacy);
+			abstract_.log_match(match_value.constGet_field_abstract_(), legacy);
 			TTCN_Logger.log_event_str("{ transfer := ");
-			transfer.log_match(match_value.constGet_transfer(), legacy);
+			transfer.log_match(match_value.constGet_field_transfer(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();
@@ -681,10 +681,10 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 				param.error(MessageFormat.format("record template of type EXTERNAL.identification.syntaxes has 2 fields but list value has {0} fields.", param.get_size()));
 			}
 			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_abstract_().set_param(param.get_elem(0));
+				get_field_abstract_().set_param(param.get_elem(0));
 			}
 			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
-				get_transfer().set_param(param.get_elem(1));
+				get_field_transfer().set_param(param.get_elem(1));
 			}
 			break;
 		case MP_Assignment_List: {
@@ -693,7 +693,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("abstract".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_abstract_().set_param(curr_param);
+						get_field_abstract_().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}
@@ -702,7 +702,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 				final Module_Parameter curr_param = param.get_elem(val_idx);
 				if ("transfer".equals(curr_param.get_id().get_name())) {
 					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
-						get_transfer().set_param(curr_param);
+						get_field_transfer().set_param(curr_param);
 					}
 					value_used[val_idx] = true;
 				}

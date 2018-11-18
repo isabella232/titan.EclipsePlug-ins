@@ -164,7 +164,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			log_file_emerg(event);
 		}
 
-		final int severityIndex = event.get_severity().getInt();
+		final int severityIndex = event.get_field_severity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
 		if (use_emergency_mask) {
 			if (TTCN_Logger.should_log_to_emergency(severity) || TTCN_Logger.should_log_to_file(severity)) {
@@ -458,16 +458,16 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		if (!TTCN_Communication.send_log(event.get_timestamp__().get_seconds().getInt(), event.get_timestamp__().get_microSeconds().getInt(), event.get_severity().getInt(), event_str)) {
+		if (!TTCN_Communication.send_log(event.get_field_timestamp__().get_field_seconds().getInt(), event.get_field_timestamp__().get_field_microSeconds().getInt(), event.get_field_severity().getInt(), event_str)) {
 			// The event text shall be printed to stderr when there is no control
 			// connection towards MC (e.g. in single mode or in case of network
 			// error).
 			if (event_str.length() > 0) {
 				// Write the location info to the console for user logs only.
-				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.get_sourceInfo__list().lengthof().getInt() > 0) {
-					final int stackdepth = event.get_sourceInfo__list().lengthof().getInt();
-					final LocationInfo loc = event.get_sourceInfo__list().get_at(stackdepth - 1);
-					System.err.print(MessageFormat.format("{0}:{1}", loc.get_filename().getValue(), loc.get_line().getInt()));
+				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.get_field_sourceInfo__list().lengthof().getInt() > 0) {
+					final int stackdepth = event.get_field_sourceInfo__list().lengthof().getInt();
+					final LocationInfo loc = event.get_field_sourceInfo__list().get_at(stackdepth - 1);
+					System.err.print(MessageFormat.format("{0}:{1}", loc.get_field_filename().getValue(), loc.get_field_line().getInt()));
 				}
 
 				System.err.print(event_str);
@@ -516,8 +516,8 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
-				final int event_timestamp_seconds = event.get_timestamp__().get_seconds().getInt();
-				final int event_timestamp_microseconds = event.get_timestamp__().get_microSeconds().getInt();
+				final int event_timestamp_seconds = event.get_field_timestamp__().get_field_seconds().getInt();
+				final int event_timestamp_microseconds = event.get_field_timestamp__().get_field_microSeconds().getInt();
 				int diff_seconds = 0;
 				int diff_microseconds = 0;
 				// If the specified time period has elapsed retry logging to file.
@@ -576,10 +576,10 @@ public class LegacyLogger implements ILoggerPlugin {
 				if (new_filename != current_filename_) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
-					switched_event.get_timestamp__().operator_assign(event.get_timestamp__());
-					switched_event.get_sourceInfo__list().operator_assign(event.get_sourceInfo__list());
-					switched_event.get_severity().operator_assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
-					switched_event.get_logEvent().get_choice().get_unhandledEvent().operator_assign(switched);
+					switched_event.get_field_timestamp__().operator_assign(event.get_field_timestamp__());
+					switched_event.get_field_sourceInfo__list().operator_assign(event.get_field_sourceInfo__list());
+					switched_event.get_field_severity().operator_assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
+					switched_event.get_field_logEvent().get_field_choice().get_field_unhandledEvent().operator_assign(switched);
 					log_file(switched_event, true);
 					switched = null;
 					close_file();
@@ -604,8 +604,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case DISKFULL_RETRY:
 				is_disk_full_ = true;
-				disk_full_time_seconds = event.get_timestamp__().get_seconds().getInt();
-				disk_full_time_microseconds = event.get_timestamp__().get_microSeconds().getInt();
+				disk_full_time_seconds = event.get_field_timestamp__().get_field_seconds().getInt();
+				disk_full_time_microseconds = event.get_field_timestamp__().get_field_microSeconds().getInt();
 				break;
 			case DISKFULL_DELETE:
 				// Try to delete older logfiles while writing fails, must leave at least
@@ -688,9 +688,9 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
 		final StringBuilder returnValue = new StringBuilder();
 		final StringBuilder sourceInfo = new StringBuilder();
-		if (event.get_sourceInfo__list().is_bound()) {
+		if (event.get_field_sourceInfo__list().is_bound()) {
 			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
-			final int stack_size = event.get_sourceInfo__list().size_of().getInt();
+			final int stack_size = event.get_field_sourceInfo__list().size_of().getInt();
 			if (stack_size > 0) {
 				int i = 0;
 				switch (source_info_format) {
@@ -705,33 +705,33 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 				boolean firstLocation = true;
 				for (; i < stack_size; i++) {
-					final LocationInfo loc = event.get_sourceInfo__list().get_at(i);
+					final LocationInfo loc = event.get_field_sourceInfo__list().get_at(i);
 					if (firstLocation) {
 						firstLocation = false;
 					} else {
 						sourceInfo.append("->");
 					}
 
-					sourceInfo.append(loc.get_filename().getValue()).append(':').append(loc.get_line().getInt());
+					sourceInfo.append(loc.get_field_filename().getValue()).append(':').append(loc.get_field_line().getInt());
 
-					switch (loc.get_ent__type().enum_value) {
+					switch (loc.get_field_ent__type().enum_value) {
 					case controlpart:
-						sourceInfo.append(MessageFormat.format("(controlpart:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(controlpart:{0})", loc.get_field_ent__name()));
 						break;
 					case testcase__:
-						sourceInfo.append(MessageFormat.format("(testcase:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(testcase:{0})", loc.get_field_ent__name()));
 						break;
 					case altstep__:
-						sourceInfo.append(MessageFormat.format("(altstep:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(altstep:{0})", loc.get_field_ent__name()));
 						break;
 					case function__:
-						sourceInfo.append(MessageFormat.format("(function:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(function:{0})", loc.get_field_ent__name()));
 						break;
 					case external__function:
-						sourceInfo.append(MessageFormat.format("(externalfunction:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(externalfunction:{0})", loc.get_field_ent__name()));
 						break;
 					case template__:
-						sourceInfo.append(MessageFormat.format("(template:{0})", loc.get_ent__name()));
+						sourceInfo.append(MessageFormat.format("(template:{0})", loc.get_field_ent__name()));
 						break;
 					case UNBOUND_VALUE:
 					case UNKNOWN_VALUE:
@@ -747,31 +747,31 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 
-		final int severityIndex = event.get_severity().getInt();
+		final int severityIndex = event.get_field_severity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
-		append_header(returnValue, event.get_timestamp__().get_seconds().getInt(), event.get_timestamp__().get_microSeconds().getInt(), severity, sourceInfo);
+		append_header(returnValue, event.get_field_timestamp__().get_field_seconds().getInt(), event.get_field_timestamp__().get_field_microSeconds().getInt(), severity, sourceInfo);
 
-		final LogEventType_choice choice = event.get_logEvent().get_choice();
+		final LogEventType_choice choice = event.get_field_logEvent().get_field_choice();
 		switch (choice.get_selection()) {
 		case UNBOUND_VALUE:
 			return returnValue.toString();
 		case ALT_unhandledEvent:
-			returnValue.append(choice.get_unhandledEvent().getValue());
+			returnValue.append(choice.get_field_unhandledEvent().getValue());
 			break;
 		case ALT_timerEvent:
-			timer_event_str(returnValue, choice.get_timerEvent().get_choice());
+			timer_event_str(returnValue, choice.get_field_timerEvent().get_field_choice());
 			break;
 		case ALT_statistics:
-			statistics_str(returnValue, choice.get_statistics().get_choice());
+			statistics_str(returnValue, choice.get_field_statistics().get_field_choice());
 			break;
 		case ALT_verdictOp:
-			verdictop_str(returnValue, choice.get_verdictOp().get_choice());
+			verdictop_str(returnValue, choice.get_field_verdictOp().get_field_choice());
 			break;
 		case ALT_testcaseOp:
-			testcaseop_str(returnValue, choice.get_testcaseOp().get_choice());
+			testcaseop_str(returnValue, choice.get_field_testcaseOp().get_field_choice());
 			break;
 		case ALT_actionEvent: {
-			final Strings_str__list slist = choice.get_actionEvent().get_str__list();
+			final Strings_str__list slist = choice.get_field_actionEvent().get_field_str__list();
 			final int size = slist.size_of().getInt();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.get_at(i).getValue());
@@ -779,7 +779,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_userLog: {
-			final Strings_str__list slist = choice.get_userLog().get_str__list();
+			final Strings_str__list slist = choice.get_field_userLog().get_field_str__list();
 			final int size = slist.size_of().getInt();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.get_at(i).getValue());
@@ -787,36 +787,36 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_debugLog:
-			returnValue.append(choice.get_debugLog().get_text().getValue());
+			returnValue.append(choice.get_field_debugLog().get_field_text().getValue());
 			break;
 		case ALT_errorLog:
-			returnValue.append(choice.get_errorLog().get_text().getValue());
+			returnValue.append(choice.get_field_errorLog().get_field_text().getValue());
 			break;
 		case ALT_warningLog:
-			returnValue.append(choice.get_warningLog().get_text().getValue());
+			returnValue.append(choice.get_field_warningLog().get_field_text().getValue());
 			break;
 		case ALT_defaultEvent:
-			defaultop_event_str(returnValue, choice.get_defaultEvent().get_choice());
+			defaultop_event_str(returnValue, choice.get_field_defaultEvent().get_field_choice());
 			break;
 		case ALT_executionSummary:
 			//TODO needs to be checked if this needs to be empty.
 			break;
 		case ALT_executorEvent:
-			executor_event_str(returnValue, choice.get_executorEvent().get_choice());
+			executor_event_str(returnValue, choice.get_field_executorEvent().get_field_choice());
 			break;
 		case ALT_matchingEvent:
-			matchingop_str(returnValue, choice.get_matchingEvent().get_choice());
+			matchingop_str(returnValue, choice.get_field_matchingEvent().get_field_choice());
 			break;
 		case ALT_functionEvent: {
-			switch (choice.get_functionEvent().get_choice().get_selection()) {
+			switch (choice.get_field_functionEvent().get_field_choice().get_selection()) {
 			case ALT_random : {
-				final FunctionEvent_choice_random ra = choice.get_functionEvent().get_choice().get_random();
-				switch (ra.get_operation().enum_value) {
+				final FunctionEvent_choice_random ra = choice.get_field_functionEvent().get_field_choice().get_field_random();
+				switch (ra.get_field_operation().enum_value) {
 				case seed:
-					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_retval().getValue(), ra.get_intseed().getInt()));
+					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_field_retval().getValue(), ra.get_field_intseed().getInt()));
 					break;
 				case read__out:
-					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.get_retval().getValue()));
+					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.get_field_retval().getValue()));
 					break;
 				case UNBOUND_VALUE:
 				case UNKNOWN_VALUE:
@@ -831,10 +831,10 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_parallelEvent:
-			parallel_str(returnValue, choice.get_parallelEvent().get_choice());
+			parallel_str(returnValue, choice.get_field_parallelEvent().get_field_choice());
 			break;
 		case ALT_portEvent:
-			portevent_str(returnValue, choice.get_portEvent().get_choice());
+			portevent_str(returnValue, choice.get_field_portEvent().get_field_choice());
 			break;
 		}
 
@@ -844,28 +844,28 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void timer_event_str(final StringBuilder returnValue, final TimerEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_readTimer: {
-			final TimerType timer = choice.get_readTimer();
-			returnValue.append(MessageFormat.format("Read timer {0}: {1} s", timer.get_name().getValue(), timer.get_value__().getValue()));
+			final TimerType timer = choice.get_field_readTimer();
+			returnValue.append(MessageFormat.format("Read timer {0}: {1} s", timer.get_field_name().getValue(), timer.get_field_value__().getValue()));
 			break;
 		}
 		case ALT_startTimer: {
-			final TimerType timer = choice.get_startTimer();
-			returnValue.append(MessageFormat.format("Start timer {0}: {1} s", timer.get_name().getValue(), timer.get_value__().getValue()));
+			final TimerType timer = choice.get_field_startTimer();
+			returnValue.append(MessageFormat.format("Start timer {0}: {1} s", timer.get_field_name().getValue(), timer.get_field_value__().getValue()));
 			break;
 		}
 		case ALT_guardTimer: {
-			final TimerGuardType timer = choice.get_guardTimer();
-			returnValue.append(MessageFormat.format("Test case guard timer was set to {0} s", timer.get_value__().getValue()));
+			final TimerGuardType timer = choice.get_field_guardTimer();
+			returnValue.append(MessageFormat.format("Test case guard timer was set to {0} s", timer.get_field_value__().getValue()));
 			break;
 		}
 		case ALT_stopTimer: {
-			final TimerType timer = choice.get_stopTimer();
-			returnValue.append(MessageFormat.format("Stop timer {0}: {1} s", timer.get_name().getValue(), timer.get_value__().getValue()));
+			final TimerType timer = choice.get_field_stopTimer();
+			returnValue.append(MessageFormat.format("Stop timer {0}: {1} s", timer.get_field_name().getValue(), timer.get_field_value__().getValue()));
 			break;
 		}
 		case ALT_timeoutTimer: {
-			final TimerType timer = choice.get_timeoutTimer();
-			returnValue.append(MessageFormat.format("Timeout {0}: {1} s", timer.get_name().getValue(), timer.get_value__().getValue()));
+			final TimerType timer = choice.get_field_timeoutTimer();
+			returnValue.append(MessageFormat.format("Timeout {0}: {1} s", timer.get_field_name().getValue(), timer.get_field_value__().getValue()));
 			break;
 		}
 		case ALT_timeoutAnyTimer: {
@@ -873,7 +873,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_unqualifiedTimer: {
-			returnValue.append(choice.get_unqualifiedTimer().getValue());
+			returnValue.append(choice.get_field_unqualifiedTimer().getValue());
 			break;
 		}
 		case UNBOUND_VALUE:
@@ -884,24 +884,24 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void defaultop_event_str(final StringBuilder returnValue, final DefaultEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_defaultopActivate: {
-			final DefaultOp dflt = choice.get_defaultopActivate();
-			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.get_name().getValue(), dflt.get_id().getInt()));
+			final DefaultOp dflt = choice.get_field_defaultopActivate();
+			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.get_field_name().getValue(), dflt.get_field_id().getInt()));
 			break;
 		}
 		case ALT_defaultopDeactivate: {
-			final DefaultOp dflt = choice.get_defaultopDeactivate();
-			if (dflt.get_name().lengthof().isGreaterThan(0)) {
-				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.get_id().getInt(), dflt.get_name().getValue()));
+			final DefaultOp dflt = choice.get_field_defaultopDeactivate();
+			if (dflt.get_field_name().lengthof().isGreaterThan(0)) {
+				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.get_field_id().getInt(), dflt.get_field_name().getValue()));
 			} else {
 				returnValue.append("Deactivate operation on a null default reference was ignored.");
 			}
 			break;
 		}
 		case ALT_defaultopExit: {
-			final DefaultOp dflt = choice.get_defaultopExit();
-			returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) ", dflt.get_id().getInt(), dflt.get_name().getValue()));
+			final DefaultOp dflt = choice.get_field_defaultopExit();
+			returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) ", dflt.get_field_id().getInt(), dflt.get_field_name().getValue()));
 
-			switch (dflt.get_end().enum_value) {
+			switch (dflt.get_field_end().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
@@ -927,8 +927,8 @@ public class LegacyLogger implements ILoggerPlugin {
 		case UNBOUND_VALUE:
 			break;
 		case ALT_executorRuntime: {
-			final ExecutorRuntime rt = eec.get_executorRuntime();
-			switch (rt.get_reason().enum_value) {
+			final ExecutorRuntime rt = eec.get_field_executorRuntime();
+			switch (rt.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
@@ -957,7 +957,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Stop was requested from MC. Ignored on idle PTC.");
 				break;
 			case executing__testcase__in__module:
-				returnValue.append(MessageFormat.format("Executing test case {0} in module {1}.", rt.get_testcase__name().get(), rt.get_module__name().get()));
+				returnValue.append(MessageFormat.format("Executing test case {0} in module {1}.", rt.get_field_testcase__name().get(), rt.get_field_module__name().get()));
 				break;
 			case performing__error__recovery:
 				returnValue.append("Performing error recovery.");
@@ -972,22 +972,22 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Exiting.");
 				break;
 			case fd__limits:
-				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {1}", rt.get_pid().get().getInt(), rt.get_fd__setsize()));
+				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {1}", rt.get_field_pid().get().getInt(), rt.get_field_fd__setsize()));
 				break;
 			case host__controller__started:
-				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: {1}. ", rt.get_module__name().get().getValue(), TTCN_Runtime.PRODUCT_NUMBER));
+				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: {1}. ", rt.get_field_module__name().get().getValue(), TTCN_Runtime.PRODUCT_NUMBER));
 				break;
 			case host__controller__finished:
 				returnValue.append("TTCN-3 Host Controller finished.");
 				break;
 			case initializing__module:
-				returnValue.append(MessageFormat.format("Initializing module {0}.", rt.get_module__name().get().getValue()));
+				returnValue.append(MessageFormat.format("Initializing module {0}.", rt.get_field_module__name().get().getValue()));
 				break;
 			case initialization__of__module__finished:
-				returnValue.append(MessageFormat.format("Initializing module {0} finished.", rt.get_module__name().get().getValue()));
+				returnValue.append(MessageFormat.format("Initializing module {0} finished.", rt.get_field_module__name().get().getValue()));
 				break;
 			case mtc__created:
-				returnValue.append(MessageFormat.format("MTC was created. Process id: {0}.", rt.get_pid().get().getInt()));
+				returnValue.append(MessageFormat.format("MTC was created. Process id: {0}.", rt.get_field_pid().get().getInt()));
 				break;
 			case overload__check:
 				returnValue.append("Trying to create a dummy child process to verify if the host is still overloaded.");
@@ -1022,8 +1022,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_executorConfigdata: {
-			final ExecutorConfigdata cfg = eec.get_executorConfigdata();
-			switch (cfg.get_reason().enum_value) {
+			final ExecutorConfigdata cfg = eec.get_field_executorConfigdata();
+			switch (cfg.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
@@ -1039,17 +1039,17 @@ public class LegacyLogger implements ILoggerPlugin {
 			case module__has__parameters:
 				break;
 			case using__config__file:
-				returnValue.append(MessageFormat.format("Using configuration file: `{0}''.", cfg.get_param__().get().getValue()));
+				returnValue.append(MessageFormat.format("Using configuration file: `{0}''.", cfg.get_field_param__().get().getValue()));
 				break;
 			case overriding__testcase__list:
-				returnValue.append(MessageFormat.format("Overriding testcase list: {0}.", cfg.get_param__().get().getValue()));
+				returnValue.append(MessageFormat.format("Overriding testcase list: {0}.", cfg.get_field_param__().get().getValue()));
 				break;
 			}
 			break;
 		}
 		case ALT_executorComponent: {
-			final ExecutorComponent cm = eec.get_executorComponent();
-			switch (cm.get_reason().enum_value) {
+			final ExecutorComponent cm = eec.get_field_executorComponent();
+			switch (cm.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
@@ -1071,25 +1071,25 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_executorMisc: {
-			final ExecutorUnqualified ex = eec.get_executorMisc();
-			final String name = ex.get_name().getValue().toString();
-			final String ip_addr_str = ex.get_addr().getValue().toString();
-			switch (ex.get_reason().enum_value) {
+			final ExecutorUnqualified ex = eec.get_field_executorMisc();
+			final String name = ex.get_field_name().getValue().toString();
+			final String ip_addr_str = ex.get_field_addr().getValue().toString();
+			switch (ex.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
 			case address__of__mc__was__set:
 				if (name.equals(ip_addr_str)) {
-					returnValue.append(MessageFormat.format("The address of MC was set to {0}[{1}]:{2}.", name, ip_addr_str, ex.get_port__().getInt()));
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}[{1}]:{2}.", name, ip_addr_str, ex.get_field_port__().getInt()));
 				} else {
-					returnValue.append(MessageFormat.format("The address of MC was set to {0}:{1}.", ip_addr_str, ex.get_port__().getInt()));
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}:{1}.", ip_addr_str, ex.get_field_port__().getInt()));
 				}
 				break;
 			case address__of__control__connection:
 				returnValue.append(MessageFormat.format("The local IP address of the control connection to MC is {0}.", ip_addr_str));
 				break;
 			case host__support__unix__domain__sockets:
-				if (ex.get_port__().getInt() == 0) {
+				if (ex.get_field_port__().getInt() == 0) {
 					returnValue.append("This host supports UNIX domain sockets for local communication.");
 				} else {
 					returnValue.append("This host does not support UNIX domain sockets for local communication.");
@@ -1106,15 +1106,15 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_logOptions:
-			returnValue.append(eec.get_logOptions().getValue());
+			returnValue.append(eec.get_field_logOptions().getValue());
 			returnValue.append(plugin_specific_settings());
 			//FIXME also log plugin specific setting
 			break;
 		case ALT_extcommandStart:
-			returnValue.append(MessageFormat.format("Starting external command `{0}''.", eec.get_extcommandStart().getValue()));
+			returnValue.append(MessageFormat.format("Starting external command `{0}''.", eec.get_field_extcommandStart().getValue()));
 			break;
 		case ALT_extcommandSuccess:
-			returnValue.append(MessageFormat.format("External command `{0}'' was executed successfully (exit status: 0).", eec.get_extcommandSuccess()));
+			returnValue.append(MessageFormat.format("External command `{0}'' was executed successfully (exit status: 0).", eec.get_field_extcommandSuccess()));
 			break;
 		}
 	}
@@ -1124,82 +1124,82 @@ public class LegacyLogger implements ILoggerPlugin {
 		case UNBOUND_VALUE:
 			break;
 		case ALT_setVerdict: {
-			final SetVerdictType set = choice.get_setVerdict();
-			final int newOrdinal = set.get_newVerdict().enum_value.ordinal();
+			final SetVerdictType set = choice.get_field_setVerdict();
+			final int newOrdinal = set.get_field_newVerdict().enum_value.ordinal();
 			final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
-			final int oldOrdinal = set.get_oldVerdict().enum_value.ordinal();
+			final int oldOrdinal = set.get_field_oldVerdict().enum_value.ordinal();
 			final String oldVerdictName = VerdictTypeEnum.values()[oldOrdinal].getName();
-			final int localOrdinal = set.get_localVerdict().enum_value.ordinal();
+			final int localOrdinal = set.get_field_localVerdict().enum_value.ordinal();
 			final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
-			if (set.get_newVerdict().isGreaterThan(set.get_oldVerdict())) {
-				if (!set.get_oldReason().is_present() || !set.get_newReason().is_present()) {
+			if (set.get_field_newVerdict().isGreaterThan(set.get_field_oldVerdict())) {
+				if (!set.get_field_oldReason().is_present() || !set.get_field_newReason().is_present()) {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdictName, oldVerdictName, localVerdictName));
 				} else {
-					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdictName, oldVerdictName, localVerdictName, set.get_oldReason().get().getValue(), set.get_newReason().get().getValue()));
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdictName, oldVerdictName, localVerdictName, set.get_field_oldReason().get().getValue(), set.get_field_newReason().get().getValue()));
 				}
 			} else {
-				if (!set.get_oldReason().is_present() || !set.get_newReason().is_present()) {
+				if (!set.get_field_oldReason().is_present() || !set.get_field_newReason().is_present()) {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}, component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
 				} else {
-					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.get_oldReason().get().getValue()));
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.get_field_oldReason().get().getValue()));
 				}
 			}
 			break;
 		}
 		case ALT_getVerdict: {
-			final int tempOrdinal = choice.get_getVerdict().enum_value.ordinal();
+			final int tempOrdinal = choice.get_field_getVerdict().enum_value.ordinal();
 			final String tempVerdictName = VerdictTypeEnum.values()[tempOrdinal].getName();
 			returnValue.append(MessageFormat.format("getverdict: {0}", tempVerdictName));
 			break;
 		}
 		case ALT_finalVerdict:
-			switch (choice.get_finalVerdict().get_choice().get_selection()) {
+			switch (choice.get_field_finalVerdict().get_field_choice().get_selection()) {
 			case UNBOUND_VALUE:
 				break;
 			case ALT_info: {
-				final FinalVerdictInfo info = choice.get_finalVerdict().get_choice().get_info();
-				if (info.get_is__ptc().getValue()) {
-					if (info.get_ptc__compref().is_present() && info.get_ptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
-						if (info.get_ptc__name().is_present() && info.get_ptc__name().get().lengthof().getInt() > 0) {
-							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.get_ptc__name().get().getValue(), info.get_ptc__compref().get().getInt()));
+				final FinalVerdictInfo info = choice.get_field_finalVerdict().get_field_choice().get_field_info();
+				if (info.get_field_is__ptc().getValue()) {
+					if (info.get_field_ptc__compref().is_present() && info.get_field_ptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
+						if (info.get_field_ptc__name().is_present() && info.get_field_ptc__name().get().lengthof().getInt() > 0) {
+							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.get_field_ptc__name().get().getValue(), info.get_field_ptc__compref().get().getInt()));
 						} else {
-							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.get_ptc__compref().get().getInt()));
+							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.get_field_ptc__compref().get().getInt()));
 						}
 
-						final int ptcOrdinal = info.get_ptc__verdict().enum_value.ordinal();
+						final int ptcOrdinal = info.get_field_ptc__verdict().enum_value.ordinal();
 						final String ptcVerdictName = VerdictTypeEnum.values()[ptcOrdinal].getName();
-						final int localOrdinal = info.get_local__verdict().enum_value.ordinal();
+						final int localOrdinal = info.get_field_local__verdict().enum_value.ordinal();
 						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
-						final int newOrdinal = info.get_new__verdict().enum_value.ordinal();
+						final int newOrdinal = info.get_field_new__verdict().enum_value.ordinal();
 						final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", ptcVerdictName, localVerdictName, newVerdictName));
-						if (info.get_verdict__reason().is_present() && info.get_verdict__reason().get().lengthof().getInt() > 0) {
-							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_verdict__reason().get().getValue()));
+						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().getValue()));
 						}
 					} else {
-						final int localOrdinal = info.get_local__verdict().enum_value.ordinal();
+						final int localOrdinal = info.get_field_local__verdict().enum_value.ordinal();
 						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", localVerdictName));
-						if (info.get_verdict__reason().is_present() && info.get_verdict__reason().get().lengthof().getInt() > 0) {
-							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_verdict__reason().get().getValue()));
+						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().getValue()));
 						}
 					}
 				} else {
-					final int localOrdinal = info.get_local__verdict().enum_value.ordinal();
+					final int localOrdinal = info.get_field_local__verdict().enum_value.ordinal();
 					final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", localVerdictName));
-					if (info.get_verdict__reason().is_present() && info.get_verdict__reason().get().lengthof().getInt() > 0) {
-						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_verdict__reason().get().getValue()));
+					if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().getValue()));
 					}
 				}
 				break;
 			}
 			case ALT_notification:
-				switch (choice.get_finalVerdict().get_choice().get_notification().enum_value) {
+				switch (choice.get_field_finalVerdict().get_field_choice().get_field_notification().enum_value) {
 				case UNBOUND_VALUE:
 				case UNKNOWN_VALUE:
 					break;
@@ -1218,32 +1218,32 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void statistics_str(final StringBuilder returnValue, final StatisticsType_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_verdictStatistics: {
-			final StatisticsType_choice_verdictStatistics statistics = choice.get_verdictStatistics();
-			final int none_count = statistics.get_none__().getInt();
-			final int pass_count = statistics.get_pass__().getInt();
-			final int inconc_count = statistics.get_inconc__().getInt();
-			final int fail_count = statistics.get_fail__().getInt();
-			final int error_count = statistics.get_error__().getInt();
+			final StatisticsType_choice_verdictStatistics statistics = choice.get_field_verdictStatistics();
+			final int none_count = statistics.get_field_none__().getInt();
+			final int pass_count = statistics.get_field_pass__().getInt();
+			final int inconc_count = statistics.get_field_inconc__().getInt();
+			final int fail_count = statistics.get_field_fail__().getInt();
+			final int error_count = statistics.get_field_error__().getInt();
 			if (none_count > 0 || pass_count > 0 || inconc_count > 0 || fail_count > 0 || error_count > 0) {
 				returnValue.append(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
-								none_count, statistics.get_nonePercent().getValue(),
-								pass_count, statistics.get_passPercent().getValue(),
-								inconc_count, statistics.get_inconcPercent().getValue(),
-								fail_count, statistics.get_failPercent().getValue(),
-								error_count, statistics.get_errorPercent().getValue()));
+								none_count, statistics.get_field_nonePercent().getValue(),
+								pass_count, statistics.get_field_passPercent().getValue(),
+								inconc_count, statistics.get_field_inconcPercent().getValue(),
+								fail_count, statistics.get_field_failPercent().getValue(),
+								error_count, statistics.get_field_errorPercent().getValue()));
 			} else {
 				returnValue.append("Verdict statistics: 0 none, 0 pass, 0 inconc, 0 fail, 0 error.");
 			}
 			break;
 		}
 		case ALT_controlpartStart:
-			returnValue.append(MessageFormat.format("Execution of control part in module {0} started.", choice.get_controlpartStart().getValue()));
+			returnValue.append(MessageFormat.format("Execution of control part in module {0} started.", choice.get_field_controlpartStart().getValue()));
 			break;
 		case ALT_controlpartFinish:
-			returnValue.append(MessageFormat.format("Execution of control part in module {0} finished.", choice.get_controlpartFinish().getValue()));
+			returnValue.append(MessageFormat.format("Execution of control part in module {0} finished.", choice.get_field_controlpartFinish().getValue()));
 			break;
 		case ALT_controlpartErrors:
-			returnValue.append(MessageFormat.format("Number of errors outside test cases: {0}", choice.get_controlpartErrors().getInt()));
+			returnValue.append(MessageFormat.format("Number of errors outside test cases: {0}", choice.get_field_controlpartErrors().getInt()));
 			break;
 		case UNBOUND_VALUE:
 			break;
@@ -1255,28 +1255,28 @@ public class LegacyLogger implements ILoggerPlugin {
 		case UNBOUND_VALUE:
 			break;
 		case ALT_parallelPTC: {
-			final ParallelPTC ptc = choice.get_parallelPTC();
-			switch (ptc.get_reason().enum_value) {
+			final ParallelPTC ptc = choice.get_field_parallelPTC();
+			switch (ptc.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
 			case init__component__start:
-				returnValue.append(MessageFormat.format("Initializing variables, timers and ports of component type {0}.{1}", ptc.get_module__().getValue(), ptc.get_name().getValue()));
-				if (ptc.get_tc__loc().lengthof().getInt() > 0) {
-					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_tc__loc().getValue()));
+				returnValue.append(MessageFormat.format("Initializing variables, timers and ports of component type {0}.{1}", ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
+				if (ptc.get_field_tc__loc().lengthof().getInt() > 0) {
+					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_field_tc__loc().getValue()));
 				}
 				returnValue.append('.');
 				break;
 			case init__component__finish:
-				returnValue.append(MessageFormat.format("Component type {0}.{1} was initialized.", ptc.get_module__().getValue(), ptc.get_name().getValue()));
+				returnValue.append(MessageFormat.format("Component type {0}.{1} was initialized.", ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
 				break;
 			case terminating__component:
-				returnValue.append(MessageFormat.format("Terminating component type {0}.{1}.", ptc.get_module__().getValue(), ptc.get_name().getValue()));
+				returnValue.append(MessageFormat.format("Terminating component type {0}.{1}.", ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
 				break;
 			case component__shut__down:
-				returnValue.append(MessageFormat.format("Component type {0}.{1} was shut down", ptc.get_module__().getValue(), ptc.get_name().getValue()));
-				if (ptc.get_tc__loc().lengthof().getInt() > 0) {
-					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_tc__loc().getValue()));
+				returnValue.append(MessageFormat.format("Component type {0}.{1} was shut down", ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
+				if (ptc.get_field_tc__loc().lengthof().getInt() > 0) {
+					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_field_tc__loc().getValue()));
 				}
 				returnValue.append('.');
 				break;
@@ -1284,54 +1284,54 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Error occurred on idle PTC. The component terminates.");
 				break;
 			case ptc__created:
-				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.get_compref().getInt(), ptc.get_alive__pid().getInt() > 0 ? "yes" : "no", ptc.get_module__().getValue(), ptc.get_name().getValue()));
-				if (ptc.get_compname().lengthof().getInt() > 0) {
-					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_compname().getValue()));
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.get_field_compref().getInt(), ptc.get_field_alive__pid().getInt() > 0 ? "yes" : "no", ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
+				if (ptc.get_field_compname().lengthof().getInt() > 0) {
+					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_field_compname().getValue()));
 				}
-				if (ptc.get_tc__loc().lengthof().getInt() != 0) {
-					returnValue.append(MessageFormat.format(", location: {0}", ptc.get_tc__loc().getValue()));
+				if (ptc.get_field_tc__loc().lengthof().getInt() != 0) {
+					returnValue.append(MessageFormat.format(", location: {0}", ptc.get_field_tc__loc().getValue()));
 				}
 				returnValue.append('.');
 				break;
 			case ptc__created__pid:
-				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.get_compref().getInt(), ptc.get_module__().getValue(), ptc.get_name().getValue()));
-				if (ptc.get_compname().lengthof().getInt() > 0) {
-					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_compname().getValue()));
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.get_field_compref().getInt(), ptc.get_field_module__().getValue(), ptc.get_field_name().getValue()));
+				if (ptc.get_field_compname().lengthof().getInt() > 0) {
+					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_field_compname().getValue()));
 				}
-				if (ptc.get_tc__loc().lengthof().getInt() != 0) {
-					returnValue.append(MessageFormat.format(", testcase name: {0}", ptc.get_tc__loc().getValue()));
+				if (ptc.get_field_tc__loc().lengthof().getInt() != 0) {
+					returnValue.append(MessageFormat.format(", testcase name: {0}", ptc.get_field_tc__loc().getValue()));
 				}
-				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.get_alive__pid().getInt()));
+				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.get_field_alive__pid().getInt()));
 				break;
 			case function__started:
 				returnValue.append("Function was started.");
 				break;
 			case function__stopped:
-				returnValue.append(MessageFormat.format("Function {0} was stopped. PTC terminates.", ptc.get_name().getValue()));
+				returnValue.append(MessageFormat.format("Function {0} was stopped. PTC terminates.", ptc.get_field_name().getValue()));
 				break;
 			case function__finished:
-				returnValue.append(MessageFormat.format("Function {0} finished. PTC {1}.", ptc.get_name().getValue(), ptc.get_alive__pid().getInt() == 0 ? "terminates" :  "remains alive and is waiting for next start"));
+				returnValue.append(MessageFormat.format("Function {0} finished. PTC {1}.", ptc.get_field_name().getValue(), ptc.get_field_alive__pid().getInt() == 0 ? "terminates" :  "remains alive and is waiting for next start"));
 				break;
 			case function__error:
-				returnValue.append(MessageFormat.format("Function {0} finished with an error. PTC terminates.", ptc.get_name().getValue()));
+				returnValue.append(MessageFormat.format("Function {0} finished with an error. PTC terminates.", ptc.get_field_name().getValue()));
 				break;
 			case ptc__done:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} is done.", ptc.get_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is done.", ptc.get_field_compref().getInt()));
 				break;
 			case ptc__killed:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} is killed.", ptc.get_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is killed.", ptc.get_field_compref().getInt()));
 				break;
 			case stopping__mtc:
 				returnValue.append("Stopping MTC. The current test case will be terminated.");
 				break;
 			case ptc__stopped:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} was stopped.", ptc.get_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was stopped.", ptc.get_field_compref().getInt()));
 				break;
 			case all__comps__stopped:
 				returnValue.append("All components were stopped.");
 				break;
 			case ptc__was__killed:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} was killed.", ptc.get_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was killed.", ptc.get_field_compref().getInt()));
 				break;
 			case all__comps__killed:
 				returnValue.append("All components were killed.");
@@ -1344,7 +1344,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				//TODO add process statistics
 				break;
 			case ptc__finished:
-				returnValue.append(MessageFormat.format("TC {0}({1}) finished.", ptc.get_compname().getValue(), ptc.get_compref().getInt()));
+				returnValue.append(MessageFormat.format("TC {0}({1}) finished.", ptc.get_field_compname().getValue(), ptc.get_field_compref().getInt()));
 				//TODO add process statistics
 				break;
 			case starting__function:
@@ -1353,8 +1353,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			break; 
 		}
 		case ALT_parallelPTC__exit: {
-			final PTC__exit px = choice.get_parallelPTC__exit();
-			final int compref = px.get_compref().getInt();
+			final PTC__exit px = choice.get_field_parallelPTC__exit();
+			final int compref = px.get_field_compref().getInt();
 			if (compref == TitanComponent.MTC_COMPREF) {
 				returnValue.append("MTC finished.");
 			} else {
@@ -1364,16 +1364,16 @@ public class LegacyLogger implements ILoggerPlugin {
 				} else {
 					returnValue.append(MessageFormat.format("PTC {0}({1}) finished.", comp_name, compref));
 				}
-				returnValue.append(MessageFormat.format(" Process statistics: { process id: {0}, ", px.get_pid().getInt()));
+				returnValue.append(MessageFormat.format(" Process statistics: { process id: {0}, ", px.get_field_pid().getInt()));
 				//TOXO not finished in compiler
 			}
 			break;
 		}
 		case ALT_parallelPort: {
-			final ParPort pp = choice.get_parallelPort();
+			final ParPort pp = choice.get_field_parallelPort();
 			String direction = "on";
 			String preposition = "and";
-			switch (pp.get_operation().enum_value) {
+			switch (pp.get_field_operation().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
@@ -1395,9 +1395,9 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			}
 
-			final String src = TitanComponent.get_component_string(pp.get_srcCompref().getInt());
-			final String dst = TitanComponent.get_component_string(pp.get_dstCompref().getInt());
-			returnValue.append(MessageFormat.format(" operation {0} {1}:{2} {3} {4}:{5} finished.", direction, src, pp.get_srcPort().getValue(), preposition, dst, pp.get_dstPort().getValue()));
+			final String src = TitanComponent.get_component_string(pp.get_field_srcCompref().getInt());
+			final String dst = TitanComponent.get_component_string(pp.get_field_dstCompref().getInt());
+			returnValue.append(MessageFormat.format(" operation {0} {1}:{2} {3} {4}:{5} finished.", direction, src, pp.get_field_srcPort().getValue(), preposition, dst, pp.get_field_dstPort().getValue()));
 			break;
 		}
 		}
@@ -1406,12 +1406,12 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void testcaseop_str(final StringBuilder returnValue, final TestcaseEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_testcaseStarted:
-			returnValue.append(MessageFormat.format("Test case {0} started.", choice.get_testcaseStarted().get_testcase__name().getValue()));
+			returnValue.append(MessageFormat.format("Test case {0} started.", choice.get_field_testcaseStarted().get_field_testcase__name().getValue()));
 			break;
 		case ALT_testcaseFinished:
-			final int ordinal = choice.get_testcaseFinished().get_verdict().enum_value.ordinal();
+			final int ordinal = choice.get_field_testcaseFinished().get_field_verdict().enum_value.ordinal();
 			final String verdictName = VerdictTypeEnum.values()[ordinal].getName();
-			returnValue.append(MessageFormat.format("Test case {0} finished. Verdict: {1}", choice.get_testcaseFinished().get_name().get_testcase__name().getValue(), verdictName));
+			returnValue.append(MessageFormat.format("Test case {0} finished. Verdict: {1}", choice.get_field_testcaseFinished().get_field_name().get_field_testcase__name().getValue(), verdictName));
 			break;
 		case UNBOUND_VALUE:
 		default:
@@ -1422,16 +1422,16 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void matchingop_str(final StringBuilder returnValue, final MatchingEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_matchingDone: {
-			final MatchingDoneType md = choice.get_matchingDone();
-			switch (md.get_reason().enum_value) {
+			final MatchingDoneType md = choice.get_field_matchingDone();
+			switch (md.get_field_reason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
 				break;
 			case done__failed__no__return:
-				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function did not return a value.", md.get_type__().getValue(), md.get_ptc().getInt()));
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function did not return a value.", md.get_field_type__().getValue(), md.get_field_ptc().getInt()));
 				break;
 			case done__failed__wrong__return__type:
-				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function returned a value of type {2}.", md.get_type__().getValue(), md.get_ptc().getInt(), md.get_return__type().getValue()));
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function returned a value of type {2}.", md.get_field_type__().getValue(), md.get_field_ptc().getInt(), md.get_field_return__type().getValue()));
 				break;
 			case any__component__done__successful:
 				returnValue.append("Operation 'any component.done' was successful.");
@@ -1455,37 +1455,37 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_matchingTimeout: {
-			final MatchingTimeout mt = choice.get_matchingTimeout();
-			if (mt.get_timer__name().is_present()) {
-				returnValue.append(MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", mt.get_timer__name().get().getValue()));
+			final MatchingTimeout mt = choice.get_field_matchingTimeout();
+			if (mt.get_field_timer__name().is_present()) {
+				returnValue.append(MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", mt.get_field_timer__name().get().getValue()));
 			} else {
 				returnValue.append("Operation `any timer.timeout' failed: The test component does not have active timers.");
 			}
 			break;
 		}
 		case ALT_matchingFailure: {
-			final MatchingFailureType mf = choice.get_matchingFailure();
+			final MatchingFailureType mf = choice.get_field_matchingFailure();
 			boolean is_call = false;
-			switch (mf.get_reason().enum_value) {
+			switch (mf.get_field_reason().enum_value) {
 			case message__does__not__match__template:
-				returnValue.append(MessageFormat.format("Matching on port {0} {1}: First message in the queue does not match the template: ", mf.get_port__name().getValue(), mf.get_info().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} {1}: First message in the queue does not match the template: ", mf.get_field_port__name().getValue(), mf.get_field_info().getValue()));
 				break;
 			case exception__does__not__match__template:
-				returnValue.append(MessageFormat.format("Matching on port {0} failed: The first exception in the queue does not match the template: {1}", mf.get_port__name().getValue(), mf.get_info().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} failed: The first exception in the queue does not match the template: {1}", mf.get_field_port__name().getValue(), mf.get_field_info().getValue()));
 				break;
 			case parameters__of__call__do__not__match__template:
 				is_call = true; // fall through
 			case parameters__of__reply__do__not__match__template:
-				returnValue.append(MessageFormat.format("Matching on port {0} failed: The parameters of the first {1} in the queue do not match the template: {2}", mf.get_port__name().getValue(), is_call ? "call" : "reply", mf.get_info().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} failed: The parameters of the first {1} in the queue do not match the template: {2}", mf.get_field_port__name().getValue(), is_call ? "call" : "reply", mf.get_field_info().getValue()));
 				break;
 			case sender__does__not__match__from__clause:
-				returnValue.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: {1}", mf.get_port__name().getValue(), mf.get_info().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: {1}", mf.get_field_port__name().getValue(), mf.get_field_info().getValue()));
 				break;
 			case sender__is__not__system:
-				returnValue.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue is not the system.", mf.get_port__name().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue is not the system.", mf.get_field_port__name().getValue()));
 				break;
 			case not__an__exception__for__signature:
-				returnValue.append(MessageFormat.format("Matching on port {0} failed: The first entity in the queue is not an exception for signature {1}.", mf.get_port__name().getValue(), mf.get_info().getValue()));
+				returnValue.append(MessageFormat.format("Matching on port {0} failed: The first entity in the queue is not an exception for signature {1}.", mf.get_field_port__name().getValue(), mf.get_field_info().getValue()));
 				break;
 			default:
 				break;
@@ -1493,21 +1493,21 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_matchingSuccess: {
-			final MatchingSuccessType ms = choice.get_matchingSuccess();
-			returnValue.append(MessageFormat.format("Matching on port {0} succeeded: {1}", ms.get_port__name().getValue(), ms.get_info().getValue()));
+			final MatchingSuccessType ms = choice.get_field_matchingSuccess();
+			returnValue.append(MessageFormat.format("Matching on port {0} succeeded: {1}", ms.get_field_port__name().getValue(), ms.get_field_info().getValue()));
 			break;
 		}
 		case ALT_matchingProblem: {
-			final MatchingProblemType mp = choice.get_matchingProblem();
+			final MatchingProblemType mp = choice.get_field_matchingProblem();
 			returnValue.append("Operation `");
-			if (mp.get_any__port().getValue()) {
+			if (mp.get_field_any__port().getValue()) {
 				returnValue.append("any port.");
 			}
 
-			if (mp.get_check__().getValue()) {
+			if (mp.get_field_check__().getValue()) {
 				returnValue.append("check(");
 			}
-			switch (mp.get_operation().enum_value) {
+			switch (mp.get_field_operation().enum_value) {
 			case receive__:
 				returnValue.append("receive");
 				break;
@@ -1529,19 +1529,19 @@ public class LegacyLogger implements ILoggerPlugin {
 			default:
 				break;
 			}
-			if (mp.get_check__().getValue()) {
+			if (mp.get_field_check__().getValue()) {
 				returnValue.append(')');
 			}
 			returnValue.append("' ");
 
-			if (mp.get_port__name().is_bound()) {
-				returnValue.append(MessageFormat.format("on port {0} ", mp.get_port__name().getValue()));
+			if (mp.get_field_port__name().is_bound()) {
+				returnValue.append(MessageFormat.format("on port {0} ", mp.get_field_port__name().getValue()));
 			}
 			// we could also check that any__port is false
 
 			returnValue.append("failed: ");
 
-			switch (mp.get_reason().enum_value) {
+			switch (mp.get_field_reason().enum_value) {
 			case component__has__no__ports:
 				returnValue.append("The test component does not have ports.");
 				break;
@@ -1584,33 +1584,33 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void portevent_str(final StringBuilder returnValue, final PortEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_portQueue: {
-			final Port__Queue portQueue = choice.get_portQueue();
-			switch (portQueue.get_operation().enum_value) {
+			final Port__Queue portQueue = choice.get_field_portQueue();
+			switch (portQueue.get_field_operation().enum_value) {
 			case enqueue__msg: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_compref().getInt());
-				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_port__name().getValue(), comp_str, portQueue.get_address__().getValue(), portQueue.get_param__().getValue(), portQueue.get_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
+				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().getValue(), comp_str, portQueue.get_field_address__().getValue(), portQueue.get_field_param__().getValue(), portQueue.get_field_msgid().getInt()));
 				break;
 			}
 			case enqueue__call: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_compref().getInt());
-				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_port__name().getValue(), comp_str, portQueue.get_address__().getValue(), portQueue.get_param__().getValue(), portQueue.get_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
+				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().getValue(), comp_str, portQueue.get_field_address__().getValue(), portQueue.get_field_param__().getValue(), portQueue.get_field_msgid().getInt()));
 				break;
 			}
 			case enqueue__reply: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_compref().getInt());
-				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_port__name().getValue(), comp_str, portQueue.get_address__().getValue(), portQueue.get_param__().getValue(), portQueue.get_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
+				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().getValue(), comp_str, portQueue.get_field_address__().getValue(), portQueue.get_field_param__().getValue(), portQueue.get_field_msgid().getInt()));
 				break;
 			}
 			case enqueue__exception: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_compref().getInt());
-				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_port__name().getValue(), comp_str, portQueue.get_address__().getValue(), portQueue.get_param__().getValue(), portQueue.get_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
+				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().getValue(), comp_str, portQueue.get_field_address__().getValue(), portQueue.get_field_param__().getValue(), portQueue.get_field_msgid().getInt()));
 				break;
 			}
 			case extract__msg:
-				returnValue.append(MessageFormat.format("Message with id {0} was extracted from the queue of {1}.", portQueue.get_msgid().getInt(), portQueue.get_port__name().getValue()));
+				returnValue.append(MessageFormat.format("Message with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().getInt(), portQueue.get_field_port__name().getValue()));
 				break;
 			case extract__op:
-				returnValue.append(MessageFormat.format("Operation with id {0} was extracted from the queue of {1}.", portQueue.get_msgid().getInt(), portQueue.get_port__name().getValue()));
+				returnValue.append(MessageFormat.format("Operation with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().getInt(), portQueue.get_field_port__name().getValue()));
 				break;
 			default:
 				break;
@@ -1618,9 +1618,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 		case ALT_portState: {
-			final Port__State ps = choice.get_portState();
+			final Port__State ps = choice.get_field_portState();
 			String what = "";
-			switch (ps.get_operation().enum_value) {
+			switch (ps.get_field_operation().enum_value) {
 			case started:
 				what = "started";
 				break;
@@ -1633,19 +1633,19 @@ public class LegacyLogger implements ILoggerPlugin {
 			default:
 				return;
 			}
-			returnValue.append(MessageFormat.format("Port {0} was {1}.", ps.get_port__name().getValue(), what));
+			returnValue.append(MessageFormat.format("Port {0} was {1}.", ps.get_field_port__name().getValue(), what));
 			break;
 		}
 		case ALT_procPortSend: {
-			final Proc__port__out ps = choice.get_procPortSend();
+			final Proc__port__out ps = choice.get_field_procPortSend();
 			final String dest;
-			if (ps.get_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
-				dest = ps.get_sys__name().getValue().toString();
+			if (ps.get_field_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
+				dest = ps.get_field_sys__name().getValue().toString();
 			} else {
-				dest = TitanComponent.get_component_string(ps.get_compref().getInt());
+				dest = TitanComponent.get_component_string(ps.get_field_compref().getInt());
 			}
 
-			switch (ps.get_operation().enum_value) {
+			switch (ps.get_field_operation().enum_value) {
 			case call__op:
 				returnValue.append("Called");
 				break;
@@ -1658,41 +1658,41 @@ public class LegacyLogger implements ILoggerPlugin {
 				return;
 			}
 
-			returnValue.append(MessageFormat.format(" on {0} to {1} {2}", ps.get_port__name().getValue(), dest, ps.get_parameter().getValue()));
+			returnValue.append(MessageFormat.format(" on {0} to {1} {2}", ps.get_field_port__name().getValue(), dest, ps.get_field_parameter().getValue()));
 			break;
 		}
 		case ALT_procPortRecv: {
-			final Proc__port__in ps = choice.get_procPortRecv();
+			final Proc__port__in ps = choice.get_field_procPortRecv();
 			String op2 = "";
-			switch (ps.get_operation().enum_value) {
+			switch (ps.get_field_operation().enum_value) {
 			case call__op:
-				returnValue.append(ps.get_check__().getValue() ? "Check-getcall" : "Getcall");
+				returnValue.append(ps.get_field_check__().getValue() ? "Check-getcall" : "Getcall");
 				op2 = "call";
 				break;
 			case reply__op:
-				returnValue.append(ps.get_check__().getValue() ? "Check-getreply" : "Getreply");
+				returnValue.append(ps.get_field_check__().getValue() ? "Check-getreply" : "Getreply");
 				op2 = "reply";
 				break;
 			case exception__op:
-				returnValue.append(ps.get_check__().getValue() ? "Check-catch" : "Catch");
+				returnValue.append(ps.get_field_check__().getValue() ? "Check-catch" : "Catch");
 				op2 = "exception";
 			default:
 				return;
 			}
 
-			final String source = TitanComponent.get_component_string(ps.get_compref().getInt());
-			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, {1} from {2}: {3} id {4}", ps.get_port__name().getValue(), op2, source, ps.get_parameter().getValue(), ps.get_msgid().getInt()));
+			final String source = TitanComponent.get_component_string(ps.get_field_compref().getInt());
+			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, {1} from {2}: {3} id {4}", ps.get_field_port__name().getValue(), op2, source, ps.get_field_parameter().getValue(), ps.get_field_msgid().getInt()));
 			break;
 		}
 		case ALT_msgPortSend: {
-			final Msg__port__send ms = choice.get_msgPortSend();
-			final String dest = TitanComponent.get_component_string(ms.get_compref().getInt());
-			returnValue.append(MessageFormat.format("Sent on {0} to {1}{2}", ms.get_port__name().getValue(), dest, ms.get_parameter().getValue()));
+			final Msg__port__send ms = choice.get_field_msgPortSend();
+			final String dest = TitanComponent.get_component_string(ms.get_field_compref().getInt());
+			returnValue.append(MessageFormat.format("Sent on {0} to {1}{2}", ms.get_field_port__name().getValue(), dest, ms.get_field_parameter().getValue()));
 			break;
 		}
 		case ALT_msgPortRecv: {
-			final Msg__port__recv ms = choice.get_msgPortRecv();
-			switch (ms.get_operation().enum_value) {
+			final Msg__port__recv ms = choice.get_field_msgPortRecv();
+			switch (ms.get_field_operation().enum_value) {
 			case receive__op:
 				returnValue.append("Receive");
 				break;
@@ -1706,106 +1706,106 @@ public class LegacyLogger implements ILoggerPlugin {
 				return;
 			}
 
-			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, message from ", ms.get_port__name().getValue()));
-			if (ms.get_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
-				returnValue.append(MessageFormat.format("system({0})", ms.get_sys__name().getValue()));
+			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, message from ", ms.get_field_port__name().getValue()));
+			if (ms.get_field_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
+				returnValue.append(MessageFormat.format("system({0})", ms.get_field_sys__name().getValue()));
 			} else {
-				final String dest = TitanComponent.get_component_string(ms.get_compref().getInt());
+				final String dest = TitanComponent.get_component_string(ms.get_field_compref().getInt());
 				returnValue.append(dest);
 			}
 
-			returnValue.append(MessageFormat.format("{0} id {1}", ms.get_parameter().getValue(), ms.get_msgid().getInt()));
+			returnValue.append(MessageFormat.format("{0} id {1}", ms.get_field_parameter().getValue(), ms.get_field_msgid().getInt()));
 			break;
 		}
 		case ALT_dualMapped: {
-			final Dualface__mapped dual = choice.get_dualMapped();
-			returnValue.append(MessageFormat.format("{0} message was mapped to {1} : {2}", (dual.get_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_target__type().getValue(), dual.get_value__().getValue()));
-			if (dual.get_incoming().getValue()) {
-				returnValue.append(MessageFormat.format(" id {0}", dual.get_msgid().getInt()));
+			final Dualface__mapped dual = choice.get_field_dualMapped();
+			returnValue.append(MessageFormat.format("{0} message was mapped to {1} : {2}", (dual.get_field_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_field_target__type().getValue(), dual.get_field_value__().getValue()));
+			if (dual.get_field_incoming().getValue()) {
+				returnValue.append(MessageFormat.format(" id {0}", dual.get_field_msgid().getInt()));
 			}
 			break;
 		}
 		case ALT_dualDiscard: {
-			final Dualface__discard dual = choice.get_dualDiscard();
-			returnValue.append(MessageFormat.format("{0} message of type {1} ", (dual.get_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_target__type().getValue()));
-			if (dual.get_unhandled().getValue()) {
-				returnValue.append(MessageFormat.format("could not be handled by the type mapping rules on port {0}.  The message was discarded.", dual.get_port__name().getValue()));
+			final Dualface__discard dual = choice.get_field_dualDiscard();
+			returnValue.append(MessageFormat.format("{0} message of type {1} ", (dual.get_field_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_field_target__type().getValue()));
+			if (dual.get_field_unhandled().getValue()) {
+				returnValue.append(MessageFormat.format("could not be handled by the type mapping rules on port {0}.  The message was discarded.", dual.get_field_port__name().getValue()));
 			} else {
-				returnValue.append(MessageFormat.format(" was discarded on port {0}", dual.get_port__name().getValue()));
+				returnValue.append(MessageFormat.format(" was discarded on port {0}", dual.get_field_port__name().getValue()));
 			}
 			break;
 		}
 		case ALT_setState: {
-			final Setstate setstate = choice.get_setState();
-			returnValue.append(MessageFormat.format("The state of the {0} port was changed by a setstate operation to {1}.", setstate.get_port__name().getValue(), setstate.get_state().getValue()));
-			if (setstate.get_info().lengthof().getInt() != 0) {
-				returnValue.append(MessageFormat.format(" Information: {0}", setstate.get_info().getValue()));
+			final Setstate setstate = choice.get_field_setState();
+			returnValue.append(MessageFormat.format("The state of the {0} port was changed by a setstate operation to {1}.", setstate.get_field_port__name().getValue(), setstate.get_field_state().getValue()));
+			if (setstate.get_field_info().lengthof().getInt() != 0) {
+				returnValue.append(MessageFormat.format(" Information: {0}", setstate.get_field_info().getValue()));
 			}
 			break;
 		}
 		case ALT_portMisc: {
-			final Port__Misc portMisc = choice.get_portMisc();
-			final String comp_str = TitanComponent.get_component_string(portMisc.get_remote__component().getInt());
-			switch (portMisc.get_reason().enum_value) {
+			final Port__Misc portMisc = choice.get_field_portMisc();
+			final String comp_str = TitanComponent.get_component_string(portMisc.get_field_remote__component().getInt());
+			switch (portMisc.get_field_reason().enum_value) {
 			case removing__unterminated__connection:
-				returnValue.append(MessageFormat.format("Removing unterminated connection between port {0} and {1}:{2}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Removing unterminated connection between port {0} and {1}:{2}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case removing__unterminated__mapping:
-				returnValue.append(MessageFormat.format("Removing unterminated mapping between port {0} and system:{1}.", portMisc.get_port__name().getValue(), portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Removing unterminated mapping between port {0} and system:{1}.", portMisc.get_field_port__name().getValue(), portMisc.get_field_remote__port().getValue()));
 				break;
 			case port__was__cleared:
-				returnValue.append(MessageFormat.format("Port {0} was cleared.", portMisc.get_port__name().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} was cleared.", portMisc.get_field_port__name().getValue()));
 				break;
 			case local__connection__established:
-				returnValue.append(MessageFormat.format("Port {0} has established the connection with local port {1}.", portMisc.get_port__name().getValue(), portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} has established the connection with local port {1}.", portMisc.get_field_port__name().getValue(), portMisc.get_field_remote__port().getValue()));
 				break;
 			case local__connection__terminated:
-				returnValue.append(MessageFormat.format("Port {0} has terminated the connection with local port {1}.", portMisc.get_port__name().getValue(), portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} has terminated the connection with local port {1}.", portMisc.get_field_port__name().getValue(), portMisc.get_field_remote__port().getValue()));
 				break;
 			case port__is__waiting__for__connection__tcp:
-				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue(), portMisc.get_ip__address().getValue(), portMisc.get_tcp__port().getInt()));
+				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue(), portMisc.get_field_ip__address().getValue(), portMisc.get_field_tcp__port().getInt()));
 				break;
 			case port__is__waiting__for__connection__unix:
-				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on UNIX pathname {3}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue(), portMisc.get_ip__address().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on UNIX pathname {3}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue(), portMisc.get_field_ip__address().getValue()));
 				break;
 			case connection__established:
-				returnValue.append(MessageFormat.format("Port {0} has established the connection with {1}:{2} using transport type {3}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue(), portMisc.get_ip__address().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} has established the connection with {1}:{2} using transport type {3}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue(), portMisc.get_field_ip__address().getValue()));
 				break;
 			case destroying__unestablished__connection:
-				returnValue.append(MessageFormat.format("Destroying unestablished connection of port {0} to {1}:{2} because the other endpoint has terminated.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Destroying unestablished connection of port {0} to {1}:{2} because the other endpoint has terminated.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case terminating__connection:
-				returnValue.append(MessageFormat.format("Terminating the connection of port {0} to {1}:{2}. No more messages can be sent through this connection.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Terminating the connection of port {0} to {1}:{2}. No more messages can be sent through this connection.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case sending__termination__request__failed:
-				returnValue.append(MessageFormat.format("Sending the connection termination request on port {0} to remote endpoint {1}:}{2} failed.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Sending the connection termination request on port {0} to remote endpoint {1}:}{2} failed.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case termination__request__received:
-				returnValue.append(MessageFormat.format("Connection termination request was received on port {0} from {1}:{2}. No more data can be sent or received through this connection.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Connection termination request was received on port {0} from {1}:{2}. No more data can be sent or received through this connection.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case acknowledging__termination__request__failed:
-				returnValue.append(MessageFormat.format("Sending the acknowledgment for connection termination request on port {0} to remote endpoint {1}:{2} failed.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Sending the acknowledgment for connection termination request on port {0} to remote endpoint {1}:{2} failed.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case sending__would__block:
-				returnValue.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue(), portMisc.get_tcp__port().getInt(), portMisc.get_new__size().getInt()));
+				returnValue.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue(), portMisc.get_field_tcp__port().getInt(), portMisc.get_field_new__size().getInt()));
 				break;
 			case connection__accepted:
-				returnValue.append(MessageFormat.format("Port {0} has accepted the connection from {1}:{2}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} has accepted the connection from {1}:{2}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case connection__reset__by__peer:
-				returnValue.append(MessageFormat.format("Connection of port {0} to {1}:{2} was reset by the peer.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Connection of port {0} to {1}:{2} was reset by the peer.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case connection__closed__by__peer:
-				returnValue.append(MessageFormat.format("Connection of port {0} to {1}:{2} was closed unexpectedly by the peer.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Connection of port {0} to {1}:{2} was closed unexpectedly by the peer.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case port__disconnected:
-				returnValue.append(MessageFormat.format("Port {0} was disconnected from {1}:{2}.", portMisc.get_port__name().getValue(), comp_str, portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} was disconnected from {1}:{2}.", portMisc.get_field_port__name().getValue(), comp_str, portMisc.get_field_remote__port().getValue()));
 				break;
 			case port__was__mapped__to__system:
-				returnValue.append(MessageFormat.format("Port {0} was mapped to system:{1}.", portMisc.get_port__name().getValue(), portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} was mapped to system:{1}.", portMisc.get_field_port__name().getValue(), portMisc.get_field_remote__port().getValue()));
 				break;
 			case port__was__unmapped__from__system:
-				returnValue.append(MessageFormat.format("Port {0} was unmapped from system:{1}.", portMisc.get_port__name().getValue(), portMisc.get_remote__port().getValue()));
+				returnValue.append(MessageFormat.format("Port {0} was unmapped from system:{1}.", portMisc.get_field_port__name().getValue(), portMisc.get_field_remote__port().getValue()));
 				break;
 			default:
 				break;

@@ -265,7 +265,7 @@ public final class Anytype_Value extends Value {
 		final String altName = this.name.getName();
 
 		// TODO handle the case when temporary reference is needed
-		final String embeddedName = MessageFormat.format("{0}.get_{1}()", name, FieldSubReference.getJavaGetterName(altName));
+		final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		value.generateCodeInit(aData, source, embeddedName);
 
 		lastTimeGenerated = aData.getBuildTimstamp();
