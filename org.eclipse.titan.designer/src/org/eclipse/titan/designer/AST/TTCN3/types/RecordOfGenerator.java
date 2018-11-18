@@ -705,7 +705,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append('\n');
 		source.append( MessageFormat.format( "\t\tfinal {0} elem = valueElements.get( index_value );\n", ofTypeName ) );
-		source.append("\t\treturn ( elem != null ) ? elem : get_unbound_elem();\n");
+		source.append("\t\treturn ( elem == null ) ? get_unbound_elem(): elem ;\n");
 		source.append("\t}\n\n");
 
 		if (aData.isDebug()) {
