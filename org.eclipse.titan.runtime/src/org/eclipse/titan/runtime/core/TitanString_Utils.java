@@ -12,7 +12,7 @@ package org.eclipse.titan.runtime.core;
  * Utility functions for (bit|hex|octet)string
  * @author Arpad Lovassy
  */
-public class TitanStringUtils {
+public class TitanString_Utils {
 
 	/**
 	 * Creates a new byte list with new elements
