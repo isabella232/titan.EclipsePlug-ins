@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
-import org.eclipse.titan.runtime.core.RecordOfMatch.answer;
-import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
-import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
+import org.eclipse.titan.runtime.core.RecordOf_Match.answer;
+import org.eclipse.titan.runtime.core.RecordOf_Match.match_function_t;
+import org.eclipse.titan.runtime.core.RecordOf_Match.type_of_matching;
 
 /**
  * @author Farkas Izabella Ingrid
@@ -1097,7 +1097,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 					// (other than asterisk) couldn't be matched
 					// and setting / giving back the value-template pairs
 
-					final boolean found = RecordOfMatch.match_set_of_internal(value_ptr, value_start_index,
+					final boolean found = RecordOf_Match.match_set_of_internal(value_ptr, value_start_index,
 							temp_size, template_ptr,
 							template_start_index, permutation_size,
 							match_function, type_of_matching.SUPERSET, x, pair_list,old_temp_size, legacy);
@@ -1281,14 +1281,14 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 		// use the simplified algorithm if the template does not contain permutation
 		if (nof_permutations == 0) {
-			return RecordOfMatch.match_array(value_ptr, value_size,
+			return RecordOf_Match.match_array(value_ptr, value_size,
 					template_ptr, template_size, match_function, legacy);
 		}
 
 		// use 'set of' matching if all template elements are grouped into one permutation
 		if (nof_permutations == 1 && template_ptr.get_permutation_start(0) == 0 &&
 				template_ptr.get_permutation_end(0) == (template_size - 1)) {
-			return RecordOfMatch.match_set_of(value_ptr, value_size, template_ptr, template_size, match_function, legacy);
+			return RecordOf_Match.match_set_of(value_ptr, value_size, template_ptr, template_size, match_function, legacy);
 		}
 
 		final AtomicInteger shift_size = new AtomicInteger(0);

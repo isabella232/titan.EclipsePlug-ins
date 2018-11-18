@@ -55,7 +55,7 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("AdditionalFunctions");
-		aData.addBuiltinTypeImport("RecordOfMatch");
+		aData.addBuiltinTypeImport("RecordOf_Match");
 		aData.addBuiltinTypeImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
@@ -66,7 +66,7 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
 		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		if ( isSetOf ) {
-			aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
+			aData.addBuiltinTypeImport("RecordOf_Match.compare_function_t");
 		}
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
@@ -134,13 +134,13 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Record_Of_Template");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
-		aData.addBuiltinTypeImport("RecordOfMatch");
-		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
+		aData.addBuiltinTypeImport("RecordOf_Match");
+		aData.addBuiltinTypeImport("RecordOf_Match.match_function_t");
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
 		aData.addBuiltinTypeImport("Optional");
 		aData.addBuiltinTypeImport("TTCN_Logger");
 		if ( isSetOf ) {
-			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
+			aData.addBuiltinTypeImport("RecordOf_Match.log_function_t");
 		}
 
 		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
@@ -391,7 +391,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		if ( isSetOf ) {
-			source.append("\t\treturn RecordOfMatch.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
+			source.append("\t\treturn RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
 		} else {
 			source.append("\t\tfinal int size = valueElements.size();\n");
 			source.append("\t\tif ( size != otherValue.valueElements.size() ) {\n");
@@ -1523,9 +1523,9 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		if ( isSetOf ) {
-			source.append("\t\t\treturn RecordOfMatch.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
+			source.append("\t\t\treturn RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
 		} else {
-			source.append("\t\t\treturn RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
+			source.append("\t\t\treturn RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
 		}
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
@@ -1538,7 +1538,7 @@ public final class RecordOfGenerator {
 		if ( isSetOf ) {
 			source.append("\t\tcase SUPERSET_MATCH:\n");
 			source.append("\t\tcase SUBSET_MATCH:\n");
-			source.append("\t\t\treturn RecordOfMatch.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);\n");
+			source.append("\t\t\treturn RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);\n");
 		}
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
@@ -2288,7 +2288,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\treturn RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
+		source.append("\t\t\treturn RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\tcase ANY_VALUE:\n");
@@ -2599,7 +2599,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t} else {\n");
 			aSb.append("\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE) {\n");
-			aSb.append("\t\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
+			aSb.append("\t\t\t\t\tRecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t\t} else {\n");
 			aSb.append("\t\t\t\t\tif(previous_size != 0) {\n");
 			aSb.append("\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
@@ -2622,7 +2622,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t} else {\n");
 			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 			aSb.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE) {\n");
-			aSb.append("\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
+			aSb.append("\t\t\t\tRecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
 		} else {
