@@ -588,7 +588,7 @@ public final class UnionGenerator {
 			source.append(" * Returns the current selection.\n");
 			source.append(MessageFormat.format(" * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
 			if (fieldInfos.size() > 0) {
-				source.append(MessageFormat.format(" * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\\n", genName, fieldInfos.get(0).mJavaVarName));
+				source.append(MessageFormat.format(" * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\n", genName, fieldInfos.get(0).mJavaVarName));
 			}
 			source.append(" *\n");
 			source.append(" * @return the current selection.\n");
