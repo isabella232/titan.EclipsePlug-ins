@@ -624,7 +624,7 @@ public final class Def_Timer extends Definition {
 					defaultDuration.generateCodeInit(aData, initComp, genName + ".get()" );
 				}
 			} else {
-				aData.addBuiltinTypeImport("TitanTimerArray");
+				aData.addBuiltinTypeImport("TitanTimer_Array");
 
 				final ArrayList<String> classNames= new ArrayList<String>();
 				final ExpressionStruct expression = new ExpressionStruct();
@@ -678,7 +678,7 @@ public final class Def_Timer extends Definition {
 			} else {
 				final ArrayList<String> classNames= new ArrayList<String>();
 				final ExpressionStruct expression = new ExpressionStruct();
-				aData.addBuiltinTypeImport("TitanTimerArray");
+				aData.addBuiltinTypeImport("TitanTimer_Array");
 				final String elementName = generateClassCode(aData, sb, classNames);
 				source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
 
@@ -732,7 +732,7 @@ public final class Def_Timer extends Definition {
 			}
 		} else {
 			final ArrayList<String> classNames = new ArrayList<String>();
-			aData.addBuiltinTypeImport("TitanTimerArray");
+			aData.addBuiltinTypeImport("TitanTimer_Array");
 
 			final StringBuilder sb = aData.getCodeForType(genName);
 			final String elementName = generateClassCode(aData, sb, classNames);
@@ -856,7 +856,7 @@ public final class Def_Timer extends Definition {
 			final ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
 			final String tempId2 = aData.getTemporaryVariableName();
 			list.add(tempId2);
-			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2, tempId1));
+			sb.append(MessageFormat.format("public static class {0} extends TitanTimer_Array<{1}> '{'\n", tempId2, tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
 			sb.append(MessageFormat.format("super({0}.class, {1}, {2});\n", tempId1, dim.getSize(), dim.getOffset()));
 			sb.append("}\n");

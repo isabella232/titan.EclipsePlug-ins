@@ -13,7 +13,7 @@ import java.text.MessageFormat;
  *
  * TODO check if we need to extend TitanTimer
  * */
-public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
+public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 
 	TitanTimer[] array_elements;
 	String[] names;
@@ -24,7 +24,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	int indexOffset;
 
 	/// Copy constructor
-	public TitanTimerArray(final TitanTimerArray<T> otherValue) {
+	public TitanTimer_Array(final TitanTimer_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -53,7 +53,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	TitanTimerArray<T> operator_assign(final TitanTimerArray<T> otherValue){
+	TitanTimer_Array<T> operator_assign(final TitanTimer_Array<T> otherValue){
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new TitanTimer[array_size];
@@ -71,7 +71,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return this;
 	}
 
-	public TitanTimerArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanTimer_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 
