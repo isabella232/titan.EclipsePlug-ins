@@ -391,7 +391,7 @@ public class ProjectSourceCompiler {
 			aSb.append("return;\n");
 			aSb.append("}\n");
 			aSb.append("post_init_called = true;\n");
-			aSb.append("TTCN_Logger.log_module_init(name, false);\n");
+			aSb.append("TTCN_Logger.log_module_init(module_name, false);\n");
 			if (aData.getAddSourceInfo()) {
 				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
@@ -399,7 +399,7 @@ public class ProjectSourceCompiler {
 			if (aData.getAddSourceInfo()) {
 				aSb.append("current_location.leave();\n");
 			}
-			aSb.append("TTCN_Logger.log_module_init(name, true);\n");
+			aSb.append("TTCN_Logger.log_module_init(module_name, true);\n");
 			aSb.append("}\n\n");
 		}
 
@@ -407,7 +407,7 @@ public class ProjectSourceCompiler {
 			aSb.append("@Override\n");
 			aSb.append("public boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {\n");
 			aSb.append(aData.getStartPTCFunction());
-			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, name));\n");
+			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, module_name));\n");
 			aSb.append("}\n\n");
 		}
 
@@ -416,7 +416,7 @@ public class ProjectSourceCompiler {
 			aSb.append("public void execute_testcase(final String tescase_name) {\n");
 			aSb.append(aData.getExecuteTestcase());
 			aSb.append("{\n");
-			aSb.append("throw new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, name));\n");
+			aSb.append("throw new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, module_name));\n");
 			aSb.append("}\n");
 			aSb.append("}\n\n");
 		}

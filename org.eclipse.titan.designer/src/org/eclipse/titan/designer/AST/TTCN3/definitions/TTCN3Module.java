@@ -1278,7 +1278,7 @@ public final class TTCN3Module extends Module {
 
 		final StringBuilder constructor = aData.getConstructor();
 		constructor.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
-		constructor.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.TTCN3_MODULE);\n", identifier.getDisplayName()));
+		constructor.append(MessageFormat.format("super(\"{0}\", module_type_enum.TTCN3_MODULE);\n", identifier.getDisplayName()));
 		constructor.append("}\n\n");
 
 		if (anytypeDefinition != null) {

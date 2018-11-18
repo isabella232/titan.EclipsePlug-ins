@@ -35,7 +35,7 @@ public final class Module_List {
 	//FIXME implement single_control_part
 	public static TTCN_Module lookup_module(final String module_name) {
 		for (final TTCN_Module module : modules) {
-			if (module.name.equals(module_name)) {
+			if (module.module_name.equals(module_name)) {
 				return module;
 			}
 		}
