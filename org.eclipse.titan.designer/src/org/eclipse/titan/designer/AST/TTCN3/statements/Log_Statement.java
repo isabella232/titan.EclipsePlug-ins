@@ -164,9 +164,8 @@ public final class Log_Statement extends Statement {
 				source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.USER_UNQUALIFIED);\n");
 				logArguments.generateCode(aData, source);
 				source.append("TTCN_Logger.end_event();\n");
-				source.append("} catch (Exception exception) {\n");
+				source.append("} finally {\n");
 				source.append("TTCN_Logger.finish_event();\n");
-				source.append("throw exception;\n");
 				source.append("}\n");
 			}
 		} else {
