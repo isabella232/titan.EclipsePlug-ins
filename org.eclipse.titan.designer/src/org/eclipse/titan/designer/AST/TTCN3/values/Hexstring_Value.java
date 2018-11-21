@@ -202,7 +202,8 @@ public final class Hexstring_Value extends Value {
 		}
 
 		if (myGovernor != null) {
-			switch (myGovernor.getTypetype()) {
+			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
 				aData.addBuiltinTypeImport("TitanBitString");
 				source.append(MessageFormat.format("{0}.operator_assign(new TitanBitString(\"{1}\"));\n", name, value));
@@ -243,7 +244,8 @@ public final class Hexstring_Value extends Value {
 		final StringBuilder result = new StringBuilder();
 
 		if (myGovernor != null) {
-			switch (myGovernor.getTypetype()) {
+			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
 				aData.addBuiltinTypeImport("TitanBitString");
 				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));
