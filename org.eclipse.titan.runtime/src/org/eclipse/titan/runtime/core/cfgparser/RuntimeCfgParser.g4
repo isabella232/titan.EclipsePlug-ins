@@ -1529,29 +1529,50 @@ pr_ParameterValue returns [Module_Parameter moduleparameter]:
 
 //module parameter expression, it can contain previously defined module parameters
 pr_ParameterExpression returns [Module_Parameter moduleparameter]:
-	spv = pr_SimpleParameterValue	{	$moduleparameter = $spv.moduleparameter;	}
-|	pr = pr_ParameterReference		{	$moduleparameter = $pr.moduleparameter;	}
-|	pe1 = pr_ParameterExpression	{	$moduleparameter = $pe1.moduleparameter;	}
+	pe = pr_MPAddExpression	{	$moduleparameter = $pe.moduleparameter;	}
+;
+
+pr_MPAddExpression returns[Module_Parameter moduleparameter]:
+(	pe1 = pr_MPMulExpression { $moduleparameter = $pe1.moduleparameter; }
 	(	{	expression_operand_t operand;	}
-		//TODO: handle precedence
 		(	PLUS	{	operand = expression_operand_t.EXPR_ADD;	}
 		|	MINUS	{	operand = expression_operand_t.EXPR_SUBTRACT;	}
-		|	STAR	{	operand = expression_operand_t.EXPR_MULTIPLY;	}
-		|	SLASH	{	operand = expression_operand_t.EXPR_DIVIDE;	}
 		|	STRINGOP	{	operand = expression_operand_t.EXPR_CONCATENATE;	}
 		)
-		pe2 = pr_ParameterExpression
-		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);	}
-	)+
-|	PLUS
-	pe1 = pr_ParameterExpression	{	$moduleparameter = $pe1.moduleparameter;	}
+		pe2 = pr_MPMulExpression
+		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);
+		}
+	)*
+);
+
+pr_MPMulExpression returns[Module_Parameter moduleparameter]:
+(	pe1 = pr_MPUnaryExpression { $moduleparameter = $pe1.moduleparameter; }
+	(	{	expression_operand_t operand;	}
+		(	STAR	{	operand = expression_operand_t.EXPR_MULTIPLY;	}
+		|	SLASH	{	operand = expression_operand_t.EXPR_DIVIDE;	}
+		)
+		pe2 = pr_MPUnaryExpression
+		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);
+		}
+	)*
+);
+
+pr_MPUnaryExpression returns [Module_Parameter moduleparameter]:
+(	PLUS
+	ue = pr_MPUnaryExpression	{	$moduleparameter = $ue.moduleparameter;	}
 |	MINUS
-	pe1 = pr_ParameterExpression	{	$moduleparameter = new Module_Param_Expression($pe1.moduleparameter);	}
+	ue = pr_MPUnaryExpression	{	$moduleparameter = new Module_Param_Expression($ue.moduleparameter);	}
 |	LPAREN
-	pe1 = pr_ParameterExpression
+	pe = pr_ParameterExpression
 	RPAREN
-	{	$moduleparameter = $pe1.moduleparameter;	}
-;
+	{	$moduleparameter = $pe.moduleparameter;	}
+|	pv = pr_MPPrimaryValue		{	$moduleparameter = $pv.moduleparameter;	}
+);
+
+pr_MPPrimaryValue returns [Module_Parameter moduleparameter]:
+(	spv = pr_SimpleParameterValue	{	$moduleparameter = $spv.moduleparameter;	}
+|	pr = pr_ParameterReference		{	$moduleparameter = $pr.moduleparameter;	}
+);
 
 pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 @init {
@@ -1730,7 +1751,7 @@ pr_Float returns [CFGNumber floatnum]:
 		}
 |	TTCN3IDENTIFIER // module parameter name
 		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
-		}
+		}//TODO: incorrect behaviour
 )
 ;
 

@@ -1453,25 +1453,43 @@ pr_ParameterValue:
 
 //module parameter expression, it can contain previously defined module parameters
 pr_ParameterExpression:
-	pr_SimpleParameterValue
-|	pr_ParameterReference
-|	pr_ParameterExpression
+	pr_MPAddExpression
+;
+
+pr_MPAddExpression:
+(	pr_MPMulExpression
 	(	(	PLUS
 		|	MINUS
-		|	STAR
-		|	SLASH
 		|	STRINGOP
 		)
-		pr_ParameterExpression
-	)+
-|	(	PLUS
-	|	MINUS
-	)
-	pr_ParameterExpression
+		pr_MPMulExpression
+	)*
+);
+
+pr_MPMulExpression:
+(	pr_MPUnaryExpression
+	(	(	STAR
+		|	SLASH
+		)
+		pr_MPUnaryExpression
+	)*
+);
+
+pr_MPUnaryExpression:
+(	PLUS
+	pr_MPUnaryExpression
+|	MINUS
+	pr_MPUnaryExpression
 |	LPAREN
 	pr_ParameterExpression
 	RPAREN
-;
+|	pr_MPPrimaryValue
+);
+
+pr_MPPrimaryValue:
+(	pr_SimpleParameterValue
+|	pr_ParameterReference
+);
 
 pr_LengthMatch:
 	LENGTHKEYWORD
