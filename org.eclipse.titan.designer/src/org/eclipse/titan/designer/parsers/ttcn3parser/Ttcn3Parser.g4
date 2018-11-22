@@ -7438,11 +7438,11 @@ pr_UnaryExpression returns [Value value]
 	v2 = pr_BitNotExpression {	$value = new Not4bExpression($v2.value);
 								$value.setLocation(getLocation( $NOT4B, $v2.stop ));	}
 |	PLUS
-	v3 = pr_Primary	{	$value = new UnaryPlusExpression($v3.value);
-						$value.setLocation(getLocation( $PLUS, $v3.stop));	}
+	v3 = pr_UnaryExpression	{	$value = new UnaryPlusExpression($v3.value);
+								$value.setLocation(getLocation( $PLUS, $v3.stop));	}
 |	MINUS
-	v4 = pr_Primary	{	$value = new UnaryMinusExpression($v4.value);
-						$value.setLocation(getLocation( $MINUS, $v4.stop));	}
+	v4 = pr_UnaryExpression	{	$value = new UnaryMinusExpression($v4.value);
+								$value.setLocation(getLocation( $MINUS, $v4.stop));	}
 |	pr_LParen	v5 = pr_SingleExpression	pr_RParen	{ $value = $v5.value; }
 |	v6 = pr_Primary	{	$value = $v6.value; }
 );
