@@ -458,14 +458,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public void set_type(final template_sel templateType, final int listLength) {
+	public void set_type(final template_sel templateType, final int list_length) {
 		clean_up();
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			set_selection(templateType);
-			value_list = new ArrayList<TitanCharString_template>(listLength);
-			for (int i = 0; i < listLength; i++) {
+			value_list = new ArrayList<TitanCharString_template>(list_length);
+			for (int i = 0; i < list_length; i++) {
 				value_list.add(new TitanCharString_template());
 			}
 			break;
@@ -485,18 +485,18 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanCharString_template list_item(final int listIndex) {
+	public TitanCharString_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");
 		}
-		if (listIndex < 0) {
+		if (list_index < 0) {
 			throw new TtcnError("Internal error: Indexing a charstring value list template with a negative index.");
 		}
-		if (listIndex >= value_list.size()) {
+		if (list_index >= value_list.size()) {
 			throw new TtcnError("Internal error: Index overflow in a charstring value list template.");
 		}
 
-		return value_list.get(listIndex);
+		return value_list.get(list_index);
 	}
 
 	public boolean match_omit(final boolean legacy) {
