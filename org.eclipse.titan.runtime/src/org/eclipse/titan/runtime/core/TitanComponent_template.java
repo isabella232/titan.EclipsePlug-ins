@@ -345,6 +345,9 @@ public class TitanComponent_template extends Base_Template {
 		clean_up();
 		set_selection(template_type);
 		value_list = new ArrayList<TitanComponent_template>(list_length);
+		for (int i = 0; i < list_length; i++) {
+			value_list.add(new TitanComponent_template());
+		}
 	}
 
 	@Override
