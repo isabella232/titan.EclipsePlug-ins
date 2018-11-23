@@ -227,6 +227,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+			break;
 		case STRING_PATTERN:
 			if (pattern_value_ref_count > 1) {
 				pattern_value_ref_count--;

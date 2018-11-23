@@ -115,6 +115,7 @@ public class TitanBoolean_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+			break;
 		default:
 			break;
 		}
