@@ -562,10 +562,10 @@ public final class PortGenerator {
 					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
 						source.append(MessageFormat.format("protected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
-							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 						}
 						if (portDefinition.realtime) {
-							source.append(", TitanFloat timestamp_redirect");
+							source.append(", final TitanFloat timestamp_redirect");
 						}
 						source.append(");\n\n");
 					}
@@ -578,10 +578,10 @@ public final class PortGenerator {
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 						source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
-							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 						}
 						if (portDefinition.realtime) {
-							source.append(", TitanFloat timestamp_redirect");
+							source.append(", final TitanFloat timestamp_redirect");
 						}
 						source.append(") {\n");
 						for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
@@ -654,10 +654,10 @@ public final class PortGenerator {
 							// This is for the mapping target types.
 							source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", target.targetName));
 							if (portDefinition.testportType == TestportType.ADDRESS) {
-								source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+								source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 							}
 							if (portDefinition.realtime) {
-								source.append(", TitanFloat timestamp_redirect");
+								source.append(", final TitanFloat timestamp_redirect");
 							}
 							source.append(") {\n");
 							for (int k = 0; k < portDefinition.providerMessageOutList.size(); k++) {
@@ -721,7 +721,7 @@ public final class PortGenerator {
 					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 				}
 				if (portDefinition.realtime) {
-					source.append(", TitanFloat timestamp_redirect");
+					source.append(", final TitanFloat timestamp_redirect");
 				}
 				source.append(");\n");
 			}
@@ -734,7 +734,7 @@ public final class PortGenerator {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
 					if (portDefinition.realtime) {
-						source.append(", TitanFloat timestamp_redirect");
+						source.append(", final TitanFloat timestamp_redirect");
 					}
 					source.append(");\n");
 				}
@@ -748,7 +748,7 @@ public final class PortGenerator {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
 					if (portDefinition.realtime) {
-						source.append(", TitanFloat timestamp_redirect");
+						source.append(", final TitanFloat timestamp_redirect");
 					}
 					source.append(");\n");
 				}
@@ -759,7 +759,7 @@ public final class PortGenerator {
 			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
 				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
 				if (portDefinition.realtime) {
-					source.append(", TitanFloat timestamp_redirect");
+					source.append(", final TitanFloat timestamp_redirect");
 				}
 				source.append(") {\n");
 				source.append("outgoing_send(send_par");
