@@ -1018,7 +1018,6 @@ public final class SignatureGenerator {
 		}
 		source.append("}\n\n");
 
-		source.append("@Override\n");
 		source.append("public void log() {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
