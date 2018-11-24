@@ -219,11 +219,10 @@ public final class Send_Statement extends Statement {
 				break;
 			}
 
-			//TODO these could be extracted
 			parameter.getTemplateBody().checkSpecificValue(timestamp, false);
-
-			Port_Utility.checkToClause(timestamp, this, portType, toClause);
 		}
+
+		Port_Utility.checkToClause(timestamp, this, portType, toClause);
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 

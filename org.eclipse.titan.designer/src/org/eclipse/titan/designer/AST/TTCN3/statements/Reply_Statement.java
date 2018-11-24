@@ -224,10 +224,9 @@ public final class Reply_Statement extends Statement {
 				returnType.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						false, false, true, false, false));
 			}
-
-			//TODO could be extracted
-			Port_Utility.checkToClause(timestamp, this, portType, toClause);
 		}
+
+		Port_Utility.checkToClause(timestamp, this, portType, toClause);
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 
