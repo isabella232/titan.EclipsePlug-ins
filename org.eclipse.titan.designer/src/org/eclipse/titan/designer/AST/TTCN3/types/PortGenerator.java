@@ -247,10 +247,12 @@ public final class PortGenerator {
 	public static class portMessageProvider {
 		final private String name;
 		final private ArrayList<String> outMessageTypeNames;
+		final private boolean realtime;
 
-		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames) {
+		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames, final boolean realtime) {
 			this.name = name;
 			this.outMessageTypeNames = outMessageTypeNames;
+			this.realtime = realtime;
 		}
 	}
 
@@ -286,6 +288,7 @@ public final class PortGenerator {
 		public ArrayList<portMessageProvider> providerMessageOutList;
 
 		public ArrayList<String> mapperNames;
+		public ArrayList<Boolean> mapperRealtime;
 
 		public ArrayList<MessageMappedTypeInfo> providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>();
 
@@ -561,6 +564,9 @@ public final class PortGenerator {
 						if (portDefinition.testportType == TestportType.ADDRESS) {
 							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 						}
+						if (portDefinition.realtime) {
+							source.append(", TitanFloat timestamp_redirect");
+						}
 						source.append(");\n\n");
 					}
 
@@ -573,6 +579,9 @@ public final class PortGenerator {
 						source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
 							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+						}
+						if (portDefinition.realtime) {
+							source.append(", TitanFloat timestamp_redirect");
 						}
 						source.append(") {\n");
 						for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
@@ -589,7 +598,15 @@ public final class PortGenerator {
 								// Call outgoing_public_send so the outgoing_send can remain
 								source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
 								source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
-								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", j));
+								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", j));
+								if (tempMessageProvider.realtime) {
+									if (portDefinition.realtime) {
+										source.append(", timestamp_redirect");
+									} else {
+										source.append(", null");
+									}
+								}
+								source.append(");\n");
 								source.append("return;\n");
 								source.append("}\n");
 								source.append("}\n");
@@ -605,7 +622,11 @@ public final class PortGenerator {
 							}
 						}
 						if (found && (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy)) {
-							source.append("outgoing_send(send_par);\n");
+							source.append("outgoing_send(send_par");
+							if (portDefinition.realtime) {
+								source.append(", timestamp_redirect");
+							}
+							source.append(");\n");
 						} else if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
 							source.append("throw new TtcnError(\"Cannot send message without successful mapping on a internal port with translation capability.\");\n");
 						} else {
@@ -635,6 +656,9 @@ public final class PortGenerator {
 							if (portDefinition.testportType == TestportType.ADDRESS) {
 								source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 							}
+							if (portDefinition.realtime) {
+								source.append(", TitanFloat timestamp_redirect");
+							}
 							source.append(") {\n");
 							for (int k = 0; k < portDefinition.providerMessageOutList.size(); k++) {
 								final portMessageProvider tempMessageProvider = portDefinition.providerMessageOutList.get(k);
@@ -650,7 +674,15 @@ public final class PortGenerator {
 									// Call outgoing_public_send so the outgoing_send can remain
 									source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", k));
 									source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", k));
-									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", k));
+									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", k));
+									if (tempMessageProvider.realtime) {
+										if (portDefinition.realtime) {
+											source.append(", timestamp_redirect");
+										} else {
+											source.append(", null");
+										}
+									}
+									source.append(");\n");
 									source.append("return;\n");
 									source.append("}\n");
 									source.append("}\n");
@@ -665,7 +697,11 @@ public final class PortGenerator {
 								}
 							}
 							if (found) {
-								source.append("outgoing_send(send_par);\n");
+								source.append("outgoing_send(send_par");
+								if (portDefinition.realtime) {
+									source.append(", timestamp_redirect");
+								}
+								source.append(");\n");
 							} else {
 								source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly {0}.\");\n", target.targetName));
 							}
@@ -684,6 +720,9 @@ public final class PortGenerator {
 				if (portDefinition.testportType == TestportType.ADDRESS) {
 					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 				}
+				if (portDefinition.realtime) {
+					source.append(", TitanFloat timestamp_redirect");
+				}
 				source.append(");\n");
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
@@ -693,6 +732,9 @@ public final class PortGenerator {
 					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+					}
+					if (portDefinition.realtime) {
+						source.append(", TitanFloat timestamp_redirect");
 					}
 					source.append(");\n");
 				}
@@ -705,6 +747,9 @@ public final class PortGenerator {
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
+					if (portDefinition.realtime) {
+						source.append(", TitanFloat timestamp_redirect");
+					}
 					source.append(");\n");
 				}
 			}
@@ -712,8 +757,16 @@ public final class PortGenerator {
 
 		if (portDefinition.mapperNames != null && portDefinition.mapperNames.size() > 0) {
 			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
-				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par) '{'\n", portDefinition.outMessages.get(i).mJavaTypeName));
-				source.append("outgoing_send(send_par);\n");
+				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
+				if (portDefinition.realtime) {
+					source.append(", TitanFloat timestamp_redirect");
+				}
+				source.append(") {\n");
+				source.append("outgoing_send(send_par");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 		}
@@ -1336,7 +1389,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
@@ -1367,6 +1420,9 @@ public final class PortGenerator {
 				if (portDefinition.testportType == TestportType.ADDRESS) {
 					source.append(", null");
 				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
 				source.append(");\n");
 			}
 			source.append("} else {\n");
@@ -1389,7 +1445,7 @@ public final class PortGenerator {
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTypeName, portDefinition.addressName));
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName, portDefinition.addressName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -1400,32 +1456,36 @@ public final class PortGenerator {
 			source.append("}\n\n");
 			source.append("get_default_destination();\n");
 			if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)) {
-				source.append("outgoing_send(send_par, destination_address);\n");
+				source.append("outgoing_send(send_par, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			} else {
 				generateSendMapping(aData, source, portDefinition, outType, true);
 			}
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTypeName));
-		source.append("send(send_par, new TitanComponent(get_default_destination()));\n");
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
+		source.append("send(send_par, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
-		source.append("send(send_par_value, destination_component);\n");
+		source.append("send(send_par_value, destination_component, timestamp_redirect);\n");
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
 			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
-			source.append("send(send_par_value, destination_address);\n");
+			source.append("send(send_par_value, destination_address, timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTemplateName));
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
-		source.append("send(send_par_value, new TitanComponent(get_default_destination()));\n");
+		source.append("send(send_par_value, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 	}
 
@@ -2342,7 +2402,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
@@ -2360,10 +2420,15 @@ public final class PortGenerator {
 		source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", get_name()));\n");
-		} else if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("outgoing_call(call_temp, null);\n");
 		} else {
-			source.append("outgoing_call(call_temp);\n");
+			source.append("outgoing_call(call_temp");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(", null");
+			}
+			if (portDefinition.realtime) {
+				source.append(", timestamp_redirect");
+			}
+			source.append(");\n");
 		}
 
 		source.append("} else {\n");
@@ -2375,7 +2440,7 @@ public final class PortGenerator {
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void call(final {0}_template call_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+			source.append(MessageFormat.format("public void call(final {0}_template call_template, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -2388,12 +2453,16 @@ public final class PortGenerator {
 			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
-			source.append("outgoing_call(call_temp, destination_address);\n");
+			source.append("outgoing_call(call_temp, destination_address");
+			if (portDefinition.realtime) {
+				source.append(", timestamp_redirect");
+			}
+			source.append(");\n");
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
-		source.append("call(call_template, new TitanComponent(get_default_destination()));\n");
+		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+		source.append("call(call_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 	}
 
@@ -2409,7 +2478,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
-			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -2427,10 +2496,15 @@ public final class PortGenerator {
 			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", get_name()));\n");
-			} else if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("outgoing_reply(reply_temp, null);\n");
 			} else {
-				source.append("outgoing_reply(reply_temp);\n");
+				source.append("outgoing_reply(reply_temp");
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			}
 			source.append("} else {\n");
 			source.append("final Text_Buf text_buf = new Text_Buf();\n");
@@ -2441,7 +2515,7 @@ public final class PortGenerator {
 			source.append("}\n\n");
 
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 				source.append("if (!is_started) {\n");
 				source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
 				source.append("}\n");
@@ -2454,12 +2528,16 @@ public final class PortGenerator {
 				source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 				source.append("}\n");
 				source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
-				source.append("outgoing_reply(reply_temp, destination_address);\n");
+				source.append("outgoing_reply(reply_temp, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 
-			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
-			source.append("reply(reply_template, new TitanComponent(get_default_destination()));\n");
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+			source.append("reply(reply_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 	}
@@ -2476,7 +2554,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
-			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -2493,10 +2571,15 @@ public final class PortGenerator {
 			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", get_name()));\n");
-			} else if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("outgoing_raise(raise_exception, null);\n");
 			} else {
-				source.append("outgoing_raise(raise_exception);\n");
+				source.append("outgoing_raise(raise_exception");
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			}
 			source.append("} else {\n");
 			source.append("final Text_Buf text_buf = new Text_Buf();\n");
@@ -2507,7 +2590,7 @@ public final class PortGenerator {
 			source.append("}\n\n");
 
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 				source.append("if (!is_started) {\n");
 				source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
 				source.append("}\n");
@@ -2519,12 +2602,16 @@ public final class PortGenerator {
 				source.append("raise_exception.log();\n");
 				source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 				source.append("}\n");
-				source.append("outgoing_raise(raise_exception, destination_address);\n");
+				source.append("outgoing_raise(raise_exception, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 
-			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
-			source.append("raise(raise_exception, new TitanComponent(get_default_destination()));\n");
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+			source.append("raise(raise_exception, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 	}

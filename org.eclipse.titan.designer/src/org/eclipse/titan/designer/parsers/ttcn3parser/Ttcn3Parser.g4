@@ -5116,15 +5116,17 @@ pr_PortSendOp [Reference reference, boolean translate]
 	$statement = null;
 	TemplateInstance parameter = null;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	col = pr_SendOpKeyword
 	pr_LParen
 	p = pr_SendParameter { parameter = $p.templateInstance; }
 	a = pr_RParen
 	( t = pr_ToClause { toClause = $t.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Send_Statement($reference, parameter, toClause, translate);
+	$statement = new Send_Statement($reference, parameter, toClause, timestamp, translate);
 };
 
 pr_SendOpKeyword:
@@ -5136,6 +5138,16 @@ pr_SendParameter returns[TemplateInstance templateInstance]
 	$templateInstance = null;
 }:
 	t = pr_TemplateInstance { $templateInstance = $t.templateInstance; }
+;
+
+pr_PortRedirectOutgoing returns[Reference reference]:
+(
+	pr_PortRedirectSymbol
+	ts = pr_TimestampSpec
+)
+{
+	$reference = $ts.reference;
+}
 ;
 
 pr_ToClause returns[IValue value]
@@ -5180,6 +5192,7 @@ pr_PortCallOp [Reference reference]
 	Value timerValue = null;
 	boolean noWait = false;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	col = pr_CallOpKeyword
 	pr_LParen
@@ -5191,13 +5204,14 @@ pr_PortCallOp [Reference reference]
 	)? // pr_CallParameters
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 	(	pr_BeginChar
 		a = pr_CallBodyStatementList { altGuards = $a.altGuards; }
 		pr_EndChar
 	)? // pr_PortCallBody
 )
 {
-	$statement = new Call_Statement($reference, $t.templateInstance, timerValue, noWait, toClause, altGuards);
+	$statement = new Call_Statement($reference, $t.templateInstance, timerValue, noWait, toClause, altGuards, timestamp);
 };
 
 pr_CallOpKeyword:
@@ -5250,6 +5264,7 @@ pr_PortReplyOp [Reference reference]
 	$statement = null;
 	IValue toClause = null;
 	Value replyValue = null;
+	Reference timestamp = null;
 }:
 (	pr_ReplyKeyword
 	pr_LParen
@@ -5257,9 +5272,10 @@ pr_PortReplyOp [Reference reference]
 	( rv = pr_ReplyValue { replyValue = $rv.value; } )?
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Reply_Statement($reference, $parameter.templateInstance, replyValue, toClause);
+	$statement = new Reply_Statement($reference, $parameter.templateInstance, replyValue, toClause, timestamp);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
@@ -5281,6 +5297,7 @@ pr_PortRaiseOp [Reference reference]
 @init {
 	$statement = null;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	pr_RaiseKeyword
 	pr_LParen
@@ -5289,9 +5306,10 @@ pr_PortRaiseOp [Reference reference]
 	parameter = pr_TemplateInstance
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Raise_Statement($reference, $signature.reference, $parameter.templateInstance, toClause);
+	$statement = new Raise_Statement($reference, $signature.reference, $parameter.templateInstance, toClause, timestamp);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 

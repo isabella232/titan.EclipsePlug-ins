@@ -2028,11 +2028,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			portDefinition.portType = PortType.USER;
 
 			if (legacy) {
+				PortTypeBody providerBody = providerTypes.get(0).getPortBody();
+
 				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>();
-				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source, myScope), null);
+				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source, myScope), null, providerBody.realtime);
 				portDefinition.providerMessageOutList.add(temp);
 
-				PortTypeBody providerBody = providerTypes.get(0).getPortBody();
 				if (providerBody.inMessages != null) {
 					portDefinition.providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>(providerBody.inMessages.getNofTypes());
 					for (int i = 0; i < providerBody.inMessages.getNofTypes(); i++) {
@@ -2083,7 +2084,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						}
 					}
 
-					final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(name, names);
+					final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(name, names, providerTypeBody.realtime);
 					portDefinition.providerMessageOutList.add(temp);
 				}
 
@@ -2236,8 +2237,17 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (portType == PortType_type.PT_PROVIDER) {
 			portDefinition.mapperNames = new ArrayList<String>(mapperTypes.size());
+			portDefinition.mapperRealtime = new ArrayList<Boolean>(mapperTypes.size());
 			for (int i = 0; i < mapperTypes.size(); i++) {
-				portDefinition.mapperNames.add(mapperTypes.get(i).getGenNameValue(aData, source, myScope));
+				final IType mapperType = mapperTypes.get(i);
+
+				portDefinition.mapperNames.add(mapperType.getGenNameValue(aData, source, myScope));
+				//TODO can only be port_Type
+				if (mapperType instanceof Port_Type) {
+					portDefinition.mapperRealtime.add(((Port_Type) mapperType).getPortBody().isRealtime());
+				} else {
+					//FATAL ERROR
+				}
 			}
 		}
 

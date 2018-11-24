@@ -68,6 +68,7 @@ public final class Call_Statement extends Statement {
 	private static final String FULLNAMEPART3 = ".timer";
 	private static final String FULLNAMEPART4 = ".to";
 	private static final String FULLNAMEPART5 = ".body";
+	private static final String FULLNAMEPART6 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "call";
 
 	// The reference pointing to the port.
@@ -85,6 +86,8 @@ public final class Call_Statement extends Statement {
 	// The to clause of the statement.
 	private final IValue toClause;
 
+	private final Reference redirectTimestamp;
+
 	/**
 	 * The guards found in the statementblock of the port call statement.
 	 * <p>
@@ -93,13 +96,14 @@ public final class Call_Statement extends Statement {
 	private final AltGuards altGuards;
 
 	public Call_Statement(final Reference portReference, final TemplateInstance parameter, final Value timerValue, final boolean noWait,
-			final IValue toClause, final AltGuards altGuards) {
+			final IValue toClause, final AltGuards altGuards, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.parameter = parameter;
 		this.timerValue = timerValue;
 		this.noWait = noWait;
 		this.toClause = toClause;
 		this.altGuards = altGuards;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -115,6 +119,9 @@ public final class Call_Statement extends Statement {
 		}
 		if (altGuards != null) {
 			altGuards.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -145,6 +152,8 @@ public final class Call_Statement extends Statement {
 			return builder.append(FULLNAMEPART4);
 		} else if (altGuards == child) {
 			return builder.append(FULLNAMEPART5);
+		} else if (toClause == child) {
+			return builder.append(FULLNAMEPART6);
 		}
 
 		return builder;
@@ -168,6 +177,9 @@ public final class Call_Statement extends Statement {
 		}
 		if (altGuards != null) {
 			altGuards.setMyScope(scope);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
 		}
 	}
 
@@ -327,6 +339,8 @@ public final class Call_Statement extends Statement {
 		}
 
 		Port_Utility.checkToClause(timestamp, this, portType, toClause);
+
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 
 		if (altGuards != null) {
 			checkCallBody(timestamp, portType, signatureType);
@@ -509,6 +523,11 @@ public final class Call_Statement extends Statement {
 			altGuards.updateSyntax(reparser, false);
 			reparser.updateLocation(altGuards.getLocation());
 		}
+
+		if( redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -528,6 +547,9 @@ public final class Call_Statement extends Statement {
 		}
 		if (altGuards != null) {
 			altGuards.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -549,6 +571,9 @@ public final class Call_Statement extends Statement {
 		if (altGuards != null && !altGuards.accept(v)) {
 			return false;
 		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
+			return false;
+		}
 		return true;
 	}
 
@@ -563,6 +588,14 @@ public final class Call_Statement extends Statement {
 			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression, true);
 		}
+
+		expression.expression.append(", ");
+		if (redirectTimestamp == null) {
+			expression.expression.append("null");
+		}else {
+			redirectTimestamp.generateCode(aData, expression);
+		}
+
 		expression.expression.append(')');
 		expression.mergeExpression(source);
 
