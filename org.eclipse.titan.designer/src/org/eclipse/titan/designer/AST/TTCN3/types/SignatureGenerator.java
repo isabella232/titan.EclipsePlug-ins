@@ -336,7 +336,7 @@ public final class SignatureGenerator {
 				}
 			}
 			if (def.returnType != null) {
-				source.append(MessageFormat.format("reply_value = new {0}(other_value.getreturn_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("reply_value = new {0}(other_value.get_return_value());\n", def.returnType.mJavaTypeName));
 			}
 			source.append("}\n");
 
@@ -946,7 +946,7 @@ public final class SignatureGenerator {
 			}
 
 			if (def.returnType != null) {
-				source.append("return_value.getreturn_value().operator_assign(reply_value.valueof());\n");
+				source.append("return_value.get_return_value().operator_assign(reply_value.valueof());\n");
 			}
 			source.append("return return_value;\n");
 			source.append("}\n");
@@ -981,7 +981,7 @@ public final class SignatureGenerator {
 				}
 			}
 			if (def.returnType != null) {
-				source.append("if (!reply_value.match(match_value.getreturn_value(), legacy)) {return false;}\n");
+				source.append("if (!reply_value.match(match_value.get_return_value(), legacy)) {return false;}\n");
 			}
 			source.append("return true;\n");
 			source.append("}\n");
@@ -1072,14 +1072,14 @@ public final class SignatureGenerator {
 				}
 				if (def.returnType != null) {
 					source.append("TTCN_Logger.log_event_str(\" } value \");\n");
-					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+					source.append("reply_value.log_match(match_value.get_return_value(), legacy);\n");
 				}
 			} else {
 				if (def.returnType == null) {
 					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched\");\n");
 				} else {
 					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched value \");\n");
-					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+					source.append("reply_value.log_match(match_value.get_return_value(), legacy);\n");
 				}
 			}
 			source.append("}\n");
