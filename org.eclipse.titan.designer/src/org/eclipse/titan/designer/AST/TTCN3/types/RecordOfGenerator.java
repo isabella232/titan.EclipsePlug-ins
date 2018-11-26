@@ -1227,11 +1227,11 @@ public final class RecordOfGenerator {
 		source.append('\n');
 
 		source.append("\t//originally single_value/value_elements\n");
-		source.append( MessageFormat.format( "\tprivate List<{0}> value_elements;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprotected List<{0}> value_elements;\n", ofTypeName ) );
 		source.append('\n');
 
 		source.append("\t//originally value_list/list_value\n");
-		source.append( MessageFormat.format( "\tprivate List<{0}_template> list_value;\n", genName ) );
+		source.append( MessageFormat.format( "\tprotected List<{0}_template> list_value;\n", genName ) );
 
 		source.append('\n');
 		source.append("\tprivate final match_function_t match_function_specific = new match_function_t() {\n");
@@ -1410,7 +1410,7 @@ public final class RecordOfGenerator {
 													  final String displayName, final boolean isSetOf ) {
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tprotected void copy_value(final {0} other_value) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tother_value.must_bound(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\tfinal int otherSize = other_value.valueElements.size();\n");
