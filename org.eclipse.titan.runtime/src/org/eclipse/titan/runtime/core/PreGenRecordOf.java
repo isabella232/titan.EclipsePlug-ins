@@ -34,38 +34,38 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location.entity_type_t;
  */
 public final class PreGenRecordOf extends TTCN_Module {
 
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER_0", RAW.TitanInteger_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT_0", RAW.TitanFloat_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER_0", RAW.TitanInteger_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING_0", RAW.TitanBitString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT_0", RAW.TitanFloat_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING_0", RAW.TitanBitString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN", null, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, null);
@@ -744,10 +744,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanInteger_template> value_elements;
+		protected List<TitanInteger_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -829,7 +829,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -2462,10 +2462,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanUniversalCharString_template> value_elements;
+		protected List<TitanUniversalCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template> list_value;
+		protected List<PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -2571,7 +2571,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value) {
+		protected void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -4277,10 +4277,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanOctetString_template> value_elements;
+		protected List<TitanOctetString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -4362,7 +4362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -5996,10 +5996,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__FLOAT_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanFloat_template> value_elements;
+		protected List<TitanFloat_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__FLOAT_template> list_value;
+		protected List<PREGEN__RECORD__OF__FLOAT_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -6081,7 +6081,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__FLOAT other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__FLOAT other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -7715,10 +7715,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanUniversalCharString_template> value_elements;
+		protected List<TitanUniversalCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template> list_value;
+		protected List<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -7800,7 +7800,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -9434,10 +9434,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__BITSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBitString_template> value_elements;
+		protected List<TitanBitString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__BITSTRING_template> list_value;
+		protected List<PREGEN__RECORD__OF__BITSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -9519,7 +9519,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__BITSTRING other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__BITSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -11153,10 +11153,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBoolean_template> value_elements;
+		protected List<TitanBoolean_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -11238,7 +11238,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -12872,10 +12872,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__CHARSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanCharString_template> value_elements;
+		protected List<TitanCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__CHARSTRING_template> list_value;
+		protected List<PREGEN__RECORD__OF__CHARSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -12957,7 +12957,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__CHARSTRING other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -14591,10 +14591,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__BOOLEAN_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBoolean_template> value_elements;
+		protected List<TitanBoolean_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__BOOLEAN_template> list_value;
+		protected List<PREGEN__RECORD__OF__BOOLEAN_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -14676,7 +14676,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__BOOLEAN other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__BOOLEAN other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -16310,10 +16310,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBitString_template> value_elements;
+		protected List<TitanBitString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -16395,7 +16395,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -18029,10 +18029,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__INTEGER_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanInteger_template> value_elements;
+		protected List<TitanInteger_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__INTEGER_template> list_value;
+		protected List<PREGEN__RECORD__OF__INTEGER_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -18114,7 +18114,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__INTEGER other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__INTEGER other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -19747,10 +19747,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanUniversalCharString_template> value_elements;
+		protected List<TitanUniversalCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -19856,7 +19856,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -21561,10 +21561,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__BOOLEAN_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBoolean_template> value_elements;
+		protected List<TitanBoolean_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__BOOLEAN_template> list_value;
+		protected List<PREGEN__SET__OF__BOOLEAN_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -21670,7 +21670,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__BOOLEAN other_value) {
+		protected void copy_value(final PREGEN__SET__OF__BOOLEAN other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -23375,10 +23375,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanFloat_template> value_elements;
+		protected List<TitanFloat_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__FLOAT__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__FLOAT__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -23484,7 +23484,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -25189,10 +25189,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__INTEGER_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanInteger_template> value_elements;
+		protected List<TitanInteger_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__INTEGER_template> list_value;
+		protected List<PREGEN__SET__OF__INTEGER_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -25298,7 +25298,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__INTEGER other_value) {
+		protected void copy_value(final PREGEN__SET__OF__INTEGER other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -27003,10 +27003,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__CHARSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanCharString_template> value_elements;
+		protected List<TitanCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__CHARSTRING_template> list_value;
+		protected List<PREGEN__SET__OF__CHARSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -27112,7 +27112,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__CHARSTRING other_value) {
+		protected void copy_value(final PREGEN__SET__OF__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -28818,10 +28818,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanUniversalCharString_template> value_elements;
+		protected List<TitanUniversalCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -28903,7 +28903,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -30536,10 +30536,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__HEXSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanHexString_template> value_elements;
+		protected List<TitanHexString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__HEXSTRING_template> list_value;
+		protected List<PREGEN__SET__OF__HEXSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -30645,7 +30645,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__HEXSTRING other_value) {
+		protected void copy_value(final PREGEN__SET__OF__HEXSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -32350,10 +32350,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanHexString_template> value_elements;
+		protected List<TitanHexString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -32459,7 +32459,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -34164,10 +34164,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__OCTETSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanOctetString_template> value_elements;
+		protected List<TitanOctetString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__OCTETSTRING_template> list_value;
+		protected List<PREGEN__SET__OF__OCTETSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -34273,7 +34273,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__OCTETSTRING other_value) {
+		protected void copy_value(final PREGEN__SET__OF__OCTETSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -35978,10 +35978,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__FLOAT_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanFloat_template> value_elements;
+		protected List<TitanFloat_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__FLOAT_template> list_value;
+		protected List<PREGEN__SET__OF__FLOAT_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -36087,7 +36087,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__FLOAT other_value) {
+		protected void copy_value(final PREGEN__SET__OF__FLOAT other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -37792,10 +37792,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanInteger_template> value_elements;
+		protected List<TitanInteger_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__INTEGER__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__INTEGER__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -37901,7 +37901,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -39606,10 +39606,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanOctetString_template> value_elements;
+		protected List<TitanOctetString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -39715,7 +39715,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -41421,10 +41421,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__OCTETSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanOctetString_template> value_elements;
+		protected List<TitanOctetString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__OCTETSTRING_template> list_value;
+		protected List<PREGEN__RECORD__OF__OCTETSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -41506,7 +41506,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__OCTETSTRING other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__OCTETSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -43140,10 +43140,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__HEXSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanHexString_template> value_elements;
+		protected List<TitanHexString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__HEXSTRING_template> list_value;
+		protected List<PREGEN__RECORD__OF__HEXSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -43225,7 +43225,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__HEXSTRING other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__HEXSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -44858,10 +44858,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanCharString_template> value_elements;
+		protected List<TitanCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -44967,7 +44967,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -46672,10 +46672,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__BITSTRING_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBitString_template> value_elements;
+		protected List<TitanBitString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__BITSTRING_template> list_value;
+		protected List<PREGEN__SET__OF__BITSTRING_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -46781,7 +46781,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__BITSTRING other_value) {
+		protected void copy_value(final PREGEN__SET__OF__BITSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -48486,10 +48486,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBoolean_template> value_elements;
+		protected List<TitanBoolean_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -48595,7 +48595,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -50301,10 +50301,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanCharString_template> value_elements;
+		protected List<TitanCharString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -50386,7 +50386,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -52020,10 +52020,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanFloat_template> value_elements;
+		protected List<TitanFloat_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -52105,7 +52105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -53738,10 +53738,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanBitString_template> value_elements;
+		protected List<TitanBitString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__SET__OF__BITSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__SET__OF__BITSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -53847,7 +53847,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
-		private void copy_value(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
 			final int otherSize = other_value.valueElements.size();
@@ -55553,10 +55553,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template extends Record_Of_Template {
 
 		//originally single_value/value_elements
-		private List<TitanHexString_template> value_elements;
+		protected List<TitanHexString_template> value_elements;
 
 		//originally value_list/list_value
-		private List<PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template> list_value;
+		protected List<PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template> list_value;
 
 		private final match_function_t match_function_specific = new match_function_t() {
 			@Override
@@ -55638,7 +55638,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
-		private void copy_value(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value) {
+		protected void copy_value(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
 			final int otherSize = other_value.valueElements.size();
