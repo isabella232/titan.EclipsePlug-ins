@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.PortReference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -106,6 +107,23 @@ public final class Unmap_Statement extends Statement {
 		}
 		if (componentReference2 != null) {
 			componentReference2.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentReference1 != null) {
+			componentReference1.setCodeSection(codeSection);
+		}
+		if (portReference1 != null) {
+			portReference1.setCodeSection(codeSection);
+		}
+		if (componentReference2 != null) {
+			componentReference2.setCodeSection(codeSection);
+		}
+		if (portReference2 != null) {
+			portReference2.setCodeSection(codeSection);
 		}
 	}
 

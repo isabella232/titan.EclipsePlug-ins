@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
@@ -98,6 +99,17 @@ public final class Start_Timer_Statement extends Statement {
 		}
 		if (timerValue != null) {
 			timerValue.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (timerReference != null) {
+			timerReference.setCodeSection(codeSection);
+		}
+		if (timerValue != null) {
+			timerValue.setCodeSection(codeSection);
 		}
 	}
 

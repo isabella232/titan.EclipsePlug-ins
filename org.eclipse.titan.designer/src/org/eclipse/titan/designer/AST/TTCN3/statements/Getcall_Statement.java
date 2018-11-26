@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -160,6 +161,32 @@ public final class Getcall_Statement extends Statement {
 		}
 		if (redirectTimestamp != null) {
 			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (parameter != null) {
+			parameter.setCodeSection(codeSection);
+		}
+		if (fromClause != null) {
+			fromClause.setCodeSection(codeSection);
+		}
+		if (redirectParameter != null) {
+			redirectParameter.setCodeSection(codeSection);
+		}
+		if (redirectSender != null) {
+			redirectSender.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 

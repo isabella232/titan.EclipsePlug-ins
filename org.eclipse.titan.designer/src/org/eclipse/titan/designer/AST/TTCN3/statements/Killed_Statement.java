@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -97,6 +98,17 @@ public final class Killed_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentReference != null) {
+			componentReference.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
 		}
 	}
 

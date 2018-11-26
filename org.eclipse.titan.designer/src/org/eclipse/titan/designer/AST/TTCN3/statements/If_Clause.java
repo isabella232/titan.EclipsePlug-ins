@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -106,6 +107,20 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 		}
 		if (statementblock != null) {
 			statementblock.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statements in this if clause to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (expression != null) {
+			expression.setCodeSection(codeSection);
+		}
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
 		}
 	}
 

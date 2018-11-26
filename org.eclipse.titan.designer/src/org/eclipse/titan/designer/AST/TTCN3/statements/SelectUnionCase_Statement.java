@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -95,6 +96,15 @@ public final class SelectUnionCase_Statement extends Statement {
 			expression.setMyScope(scope);
 		}
 		selectUnionCases.setMyScope(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (expression != null) {
+			expression.setCodeSection(codeSection);
+		}
+		selectUnionCases.setCodeSection(codeSection);
 	}
 
 	@Override

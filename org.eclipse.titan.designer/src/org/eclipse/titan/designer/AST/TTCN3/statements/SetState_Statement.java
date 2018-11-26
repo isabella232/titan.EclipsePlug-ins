@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -92,6 +93,17 @@ public class SetState_Statement extends Statement {
 		}
 		if (templateInstance != null) {
 			templateInstance.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
+		if (templateInstance != null) {
+			templateInstance.setCodeSection(codeSection);
 		}
 	}
 

@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -100,6 +101,20 @@ public class TryCatch_Statement extends Statement {
 
 		catchSurroundingBlock.setMyScope(scope);
 		catchBlock.setMyScope(catchSurroundingBlock);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (tryBlock != null) {
+			tryBlock.setCodeSection(codeSection);
+		}
+		if (catchSurroundingBlock != null) {
+			catchSurroundingBlock.setCodeSection(codeSection);
+		}
+		if (catchBlock != null) {
+			catchBlock.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

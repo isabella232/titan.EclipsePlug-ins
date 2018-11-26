@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -190,6 +191,32 @@ public final class Receive_Port_Statement extends Statement {
 		}
 		if (redirectTimestamp != null) {
 			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null && !translate) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (receiveParameter != null) {
+			receiveParameter.setCodeSection(codeSection);
+		}
+		if (fromClause != null) {
+			fromClause.setCodeSection(codeSection);
+		}
+		if (redirectValue != null) {
+			redirectValue.setCodeSection(codeSection);
+		}
+		if (redirectSender != null) {
+			redirectSender.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 

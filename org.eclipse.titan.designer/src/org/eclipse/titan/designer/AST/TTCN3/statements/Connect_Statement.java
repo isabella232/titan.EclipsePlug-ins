@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.PortReference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
@@ -110,6 +111,23 @@ public final class Connect_Statement extends Statement {
 		}
 		if (portReference2 != null) {
 			portReference2.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentReference1 != null) {
+			componentReference1.setCodeSection(codeSection);
+		}
+		if (portReference1 != null) {
+			portReference1.setCodeSection(codeSection);
+		}
+		if (componentReference2 != null) {
+			componentReference2.setCodeSection(codeSection);
+		}
+		if (portReference2 != null) {
+			portReference2.setCodeSection(codeSection);
 		}
 	}
 

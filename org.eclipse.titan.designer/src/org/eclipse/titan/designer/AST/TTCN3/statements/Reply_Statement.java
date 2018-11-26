@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
@@ -135,6 +136,26 @@ public final class Reply_Statement extends Statement {
 		}
 		if (redirectTimestamp != null) {
 			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (parameter != null) {
+			parameter.setCodeSection(codeSection);;
+		}
+		if (replyValue != null) {
+			replyValue.setCodeSection(codeSection);;
+		}
+		if (toClause != null) {
+			toClause.setCodeSection(codeSection);;
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);;
 		}
 	}
 

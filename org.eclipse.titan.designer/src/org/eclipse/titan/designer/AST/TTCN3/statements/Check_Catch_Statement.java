@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -161,6 +162,35 @@ public final class Check_Catch_Statement extends Statement {
 		}
 		if (redirectTimestamp != null) {
 			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (signatureReference != null) {
+			signatureReference.setCodeSection(codeSection);
+		}
+		if (parameter != null) {
+			parameter.setCodeSection(codeSection);
+		}
+		if (fromClause != null) {
+			fromClause.setCodeSection(codeSection);
+		}
+		if (redirectValue != null) {
+			redirectValue.setCodeSection(codeSection);
+		}
+		if (redirectSender != null) {
+			redirectSender.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 

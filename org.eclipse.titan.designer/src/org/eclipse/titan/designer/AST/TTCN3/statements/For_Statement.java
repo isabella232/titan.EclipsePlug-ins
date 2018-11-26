@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
@@ -180,6 +181,25 @@ public final class For_Statement extends Statement {
 				statementblock.setMyScope(definitions);
 				scope.addSubScope(statementblock.getLocation(), statementblock);
 			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (definitions == null) {
+			if (initialAssignment != null) {
+				initialAssignment.setCodeSection(codeSection);
+			}
+		}
+		if (finalExpression != null) {
+			finalExpression.setCodeSection(codeSection);
+		}
+		if (stepAssignment != null) {
+			stepAssignment.setCodeSection(codeSection);
+		}
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
 		}
 	}
 

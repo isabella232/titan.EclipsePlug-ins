@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -102,6 +103,17 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	public void setMyScope(final Scope scope) {
 		if (statementBlock != null) {
 			statementBlock.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statements in this select union case to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (statementBlock != null) {
+			statementBlock.setCodeSection(codeSection);
 		}
 	}
 

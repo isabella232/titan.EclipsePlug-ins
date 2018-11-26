@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -88,6 +89,17 @@ public final class SelectCase_Statement extends Statement {
 			expression.setMyScope(scope);
 		}
 		selectcases.setMyScope(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (expression != null) {
+			expression.setCodeSection(codeSection);
+		}
+		if (selectcases != null) {
+			selectcases.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

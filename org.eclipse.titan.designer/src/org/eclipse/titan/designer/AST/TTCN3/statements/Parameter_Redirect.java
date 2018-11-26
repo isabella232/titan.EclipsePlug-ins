@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
@@ -50,6 +51,13 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	public final Location getLocation() {
 		return location;
 	}
+
+	/**
+	 * Sets the code_section attribute for the parameter redirection to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
 	 * Does the semantic checking of the redirected parameter.
