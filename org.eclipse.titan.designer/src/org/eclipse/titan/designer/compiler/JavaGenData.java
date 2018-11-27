@@ -82,6 +82,8 @@ public class JavaGenData {
 	/** is generating source code line info needed */
 	private boolean addSourceInfo = false;
 
+	/** is generating seof types fully, forced? */
+	private boolean forceGenSeof = false;
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -137,6 +139,9 @@ public class JavaGenData {
 		try {
 			String s= project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			allowOmitInValueList = s == null || "true".equals(s);
+
+			s= project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.FORCE_GEN_SEOF));
+			forceGenSeof = s != null && "true".equals(s);
 
 			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
 			rawDisabled = s == null || "true".equals(s);
@@ -350,6 +355,13 @@ public class JavaGenData {
 	 */
 	public boolean getAllowOmitInValueList() {
 		return allowOmitInValueList;
+	}
+
+	/**
+	 * @return if seof types must be fully generated.
+	 */
+	public boolean getForceGenSeof() {
+		return forceGenSeof;
 	}
 
 	/**

@@ -892,7 +892,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
 		final boolean optimized_memalloc = false;//TODO
-		final boolean force_gen_seof = true;
+		final boolean force_gen_seof = aData.getForceGenSeof();
 
 		generateCodeTypedescriptor(aData, source);
 

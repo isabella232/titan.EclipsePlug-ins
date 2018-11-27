@@ -49,6 +49,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button enableLegacyEncoding;
 	private Button disableUserInformation;
 	private Button enableRealtimeFeature;
+	private Button forceGenSeof;
 	private Button activateDebugger;
 
 	//private Composite namingRuleComposite;
@@ -82,6 +83,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			enableLegacyEncoding.dispose();
 			disableUserInformation.dispose();
 			enableRealtimeFeature.dispose();
+			forceGenSeof.dispose();
 			activateDebugger.dispose();
 		}
 	}
@@ -162,6 +164,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		enableRealtimeFeature = new Button(mainComposite, SWT.CHECK);
 		enableRealtimeFeature.setText("Enable Realtime testing feature (-I)");
 
+		forceGenSeof = new Button(mainComposite, SWT.CHECK);
+		forceGenSeof.setText("Force the generation of Seof types (-F)");
+
 		activateDebugger = new Button(mainComposite, SWT.CHECK);
 		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
 
@@ -196,6 +201,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		enableLegacyEncoding.setEnabled(enabled);
 		disableUserInformation.setEnabled(enabled);
 		enableRealtimeFeature.setEnabled(enabled);
+		forceGenSeof.setEnabled(enabled);
 		activateDebugger.setEnabled(enabled);
 	}
 
@@ -269,6 +275,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		enableLegacyEncoding.setSelection(false);
 		disableUserInformation.setSelection(false);
 		enableRealtimeFeature.setSelection(false);
+		forceGenSeof.setSelection(false);
 		activateDebugger.setSelection(false);
 	}
 
@@ -382,6 +389,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			enableRealtimeFeature.setSelection("true".equals(temp) ? true : false);
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.FORCE_GEN_SEOF));
+			forceGenSeof.setSelection("true".equals(temp) ? true : false);
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			activateDebugger.setSelection("true".equals(temp) ? true : false);
 
@@ -417,6 +428,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY, disableUserInformation.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ENABLE_REALTIME, enableRealtimeFeature.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.FORCE_GEN_SEOF, forceGenSeof.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
 
 		} catch (CoreException e) {
