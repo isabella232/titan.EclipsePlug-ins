@@ -346,6 +346,24 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == referencedLast|| referencedLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+		}
+
+		if (rawAttribute != null) {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+
+		return referencedLast.getGenNameRawDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
