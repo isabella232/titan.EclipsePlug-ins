@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -582,7 +583,20 @@ public final class SetOf_Type extends AbstractOfType {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, getGenerateCoderFunctions(MessageEncoding_type.RAW), true);
+			final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+			int extension_bit = RawASTStruct.XDEFDEFAULT;
+			if (hasRaw) {
+				RawAST dummy_raw;
+				if (rawAttribute == null) {
+					dummy_raw = new RawAST(getDefaultRawFieldLength());
+				} else {
+					dummy_raw = rawAttribute;
+				}
+
+				extension_bit = dummy_raw.extension_bit;
+			}
+
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
@@ -632,7 +646,20 @@ public final class SetOf_Type extends AbstractOfType {
 			default: {
 				final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, getGenerateCoderFunctions(MessageEncoding_type.RAW), false);
+				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+				int extension_bit = RawASTStruct.XDEFDEFAULT;
+				if (hasRaw) {
+					RawAST dummy_raw;
+					if (rawAttribute == null) {
+						dummy_raw = new RawAST(getDefaultRawFieldLength());
+					} else {
+						dummy_raw = rawAttribute;
+					}
+
+					extension_bit = dummy_raw.extension_bit;
+				}
+
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 				break;
 			}

@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -43,6 +44,8 @@ public final class RecordOfGenerator {
 	 *                {@code true}: if the type has RAW coding attributes.
 	 * @param forceGenSeof
 	 *                {@code true}: if code generation is forced.
+	 * @Param extension_bit the raw extension bit to be used if RAW coding
+	 *        is to be generated.
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -51,7 +54,8 @@ public final class RecordOfGenerator {
 										   final String ofTypeName,
 										   final boolean isSetOf,
 										   final boolean hasRaw,
-										   final boolean forceGenSeof) {
+										   final boolean forceGenSeof,
+										   final int extension_bit) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
@@ -101,7 +105,7 @@ public final class RecordOfGenerator {
 		generateValueSetParam(source, displayName, isSetOf);
 		generateValueSetImplicitOmit(source);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
-		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded);
+		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded, forceGenSeof, extension_bit);
 
 		source.append("}\n");
 	}
@@ -1069,8 +1073,13 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 * @param rawNeeded
 	 *                true if encoding/decoding for RAW is to be generated
+	 * @param forceGenSeof
+	 *                {@code true}: if code generation is forced.
+	 * @param extension_bit
+	 *                the raw extension bit to be used if RAW coding is to
+	 *                be generated.
 	 */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName, final boolean rawNeeded) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName, final boolean rawNeeded, final boolean forceGenSeof, final int extension_bit) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("\t\t\tswitch (p_coding) {\n");
@@ -1207,11 +1216,15 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
 			source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
 			source.append("\t\t\t\t\ta++;\n");
-			//FIXME correct
-			source.append("\t\t\t\t\tif (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {\n");
-			source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-			source.append("\t\t\t\t\t}\n");
-			
+			if (forceGenSeof) {
+				source.append("\t\t\t\t\tif (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {\n");
+				source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+				source.append("\t\t\t\t\t}\n");
+			} else if (extension_bit != RawASTStruct.XDEFNO && extension_bit != RawASTStruct.XDEFDEFAULT){
+				source.append(MessageFormat.format("\t\t\t\t\tif ( {0}buff.get_last_bit()) '{'\n", extension_bit == RawASTStruct.XDEFYES ? "" : "!"));
+				source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+				source.append("\t\t\t\t\t}\n");
+			}
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
