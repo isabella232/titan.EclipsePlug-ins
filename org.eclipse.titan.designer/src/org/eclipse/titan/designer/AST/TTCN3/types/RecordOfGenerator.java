@@ -39,6 +39,10 @@ public final class RecordOfGenerator {
 	 *                type name of the "record of/set of" element
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
+	 * @param hasRaw
+	 *                {@code true}: if the type has RAW coding attributes.
+	 * @param forceGenSeof
+	 *                {@code true}: if code generation is forced.
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -46,7 +50,8 @@ public final class RecordOfGenerator {
 										   final String displayName,
 										   final String ofTypeName,
 										   final boolean isSetOf,
-										   final boolean hasRaw) {
+										   final boolean hasRaw,
+										   final boolean forceGenSeof) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
@@ -69,7 +74,7 @@ public final class RecordOfGenerator {
 			aData.addBuiltinTypeImport("RecordOf_Match.compare_function_t");
 		}
 
-		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+		final boolean rawNeeded = forceGenSeof || hasRaw; //TODO can be forced optionally if needed
 		if (rawNeeded) {
 			aData.addBuiltinTypeImport("RAW.ext_bit_t");
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
@@ -1202,9 +1207,11 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
 			source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
 			source.append("\t\t\t\t\ta++;\n");
+			//FIXME correct
 			source.append("\t\t\t\t\tif (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {\n");
 			source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 			source.append("\t\t\t\t\t}\n");
+			
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
@@ -1258,7 +1265,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t//ONLY for set of\n");
 		source.append("\t//originally value_set/set_items\n");
-		source.append( MessageFormat.format( "\tList<{0}> set_items;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t protected List<{0}> set_items;\n", ofTypeName ) );
 
 		source.append('\n');
 		source.append("\tprivate match_function_t match_function_set = new match_function_t() {\n");
@@ -3045,6 +3052,8 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 * @param ofTypeName
 	 *                type name of the "record of/set of" element
+	 * @param ofTypeGenName
+	 *                type generated name of the "record of/set of" element
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 * @param optimized_memalloc
@@ -3056,6 +3065,7 @@ public final class RecordOfGenerator {
 								final String genName,
 								final String displayName,
 								final String ofTypeName,
+								final String ofTypeGenName,
 								final boolean isSetOf,
 								final boolean optimized_memalloc) {
 		aData.addBuiltinTypeImport("PreGenRecordOf");
@@ -3101,6 +3111,15 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("list_value.add( new {0}_template() );\n", genName));
 		source.append("}\n");
 		source.append("break;\n");
+		if ( isSetOf ) {
+			source.append("\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\tcase SUBSET_MATCH:\n");
+			source.append( MessageFormat.format( "\t\t\tset_items = new ArrayList<{0}>(list_length);\n", ofTypeGenName ) );
+			source.append("\t\t\tfor( int i = 0; i < list_length; i++ ) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tset_items.add( new {0}() );\n", ofTypeGenName ) );
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tbreak;\n");
+		}
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", displayName));
 		source.append("}\n");
