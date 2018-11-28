@@ -3081,9 +3081,12 @@ public final class RecordOfGenerator {
 								final String ofTypeGenName,
 								final boolean isSetOf,
 								final boolean optimized_memalloc) {
+		aData.addImport("java.util.ArrayList");
+
 		aData.addBuiltinTypeImport("PreGenRecordOf");
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("Optional");
+		aData.addBuiltinTypeImport("TtcnError");
 
 		source.append(MessageFormat.format("\tpublic static class {0}_template extends PreGenRecordOf.PREGEN__{1}__OF__{2}{3}_template '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
 		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
