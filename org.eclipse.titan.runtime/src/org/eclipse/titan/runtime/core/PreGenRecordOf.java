@@ -16,8 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.compare_function_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.log_function_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.match_function_t;
@@ -66,38 +68,38 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT_0", RAW.TitanFloat_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING_0", RAW.TitanBitString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT_0", RAW.TitanFloat_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING_0", RAW.TitanBitString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED", null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null);
 	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null);
 
 	public PreGenRecordOf() {
@@ -738,6 +740,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanInteger>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -2458,6 +2543,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanUniversalCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template extends Record_Of_Template {
 
@@ -2476,7 +2644,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanUniversalCharString_template> set_items;
+		protected List<TitanUniversalCharString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -4273,6 +4441,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanOctetString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -5990,6 +6241,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanFloat>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -7711,6 +8045,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanUniversalCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template extends Record_Of_Template {
 
@@ -9428,6 +9845,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBitString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -11149,6 +11649,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBoolean>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template extends Record_Of_Template {
 
@@ -12866,6 +13449,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -14587,6 +15253,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBoolean>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN_template extends Record_Of_Template {
 
@@ -16304,6 +17053,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBitString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -18025,6 +18857,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanInteger>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__INTEGER_template extends Record_Of_Template {
 
@@ -19743,6 +20658,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanUniversalCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -19761,7 +20759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanUniversalCharString_template> set_items;
+		protected List<TitanUniversalCharString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -21557,6 +22555,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBoolean>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__BOOLEAN_template extends Record_Of_Template {
 
@@ -21575,7 +22656,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanBoolean_template> set_items;
+		protected List<TitanBoolean_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -23371,6 +24452,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanFloat>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED_template extends Record_Of_Template {
 
@@ -23389,7 +24553,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanFloat_template> set_items;
+		protected List<TitanFloat_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -25185,6 +26349,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanInteger>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__INTEGER_template extends Record_Of_Template {
 
@@ -25203,7 +26450,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanInteger_template> set_items;
+		protected List<TitanInteger_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -26999,6 +28246,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__CHARSTRING_template extends Record_Of_Template {
 
@@ -27017,7 +28347,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanCharString_template> set_items;
+		protected List<TitanCharString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -28814,6 +30144,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanUniversalCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -30532,6 +31945,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanHexString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__HEXSTRING_template extends Record_Of_Template {
 
@@ -30550,7 +32046,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanHexString_template> set_items;
+		protected List<TitanHexString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -32346,6 +33842,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanHexString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -32364,7 +33943,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanHexString_template> set_items;
+		protected List<TitanHexString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -34160,6 +35739,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanOctetString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING_template extends Record_Of_Template {
 
@@ -34178,7 +35840,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanOctetString_template> set_items;
+		protected List<TitanOctetString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -35974,6 +37636,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanFloat>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__FLOAT_template extends Record_Of_Template {
 
@@ -35992,7 +37737,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanFloat_template> set_items;
+		protected List<TitanFloat_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -37788,6 +39533,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanInteger>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED_template extends Record_Of_Template {
 
@@ -37806,7 +39634,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanInteger_template> set_items;
+		protected List<TitanInteger_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -39602,6 +41430,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanOctetString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -39620,7 +41531,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanOctetString_template> set_items;
+		protected List<TitanOctetString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -41417,6 +43328,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanOctetString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING_template extends Record_Of_Template {
 
@@ -43134,6 +45128,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanHexString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -44854,6 +46931,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -44872,7 +47032,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanCharString_template> set_items;
+		protected List<TitanCharString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -46668,6 +48828,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBitString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__BITSTRING_template extends Record_Of_Template {
 
@@ -46686,7 +48929,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanBitString_template> set_items;
+		protected List<TitanBitString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -48482,6 +50725,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBoolean>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template extends Record_Of_Template {
 
@@ -48500,7 +50826,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanBoolean_template> set_items;
+		protected List<TitanBoolean_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -50297,6 +52623,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanCharString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -52014,6 +54423,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanFloat>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
@@ -53734,6 +56226,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanBitString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
 	}
 	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED_template extends Record_Of_Template {
 
@@ -53752,7 +56327,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		//ONLY for set of
 		//originally value_set/set_items
-		List<TitanBitString_template> set_items;
+		protected List<TitanBitString_template> set_items;
 
 		private match_function_t match_function_set = new match_function_t() {
 			@Override
@@ -55547,6 +58122,89 @@ public final class PreGenRecordOf extends TTCN_Module {
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 			}
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+			int encoded_length = 0;
+			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			myleaf.isleaf = false;
+			myleaf.rec_of = true;
+			myleaf.num_of_nodes = encoded_num_of_records;
+			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
+			for (int a = 0; a < encoded_num_of_records; a++) {
+				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
+				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+			}
+			return myleaf.length = encoded_length;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+			return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			int decoded_length = 0;
+			int decoded_field_length = 0;
+			int start_of_field = 0;
+			if (first_call) {
+				clean_up();
+				valueElements = new ArrayList<TitanHexString>();
+			}
+			int start_field = valueElements.size();
+			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
+				int a = 0;
+				if (sel_field == -1) {
+					sel_field = p_td.raw.fieldlength;
+				}
+				for (a = 0; a < sel_field; a++) {
+					decoded_field_length = get_at(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						return decoded_field_length;
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+				}
+				if (a == 0) {
+					valueElements.clear();
+				}
+			} else {
+				int a = start_field;
+				if (limit == 0) {
+					if (!first_call) {
+						return -1;
+					}
+					valueElements.clear();
+					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+				}
+				while (limit > 0) {
+					start_of_field = buff.get_pos_bit();
+					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
+					if (decoded_field_length < 0) {
+						valueElements.remove(a);
+						buff.set_pos_bit(start_of_field);
+						if (a > start_field) {
+							return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+						} else {
+							return -1;
+						}
+					}
+					decoded_length += decoded_field_length;
+					limit -= decoded_field_length;
+					a++;
+					if (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {
+						return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+					}
+				}
+			}
+			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 		}
 
 	}
