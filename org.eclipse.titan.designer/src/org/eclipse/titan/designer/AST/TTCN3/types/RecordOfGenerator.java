@@ -2986,4 +2986,145 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
 		source.append("\t}\n");
 	}
+
+	/**
+	 * Generate "record of/set of" class
+	 * 
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
+	 * @param optimized_memalloc
+	 *                {@code true}: build on the optimized class,
+	 *                {@code false}: use the base version
+	 */
+	public static void generatePreGenBasedValueClass( final JavaGenData aData,
+								final StringBuilder source,
+								final String genName,
+								final String displayName,
+								final String ofTypeName,
+								final boolean isSetOf,
+								final boolean optimized_memalloc) {
+		aData.addBuiltinTypeImport("PreGenRecordOf");
+		aData.addBuiltinTypeImport("TitanNull_Type");
+		aData.addBuiltinTypeImport("Optional");
+
+		source.append(MessageFormat.format("\tpublic static class {0} extends PreGenRecordOf.PREGEN__{1}__OF__{2}{3} '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
+		source.append(MessageFormat.format("public {0}() '{'\n", genName));
+		source.append("super();\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}(final {0} other_value) '{'\n", genName));
+		source.append("super(other_value);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}(final TitanNull_Type other_value) '{'\n", genName));
+		source.append("super(other_value);\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * Generate "record of/set of" template class
+	 * 
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                "record of/set of" type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
+	 * @param optimized_memalloc
+	 *                {@code true}: build on the optimized class,
+	 *                {@code false}: use the base version
+	 */
+	public static void generatePreGenBasedTemplateClass( final JavaGenData aData,
+								final StringBuilder source,
+								final String genName,
+								final String displayName,
+								final String ofTypeName,
+								final boolean isSetOf,
+								final boolean optimized_memalloc) {
+		aData.addBuiltinTypeImport("PreGenRecordOf");
+		aData.addBuiltinTypeImport("TitanNull_Type");
+		aData.addBuiltinTypeImport("Optional");
+
+		source.append(MessageFormat.format("\tpublic static class {0}_template extends PreGenRecordOf.PREGEN__{1}__OF__{2}{3}_template '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
+		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
+		source.append("super();\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", genName));
+		source.append("super(other_value);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template(final {0}_template other_template) '{'\n", genName));
+		source.append("super(other_template);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template(final template_sel other_template) '{'\n", genName));
+		source.append("super(other_template);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template(final TitanNull_Type other_template) '{'\n", genName));
+		source.append("super(other_template);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template( final Optional<{0}> other_value ) '{'\n", genName));
+		source.append("switch (other_value.get_selection()) {\n");
+		source.append("case OPTIONAL_PRESENT:\n");
+		source.append("copy_value(other_value.constGet());\n");
+		source.append("break;\n");
+		source.append("case OPTIONAL_OMIT:\n");
+		source.append("set_selection(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("@Override\n");
+		source.append("public void set_type(final template_sel template_type, final int list_length) {\n");
+		source.append("clean_up();\n");
+		source.append("switch (template_type) {\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("list_value = new ArrayList<PreGenRecordOf.PREGEN__{0}__OF__{1}{2}_template>( list_length );\n", isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
+		source.append("for (int list_count = 0; list_count < list_length; list_count++) {\n");
+		source.append(MessageFormat.format("list_value.add( new {0}_template() );\n", genName));
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("set_selection(template_type);\n");
+		source.append("}\n");
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template list_item(final int list_index) '{'\n", genName));
+		source.append(MessageFormat.format("return ({0}_template)super.list_item(list_index);\n", genName));
+		source.append("}\n");
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", genName));
+		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append(MessageFormat.format("final {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName));
+		source.append("int i = 0;\n");
+		source.append("for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+		source.append("if (value_elements.get(elem_count).is_bound()) {\n");
+		source.append("ret_val.get_at(i).operator_assign(value_elements.get(elem_count).valueof());\n");
+		source.append("i++;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
 }
