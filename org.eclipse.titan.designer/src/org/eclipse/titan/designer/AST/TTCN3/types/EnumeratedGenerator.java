@@ -88,9 +88,15 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("TTCN_Buffer");
+		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
+		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
+		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
+		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addImport( "java.text.MessageFormat" );
