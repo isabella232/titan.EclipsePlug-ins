@@ -585,7 +585,6 @@ public final class SetOf_Type extends AbstractOfType {
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, getGenerateCoderFunctions(MessageEncoding_type.RAW), true);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
-			//final String ofTypeGenName = ofType.getGenNameValue(aData, source, getMyScope());
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
@@ -630,10 +629,8 @@ public final class SetOf_Type extends AbstractOfType {
 				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "FLOAT", ofTemplateTypeName, true, optimized_memalloc);
 				break;
-				//TODO rest of branches
 			default: {
 				final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
-				//final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, getGenerateCoderFunctions(MessageEncoding_type.RAW), false);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );

@@ -903,7 +903,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, getGenerateCoderFunctions(MessageEncoding_type.RAW), true);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 		} else {
-			//final String ofTypeGenName = ofType.getGenNameValue(aData, source, getMyScope());
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
@@ -950,7 +949,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				break;
 			default: {
 				final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
-				//final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, getGenerateCoderFunctions(MessageEncoding_type.RAW), false);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
