@@ -468,6 +468,14 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+		}
+
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression, true);
 			return;
