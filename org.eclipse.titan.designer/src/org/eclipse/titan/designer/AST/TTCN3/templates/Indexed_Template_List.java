@@ -464,7 +464,15 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
-		return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		if (myGovernor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		final StringBuilder result = new StringBuilder();
+		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
+
 	}
 
 	@Override
