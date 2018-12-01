@@ -32,14 +32,11 @@ public final class TTCN3ReferenceAnalyzer {
 	 * @return the parsed reference or null if the text can not form a reference
 	 */
 	public Reference parse(final IFile file, final String code, final boolean reportErrors, final int aLine, final int aOffset) {
-		Reference reference = null;
-
 		final Reader reader = new StringReader( code );
 		final CharStream charStream = new UnbufferedCharStream( reader );
 		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval( code.length() );
-
 		lexer.removeErrorListeners();
 
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
@@ -51,14 +48,12 @@ public final class TTCN3ReferenceAnalyzer {
 		parser.setProject(file.getProject());
 		parser.setLine(aLine);
 		parser.setOffset(aOffset);
-
 		parser.removeErrorListeners();
 
 		final Pr_UnifiedReferenceParserContext root = parser.pr_UnifiedReferenceParser();
 		ParserUtilities.logParseTree( root, parser );
-		reference = root.reference;
 
-		return reference;
+		return root.reference;
 	}
 
     /**
@@ -69,14 +64,11 @@ public final class TTCN3ReferenceAnalyzer {
 	 * @param code the contents of an editor, or null.
 	 * */
 	public Reference parseForCompletion(final IFile file, final String code) {
-		Reference reference = null;
-
 		final Reader reader = new StringReader( code );
 		final CharStream charStream = new UnbufferedCharStream( reader );
 		final Ttcn3KeywordlessLexer lexer = new Ttcn3KeywordlessLexer( charStream );
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval( code.length() );
-
 		lexer.removeErrorListeners();
 
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
@@ -86,13 +78,11 @@ public final class TTCN3ReferenceAnalyzer {
 		lexer.setActualFile(file);
 		parser.setActualFile(file);
 		parser.setProject(file.getProject());
-
 		parser.removeErrorListeners();
 
 		final Pr_UnifiedReferenceParserContext root = parser.pr_UnifiedReferenceParser();
 		ParserUtilities.logParseTree( root, parser );
-		reference = root.reference;
 
-		return reference;
+		return root.reference;
 	}
 }
