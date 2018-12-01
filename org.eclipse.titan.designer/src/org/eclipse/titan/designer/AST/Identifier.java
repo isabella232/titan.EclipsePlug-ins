@@ -586,46 +586,32 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 
 	static {
 		//fill the data structures with the keywords, and their associations.
-		String[] tempKeyword;
 		for (int i = 0; i < KEYWORDS.length; i++) {
-			tempKeyword = KEYWORDS[i];
-
-			final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
-			final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
-
-			final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
-			// add to the map the name
-			if (!ID_MAP_NAME.containsKey(idData.getName())) {
-				ID_MAP_NAME.put(idData.getName(), idData);
-			}
-			if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
-				ID_MAP_ASN.put(asnName, idData);
-			}
-			if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
-				ID_MAP_TTCN.put(ttcnName, idData);
-			}
+			addKeyword(KEYWORDS[i]);
 		}
 
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null)) {
 			for (int i = 0; i < REALTIME_KEYWORDS.length; i++) {
-				tempKeyword = REALTIME_KEYWORDS[i];
-
-				final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
-				final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
-
-				final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
-				// add to the map the name
-				if (!ID_MAP_NAME.containsKey(idData.getName())) {
-					ID_MAP_NAME.put(idData.getName(), idData);
-				}
-				if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
-					ID_MAP_ASN.put(asnName, idData);
-				}
-				if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
-					ID_MAP_TTCN.put(ttcnName, idData);
-				}
+				addKeyword(REALTIME_KEYWORDS[i]);
 			}
+		}
+	}
+
+	private static void addKeyword(final String[] tempKeyword) {
+		final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
+		final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
+
+		final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
+		// add to the map the name
+		if (!ID_MAP_NAME.containsKey(idData.getName())) {
+			ID_MAP_NAME.put(idData.getName(), idData);
+		}
+		if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
+			ID_MAP_ASN.put(asnName, idData);
+		}
+		if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
+			ID_MAP_TTCN.put(ttcnName, idData);
 		}
 	}
 
