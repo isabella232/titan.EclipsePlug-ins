@@ -172,10 +172,11 @@ class ConditionalStateMachine {
 			ErrorReporter.INTERNAL_ERROR();
 			return;
 		}
-		ConditionalState newState = state.transition(transition);
+
+		final ConditionalState newState = state.transition(transition);
 		if (newState == null) {
 			// invalid transition was requested
-			TITANMarker marker = new TITANMarker(MessageFormat.format("Directive {0} after {1} is not a valid preprocessor conditional",
+			final TITANMarker marker = new TITANMarker(MessageFormat.format("Directive {0} after {1} is not a valid preprocessor conditional",
 					ppDirective.type.getName(), state.getName()), ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR,
 					IMarker.PRIORITY_NORMAL);
 			errors.add(marker);
@@ -224,7 +225,7 @@ class ConditionalStateStack {
 		case IF:
 		case IFDEF:
 		case IFNDEF: {
-			ConditionalStateMachine csm = new ConditionalStateMachine(ppDirective);
+			final ConditionalStateMachine csm = new ConditionalStateMachine(ppDirective);
 			stateStack.add(csm);
 		}
 			break;
@@ -232,12 +233,12 @@ class ConditionalStateStack {
 		case ELSE:
 		case ENDIF: {
 			if (stateStack.isEmpty()) {
-				TITANMarker marker = new TITANMarker(MessageFormat.format(
+				final TITANMarker marker = new TITANMarker(MessageFormat.format(
 						"Directive {0} without corresponding #if/#ifdef/#ifndef directive", ppDirective.type.getName()),
 						ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 				unsupportedConstructs.add(marker);
 			} else {
-				ConditionalStateMachine topState = stateStack.peek();
+				final ConditionalStateMachine topState = stateStack.peek();
 				topState.transition(ppDirective, unsupportedConstructs);
 				if (topState.hasEnded()) {
 					stateStack.pop();
@@ -257,7 +258,7 @@ class ConditionalStateStack {
 	 * @return true to not filter
 	 */
 	public boolean isPassing() {
-		for (ConditionalStateMachine csm : stateStack) {
+		for (final ConditionalStateMachine csm : stateStack) {
 			if (!csm.isPassing()) {
 				return false;
 			}
@@ -270,8 +271,8 @@ class ConditionalStateStack {
 	 * error marker(s).
 	 */
 	public void eofCheck() {
-		for (ConditionalStateMachine csm : stateStack) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("{0} directive was not terminated",
+		for (final ConditionalStateMachine csm : stateStack) {
+			final TITANMarker marker = new TITANMarker(MessageFormat.format("{0} directive was not terminated",
 					csm.beginDirective.type.getName()), csm.beginDirective.line, -1, -1, IMarker.SEVERITY_ERROR,
 					IMarker.PRIORITY_NORMAL);
 			unsupportedConstructs.add(marker);
@@ -363,7 +364,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 	}
 
 	public void setMacros(final String[] definedList) {
-		for (String s : definedList) {
+		for (final String s : definedList) {
 			macros.put(s, "");
 		}
 	}
@@ -377,30 +378,31 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 	 */
 	private void processIncludeDirective(final PreprocessorDirective ppDirective) {
 		if (ppDirective.str == null || "".equals(ppDirective.str)) {
-			TITANMarker marker = new TITANMarker("File name was not provided", ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR,
+			final TITANMarker marker = new TITANMarker("File name was not provided", ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR,
 					IMarker.PRIORITY_NORMAL);
 			unsupportedConstructs.add(marker);
 			return;
 		}
-		IFile includedFile = GlobalParser.getProjectSourceParser(actualFile.getProject()).getTTCN3IncludeFileByName(ppDirective.str);
+
+		final IFile includedFile = GlobalParser.getProjectSourceParser(actualFile.getProject()).getTTCN3IncludeFileByName(ppDirective.str);
 		if (includedFile == null) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("Included file `{0}'' could not be found", ppDirective.str),
+			final TITANMarker marker = new TITANMarker(MessageFormat.format("Included file `{0}'' could not be found", ppDirective.str),
 					ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 			unsupportedConstructs.add(marker);
 			return;
 		}
 		// check extension
 		if (!GlobalParser.TTCNIN_EXTENSION.equals(includedFile.getFileExtension())) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("File `{0}'' does not have the `{1}'' extension", ppDirective.str,
+			final TITANMarker marker = new TITANMarker(MessageFormat.format("File `{0}'' does not have the `{1}'' extension", ppDirective.str,
 					GlobalParser.TTCNIN_EXTENSION), ppDirective.line, -1, -1, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL);
 			warnings.add(marker);
 		}
 		// check if the file is already loaded into an editor
 		String code = null;
 		if (EditorTracker.containsKey(includedFile)) {
-			List<ISemanticTITANEditor> editors = EditorTracker.getEditor(includedFile);
-			ISemanticTITANEditor editor = editors.get(0);
-			IDocument document = editor.getDocument();
+			final List<ISemanticTITANEditor> editors = EditorTracker.getEditor(includedFile);
+			final ISemanticTITANEditor editor = editors.get(0);
+			final IDocument document = editor.getDocument();
 			code = document.get();
 		}
 		// create lexer and set it up
@@ -448,7 +450,8 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
 			}
-			IFileInfo fileInfo = store.fetchInfo();
+
+			final IFileInfo fileInfo = store.fetchInfo();
 			rootInt = (int) fileInfo.getLength();
 		}
 		lexer.setTokenFactory(new CommonTokenFactory(true));
@@ -479,15 +482,15 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 			if (t == null) {
 				return 0;
 			}
-			int tokenType = t.getType();
+			final int tokenType = t.getType();
 			if (tokenType == Ttcn3Lexer.PREPROCESSOR_DIRECTIVE) {
 				lastPPDirectiveLocation = new Location(actualFile, t.getLine(), t.getStartIndex(), t.getStopIndex() + 1);
 				// 1. the first # shall be discarded
 				// 2. "\\\n" strings are removed, so multiline tokens, which are split by backslash are extracted to one line
 				final String text = t.getText().substring(1).replace("\\\n", "");
-				Reader reader = new StringReader( text );
-				CharStream charStream = new UnbufferedCharStream(reader);
-				PreprocessorDirectiveLexer lexer = new PreprocessorDirectiveLexer(charStream);
+				final Reader reader = new StringReader( text );
+				final CharStream charStream = new UnbufferedCharStream(reader);
+				final PreprocessorDirectiveLexer lexer = new PreprocessorDirectiveLexer(charStream);
 				lexer.setTokenFactory(new PPDirectiveTokenFactory(true, t));
 				lexerListener = new PPListener();
 				lexer.removeErrorListeners();
@@ -502,7 +505,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 				// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
 				final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 
-				PreprocessorDirectiveParser localParser = new PreprocessorDirectiveParser( tokenStream );
+				final PreprocessorDirectiveParser localParser = new PreprocessorDirectiveParser( tokenStream );
 				localParser.setBuildParseTree(false);
 				parserListener = new PPListener(localParser);
 				localParser.removeErrorListeners();
@@ -518,23 +521,23 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 				if (ppDirective != null) {
 					ppDirective.line = t.getLine();
 					if (ppDirective.isConditional()) {
-						boolean preIsPassing = condStateStack.isPassing();
+						final boolean preIsPassing = condStateStack.isPassing();
 						condStateStack.processDirective(ppDirective);
-						boolean postIsPassing = condStateStack.isPassing();
+						final boolean postIsPassing = condStateStack.isPassing();
 						if (preIsPassing != postIsPassing && tokenStreamStack.isEmpty() && getTokenSource() instanceof Ttcn3Lexer) {
 							// included files are ignored because of ambiguity
-							Location ppLocation = lastPPDirectiveLocation;
+							final Location ppLocation = lastPPDirectiveLocation;
 							if (ppLocation != null) {
 								if (preIsPassing) {
 									// switched to inactive: begin a new inactive location
-									Location loc = new Location(actualFile, ppLocation.getLine(),
+									final Location loc = new Location(actualFile, ppLocation.getLine(),
 											ppLocation.getEndOffset(), ppLocation.getEndOffset());
 									inactiveCodeLocations.add(loc);
 								} else {
 									// switched to active: end the current inactive location
-									int iclSize = inactiveCodeLocations.size();
+									final int iclSize = inactiveCodeLocations.size();
 									if (iclSize > 0) {
-										Location lastLocation = inactiveCodeLocations.get(iclSize - 1);
+										final Location lastLocation = inactiveCodeLocations.get(iclSize - 1);
 										lastLocation.setEndOffset(ppLocation.getOffset());
 									}
 								}
@@ -549,7 +552,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 							case INCLUDE: {
 								if (tokenStreamStack.size() > RECURSION_LIMIT) {
 									// dumb but safe defense against infinite recursion, default value from gcc
-									TITANMarker marker = new TITANMarker(
+									final TITANMarker marker = new TITANMarker(
 											"Maximum #include recursion depth reached", ppDirective.line,
 											-1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 									unsupportedConstructs.add(marker);
@@ -559,15 +562,15 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 							}
 								break;
 							case ERROR: {
-								String errorMessage = ppDirective.str == null ? "" : ppDirective.str;
-								TITANMarker marker = new TITANMarker(errorMessage, ppDirective.line, -1, -1,
+								final String errorMessage = ppDirective.str == null ? "" : ppDirective.str;
+								final TITANMarker marker = new TITANMarker(errorMessage, ppDirective.line, -1, -1,
 										IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 								unsupportedConstructs.add(marker);
 							}
 								break;
 							case WARNING: {
-								String warningMessage = ppDirective.str == null ? "" : ppDirective.str;
-								TITANMarker marker = new TITANMarker(warningMessage, ppDirective.line, -1, -1,
+								final String warningMessage = ppDirective.str == null ? "" : ppDirective.str;
+								final TITANMarker marker = new TITANMarker(warningMessage, ppDirective.line, -1, -1,
 										IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL);
 								warnings.add(marker);
 							}
@@ -576,13 +579,13 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 							case LINEMARKER:
 							case PRAGMA:
 							case NULL: {
-								String reportPreference = Platform.getPreferencesService().getString(
+								final String reportPreference = Platform.getPreferencesService().getString(
 										ProductConstants.PRODUCT_ID_DESIGNER,
 										PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES,
 										GeneralConstants.WARNING, null);
 								if (!GeneralConstants.IGNORE.equals(reportPreference)) {
-									boolean isError = GeneralConstants.ERROR.equals(reportPreference);
-									TITANMarker marker = new TITANMarker(MessageFormat.format(
+									final boolean isError = GeneralConstants.ERROR.equals(reportPreference);
+									final TITANMarker marker = new TITANMarker(MessageFormat.format(
 											"Preprocessor directive {0} is ignored",
 											ppDirective.type.getName()), ppDirective.line, -1, -1,
 											isError ? IMarker.SEVERITY_ERROR : IMarker.SEVERITY_WARNING,
@@ -605,7 +608,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 				if (!tokenStreamStack.isEmpty()) {
 					// the included file ended, drop lexer
 					// from the stack and ignore EOF token
-					TokenStreamData tsd = tokenStreamStack.pop();
+					final TokenStreamData tsd = tokenStreamStack.pop();
 					if (parser != null) {
 						if (tokenStreamStack.isEmpty()) {
 							parser.setActualFile(actualFile);

@@ -147,7 +147,7 @@ public final class TTCN3ReparseUpdater {
 		if (offset > modificationStartOffset) {
 			location.setEndOffset(Math.max(offset + shift, modificationStartOffset));
 		}
-		int line = location.getLine();
+		final int line = location.getLine();
 		if (line > firstLine) {
 			location.setLine(line + lineShift);
 		} else if (line == firstLine && offset > modificationStartOffset) {
@@ -172,23 +172,24 @@ public final class TTCN3ReparseUpdater {
 			return false;
 		}
 
-		int line = getLineOfOffset(code, modificationStartOffset);
-		int column = getPositionInLine(code, modificationStartOffset);
+		final int line = getLineOfOffset(code, modificationStartOffset);
+		final int column = getPositionInLine(code, modificationStartOffset);
 		String substring;
 		if (code.length() <= modificationEndOffset + shift) {
 			substring = code.substring(modificationStartOffset);
 		} else {
 			substring = code.substring(modificationStartOffset, modificationEndOffset + shift);
 		}
-		Reader reader = new StringReader(substring);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
+
+		final Reader reader = new StringReader(substring);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.setLine( line + 1 );
 		lexer.setCharPositionInLine(column);
 		lexer.initRootInterval(modificationEndOffset - modificationStartOffset + 1);
 
-		Token token = lexer.nextToken();
+		final Token token = lexer.nextToken();
 		if (token == null) {
 			return false;
 		}
@@ -213,23 +214,24 @@ public final class TTCN3ReparseUpdater {
 			return false;
 		}
 
-		int line = getLineOfOffset(code, modificationStartOffset);
-		int column = getPositionInLine(code, modificationStartOffset);
+		final int line = getLineOfOffset(code, modificationStartOffset);
+		final int column = getPositionInLine(code, modificationStartOffset);
 		String substring;
 		if (code.length() <= modificationEndOffset + shift) {
 			substring = code.substring(modificationStartOffset);
 		} else {
 			substring = code.substring(modificationStartOffset, modificationEndOffset + shift);
 		}
-		Reader reader = new StringReader(substring);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
+
+		final Reader reader = new StringReader(substring);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.setLine( line + 1 );
 		lexer.setCharPositionInLine(column);
 		lexer.initRootInterval(modificationEndOffset - modificationStartOffset + 1);
 
-		Token token = lexer.nextToken();
+		final Token token = lexer.nextToken();
 		if (token == null) {
 			return false;
 		}
@@ -279,12 +281,13 @@ public final class TTCN3ReparseUpdater {
 		} else {
 			substring = code.substring(modificationStartOffset, modificationEndOffset + shift);
 		}
-		int rangeEnd = substring.length();
+
+		final int rangeEnd = substring.length();
 		int nextPos = 0;
 		boolean insideString = false;
 		boolean insideSingleComment = false;
 		boolean insideMultiComment = false;
-		Stack<String> elements = new Stack<String>();
+		final Stack<String> elements = new Stack<String>();
 		int unclosedStarting = 0;
 		int unclosedEnding = 0;
 		try {
@@ -407,7 +410,7 @@ public final class TTCN3ReparseUpdater {
 	 */
 	private void reportSpecificSyntaxErrors() {
 		if (mErrors != null) {
-			Location temp = new Location(file, firstLine, modificationStartOffset, modificationEndOffset + shift);
+			final Location temp = new Location(file, firstLine, modificationStartOffset, modificationEndOffset + shift);
 			for (int i = 0; i < mErrors.size(); i++) {
 				ParserMarkerSupport.createOnTheFlySyntacticMarker(file, mErrors.get(i), IMarker.SEVERITY_ERROR, temp);
 			}
@@ -417,17 +420,17 @@ public final class TTCN3ReparseUpdater {
 	public final void reportSyntaxErrors() {
 		reportSpecificSyntaxErrors();
 		if (warningsAndErrors != null) {
-			for (TITANMarker marker : warningsAndErrors) {
+			for (final TITANMarker marker : warningsAndErrors) {
 				if (file.isAccessible()) {
-					Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+					final Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					location.reportExternalProblem(marker.getMessage(), marker.getSeverity(), GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				}
 			}
 		}
 		if (unsupportedConstructs != null && !unsupportedConstructs.isEmpty()) {
-			Iterator<TITANMarker> iterator = unsupportedConstructs.iterator();
+			final Iterator<TITANMarker> iterator = unsupportedConstructs.iterator();
 			while (iterator.hasNext()) {
-				TITANMarker marker = iterator.next();
+				final TITANMarker marker = iterator.next();
 				if (marker.getOffset() >= modificationEndOffset) {
 					marker.setOffset(marker.getOffset() + shift);
 					marker.setEndOffset(marker.getEndOffset() + shift);
@@ -478,9 +481,9 @@ public final class TTCN3ReparseUpdater {
 		// double wideparsing = System.nanoTime();
 		mErrors = null;
 		warningsAndErrors = null;
-		Iterator<TITANMarker> iterator = unsupportedConstructs.iterator();
+		final Iterator<TITANMarker> iterator = unsupportedConstructs.iterator();
 		while (iterator.hasNext()) {
-			TITANMarker marker = iterator.next();
+			final TITANMarker marker = iterator.next();
 			if ((marker.getOffset() > modificationStartOffset && marker.getOffset() <= modificationEndOffset)
 					|| (marker.getEndOffset() > modificationStartOffset && marker.getEndOffset() <= modificationEndOffset)) {
 				iterator.remove();
@@ -493,21 +496,22 @@ public final class TTCN3ReparseUpdater {
 			return Integer.MAX_VALUE;
 		}
 
-		int line = getLineOfOffset(code, modificationStartOffset);
+		final int line = getLineOfOffset(code, modificationStartOffset);
 		String substring;
 		if (code.length() <= modificationEndOffset + shift) {
 			substring = code.substring(modificationStartOffset);
 		} else {
 			substring = code.substring(modificationStartOffset, modificationEndOffset + shift);
 		}
-		Reader reader = new StringReader(substring);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
+
+		final Reader reader = new StringReader(substring);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval(modificationEndOffset - modificationStartOffset + 1);
 
 		// lexer and parser listener
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		// remove ConsoleErrorListener
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(parserListener);
@@ -519,7 +523,7 @@ public final class TTCN3ReparseUpdater {
 		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 
-		Ttcn3Reparser parser = new Ttcn3Reparser( tokenStream );
+		final Ttcn3Reparser parser = new Ttcn3Reparser( tokenStream );
 		ParserUtilities.setBuildParseTree( parser );
 
 		lexer.setActualFile(file);

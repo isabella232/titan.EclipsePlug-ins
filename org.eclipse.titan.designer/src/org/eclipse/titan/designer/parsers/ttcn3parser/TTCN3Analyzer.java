@@ -130,7 +130,8 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
 			}
-			IFileInfo fileInfo = store.fetchInfo();
+
+			final IFileInfo fileInfo = store.fetchInfo();
 			rootInt = (int) fileInfo.getLength();
 		} else {
 			return;
@@ -166,11 +167,10 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	private void parse( final Reader aReader, final int aFileLength, final IFile aEclipseFile ) {
 		final IPreferencesService prefs = Platform.getPreferencesService();
-		boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
 
-		CharStream charStream = new UnbufferedCharStream( aReader );
-		Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
-
+		final CharStream charStream = new UnbufferedCharStream( aReader );
+		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
 		lexer.setCommentTodo( true );
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval( aFileLength );
@@ -178,7 +178,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			lexer.enableRealtime();
 		}
 
-		TitanListener lexerListener = new TitanListener();
+		final TitanListener lexerListener = new TitanListener();
 		// remove ConsoleErrorListener
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
@@ -215,13 +215,13 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		parser.addErrorListener( parserListener );
 
 		// This is added because of the following ANTLR 4 bug:
 		// Memory Leak in PredictionContextCache #499
 		// https://github.com/antlr/antlr4/issues/499
-		DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
+		final DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
 		parser.setInterpreter(new ParserATNSimulator(parser, parser.getATN(), decisionToDFA, new PredictionContextCache()));
 
 		//try SLL mode
@@ -239,7 +239,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		if (!warningsAndErrors.isEmpty() || !mErrorsStored.isEmpty()) {
 			//SLL mode might have failed, try LL mode
 			try {
-				CharStream charStream2 = new UnbufferedCharStream( aReader );
+				final CharStream charStream2 = new UnbufferedCharStream( aReader );
 				lexer.setInputStream(charStream2);
 				//lexer.reset();
 				parser.reset();

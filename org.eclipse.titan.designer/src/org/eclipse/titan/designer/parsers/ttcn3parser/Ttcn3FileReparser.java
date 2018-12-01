@@ -53,7 +53,7 @@ public class Ttcn3FileReparser implements ITtcn3FileReparser {
 			public void reparse(final Ttcn3Reparser parser) {
 				final ParseTree root = parser.pr_TTCN3File();
 				ParserUtilities.logParseTree( root, parser );
-				TTCN3Module actualTtcn3Module = parser.getModule();
+				final TTCN3Module actualTtcn3Module = parser.getModule();
 				if (actualTtcn3Module != null && actualTtcn3Module.getIdentifier() != null) {
 					mSourceParser.getSemanticAnalyzer().addModule(actualTtcn3Module);
 					mFileMap.put(mFile, actualTtcn3Module.getName());

@@ -25,7 +25,7 @@ public final class ReparseUtilities {
 	 * @return all token types that are valid for reparsing (EOF is not)
 	 * */
 	public static List<Integer> getAllValidTokenTypes() {
-		List<Integer> result = new ArrayList<Integer>();
+		final List<Integer> result = new ArrayList<Integer>();
 
 		for (int i = Ttcn3Lexer.EOF + 1; i < Ttcn3Lexer.LEXERPLACEHOLDER; i++) {
 			result.add(Integer.valueOf(i));

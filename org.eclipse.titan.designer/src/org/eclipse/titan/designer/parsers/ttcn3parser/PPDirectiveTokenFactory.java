@@ -41,7 +41,7 @@ public class PPDirectiveTokenFactory implements TokenFactory<CommonToken>{
 	@Override
 	public CommonToken create(final Pair<TokenSource, CharStream> source, final int type,
 			final String text, final int channel, final int start, final int stop, final int line, final int charPositionInLine) {
-		CommonToken t = new CommonToken(source, type, channel, start, stop);
+		final CommonToken t = new CommonToken(source, type, channel, start, stop);
 		t.setLine(line);
 		t.setStartIndex(start + token.getStartIndex());
 		t.setStopIndex(stop + token.getStartIndex() + 1);
