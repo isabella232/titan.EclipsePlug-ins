@@ -135,8 +135,6 @@ public final class RecordOfGenerator {
 											  final boolean isSetOf ) {
 		aData.addImport("java.util.List");
 		aData.addImport("java.util.ArrayList");
-		aData.addImport("java.util.concurrent.atomic.AtomicBoolean");
-		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Text_Buf");
@@ -169,10 +167,15 @@ public final class RecordOfGenerator {
 		if ( isSetOf ) {
 			generateTemplateGetterSettersSetOf( source, genName, ofTypeName, displayName );
 		}
-		generateTemplateConcat( source, genName, ofTypeName, displayName );
+
+		//TODO only need to be generated in runtime2 or to support template concatenation
+		//aData.addImport("java.util.concurrent.atomic.AtomicBoolean");
+		//aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+		//generateTemplateConcat( source, genName, ofTypeName, displayName );
+		//generateTemplateMatchv( source, genName );
+
 		generateTemplateSetSize( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateNElem( source, genName );
-		generateTemplateMatchv( source, genName );
 		generateTemplateIsValue( source, genName );
 		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateListItem( source, genName, displayName );
