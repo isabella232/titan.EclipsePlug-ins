@@ -2195,7 +2195,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t	if (template_selection == template_sel.SUPERSET_MATCH) {\n");
 			source.append("\t\t		has_any_or_none = true;\n");
 			source.append("\t\t	} else {\n");
-			source.append("\t\t		int max_size = min_size;\n");
+			source.append("\t\t		final int max_size = min_size;\n");
 			source.append("\t\t		min_size = 0;\n");
 			source.append("\t\t		if (!has_any_or_none) { // [0,max_size]\n");
 			source.append("\t\t			switch (length_restriction_type) {\n");

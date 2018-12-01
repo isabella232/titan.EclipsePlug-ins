@@ -3324,7 +3324,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -21439,7 +21439,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -23336,7 +23336,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -25233,7 +25233,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -27130,7 +27130,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -29027,7 +29027,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -32726,7 +32726,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -34623,7 +34623,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -36520,7 +36520,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -38417,7 +38417,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -40314,7 +40314,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -42211,7 +42211,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -47712,7 +47712,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -49609,7 +49609,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -51506,7 +51506,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
@@ -57007,7 +57007,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection == template_sel.SUPERSET_MATCH) {
 					has_any_or_none = true;
 				} else {
-					int max_size = min_size;
+					final int max_size = min_size;
 					min_size = 0;
 					if (!has_any_or_none) { // [0,max_size]
 						switch (length_restriction_type) {
