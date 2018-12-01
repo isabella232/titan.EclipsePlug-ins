@@ -1145,7 +1145,7 @@ public final class RecordOfGenerator {
 			source.append("/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("\t\t\tint encoded_length = 0;\n");
-			source.append("\t\t\tint encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
+			source.append("\t\t\tfinal int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
 			source.append("\t\t\tmyleaf.isleaf = false;\n");
 			source.append("\t\t\tmyleaf.rec_of = true;\n");
 			source.append("\t\t\tmyleaf.num_of_nodes = encoded_num_of_records;\n");
@@ -1175,7 +1175,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\tclean_up();\n");
 			source.append(MessageFormat.format("\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName));
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tint start_field = valueElements.size();\n");
+			source.append("\t\t\tfinal int start_field = valueElements.size();\n");
 			source.append("\t\t\tif (p_td.raw.fieldlength > 0 || sel_field != -1) {\n");
 			source.append("\t\t\t\tint a = 0;\n");
 			source.append("\t\t\t\tif (sel_field == -1) {\n");
