@@ -746,7 +746,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -776,7 +776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanInteger>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -2547,7 +2547,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -2577,7 +2577,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanUniversalCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -4445,7 +4445,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -4475,7 +4475,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanOctetString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -6247,7 +6247,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -6277,7 +6277,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanFloat>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -8049,7 +8049,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -8079,7 +8079,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanUniversalCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -9851,7 +9851,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -9881,7 +9881,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBitString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -11653,7 +11653,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -11683,7 +11683,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBoolean>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -13455,7 +13455,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -13485,7 +13485,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -15257,7 +15257,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -15287,7 +15287,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBoolean>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -17059,7 +17059,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -17089,7 +17089,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBitString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -18861,7 +18861,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -18891,7 +18891,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanInteger>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -20662,7 +20662,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -20692,7 +20692,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanUniversalCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -22559,7 +22559,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -22589,7 +22589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBoolean>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -24456,7 +24456,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -24486,7 +24486,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanFloat>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -26353,7 +26353,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -26383,7 +26383,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanInteger>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -28250,7 +28250,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -28280,7 +28280,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -30148,7 +30148,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -30178,7 +30178,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanUniversalCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -31949,7 +31949,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -31979,7 +31979,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanHexString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -33846,7 +33846,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -33876,7 +33876,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanHexString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -35743,7 +35743,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -35773,7 +35773,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanOctetString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -37640,7 +37640,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -37670,7 +37670,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanFloat>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -39537,7 +39537,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -39567,7 +39567,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanInteger>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -41434,7 +41434,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -41464,7 +41464,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanOctetString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -43332,7 +43332,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -43362,7 +43362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanOctetString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -45134,7 +45134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -45164,7 +45164,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanHexString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -46935,7 +46935,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -46965,7 +46965,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -48832,7 +48832,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -48862,7 +48862,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBitString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -50729,7 +50729,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -50759,7 +50759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBoolean>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -52627,7 +52627,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -52657,7 +52657,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanCharString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -54429,7 +54429,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -54459,7 +54459,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanFloat>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -56230,7 +56230,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -56260,7 +56260,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanBitString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
@@ -58128,7 +58128,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -58158,7 +58158,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				clean_up();
 				valueElements = new ArrayList<TitanHexString>();
 			}
-			int start_field = valueElements.size();
+			final int start_field = valueElements.size();
 			if (p_td.raw.fieldlength > 0 || sel_field != -1) {
 				int a = 0;
 				if (sel_field == -1) {
