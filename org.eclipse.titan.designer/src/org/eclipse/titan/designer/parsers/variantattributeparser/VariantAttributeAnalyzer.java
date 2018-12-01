@@ -35,19 +35,16 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 public class VariantAttributeAnalyzer {
 
 	public void parse(final RawAST rawAST, final AttributeSpecification specification, final int lengthMultiplier, final AtomicBoolean raw_found) {
-		VariantAttributeLexer lexer;
 		final Location location = specification.getLocation();
-
 		final StringReader reader = new StringReader(specification.getSpecification());
 		final CharStream charStream = new UnbufferedCharStream(reader);
-		lexer = new VariantAttributeLexer(charStream);
+		VariantAttributeLexer lexer = new VariantAttributeLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
 		final TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
 
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-
 		final VariantAttributeParser parser = new VariantAttributeParser( tokenStream );
 		parser.setBuildParseTree(false);
 
