@@ -41,12 +41,11 @@ public final class ExtensionAttributeAnalyzer {
 	}
 
 	public void parse(final AttributeSpecification specification) {
-		ExtensionAttributeLexer lexer;
 		Location location = specification.getLocation();
 
 		StringReader reader = new StringReader(specification.getSpecification());
 		CharStream charStream = new UnbufferedCharStream(reader);
-		lexer = new ExtensionAttributeLexer(charStream);
+		ExtensionAttributeLexer lexer = new ExtensionAttributeLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
 		TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();
