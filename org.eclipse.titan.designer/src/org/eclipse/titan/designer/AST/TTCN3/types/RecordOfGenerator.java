@@ -2029,7 +2029,7 @@ public final class RecordOfGenerator {
 		source.append('\n');
 		//TODO: simplify, just use value_elements.add()
 		source.append("\t\t\t//TODO: simplify, just use value_elements.add()\n");
-		source.append( MessageFormat.format( "\tprivate void concat(final AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic void concat(final AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
 		source.append("\t\t// all errors should have already been caught by the operand's\n");
 		source.append("\t\t// get_length_for_concat() call;\n");
 		source.append("\t\t// the result template (this) should already be set to SPECIFIC_VALUE and\n");

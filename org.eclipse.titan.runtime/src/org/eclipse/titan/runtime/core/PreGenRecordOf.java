@@ -1329,7 +1329,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -3183,7 +3183,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -5028,7 +5028,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -6830,7 +6830,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -8632,7 +8632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -10434,7 +10434,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -12236,7 +12236,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -14038,7 +14038,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -15840,7 +15840,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -17642,7 +17642,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -19444,7 +19444,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -21298,7 +21298,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -23195,7 +23195,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -25092,7 +25092,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -26989,7 +26989,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -28886,7 +28886,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -30731,7 +30731,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -32585,7 +32585,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -34482,7 +34482,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -36379,7 +36379,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -38276,7 +38276,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -40173,7 +40173,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -42070,7 +42070,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -43915,7 +43915,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -45717,7 +45717,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -47571,7 +47571,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -49468,7 +49468,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -51365,7 +51365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -53210,7 +53210,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -55012,7 +55012,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -56866,7 +56866,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -58711,7 +58711,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operand) {
+		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
