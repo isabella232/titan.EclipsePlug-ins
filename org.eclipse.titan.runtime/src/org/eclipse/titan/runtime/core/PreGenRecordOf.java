@@ -1495,7 +1495,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -3402,7 +3402,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -5194,7 +5194,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -6996,7 +6996,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__FLOAT other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__FLOAT other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -8798,7 +8798,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -10600,7 +10600,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__BITSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__BITSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -12402,7 +12402,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -14204,7 +14204,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__CHARSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__CHARSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -16006,7 +16006,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__BOOLEAN other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__BOOLEAN other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -17808,7 +17808,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -19610,7 +19610,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__INTEGER other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__INTEGER other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -21517,7 +21517,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -23414,7 +23414,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__BOOLEAN other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__BOOLEAN other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -25311,7 +25311,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -27208,7 +27208,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__INTEGER other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__INTEGER other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -29105,7 +29105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__CHARSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__CHARSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -30897,7 +30897,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -32804,7 +32804,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__HEXSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__HEXSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -34701,7 +34701,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -36598,7 +36598,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__OCTETSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__OCTETSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -38495,7 +38495,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__FLOAT other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__FLOAT other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -40392,7 +40392,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -42289,7 +42289,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -44081,7 +44081,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -45883,7 +45883,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__HEXSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__HEXSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -47790,7 +47790,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -49687,7 +49687,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__BITSTRING other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__BITSTRING other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -51584,7 +51584,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -53376,7 +53376,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -55178,7 +55178,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -57085,7 +57085,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}
@@ -58877,7 +58877,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
 		}
 
-		private boolean matchv(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
+		public boolean matchv(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
 			if (!other_value.is_bound()) {
 				return false;
 			}

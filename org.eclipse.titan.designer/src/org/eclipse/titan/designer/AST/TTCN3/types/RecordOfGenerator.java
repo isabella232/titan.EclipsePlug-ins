@@ -2298,7 +2298,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateMatchv(final StringBuilder source, final String genName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, final boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic boolean matchv(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif (!other_value.is_bound()) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
