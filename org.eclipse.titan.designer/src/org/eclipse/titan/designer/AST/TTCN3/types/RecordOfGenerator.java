@@ -1196,7 +1196,6 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tvalueElements.clear();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t} else {\n");
-			source.append("\t\t\t\tint a = start_field;\n");
 			source.append("\t\t\t\t\tif (limit == 0) {\n");
 			source.append("\t\t\t\t\tif (!first_call) {\n");
 			source.append("\t\t\t\t\t\treturn -1;\n");
@@ -1204,6 +1203,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tvalueElements.clear();\n");
 			source.append("\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tint a = start_field;\n");
 			source.append("\t\t\t\twhile (limit > 0) {\n");
 			source.append("\t\t\t\t\tstart_of_field = buff.get_pos_bit();\n");
 			source.append("\t\t\t\t\tdecoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
