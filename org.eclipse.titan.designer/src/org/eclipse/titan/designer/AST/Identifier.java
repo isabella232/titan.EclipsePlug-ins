@@ -11,6 +11,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
+
 /**
  * This is a universal identifier class which can handle all
  * reserved keywords. It contains also the name mappings. It is
@@ -507,7 +512,6 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"none__", "none", "none_"},
 		{"not4b__", "not4b", "not4b_"},
 		{"not__a__number__","not-a-number","not_a_number_"},
-		{"now__", "now", "now_"},
 		{"nowait__", "nowait", "nowait_"},
 		{"null__", "null", "null_"},
 		{"objid__", "objid", "objid_"},
@@ -527,7 +531,6 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"procedure__", "procedure", "procedure_"},
 		{"raise__", "raise", "raise_"},
 		{"read__", "read", "read_"},
-		{"realtime__", "realtime", "realtime_"},
 		{"receive__", "receive", "receive_"},
 		{"record__", "record", "record_"},
 		{"recursive__", "recursive", "recursive_"},
@@ -550,7 +553,6 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"testcase__", "testcase", "testcase_"},
 		{"timeout__", "timeout", "timeout_"},
 		{"timer__", "timer", "timer_"},
-		{"timestamp__", "timestamp", "timestamp_"},
 		{"to__", "to", "to_"},
 		{"trigger__", "trigger", "trigger_"},
 		{"type__", "type", "type_"},
@@ -568,6 +570,18 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		/* internal / error */
 		{"<error>", "<error>", "<error>"},
 		{"TTCN_internal_", "<internal>", "<internal>"}
+	};
+
+	/**
+	 * Special names in the realtime extension that can not be converted on the normal way.
+	 * <p>
+	 * Java name, ASN.1 name, TTCN-3 name
+	 * */
+	private static final String[][] REALTIME_KEYWORDS = {
+		/* Java keywords - can never be used */
+		{"now__", "now", "now_"},
+		{"realtime__", "realtime", "realtime_"},
+		{"timestamp__", "timestamp", "timestamp_"}
 	};
 
 	static {
@@ -589,6 +603,28 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 			}
 			if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
 				ID_MAP_TTCN.put(ttcnName, idData);
+			}
+		}
+
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null)) {
+			for (int i = 0; i < REALTIME_KEYWORDS.length; i++) {
+				tempKeyword = REALTIME_KEYWORDS[i];
+
+				final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
+				final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
+
+				final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
+				// add to the map the name
+				if (!ID_MAP_NAME.containsKey(idData.getName())) {
+					ID_MAP_NAME.put(idData.getName(), idData);
+				}
+				if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
+					ID_MAP_ASN.put(asnName, idData);
+				}
+				if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
+					ID_MAP_TTCN.put(ttcnName, idData);
+				}
 			}
 		}
 	}

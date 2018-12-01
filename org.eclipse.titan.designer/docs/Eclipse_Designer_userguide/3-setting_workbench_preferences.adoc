@@ -316,6 +316,11 @@ The parsing process is detailed <<7-editing_with_titan_designer_plugin.adoc#on-t
 +
 NOTE: The delayed semantic checking separates the syntactic analysis from the semantic analysis, while the timeout before on-the-fly check starts feature shifts them together. As such these two features are orthogonal to each other.
 
+* **Enable support for the realtime extension**
++
+When this feature enabled support for the realtime extension of the TTCN-3 standard will be activated. This also means that the now, realtime and timestamp words become keywords in TTCN-3 files.
+
+
 === Pitfalls
 
 * In the worst case incremental parsing can actually take somewhat longer than a full parsing of the file. As it is using among others the opening and closing brackets to localize the semantic effect of a change, if these are not used in a consistent way, which reduce the performance drastically. For example, if only the '{' sign is entered, but the pairing '}' is not, that might structurally damage the whole file, as all statement blocks might become syntactically invalid.
@@ -448,7 +453,7 @@ The detection of unused module importations and definitions is based on the sema
 As that is not yet a full semantic analyzes, these feature can also produce only heuristic behavior.
 
 For example, every importation / definition will be reported unused, if it is not used by the semantic analyzer.
-This sadly does not mean that they are actually not used, but on the contrary it means that every importation / definition not marked is sure to be used. 
+This sadly does not mean that they are actually not used, but on the contrary it means that every importation / definition not marked is sure to be used.
 However this also means that if there are any unused importations / definitions in the project they will be contained in this list, thus considerably reducing every effort needed to find them.
 
 == Naming Conventions
@@ -546,12 +551,12 @@ NOTE: This is only useful in a few protocols. The option is UNCHECKED by default
 [[typing-preferences]]
 image::images/3_F25.png[title="Typing preferences"]
 
-The Typing page (above) is used to configure the automatic behavior during typing in supported editors. 
+The Typing page (above) is used to configure the automatic behavior during typing in supported editors.
 The variable parameters are divided into two groups.
 
 The first group deals with automatic bracket insertion. For the last three items a checked box means that, as soon as the user types the opening bracket, the corresponding closing bracket will be automatically inserted. The cursor will be placed between the two brackets. This automatism can be invoked for three types of brackets: (parentheses), [square brackets] and {curly brackets}. For apostrophe it is somewhat different. In this case if there is some text selected when the user types an apostrophe, its pair will not be inserted right after, but rather on the other side of the selection, effectively enclosing the selected region. If there is an alphabetical character right before or after the cursor only one apostrophe is inserted. In other cases, the closing apostrophe is inserted automatically after the one typed.
 
-The second group contains only one box for controlling new line insertion. A checked box has the following effect: 
+The second group contains only one box for controlling new line insertion. A checked box has the following effect:
 if the user hits *Enter* between two curly brackets, the cursor will be moved to the next line and the closing bracket even further, to the second line. This way an empty line is formed with an opening bracket above and a closing bracket below it. The cursor will be placed on the empty line.
 
 By default, all boxes are checked.

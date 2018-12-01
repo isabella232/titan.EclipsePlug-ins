@@ -33,6 +33,8 @@ import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.Interval;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
@@ -42,6 +44,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
 import org.eclipse.titan.designer.parsers.ParserUtilities;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData;
 
 /**
@@ -161,12 +165,18 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 * @param aEclipseFile Eclipse dependent resource file
 	 */
 	private void parse( final Reader aReader, final int aFileLength, final IFile aEclipseFile ) {
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
+
 		CharStream charStream = new UnbufferedCharStream( aReader );
 		Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
 
 		lexer.setCommentTodo( true );
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval( aFileLength );
+		if (realtimeEnabled) {
+			lexer.enableRealtime();
+		}
 
 		TitanListener lexerListener = new TitanListener();
 		// remove ConsoleErrorListener
