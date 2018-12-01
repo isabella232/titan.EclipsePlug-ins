@@ -88,7 +88,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 			((WritableToken)t).setTokenIndex(tokens.size());
 		}
 
-		List<Token> tokenList = new ArrayList<Token>();
+		final List<Token> tokenList = new ArrayList<Token>();
 		int nofUnclosedParanthesis = 1;
 
 		while(t != null && t.getType() != Token.EOF) {
@@ -119,10 +119,11 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 	}
 
 	private String makeString(final List<Token> list) {
-		StringBuilder text = new StringBuilder();
-		for (Token t : list) {
+		final StringBuilder text = new StringBuilder();
+		for (final Token t : list) {
 			text.append(t.getText());
 		}
+
 		return text.toString();
 	}
 }

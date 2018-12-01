@@ -73,10 +73,11 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 	}
 
 	public TokenWithIndexAndSubTokens copy() {
-		TokenWithIndexAndSubTokens token = new TokenWithIndexAndSubTokens(source, type, channel, start, stop, tokenList, sourceFile);
+		final TokenWithIndexAndSubTokens token = new TokenWithIndexAndSubTokens(source, type, channel, start, stop, tokenList, sourceFile);
 		token.line = line;
 		token.charPositionInLine = charPositionInLine;
 		token.setText(getText());
+
 		return token;
 	}
 
