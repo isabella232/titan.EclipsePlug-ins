@@ -1982,7 +1982,7 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateConcat(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append("\tprivate int get_length_for_concat(final AtomicBoolean is_any_value) {\n");
+		source.append("\tprotected int get_length_for_concat(final AtomicBoolean is_any_value) {\n");
 		source.append("\t\tswitch (template_selection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn value_elements.size();\n");
@@ -2012,13 +2012,13 @@ public final class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate int get_length_for_concat(final {0} operand) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tprotected int get_length_for_concat(final {0} operand) '{'\n", genName ) );
 		source.append("\t\toperand.must_bound(\"Operand of record of template concatenation is an unbound value.\");\n");
 		source.append("\t\treturn operand.valueElements.size();\n");
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\n\tprivate int get_length_for_concat(final template_sel operand) {\n");
+		source.append("\n\tprotected int get_length_for_concat(final template_sel operand) {\n");
 		source.append("\t\tif (operand == template_sel.ANY_VALUE) {\n");
 		source.append("\t\t\t// ? => { * }\n");
 		source.append("\t\t\treturn 1;\n");
