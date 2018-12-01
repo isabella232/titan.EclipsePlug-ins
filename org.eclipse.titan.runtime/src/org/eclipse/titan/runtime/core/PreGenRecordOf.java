@@ -10,8 +10,6 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
@@ -1285,85 +1283,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanInteger_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanInteger_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanInteger_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -1493,35 +1412,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -3139,85 +3029,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanUniversalCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanUniversalCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanUniversalCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -3400,35 +3211,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
-			}
 		}
 
 		@Override
@@ -4984,85 +4766,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanOctetString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanOctetString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanOctetString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -5192,35 +4895,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -6786,85 +6460,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanFloat_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanFloat_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanFloat_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -6994,35 +6589,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__FLOAT other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT.");
-			}
 		}
 
 		@Override
@@ -8588,85 +8154,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanUniversalCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanUniversalCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanUniversalCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -8796,35 +8283,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
-			}
 		}
 
 		@Override
@@ -10390,85 +9848,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBitString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBitString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBitString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -10598,35 +9977,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__BITSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING.");
-			}
 		}
 
 		@Override
@@ -12192,85 +11542,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBoolean_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBoolean_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBoolean_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -12400,35 +11671,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -13994,85 +13236,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -14202,35 +13365,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__CHARSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING.");
-			}
 		}
 
 		@Override
@@ -15796,85 +14930,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BOOLEAN_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBoolean_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBoolean_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBoolean_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -16004,35 +15059,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__BOOLEAN other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__BOOLEAN.");
-			}
 		}
 
 		@Override
@@ -17598,85 +16624,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBitString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBitString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBitString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -17806,35 +16753,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -19400,85 +18318,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__INTEGER_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanInteger_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanInteger_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanInteger_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -19608,35 +18447,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__INTEGER other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__INTEGER.");
-			}
 		}
 
 		@Override
@@ -21254,85 +20064,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanUniversalCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanUniversalCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanUniversalCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -21515,35 +20246,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -23151,85 +21853,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBoolean_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBoolean_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBoolean_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -23412,35 +22035,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__BOOLEAN other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN.");
-			}
 		}
 
 		@Override
@@ -25048,85 +23642,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__FLOAT__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanFloat_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanFloat_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanFloat_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -25309,35 +23824,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -26945,85 +25431,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__INTEGER operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanInteger_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanInteger_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanInteger_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -27206,35 +25613,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__INTEGER other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER.");
-			}
 		}
 
 		@Override
@@ -28842,85 +27220,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -29103,35 +27402,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__CHARSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING.");
-			}
 		}
 
 		@Override
@@ -30687,85 +28957,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanUniversalCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanUniversalCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanUniversalCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -30895,35 +29086,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -32541,85 +30703,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanHexString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanHexString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanHexString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -32802,35 +30885,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__HEXSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING.");
-			}
 		}
 
 		@Override
@@ -34438,85 +32492,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanHexString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanHexString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanHexString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -34699,35 +32674,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -36335,85 +34281,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanOctetString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanOctetString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanOctetString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -36596,35 +34463,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__OCTETSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING.");
-			}
 		}
 
 		@Override
@@ -38232,85 +36070,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__FLOAT operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__FLOAT_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanFloat_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanFloat_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanFloat_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -38493,35 +36252,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__FLOAT other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__FLOAT.");
-			}
 		}
 
 		@Override
@@ -40129,85 +37859,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__INTEGER__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanInteger_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanInteger_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanInteger_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -40390,35 +38041,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -42026,85 +39648,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanOctetString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanOctetString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanOctetString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -42287,35 +39830,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -43871,85 +41385,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__OCTETSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanOctetString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanOctetString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanOctetString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -44079,35 +41514,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__OCTETSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__OCTETSTRING.");
-			}
 		}
 
 		@Override
@@ -45673,85 +43079,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanHexString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanHexString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanHexString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -45881,35 +43208,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__HEXSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING.");
-			}
 		}
 
 		@Override
@@ -47527,85 +44825,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -47788,35 +45007,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -49424,85 +46614,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__BITSTRING operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBitString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBitString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBitString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -49685,35 +46796,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__BITSTRING other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING.");
-			}
 		}
 
 		@Override
@@ -51321,85 +48403,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBoolean_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBoolean_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBoolean_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -51582,35 +48585,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -53166,85 +50140,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanCharString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanCharString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -53374,35 +50269,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -54968,85 +51834,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanFloat_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanFloat_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanFloat_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -55176,35 +51963,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -56822,85 +53580,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__SET__OF__BITSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanBitString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanBitString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanBitString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -57083,35 +53762,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
@@ -58667,85 +55317,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return value_elements.size();
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					if (template_selection == template_sel.ANY_VALUE) {
-						// ? => { * }
-						is_any_value.set( true );
-						return 1;
-					}
-					throw new TtcnError("Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction");
-				case RANGE_LENGTH_RESTRICTION:
-					if (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {
-						throw new TtcnError( MessageFormat.format( "Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction", template_selection == template_sel.ANY_VALUE ? "AnyValue (?)" : "AnyValueOrNone (*)" ) );
-					}
-					// else fall through (range length restriction is allowed if the minimum
-					// and maximum value are the same)
-				case SINGLE_LENGTH_RESTRICTION:
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					return length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;
-				}
-			default:
-				throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-			}
-		}
-
-		protected int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operand) {
-			operand.must_bound("Operand of record of template concatenation is an unbound value.");
-			return operand.valueElements.size();
-		}
-
-
-		protected int get_length_for_concat(final template_sel operand) {
-			if (operand == template_sel.ANY_VALUE) {
-				// ? => { * }
-				return 1;
-			}
-			throw new TtcnError("Operand of record of template concatenation is an uninitialized or unsupported template.");
-		}
-
-		//TODO: simplify, just use value_elements.add()
-		public void concat(final AtomicInteger pos, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operand) {
-			// all errors should have already been caught by the operand's
-			// get_length_for_concat() call;
-			// the result template (this) should already be set to SPECIFIC_VALUE and
-			// single_value.value_elements should already be allocated
-			switch (operand.template_selection) {
-			case SPECIFIC_VALUE:
-				for (int i = 0; i < operand.value_elements.size(); ++i) {
-					value_elements.set( pos.get() + i, new TitanHexString_template(operand.value_elements.get(i)) );
-				}
-				pos.addAndGet( operand.value_elements.size() );
-				break;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				switch (operand.length_restriction_type) {
-				case NO_LENGTH_RESTRICTION:
-					// ? => { * }
-					value_elements.set( pos.get(), new TitanHexString_template( template_sel.ANY_OR_OMIT ) );
-					pos.incrementAndGet();
-					break;
-				case RANGE_LENGTH_RESTRICTION:
-				case SINGLE_LENGTH_RESTRICTION: {
-					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
-					for (int i = 0; i < N; ++i) {
-						value_elements.set( pos.get() + i, new TitanHexString_template( template_sel.ANY_VALUE ) );
-					}
-					pos.addAndGet( N );
-					break; }
-				}
-			default:
-				break;
-			}
-		}
-
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -58875,35 +55446,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			}
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
-		}
-
-		public boolean matchv(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value, final boolean legacy) {
-			if (!other_value.is_bound()) {
-				return false;
-			}
-			final int value_length = other_value.size_of().getInt();
-			if (!match_length(value_length)) {
-				return false;
-			}
-			switch (template_selection) {
-			case SPECIFIC_VALUE:
-				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
-			case OMIT_VALUE:
-				return false;
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).matchv(other_value, legacy)) {
-						return template_selection == template_sel.VALUE_LIST;
-					}
-				}
-				return template_selection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching with an uninitialized/unsupported template of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
-			}
 		}
 
 		@Override
