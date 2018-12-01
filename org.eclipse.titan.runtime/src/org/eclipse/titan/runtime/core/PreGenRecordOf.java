@@ -792,7 +792,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -800,6 +799,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -2485,7 +2485,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -2493,6 +2492,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -4275,7 +4275,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -4283,6 +4282,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -5969,7 +5969,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -5977,6 +5976,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -7663,7 +7663,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -7671,6 +7670,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -9357,7 +9357,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -9365,6 +9364,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -11051,7 +11051,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -11059,6 +11058,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -12745,7 +12745,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -12753,6 +12752,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -14439,7 +14439,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -14447,6 +14446,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -16133,7 +16133,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -16141,6 +16140,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -17827,7 +17827,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -17835,6 +17834,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -19520,7 +19520,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -19528,6 +19527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -21309,7 +21309,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -21317,6 +21316,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -23098,7 +23098,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -23106,6 +23105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -24887,7 +24887,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -24895,6 +24894,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -26676,7 +26676,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -26684,6 +26683,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -28466,7 +28466,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -28474,6 +28473,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -30159,7 +30159,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -30167,6 +30166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -31948,7 +31948,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -31956,6 +31955,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -33737,7 +33737,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -33745,6 +33744,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -35526,7 +35526,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -35534,6 +35533,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -37315,7 +37315,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -37323,6 +37322,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -39104,7 +39104,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -39112,6 +39111,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -40894,7 +40894,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -40902,6 +40901,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -42588,7 +42588,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -42596,6 +42595,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -44281,7 +44281,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -44289,6 +44288,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -46070,7 +46070,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -46078,6 +46077,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -47859,7 +47859,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -47867,6 +47866,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -49649,7 +49649,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -49657,6 +49656,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -51343,7 +51343,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -51351,6 +51350,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -53036,7 +53036,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -53044,6 +53043,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
@@ -54826,7 +54826,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 				}
 			} else {
-				int a = start_field;
 				if (limit == 0) {
 					if (!first_call) {
 						return -1;
@@ -54834,6 +54833,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					valueElements.clear();
 					return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
 				}
+				int a = start_field;
 				while (limit > 0) {
 					start_of_field = buff.get_pos_bit();
 					decoded_field_length = get_at(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);
