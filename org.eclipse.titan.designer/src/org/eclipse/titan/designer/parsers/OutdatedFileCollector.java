@@ -91,8 +91,8 @@ public final class OutdatedFileCollector implements IResourceVisitor {
 		}
 		switch (resource.getType()) {
 		case IResource.FILE:
-			IFile file = (IFile) resource;
-			String extension = file.getFileExtension();
+			final IFile file = (IFile) resource;
+			final String extension = file.getFileExtension();
 			if (!ResourceExclusionHelper.isDirectlyExcluded((IFile) resource) && !uptodateFiles.containsKey(file) && !highlySyntaxErroneousFiles.contains(file)
 					&& !helper.isExcludedByRegexp(resourcename)) {
 				if (GlobalParser.isSupportedTTCN3Extension(extension)) {
@@ -107,7 +107,7 @@ public final class OutdatedFileCollector implements IResourceVisitor {
 			}
 			break;
 		case IResource.FOLDER:
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(resource)) {
 					return false;
 				}

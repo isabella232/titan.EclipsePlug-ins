@@ -168,7 +168,7 @@ public class ParserUtilities {
 		final CommonTokenStream commonTokenStream = (CommonTokenStream)tokenStream;
 		final List<Token> tokens = commonTokenStream.getTokens();
 
-		List<Token> comments = new ArrayList<Token>();
+		final List<Token> comments = new ArrayList<Token>();
 		final int start = aToken.getTokenIndex();
 		// a token is hidden if Token.getChannel() > 0
 		for ( int i = start - 1; i >= 0 && tokens.get( i ).getChannel() > 0; i-- ) {

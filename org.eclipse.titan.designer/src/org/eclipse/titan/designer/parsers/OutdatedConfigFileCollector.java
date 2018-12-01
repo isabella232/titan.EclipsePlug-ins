@@ -62,8 +62,8 @@ public class OutdatedConfigFileCollector implements IResourceVisitor {
 		}
 		switch (resource.getType()) {
 		case IResource.FILE: {
-			IFile file = (IFile) resource;
-			String extension = file.getFileExtension();
+			final IFile file = (IFile) resource;
+			final String extension = file.getFileExtension();
 			if (!uptodateFiles.containsKey(file) && !highlySyntaxErroneousFiles.contains(file)) {
 				if (GlobalParser.SUPPORTED_CONFIG_FILE_EXTENSIONS[0].equals(extension)) {
 					cfgFilesToCheck.add(file);
@@ -72,7 +72,7 @@ public class OutdatedConfigFileCollector implements IResourceVisitor {
 		}
 			break;
 		case IResource.FOLDER:
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(resource)) {
 					return false;
 				}

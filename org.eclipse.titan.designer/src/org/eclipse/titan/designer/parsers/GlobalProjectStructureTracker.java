@@ -49,8 +49,8 @@ public final class GlobalProjectStructureTracker {
 			return;
 		}
 
-		ProjectStructureDataCollector dynamicCollector = dynamicInformations.get(project);
-		ProjectStructureDataCollector savedCollector = savedInformations.get(project);
+		final ProjectStructureDataCollector dynamicCollector = dynamicInformations.get(project);
+		final ProjectStructureDataCollector savedCollector = savedInformations.get(project);
 		savedInformations.put(project, dynamicCollector);
 		dynamicInformations.remove(project);
 
@@ -66,7 +66,7 @@ public final class GlobalProjectStructureTracker {
 
 		List<String> savedImports;
 		List<String> dynamicimports;
-		for (String from : savedCollector.importations.keySet()) {
+		for (final String from : savedCollector.importations.keySet()) {
 			if (!dynamicCollector.importations.containsKey(from)) {
 				dependencyChanges.put(project, Boolean.TRUE);
 				return;
@@ -105,7 +105,7 @@ public final class GlobalProjectStructureTracker {
 			return;
 		}
 
-		IProject project = file.getProject();
+		final IProject project = file.getProject();
 		projectChanged(project);
 	}
 
@@ -123,7 +123,7 @@ public final class GlobalProjectStructureTracker {
 			return dynamicInformations.get(project);
 		}
 
-		ProjectStructureDataCollector collector = new ProjectStructureDataCollector();
+		final ProjectStructureDataCollector collector = new ProjectStructureDataCollector();
 		dynamicInformations.put(project, collector);
 		return collector;
 	}
@@ -158,7 +158,7 @@ public final class GlobalProjectStructureTracker {
 	 * */
 	public static boolean dependencyChanged(final IProject project) {
 		if (dependencyChanges.containsKey(project)) {
-			Boolean temp = dependencyChanges.get(project);
+			final Boolean temp = dependencyChanges.get(project);
 			return temp.booleanValue();
 		}
 

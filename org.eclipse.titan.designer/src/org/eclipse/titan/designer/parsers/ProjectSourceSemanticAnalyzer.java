@@ -137,7 +137,7 @@ public class ProjectSourceSemanticAnalyzer {
 	 *         ones referenced.
 	 * */
 	Set<String> internalGetKnownModuleNames() {
-		Set<String> temp = new HashSet<String>();
+		final Set<String> temp = new HashSet<String>();
 		temp.addAll(moduleMap.keySet());
 		return temp;
 	}
@@ -171,17 +171,17 @@ public class ProjectSourceSemanticAnalyzer {
 			return;
 		}
 
-		Module module = fileModuleMap.get(outdatedFile);
+		final Module module = fileModuleMap.get(outdatedFile);
 		if (module == null) {
 			return;
 		}
 
-		IResource moduleFile = module.getIdentifier().getLocation().getFile();
+		final IResource moduleFile = module.getIdentifier().getLocation().getFile();
 		if (!outdatedFile.equals(moduleFile)) {
 			return;
 		}
 
-		String moduleName = module.getName();
+		final String moduleName = module.getName();
 		moduleMap.remove(moduleName);
 		fileModuleMap.remove(moduleFile);
 
@@ -205,7 +205,7 @@ public class ProjectSourceSemanticAnalyzer {
 	 *            the file which seems to have changed
 	 * */
 	public void reportSemanticOutdating(final IFile outdatedFile) {
-		Module module = fileModuleMap.get(outdatedFile);
+		final Module module = fileModuleMap.get(outdatedFile);
 		if(module != null) {
 			synchronized (semanticallyUptodateModules) {
 				semanticallyUptodateModules.remove(module.getName());
@@ -300,14 +300,14 @@ public class ProjectSourceSemanticAnalyzer {
 		final long semanticCheckStart = System.nanoTime();
 
 		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-			ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+			final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
 			synchronized (semanticAnalyzer.outdatedModuleMap) {
 				semanticAnalyzer.outdatedModuleMap.clear();
 			}
 			semanticAnalyzer.moduleMap.clear();
 		}
 		// Semantic checking starts here
-		SubMonitor progress = SubMonitor.convert(monitor, 1);
+		final SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly semantic checking of everything ");
 		progress.subTask("Checking the importations of the modules");
 
@@ -318,8 +318,8 @@ public class ProjectSourceSemanticAnalyzer {
 			Ass_pard.resetAllInstanceCounters();
 
 			//check for duplicated module names
-			HashMap<String, Module> uniqueModules = new HashMap<String, Module>();
-			Set<String> duplicatedModules = new HashSet<String>();
+			final HashMap<String, Module> uniqueModules = new HashMap<String, Module>();
+			final Set<String> duplicatedModules = new HashSet<String>();
 
 			// collect all modules and semantically checked modules to work on.
 			final List<Module> allModules = new ArrayList<Module>();
@@ -329,7 +329,7 @@ public class ProjectSourceSemanticAnalyzer {
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
-				for (Module module: semanticAnalyzer.fileModuleMap.values()) {
+				for (final Module module: semanticAnalyzer.fileModuleMap.values()) {
 					if(module instanceof TTCN3Module){
 						MarkerHandler.markAllSemanticMarkersForRemoval(module.getIdentifier());
 					}
@@ -339,7 +339,7 @@ public class ProjectSourceSemanticAnalyzer {
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
-				for (Module module: semanticAnalyzer.fileModuleMap.values()) {
+				for (final Module module: semanticAnalyzer.fileModuleMap.values()) {
 					final String name = module.getIdentifier().getName();
 					allModules.add(module);
 					//ASN1 modules are not been analyzed incrementally, therefore their markers can be removed in one step:
@@ -367,28 +367,28 @@ public class ProjectSourceSemanticAnalyzer {
 			if(allModules.size() > semanticallyChecked.size()) {
 
 				// check and build the import hierarchy of the modules
-				ModuleImportationChain referenceChain = new ModuleImportationChain(CIRCULARIMPORTCHAIN, false);
+				final ModuleImportationChain referenceChain = new ModuleImportationChain(CIRCULARIMPORTCHAIN, false);
 
 				//remove markers from import lines
-				for(Module module : allModules) {
+				for(final Module module : allModules) {
 					if(module instanceof TTCN3Module) {
-						List<ImportModule> imports = ((TTCN3Module) module).getImports();
-						for(ImportModule imp : imports) {
+						final List<ImportModule> imports = ((TTCN3Module) module).getImports();
+						for(final ImportModule imp : imports) {
 							MarkerHandler.markAllSemanticMarkersForRemoval(imp.getLocation());
 						}
 					}
 					// markers are removed in one step in ASN1 modules
 				}
 
-				for(Module module : allModules) {
+				for(final Module module : allModules) {
 					module.checkImports(compilationCounter, referenceChain, new ArrayList<Module>());
 					referenceChain.clear();
 				}
 
 				progress.subTask("Calculating the list of modules to be checked");
 
-				BrokenPartsViaReferences selectionMethod = new BrokenPartsViaReferences(compilationCounter);
-				SelectionMethodBase selectionMethodBase = (SelectionMethodBase)selectionMethod;
+				final BrokenPartsViaReferences selectionMethod = new BrokenPartsViaReferences(compilationCounter);
+				final SelectionMethodBase selectionMethodBase = (SelectionMethodBase)selectionMethod;
 				selectionMethodBase.setModules(allModules, semanticallyChecked);
 				selectionMethod.execute();
 
@@ -397,18 +397,18 @@ public class ProjectSourceSemanticAnalyzer {
 					return Status.CANCEL_STATUS;
 				}
 
-				BrokenPartsChecker brokenPartsChecker = new BrokenPartsChecker(progress.newChild(1), compilationCounter, selectionMethodBase);
+				final BrokenPartsChecker brokenPartsChecker = new BrokenPartsChecker(progress.newChild(1), compilationCounter, selectionMethodBase);
 				brokenPartsChecker.doChecking();
 
 				// re-enable the markers on the skipped modules.
-				for (Module module2 : selectionMethodBase.getModulesToSkip()) {
+				for (final Module module2 : selectionMethodBase.getModulesToSkip()) {
 					MarkerHandler.reEnableAllMarkers((IFile) module2.getLocation().getFile());
 				}
 
 				nofModulesTobeChecked = selectionMethodBase.getModulesToCheck().size();
 			} else {
 				//re-enable all markers
-				for (Module module2 : allModules) {
+				for (final Module module2 : allModules) {
 					MarkerHandler.reEnableAllMarkers((IFile) module2.getLocation().getFile());
 				}
 			}
@@ -418,12 +418,12 @@ public class ProjectSourceSemanticAnalyzer {
 			final String option = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING, null);
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				// report the unsupported constructs in the project
-				ProjectSourceSyntacticAnalyzer syntacticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSyntacticAnalyzer();
-				for (IFile file : syntacticAnalyzer.unsupportedConstructMap.keySet()) {
-					List<TITANMarker> markers = syntacticAnalyzer.unsupportedConstructMap.get(file);
+				final ProjectSourceSyntacticAnalyzer syntacticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSyntacticAnalyzer();
+				for (final IFile file : syntacticAnalyzer.unsupportedConstructMap.keySet()) {
+					final List<TITANMarker> markers = syntacticAnalyzer.unsupportedConstructMap.get(file);
 					if (markers != null && file.isAccessible()) {
-						for (TITANMarker marker : markers) {
-							Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+						for (final TITANMarker marker : markers) {
+							final Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 							location.reportConfigurableSemanticProblem(option, marker.getMessage());
 						}
 					}
@@ -431,18 +431,18 @@ public class ProjectSourceSemanticAnalyzer {
 			}
 
 			if (preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
-				MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+				final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 				TITANDebugConsole.println("  ** Had to start checking at " + nofModulesTobeChecked + " modules. ", stream);
 				TITANDebugConsole.println("  **On-the-fly semantic checking of projects (" + allModules.size() + " modules) took " + (System.nanoTime() - semanticCheckStart) * (1e-9) + " seconds", stream);
 			}
 			progress.subTask("Cleanup operations");
 
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-				ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+				final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
 				synchronized (semanticAnalyzer.semanticallyUptodateModules) {
 					semanticAnalyzer.semanticallyUptodateModules.clear();
 					semanticAnalyzer.semanticallyUptodateModules.addAll(semanticAnalyzer.moduleMap.keySet());
-					for (String name: duplicatedModules) {
+					for (final String name: duplicatedModules) {
 						semanticAnalyzer.semanticallyUptodateModules.remove(name);
 					}
 				}
@@ -458,8 +458,8 @@ public class ProjectSourceSemanticAnalyzer {
 		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 			GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).setLastTimeChecked(compilationCounter);
 
-			ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(tobeSemanticallyAnalyzed.get(i));
-			for (Module module : GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer().moduleMap.values()) {
+			final ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(tobeSemanticallyAnalyzed.get(i));
+			for (final Module module : GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer().moduleMap.values()) {
 				collector.addKnownModule(module.getIdentifier());
 				module.extractStructuralInformation(collector);
 			}
