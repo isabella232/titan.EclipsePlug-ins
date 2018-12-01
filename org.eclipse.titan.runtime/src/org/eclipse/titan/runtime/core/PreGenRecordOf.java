@@ -1285,7 +1285,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -1314,13 +1314,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -3139,7 +3139,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -3168,13 +3168,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -4984,7 +4984,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -5013,13 +5013,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -6786,7 +6786,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -6815,13 +6815,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -8588,7 +8588,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -8617,13 +8617,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -10390,7 +10390,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -10419,13 +10419,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -12192,7 +12192,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -12221,13 +12221,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -13994,7 +13994,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -14023,13 +14023,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -15796,7 +15796,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -15825,13 +15825,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__BOOLEAN operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -17598,7 +17598,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -17627,13 +17627,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -19400,7 +19400,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -19429,13 +19429,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__INTEGER operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -21254,7 +21254,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -21283,13 +21283,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -23151,7 +23151,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -23180,13 +23180,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -25048,7 +25048,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -25077,13 +25077,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__FLOAT__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__FLOAT__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -26945,7 +26945,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -26974,13 +26974,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__INTEGER operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__INTEGER operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -28842,7 +28842,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -28871,13 +28871,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -30687,7 +30687,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -30716,13 +30716,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -32541,7 +32541,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -32570,13 +32570,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -34438,7 +34438,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -34467,13 +34467,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -36335,7 +36335,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -36364,13 +36364,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -38232,7 +38232,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -38261,13 +38261,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__FLOAT operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__FLOAT operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -40129,7 +40129,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -40158,13 +40158,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__INTEGER__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__INTEGER__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -42026,7 +42026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -42055,13 +42055,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -43871,7 +43871,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -43900,13 +43900,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__OCTETSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -45673,7 +45673,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -45702,13 +45702,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -47527,7 +47527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -47556,13 +47556,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -49424,7 +49424,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -49453,13 +49453,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__BITSTRING operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__BITSTRING operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -51321,7 +51321,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -51350,13 +51350,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -53166,7 +53166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -53195,13 +53195,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -54968,7 +54968,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -54997,13 +54997,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -56822,7 +56822,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return set_items.get(set_index);
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -56851,13 +56851,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__SET__OF__BITSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__SET__OF__BITSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -58667,7 +58667,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.getInt());
 		}
 
-		private int get_length_for_concat(final AtomicBoolean is_any_value) {
+		protected int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -58696,13 +58696,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 		}
 
-		private int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operand) {
+		protected int get_length_for_concat(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operand) {
 			operand.must_bound("Operand of record of template concatenation is an unbound value.");
 			return operand.valueElements.size();
 		}
 
 
-		private int get_length_for_concat(final template_sel operand) {
+		protected int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
