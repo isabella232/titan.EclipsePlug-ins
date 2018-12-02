@@ -359,8 +359,8 @@ public final class EnumeratedGenerator {
 		source.append("if (p_td.raw == null) {\n");
 		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("}\n");
-		source.append("final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);\n");
-		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);\n");
+		source.append("final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
 		source.append("RAW_encode(p_td, root);\n");
 		source.append("root.put_to_buf(p_buf);\n");
 		source.append("errorContext.leaveContext();\n");

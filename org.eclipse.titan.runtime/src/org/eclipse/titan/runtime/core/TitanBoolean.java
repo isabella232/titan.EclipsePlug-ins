@@ -397,8 +397,8 @@ public class TitanBoolean extends Base_Type {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
 
-			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
