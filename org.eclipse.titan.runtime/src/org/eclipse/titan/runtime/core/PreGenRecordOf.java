@@ -3145,16 +3145,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -20180,16 +20182,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -21969,16 +21973,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -23758,16 +23764,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -25547,16 +25555,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -27336,16 +27346,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -30819,16 +30831,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -32608,16 +32622,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -34397,16 +34413,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -36186,16 +36204,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -37975,16 +37995,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -39764,16 +39786,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -44941,16 +44965,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -46730,16 +46756,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -48519,16 +48547,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
@@ -53696,16 +53726,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED with no exact size.", op_name ) );
 						case SINGLE_LENGTH_RESTRICTION:
-							if (single_length <= max_size)
+							if (single_length <= max_size) {
 								return new TitanInteger(single_length);
+							}
 							throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED. The maximum size ({1}) contradicts the length restriction ({2}).", op_name, max_size, single_length ) );
 						case RANGE_LENGTH_RESTRICTION:
 							if (max_size == range_length_min_length) {
 								return new TitanInteger(max_size);
 							} else if (max_size > range_length_min_length) {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED with no exact size.", op_name ) );
-							} else
+							} else {
 								throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED. Maximum size ({1}) contradicts the length restriction ({2}..{3}).", op_name, max_size, range_length_min_length, range_length_max_length ) );
+							}
 						default:
 							throw new TtcnError("Internal error: Template has invalid length restriction type.");
 						}
