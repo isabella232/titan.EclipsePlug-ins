@@ -1574,9 +1574,8 @@ public final class UnionGenerator {
 		source.append("}\n");
 
 		source.append("if (list_index < 0) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Index underflow in a value list template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", displayName));
+		source.append("} else if(list_index >= value_list.size()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Index overflow in a value list template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("return value_list.get(list_index);\n");

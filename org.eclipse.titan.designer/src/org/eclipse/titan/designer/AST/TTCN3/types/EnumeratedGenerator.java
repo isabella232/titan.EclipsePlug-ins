@@ -1210,9 +1210,8 @@ public final class EnumeratedGenerator {
 		source.append("}\n");
 
 		source.append("if (list_index < 0) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Index underflow in a value list template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", name));
+		source.append("} else if(list_index >= value_list.size()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
 		source.append("return value_list.get(list_index);\n");

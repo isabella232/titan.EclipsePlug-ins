@@ -928,7 +928,9 @@ public final class FunctionReferenceGenerator {
 		source.append("!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
-		source.append("if (listIndex > value_list.size()) {\n");
+		source.append("if (listIndex < 0) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", listIndex));\n", def.displayName));
+		source.append("} else if (listIndex > value_list.size()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("return value_list.get(listIndex);\n");

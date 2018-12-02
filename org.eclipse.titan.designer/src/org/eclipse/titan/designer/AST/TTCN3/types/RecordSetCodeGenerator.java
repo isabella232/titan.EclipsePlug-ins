@@ -2229,7 +2229,9 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t\tif (list_index >= list_value.size()) {\n");
+		aSb.append("\t\t\tif (list_index < 0) {\n");
+		aSb.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", displayName));
+		aSb.append("\t\t\t} else if (list_index >= list_value.size()) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn list_value.get(list_index);\n");
@@ -3305,7 +3307,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tif (list_index >= list_value.size()) {\n");
+		source.append("\t\t\tif (list_index < 0) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", classDisplayName));
+		source.append("\t\t\t} else if (list_index >= list_value.size()) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn list_value.get(list_index);\n");
