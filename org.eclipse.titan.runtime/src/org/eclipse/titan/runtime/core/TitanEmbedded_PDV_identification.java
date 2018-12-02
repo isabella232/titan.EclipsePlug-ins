@@ -371,7 +371,8 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	/**
 	 * Returns the current selection.
 	 * It will return TitanEmbedded_PDV_identification.union_selection_type.UNBOUND_VALUE if the value is unbound,
-	 * TitanEmbedded_PDV_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.\n *
+	 * TitanEmbedded_PDV_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.
+	 *
 	 * @return the current selection.
 	 * */
 	public TitanEmbedded_PDV_identification.union_selection_type get_selection() {

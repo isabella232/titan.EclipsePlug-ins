@@ -547,7 +547,9 @@ public class TitanCharacter_String_template extends Base_Template {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.");
 		}
-		if (list_index >= list_value.size()) {
+		if (list_index < 0) {
+			throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type CHARACTER STRING using a negative index ({0}).", list_index));
+		} else if (list_index >= list_value.size()) {
 			throw new TtcnError("Index overflow in a value list template of type CHARACTER STRING.");
 		}
 		return list_value.get(list_index);

@@ -1449,7 +1449,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -1460,9 +1462,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -3257,7 +3258,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
 			return list_value.get(list_index);
@@ -3268,9 +3271,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
 			return list_value.get( list_index );
@@ -4934,7 +4936,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -4945,9 +4949,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -6628,7 +6631,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
 			return list_value.get(list_index);
@@ -6639,9 +6644,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
 			return list_value.get( list_index );
@@ -8322,7 +8326,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
 			return list_value.get(list_index);
@@ -8333,9 +8339,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
 			return list_value.get( list_index );
@@ -10016,7 +10021,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
 			return list_value.get(list_index);
@@ -10027,9 +10034,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
 			return list_value.get( list_index );
@@ -11710,7 +11716,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -11721,9 +11729,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -13404,7 +13411,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
 			return list_value.get(list_index);
@@ -13415,9 +13424,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
 			return list_value.get( list_index );
@@ -15098,7 +15106,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
 			return list_value.get(list_index);
@@ -15109,9 +15119,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
 			return list_value.get( list_index );
@@ -16792,7 +16801,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -16803,9 +16814,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -18486,7 +18496,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
 			return list_value.get(list_index);
@@ -18497,9 +18509,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
 			return list_value.get( list_index );
@@ -20294,7 +20305,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -20305,9 +20318,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -22085,7 +22097,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
 			return list_value.get(list_index);
@@ -22096,9 +22110,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
 			return list_value.get( list_index );
@@ -23876,7 +23889,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -23887,9 +23902,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -25667,7 +25681,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
 			return list_value.get(list_index);
@@ -25678,9 +25694,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
 			return list_value.get( list_index );
@@ -27458,7 +27473,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
 			return list_value.get(list_index);
@@ -27469,9 +27486,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
 			return list_value.get( list_index );
@@ -29135,7 +29151,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -29146,9 +29164,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -30943,7 +30960,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
 			return list_value.get(list_index);
@@ -30954,9 +30973,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
 			return list_value.get( list_index );
@@ -32734,7 +32752,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -32745,9 +32765,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -34525,7 +34544,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
 			return list_value.get(list_index);
@@ -34536,9 +34557,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
 			return list_value.get( list_index );
@@ -36316,7 +36336,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
 			return list_value.get(list_index);
@@ -36327,9 +36349,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
 			return list_value.get( list_index );
@@ -38107,7 +38128,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -38118,9 +38141,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -39898,7 +39920,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -39909,9 +39933,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -41575,7 +41598,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
 			return list_value.get(list_index);
@@ -41586,9 +41611,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
 			return list_value.get( list_index );
@@ -43269,7 +43293,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
 			return list_value.get(list_index);
@@ -43280,9 +43306,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
 			return list_value.get( list_index );
@@ -45077,7 +45102,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -45088,9 +45115,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -46868,7 +46894,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
 			return list_value.get(list_index);
@@ -46879,9 +46907,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
 			return list_value.get( list_index );
@@ -48659,7 +48686,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -48670,9 +48699,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -50336,7 +50364,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -50347,9 +50377,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -52030,7 +52059,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -52041,9 +52072,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -53838,7 +53868,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -53849,9 +53881,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -55515,7 +55546,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
-			if (list_index >= list_value.size()) {
+			if (list_index < 0) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
 			return list_value.get(list_index);
@@ -55526,9 +55559,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError( MessageFormat.format( "Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index ) );
-			}
-			if (list_index >= list_value.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index ({0}).", list_index));
+			} else if (list_index >= list_value.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
 			return list_value.get( list_index );
@@ -56370,9 +56402,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.anytype.");
 			}
 			if (list_index < 0) {
-				throw new TtcnError("Internal error: Index underflow in a value list template of union type @PreGenRecordOf.anytype.");
-			}
-			if(list_index >= value_list.size()) {
+				throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type @PreGenRecordOf.anytype using a negative index ({0}).", list_index));
+			} else if(list_index >= value_list.size()) {
 				throw new TtcnError("Internal error: Index overflow in a value list template of union type @PreGenRecordOf.anytype.");
 			}
 			return value_list.get(list_index);

@@ -404,9 +404,8 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type EMBEDDED PDV.identification.");
 		}
 		if (list_index < 0) {
-			throw new TtcnError("Internal error: Index underflow in a value list template of union type EMBEDDED PDV.identification.");
-		}
-		if(list_index >= value_list.size()) {
+			throw new TtcnError(MessageFormat.format("Internal error: Accessing a value list template of type EMBEDDED PDV.identification using a negative index ({0}).", list_index));
+		} else if(list_index >= value_list.size()) {
 			throw new TtcnError("Internal error: Index overflow in a value list template of union type EMBEDDED PDV.identification.");
 		}
 		return value_list.get(list_index);

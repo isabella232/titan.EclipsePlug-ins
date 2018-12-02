@@ -371,7 +371,8 @@ public class TitanCharacter_String_identification extends Base_Type {
 	/**
 	 * Returns the current selection.
 	 * It will return TitanCharacter_String_identification.union_selection_type.UNBOUND_VALUE if the value is unbound,
-	 * TitanCharacter_String_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.\n *
+	 * TitanCharacter_String_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.
+	 *
 	 * @return the current selection.
 	 * */
 	public TitanCharacter_String_identification.union_selection_type get_selection() {

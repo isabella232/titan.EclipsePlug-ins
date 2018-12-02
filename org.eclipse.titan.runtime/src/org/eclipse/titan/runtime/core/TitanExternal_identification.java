@@ -370,7 +370,8 @@ public class TitanExternal_identification extends Base_Type {
 	/**
 	 * Returns the current selection.
 	 * It will return TitanExternal_identification.union_selection_type.UNBOUND_VALUE if the value is unbound,
-	 * TitanExternal_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.\n *
+	 * TitanExternal_identification.union_selection_type.ALT_syntaxes if the first field was selected, and so on.
+	 *
 	 * @return the current selection.
 	 * */
 	public TitanExternal_identification.union_selection_type get_selection() {
