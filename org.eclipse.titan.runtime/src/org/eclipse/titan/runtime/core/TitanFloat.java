@@ -687,42 +687,104 @@ public class TitanFloat extends Base_Type {
 		return new TitanFloat(doubleValue / otherValue.getValue());
 	}
 
-	// static operator_equals
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param doubleValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return otherValue.operator_equals(doubleValue);
 	}
 
-	// static operator_not_equals
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param doubleValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public static boolean operator_not_equals(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return otherValue.operator_not_equals(doubleValue);
 	}
 
-	// static isLess
+	/**
+	 * Checks if the first value is less than the second one.
+	 *
+	 * static operator< in the core
+	 *
+	 * @param doubleValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than the second.
+	 */
 	public static TitanBoolean is_less_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.is_greater_than(new TitanFloat(doubleValue)));
 	}
 
-	// static isGreaterThan
+	/**
+	 * Checks if the first value is greater than the second one.
+	 *
+	 * static operator> in the core
+	 *
+	 * @param doubleValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than the second.
+	 */
 	public static TitanBoolean is_greater_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.is_less_than(new TitanFloat(doubleValue)));
 	}
 
-	// static isLessThanOrEqual
+	/**
+	 * Checks if the first value is less than or equal to the second one.
+	 *
+	 * static operator<+ in the core
+	 *
+	 * @param doubleValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than or equal to the
+	 *         second.
+	 */
 	public static TitanBoolean is_less_than_or_equal(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.is_greater_than_or_equal(new TitanFloat(doubleValue)));
 	}
 
-	// static isGreaterThanOrEqual
+	/**
+	 * Checks if the first value is greater than or equal to the second one.
+	 *
+	 * static operator>= in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than or equal the
+	 *         second.
+	 */
 	public static TitanBoolean is_greater_than_or_equal(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
