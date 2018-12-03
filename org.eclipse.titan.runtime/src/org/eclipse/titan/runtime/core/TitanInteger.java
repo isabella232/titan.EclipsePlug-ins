@@ -1053,32 +1053,94 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// static operator==
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).operator_equals(otherValue);
 	}
 
-	// static operator!=
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
 	public static boolean operator_not_equals(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).operator_not_equals(otherValue);
 	}
 
-	// static operator <
+	/**
+	 * Checks if the first value is less than the second one.
+	 *
+	 * static operator< in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than the second.
+	 */
 	public static boolean is_less_than(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).is_less_than(otherValue);
 	}
 
-	// static operator >
+	/**
+	 * Checks if the first value is greater than the second one.
+	 *
+	 * static operator> in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than the second.
+	 */
 	public static boolean is_greater_than(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).is_greater_than(otherValue);
 	}
 
-	// static operator <=
+	/**
+	 * Checks if the first value is less than or equal to the second one.
+	 *
+	 * static operator<+ in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than or equal to the
+	 *         second.
+	 */
 	public static boolean is_less_than_or_equal(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).is_less_than_or_equal(otherValue);
 	}
 
-	// static operator >=
+	/**
+	 * Checks if the first value is greater than or equal to the second one.
+	 *
+	 * static operator>= in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than or equal the
+	 *         second.
+	 */
 	public static boolean is_greater_than_or_equal(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).is_greater_than_or_equal(otherValue);
 	}
