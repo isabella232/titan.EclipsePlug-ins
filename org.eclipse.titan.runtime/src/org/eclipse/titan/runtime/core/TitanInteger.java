@@ -1071,7 +1071,7 @@ public class TitanInteger extends Base_Type {
 	/**
 	 * Checks if the first value is not equivalent to the second one.
 	 *
-	 * static operator== in the core
+	 * static operator!= in the core
 	 *
 	 * @param intValue
 	 *                the first value.
