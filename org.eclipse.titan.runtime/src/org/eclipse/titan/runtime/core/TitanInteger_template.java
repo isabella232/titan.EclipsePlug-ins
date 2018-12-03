@@ -343,16 +343,16 @@ public class TitanInteger_template extends Base_Template {
 			boolean upperMatch = true;
 			if (min_is_present) {
 				if (min_is_exclusive) {
-					lowerMatch = min_value.isLessThan(otherValue);
+					lowerMatch = min_value.is_less_than(otherValue);
 				} else {
-					lowerMatch = min_value.isLessThanOrEqual(otherValue);
+					lowerMatch = min_value.is_less_than_or_equal(otherValue);
 				}
 			}
 			if (max_is_present) {
 				if (max_is_exclusive) {
-					upperMatch = max_value.isGreaterThan(otherValue);
+					upperMatch = max_value.is_greater_than(otherValue);
 				} else {
-					upperMatch = max_value.isGreaterThanOrEqual(otherValue);
+					upperMatch = max_value.is_greater_than_or_equal(otherValue);
 				}
 			}
 			return lowerMatch && upperMatch;
@@ -418,7 +418,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+			if (!max_value.is_greater_than_or_equal(otherMinValue)) {
 				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
 			}
 		}
@@ -437,7 +437,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+			if (!max_value.is_greater_than_or_equal(otherMinValue)) {
 				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
 			}
 		}
@@ -459,7 +459,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (min_is_present) {
-			if (min_value.isGreaterThan(otherMaxValue)) {
+			if (min_value.is_greater_than(otherMaxValue)) {
 				throw new TtcnError("The upper limit of the range is smaller than the lower limit in an integer template.");
 			}
 		}
@@ -478,7 +478,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThan(otherMaxValue)) {
+			if (!max_value.is_greater_than(otherMaxValue)) {
 				throw new TtcnError("TThe upper limit of the range is smaller than the lower limit in an integer template.");
 			}
 		}

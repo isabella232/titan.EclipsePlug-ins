@@ -530,8 +530,16 @@ public class TitanInteger extends Base_Type {
 		return !operator_equals(otherValue);
 	}
 
-	// originally operator <
-	public boolean isLessThan(final int otherValue) {
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final int otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
@@ -542,8 +550,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <
-	public boolean isLessThan(final BigInteger otherValue) {
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final BigInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
@@ -554,8 +570,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <
-	public boolean isLessThan(final TitanInteger otherValue) {
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final TitanInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 		otherValue.must_bound("Unbound right operand of integer comparison.");
 
@@ -576,8 +600,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final int otherValue) {
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final int otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
@@ -589,8 +621,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final BigInteger otherValue) {
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final BigInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
@@ -602,8 +642,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final TitanInteger otherValue) {
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final TitanInteger otherValue) {
 		must_bound("Unbound left operand of integer comparison.");
 		otherValue.must_bound("Unbound right operand of integer comparison.");
 
@@ -624,34 +672,82 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final int otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final int otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final BigInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final BigInteger otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final TitanInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final TitanInteger otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final int otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final int otherValue) {
+		return !is_less_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final BigInteger otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final BigInteger otherValue) {
+		return !is_less_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final TitanInteger otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final TitanInteger otherValue) {
+		return !is_less_than(otherValue);
 	}
 
 	public boolean isNative() {
@@ -898,12 +994,12 @@ public class TitanInteger extends Base_Type {
 		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.isLessThan(0)) {
+		if (rightValue.is_less_than(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
 		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
-		if (leftValue.isGreaterThan(0)) {
+		if (leftValue.is_greater_than(0)) {
 			return rem(leftValue, rightValue);
 		} else {
 			final TitanInteger result = rem(leftValue, rightValueAbs);
@@ -940,12 +1036,12 @@ public class TitanInteger extends Base_Type {
 		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.isLessThan(0)) {
+		if (rightValue.is_less_than(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
 		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
-		if (isGreaterThan(0)) {
+		if (is_greater_than(0)) {
 			return rem(this, rightValue);
 		} else {
 			final TitanInteger result = rem(this, rightValueAbs);
@@ -968,23 +1064,23 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// static operator <
-	public static boolean isLessThan(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isLessThan(otherValue);
+	public static boolean is_less_than(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_less_than(otherValue);
 	}
 
 	// static operator >
-	public static boolean isGreaterThan(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isGreaterThan(otherValue);
+	public static boolean is_greater_than(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_greater_than(otherValue);
 	}
 
 	// static operator <=
-	public static boolean isLessThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isLessThanOrEqual(otherValue);
+	public static boolean is_less_than_or_equal(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_less_than_or_equal(otherValue);
 	}
 
 	// static operator >=
-	public static boolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
+	public static boolean is_greater_than_or_equal(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_greater_than_or_equal(otherValue);
 	}
 
 	/** Encodes the value of the variable according to the

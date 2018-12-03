@@ -354,7 +354,7 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append(".isGreaterThanOrEqual( ");
+		expression.expression.append(".is_greater_than_or_equal( ");
 		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(" )");
 	}

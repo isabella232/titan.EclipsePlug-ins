@@ -342,21 +342,21 @@ public class TitanFloat_template extends Base_Template {
 			boolean lowerMatch = false;
 			boolean upperMatch = false;
 			if (min_is_present) {
-				if (!min_is_exclusive && min_value.isLessThanOrEqual(otherValue)) {
+				if (!min_is_exclusive && min_value.is_less_than_or_equal(otherValue)) {
 					lowerMatch = true;
-				} else if (min_is_exclusive && min_value.isLessThan(otherValue)) {
+				} else if (min_is_exclusive && min_value.is_less_than(otherValue)) {
 					lowerMatch = true;
 				}
-			} else if (!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY)) {
+			} else if (!min_is_exclusive || otherValue.is_greater_than(Double.NEGATIVE_INFINITY)) {
 				lowerMatch = true;
 			}
 			if (max_is_present) {
-				if (!max_is_exclusive && max_value.isGreaterThanOrEqual(otherValue)) {
+				if (!max_is_exclusive && max_value.is_greater_than_or_equal(otherValue)) {
 					upperMatch = true;
-				} else if (max_is_exclusive && max_value.isGreaterThan(otherValue)) {
+				} else if (max_is_exclusive && max_value.is_greater_than(otherValue)) {
 					upperMatch = true;
 				}
-			} else if (!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY)) {
+			} else if (!max_is_exclusive || otherValue.is_less_than(Double.POSITIVE_INFINITY)) {
 				upperMatch = true;
 			}
 
@@ -410,7 +410,7 @@ public class TitanFloat_template extends Base_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
-		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
+		if (max_is_present && min_is_present && max_value.is_less_than(min_value)) {
 			throw new TtcnError("The lower limit of the range is greater than the " + "upper limit in a float template.");
 		}
 
@@ -423,7 +423,7 @@ public class TitanFloat_template extends Base_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
-		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
+		if (max_is_present && min_is_present && max_value.is_less_than(min_value)) {
 			throw new TtcnError("The lower limit of the range is greater than the " + "upper limit in a float template.");
 		}
 
@@ -442,7 +442,7 @@ public class TitanFloat_template extends Base_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
-		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
+		if (min_is_present && max_is_present && min_value.is_greater_than(max_value)) {
 			throw new TtcnError("The upper limit of the range is smaller than the " + "lower limit in a float template.");
 		}
 
@@ -455,7 +455,7 @@ public class TitanFloat_template extends Base_Template {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
-		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
+		if (min_is_present && max_is_present && min_value.is_greater_than(max_value)) {
 			throw new TtcnError("The upper limit of the range is smaller than the " + "lower limit in a float template.");
 		}
 

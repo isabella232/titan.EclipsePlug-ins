@@ -152,10 +152,10 @@ public final class EnumeratedGenerator {
 		generateValueoperator_assign(aData, source, e_defs.name);
 		generateValueoperator_equals(aData, source, e_defs.name, e_defs.displayName);
 		generateValueoperator_not_equals(aData, source, e_defs.name);
-		generateValueIsLessThan(source, e_defs.name);
-		generateValueIsLessThanOrEqual(source, e_defs.name);
-		generateValueIsGreaterThan(source, e_defs.name);
-		generateValueIsGreaterThanOrEqual(source, e_defs.name);
+		generateValueIsLessThan(aData, source, e_defs.name);
+		generateValueIsLessThanOrEqual(aData, source, e_defs.name);
+		generateValueIsGreaterThan(aData, source, e_defs.name);
+		generateValueIsGreaterThanOrEqual(aData, source, e_defs.name);
 		generateValueIsPresent(source);
 		generateValueIsBound(source);
 		generateValueIsValue(source);
@@ -734,69 +734,149 @@ public final class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueIsLessThan(final StringBuilder source, final String name) {
+	private static void generateValueIsLessThan(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append("// originally operator<\n");
-		source.append(MessageFormat.format("public boolean isLessThan(final {0}.enum_type otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is less than the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator< in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is less than the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_less_than(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 
 		source.append("return enum_value.enum_num < otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		//arg: own type
-		source.append("// originally operator<\n");
-		source.append(MessageFormat.format("public boolean isLessThan(final {0} otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is less than the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator< in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is less than the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_less_than(final {0} otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num < otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
 
-	private static void generateValueIsLessThanOrEqual(final StringBuilder source, final String name) {
+	private static void generateValueIsLessThanOrEqual(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append("// originally operator<=\n");
-		source.append(MessageFormat.format("public boolean isLessThanOrEqual(final {0}.enum_type otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is less than or equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator<= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is less than or equivalent to the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_less_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num <= otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// own type
-		source.append("// originally operator<=\n");
-		source.append(MessageFormat.format("public boolean isLessThanOrEqual(final {0} otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is less than or equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator<= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is less than or equivalent to the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_less_than_or_equal(final {0} otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num <= otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
 
-	private static void generateValueIsGreaterThan(final StringBuilder source, final String name) {
+	private static void generateValueIsGreaterThan(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append("// originally operator>\n");
-		source.append(MessageFormat.format("public boolean isGreaterThan(final {0}.enum_type otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is greater than the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator> in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is greater than the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_greater_than(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num > otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// own type
-		source.append("// originally operator>\n");
-		source.append(MessageFormat.format("public boolean isGreaterThan(final {0} otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is greater than the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator> in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is greater than the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_greater_than(final {0} otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num > otherValue.enum_value.enum_num ;\n");
 		source.append("}\n\n");
 	}
 
-	private static void generateValueIsGreaterThanOrEqual(final StringBuilder source, final String name) {
+	private static void generateValueIsGreaterThanOrEqual(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append("// originally operator>=\n");
-		source.append(MessageFormat.format("public boolean isGreaterThanOrEqual(final {0}.enum_type otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is greater than or equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator>= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is greater than or equivalent to the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_greater_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return enum_value.enum_num >= otherValue.enum_num;\n");
 		source.append("}\n\n");
 
 		// arg: own type
-		source.append("// originally operator>=\n");
-		source.append(MessageFormat.format("public boolean isGreaterThanOrEqual(final {0} otherValue)'{'\n", name));
+		if ( aData.isDebug() ) {
+			source.append("/**\n");
+			source.append(" * Checks if the current value is greater than or equivalent to the provided one.\n");
+			source.append(" *\n");
+			source.append(" * operator>= in the core\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the other value to check against.\n");
+			source.append(" * @return {@code true} if the value is greater than or equivalent to the provided.\n");
+			source.append(" */\n");
+		}
+		source.append(MessageFormat.format("public boolean is_greater_than_or_equal(final {0} otherValue)'{'\n", name));
 		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
 		source.append("return  enum_value.enum_num >= otherValue.enum_value.enum_num ;\n");

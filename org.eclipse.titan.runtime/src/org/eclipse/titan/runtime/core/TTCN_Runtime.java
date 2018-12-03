@@ -2087,7 +2087,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		if (hasTimer && timerValue.isLessThan(0.0)) {
+		if (hasTimer && timerValue.is_less_than(0.0)) {
 			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.getValue()));
 		}
 	}

@@ -1381,7 +1381,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.is_greater_than_or_equal(0) && {1}.is_less_than({2}.{3});\n",
 				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"size_of()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));

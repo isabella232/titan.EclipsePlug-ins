@@ -87,8 +87,16 @@ public class Ttcn3Float {
 		return new Ttcn3Float( value / d );
 	}
 
-	// originally operator<
-	boolean isLessThan( final double d ) {
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	boolean is_less_than( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return false; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
@@ -100,8 +108,16 @@ public class Ttcn3Float {
 		}
 	}
 
-	// originally operator>
-	boolean isGreaterThan( final double d ) {
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	boolean is_greater_than( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return !Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {

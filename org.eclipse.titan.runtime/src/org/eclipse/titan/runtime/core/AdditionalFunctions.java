@@ -245,7 +245,7 @@ public final class AdditionalFunctions {
 	public static TitanBitString int2bit(final TitanInteger value, final int length) {
 		value.must_bound("The first argument (value) of function int2bit() is an unbound integer value.");
 
-		if (value.isLessThan(0)) {
+		if (value.is_less_than(0)) {
 			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2bit() is a negative integer value: {0}.", value));
 		}
 		if (length < 0) {
@@ -322,7 +322,7 @@ public final class AdditionalFunctions {
 	public static TitanHexString int2hex(final TitanInteger value, final int length) {
 		value.must_bound("The first argument (value) of function int2hex() is an unbound integer value.");
 
-		if (value.isLessThan(0)) {
+		if (value.is_less_than(0)) {
 			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a negative integer value: {0}.", value));
 		}
 		if (length < 0) {
@@ -407,7 +407,7 @@ public final class AdditionalFunctions {
 			return int2oct(value.getInt(), length);
 		} else {
 			BigInteger tmp_val = value.getBigInteger();
-			if (value.isLessThan(0)) {
+			if (value.is_less_than(0)) {
 				throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value: {0}.", value));
 			}
 			if (length < 0) {

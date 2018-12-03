@@ -355,7 +355,7 @@ public final class LessThanExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append( ".isLessThan( " );
+		expression.expression.append( ".is_less_than( " );
 		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );
 	}

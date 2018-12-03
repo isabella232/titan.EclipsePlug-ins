@@ -229,7 +229,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	public static TitanInteger from_integer(final TitanInteger p_int) {
-		if (p_int.isLessThan(0)) {
+		if (p_int.is_less_than(0)) {
 			throw new TtcnError("An OBJECT IDENTIFIER component cannot be negative");
 		}
 

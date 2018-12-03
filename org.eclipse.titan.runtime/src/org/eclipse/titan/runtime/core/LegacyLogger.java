@@ -890,7 +890,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_defaultopDeactivate: {
 			final DefaultOp dflt = choice.get_field_defaultopDeactivate();
-			if (dflt.get_field_name().lengthof().isGreaterThan(0)) {
+			if (dflt.get_field_name().lengthof().is_greater_than(0)) {
 				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.get_field_id().getInt(), dflt.get_field_name().getValue()));
 			} else {
 				returnValue.append("Deactivate operation on a null default reference was ignored.");
@@ -1132,7 +1132,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			final int localOrdinal = set.get_field_localVerdict().enum_value.ordinal();
 			final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
-			if (set.get_field_newVerdict().isGreaterThan(set.get_field_oldVerdict())) {
+			if (set.get_field_newVerdict().is_greater_than(set.get_field_oldVerdict())) {
 				if (!set.get_field_oldReason().is_present() || !set.get_field_newReason().is_present()) {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdictName, oldVerdictName, localVerdictName));
 				} else {

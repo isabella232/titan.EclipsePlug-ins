@@ -442,7 +442,7 @@ public final class Text_Buf {
 		final TitanInteger msg_len = new TitanInteger();
 		boolean returnValue = false;
 		if (safe_pull_int(msg_len)) {
-			if (msg_len.isLessThan(0)) {
+			if (msg_len.is_less_than(0)) {
 				throw new TtcnError(MessageFormat.format("Text decoder: Negative message length ({0}).", msg_len.getInt()));
 			}
 			returnValue = buf_pos + msg_len.getInt() <= buf_begin + buf_len;
