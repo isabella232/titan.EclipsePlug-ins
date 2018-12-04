@@ -112,8 +112,9 @@ public class ProjectSourceCompiler {
 	 * @throws CoreException if file operations can not be performed.
 	 * */
 	public static void generateSingleMain(final IProject project, final Collection<Module> modules) throws CoreException {
+		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( project.getName() + "_Single_main.java");
+		final IFile file = folder.getFile( projectName + "_Single_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -145,7 +146,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
 		}
 
-		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", project.getName()));
+		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		for ( final Module module : modules ) {
@@ -178,8 +179,9 @@ public class ProjectSourceCompiler {
 	 * @throws CoreException if file operations can not be performed.
 	 * */
 	public static void generateParallelMain(final IProject project, final Collection<Module> modules) throws CoreException {
+		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( project.getName() + "_Parallel_main.java");
+		final IFile file = folder.getFile( projectName + "_Parallel_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -211,7 +213,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
 		}
 
-		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", project.getName()));
+		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		for ( final Module module : modules ) {
