@@ -2716,75 +2716,75 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.text.MessageFormat");
 		final StringBuilder encoderString = new StringBuilder();
-		encoderString.append("/**\n");
-		encoderString.append(MessageFormat.format(" * The encoder function for type {0}.\n", getTypename()));
-		encoderString.append(" *\n");
-		encoderString.append(" * @param input_value\n");
-		encoderString.append(" *                the input value to encode.\n");
-		encoderString.append(" * @param output_stream\n");
-		encoderString.append(" *                the octetstring to be extend with the result of the\n");
-		encoderString.append(" *                encoding.\n");
-		encoderString.append(" * @param coding_name\n");
-		encoderString.append(" *                the name of the coding to use.\n");
-		encoderString.append(" * */\n");
-		encoderString.append(MessageFormat.format("public static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		encoderString.append("\t/**\n");
+		encoderString.append(MessageFormat.format("\t * The encoder function for type {0}.\n", getTypename()));
+		encoderString.append("\t *\n");
+		encoderString.append("\t * @param input_value\n");
+		encoderString.append("\t *                the input value to encode.\n");
+		encoderString.append("\t * @param output_stream\n");
+		encoderString.append("\t *                the octetstring to be extend with the result of the\n");
+		encoderString.append("\t *                encoding.\n");
+		encoderString.append("\t * @param coding_name\n");
+		encoderString.append("\t *                the name of the coding to use.\n");
+		encoderString.append("\t * */\n");
+		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 
 		final StringBuilder decoderString = new StringBuilder();
-		decoderString.append("/**\n");
-		decoderString.append(MessageFormat.format(" * The decoder function for type {0}. In case\n", getTypename()));
-		decoderString.append(" * of successful decoding the bits used for decoding are removed from\n");
-		decoderString.append(" * the beginning of the input_stream.\n");
-		decoderString.append(" *\n");
-		decoderString.append(" * @param input_stream\n");
-		decoderString.append(" *                the octetstring starting with the value to be decoded.\n");
-		decoderString.append(" * @param output_value\n");
-		decoderString.append(" *                the decoded value if the decoding was successful.\n");
-		decoderString.append(" * @param coding_name\n");
-		decoderString.append(" *                the name of the coding to use.\n");
-		decoderString.append(" * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
-		decoderString.append(" *         case of error (incomplete message or length)\n");
-		decoderString.append(" * */\n");
-		decoderString.append(MessageFormat.format("public static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		decoderString.append("\t/**\n");
+		decoderString.append(MessageFormat.format("\t * The decoder function for type {0}. In case\n", getTypename()));
+		decoderString.append("\t * of successful decoding the bits used for decoding are removed from\n");
+		decoderString.append("\t * the beginning of the input_stream.\n");
+		decoderString.append("\t *\n");
+		decoderString.append("\t * @param input_stream\n");
+		decoderString.append("\t *                the octetstring starting with the value to be decoded.\n");
+		decoderString.append("\t * @param output_value\n");
+		decoderString.append("\t *                the decoded value if the decoding was successful.\n");
+		decoderString.append("\t * @param coding_name\n");
+		decoderString.append("\t *                the name of the coding to use.\n");
+		decoderString.append("\t * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
+		decoderString.append("\t *         case of error (incomplete message or length)\n");
+		decoderString.append("\t * */\n");
+		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 
 		// user defined codecs
 		for (int i = 0; i < tempCodingTable.size(); i++) {
 			final Coding_Type tempCodingType = tempCodingTable.get(i);
 			if (!tempCodingType.builtIn) {
 				//encoder
-				encoderString.append(MessageFormat.format("if (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				encoderString.append(MessageFormat.format("\t\tif (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
 				if (encoderFunction == null) {
-					encoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					encoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
 					if (encoderFunction.conflict) {
-						encoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+						encoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 
-						encoderString.append(MessageFormat.format("output_stream.operator_assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						encoderString.append(MessageFormat.format("\t\t\toutput_stream.operator_assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
 					}
 				}
-				encoderString.append("}\n");
+				encoderString.append("\t\t}\n");
 
 				// decoder
-				decoderString.append(MessageFormat.format("if (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				decoderString.append(MessageFormat.format("\t\tif (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
 				if (decoderFunction == null) {
-					decoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					decoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
 					if (decoderFunction.conflict) {
-						decoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+						decoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 						aData.addBuiltinTypeImport("TitanBitString");
 
-						decoderString.append("final TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
-						decoderString.append(MessageFormat.format("final TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
-						decoderString.append("input_stream.operator_assign(AdditionalFunctions.bit2oct(bit_stream));\n");
-						decoderString.append("return ret_val;\n");
+						decoderString.append("\t\t\tfinal TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
+						decoderString.append(MessageFormat.format("\t\t\tfinal TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						decoderString.append("\t\t\tinput_stream.operator_assign(AdditionalFunctions.bit2oct(bit_stream));\n");
+						decoderString.append("\t\t\treturn ret_val;\n");
 					}
 				}
-				decoderString.append("}\n");
+				decoderString.append("\t\t}\n");
 			}
 		}
 
@@ -2804,48 +2804,48 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			aData.addCommonLibraryImport("TTCN_EncDec");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
-			encoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
-			encoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
-			encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+			encoderString.append("\t\tfinal AtomicInteger extra_options = new AtomicInteger(0);\n");
+			encoderString.append("\t\tfinal TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
+			encoderString.append(MessageFormat.format("\t\tif ({0}) '{'\n", checkString));
 		}
-		encoderString.append("TTCN_Logger.begin_event_log2str();\n");
-		encoderString.append("coding_name.log();\n");
-		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
+		encoderString.append("\t\tTTCN_Logger.begin_event_log2str();\n");
+		encoderString.append("\t\tcoding_name.log();\n");
+		encoderString.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
 			aData.addCommonLibraryImport("TTCN_Buffer");
 
-			encoderString.append("}\n");
-			encoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
-			encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-			encoderString.append("ttcnBuffer.get_string(output_stream);\n");
+			encoderString.append("\t\t}\n");
+			encoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
+			encoderString.append(MessageFormat.format("\t\tinput_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			encoderString.append("\t\tttcnBuffer.get_string(output_stream);\n");
 		}
-		encoderString.append("}\n\n");
+		encoderString.append("\t}\n\n");
 
 		if (checkString.length() > 0) {
-			decoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
-			decoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
-			decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+			decoderString.append("\t\tfinal AtomicInteger extra_options = new AtomicInteger(0);\n");
+			decoderString.append("\t\tfinal TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
+			decoderString.append(MessageFormat.format("\t\tif ({0}) '{'\n", checkString));
 		}
-		decoderString.append("TTCN_Logger.begin_event_log2str();\n");
-		decoderString.append("coding_name.log();\n");
-		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
+		decoderString.append("\t\tTTCN_Logger.begin_event_log2str();\n");
+		decoderString.append("\t\tcoding_name.log();\n");
+		decoderString.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
-			decoderString.append("}\n");
-			decoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
-			decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-			decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
-			decoderString.append("case ET_NONE:\n");
-			decoderString.append("ttcnBuffer.cut();\n");
-			decoderString.append("ttcnBuffer.get_string(input_stream);\n");
-			decoderString.append("return new TitanInteger(0);\n");
-			decoderString.append("case ET_INCOMPL_MSG:\n");
-			decoderString.append("case ET_LEN_ERR:\n");
-			decoderString.append("return new TitanInteger(2);\n");
-			decoderString.append("default:\n");
-			decoderString.append("return new TitanInteger(1);\n");
-			decoderString.append("}\n");
+			decoderString.append("\t\t}\n");
+			decoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
+			decoderString.append(MessageFormat.format("\t\toutput_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			decoderString.append("\t\tswitch (TTCN_EncDec.get_last_error_type()) {\n");
+			decoderString.append("\t\tcase ET_NONE:\n");
+			decoderString.append("\t\t\tttcnBuffer.cut();\n");
+			decoderString.append("\t\t\tttcnBuffer.get_string(input_stream);\n");
+			decoderString.append("\t\t\treturn new TitanInteger(0);\n");
+			decoderString.append("\t\tcase ET_INCOMPL_MSG:\n");
+			decoderString.append("\t\tcase ET_LEN_ERR:\n");
+			decoderString.append("\t\t\treturn new TitanInteger(2);\n");
+			decoderString.append("\t\tdefault:\n");
+			decoderString.append("\t\t\treturn new TitanInteger(1);\n");
+			decoderString.append("\t\t}\n");
 		}
-		decoderString.append("}\n\n");
+		decoderString.append("\t}\n\n");
 
 		source.append(encoderString);
 		source.append(decoderString);
