@@ -1,13 +1,13 @@
 ---
 Author: Jen≈ë Balask√≥
-Version: 3/1531-CRL 113 200/6, Rev. PE1
-Date: 2018-06-19
+Version: 3/1531-CRL 113 200/6, Rev. E
+Date: 2018-12-03
 
 ---
 = Installation Guide for the TITAN Designer and TITAN Executor for the Eclipse IDE
 :author: Jen≈ë Balask√≥
-:revnumber: 3/1531-CRL 113 200/6, Rev. PE1
-:revdate: 2018-06-19
+:revnumber: 3/1531-CRL 113 200/6, Rev. E
+:revdate: 2018-12-03
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -64,7 +64,7 @@ This document uses the following typographical conventions:
 
 * ANTLR Runtime 4.3
 
-* TITAN TTCNñ3 Toolset installed. (Only needed if Eclipse is used for project compilation and test execution. Editing does not require it.)
+* TITAN TTCN-3 Toolset installed. (Only needed if Eclipse is used for project compilation and test execution. Editing does not require it.)
 
 * J2SE(TM) Runtime Environment 6.0 or later installed and set in Eclipse as the Java Runtime Environment
 
@@ -103,7 +103,7 @@ For example, if the cygwin root is "C:64" then "Path" should contain "C:64\cygwi
 = Installing prerequisites
 
 [[installing-the-titan-ttcn-3-toolset]]
-== Installing the TITAN TTCNñ3 Toolset
+== Installing the TITAN TTCN-3 Toolset
 
 For detailed information on installing the TITAN TTCN-3 Toolset, and configuring the environment variables for TITAN to work, refer to <<_1, Installation Guide for TITAN TTCN-3 Test Executor>>.
 
@@ -234,7 +234,7 @@ If Java 1.8 is used then `MaxPermSize` is ignored, its support is removed. Use t
 -Xmx4g
 ----
 
-NOTE: If you cannot edit the `eclipse.ini` file, you can start eclipse with flags. For example `eclipse ñvmargs -Xmx4g` modifies the maximum memory allocation for the virtual machine.
+NOTE: If you cannot edit the `eclipse.ini` file, you can start eclipse with flags. For example `eclipse -vmargs -Xmx4g` modifies the maximum memory allocation for the virtual machine.
 
 = Compatibility Issues
 
@@ -244,7 +244,7 @@ Note that an actual version of the TITAN Designer plug-in is meant to be compati
 
 * The additional features are not used (the makefile generator of TITAN is used to generate the makefile, so if a feature is used that is known by TITAN Designer, but is not known by the makefile generator, the makefile generation will fail)
 
-* A special script is inserted into the actually used install directory‚Äôs bin directory. The role of this script is to convert the call to the makefile generator to valid call of the compiler. (The makefile generator and the compiler are separated from TITAN 1.7.0). It is important to note, that such a file must contain a path to the compiler to be called, so such a script is not expected to work without modifications. Please note that the compiler must be called with *-M* as the first parameter, and the other parameters must be redirected to the compiler.
+* A special script is inserted into the actually used install directory's bin directory. The role of this script is to convert the call to the makefile generator to valid call of the compiler. (The makefile generator and the compiler are separated from TITAN 1.7.0). It is important to note, that such a file must contain a path to the compiler to be called, so such a script is not expected to work without modifications. Please note that the compiler must be called with *-M* as the first parameter, and the other parameters must be redirected to the compiler.
 
 = Download the source code
 
