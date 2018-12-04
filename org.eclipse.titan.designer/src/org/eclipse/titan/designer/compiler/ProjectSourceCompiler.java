@@ -113,7 +113,7 @@ public class ProjectSourceCompiler {
 	 * */
 	public static void generateSingleMain(final IProject project, final Collection<Module> modules) throws CoreException {
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( "Single_main.java");
+		final IFile file = folder.getFile( project.getName() + "_Single_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -145,7 +145,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
 		}
 
-		contentBuilder.append( "public class Single_main {\n\n" );
+		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", project.getName()));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		for ( final Module module : modules ) {
@@ -179,7 +179,7 @@ public class ProjectSourceCompiler {
 	 * */
 	public static void generateParallelMain(final IProject project, final Collection<Module> modules) throws CoreException {
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( "Parallel_main.java");
+		final IFile file = folder.getFile( project.getName() + "_Parallel_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -211,7 +211,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
 		}
 
-		contentBuilder.append( "public class Parallel_main {\n\n" );
+		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", project.getName()));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		for ( final Module module : modules ) {
