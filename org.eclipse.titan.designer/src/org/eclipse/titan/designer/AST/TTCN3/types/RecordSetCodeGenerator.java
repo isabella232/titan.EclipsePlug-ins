@@ -257,7 +257,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateSetParam(source, classDisplayName, fieldInfos, isSet);
 		generateTemplateCheckRestriction(source, classDisplayName, fieldInfos, isSet);
 
-		source.append("}\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -1810,53 +1810,53 @@ public final class RecordSetCodeGenerator {
 			final String displayName ) {
 		for ( final FieldInfo fi : aNamesList ) {
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Gives access to the field {0}.\n", fi.mDisplayName));
-				source.append(" * Turning the template into a specific value template if needed.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Gives access to the field {0}.\n", fi.mDisplayName));
+				source.append("\t\t * Turning the template into a specific value template if needed.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return the field {0}.\n", fi.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append( MessageFormat.format( "\tpublic {0}_template get_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append("\t\tset_specific();\n");
-			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t}\n\n");
+			source.append( MessageFormat.format( "\t\tpublic {0}_template get_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append("\t\t\tset_specific();\n");
+			source.append( MessageFormat.format( "\t\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t\t}\n\n");
 
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Gives read-only access to the field {0}.\n", fi.mDisplayName));
-				source.append(" * Being called on a non specific value template causes dynamic test case error.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return the field {0}.\n", fi.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Gives read-only access to the field {0}.\n", fi.mDisplayName));
+				source.append("\t\t * Being called on a non specific value template causes dynamic test case error.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return the field {0}.\n", fi.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append( MessageFormat.format( "\tpublic {0}_template constGet_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
-			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mDisplayName, displayName ) );
-			source.append("\t\t}\n");
-			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t}\n\n");
+			source.append( MessageFormat.format( "\t\tpublic {0}_template constGet_field_{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mDisplayName, displayName ) );
+			source.append("\t\t\t}\n");
+			source.append( MessageFormat.format( "\t\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t\t}\n\n");
 		}
 
-		source.append("\tprivate void set_specific() {\n");
-		source.append("\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
-		source.append("\t\t\tfinal template_sel old_selection = template_selection;\n");
-		source.append("\t\t\tclean_up();\n");
-		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\tprivate void set_specific() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\tfinal template_sel old_selection = template_selection;\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
+			source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 		}
-		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
+		source.append("\t\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.operator_assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\t{0}.operator_assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.operator_assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\t{0}.operator_assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
 			}
 		}
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
-		source.append("\t}\n");
 	}
 
 	/**
@@ -1875,80 +1875,80 @@ public final class RecordSetCodeGenerator {
 	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to unbound/uninitialized template.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to unbound/uninitialized template.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
-		source.append("// do nothing\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template kind.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the template kind to initialize to.\n");
-			source.append(" * */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel otherValue ) '{'\n", genName));
-		source.append("\t\tsuper( otherValue );\n");
-		source.append("\t\tcheck_single_selection( otherValue );\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template.\n");
-			source.append(" * The elements of the provided value are copied.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
-		source.append("\t\tcopy_value(otherValue);\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template.\n");
-			source.append(" * The elements of the provided template are copied.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
-		source.append("\t\tcopy_template( otherValue );\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template with the provided value.\n");
-			source.append(" * Causes a dynamic testcase error if the value is neither present nor optional.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", genName ) );
-		source.append("\t\tswitch (otherValue.get_selection()) {\n");
-		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopy_value(otherValue.constGet());\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tpublic {0}_template() '{'\n", genName ) );
+		source.append("\t\t\t// do nothing\n");
 		source.append("\t\t}\n");
-		source.append("\t}\n\n");
+
+		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template kind.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the template kind to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template(final template_sel otherValue ) '{'\n", genName));
+		source.append("\t\t\tsuper( otherValue );\n");
+		source.append("\t\t\tcheck_single_selection( otherValue );\n");
+		source.append("\t\t}\n");
+
+		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template.\n");
+			source.append("\t\t * The elements of the provided value are copied.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tcopy_value(otherValue);\n");
+		source.append("\t\t}\n");
+
+		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template.\n");
+			source.append("\t\t * The elements of the provided template are copied.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tcopy_template( otherValue );\n");
+		source.append("\t\t}\n");
+
+		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template with the provided value.\n");
+			source.append("\t\t * Causes a dynamic testcase error if the value is neither present nor optional.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tswitch (otherValue.get_selection()) {\n");
+		source.append("\t\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\t\tcopy_value(otherValue.constGet());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1965,51 +1965,51 @@ public final class RecordSetCodeGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateoperator_assign(final JavaGenData aData,  final StringBuilder source, final String genName, final String displayName ) {
-		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
-		source.append("\t\tcheck_single_selection(otherValue);\n");
-		source.append("\t\tclean_up();\n");
-		source.append("\t\tset_selection(otherValue);\n");
-		source.append("\t\treturn this;\n");
-		source.append("\t}\n\n");
-
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0} otherValue ) '{'\n", genName ) );
-		source.append("\t\tclean_up();\n");
-		source.append("\t\tcopy_value(otherValue);\n");
-		source.append("\t\treturn this;\n");
-		source.append("\t}\n\n");
-
-		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other template to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
-		}
-		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final {0}_template otherValue ) '{'\n", genName ) );
-		source.append("\t\tif (otherValue != this) {\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tcheck_single_selection(otherValue);\n");
 		source.append("\t\t\tclean_up();\n");
-		source.append("\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t\tset_selection(otherValue);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
+
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final {0} otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tcopy_value(otherValue);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
+
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other template to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tif (otherValue != this) {\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
 
 		source.append('\n');
 		source.append("\t\t@Override\n");
@@ -2030,31 +2030,31 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append( MessageFormat.format( "\tpublic {0}_template operator_assign( final Optional<{0}> otherValue ) '{'\n", genName ) );
-		source.append("\t\tclean_up();\n");
-		source.append("\t\tswitch (otherValue.get_selection()) {\n");
-		source.append("\t\tcase OPTIONAL_PRESENT:\n");
-		source.append("\t\t\tcopy_value(otherValue.constGet());\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final Optional<{0}> otherValue ) '{'\n", genName ) );
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tswitch (otherValue.get_selection()) {\n");
+		source.append("\t\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\t\tcopy_value(otherValue.constGet());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn this;\n");
-		source.append("\t}\n");
 	}
 
 	/**
@@ -2072,54 +2072,54 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName));
+		source.append( MessageFormat.format( "\t\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\tif (other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tif (other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
-				source.append( MessageFormat.format( "\t\t\tif (other_value.get_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}().get());\n", fi.mJavaVarName ) );
-				source.append("\t\t\t} else {\n");
-				source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
-				source.append("\t\t\t}\n");
+				source.append( MessageFormat.format( "\t\t\t\tif (other_value.get_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}().get());\n", fi.mJavaVarName ) );
+				source.append("\t\t\t\t} else {\n");
+				source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				source.append("\t\t\t\t}\n");
 			} else {
-				source.append( MessageFormat.format( "\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
 			}
-			source.append("\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
-			source.append("\t\t}\n");
-		}
-		source.append("\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("\t}\n");
-
-		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
-		source.append("\t\tswitch (other_value.template_selection) {\n");
-		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_field_{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t}\n");
 		}
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tcase OMIT_VALUE:\n");
-		source.append("\t\tcase ANY_VALUE:\n");
-		source.append("\t\tcase ANY_OR_OMIT:\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tcase VALUE_LIST:\n");
-		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
-		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
-		source.append("\t\t\t\tlist_value.add(temp);\n");
-		source.append("\t\t\t}\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t}\n");
-		source.append("\t\tset_selection(other_value);\n");
-		source.append("\t}\n");
+
+		source.append('\n');
+		source.append( MessageFormat.format( "\t\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
+		source.append("\t\t\tswitch (other_value.template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get_field_{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().clean_up();\n", fi.mJavaVarName ) );
+			source.append("\t\t\t\t} else {\n");
+			source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}());\n", fi.mJavaVarName ) );
+			source.append("\t\t\t\t}\n");
+		}
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "\t\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
+		source.append("\t\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
+		source.append("\t\t\t\t\tlist_value.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tset_selection(other_value);\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -2130,7 +2130,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append('\n');
-		aSb.append("@Override\n");
+		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic boolean is_present(final boolean legacy) {\n");
 		aSb.append("\t\t\treturn is_present_(legacy);\n");
 		aSb.append("\t\t}\n");
@@ -2189,7 +2189,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		aSb.append('\n');
-		aSb.append("@Override\n");
+		aSb.append("\t\t@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueof() '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
@@ -2208,7 +2208,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append("\t\t\t}\n");
 		}
 		aSb.append("\t\t\treturn ret_val;\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2224,7 +2224,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
-		aSb.append("@Override\n");
+		aSb.append("\t\t@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0}_template list_item(final int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
@@ -2251,7 +2251,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
-		aSb.append("@Override\n");
+		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void set_type(final template_sel template_type, final int list_length) {\n");
 		aSb.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
@@ -2260,8 +2260,8 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\tset_selection(template_type);\n");
 		aSb.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", genName ) );
 		aSb.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
-        aSb.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", genName));
-        aSb.append("\t\t\t}\n");
+		aSb.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", genName));
+		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t}\n\n");
 	}
 
@@ -2282,26 +2282,26 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateMatch( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value the value to be matched.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be matched.\n");
+			source.append("\t\t * */\n");
 		}
 		source.append( MessageFormat.format( "\t\tpublic boolean match(final {0} other_value) '{'\n", genName ) );
 		source.append("\t\t\treturn match(other_value, false);\n");
 		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template. In legacy mode\n");
-			source.append(" * omitted value fields are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template. In legacy mode\n");
+			source.append("\t\t * omitted value fields are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
 		source.append( MessageFormat.format( "\t\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif (!other_value.is_bound()) {\n");
@@ -2341,13 +2341,13 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t}\n\n");
 
 		source.append('\n');
-		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
-		source.append("\t}\n\n");
-		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
-		source.append("\t}\n\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format( "\t\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\t\treturn match(({0})otherValue, legacy);\n", genName) );
+		source.append("\t\t\t}\n\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2479,14 +2479,13 @@ public final class RecordSetCodeGenerator {
 
 		source.append('\n');
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Logs the matching of the provided value to this template, to help\n");
-			source.append(" * identify the reason for mismatch.\n");
-			source.append(" *\n");
-			source.append(" * @param match_value\n");
-			source.append(" *                the value to be matched.\n");
-
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Logs the matching of the provided value to this template, to help\n");
+			source.append("\t\t * identify the reason for mismatch.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param match_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		source.append("\t\t\tlog_match(match_value, false);\n");
@@ -2504,16 +2503,16 @@ public final class RecordSetCodeGenerator {
 
 		source.append('\n');
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Logs the matching of the provided value to this template, to help\n");
-			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
-			source.append(" * are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param match_value\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Logs the matching of the provided value to this template, to help\n");
+			source.append("\t\t * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append("\t\t * are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param match_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");
@@ -2641,7 +2640,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		source.append("final int size = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
 		source.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(size);\n", genName));
 		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", genName));
@@ -2669,70 +2668,70 @@ public final class RecordSetCodeGenerator {
 	 *                {@code true} if a set, {@code false} if a record
 	 * */
 	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
-		source.append("@Override\n");
-		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append(MessageFormat.format("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} template\");\n", isSet ? "set" : "record"));
-		source.append("switch (param.get_type()) {\n");
-		source.append("case MP_Omit:\n");
-		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_Any:\n");
-		source.append("operator_assign(template_sel.ANY_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_AnyOrNone:\n");
-		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
-		source.append("break;\n");
-		source.append("case MP_List_Template:\n");
-		source.append("case MP_ComplementList_Template: {\n");
-		source.append("final int size = param.get_size();\n");
-		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
-		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("list_item(i).set_param(param.get_elem(i));\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("case MP_Value_List:\n");
-		source.append(MessageFormat.format("if (param.get_size() > {0}) '{'\n", fieldInfos.size()));
-		source.append(MessageFormat.format("param.error(MessageFormat.format(\"{0} template of type {1} has {2} fields but list value has '{'0'}' fields.\", param.get_size()));\n", isSet ? "set" : "record", displayName, fieldInfos.size()));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append(MessageFormat.format("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} template\");\n", isSet ? "set" : "record"));
+		source.append("\t\t\tswitch (param.get_type()) {\n");
+		source.append("\t\t\tcase MP_Omit:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_Any:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_AnyOrNone:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_List_Template:\n");
+		source.append("\t\t\tcase MP_ComplementList_Template: {\n");
+		source.append("\t\t\t\tfinal int size = param.get_size();\n");
+		source.append("\t\t\t\tset_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
+		source.append("\t\t\t\t\tlist_item(i).set_param(param.get_elem(i));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcase MP_Value_List:\n");
+		source.append(MessageFormat.format("\t\t\t\tif (param.get_size() > {0}) '{'\n", fieldInfos.size()));
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"{0} template of type {1} has {2} fields but list value has '{'0'}' fields.\", param.get_size()));\n", isSet ? "set" : "record", displayName, fieldInfos.size()));
+		source.append("\t\t\t\t}\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("if (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
-			source.append(MessageFormat.format("get_field_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
-			source.append("}\n");
+			source.append(MessageFormat.format("\t\t\t\tif (param.get_size() > {0} && param.get_elem({0}).get_type() != Module_Parameter.type_t.MP_NotUsed) '{'\n", i));
+			source.append(MessageFormat.format("\t\t\t\t\tget_field_{0}().set_param(param.get_elem({1}));\n", fieldInfo.mJavaVarName, i));
+			source.append("\t\t\t\t}\n");
 		}
-		source.append("break;\n");
-		source.append("case MP_Assignment_List: {\n");
-		source.append("final boolean value_used[] = new boolean[param.get_size()];\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_Assignment_List: {\n");
+		source.append("\t\t\t\tfinal boolean value_used[] = new boolean[param.get_size()];\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
-			source.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
-			source.append(MessageFormat.format("if (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
-			source.append("if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-			source.append(MessageFormat.format("get_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
-			source.append("}\n");
-			source.append("value_used[val_idx] = true;\n");
-			source.append("}\n");
-			source.append("}\n");
+			source.append("\t\t\t\tfor (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+			source.append("\t\t\t\t\tfinal Module_Parameter curr_param = param.get_elem(val_idx);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tif (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+			source.append("\t\t\t\t\t\tif (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\tget_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t\tvalue_used[val_idx] = true;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t}\n");
 		}
 
-		source.append("for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
-		source.append("if (!value_used[val_idx]) {\n");
-		source.append("final Module_Parameter curr_param = param.get_elem(val_idx);\n");
-		source.append(MessageFormat.format("curr_param.error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", curr_param.get_id().get_name()));\n", displayName));
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("param.type_error(\"{0} template\", \"{1}\");\n", isSet ? "set" : "record", displayName));
-		source.append("}\n");
-		source.append("is_ifPresent = param.get_ifpresent();\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tfor (int val_idx = 0; val_idx < param.get_size(); val_idx++) {\n");
+		source.append("\t\t\t\t\tif (!value_used[val_idx]) {\n");
+		source.append("\t\t\t\t\t\tfinal Module_Parameter curr_param = param.get_elem(val_idx);\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tcurr_param.error(MessageFormat.format(\"Non existent field name in type {0}: '{'0'}'\", curr_param.get_id().get_name()));\n", displayName));
+		source.append("\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"{0} template\", \"{1}\");\n", isSet ? "set" : "record", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2748,36 +2747,36 @@ public final class RecordSetCodeGenerator {
 	 *                {@code true} if a set, {@code false} if a record
 	 * */
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet) {
-		source.append("@Override\n");
-		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
-		source.append("case TR_OMIT:\n");
-		source.append("if (template_selection == template_sel.OMIT_VALUE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("case TR_VALUE:\n");
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("break;\n");
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("\t\t\tif (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("\t\t\tcase TR_OMIT:\n");
+		source.append("\t\t\t\tif (template_selection == template_sel.OMIT_VALUE) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\tcase TR_VALUE:\n");
+		source.append("\t\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("this.{0}.check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaVarName, displayName));
+			source.append(MessageFormat.format("\t\t\t\tthis.{0}.check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaVarName, displayName));
 		}
-		source.append("return;\n");
-		source.append("case TR_PRESENT:\n");
-		source.append("if (!match_omit(legacy)) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
-		source.append("}\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\tcase TR_PRESENT:\n");
+		source.append("\t\t\t\tif (!match_omit(legacy)) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append("\t\t}\n");
 	}
 
 	/**
