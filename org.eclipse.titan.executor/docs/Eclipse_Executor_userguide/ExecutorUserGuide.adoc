@@ -1,13 +1,13 @@
 ---
 Author: Jenő Balaskó
-Version: 5/198 17-CRL 113 200/6, Rev. PE1
-Date: 2018-06-19
+Version: 5/198 17-CRL 113 200/6, Rev. E
+Date: 2018-12-03
 
 ---
 = User Guide of the TITAN Executor for the Eclipse IDE plug-in
 :author: Jenő Balaskó
-:revnumber: 5/198 17-CRL 113 200/6, Rev. PE1
-:revdate: 2018-06-19
+:revnumber: 5/198 17-CRL 113 200/6, Rev. E
+:revdate: 2018-12-03
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
