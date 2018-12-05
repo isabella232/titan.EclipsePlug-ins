@@ -2464,7 +2464,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		final StringBuilder globalVariable = new StringBuilder();
-		globalVariable.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
+		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 		if (generate_raw) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
 		} else {
@@ -2512,7 +2512,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		final StringBuilder str = new StringBuilder();
-		str.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
+		str.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
 
 		boolean dummyRaw = rawAttribute == null;
 		if (dummyRaw) {
@@ -2617,8 +2617,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
 			StringBuilder force_omit_string = new StringBuilder();
 
-			force_omit_string.append(MessageFormat.format("static final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
-			force_omit_string.append(MessageFormat.format("static final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
+			force_omit_string.append(MessageFormat.format("\tstatic final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
+			force_omit_string.append(MessageFormat.format("\tstatic final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
 
 			aData.addGlobalVariable(force_omit_name, force_omit_string.toString());
 
@@ -2701,7 +2701,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
-		final String globalVariable = MessageFormat.format("public static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
+		final String globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
 		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", getGenNameOwn()), globalVariable);
 
 		if (!getGenNameCoder(aData, source, myScope).equals(getGenNameOwn()) ) {

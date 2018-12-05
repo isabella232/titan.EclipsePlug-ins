@@ -888,9 +888,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "private" );
+				source.append( "\tprivate" );
 			} else {
-				source.append( "public" );
+				source.append( "\tpublic" );
 			}
 			source.append( " static " );
 		}

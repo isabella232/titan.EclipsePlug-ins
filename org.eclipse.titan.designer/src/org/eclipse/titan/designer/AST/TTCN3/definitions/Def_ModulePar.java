@@ -401,9 +401,9 @@ public final class Def_ModulePar extends Definition {
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "private" );
+				source.append( "\tprivate" );
 			} else {
-				source.append( "public" );
+				source.append( "\tpublic" );
 			}
 			source.append( " static " );
 		}

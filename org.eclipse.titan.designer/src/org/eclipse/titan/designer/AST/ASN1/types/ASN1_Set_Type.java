@@ -1053,7 +1053,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 					arrayType.generateCodeValue(aData, temp_sb);
 				}
 
-				defaultValueSource.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", typeGeneratedName, defaultValue.get_lhs_name()));
+				defaultValueSource.append(MessageFormat.format("\tpublic static final {0} {1} = new {0}();\n", typeGeneratedName, defaultValue.get_lhs_name()));
 				defaultValue.generateCodeInit( aData, aData.getPreInit(), defaultValue.getGenNameOwn() );
 
 				aData.addGlobalVariable(typeGeneratedName, defaultValueSource.toString());
