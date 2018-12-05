@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
-import java.util.Collection;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -111,7 +111,7 @@ public class ProjectSourceCompiler {
 	 *
 	 * @throws CoreException if file operations can not be performed.
 	 * */
-	public static void generateSingleMain(final IProject project, final Collection<Module> modules) throws CoreException {
+	public static void generateSingleMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
 		final IFile file = folder.getFile( projectName + "_Single_main.java");
@@ -142,15 +142,15 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Single_main;\n", PACKAGE_RUNTIME_ROOT));
 
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
 		}
 
 		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
 		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain( args );\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
@@ -178,7 +178,7 @@ public class ProjectSourceCompiler {
 	 *
 	 * @throws CoreException if file operations can not be performed.
 	 * */
-	public static void generateParallelMain(final IProject project, final Collection<Module> modules) throws CoreException {
+	public static void generateParallelMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
 		final IFile file = folder.getFile( projectName + "_Parallel_main.java");
@@ -209,15 +209,15 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Parallel_main;\n", PACKAGE_RUNTIME_ROOT));
 
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
 		}
 
 		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
 		contentBuilder.append("int returnValue = Runtime_Parallel_main.parallelMain(args);\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
