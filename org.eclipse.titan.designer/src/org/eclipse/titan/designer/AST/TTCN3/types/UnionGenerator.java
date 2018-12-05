@@ -129,7 +129,7 @@ public final class UnionGenerator {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		}
 
-		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
+		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
@@ -150,7 +150,7 @@ public final class UnionGenerator {
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
-		source.append("}\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -180,7 +180,7 @@ public final class UnionGenerator {
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
 		aData.addImport("java.util.ArrayList");
 
-		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
+		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", genName));
 		generateTemplateDeclaration(source, genName, fieldInfos);
 		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateTemplateConstructors(aData, source, genName);
@@ -200,7 +200,7 @@ public final class UnionGenerator {
 		generateTemplateSetParam(source, displayName, fieldInfos);
 		generateTemplateCheckSelection(source, displayName, fieldInfos);
 
-		source.append("}\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -215,17 +215,18 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
-		source.append("public enum union_selection_type { UNBOUND_VALUE");
+		source.append("\t\tpublic enum union_selection_type { UNBOUND_VALUE");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			source.append(", ");
 			source.append(MessageFormat.format(" ALT_{0}", fieldInfos.get(i).mJavaVarName));
 		}
 		source.append(" };\n");
-		source.append("private union_selection_type union_selection;\n");
+		source.append("\t\tprivate union_selection_type union_selection;\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("//originally a union which can not be mapped to Java\n");
-			source.append("private Base_Type field;\n");
+			source.append("\t\t//originally a union which can not be mapped to Java\n");
+			source.append("\t\tprivate Base_Type field;\n");
 		}
+		source.append('\n');
 	}
 
 	/**
@@ -243,25 +244,25 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueConstructors(final JavaGenData aData, final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to unbound value.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to unbound value.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}() '{'\n", genName));
-		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
-		source.append("};\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}() '{'\n", genName));
+		source.append("\t\t\tunion_selection = union_selection_type.UNBOUND_VALUE;\n");
+		source.append("\t\t};\n\n");
 
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to a given value.\n" );
-			source.append( " *\n" );
-			source.append( " * @param otherValue\n" );
-			source.append( " *                the value to initialize to.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to a given value.\n" );
+			source.append( "\t\t *\n" );
+			source.append( "\t\t * @param otherValue\n" );
+			source.append( "\t\t *                the value to initialize to.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", genName));
-		source.append("copy_value(otherValue);\n");
-		source.append("};\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}(final {0} otherValue) '{'\n", genName));
+		source.append("\t\t\tcopy_value(otherValue);\n");
+		source.append("\t\t};\n\n");
 	}
 
 	/**
@@ -278,21 +279,21 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
+		source.append(MessageFormat.format("\t\tprivate void copy_value(final {0} otherValue) '{'\n", genName));
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch (otherValue.union_selection){\n");
+			source.append("\t\t\tswitch (otherValue.union_selection){\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
-				source.append("break;\n");
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\tfield = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+				source.append("\t\t\t\tbreak;\n");
 			}
-			source.append("default:\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound union value of type {0}.\");\n", displayName));
-			source.append("}\n");
+			source.append("\t\t\tdefault:\n");
+			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assignment of an unbound union value of type {0}.\");\n", displayName));
+			source.append("\t\t\t}\n");
 		}
-		source.append("union_selection = otherValue.union_selection;\n");
-		source.append("}\n\n");
+		source.append("\t\t\tunion_selection = otherValue.union_selection;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -312,33 +313,33 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this value.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new value object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0} operator_assign( final {0} otherValue ) '{'\n", genName));
-		source.append("if (otherValue != this) {\n");
-		source.append("clean_up();\n");
-		source.append("copy_value(otherValue);\n");
-		source.append("}\n\n");
-		source.append("return this;\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign( final {0} otherValue ) '{'\n", genName));
+		source.append("\t\t\tif (otherValue != this) {\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tcopy_value(otherValue);\n");
+		source.append("\t\t\t}\n\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} operator_assign( final Base_Type otherValue ) '{'\n", genName));
-		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", genName));
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign( final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", genName));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 
-		source.append("}\n\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -350,13 +351,13 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void clean_up() {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void clean_up() {\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("field = null;\n");
+			source.append("\t\t\tfield = null;\n");
 		}
-		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t\tunion_selection = union_selection_type.UNBOUND_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -368,12 +369,12 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
-		source.append("public boolean ischosen(final union_selection_type checked_selection) {\n");
-		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("return union_selection == checked_selection;\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic boolean ischosen(final union_selection_type checked_selection) {\n");
+		source.append("\t\t\tif(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn union_selection == checked_selection;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -383,10 +384,10 @@ public final class UnionGenerator {
 	 *                where the source code is to be generated.
 	 * */
 	private static void generateValueIsBound(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public boolean is_bound() {\n");
-		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_bound() {\n");
+		source.append("\t\t\treturn union_selection != union_selection_type.UNBOUND_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -398,21 +399,21 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public boolean is_value() {\n");
-		source.append("switch (union_selection) {\n");
-		source.append("case UNBOUND_VALUE:\n");
-		source.append("return false;\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_value() {\n");
+		source.append("\t\t\tswitch (union_selection) {\n");
+		source.append("\t\t\tcase UNBOUND_VALUE:\n");
+		source.append("\t\t\t\treturn false;\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append("return field.is_value();\n");
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\treturn field.is_value();\n");
 		}
 
-		source.append("default:\n");
-		source.append("throw new TtcnError(\"Invalid selection in union is_bound\");\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Invalid selection in union is_bound\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -422,10 +423,10 @@ public final class UnionGenerator {
 	 *                where the source code is to be generated.
 	 * */
 	private static void generateValueIsPresent(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public boolean is_present() {\n");
-		source.append("return is_bound();\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_present() {\n");
+		source.append("\t\t\treturn is_bound();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -446,43 +447,43 @@ public final class UnionGenerator {
 	private static void generateValueoperator_equals(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator== in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the selections and field values are equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator== in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the selections and field values are equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_equals( final {0} otherValue ) '{'\n", genName));
-		source.append(MessageFormat.format("must_bound( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
-		source.append(MessageFormat.format("otherValue.must_bound( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
-		source.append("if (union_selection != otherValue.union_selection) {\n");
-		source.append("return false;\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_equals( final {0} otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tmust_bound( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
+		source.append(MessageFormat.format("\t\t\totherValue.must_bound( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
+		source.append("\t\t\tif (union_selection != otherValue.union_selection) {\n");
+		source.append("\t\t\t\treturn false;\n");
 
-		source.append("}\n");
-		source.append("switch (union_selection) {\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})field).operator_equals(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\treturn (({0})field).operator_equals(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
 		}
 
 
-		source.append("default:\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public boolean operator_equals( final Base_Type otherValue ) {\n");
-		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return operator_equals(({0})otherValue);\n", genName));
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean operator_equals( final Base_Type otherValue ) {\n");
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_equals(({0})otherValue);\n", genName));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -498,19 +499,19 @@ public final class UnionGenerator {
 	 * */
 	private static void generateValueNotEquals(final JavaGenData aData, final StringBuilder source, final String genName) {
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator!= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if either the selections or the field values are not equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if either the selections or the field values are not equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_not_equals( final {0} otherValue ) '{'\n", genName));
-		source.append("return !operator_equals(otherValue);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_not_equals( final {0} otherValue ) '{'\n", genName));
+		source.append("\t\t\treturn !operator_equals(otherValue);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -534,37 +535,37 @@ public final class UnionGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * If other field was previously selected, its value will be destroyed.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append("\t\t * If other field was previously selected, its value will be destroyed.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append(MessageFormat.format("public {0} get_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append("clean_up();\n");
-			source.append(MessageFormat.format("field = new {0}();\n", fieldInfo.mJavaTypeName));
-			source.append(MessageFormat.format("union_selection = union_selection_type.ALT_{0};\n", fieldInfo.mJavaVarName));
-			source.append("}\n");
-			source.append(MessageFormat.format("return ({0})field;\n", fieldInfo.mJavaTypeName));
-			source.append("}\n\n");
+			source.append(MessageFormat.format("\t\tpublic {0} get_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\tif (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\tclean_up();\n");
+			source.append(MessageFormat.format("\t\t\t\tfield = new {0}();\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("\t\t\t\tunion_selection = union_selection_type.ALT_{0};\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\treturn ({0})field;\n", fieldInfo.mJavaTypeName));
+			source.append("\t\t}\n\n");
 
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(MessageFormat.format(" * If field {0} is not selected,\n", fieldInfo.mDisplayName));
-				source.append(" * this function will cause a dynamic test case error.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t * If field {0} is not selected,\n", fieldInfo.mDisplayName));
+				source.append("\t\t * this function will cause a dynamic test case error.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append(MessageFormat.format("public {0} constGet_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
-			source.append("}\n");
-			source.append(MessageFormat.format("return ({0})field;\n", fieldInfo.mJavaTypeName));
-			source.append("}\n\n");
+			source.append(MessageFormat.format("\t\tpublic {0} constGet_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\tif (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
+			source.append("\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\treturn ({0})field;\n", fieldInfo.mJavaTypeName));
+			source.append("\t\t}\n\n");
 		}
 	}
 
@@ -584,19 +585,19 @@ public final class UnionGenerator {
 	private static void generateValueGetSelection(final JavaGenData aData, final StringBuilder source, final String genName,
 			final List<FieldInfo> fieldInfos) {
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Returns the current selection.\n");
-			source.append(MessageFormat.format(" * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the current selection.\n");
+			source.append(MessageFormat.format("\t\t * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
 			if (fieldInfos.size() > 0) {
-				source.append(MessageFormat.format(" * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\n", genName, fieldInfos.get(0).mJavaVarName));
+				source.append(MessageFormat.format("\t\t * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\n", genName, fieldInfos.get(0).mJavaVarName));
 			}
-			source.append(" *\n");
-			source.append(" * @return the current selection.\n");
-			source.append(" * */\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the current selection.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append("public union_selection_type get_selection() {\n");
-		source.append("return union_selection;\n");
-		source.append("}\n");
+		source.append("\t\tpublic union_selection_type get_selection() {\n");
+		source.append("\t\t\treturn union_selection;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -608,23 +609,23 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void log() {\n");
-		source.append("switch (union_selection) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log() {\n");
+		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
-			source.append("field.log();\n");
-			source.append("TTCN_Logger.log_event_str(\" }\");\n");
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+			source.append("\t\t\t\tfield.log();\n");
+			source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+			source.append("\t\t\t\tbreak;\n");
 		}
 
-		source.append("default:\n");
-		source.append("TTCN_Logger.log_event_unbound();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_unbound();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -638,31 +639,31 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 */
 	private static void generateValueSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"union value\");\n");
-		source.append("if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {\n");
-		source.append("param.error(\"union value with field name was expected\");\n");
-		source.append("}\n");
-		source.append("final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
-		source.append("final String last_name = mp_last.get_id().get_name();\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"union value\");\n");
+		source.append("\t\t\tif(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {\n");
+		source.append("\t\t\t\tparam.error(\"union value with field name was expected\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tfinal Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
+		source.append("\t\t\tfinal String last_name = mp_last.get_id().get_name();\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("if (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("get_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
-			source.append("if (!field.is_bound()) {\n");
-			source.append("clean_up();\n");
-			source.append("}\n");
-			source.append("return;\n");
-			source.append("}\n");
+			source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\tif (!field.is_bound()) {\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\treturn;\n");
+			source.append("\t\t\t}\n");
 		}
 
-		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\t\tmp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -674,21 +675,21 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 */
 	private static void generateValueSetImplicitOmit(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void set_implicit_omit() {\n");
-		source.append("switch (union_selection) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_implicit_omit() {\n");
+		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 		}
-		source.append("field.set_implicit_omit();\n");
-		source.append("break;\n");
+		source.append("\t\t\t\tfield.set_implicit_omit();\n");
+		source.append("\t\t\t\tbreak;\n");
 
-		source.append("default:\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -705,39 +706,39 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("switch (union_selection) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("text_buf.push_int({0});\n", i));
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0});\n", i));
+			source.append("\t\t\t\tbreak;\n");
 		}
 
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an unbound value of union type {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an unbound value of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
 		if (fieldInfos.size() > 0) {
-			source.append("field.encode_text(text_buf);\n");
+			source.append("\t\t\tfield.encode_text(text_buf);\n");
 		}
-		source.append("}\n\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append("switch (temp) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case {0}:\n", i));
-			source.append(MessageFormat.format("get_field_{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\tcase {0}:\n", i));
+			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\tbreak;\n");
 		}
 
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized union selector was received for type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: Unrecognized union selector was received for type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -761,65 +762,65 @@ public final class UnionGenerator {
 	 *                the raw attributes or null.
 	 * */
 	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded, final boolean hasRaw, final RawASTStruct raw) {
-		source.append("@Override\n");
-		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
-		source.append("switch (p_coding) {\n");
-		source.append("case CT_RAW: {\n");
-		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
-		source.append("if (p_td.raw == null) {\n");
-		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("}\n");
-		source.append("final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
-		source.append("RAW_encode(p_td, root);\n");
-		source.append("root.put_to_buf(p_buf);\n");
-		source.append("errorContext.leaveContext();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("\t\t\tswitch (p_coding) {\n");
+		source.append("\t\t\tcase CT_RAW: {\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
-		source.append("switch (p_coding) {\n");
-		source.append("case CT_RAW: {\n");
-		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
-		source.append("if (p_td.raw == null) {\n");
-		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("}\n");
-		source.append("raw_order_t order;\n");
-		source.append("switch (p_td.raw.top_bit_order) {\n");
-		source.append("case TOP_BIT_LEFT:\n");
-		source.append("order = raw_order_t.ORDER_LSB;\n");
-		source.append("break;\n");
-		source.append("case TOP_BIT_RIGHT:\n");
-		source.append("default:\n");
-		source.append("order = raw_order_t.ORDER_MSB;\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("if (rawr < 0) {\n");
-		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch (temp) {\n");
-		source.append("case ET_INCOMPL_MSG:\n");
-		source.append("case ET_LEN_ERR:\n");
-		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
-		source.append("break;\n");
-		source.append("case ET_UNBOUND:\n");
-		source.append("default:\n");
-		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("errorContext.leaveContext();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("\t\t\tswitch (p_coding) {\n");
+		source.append("\t\t\tcase CT_RAW: {\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		if (rawNeeded) {
 			final int tag_type[] = new int[fieldInfos.size()];
@@ -1077,14 +1078,14 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
-		source.append("//if single value which value?\n");
-		source.append(MessageFormat.format("private {0}.union_selection_type single_value_union_selection;\n", genName));
+		source.append("\t\t//if single value which value?\n");
+		source.append(MessageFormat.format("\t\tprivate {0}.union_selection_type single_value_union_selection;\n", genName));
 		if (!fieldInfos.isEmpty()) {
-			source.append("//originally a union which can not be mapped to Java\n");
-			source.append("private Base_Template single_value;\n");
+			source.append("\t\t//originally a union which can not be mapped to Java\n");
+			source.append("\t\tprivate Base_Template single_value;\n");
 		}
-		source.append("// value_list part\n");
-		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", genName));
+		source.append("\t\t// value_list part\n");
+		source.append(MessageFormat.format("\t\tprivate ArrayList<{0}_template> value_list;\n\n", genName));
 	}
 
 	/**
@@ -1100,53 +1101,53 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName){
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to unbound/uninitialized template.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to unbound/uninitialized template.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
-		source.append("// do nothing\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template() '{'\n", genName));
+		source.append("\t\t\t// do nothing\n");
+		source.append("\t\t}\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template kind.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value\n");
-			source.append(" *                the template kind to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template kind.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the template kind to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", genName));
-		source.append("super(other_value);\n");
-		source.append("check_single_selection(other_value);\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final template_sel other_value) '{'\n", genName));
+		source.append("\t\t\tsuper(other_value);\n");
+		source.append("\t\t\tcheck_single_selection(other_value);\n");
+		source.append("\t\t}\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template.\n");
-			source.append(" * The elements of the provided value are copied.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template.\n");
+			source.append("\t\t * The elements of the provided value are copied.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", genName));
-		source.append("copy_value(other_value);\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0} other_value) '{'\n", genName));
+		source.append("\t\t\tcopy_value(other_value);\n");
+		source.append("\t\t}\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template.\n");
-			source.append(" * The elements of the provided template are copied.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template.\n");
+			source.append("\t\t * The elements of the provided template are copied.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", genName));
-		source.append("copy_template(other_value);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0}_template other_value) '{'\n", genName));
+		source.append("\t\t\tcopy_template(other_value);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1165,57 +1166,57 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
-		source.append("single_value_union_selection = other_value.get_selection();\n");
+		source.append(MessageFormat.format("\t\tprivate void copy_value(final {0} other_value) '{'\n", genName));
+		source.append("\t\t\tsingle_value_union_selection = other_value.get_selection();\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch (other_value.get_selection()) {\n");
+			source.append("\t\t\tswitch (other_value.get_selection()) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet_field_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-				source.append("break;\n");
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\tsingle_value = new {0}(other_value.constGet_field_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append("\t\t\t\tbreak;\n");
 			}
-			source.append("default:\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template with an unbound value of type {0}.\");\n", displayName));
-			source.append("}\n");
+			source.append("\t\t\tdefault:\n");
+			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Initializing a template with an unbound value of type {0}.\");\n", displayName));
+			source.append("\t\t\t}\n");
 		}
-		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("}\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t}\n");
 
-		source.append(MessageFormat.format("private void copy_template(final {0}_template other_value) '{'\n", genName));
-		source.append("switch (other_value.template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("single_value_union_selection = other_value.single_value_union_selection;\n");
+		source.append(MessageFormat.format("\t\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
+		source.append("\t\t\tswitch (other_value.template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\tsingle_value_union_selection = other_value.single_value_union_selection;\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch (single_value_union_selection) {\n");
+			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet_field_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-				source.append("break;\n");
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}(other_value.constGet_field_{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t\tbreak;\n");
 			}
-			source.append("default:\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");\n", displayName));
-			source.append("}\n");
+			source.append("\t\t\t\tdefault:\n");
+			source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");\n", displayName));
+			source.append("\t\t\t\t}\n");
 		}
-		source.append("break;\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(other_value.value_list.size());\n", genName));
-		source.append("for(int i = 0; i < other_value.value_list.size(); i++) {\n");
-		source.append(MessageFormat.format("final {0}_template temp = new {0}_template(other_value.value_list.get(i));\n", genName));
-		source.append("value_list.add(temp);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("set_selection(other_value);\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(other_value.value_list.size());\n", genName));
+		source.append("\t\t\t\tfor(int i = 0; i < other_value.value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.value_list.get(i));\n", genName));
+		source.append("\t\t\t\t\tvalue_list.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Copying an uninitialized template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tset_selection(other_value);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1227,34 +1228,34 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void clean_up() {\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void clean_up() {\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch (single_value_union_selection) {\n");
+			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("(({0})single_value).clean_up();\n", fieldInfo.mJavaTemplateName));
-				source.append("break;\n");
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\t(({0})single_value).clean_up();\n", fieldInfo.mJavaTemplateName));
+				source.append("\t\t\t\t\tbreak;\n");
 			}
-			source.append("default:\n");
-			source.append("break;\n");
-			source.append("}\n");
-			source.append("single_value = null;\n");
+			source.append("\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tsingle_value = null;\n");
 		}
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("value_list.clear();\n");
-		source.append("value_list = null;\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("template_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tvalue_list.clear();\n");
+		source.append("\t\t\t\tvalue_list = null;\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\ttemplate_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1269,67 +1270,67 @@ public final class UnionGenerator {
 	 *                union/choice type.
 	 * */
 	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName) {
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final template_sel otherValue ) '{'\n", genName));
-		source.append("check_single_selection(otherValue);\n");
-		source.append("clean_up();\n");
-		source.append("set_selection(otherValue);\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final template_sel otherValue ) '{'\n", genName));
+		source.append("\t\t\tcheck_single_selection(otherValue);\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(otherValue);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template operator_assign(final {0} otherValue ) '{'\n", genName));
-		source.append("clean_up();\n");
-		source.append("copy_value(otherValue);\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0} otherValue ) '{'\n", genName));
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tcopy_value(otherValue);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other template to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other template to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}_template otherValue ) '{'\n", genName));
-		source.append("if (otherValue != this) {\n");
-		source.append("clean_up();\n");
-		source.append("copy_template(otherValue);\n");
-		source.append("}\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0}_template otherValue ) '{'\n", genName));
+		source.append("\t\t\tif (otherValue != this) {\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Type otherValue ) '{'\n", genName));
-		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("return operator_assign(({0})otherValue);\n", genName));
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", genName));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", genName));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", genName));
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Template otherValue ) '{'\n", genName));
-		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", genName));
-		source.append(MessageFormat.format("return operator_assign(({0}_template)otherValue);\n", genName));
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}_template.\");\n", genName));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Template otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template)otherValue);\n", genName));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}_template.\");\n", genName));
+		source.append("\t\t}\n\n");
 
 		//FIXME implement optional parameter version
 	}
@@ -1351,76 +1352,76 @@ public final class UnionGenerator {
 	 * */
 	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value the value to be matched.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be matched.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0} other_value) '{'\n", genName));
-		source.append("return match(other_value, false);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0} other_value) '{'\n", genName));
+		source.append("\t\t\treturn match(other_value, false);\n");
+		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template. In legacy mode\n");
-			source.append(" * omitted value fields are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param other_value\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template. In legacy mode\n");
+			source.append("\t\t * omitted value fields are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
-		source.append("if(!other_value.is_bound()) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
+		source.append("\t\t\tif(!other_value.is_bound()) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
 
-		source.append("switch (template_selection) {\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("return true;\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("return false;\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("final {0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
-		source.append(MessageFormat.format("if (value_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("if (value_selection != single_value_union_selection) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("switch (value_selection) {\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\tfinal {0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
+		source.append(MessageFormat.format("\t\t\t\tif (value_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
+		source.append("\t\t\t\t\treturn false;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tif (value_selection != single_value_union_selection) {\n");
+		source.append("\t\t\t\t\treturn false;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tswitch (value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})single_value).match(other_value.get_field_{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\treturn (({0})single_value).match(other_value.get_field_{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 		}
 
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when matching a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if(value_list.get(i).match(other_value, legacy)) {\n");
-		source.append("return template_selection == template_sel.VALUE_LIST;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when matching a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tif(value_list.get(i).match(other_value, legacy)) {\n");
+		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
-		source.append("\t}\n\n");
-		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
-		source.append("\t}\n\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format( "\t\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\t\treturn match(({0})otherValue, legacy);\n", genName) );
+		source.append("\t\t\t}\n\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1435,31 +1436,31 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
-		source.append(MessageFormat.format("public boolean ischosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
-		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("if (single_value_union_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("return single_value_union_selection == checked_selection;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("if (value_list.isEmpty()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
-		source.append("}\n");
-		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
-		source.append("if(!value_list.get(i).ischosen(checked_selection)) {\n");
+		source.append(MessageFormat.format("\t\tpublic boolean ischosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tif(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\tif (single_value_union_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn single_value_union_selection == checked_selection;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\t\tif (value_list.isEmpty()) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tif(!value_list.get(i).ischosen(checked_selection)) {\n");
 						//FIXME this is incorrect in the compiler
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("return true;\n");
-		source.append("default:\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\t\t\treturn false;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1473,21 +1474,21 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateIsValue(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public boolean is_value() {\n");
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("switch (single_value_union_selection) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_value() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0})single_value).is_value();\n", fieldInfo.mJavaTemplateName));
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\treturn (({0})single_value).is_value();\n", fieldInfo.mJavaTemplateName));
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1504,28 +1505,28 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueof() '{'\n", genName));
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0} valueof() '{'\n", genName));
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", genName));
+			source.append(MessageFormat.format("\t\t\tfinal {0} ret_val = new {0}();\n", genName));
 		}
-		source.append("switch (single_value_union_selection) {\n");
+		source.append("\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("ret_val.get_field_{0}().operator_assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tret_val.get_field_{0}().operator_assign((({1})single_value).valueof());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
+			source.append("\t\t\t\tbreak;\n");
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("return ret_val;\n");
+			source.append("\t\t\treturn ret_val;\n");
 		}
-		source.append("}\n\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1540,19 +1541,19 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void set_type(final template_sel template_type, final int list_length) {\n");
-		source.append("if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_type(final template_sel template_type, final int list_length) {\n");
+		source.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
 
-		source.append("clean_up();\n");
-		source.append("set_selection(template_type);\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(list_length);\n", genName));
-		source.append("for(int i = 0 ; i < list_length; i++) {\n");
-		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", genName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(template_type);\n");
+		source.append(MessageFormat.format("\t\t\tvalue_list = new ArrayList<{0}_template>(list_length);\n", genName));
+		source.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list.add(new {0}_template());\n", genName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1567,19 +1568,19 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template list_item(final int list_index)  '{'\n", genName));
-		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template list_item(final int list_index)  '{'\n", genName));
+		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
 
-		source.append("if (list_index < 0) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", displayName));
-		source.append("} else if(list_index >= value_list.size()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Index overflow in a value list template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("return value_list.get(list_index);\n");
-		source.append("}\n\n");
+		source.append("\t\t\tif (list_index < 0) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", displayName));
+		source.append("\t\t\t} else if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Index overflow in a value list template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn value_list.get(list_index);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1589,30 +1590,30 @@ public final class UnionGenerator {
 	 *                where the source code is to be generated.
 	 * */
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public boolean match_omit(final boolean legacy) {\n");
-		source.append("if (is_ifPresent) {\n");
-		source.append("return true;\n");
-		source.append("}\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("return true;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("if (legacy) {\n");
-		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).match_omit(legacy)) {\n");
-		source.append("return template_selection == template_sel.VALUE_LIST;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
-		source.append("}\n");
-		source.append("return false;\n");
-		source.append("default:\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean match_omit(final boolean legacy) {\n");
+		source.append("\t\t\tif (is_ifPresent) {\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tif (legacy) {\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit(legacy)) {\n");
+		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1636,47 +1637,47 @@ public final class UnionGenerator {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(MessageFormat.format(" * If field {0} was previously selected,\n", fieldInfo.mDisplayName));
-				source.append(" * its value will be destroyed.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Selects and gives access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t * If field {0} was previously selected,\n", fieldInfo.mDisplayName));
+				source.append("\t\t * its value will be destroyed.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append(MessageFormat.format("public {0} get_field_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("if (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append("final template_sel old_selection = template_selection;\n");
-			source.append("clean_up();\n");
-			source.append("if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
-			source.append(MessageFormat.format("single_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
-			source.append("} else {\n");
-			source.append(MessageFormat.format("single_value = new {0}();\n", fieldInfo.mJavaTemplateName));
-			source.append("}\n");
-			source.append(MessageFormat.format("single_value_union_selection = {0}.union_selection_type.ALT_{1};\n", genName, fieldInfo.mJavaVarName));
-			source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-			source.append("}\n");
-			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
-			source.append("}\n\n");
+			source.append(MessageFormat.format("\t\tpublic {0} get_field_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
+			source.append("\t\t\t\tfinal template_sel old_selection = template_selection;\n");
+			source.append("\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
+			source.append("\t\t\t\t} else {\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}();\n", fieldInfo.mJavaTemplateName));
+			source.append("\t\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\t\tsingle_value_union_selection = {0}.union_selection_type.ALT_{1};\n", genName, fieldInfo.mJavaVarName));
+			source.append("\t\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+			source.append("\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\treturn ({0})single_value;\n", fieldInfo.mJavaTemplateName));
+			source.append("\t\t}\n\n");
 
 			if (aData.isDebug()) {
-				source.append("/**\n");
-				source.append(MessageFormat.format(" * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
-				source.append(MessageFormat.format(" * If field {0} is not selected,\n", fieldInfo.mDisplayName));
-				source.append(" * this function will cause a dynamic test case error.\n");
-				source.append(" *\n");
-				source.append(MessageFormat.format(" * @return field {0}.\n", fieldInfo.mDisplayName));
-				source.append(" * */\n");
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Gives read-only access to field {0}.\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t * If field {0} is not selected,\n", fieldInfo.mDisplayName));
+				source.append("\t\t * this function will cause a dynamic test case error.\n");
+				source.append("\t\t *\n");
+				source.append(MessageFormat.format("\t\t * @return field {0}.\n", fieldInfo.mDisplayName));
+				source.append("\t\t * */\n");
 			}
-			source.append(MessageFormat.format("public {0} constGet_field_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
-			source.append("if (template_selection != template_sel.SPECIFIC_VALUE) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
-			source.append("}\n");
-			source.append(MessageFormat.format("if (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field {0} in a template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
-			source.append("}\n");
-			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
-			source.append("}\n\n");
+			source.append(MessageFormat.format("\t\tpublic {0} constGet_field_{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+			source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n");
+			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
+			source.append("\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\tif (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing non-selected field {0} in a template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
+			source.append("\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\treturn ({0})single_value;\n", fieldInfo.mJavaTemplateName));
+			source.append("\t\t}\n\n");
 		}
 	}
 
@@ -1689,32 +1690,32 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void log() {\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log() {\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("single_value.log();\n");
+			source.append("\t\t\t\tsingle_value.log();\n");
 		}
-		source.append("break;\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("TTCN_Logger.log_char('(');\n");
-		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
-		source.append("if (list_count > 0) {\n");
-		source.append("TTCN_Logger.log_event_str(\", \");\n");
-		source.append("}\n");
-		source.append("value_list.get(list_count).log();\n");
-		source.append("}\n");
-		source.append("TTCN_Logger.log_char(')');\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("log_generic();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("log_ifpresent();\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\t\tif (list_count > 0) {\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tvalue_list.get(list_count).log();\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tlog_generic();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tlog_ifpresent();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1733,65 +1734,65 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateLogMatch(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
-		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", genName));
-		source.append("\t\t\treturn;\n");
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("\t\t\tif (match_value instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\tlog_match(({0})match_value, legacy);\n", genName));
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Logs the matching of the provided value to this template, to help\n");
-			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
-			source.append(" * are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param match_value\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Logs the matching of the provided value to this template, to help\n");
+			source.append("\t\t * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append("\t\t * are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param match_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
-		source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {\n");
-		source.append("TTCN_Logger.print_logmatch_buffer();\n");
-		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("if (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
-		source.append("switch (single_value_union_selection) {\n");
+		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
+		source.append("\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {\n");
+		source.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
+		source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
-			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
 
-			source.append(MessageFormat.format("single_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
-			source.append("} else {\n");
-			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("single_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
-			source.append("TTCN_Logger.log_event_str(\" }\");\n");
-			source.append("}\n");
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\t\t} else {\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tbreak;\n");
 		}
-		source.append("default:\n");
-		source.append("TTCN_Logger.print_logmatch_buffer();\n");
-		source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");\n");
-		source.append("}\n");
-		source.append("} else {\n");
-		source.append("TTCN_Logger.print_logmatch_buffer();\n");
-		source.append("match_value.log();\n");
-		source.append("TTCN_Logger.log_event_str(\" with \");\n");
-		source.append("log();\n");
-		source.append("if (match(match_value, legacy)) {\n");
-		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
-		source.append("} else {\n");
-		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\tmatch_value.log();\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\tlog();\n");
+		source.append("\t\t\t\tif (match(match_value, legacy)) {\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1808,69 +1809,69 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("text_buf.push_int(single_value_union_selection.ordinal());\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tencode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\ttext_buf.push_int(single_value_union_selection.ordinal());\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("single_value.encode_text(text_buf);\n");
+			source.append("\t\t\t\tsingle_value.encode_text(text_buf);\n");
 		}
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("text_buf.push_int(value_list.size());\n");
-		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
-		source.append("value_list.get(i).encode_text(text_buf);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
+		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("clean_up();\n");
-		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:{\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append("switch (temp) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tdecode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
+		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("case {0}:\n", i));
-			source.append(MessageFormat.format("single_value = new {0}();\n", fieldInfo.mJavaTemplateName));
-			source.append("single_value.decode_text(text_buf);\n");
-			source.append("break;\n");
+			source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", i));
+			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}();\n", fieldInfo.mJavaTemplateName));
+			source.append("\t\t\t\t\tsingle_value.decode_text(text_buf);\n");
+			source.append("\t\t\t\t\tbreak;\n");
 		}
-		source.append("}\n");
-		source.append("}\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST: {\n");
-		source.append("final int size = text_buf.pull_int().getInt();\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(size);\n", genName));
-		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append(MessageFormat.format("final {0}_template temp2 = new {0}_template();\n", genName));
-		source.append("temp2.decode_text(text_buf);\n");
-		source.append("value_list.add(temp2);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received in a template of type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(size);\n", genName));
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp2 = new {0}_template();\n", genName));
+		source.append("\t\t\t\t\ttemp2.decode_text(text_buf);\n");
+		source.append("\t\t\t\t\tvalue_list.add(temp2);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: Unrecognized selector was received in a template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1884,76 +1885,78 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
-		source.append("final String param_field = param.get_id().get_current_name();\n");
-		source.append("if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
-		source.append(MessageFormat.format("param.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}'\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\t\tif((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
+		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
+		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}'\");\n", displayName));
+		source.append("\t\t\t\t}\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			if (i != 0) {
+			if (i == 0) {
+				source.append("\t\t\t\t");
+			} else {
 				source.append(" else ");
 			}
 			source.append(MessageFormat.format("if(\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
-			source.append("single_value.set_param(param);\n");
-			source.append("return;\n");
-			source.append("}");
+			source.append("\t\t\t\t\tsingle_value.set_param(param);\n");
+			source.append("\t\t\t\t\treturn;\n");
+			source.append("\t\t\t\t}");
 		}
 
 		source.append(" else {\n");
-		source.append(MessageFormat.format("param.error(MessageFormat.format(\"Field `'{'0'}'' not found in union template type `{0}'\", param_field));\n", displayName));
-		source.append("}\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}'' not found in union template type `{0}'\", param_field));\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
 
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"union template\");\n");
-		source.append("switch (param.get_type()) {\n");
-		source.append("case MP_Omit:\n");
-		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_Any:\n");
-		source.append("operator_assign(template_sel.ANY_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_AnyOrNone:\n");
-		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
-		source.append("break;\n");
-		source.append("case MP_List_Template:\n");
-		source.append("case MP_ComplementList_Template: {\n");
-		source.append("final int size = param.get_size();\n");
-		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
-		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("list_item(i).set_param(param.get_elem(i));\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("case MP_Value_List:\n");
-		source.append("if (param.get_size() == 0) {\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
-		source.append("break;\n");
-		source.append("case MP_Assignment_List: {\n");
-		source.append("final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
-		source.append("final String last_name = mp_last.get_id().get_name();\n");
+		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"union template\");\n");
+		source.append("\t\t\tswitch (param.get_type()) {\n");
+		source.append("\t\t\tcase MP_Omit:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_Any:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_AnyOrNone:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_List_Template:\n");
+		source.append("\t\t\tcase MP_ComplementList_Template: {\n");
+		source.append("\t\t\t\tfinal int size = param.get_size();\n");
+		source.append("\t\t\t\tset_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
+		source.append("\t\t\t\t\tlist_item(i).set_param(param.get_elem(i));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcase MP_Value_List:\n");
+		source.append("\t\t\t\tif (param.get_size() == 0) {\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"union template\", \"{0}\");\n", displayName));
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_Assignment_List: {\n");
+		source.append("\t\t\t\tfinal Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
+		source.append("\t\t\t\tfinal String last_name = mp_last.get_id().get_name();\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("if(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("get_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
-			source.append("break;\n");
-			source.append("}\n");
+			source.append(MessageFormat.format("\t\t\t\tif(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
 		}
 
-		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
-		source.append("}\n");
-		source.append("is_ifPresent = param.get_ifpresent();\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\t\t\tmp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"union template\", \"{0}\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -1967,41 +1970,41 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateCheckSelection(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append("@Override\n");
-		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
-		source.append("case TR_OMIT:\n");
-		source.append("if (template_selection == template_sel.OMIT_VALUE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("case TR_VALUE:\n");
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("switch (single_value_union_selection) {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("\t\t\tif (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("\t\t\tcase TR_OMIT:\n");
+		source.append("\t\t\t\tif (template_selection == template_sel.OMIT_VALUE) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\tcase TR_VALUE:\n");
+		source.append("\t\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 
-			source.append(MessageFormat.format("(({0})single_value).check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaTemplateName, displayName));
-			source.append("return;\n");
+			source.append(MessageFormat.format("\t\t\t\t\t(({0})single_value).check_restriction(restriction, name == null ? \"{1}\" : name, legacy);\n", fieldInfo.mJavaTemplateName, displayName));
+			source.append("\t\t\t\t\treturn;\n");
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("case TR_PRESENT:\n");
-		source.append("if (!match_omit(legacy)) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
-		source.append("}\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing check_restriction operation on a template of union type {0}.\");\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\tcase TR_PRESENT:\n");
+		source.append("\t\t\t\tif (!match_omit(legacy)) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append("\t\t}\n");
 	}
 
 	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, final boolean is_equal) {
