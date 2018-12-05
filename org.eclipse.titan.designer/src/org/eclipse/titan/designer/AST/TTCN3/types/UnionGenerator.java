@@ -1395,7 +1395,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tswitch (value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\t\treturn (({0})single_value).match(other_value.get_field_{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 		}
 
