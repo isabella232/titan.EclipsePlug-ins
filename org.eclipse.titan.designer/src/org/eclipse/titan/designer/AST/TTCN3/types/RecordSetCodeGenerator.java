@@ -2201,7 +2201,7 @@ public final class RecordSetCodeGenerator {
 				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				aSb.append("\t\t\t} else ");
 			} else {
-				aSb.append("\t\t\t ");
+				aSb.append("\t\t\t");
 			}
 			aSb.append( MessageFormat.format( "if ({0}.is_bound()) '{'\n", fi.mVarName )  );
 			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get_field_{0}().operator_assign({0}.valueof());\n", fi.mVarName ) );
@@ -2398,7 +2398,7 @@ public final class RecordSetCodeGenerator {
 				}
 			}
 
-			aSb.append( "\t\t\treturn new TitanInteger(sizeof);\n" );
+			aSb.append( "\t\t\t\treturn new TitanInteger(sizeof);\n" );
 		}
 
 		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
@@ -2535,7 +2535,7 @@ public final class RecordSetCodeGenerator {
 				source.append("\t\t\t\t\t\t} else {\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\t\tif (!{0}.match_omit(legacy)) '{'\n", fi.mVarName) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0} := omit with \");\n", fi.mDisplayName ) );
-				source.append("\t\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log();\n", fi.mVarName) );
 				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
@@ -2711,7 +2711,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\t\t\tfinal Module_Parameter curr_param = param.get_elem(val_idx);\n");
 			source.append(MessageFormat.format("\t\t\t\t\tif (\"{0}\".equals(curr_param.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
 			source.append("\t\t\t\t\t\tif (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {\n");
-			source.append(MessageFormat.format("\t\t\t\t\t\tget_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\t\t\tget_field_{0}().set_param(curr_param);\n", fieldInfo.mJavaVarName));
 			source.append("\t\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\t\tvalue_used[val_idx] = true;\n");
 			source.append("\t\t\t\t\t}\n");
