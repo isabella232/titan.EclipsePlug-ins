@@ -562,7 +562,7 @@ public final class UnionGenerator {
 			}
 			source.append(MessageFormat.format("\t\tpublic {0} constGet_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\tif (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
+			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("\t\t\t}\n");
 			source.append(MessageFormat.format("\t\t\treturn ({0})field;\n", fieldInfo.mJavaTypeName));
 			source.append("\t\t}\n\n");
