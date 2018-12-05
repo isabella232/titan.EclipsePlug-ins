@@ -104,51 +104,51 @@ public final class EnumeratedGenerator {
 		final boolean rawNeeded = e_defs.hasRaw; //TODO can be forced optionally if needed
 
 		//		if(needsAlias()) { ???
-		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", e_defs.name));
+		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", e_defs.name));
 		//== enum_type ==
-		source.append("public enum enum_type {\n");
+		source.append("\t\tpublic enum enum_type {\n");
 		final StringBuilder helper = new StringBuilder();
 		final int size = e_defs.items.size();
 		Enum_field item = null;
 		for ( int i=0; i<size; i++) {
 			item = e_defs.items.get(i);
-			source.append(MessageFormat.format("{0} (", item.name));
+			source.append(MessageFormat.format("\t\t\t{0} (", item.name));
 			source.append(item.value);
 			source.append("),\n");
-			helper.append("case ").append(item.value).append(": ");
+			helper.append("\t\t\t\tcase ").append(item.value).append(": ");
 			helper.append(" return ").append(MessageFormat.format("{0}", item.name)).append(";\n");
 		}
 
-		source.append(MessageFormat.format("{0}({1}),\n", UNKNOWN_VALUE, e_defs.firstUnused));
-		source.append(MessageFormat.format("{0}({1});\n", UNBOUND_VALUE, e_defs.secondUnused));
-		helper.append("case ").append(MessageFormat.format("{0}", e_defs.firstUnused)).append(": ");
+		source.append(MessageFormat.format("\t\t\t{0}({1}),\n", UNKNOWN_VALUE, e_defs.firstUnused));
+		source.append(MessageFormat.format("\t\t\t{0}({1});\n", UNBOUND_VALUE, e_defs.secondUnused));
+		helper.append("\t\t\t\tcase ").append(MessageFormat.format("{0}", e_defs.firstUnused)).append(": ");
 		helper.append(" return ").append("UNKNOWN_VALUE").append(";\n");
-		helper.append("case ").append(MessageFormat.format("{0}", e_defs.secondUnused)).append(": ");
-		helper.append(" return ").append("UNBOUND_VALUE").append(";\n");
+		helper.append("\t\t\t\tcase ").append(MessageFormat.format("{0}", e_defs.secondUnused)).append(": ");
+		helper.append(" return ").append("UNBOUND_VALUE").append(";\n\n");
 
-		source.append("\n private int enum_num;\n");
+		source.append("\t\t\tprivate int enum_num;\n");
 
 		//== constructors for enum_type ==
 
-		source.append("enum_type(final int num) {\n");
-		source.append("this.enum_num = num;\n");
-		source.append("}\n\n");
+		source.append("\t\t\tenum_type(final int num) {\n");
+		source.append("\t\t\t\tthis.enum_num = num;\n");
+		source.append("\t\t\t}\n\n");
 
-		source.append("private int getInt() {\n");
-		source.append("return enum_num;\n");
-		source.append("}\n\n");
+		source.append("\t\t\tprivate int getInt() {\n");
+		source.append("\t\t\t\treturn enum_num;\n");
+		source.append("\t\t\t}\n\n");
 		generateValueEnumGetValue(source, helper);
-		source.append("}\n\n");
+		source.append("\t\t\t}\n\n");
 		// end of enum_type
 
 		//== enum_value ==
-		source.append("public enum_type enum_value;\n");
+		source.append("\t\tpublic enum_type enum_value;\n");
 
-		source.append("//===Constructors===;\n");
+		source.append("\t\t//===Constructors===;\n");
 		generateValueConstructors(aData, source,e_defs.name);
 
 		//== functions ==
-		source.append("//===Methods===;\n");
+		source.append("\t\t//===Methods===;\n");
 		generateValueoperator_assign(aData, source, e_defs.name);
 		generateValueoperator_equals(aData, source, e_defs.name, e_defs.displayName);
 		generateValueoperator_not_equals(aData, source, e_defs.name);
@@ -172,7 +172,7 @@ public final class EnumeratedGenerator {
 		generateValueSetParam(source, e_defs.displayName);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
 		generateValueEncodeDecode(aData, source, e_defs, rawNeeded);
-		source.append("}\n");
+		source.append("\t}\n");
 	}
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
@@ -185,7 +185,7 @@ public final class EnumeratedGenerator {
 		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
 
-		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
+		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
 
 		generateTemplateDeclaration(source, e_defs.name);
 		generatetemplateCopyTemplate(source, e_defs.name);
@@ -205,211 +205,211 @@ public final class EnumeratedGenerator {
 		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 		generateTemplateCheckRestriction(source, e_defs.displayName);
 
-		source.append("}\n");
+		source.append("\t}\n");
 	}
 
 	//===
 
 	private static void generateValueToString(final StringBuilder source) {
-		source.append("/** \n");
-		source.append(" * Do not use this function!<br>\n");
-		source.append(" * It is provided by Java and currently used for debugging.\n");
-		source.append(" * But it is not part of the intentionally provided interface,\n");
-		source.append(" *   and so can be changed without notice. \n");
-		source.append(" * <p>\n");
-		source.append(" * JAVA DESCRIPTION:\n");
-		source.append(" * <p>\n");
-		source.append(" * {@inheritDoc}\n");
-		source.append(" *  */\n");
-		source.append("public String toString() {\n");
-		source.append("return enum_value.name() + \"(\"+enum_value.enum_num+\")\";\n");
-		source.append("}\n\n");
+		source.append("\t\t/** \n");
+		source.append("\t\t * Do not use this function!<br>\n");
+		source.append("\t\t * It is provided by Java and currently used for debugging.\n");
+		source.append("\t\t * But it is not part of the intentionally provided interface,\n");
+		source.append("\t\t *   and so can be changed without notice. \n");
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * JAVA DESCRIPTION:\n");
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * {@inheritDoc}\n");
+		source.append("\t\t *  */\n");
+		source.append("\t\tpublic String toString() {\n");
+		source.append("\t\t\treturn enum_value.name() + \"(\"+enum_value.enum_num+\")\";\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueEnumGetValue(final StringBuilder source, final StringBuilder helper) {
-		source.append("public static enum_type getValue(final int index) {\n");
-		source.append("switch (index) {\n");
+		source.append("\t\t\tpublic static enum_type getValue(final int index) {\n");
+		source.append("\t\t\t\tswitch (index) {\n");
 		source.append(helper);
-		source.append("default:\n");
-		source.append("return null;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\treturn null;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n\n");
 	}
 
 	private static void generateValueConstructors(final JavaGenData aData, final StringBuilder source,final String name) {
 		//empty
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to unbound value.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to unbound value.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}() '{'\n", name));
-		source.append(MessageFormat.format("enum_value = enum_type.{0};\n", UNBOUND_VALUE));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}() '{'\n", name));
+		source.append(MessageFormat.format("\t\t\tenum_value = enum_type.{0};\n", UNBOUND_VALUE));
+		source.append("\t\t}\n\n");
 
 		// own type
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to a given value.\n" );
-			source.append( " *\n" );
-			source.append( " * @param otherValue\n" );
-			source.append( " *                the value to initialize to.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to a given value.\n" );
+			source.append( "\t\t *\n" );
+			source.append( "\t\t * @param otherValue\n" );
+			source.append( "\t\t *                the value to initialize to.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", name));
-		source.append(MessageFormat.format("enum_value = otherValue.enum_value;\n", name));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}(final {0} otherValue) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\tenum_value = otherValue.enum_value;\n", name));
+		source.append("\t\t}\n\n");
 
 		// enum_type
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to a given value.\n" );
-			source.append( " *\n" );
-			source.append( " * @param otherValue\n" );
-			source.append( " *                the value to initialize to.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to a given value.\n" );
+			source.append( "\t\t *\n" );
+			source.append( "\t\t * @param otherValue\n" );
+			source.append( "\t\t *                the value to initialize to.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}(final {0}.enum_type otherValue ) '{'\n", name));
-		source.append("enum_value = otherValue;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}(final {0}.enum_type otherValue ) '{'\n", name));
+		source.append("\t\t\tenum_value = otherValue;\n");
+		source.append("\t\t}\n\n");
 
 		//arg int
 		if ( aData.isDebug() ) {
-			source.append( "/**\n" );
-			source.append( " * Initializes to a given value.\n" );
-			source.append( " *\n" );
-			source.append( " * @param otherValue\n" );
-			source.append( " *                the value to initialize to.\n" );
-			source.append( " * */\n" );
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to a given value.\n" );
+			source.append( "\t\t *\n" );
+			source.append( "\t\t * @param otherValue\n" );
+			source.append( "\t\t *                the value to initialize to.\n" );
+			source.append( "\t\t * */\n" );
 		}
-		source.append(MessageFormat.format("public {0}(final int otherValue) '{'\n", name));
-		source.append("if (!isValidEnum(otherValue)) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Initializing a variable of enumerated type `{0}'' with invalid numeric value {1} .\", otherValue));\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("enum_value =  enum_type.getValue(otherValue);\n", name));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}(final int otherValue) '{'\n", name));
+		source.append("\t\t\tif (!isValidEnum(otherValue)) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Initializing a variable of enumerated type `{0}'' with invalid numeric value {1} .\", otherValue));\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tenum_value =  enum_type.getValue(otherValue);\n", name));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsValidEnum(final StringBuilder source, final String name) {
-		source.append("public static boolean isValidEnum(final int otherValue) {\n");
-		source.append("final enum_type helper =  enum_type.getValue(otherValue);\n");
-		source.append("return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic static boolean isValidEnum(final int otherValue) {\n");
+		source.append("\t\t\tfinal enum_type helper =  enum_type.getValue(otherValue);\n");
+		source.append("\t\t\treturn helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
+		source.append("\t\t}\n\n");
 
-		source.append("public static boolean isValidEnum(final enum_type otherValue) {\n");
-		source.append("return otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic static boolean isValidEnum(final enum_type otherValue) {\n");
+		source.append("\t\t\treturn otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueEnumToStr(final StringBuilder source) {
-		source.append("public static String enum2str(final enum_type enumPar) {\n");
-		source.append("	return enumPar.name();\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic static String enum2str(final enum_type enumPar) {\n");
+		source.append("\t\t\treturn enumPar.name();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateLog(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public void log() {\n");
-		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("TTCN_Logger.log_event_unbound();\n");
-		source.append("} else {\n");
-		source.append("TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log() {\n");
+		source.append("\t\t\tif (enum_value == enum_type.UNBOUND_VALUE) {\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_unbound();\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueSetParam(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"enumerated value\");\n");
-		source.append("if (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {\n");
-		source.append(MessageFormat.format("param.type_error(\"enumerated_value\", \"{0}\");\n", name));
-		source.append("}\n");
-		source.append("enum_value = str_to_enum(param.get_enumerated());\n");
-		source.append("if (!isValidEnum(enum_value)) {\n");
-		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"enumerated value\");\n");
+		source.append("\t\t\tif (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated_value\", \"{0}\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tenum_value = str_to_enum(param.get_enumerated());\n");
+		source.append("\t\t\tif (!isValidEnum(enum_value)) {\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append(MessageFormat.format("must_bound(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
-		source.append("text_buf.push_int(enum_value.enum_num);\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append(MessageFormat.format("\t\t\tmust_bound(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
+		source.append("\t\t\ttext_buf.push_int(enum_value.enum_num);\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append("if (!isValidEnum(temp)) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", name));
-		source.append("}\n");
-		source.append("int2enum(temp);\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\tif (!isValidEnum(temp)) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tint2enum(temp);\n");
+		source.append("\t\t}\n\n");
 	}
 
 
 	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs, final boolean rawNeeded) {
-		source.append("@Override\n");
-		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
-		source.append("switch (p_coding) {\n");
-		source.append("case CT_RAW: {\n");
-		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
-		source.append("if (p_td.raw == null) {\n");
-		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("}\n");
-		source.append("final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
-		source.append("RAW_encode(p_td, root);\n");
-		source.append("root.put_to_buf(p_buf);\n");
-		source.append("errorContext.leaveContext();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("\t\t\tswitch (p_coding) {\n");
+		source.append("\t\t\tcase CT_RAW: {\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
-		source.append("switch (p_coding) {\n");
-		source.append("case CT_RAW: {\n");
-		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
-		source.append("if (p_td.raw == null) {\n");
-		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("}\n");
-		source.append("raw_order_t order;\n");
-		source.append("switch (p_td.raw.top_bit_order) {\n");
-		source.append("case TOP_BIT_LEFT:\n");
-		source.append("order = raw_order_t.ORDER_LSB;\n");
-		source.append("break;\n");
-		source.append("case TOP_BIT_RIGHT:\n");
-		source.append("default:\n");
-		source.append("order = raw_order_t.ORDER_MSB;\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("if (rawr < 0) {\n");
-		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch (temp) {\n");
-		source.append("case ET_INCOMPL_MSG:\n");
-		source.append("case ET_LEN_ERR:\n");
-		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
-		source.append("break;\n");
-		source.append("case ET_UNBOUND:\n");
-		source.append("default:\n");
-		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("errorContext.leaveContext();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("\t\t\tswitch (p_coding) {\n");
+		source.append("\t\t\tcase CT_RAW: {\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		if (rawNeeded) {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
@@ -432,42 +432,42 @@ public final class EnumeratedGenerator {
 				max_val /= 2;
 			}
 
-			source.append("@Override\n");
-			source.append("/** {@inheritDoc} */\n");
-			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
-			source.append(MessageFormat.format("return RAW.RAW_encode_enum_type(p_td, myleaf, enum_value.enum_num, {0});\n", min_bits));
-			source.append("}\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append(MessageFormat.format("\t\t\treturn RAW.RAW_encode_enum_type(p_td, myleaf, enum_value.enum_num, {0});\n", min_bits));
+			source.append("\t\t}\n");
 
 
-			source.append("@Override\n");
-			source.append("/** {@inheritDoc} */\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
-			source.append("final AtomicInteger decoded_value = new AtomicInteger(0);\n");
-			source.append(MessageFormat.format("final int decoded_length = RAW.RAW_decode_enum_type(p_td, buff, limit, top_bit_ord, decoded_value, {0}, no_err);\n", min_bits));
-			source.append("if (decoded_length < 0) {\n");
-			source.append("return decoded_length;\n");
-			source.append("}\n");
-			source.append("if (isValidEnum(decoded_value.get())) {\n");
-			source.append("enum_value = enum_type.getValue(decoded_value.get());\n");
-			source.append("} else {\n");
-			source.append("if (no_err) {\n");
-			source.append("return -1;\n");
-			source.append("} else {\n");
-			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_ENC_ENUM, \"Invalid enum value '%d' for '%s': \", decoded_value.get(), p_td.name);\n");
-			source.append("enum_value = enum_type.UNKNOWN_VALUE;\n");
-			source.append("}\n");
-			source.append("}\n");
-			source.append("return decoded_length;\n");
-			source.append("}\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
+			source.append("\t\t\tfinal AtomicInteger decoded_value = new AtomicInteger(0);\n");
+			source.append(MessageFormat.format("\t\t\tfinal int decoded_length = RAW.RAW_decode_enum_type(p_td, buff, limit, top_bit_ord, decoded_value, {0}, no_err);\n", min_bits));
+			source.append("\t\t\tif (decoded_length < 0) {\n");
+			source.append("\t\t\t\treturn decoded_length;\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tif (isValidEnum(decoded_value.get())) {\n");
+			source.append("\t\t\t\tenum_value = enum_type.getValue(decoded_value.get());\n");
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tif (no_err) {\n");
+			source.append("\t\t\t\t\treturn -1;\n");
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_ENC_ENUM, \"Invalid enum value '%d' for '%s': \", decoded_value.get(), p_td.name);\n");
+			source.append("\t\t\t\t\tenum_value = enum_type.UNKNOWN_VALUE;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\treturn decoded_length;\n");
+			source.append("\t\t}\n");
 		}
 	}
 
 	private static void generateValueStrToEnum(final StringBuilder source, final Enum_Defs e_defs) {
-		source.append("public static enum_type str_to_enum(final String strPar) {\n");
+		source.append("\t\tpublic static enum_type str_to_enum(final String strPar) {\n");
 		for (int i = 0; i < e_defs.items.size(); i++) {
 			final Enum_field field = e_defs.items.get(i);
 
-			source.append("if (");
+			source.append("\t\t\tif (");
 			boolean first = true;
 			if (field.name != null) {
 				source.append(MessageFormat.format("\"{0}\".equals(strPar)", field.name));
@@ -481,610 +481,609 @@ public final class EnumeratedGenerator {
 				source.append(MessageFormat.format("\"{0}\".equals(strPar)", field.displayName));
 			}
 			source.append(") {\n");
-			source.append(MessageFormat.format("return enum_type.{0};\n", field.name));
-			source.append("}\n");
+			source.append(MessageFormat.format("\t\t\t\treturn enum_type.{0};\n", field.name));
+			source.append("\t\t\t}\n");
 		}
 
-		source.append("return enum_type.UNKNOWN_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t\treturn enum_type.UNKNOWN_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueAsInt(final StringBuilder source) {
-		source.append("//originally int as_int()\n");
-		source.append("public int asInt() {\n");
-		source.append("return enum2int(enum_value);\n");
-		source.append("}\n\n");
+		source.append("\t\t//originally int as_int()\n");
+		source.append("\t\tpublic int asInt() {\n");
+		source.append("\t\t\treturn enum2int(enum_value);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueFromInt(final StringBuilder source) {
-		source.append("public void fromInt(final int otherValue) {\n");
-		source.append("enum_value = enum_type.getValue(otherValue);\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic void fromInt(final int otherValue) {\n");
+		source.append("\t\t\tenum_value = enum_type.getValue(otherValue);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIntToEnum(final StringBuilder source) {
 		//arg: int
-		source.append("public void int2enum(final int intValue) {\n");
-		source.append("if (!isValidEnum(intValue)) {\n");
-		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
-		source.append("	}\n");
-		source.append("enum_value = enum_type.getValue(intValue);\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic void int2enum(final int intValue) {\n");
+		source.append("\t\t\tif (!isValidEnum(intValue)) {\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tenum_value = enum_type.getValue(intValue);\n");
+		source.append("\t\t}\n\n");
 
 		//arg: TitanInteger
-		source.append("public void int2enum(final TitanInteger intValue) {\n");
-		source.append("if (!isValidEnum(intValue.getInt())) {\n");
-		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue.getInt()+\" to a variable of enumerated type {}.\");\n");
-		source.append("	}\n");
-		source.append("enum_value = enum_type.getValue(intValue.getInt());\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic void int2enum(final TitanInteger intValue) {\n");
+		source.append("\t\t\tif (!isValidEnum(intValue.getInt())) {\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue.getInt()+\" to a variable of enumerated type {}.\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tenum_value = enum_type.getValue(intValue.getInt());\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueEnumToInt(final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append(MessageFormat.format("public static int enum2int(final {0}.enum_type enumPar) '{'\n", name));
-		source.append("if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {\n");
-		source.append("throw new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
-		source.append("}\n");
-		source.append("return enumPar.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic static int enum2int(final {0}.enum_type enumPar) '{'\n", name));
+		source.append("\t\t\tif (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn enumPar.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 		// own type
-		source.append(MessageFormat.format("public static int enum2int(final {0} enumPar) '{'\n", name));
-		source.append("if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {\n");
-		source.append("throw new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
-		source.append("}\n");
-		source.append("return enumPar.enum_value.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic static int enum2int(final {0} enumPar) '{'\n", name));
+		source.append("\t\t\tif (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn enumPar.enum_value.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 	}
 
 	private static void generateValueIsPresent(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public boolean is_present() {\n");
-		source.append("return is_bound();\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_present() {\n");
+		source.append("\t\t\treturn is_bound();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsBound(final StringBuilder source){
-		source.append("@Override\n");
-		source.append("public boolean is_bound() {\n");
-		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_bound() {\n");
+		source.append("\t\t\treturn enum_value != enum_type.UNBOUND_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsValue(final StringBuilder source){
-		source.append("@Override\n");
-		source.append("public boolean is_value() {\n");
-		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_value() {\n");
+		source.append("\t\t\treturn enum_value != enum_type.UNBOUND_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueoperator_equals(final JavaGenData aData, final StringBuilder source, final String aName, final String displayName) {
 		//Arg type: own type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator== in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator== in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_equals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_equals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("\t\t\treturn enum_value == otherValue.enum_value;\n", aName));
+		source.append("\t\t}\n\n");
 
 		//Arg: Base_Type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator== in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator== in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append("public boolean operator_equals(final Base_Type otherValue){\n");
-		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
-		source.append(MessageFormat.format("return operator_equals( ({0}) otherValue);\n", aName));
-		source.append("} else {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic boolean operator_equals(final Base_Type otherValue){\n");
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", aName));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_equals( ({0}) otherValue);\n", aName));
+		source.append("\t\t\t} else {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		//Arg: enum_type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator== in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return true if the values are equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator== in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_equals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_equals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("\t\t\treturn enum_value == otherValue;\n", aName));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueoperator_not_equals(final JavaGenData aData, final StringBuilder source,final String aName) {
 		//Arg type: own type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator!= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the values are not equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the values are not equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_not_equals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_not_equals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("\t\t\treturn !operator_equals(otherValue);\n", aName));
+		source.append("\t\t}\n\n");
 
 		//Arg: Base_Type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator!= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the values are not equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the values are not equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append("public boolean operator_not_equals(final Base_Type otherValue){\n");
-		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
-		source.append("}\n\n");
+		source.append("\t\tpublic boolean operator_not_equals(final Base_Type otherValue){\n");
+		source.append(MessageFormat.format("\t\t\treturn !operator_equals(otherValue);\n", aName));
+		source.append("\t\t}\n\n");
 
 		//Arg: enum_type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is not equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator!= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the values are not equivalent.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the values are not equivalent.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean operator_not_equals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return !operator_equals(otherValue);\n", aName));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean operator_not_equals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("\t\t\treturn !operator_equals(otherValue);\n", aName));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String name) {
 		//Arg type: own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this value.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new value object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0} operator_assign(final {0} otherValue)'{'\n", name));
-		source.append("otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
-		source.append( "if (otherValue != this) {\n");
-		source.append(MessageFormat.format("this.enum_value = otherValue.enum_value;\n",  name));
-		source.append("}\n\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\totherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
+		source.append( "\t\t\tif (otherValue != this) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthis.enum_value = otherValue.enum_value;\n",  name));
+		source.append("\t\t\t}\n\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		//Arg: Base_Type
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} operator_assign(final Base_Type otherValue)'{'\n", name));
-		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
-		source.append(MessageFormat.format("return operator_assign(({0}) otherValue);\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final Base_Type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0} ) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}) otherValue);\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append("\t\t}\n\n");
 
 		//Arg: enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this value.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new value object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0} operator_assign(final {0}.enum_type otherValue)'{'\n", name));
-		source.append(MessageFormat.format("return operator_assign( new {0}(otherValue) );\n",name));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final {0}.enum_type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("\t\t\treturn operator_assign( new {0}(otherValue) );\n",name));
+		source.append("\t\t}\n\n");
 
 		//Arg: int
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this value.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new value object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0} operator_assign(final int otherValue)'{'\n", name));
-		source.append("if (!isValidEnum(otherValue)) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Assigning unknown numeric value {1} to a variable of enumerated type `{0}''.\", otherValue));\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("enum_value =  enum_type.getValue(otherValue);\n", name));
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final int otherValue)'{'\n", name));
+		source.append("\t\t\tif (!isValidEnum(otherValue)) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Assigning unknown numeric value {1} to a variable of enumerated type `{0}''.\", otherValue));\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tenum_value =  enum_type.getValue(otherValue);\n", name));
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsLessThan(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is less than the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator< in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is less than the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is less than the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator< in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is less than the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_less_than(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-
-		source.append("return enum_value.enum_num < otherValue.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_less_than(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num < otherValue.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 		//arg: own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is less than the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator< in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is less than the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is less than the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator< in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is less than the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_less_than(final {0} otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return  enum_value.enum_num < otherValue.enum_value.enum_num ;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_less_than(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn  enum_value.enum_num < otherValue.enum_value.enum_num ;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsLessThanOrEqual(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is less than or equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator<= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is less than or equivalent to the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is less than or equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is less than or equivalent to the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_less_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return enum_value.enum_num <= otherValue.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_less_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num <= otherValue.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 		// own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is less than or equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator<= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is less than or equivalent to the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is less than or equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is less than or equivalent to the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_less_than_or_equal(final {0} otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return  enum_value.enum_num <= otherValue.enum_value.enum_num ;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_less_than_or_equal(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num <= otherValue.enum_value.enum_num ;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsGreaterThan(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is greater than the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator> in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is greater than the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is greater than the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator> in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is greater than the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_greater_than(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return enum_value.enum_num > otherValue.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_greater_than(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num > otherValue.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 		// own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is greater than the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator> in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is greater than the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is greater than the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator> in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is greater than the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_greater_than(final {0} otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return  enum_value.enum_num > otherValue.enum_value.enum_num ;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_greater_than(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num > otherValue.enum_value.enum_num ;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueIsGreaterThanOrEqual(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is greater than or equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator>= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is greater than or equivalent to the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is greater than or equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator>= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is greater than or equivalent to the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_greater_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return enum_value.enum_num >= otherValue.enum_num;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_greater_than_or_equal(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num >= otherValue.enum_num;\n");
+		source.append("\t\t}\n\n");
 
 		// arg: own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Checks if the current value is greater than or equivalent to the provided one.\n");
-			source.append(" *\n");
-			source.append(" * operator>= in the core\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to check against.\n");
-			source.append(" * @return {@code true} if the value is greater than or equivalent to the provided.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is greater than or equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator>= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return {@code true} if the value is greater than or equivalent to the provided.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public boolean is_greater_than_or_equal(final {0} otherValue)'{'\n", name));
-		source.append("must_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("otherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
-		source.append("return  enum_value.enum_num >= otherValue.enum_value.enum_num ;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean is_greater_than_or_equal(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\tmust_bound(\"The left operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\treturn enum_value.enum_num >= otherValue.enum_value.enum_num ;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueCleanUp(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public void clean_up() {\n");
-		source.append("enum_value = enum_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void clean_up() {\n");
+		source.append("\t\t\tenum_value = enum_type.UNBOUND_VALUE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateDeclaration(final StringBuilder source, final String name) {
-		source.append("// single_value\n");
-		source.append(MessageFormat.format("private {0}.enum_type single_value;\n",name));
-		source.append("// value_list part\n");
-		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", name));
+		source.append("\t\t// single_value\n");
+		source.append(MessageFormat.format("\t\tprivate {0}.enum_type single_value;\n",name));
+		source.append("\t\t// value_list part\n");
+		source.append(MessageFormat.format("\t\tprivate ArrayList<{0}_template> value_list;\n\n", name));
 	}
 
 	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String name){
 		// empty
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to unbound/uninitialized template.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to unbound/uninitialized template.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template() '{'\n", name));
-		source.append("// do nothing\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template() '{'\n", name));
+		source.append("\t\t\t// do nothing\n");
+		source.append("\t\t}\n\n");
 
 		// template_sel
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template kind.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the template kind to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template kind.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the template kind to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", name));
-		source.append("super(otherValue);\n");
-		source.append("check_single_selection(otherValue);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final template_sel otherValue) '{'\n", name));
+		source.append("\t\t\tsuper(otherValue);\n");
+		source.append("\t\t\tcheck_single_selection(otherValue);\n");
+		source.append("\t\t}\n\n");
 
 		// int
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template with the provided value.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template with the provided value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final int otherValue) '{'\n", name));
-		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
-		source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", name));
-		source.append("}\n");
-		source.append(MessageFormat.format("single_value = {0}.enum_type.getValue(otherValue);\n", name));
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final int otherValue) '{'\n", name));
+		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
+		source.append(MessageFormat.format("\t\t\tif (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tsingle_value = {0}.enum_type.getValue(otherValue);\n", name));
+		source.append("\t\t}\n\n");
 
 		// name type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template with the provided value.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template with the provided value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", name));
-		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append("otherValue.must_bound(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
-		source.append("single_value = otherValue.enum_value;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0} otherValue) '{'\n", name));
+		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\totherValue.must_bound(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
+		source.append("\t\t}\n\n");
 
 		// own type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given template.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the template to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the template to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", name));
-		source.append("copy_template(otherValue);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0}_template otherValue) '{'\n", name));
+		source.append("\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t}\n\n");
 
 		// name.enum_type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Initializes to a given value.\n");
-			source.append(" * The template becomes a specific template with the provided value.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to initialize to.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given value.\n");
+			source.append("\t\t * The template becomes a specific template with the provided value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template(final {0}.enum_type otherValue) '{'\n", name));
-		source.append("super(template_sel.SPECIFIC_VALUE);\n");
-		source.append("single_value = otherValue;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0}.enum_type otherValue) '{'\n", name));
+		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tsingle_value = otherValue;\n");
+		source.append("\t\t}\n\n");
 
 		//FIXME implement optional parameter version
 	}
 
 	private static void generatetemplateCopyTemplate(final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("private void copy_template(final {0}_template otherValue) '{'\n", name));
-		source.append("set_selection(otherValue);");
-		source.append("switch (otherValue.template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("single_value = otherValue.single_value;\n");
-		source.append("break;\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(otherValue.value_list.size());\n", name));
-		source.append("for(int i = 0; i < otherValue.value_list.size(); i++) {\n");
-		source.append(MessageFormat.format("final {0}_template temp = new {0}_template(otherValue.value_list.get(i));\n", name));
-		source.append("value_list.add(temp);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized/unsupported template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tprivate void copy_template(final {0}_template otherValue) '{'\n", name));
+		source.append("\t\t\tset_selection(otherValue);\n");
+		source.append("\t\t\tswitch (otherValue.template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\tsingle_value = otherValue.single_value;\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(otherValue.value_list.size());\n", name));
+		source.append("\t\t\t\tfor(int i = 0; i < otherValue.value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template(otherValue.value_list.get(i));\n", name));
+		source.append("\t\t\t\t\tvalue_list.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Copying an uninitialized/unsupported template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: template_sel
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final template_sel otherValue) '{'\n", name));
-		source.append("check_single_selection(otherValue);\n");
-		source.append("clean_up();\n");
-		source.append("set_selection(otherValue);\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final template_sel otherValue) '{'\n", name));
+		source.append("\t\t\tcheck_single_selection(otherValue);\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(otherValue);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		// arg: int
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template operator_assign(final int otherValue) '{'\n", name));
-		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
-		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("clean_up();\n");
-		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final int otherValue) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		// arg: name.enum_type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other value to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}.enum_type otherValue)'{'\n", name));
-		source.append("clean_up();\n");
-		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("single_value = otherValue;\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tsingle_value = otherValue;\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		// arg : own type
 		if ( aData.isDebug() ) {
-			source.append("/**\n");
-			source.append(" * Assigns the other template to this template.\n");
-			source.append(" * Overwriting the current content in the process.\n");
-			source.append(" *<p>\n");
-			source.append(" * operator= in the core.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the other value to assign.\n");
-			source.append(" * @return the new template object.\n");
-			source.append(" */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other template to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
 		}
-		source.append(MessageFormat.format("public {0}_template operator_assign(final {0}_template otherValue)'{'\n", name));
-		source.append("// otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
-		source.append( "if (otherValue != this) {\n");
-		source.append("clean_up();\n");
-		source.append("copy_template(otherValue);\n");
-		source.append("}\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0}_template otherValue)'{'\n", name));
+		source.append("\t\t\t// otherValue.must_bound(\"Assignment of an unbound enumerated value\");\n\n");
+		source.append( "\t\t\tif (otherValue != this) {\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		// arg: name type
 		/**
@@ -1097,31 +1096,31 @@ public final class EnumeratedGenerator {
 		 *                the other value to assign.
 		 * @return the new template object.
 		 */
-		source.append(MessageFormat.format("public {0}_template operator_assign(final {0} otherValue)'{'\n", name));
-		source.append("otherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
-		source.append("clean_up();\n");
-		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("single_value = otherValue.enum_value;\n");
-		source.append("return this;\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0} otherValue)'{'\n", name));
+		source.append("\t\t\totherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 
 		//Arg: Base_Type
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Type otherValue)'{'\n", name));
-		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
-		source.append(MessageFormat.format("return operator_assign(({0}) otherValue);\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0} ) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}) otherValue);\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append("\t\t}\n\n");
 
 		//Arg: Base_Template
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template operator_assign(final Base_Template otherValue)'{'\n", name));
-		source.append(MessageFormat.format("if( otherValue instanceof {0}_template ) '{'\n", name));
-		source.append(MessageFormat.format("return operator_assign(({0}_template) otherValue);\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Template otherValue)'{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0}_template ) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template) otherValue);\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
+		source.append("\t\t}\n\n");
 		/*@Override
 		public myenum1_template operator_assign(Base_Type otherValue) {
 			if( otherValue instanceof myenum1 ) {
@@ -1143,370 +1142,370 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateSetType(final StringBuilder source, final String name){
-		source.append("@Override\n");
-		source.append("public void set_type(final template_sel templateType, final int list_length) {\n");
-		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("clean_up();\n");
-		source.append("set_selection(templateType);\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", name));
-		source.append("for(int i = 0 ; i < list_length; i++) {\n");
-		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", name));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_type(final template_sel templateType, final int list_length) {\n");
+		source.append("\t\t\tif (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(templateType);\n");
+		source.append(MessageFormat.format("\t\t\tvalue_list = new ArrayList<{0}_template>();\n", name));
+		source.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list.add(new {0}_template());\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateIsBound(final StringBuilder source) {
-		source.append("public boolean is_bound() {\n");
-		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("return true;\n");
-		source.append("}\n\n");
+		source.append("\t\tpublic boolean is_bound() {\n");
+		source.append("\t\t\tif (template_selection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn true;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateIsValue(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append("public boolean is_value() {\n");
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append(MessageFormat.format("return single_value != {0}.enum_type.UNBOUND_VALUE;\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean is_value() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\treturn single_value != {0}.enum_type.UNBOUND_VALUE;\n", name));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateCleanUp(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public void clean_up() {\n");
-		source.append("if (template_selection == template_sel.VALUE_LIST || template_selection == template_sel.COMPLEMENTED_LIST) {\n");
-		source.append("value_list.clear();\n");
-		source.append("value_list = null;\n");
-		source.append("}\n");
-		source.append("if (template_selection == template_sel.SPECIFIC_VALUE) {\n");
-		source.append("single_value = null;\n");
-		source.append("}\n");
-		source.append("template_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void clean_up() {\n");
+		source.append("\t\t\tif (template_selection == template_sel.VALUE_LIST || template_selection == template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("\t\t\t\tvalue_list.clear();\n");
+		source.append("\t\t\t\tvalue_list = null;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\tsingle_value = null;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\ttemplate_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String name) {
 		// name.enum_type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue the value to be matched.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue the value to be matched.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue) '{'\n", name));
-		source.append("return match(otherValue, false);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0}.enum_type otherValue) '{'\n", name));
+		source.append("\t\t\treturn match(otherValue, false);\n");
+		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template. In legacy mode\n");
-			source.append(" * omitted value fields are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template. In legacy mode\n");
+			source.append("\t\t * omitted value fields are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue, final boolean legacy) '{'\n", name));
-		source.append("switch (template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("return single_value == otherValue;\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("return false;\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("return true;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if(value_list.get(i).match(otherValue)) {\n");
-		source.append("return template_selection == template_sel.VALUE_LIST;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
-		source.append("default:\n");
-		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0}.enum_type otherValue, final boolean legacy) '{'\n", name));
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\treturn single_value == otherValue;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tif(value_list.get(i).match(otherValue)) {\n");
+		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		// name type
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue the value to be matched.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue the value to be matched.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0} otherValue) '{'\n", name));
-		source.append("return match(otherValue.enum_value, false);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0} otherValue) '{'\n", name));
+		source.append("\t\t\treturn match(otherValue.enum_value, false);\n");
+		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Matches the provided value against this template. In legacy mode\n");
-			source.append(" * omitted value fields are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param otherValue\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Matches the provided value against this template. In legacy mode\n");
+			source.append("\t\t * omitted value fields are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public boolean match(final {0} otherValue, final boolean legacy) '{'\n", name));
-		source.append("return match(otherValue.enum_value, false);\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final {0} otherValue, final boolean legacy) '{'\n", name));
+		source.append("\t\t\treturn match(otherValue.enum_value, false);\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public boolean match(final Base_Type otherValue, final boolean legacy)'{'\n", name));
-		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
-		source.append(MessageFormat.format("return match(({0}) otherValue, legacy);\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic boolean match(final Base_Type otherValue, final boolean legacy)'{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0} ) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\treturn match(({0}) otherValue, legacy);\n", name));
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0} valueof() '{'\n", name));
-		source.append("if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append(MessageFormat.format("return new {0}(single_value);\n", name));
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0} valueof() '{'\n", name));
+		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\treturn new {0}(single_value);\n", name));
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append(MessageFormat.format("public {0}_template list_item(final int list_index) '{'\n", name));
-		source.append("if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template list_item(final int list_index) '{'\n", name));
+		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
 
-		source.append("if (list_index < 0) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", name));
-		source.append("} else if(list_index >= value_list.size()) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", name));
-		source.append("}\n");
-		source.append("return value_list.get(list_index);\n");
-		source.append("}\n\n");
+		source.append("\t\t\tif (list_index < 0) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", name));
+		source.append("\t\t\t} else if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", name));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn value_list.get(list_index);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("@Override\n");
-		source.append("public boolean match_omit(final boolean legacy) {\n");
-		source.append("if (is_ifPresent) {\n");
-		source.append("return true;\n");
-		source.append("}\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("return true;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("if (legacy) {\n");
-		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).match_omit()) {\n");
-		source.append("return template_selection == template_sel.VALUE_LIST;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("return template_selection == template_sel.COMPLEMENTED_LIST;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("return false;\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean match_omit(final boolean legacy) {\n");
+		source.append("\t\t\tif (is_ifPresent) {\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tif (legacy) {\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit()) {\n");
+		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateLog(final StringBuilder source, final String name) {
-		source.append("@Override\n");
-		source.append("public void log() {\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("TTCN_Logger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
-		source.append("break;\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("TTCN_Logger.log_char('(');\n");
-		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
-		source.append("if (list_count > 0) {\n");
-		source.append("TTCN_Logger.log_event_str(\", \");\n");
-		source.append("}\n");
-		source.append("value_list.get(list_count).log();\n");
-		source.append("}\n");
-		source.append("TTCN_Logger.log_char(')');\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("log_generic();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("log_ifpresent();\n");
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log() {\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\t\tif (list_count > 0) {\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tvalue_list.get(list_count).log();\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tlog_generic();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tlog_ifpresent();\n");
+		source.append("\t\t}\n");
 	}
 
 	private static void generateTemplateLogMatch(final JavaGenData aData, final StringBuilder source, final String name, final String displayName ){
-		source.append("@Override\n");
-		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
-		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", name));
-		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", name));
-		source.append("return;\n");
-		source.append("}\n\n");
-		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("\t\t\tif (match_value instanceof {0}) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\tlog_match(({0})match_value, legacy);\n", name));
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t}\n");
 
 		if (aData.isDebug()) {
-			source.append("/**\n");
-			source.append(" * Logs the matching of the provided value to this template, to help\n");
-			source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
-			source.append(" * are not matched against the template field.\n");
-			source.append(" *\n");
-			source.append(" * @param match_value\n");
-			source.append(" *                the value to be matched.\n");
-			source.append(" * @param legacy\n");
-			source.append(" *                use legacy mode.\n");
-			source.append(" * */\n");
+			source.append("\t\t/**\n");
+			source.append("\t\t * Logs the matching of the provided value to this template, to help\n");
+			source.append("\t\t * identify the reason for mismatch. In legacy mode omitted value fields\n");
+			source.append("\t\t * are not matched against the template field.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param match_value\n");
+			source.append("\t\t *                the value to be matched.\n");
+			source.append("\t\t * @param legacy\n");
+			source.append("\t\t *                use legacy mode.\n");
+			source.append("\t\t * */\n");
 		}
-		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
-		source.append("match_value.log();\n");
-		source.append("TTCN_Logger.log_event_str(\" with \");\n");
-		source.append("log();\n");
-		source.append("if (match(match_value, legacy)) {\n");
-		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
-		source.append("} else {\n");
-		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
+		source.append("\t\t\tmatch_value.log();\n");
+		source.append("\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
+		source.append("\t\t\tlog();\n");
+		source.append("\t\t\tif (match(match_value, legacy)) {\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateSetParam(final StringBuilder source, final String name, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void set_param(final Module_Parameter param) {\n");
-		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"enumerated template\");\n");
-		source.append("switch (param.get_type()) {\n");
-		source.append("case MP_Omit:\n");
-		source.append("operator_assign(template_sel.OMIT_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_Any:\n");
-		source.append("operator_assign(template_sel.ANY_VALUE);\n");
-		source.append("break;\n");
-		source.append("case MP_AnyOrNone:\n");
-		source.append("operator_assign(template_sel.ANY_OR_OMIT);\n");
-		source.append("break;\n");
-		source.append("case MP_List_Template:\n");
-		source.append("case MP_ComplementList_Template: {\n");
-		source.append("final int size = param.get_size();\n");
-		source.append("set_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
-		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append("list_item(i).set_param(param.get_elem(i));\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("case MP_Enumerated: {\n");
-		source.append(MessageFormat.format("final {0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
-		source.append(MessageFormat.format("if (!{0}.isValidEnum(enum_value)) '{'\n", name));
-		source.append(MessageFormat.format("param.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("operator_assign(enum_value);\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("param.type_error(\"enumerated template\", \"{0}\");\n", displayName));
-		source.append("}\n");
-		source.append("is_ifPresent = param.get_ifpresent();\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"enumerated template\");\n");
+		source.append("\t\t\tswitch (param.get_type()) {\n");
+		source.append("\t\t\tcase MP_Omit:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_Any:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_AnyOrNone:\n");
+		source.append("\t\t\t\toperator_assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase MP_List_Template:\n");
+		source.append("\t\t\tcase MP_ComplementList_Template: {\n");
+		source.append("\t\t\t\tfinal int size = param.get_size();\n");
+		source.append("\t\t\t\tset_type(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
+		source.append("\t\t\t\t\tlist_item(i).set_param(param.get_elem(i));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcase MP_Enumerated: {\n");
+		source.append(MessageFormat.format("\t\t\t\tfinal {0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
+		source.append(MessageFormat.format("\t\t\t\tif (!{0}.isValidEnum(enum_value)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\toperator_assign(enum_value);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated template\", \"{0}\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String name, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("text_buf.push_int(single_value.getInt());\n");
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("text_buf.push_int(value_list.size());\n");
-		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
-		source.append("value_list.get(i).encode_text(text_buf);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tencode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\ttext_buf.push_int(single_value.getInt());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
+		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("clean_up();\n");
-		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (template_selection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:{\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append(MessageFormat.format("if (!{0}.isValidEnum(temp)) '{'\n", name));
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", displayName));
-		source.append("}\n");
-		source.append(MessageFormat.format("single_value = {0}.enum_type.values()[temp];\n", name));
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST: {\n");
-		source.append("final int size = text_buf.pull_int().getInt();\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(size);\n", name));
-		source.append("for (int i = 0; i < size; i++) {\n");
-		source.append(MessageFormat.format("final {0}_template temp = new {0}_template();\n", name));
-		source.append("temp.decode_text(text_buf);\n");
-		source.append("value_list.add(temp);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of enumerated type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tdecode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
+		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("\t\t\t\tif (!{0}.isValidEnum(temp)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", displayName));
+		source.append("\t\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\t\tsingle_value = {0}.enum_type.values()[temp];\n", name));
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(size);\n", name));
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", name));
+		source.append("\t\t\t\t\ttemp.decode_text(text_buf);\n");
+		source.append("\t\t\t\t\tvalue_list.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of enumerated type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
-		source.append("if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("switch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
-		source.append("case TR_VALUE:\n");
-		source.append("if (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("case TR_OMIT:\n");
-		source.append("if (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("case TR_PRESENT:\n");
-		source.append("if (!match_omit(legacy)) {\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("return;\n");
-		source.append("}\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void check_restriction(final template_res restriction, final String name, final boolean legacy) {\n");
+		source.append("\t\t\tif (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch ((name != null && restriction == template_res.TR_VALUE) ? template_res.TR_OMIT : restriction) {\n");
+		source.append("\t\t\tcase TR_VALUE:\n");
+		source.append("\t\t\t\tif (!is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase TR_OMIT:\n");
+		source.append("\t\t\t\tif (!is_ifPresent && (template_selection == template_sel.OMIT_VALUE || template_selection == template_sel.SPECIFIC_VALUE)) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase TR_PRESENT:\n");
+		source.append("\t\t\t\tif (!match_omit(legacy)) {\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", displayName));
+		source.append("\t\t}\n");
 	}
 }
