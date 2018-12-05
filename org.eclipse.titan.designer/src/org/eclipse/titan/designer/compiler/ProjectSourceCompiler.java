@@ -353,56 +353,56 @@ public class ProjectSourceCompiler {
 	private static void writeFooter( final JavaGenData aData, final StringBuilder aSb, final IResource sourceFile, final Module aModule) {
 //		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
-			aSb.append("@Override\n");
-			aSb.append("public boolean set_module_param(final Param_Types.Module_Parameter param)\n");
-			aSb.append("{\n");
-			aSb.append("final String par_name = param.get_id().get_current_name();\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean set_module_param(final Param_Types.Module_Parameter param)\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tfinal String par_name = param.get_id().get_current_name();\n");
 			aSb.append(aData.getSetModuleParameters());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 
-			aSb.append("@Override\n");
-			aSb.append("public boolean has_set_module_param() {\n");
-			aSb.append("return true;\n");
-			aSb.append("}\n\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean has_set_module_param() {\n");
+			aSb.append("\t\treturn true;\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getPreInit().length() > 0) {
-			aSb.append("public void pre_init_module()\n");
-			aSb.append("{\n");
-			aSb.append("if (pre_init_called) {\n");
-			aSb.append("return;\n");
-			aSb.append("}\n");
-			aSb.append("pre_init_called = true;\n");
+			aSb.append("\tpublic void pre_init_module()\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tif (pre_init_called) {\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tpre_init_called = true;\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("\t\tfinal TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPreInit());
 			if (aData.getAddSourceInfo()) {
-				aSb.append("current_location.leave();\n");
+				aSb.append("\t\tcurrent_location.leave();\n");
 			}
-			aSb.append("}\n\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getPostInit().length() > 0) {
-			aSb.append("public void post_init_module()\n");
-			aSb.append("{\n");
-			aSb.append("if (post_init_called) {\n");
-			aSb.append("return;\n");
-			aSb.append("}\n");
-			aSb.append("post_init_called = true;\n");
-			aSb.append("TTCN_Logger.log_module_init(module_name, false);\n");
+			aSb.append("\tpublic void post_init_module()\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tif (post_init_called) {\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tpost_init_called = true;\n");
+			aSb.append("\t\tTTCN_Logger.log_module_init(module_name, false);\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("\t\tfinal TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPostInit());
 			if (aData.getAddSourceInfo()) {
-				aSb.append("current_location.leave();\n");
+				aSb.append("\t\tcurrent_location.leave();\n");
 			}
-			aSb.append("TTCN_Logger.log_module_init(module_name, true);\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\tTTCN_Logger.log_module_init(module_name, true);\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getStartPTCFunction().length() > 0) {
@@ -414,39 +414,39 @@ public class ProjectSourceCompiler {
 		}
 
 		if (aData.getExecuteTestcase().length() > 0) {
-			aSb.append("@Override\n");
-			aSb.append("public void execute_testcase(final String tescase_name) {\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic void execute_testcase(final String tescase_name) {\n");
 			aSb.append(aData.getExecuteTestcase());
-			aSb.append("{\n");
-			aSb.append("throw new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, module_name));\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, module_name));\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getExecuteAllTestcase().length() > 0) {
-			aSb.append("@Override\n");
-			aSb.append("public void execute_all_testcases() {\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic void execute_all_testcases() {\n");
 			aSb.append(aData.getExecuteAllTestcase());
-			aSb.append("}\n\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getInitComp().length() > 0) {
-			aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps) {\n");
+			aSb.append("\tpublic boolean init_comp_type(final String component_type, final boolean init_base_comps) {\n");
 			aSb.append(aData.getInitComp());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getInitSystemPort().length() > 0) {
-			aSb.append("public boolean init_system_port(final String component_type, final String port_name)\n");
-			aSb.append("{\n");
+			aSb.append("\tpublic boolean init_system_port(final String component_type, final String port_name)\n");
+			aSb.append("\t{\n");
 			aSb.append(aData.getInitSystemPort());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		aSb.append( "}\n" );
