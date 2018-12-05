@@ -443,9 +443,9 @@ public final class ASN1Module extends Module {
 		aData.getClassHeader().append(MessageFormat.format("public final class {0} extends TTCN_Module '{'\n", name));
 
 		final StringBuilder constructor = aData.getConstructor();
-		constructor.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
-		constructor.append(MessageFormat.format("super(\"{0}\", module_type_enum.ASN1_MODULE);\n", identifier.getDisplayName()));
-		constructor.append("}\n\n");
+		constructor.append(MessageFormat.format("\tpublic {0}() '{'\n", identifier.getName()));
+		constructor.append(MessageFormat.format("\t\tsuper(\"{0}\", module_type_enum.ASN1_MODULE);\n", identifier.getDisplayName()));
+		constructor.append("\t}\n\n");
 
 		if ( assignments != null ) {
 			assignments.generateCode( aData );
