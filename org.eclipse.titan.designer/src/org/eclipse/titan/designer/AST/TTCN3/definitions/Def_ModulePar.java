@@ -398,29 +398,29 @@ public final class Def_ModulePar extends Definition {
 
 		aData.addBuiltinTypeImport("Param_Types");
 
-		final StringBuilder source = new StringBuilder();
+		final StringBuilder globalVariable = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "\tprivate" );
+				globalVariable.append( "\tprivate" );
 			} else {
-				source.append( "\tpublic" );
+				globalVariable.append( "\tpublic" );
 			}
-			source.append( " static " );
+			globalVariable.append( " static " );
 		}
-		source.append( "final " );
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( ' ' );
-		source.append( genName );
-		source.append( " = new " );
-		source.append( typeGeneratedName );
-		source.append( "();\n" );
+		globalVariable.append( "final " );
+		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
+		globalVariable.append( typeGeneratedName );
+		globalVariable.append( ' ' );
+		globalVariable.append( genName );
+		globalVariable.append( " = new " );
+		globalVariable.append( typeGeneratedName );
+		globalVariable.append( "();\n" );
 		if ( defaultValue != null ) {
 			getLocation().update_location_object(aData, aData.getPreInit());
 			defaultValue.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
 
-		aData.addGlobalVariable(typeGeneratedName, source.toString());
+		aData.addGlobalVariable(typeGeneratedName, globalVariable.toString());
 
 		if (hasImplicitOmit) {
 			aData.getPostInit().append(MessageFormat.format("{0}.set_implicit_omit();\n", genName));

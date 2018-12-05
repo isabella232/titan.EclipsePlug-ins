@@ -481,27 +481,27 @@ public final class Def_Const extends Definition {
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		final StringBuilder source = new StringBuilder();
+		final StringBuilder globalVariable = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "\tprivate" );
+				globalVariable.append( "\tprivate" );
 			} else {
-				source.append( "\tpublic" );
+				globalVariable.append( "\tpublic" );
 			}
 		}
 
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, temp_sb);
 		}
 
-		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		globalVariable.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
-		aData.addGlobalVariable(typeGeneratedName, source.toString());
+		aData.addGlobalVariable(typeGeneratedName, globalVariable.toString());
 	}
 
 	@Override
