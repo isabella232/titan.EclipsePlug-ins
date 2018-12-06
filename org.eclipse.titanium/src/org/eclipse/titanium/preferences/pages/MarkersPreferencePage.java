@@ -227,6 +227,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.GOTO);
+			createField(comp, ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS);
 			createField(comp, ProblemTypePreference.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES);
 			createField(comp, ProblemTypePreference.CIRCULAR_IMPORTATION);
 			createField(comp, ProblemTypePreference.LANGUAGE_MIXING);
