@@ -18,8 +18,10 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+import org.eclipse.titan.runtime.core.NetworkHandler.HCNetworkHandler;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
@@ -171,6 +173,7 @@ public class TTCN_Communication {
 
 	private static String MC_host;
 	private static int MC_port;
+	private static HCNetworkHandler hcnh = new HCNetworkHandler();
 
 	private static ThreadLocal<SocketChannel> mc_socketchannel = new ThreadLocal<SocketChannel>() {
 		@Override
@@ -274,8 +277,14 @@ public class TTCN_Communication {
 		if (MC_port < 0) {
 			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0}", MC_port));
 		}
-
-		//FIXME implement
+		hcnh.set_family(new InetSocketAddress(MC_host, MC_port));
+		if (!hcnh.set_mc_addr(MC_host, MC_port)) {
+			throw new TtcnError(MessageFormat.format("Could not get the IP address of MC ({0}): Host name lookup failure.", MC_host));
+		}
+		if (hcnh.is_local(hcnh.get_mc_addr())) {
+			TtcnError.TtcnWarning("The address of MC was set to a local IP address. This may cause incorrect behavior if a HC from a remote host also connects to MC.");
+		}
+		TTCN_Logger.log_executor_misc(enum_type.address__of__mc__was__set, hcnh.get_mc_host_str(), hcnh.get_mc_addr_str(), hcnh.get_mc_port());
 		TTCN_Communication.MC_host = MC_host;
 		TTCN_Communication.MC_port = MC_port;
 		mc_addr_set = true;
@@ -292,14 +301,11 @@ public class TTCN_Communication {
 		if (!mc_addr_set) {
 			throw new TtcnError("Trying to connect to MC, but the address of MC has not yet been set.");
 		}
-
-		try {
-			mc_socketchannel.set(SocketChannel.open());
-			mc_socketchannel.get().connect(new InetSocketAddress(MC_host, MC_port));
-			//FIXME register
-		} catch (IOException e) {
-			throw new TtcnError(e);
+		mc_socketchannel.set(hcnh.connect_to_mc());
+		if (mc_socketchannel.get() == null) {
+			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
+		//FIXME register
 		//FIXME implement
 		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
 		try {
