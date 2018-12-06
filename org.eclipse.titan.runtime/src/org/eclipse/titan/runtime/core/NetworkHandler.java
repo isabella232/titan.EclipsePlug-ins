@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titan.common.network;
+package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -121,7 +121,7 @@ public class NetworkHandler {
 		}
 
 		//TODO: implement public int getsockname_local_addr(int p_sockfd);
-		
+
 		public SocketChannel bind_local_addr() {
 			try {
 				return SocketChannel.open().bind(m_local_addr);
@@ -129,7 +129,7 @@ public class NetworkHandler {
 				return null;
 			}
 		}
-		
+
 		public SocketChannel connect_to_mc() {
 			SocketChannel sc;
 			try {
@@ -147,11 +147,11 @@ public class NetworkHandler {
 				return null;
 			}
 		}
-		
+
 		public String get_mc_host_str() { 
 			return m_mc_addr.getHostString(); 
 		}
-		
+
 		public String get_mc_addr_str() { 
 			return m_mc_addr.getAddress().getHostAddress(); 
 		}
@@ -160,7 +160,7 @@ public class NetworkHandler {
 			return m_local_addr.getHostString(); 
 		}
 
-		public String get_local_addr_str() { 
+		public String get_local_addr_str() {
 			return m_local_addr.getAddress().getHostAddress(); 
 		}
 
