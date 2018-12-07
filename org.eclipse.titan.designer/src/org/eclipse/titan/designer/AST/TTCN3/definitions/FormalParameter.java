@@ -171,6 +171,8 @@ public final class FormalParameter extends Definition {
 			return builder.append(FULLNAMEPART1);
 		} else if (defaultValue == child) {
 			return builder.append(FULLNAMEPART2);
+		} else if (actualDefaultParameter == child) {
+			return builder.append(FULLNAMEPART2);
 		}
 
 		return builder;
@@ -299,6 +301,9 @@ public final class FormalParameter extends Definition {
 		}
 		if (defaultValue != null) {
 			defaultValue.setMyScope(scope);
+		}
+		if (actualDefaultParameter != null) {
+			actualDefaultParameter.setMyScope(scope);
 		}
 	}
 
