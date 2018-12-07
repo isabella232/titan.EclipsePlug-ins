@@ -391,6 +391,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		if (formalParList != null) {
 			formalParList.reset();
+			checkDefault(timestamp);
 			formalParList.check(timestamp, getAssignmentType());
 			if (isLocal()) {
 				location.reportSemanticError(MessageFormat.format(PARAMETRIZED_LOCAL_TEMPLATE, getIdentifier()));
@@ -398,8 +399,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		final ITTCN3Template tempBody = type.checkThisTemplateRef(timestamp, realBody);
-
-		checkDefault(timestamp);
 
 		checkModified(timestamp);
 		checkRecursiveDerivation(timestamp);
@@ -480,10 +479,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		baseTemplate = (Def_Template) assignment;
-		baseTemplate.check(timestamp);
+		final Def_Template base = (Def_Template) assignment;
+		base.check(timestamp);
 
-		final FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
+		final FormalParameterList baseParameters = base.getFormalParameterList(timestamp);
 		final int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
 		final int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
 		int minFps;
@@ -521,9 +520,23 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	 *                the timestamp of the actual semantic check cycle
 	 * */
 	private void checkModified(final CompilationTimeStamp timestamp) {
-		if (baseTemplate == null) {
+		if (derivedReference == null) {
 			return;
 		}
+
+		final Assignment assignment = derivedReference.getRefdAssignment(timestamp, false, null);
+		if (assignment == null) {
+			return;
+		}
+
+		if (Assignment_type.A_TEMPLATE != assignment.getAssignmentType()) {
+			derivedReference.getLocation().reportSemanticError(
+					MessageFormat.format(TEMPLATEREFERENCEEXPECTEDINMODIFIES, assignment.getDescription()));
+			return;
+		}
+
+		baseTemplate = (Def_Template) assignment;
+		baseTemplate.check(timestamp);
 
 		final IType baseType = baseTemplate.getType(timestamp);
 		if (!type.isCompatible(timestamp, baseType, null, null, null)) {
