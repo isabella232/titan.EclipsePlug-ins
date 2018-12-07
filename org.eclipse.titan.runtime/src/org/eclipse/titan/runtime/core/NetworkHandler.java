@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titan.common.network;
+package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -16,7 +16,10 @@ import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 
 /**
- * TODO: comments and implement missing functions
+ * Originally common.NetworkHandler.hh/cc.
+ * This class handle the local and the MC connection.
+ * Use Inet4Address java class instead of IPv4Address and Inet6Address java class instead of IPV6Address.
+ * 
  * @author Gergo Ujhelyi
  *
  */
@@ -121,7 +124,8 @@ public class NetworkHandler {
 		}
 
 		//TODO: implement public int getsockname_local_addr(int p_sockfd);
-		
+		//TODO: implement socket()
+
 		public SocketChannel bind_local_addr() {
 			try {
 				return SocketChannel.open().bind(m_local_addr);
@@ -129,7 +133,7 @@ public class NetworkHandler {
 				return null;
 			}
 		}
-		
+
 		public SocketChannel connect_to_mc() {
 			SocketChannel sc;
 			try {
@@ -147,11 +151,11 @@ public class NetworkHandler {
 				return null;
 			}
 		}
-		
+
 		public String get_mc_host_str() { 
 			return m_mc_addr.getHostString(); 
 		}
-		
+
 		public String get_mc_addr_str() { 
 			return m_mc_addr.getAddress().getHostAddress(); 
 		}
@@ -160,7 +164,7 @@ public class NetworkHandler {
 			return m_local_addr.getHostString(); 
 		}
 
-		public String get_local_addr_str() { 
+		public String get_local_addr_str() {
 			return m_local_addr.getAddress().getHostAddress(); 
 		}
 
@@ -178,6 +182,23 @@ public class NetworkHandler {
 
 		public int get_local_port() { 
 			return m_local_addr.getPort(); 
+		}
+
+		//IPAdress functions
+		public boolean is_local(final InetSocketAddress p_addr) {
+			if (p_addr == null) {
+				return false;
+			} 
+			if (p_addr.getAddress() instanceof Inet4Address) {
+				final byte[] ipv4_localhost_bytes = {127, 0, 0, 1};
+				return Arrays.equals(p_addr.getAddress().getAddress(),ipv4_localhost_bytes);
+			}
+			if (p_addr.getAddress() instanceof Inet6Address) {
+				final byte localhost_bytes[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				final byte mapped_ipv4_localhost[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 127, 0, 0, 1 };
+				return Arrays.equals(p_addr.getAddress().getAddress(), localhost_bytes) || Arrays.equals(p_addr.getAddress().getAddress(), mapped_ipv4_localhost);
+			}
+			return false;
 		}
 	}
 }
