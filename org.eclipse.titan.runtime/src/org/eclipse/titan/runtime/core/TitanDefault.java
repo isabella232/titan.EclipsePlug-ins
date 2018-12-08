@@ -241,8 +241,7 @@ public class TitanDefault extends Base_Type {
 		return !operator_equals(otherValue);
 	}
 
-	//originally operator Default_Base*
-	public Default_Base getDefaultBase() {
+	public Default_Base get_Default_Base() {
 		must_bound("Using the value of an unbound default reference.");
 
 		return default_ptr;
