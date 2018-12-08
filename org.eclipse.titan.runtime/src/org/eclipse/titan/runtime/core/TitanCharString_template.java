@@ -571,7 +571,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_min
-	public void setMin(final String otherMinValue) {
+	public void set_min(final String otherMinValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
 		}
@@ -589,7 +589,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_min
-	public void setMin(final TitanCharString otherMinValue) {
+	public void set_min(final TitanCharString otherMinValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
 		}
@@ -608,7 +608,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_max
-	public void setMax(final String otherMaxValue) {
+	public void set_max(final String otherMaxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
 		}
@@ -626,7 +626,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_max
-	public void setMax(final TitanCharString otherMaxValue) {
+	public void set_max(final TitanCharString otherMaxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
 		}
@@ -645,7 +645,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_min_exclusive
-	public void setMinExclusive(final boolean minExclusive) {
+	public void set_min_exclusive(final boolean minExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
 		}
@@ -653,7 +653,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_max_exclusive
-	public void setMaxExclusive(final boolean maxExclusive) {
+	public void set_max_exclusive(final boolean maxExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
 		}

@@ -406,7 +406,7 @@ public class TitanFloat_template extends Base_Template {
 		return value_list.get(listIndex);
 	}
 
-	public void setMin(final double minValue) {
+	public void set_min(final double minValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
@@ -419,7 +419,7 @@ public class TitanFloat_template extends Base_Template {
 		min_value = new TitanFloat(minValue);
 	}
 
-	public void setMin(final Ttcn3Float minValue) {
+	public void set_min(final Ttcn3Float minValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
@@ -432,13 +432,13 @@ public class TitanFloat_template extends Base_Template {
 		min_value = new TitanFloat(minValue);
 	}
 
-	public void setMin(final TitanFloat minValue) {
+	public void set_min(final TitanFloat minValue) {
 		minValue.must_bound("Using an unbound value when setting the lower bound " + "in a float range template.");
 
-		setMin(minValue.getValue());
+		set_min(minValue.getValue());
 	}
 
-	public void setMax(final double maxValue) {
+	public void set_max(final double maxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
@@ -451,7 +451,7 @@ public class TitanFloat_template extends Base_Template {
 		max_value = new TitanFloat(maxValue);
 	}
 
-	public void setMax(final Ttcn3Float maxValue) {
+	public void set_max(final Ttcn3Float maxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
@@ -464,13 +464,13 @@ public class TitanFloat_template extends Base_Template {
 		max_value = new TitanFloat(maxValue);
 	}
 
-	public void setMax(final TitanFloat maxValue) {
+	public void set_max(final TitanFloat maxValue) {
 		maxValue.must_bound("Using an unbound value when setting the upper bound " + "in a float range template.");
 
-		setMax(maxValue.getValue());
+		set_max(maxValue.getValue());
 	}
 
-	public void setMinExclusive(final boolean minExclusive) {
+	public void set_min_exclusive(final boolean minExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit exclusiveness.");
 		}
@@ -478,7 +478,7 @@ public class TitanFloat_template extends Base_Template {
 		min_is_exclusive = minExclusive;
 	}
 
-	public void setMaxExclusive(final boolean maxExclusive) {
+	public void set_max_exclusive(final boolean maxExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit exclusiveness.");
 		}
@@ -702,13 +702,13 @@ public class TitanFloat_template extends Base_Template {
 		case MP_FloatRange: {
 			set_type(template_sel.VALUE_RANGE);
 			if (param.has_lower_float()) {
-				setMin(param.get_lower_float());
+				set_min(param.get_lower_float());
 			}
-			setMinExclusive(param.get_is_min_exclusive());
+			set_min_exclusive(param.get_is_min_exclusive());
 			if (param.has_upper_float()) {
-				setMax(param.get_upper_float());
+				set_max(param.get_upper_float());
 			}
-			setMaxExclusive(param.get_is_max_exclusive());
+			set_max_exclusive(param.get_is_max_exclusive());
 			break;
 		}
 		case MP_Expression:

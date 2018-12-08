@@ -675,7 +675,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return value_list.get(listIndex);
 	}
 
-	public void setMin(final TitanUniversalCharString minValue) {
+	public void set_min(final TitanUniversalCharString minValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
 		}
@@ -695,7 +695,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public void setMax(final TitanUniversalCharString maxValue) {
+	public void set_max(final TitanUniversalCharString maxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
 		}
@@ -715,7 +715,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public void setMin(final String minValue) {
+	public void set_min(final String minValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
 		}
@@ -734,7 +734,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public void setMax(final String maxValue) {
+	public void set_max(final String maxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
 		}
@@ -754,7 +754,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 
-	public void setMin(final TitanCharString minValue) {
+	public void set_min(final TitanCharString minValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
 		}
@@ -774,7 +774,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public void setMax(final TitanCharString maxValue) {
+	public void set_max(final TitanCharString maxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
 		}
@@ -794,7 +794,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
-	public void setMinExclusive(final boolean minExclusive) {
+	public void set_min_exclusive(final boolean minExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound exclusiveness for a non-range universal charstring template.");
 		}
@@ -802,7 +802,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		min_is_exclusive = minExclusive;
 	}
 
-	public void setMaxExclusive(final boolean maxExclusive) {
+	public void set_max_exclusive(final boolean maxExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound exclusiveness for a non-range universal charstring template.");
 		}
@@ -1017,8 +1017,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			max_is_set = true;
 			min_value = lower_uchar;
 			max_value = upper_uchar;
-			setMinExclusive(param.get_is_min_exclusive());
-			setMaxExclusive(param.get_is_max_exclusive());
+			set_min_exclusive(param.get_is_min_exclusive());
+			set_max_exclusive(param.get_is_max_exclusive());
 			break;
 		}
 		case MP_Pattern:

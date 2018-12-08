@@ -412,7 +412,7 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	// originally set_min
-	public void setMin(final int otherMinValue) {
+	public void set_min(final int otherMinValue) {
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting lower limit.");
 		}
@@ -429,7 +429,7 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	// originally set_min
-	public void setMin(final TitanInteger otherMinValue) {
+	public void set_min(final TitanInteger otherMinValue) {
 		otherMinValue.must_bound("Using an unbound value when setting the lower bound in an integer range template.");
 
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
@@ -448,12 +448,12 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	//originally set_min_exclusive
-	public void setMinExclusive(final boolean minExclusive) {
+	public void set_min_exclusive(final boolean minExclusive) {
 		min_is_exclusive = minExclusive;
 	}
 
 	// originally set_max
-	public void setMax(final int otherMaxValue) {
+	public void set_max(final int otherMaxValue) {
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting upper limit.");
 		}
@@ -470,7 +470,7 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	// originally set_max
-	public void setMax(final TitanInteger otherMaxValue) {
+	public void set_max(final TitanInteger otherMaxValue) {
 		otherMaxValue.must_bound("Using an unbound value when setting the upper bound in an integer range template.");
 
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
@@ -489,7 +489,7 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	//originally set_max_exclusive
-	public void setMaxExclusive(final boolean maxExclusive) {
+	public void set_max_exclusive(final boolean maxExclusive) {
 		max_is_exclusive = maxExclusive;
 	}
 
@@ -715,13 +715,13 @@ public class TitanInteger_template extends Base_Template {
 		case MP_IntRange: {
 			set_type(template_sel.VALUE_RANGE);
 			if (param.get_lower_int() != null) {
-				setMin(param.get_lower_int());
+				set_min(param.get_lower_int());
 			}
-			setMinExclusive(param.get_is_min_exclusive());
+			set_min_exclusive(param.get_is_min_exclusive());
 			if (param.get_upper_int() != null) {
-				setMax(param.get_upper_int());
+				set_max(param.get_upper_int());
 			}
-			setMaxExclusive(param.get_is_max_exclusive());
+			set_max_exclusive(param.get_is_max_exclusive());
 			break;
 		}
 		case MP_Expression:
