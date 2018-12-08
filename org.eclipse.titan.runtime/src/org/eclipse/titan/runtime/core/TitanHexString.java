@@ -159,11 +159,11 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally char*()
-	public byte[] getValue() {
+	public byte[] get_value() {
 		return nibbles_ptr;
 	}
 
-	public void setValue(final byte aOtherValue[]) {
+	public void set_value(final byte aOtherValue[]) {
 		nibbles_ptr = aOtherValue;
 	}
 

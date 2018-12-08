@@ -449,7 +449,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 */
 	private boolean match_pattern(final byte string_pattern[], final TitanHexString string_value) {
 		final int stringPatternSize = string_pattern.length;
-		final int stringValueNNibbles = string_value.getValue().length;
+		final int stringValueNNibbles = string_value.get_value().length;
 		// the empty pattern matches the empty hexstring only
 		if (stringPatternSize == 0) {
 			return stringValueNNibbles == 0;

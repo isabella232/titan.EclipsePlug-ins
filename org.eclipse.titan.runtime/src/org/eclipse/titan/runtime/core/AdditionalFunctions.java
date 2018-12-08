@@ -1023,7 +1023,7 @@ public final class AdditionalFunctions {
 			return new TitanBitString(bits_ptr, 4);
 		}
 
-		final byte nibbles_ptr[] = value.getValue();
+		final byte nibbles_ptr[] = value.get_value();
 		for (int i = 0; i < n_nibbles - 1; i += 2) {
 			int temp = nibble_reverse_table[nibbles_ptr[i + 1]];
 			temp <<= 4;
@@ -1059,7 +1059,7 @@ public final class AdditionalFunctions {
 		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr[0] = (byte) 0;
 		}
-		System.arraycopy(value.getValue(), 0, nibbles_ptr, n_padding_nibble, value.getValue().length);
+		System.arraycopy(value.get_value(), 0, nibbles_ptr, n_padding_nibble, value.get_value().length);
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
 			octet_ptr[i / 2] = (char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
 		}
@@ -1757,7 +1757,7 @@ public final class AdditionalFunctions {
 		value.must_bound("The first argument (value) of function substr() is an unbound hexstring value.");
 
 		check_substr_arguments(value.lengthof().getInt(), idx, returncount, "hexstring", "hexadecimal digi");
-		final byte src_ptr[] = value.getValue();
+		final byte src_ptr[] = value.get_value();
 		final byte ret_val[] = new byte[returncount];
 		System.arraycopy(src_ptr, idx, ret_val, 0, returncount);
 
@@ -2227,8 +2227,8 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "hexstring", "hexadecimal digit");
 
 		final int repl_len = repl.lengthof().getInt();
-		final byte src_ptr[] = value.getValue();
-		final byte repl_ptr[] = repl.getValue();
+		final byte src_ptr[] = value.get_value();
+		final byte repl_ptr[] = repl.get_value();
 		final byte ret_val[] = new byte[value_len + repl_len - len];
 
 		System.arraycopy(src_ptr, 0, ret_val, 0, idx);

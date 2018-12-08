@@ -740,11 +740,11 @@ public final class Param_Types {
 		}
 
 		public Object get_string_data() {
-			return hstr.getValue();
+			return hstr.get_value();
 		}
 
 		public int get_string_size() {
-			return hstr.getValue().length;
+			return hstr.get_value().length;
 		}
 	}
 
