@@ -79,7 +79,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
 			throw new TtcnError("Internal error: Setting an optional field to an invalid value.");
 		}
-		setToOmit();
+		set_to_omit();
 		return this;
 	}
 
@@ -110,7 +110,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			break;
 		case OPTIONAL_OMIT:
 			if (otherValue != this) {
-				setToOmit();
+				set_to_omit();
 			}
 			break;
 		default:
@@ -155,7 +155,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			break;
 		case OPTIONAL_OMIT:
 			if (optionalOther != this) {
-				setToOmit();
+				set_to_omit();
 			}
 			break;
 		default:
@@ -166,7 +166,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return this;
 	}
 
-	public void setToPresent() {
+	public void set_to_present() {
 		if (!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			try {
@@ -177,7 +177,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public void setToOmit() {
+	public void set_to_omit() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;
 		}
@@ -213,10 +213,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (param.get_length_restriction() != null) {
 				param.error("An optional field of a record value cannot have a length restriction");
 			}
-			setToOmit();
+			set_to_omit();
 			return;
 		}
-		setToPresent();
+		set_to_present();
 		optionalValue.set_param(param);
 		if (!optionalValue.is_bound()) {
 			clean_up();
@@ -246,10 +246,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 		final int temp = text_buf.pull_int().getInt();
 		if (temp == 1) {
-			setToPresent();
+			set_to_present();
 			optionalValue.decode_text(text_buf);
 		} else {
-			setToOmit();
+			set_to_omit();
 		}
 	}
 
@@ -309,7 +309,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	//originally operator()
 	public TYPE get() {
-		setToPresent();
+		set_to_present();
 		return optionalValue;
 	}
 
