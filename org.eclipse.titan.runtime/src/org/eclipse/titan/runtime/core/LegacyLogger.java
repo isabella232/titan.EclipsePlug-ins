@@ -813,10 +813,10 @@ public class LegacyLogger implements ILoggerPlugin {
 				final FunctionEvent_choice_random ra = choice.get_field_functionEvent().get_field_choice().get_field_random();
 				switch (ra.get_field_operation().enum_value) {
 				case seed:
-					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_field_retval().getValue(), ra.get_field_intseed().getInt()));
+					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_field_retval().get_value(), ra.get_field_intseed().getInt()));
 					break;
 				case read__out:
-					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.get_field_retval().getValue()));
+					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.get_field_retval().get_value()));
 					break;
 				case UNBOUND_VALUE:
 				case UNKNOWN_VALUE:
@@ -845,27 +845,27 @@ public class LegacyLogger implements ILoggerPlugin {
 		switch (choice.get_selection()) {
 		case ALT_readTimer: {
 			final TimerType timer = choice.get_field_readTimer();
-			returnValue.append(MessageFormat.format("Read timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().getValue()));
+			returnValue.append(MessageFormat.format("Read timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().get_value()));
 			break;
 		}
 		case ALT_startTimer: {
 			final TimerType timer = choice.get_field_startTimer();
-			returnValue.append(MessageFormat.format("Start timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().getValue()));
+			returnValue.append(MessageFormat.format("Start timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().get_value()));
 			break;
 		}
 		case ALT_guardTimer: {
 			final TimerGuardType timer = choice.get_field_guardTimer();
-			returnValue.append(MessageFormat.format("Test case guard timer was set to {0} s", timer.get_field_value__().getValue()));
+			returnValue.append(MessageFormat.format("Test case guard timer was set to {0} s", timer.get_field_value__().get_value()));
 			break;
 		}
 		case ALT_stopTimer: {
 			final TimerType timer = choice.get_field_stopTimer();
-			returnValue.append(MessageFormat.format("Stop timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().getValue()));
+			returnValue.append(MessageFormat.format("Stop timer {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().get_value()));
 			break;
 		}
 		case ALT_timeoutTimer: {
 			final TimerType timer = choice.get_field_timeoutTimer();
-			returnValue.append(MessageFormat.format("Timeout {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().getValue()));
+			returnValue.append(MessageFormat.format("Timeout {0}: {1} s", timer.get_field_name().get_value(), timer.get_field_value__().get_value()));
 			break;
 		}
 		case ALT_timeoutAnyTimer: {
@@ -1226,11 +1226,11 @@ public class LegacyLogger implements ILoggerPlugin {
 			final int error_count = statistics.get_field_error__().getInt();
 			if (none_count > 0 || pass_count > 0 || inconc_count > 0 || fail_count > 0 || error_count > 0) {
 				returnValue.append(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
-								none_count, statistics.get_field_nonePercent().getValue(),
-								pass_count, statistics.get_field_passPercent().getValue(),
-								inconc_count, statistics.get_field_inconcPercent().getValue(),
-								fail_count, statistics.get_field_failPercent().getValue(),
-								error_count, statistics.get_field_errorPercent().getValue()));
+								none_count, statistics.get_field_nonePercent().get_value(),
+								pass_count, statistics.get_field_passPercent().get_value(),
+								inconc_count, statistics.get_field_inconcPercent().get_value(),
+								fail_count, statistics.get_field_failPercent().get_value(),
+								error_count, statistics.get_field_errorPercent().get_value()));
 			} else {
 				returnValue.append("Verdict statistics: 0 none, 0 pass, 0 inconc, 0 fail, 0 error.");
 			}

@@ -78,7 +78,7 @@ public class TitanFloat extends Base_Type {
 		float_value = otherValue.float_value;
 	}
 
-	public Double getValue() {
+	public Double get_value() {
 		return float_value.getValue();
 	}
 
@@ -158,14 +158,12 @@ public class TitanFloat extends Base_Type {
 		return float_value != null;
 	}
 
-	// isspecial
-	public static TitanBoolean isSpecial(final double aOtherValue) {
+	public static TitanBoolean is_special(final double aOtherValue) {
 		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));
 	}
 
-	// check_numeric
-	public static void checkNumeric(final double floatValue, final String errorMsg) {
-		if (isSpecial(floatValue).getValue()) {
+	public static void check_numeric(final double floatValue, final String errorMsg) {
+		if (is_special(floatValue).getValue()) {
 			throw new TtcnError(MessageFormat.format("{0} must be a numeric value instead of {1}", errorMsg, floatValue));
 		}
 	}
@@ -665,7 +663,7 @@ public class TitanFloat extends Base_Type {
 	public static TitanFloat sub(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float subtraction.");
 
-		return new TitanFloat(doubleValue - otherValue.getValue());
+		return new TitanFloat(doubleValue - otherValue.get_value());
 	}
 
 	// static mul
@@ -684,7 +682,7 @@ public class TitanFloat extends Base_Type {
 			throw new TtcnError("Float division by zero.");
 		}
 
-		return new TitanFloat(doubleValue / otherValue.getValue());
+		return new TitanFloat(doubleValue / otherValue.get_value());
 	}
 
 	/**

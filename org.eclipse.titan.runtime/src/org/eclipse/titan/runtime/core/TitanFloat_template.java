@@ -435,7 +435,7 @@ public class TitanFloat_template extends Base_Template {
 	public void set_min(final TitanFloat minValue) {
 		minValue.must_bound("Using an unbound value when setting the lower bound " + "in a float range template.");
 
-		set_min(minValue.getValue());
+		set_min(minValue.get_value());
 	}
 
 	public void set_max(final double maxValue) {
@@ -467,7 +467,7 @@ public class TitanFloat_template extends Base_Template {
 	public void set_max(final TitanFloat maxValue) {
 		maxValue.must_bound("Using an unbound value when setting the upper bound " + "in a float range template.");
 
-		set_max(maxValue.getValue());
+		set_max(maxValue.get_value());
 	}
 
 	public void set_min_exclusive(final boolean minExclusive) {
@@ -499,7 +499,7 @@ public class TitanFloat_template extends Base_Template {
 	public void log() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE: {
-			TitanFloat.log_float(single_value.getValue());
+			TitanFloat.log_float(single_value.get_value());
 			break;
 		}
 		case COMPLEMENTED_LIST:
@@ -521,7 +521,7 @@ public class TitanFloat_template extends Base_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (min_is_present) {
-				TitanFloat.log_float(min_value.getValue());
+				TitanFloat.log_float(min_value.get_value());
 			} else {
 				TTCN_Logger.log_event_str("-infinity");
 			}
@@ -530,7 +530,7 @@ public class TitanFloat_template extends Base_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (max_is_present) {
-				TitanFloat.log_float(max_value.getValue());
+				TitanFloat.log_float(max_value.get_value());
 			} else {
 				TTCN_Logger.log_event_str("infinity");
 			}
@@ -605,7 +605,7 @@ public class TitanFloat_template extends Base_Template {
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
-			text_buf.push_double(single_value.getValue());
+			text_buf.push_double(single_value.get_value());
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
@@ -617,11 +617,11 @@ public class TitanFloat_template extends Base_Template {
 		case VALUE_RANGE:
 			text_buf.push_int(min_is_present ? 1 : 0);
 			if (min_is_present) {
-				text_buf.push_double(min_value.getValue());
+				text_buf.push_double(min_value.get_value());
 			}
 			text_buf.push_int(max_is_present ? 1 : 0);
 			if (max_is_present) {
-				text_buf.push_double(max_value.getValue());
+				text_buf.push_double(max_value.get_value());
 			}
 			break;
 		default:

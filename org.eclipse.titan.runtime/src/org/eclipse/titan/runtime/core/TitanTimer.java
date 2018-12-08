@@ -194,7 +194,7 @@ public class TitanTimer {
 	public final void set_default_duration(final TitanFloat defaultValue) {
 		defaultValue.must_bound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timer_name));
 
-		set_default_duration(defaultValue.getValue());
+		set_default_duration(defaultValue.get_value());
 	}
 
 	// originally start
@@ -255,7 +255,7 @@ public class TitanTimer {
 	public void start(final TitanFloat startValue) {
 		startValue.must_bound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timer_name));
 
-		start(startValue.getValue());
+		start(startValue.get_value());
 	}
 
 	// originally stop()

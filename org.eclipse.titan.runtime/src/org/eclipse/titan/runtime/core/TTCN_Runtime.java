@@ -2088,7 +2088,7 @@ public final class TTCN_Runtime {
 		}
 
 		if (hasTimer && timerValue.is_less_than(0.0)) {
-			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.getValue()));
+			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.get_value()));
 		}
 	}
 
@@ -2113,7 +2113,7 @@ public final class TTCN_Runtime {
 
 		TTCN_Logger.log_testcase_started(moduleName, testcaseName);
 		if (hasTimer) {
-			TitanTimer.testcaseTimer.start(timerValue.getValue());
+			TitanTimer.testcaseTimer.start(timerValue.get_value());
 		}
 
 		set_component_type(mtc_comptype_module, mtc_comptype_name);

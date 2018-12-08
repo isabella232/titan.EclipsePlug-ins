@@ -487,7 +487,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger float2int(final TitanFloat value) {
 		value.must_bound("The argument of function float2int() is an unbound float value.");
 
-		return float2int(value.getValue());
+		return float2int(value.get_value());
 	}
 
 	// C.9 - char2int
@@ -2759,18 +2759,18 @@ public final class AdditionalFunctions {
 		value.must_bound("The argument of function float2str() is an unbound float value.");
 
 		//differnce between java and c++
-		if (value.getValue().isNaN()) {
+		if (value.get_value().isNaN()) {
 			return new TitanCharString("not_a_number");
-		} else if (value.getValue() == Double.NEGATIVE_INFINITY) {
+		} else if (value.get_value() == Double.NEGATIVE_INFINITY) {
 			return new TitanCharString("-infinity");
-		} else if (value.getValue() == Double.POSITIVE_INFINITY) {
+		} else if (value.get_value() == Double.POSITIVE_INFINITY) {
 			return new TitanCharString("infinity");
-		} else if (value.getValue() == 0.0
-				|| (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT)
-				|| (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT)) {
-			return new TitanCharString(String.format("%f", value.getValue()));
+		} else if (value.get_value() == 0.0
+				|| (value.get_value() > -TitanFloat.MAX_DECIMAL_FLOAT && value.get_value() <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (value.get_value() >= TitanFloat.MIN_DECIMAL_FLOAT && value.get_value() < TitanFloat.MAX_DECIMAL_FLOAT)) {
+			return new TitanCharString(String.format("%f", value.get_value()));
 		} else {
-			return new TitanCharString(String.format("%e", value.getValue()));
+			return new TitanCharString(String.format("%e", value.get_value()));
 		}
 	}
 
@@ -2819,7 +2819,7 @@ public final class AdditionalFunctions {
 	private final static Random random = new Random();
 
 	public static void setRndSeed(final double floatSeed) {
-		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
+		TitanFloat.check_numeric(floatSeed,"The seed value of function rnd()");
 		random.setSeed((long)floatSeed);
 		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
 		rndSeedSet = true;
@@ -2849,7 +2849,7 @@ public final class AdditionalFunctions {
 	public static TitanFloat rnd(final TitanFloat seed) {
 		seed.must_bound("Initializing the random number generator with an unbound float value as seed.");
 
-		setRndSeed(seed.getValue());
+		setRndSeed(seed.get_value());
 		return rndGenerate();
 	}
 
