@@ -411,7 +411,6 @@ public class TitanInteger_template extends Base_Template {
 		return value_list.get(listIndex);
 	}
 
-	// originally set_min
 	public void set_min(final int otherMinValue) {
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting lower limit.");
@@ -428,7 +427,6 @@ public class TitanInteger_template extends Base_Template {
 		min_value = new TitanInteger(otherMinValue);
 	}
 
-	// originally set_min
 	public void set_min(final TitanInteger otherMinValue) {
 		otherMinValue.must_bound("Using an unbound value when setting the lower bound in an integer range template.");
 
@@ -447,12 +445,10 @@ public class TitanInteger_template extends Base_Template {
 		min_value = otherMinValue;
 	}
 
-	//originally set_min_exclusive
 	public void set_min_exclusive(final boolean minExclusive) {
 		min_is_exclusive = minExclusive;
 	}
 
-	// originally set_max
 	public void set_max(final int otherMaxValue) {
 		if (!template_sel.VALUE_RANGE.equals(template_selection)) {
 			throw new TtcnError("Integer template is not range when setting upper limit.");
@@ -469,7 +465,6 @@ public class TitanInteger_template extends Base_Template {
 		max_value = new TitanInteger(otherMaxValue);
 	}
 
-	// originally set_max
 	public void set_max(final TitanInteger otherMaxValue) {
 		otherMaxValue.must_bound("Using an unbound value when setting the upper bound in an integer range template.");
 
@@ -488,7 +483,6 @@ public class TitanInteger_template extends Base_Template {
 		max_value = otherMaxValue;
 	}
 
-	//originally set_max_exclusive
 	public void set_max_exclusive(final boolean maxExclusive) {
 		max_is_exclusive = maxExclusive;
 	}

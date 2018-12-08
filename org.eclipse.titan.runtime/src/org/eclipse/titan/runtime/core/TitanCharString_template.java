@@ -570,7 +570,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "charstring template"));
 	}
 
-	// originally set_min
 	public void set_min(final String otherMinValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -588,7 +587,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally set_min
 	public void set_min(final TitanCharString otherMinValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -607,7 +605,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally set_max
 	public void set_max(final String otherMaxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
@@ -625,7 +622,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally set_max
 	public void set_max(final TitanCharString otherMaxValue) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
@@ -644,7 +640,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally set_min_exclusive
 	public void set_min_exclusive(final boolean minExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -652,7 +647,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		min_is_exclusive = minExclusive;
 	}
 
-	// originally set_max_exclusive
 	public void set_max_exclusive(final boolean maxExclusive) {
 		if (template_selection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
