@@ -476,6 +476,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanInteger get_unbound_elem() {
 			return new TitanInteger();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -486,7 +487,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -1803,7 +1803,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanUniversalCharString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)left_ptr, left_index, (PREGEN__SET__OF__UNIVERSAL__CHARSTRING)right_ptr, right_index);
@@ -2170,6 +2170,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanUniversalCharString get_unbound_elem() {
 			return new TitanUniversalCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -2180,7 +2181,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -2537,14 +2537,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanUniversalCharString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)value_ptr, value_index, (PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -3963,6 +3963,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanOctetString get_unbound_elem() {
 			return new TitanOctetString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -3973,7 +3974,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -5658,6 +5658,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanFloat get_unbound_elem() {
 			return new TitanFloat();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -5668,7 +5669,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -7353,6 +7353,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanUniversalCharString get_unbound_elem() {
 			return new TitanUniversalCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -7363,7 +7364,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -9048,6 +9048,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBitString get_unbound_elem() {
 			return new TitanBitString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -9058,7 +9059,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -10743,6 +10743,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBoolean get_unbound_elem() {
 			return new TitanBoolean();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -10753,7 +10754,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -12438,6 +12438,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanCharString get_unbound_elem() {
 			return new TitanCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -12448,7 +12449,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -14133,6 +14133,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBoolean get_unbound_elem() {
 			return new TitanBoolean();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -14143,7 +14144,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -15828,6 +15828,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBitString get_unbound_elem() {
 			return new TitanBitString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -15838,7 +15839,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -17523,6 +17523,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanInteger get_unbound_elem() {
 			return new TitanInteger();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -17533,7 +17534,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -18850,7 +18850,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanUniversalCharString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)right_ptr, right_index);
@@ -19217,6 +19217,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanUniversalCharString get_unbound_elem() {
 			return new TitanUniversalCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -19227,7 +19228,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -19584,14 +19584,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanUniversalCharString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -20642,7 +20642,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanBoolean> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__BOOLEAN)left_ptr, left_index, (PREGEN__SET__OF__BOOLEAN)right_ptr, right_index);
@@ -21009,6 +21009,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBoolean get_unbound_elem() {
 			return new TitanBoolean();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -21019,7 +21020,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -21376,14 +21376,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanBoolean_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__BOOLEAN)value_ptr, value_index, (PREGEN__SET__OF__BOOLEAN_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -22434,7 +22434,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanFloat> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__FLOAT__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__FLOAT__OPTIMIZED)right_ptr, right_index);
@@ -22801,6 +22801,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanFloat get_unbound_elem() {
 			return new TitanFloat();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -22811,7 +22812,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -23168,14 +23168,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanFloat_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__FLOAT__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__FLOAT__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -24226,7 +24226,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanInteger> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__INTEGER)left_ptr, left_index, (PREGEN__SET__OF__INTEGER)right_ptr, right_index);
@@ -24593,6 +24593,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanInteger get_unbound_elem() {
 			return new TitanInteger();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -24603,7 +24604,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -24960,14 +24960,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanInteger_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__INTEGER)value_ptr, value_index, (PREGEN__SET__OF__INTEGER_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -26018,7 +26018,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanCharString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__CHARSTRING)left_ptr, left_index, (PREGEN__SET__OF__CHARSTRING)right_ptr, right_index);
@@ -26385,6 +26385,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanCharString get_unbound_elem() {
 			return new TitanCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -26395,7 +26396,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -26752,14 +26752,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanCharString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__CHARSTRING)value_ptr, value_index, (PREGEN__SET__OF__CHARSTRING_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -28178,6 +28178,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanUniversalCharString get_unbound_elem() {
 			return new TitanUniversalCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -28188,7 +28189,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -29505,7 +29505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanHexString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__HEXSTRING)left_ptr, left_index, (PREGEN__SET__OF__HEXSTRING)right_ptr, right_index);
@@ -29872,6 +29872,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanHexString get_unbound_elem() {
 			return new TitanHexString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -29882,7 +29883,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -30239,14 +30239,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanHexString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__HEXSTRING)value_ptr, value_index, (PREGEN__SET__OF__HEXSTRING_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -31297,7 +31297,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanHexString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__HEXSTRING__OPTIMIZED)right_ptr, right_index);
@@ -31664,6 +31664,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanHexString get_unbound_elem() {
 			return new TitanHexString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -31674,7 +31675,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -32031,14 +32031,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanHexString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -33089,7 +33089,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanOctetString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__OCTETSTRING)left_ptr, left_index, (PREGEN__SET__OF__OCTETSTRING)right_ptr, right_index);
@@ -33456,6 +33456,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanOctetString get_unbound_elem() {
 			return new TitanOctetString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -33466,7 +33467,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -33823,14 +33823,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanOctetString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__OCTETSTRING)value_ptr, value_index, (PREGEN__SET__OF__OCTETSTRING_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -34881,7 +34881,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanFloat> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__FLOAT)left_ptr, left_index, (PREGEN__SET__OF__FLOAT)right_ptr, right_index);
@@ -35248,6 +35248,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanFloat get_unbound_elem() {
 			return new TitanFloat();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -35258,7 +35259,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -35615,14 +35615,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanFloat_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__FLOAT)value_ptr, value_index, (PREGEN__SET__OF__FLOAT_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -36673,7 +36673,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanInteger> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__INTEGER__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__INTEGER__OPTIMIZED)right_ptr, right_index);
@@ -37040,6 +37040,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanInteger get_unbound_elem() {
 			return new TitanInteger();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -37050,7 +37051,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -37407,14 +37407,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanInteger_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__INTEGER__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__INTEGER__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -38465,7 +38465,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanOctetString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)right_ptr, right_index);
@@ -38832,6 +38832,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanOctetString get_unbound_elem() {
 			return new TitanOctetString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -38842,7 +38843,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -39199,14 +39199,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanOctetString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -40625,6 +40625,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanOctetString get_unbound_elem() {
 			return new TitanOctetString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -40635,7 +40636,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -42320,6 +42320,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanHexString get_unbound_elem() {
 			return new TitanHexString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -42330,7 +42331,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -43647,7 +43647,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanCharString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__CHARSTRING__OPTIMIZED)right_ptr, right_index);
@@ -44014,6 +44014,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanCharString get_unbound_elem() {
 			return new TitanCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -44024,7 +44025,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -44381,14 +44381,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanCharString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -45439,7 +45439,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanBitString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__BITSTRING)left_ptr, left_index, (PREGEN__SET__OF__BITSTRING)right_ptr, right_index);
@@ -45806,6 +45806,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBitString get_unbound_elem() {
 			return new TitanBitString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -45816,7 +45817,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -46173,14 +46173,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanBitString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__BITSTRING)value_ptr, value_index, (PREGEN__SET__OF__BITSTRING_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -47231,7 +47231,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanBoolean> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__BOOLEAN__OPTIMIZED)right_ptr, right_index);
@@ -47598,6 +47598,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBoolean get_unbound_elem() {
 			return new TitanBoolean();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -47608,7 +47609,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -47965,14 +47965,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanBoolean_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -49391,6 +49391,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanCharString get_unbound_elem() {
 			return new TitanCharString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -49401,7 +49402,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -51086,6 +51086,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanFloat get_unbound_elem() {
 			return new TitanFloat();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -51096,7 +51097,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -52413,7 +52413,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		private List<TitanBitString> valueElements;
 
-		private compare_function_t compare_function_set = new compare_function_t() {
+		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
 			public boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {
 				return compare_set((PREGEN__SET__OF__BITSTRING__OPTIMIZED)left_ptr, left_index, (PREGEN__SET__OF__BITSTRING__OPTIMIZED)right_ptr, right_index);
@@ -52780,6 +52780,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanBitString get_unbound_elem() {
 			return new TitanBitString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -52790,7 +52791,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -53147,14 +53147,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally value_set/set_items
 		protected List<TitanBitString_template> set_items;
 
-		private match_function_t match_function_set = new match_function_t() {
+		private final match_function_t match_function_set = new match_function_t() {
 			@Override
 			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_set((PREGEN__SET__OF__BITSTRING__OPTIMIZED)value_ptr, value_index, (PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)template_ptr, template_index, legacy);
 			}
 		};
 
-		private log_function_t log_function = new log_function_t() {
+		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
 				if (value_ptr != null && template_ptr != null) {
@@ -54573,6 +54573,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private static TitanHexString get_unbound_elem() {
 			return new TitanHexString();
 		}
+
 		/** 
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
@@ -54583,7 +54584,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * <p>
 		 * {@inheritDoc}
 		 *  */
-
 		@Override
 		public String toString() {
 			if (!is_bound()) {
@@ -55899,6 +55899,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static class anytype extends Base_Type {
 		public enum union_selection_type { UNBOUND_VALUE };
 		private union_selection_type union_selection;
+
 		/**
 		 * Initializes to unbound value.
 		 * */
@@ -55938,6 +55939,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return this;
 		}
+
 		@Override
 		public anytype operator_assign( final Base_Type otherValue ) {
 			if (otherValue instanceof anytype) {
@@ -55998,6 +56000,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return false;
 			}
 		}
+
 		@Override
 		public boolean operator_equals( final Base_Type otherValue ) {
 			if (otherValue instanceof anytype) {
@@ -56028,6 +56031,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public union_selection_type get_selection() {
 			return union_selection;
 		}
+
 		@Override
 		public void log() {
 			switch (union_selection) {
