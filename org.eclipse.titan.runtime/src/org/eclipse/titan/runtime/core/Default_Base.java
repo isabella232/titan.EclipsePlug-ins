@@ -30,15 +30,14 @@ public abstract class Default_Base {
 		TTCN_Logger.log_defaultop_activate(altstepName, defaultId);
 	}
 
-	public int getDefaultId() {
+	public int get_default_id() {
 		return defaultId;
 	}
 
-	public String getAlstepName() {
+	public String get_alstep_name() {
 		return altstepName;
 	}
 
-	// originally call_altstep
 	public abstract TitanAlt_Status call_altstep();
 
 	/**
