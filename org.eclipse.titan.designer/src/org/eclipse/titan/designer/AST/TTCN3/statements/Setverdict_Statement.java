@@ -249,7 +249,7 @@ public final class Setverdict_Statement extends Statement {
 				expression.postamble.append(reason.postamble);
 			}
 			expression.expression.append(reason.expression);
-			expression.expression.append(".getValue().toString()");
+			expression.expression.append(".get_value().toString()");
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);
