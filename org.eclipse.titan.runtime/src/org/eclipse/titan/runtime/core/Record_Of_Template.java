@@ -66,11 +66,11 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		super.set_selection(other_value);
 		clean_up_intervals();
 		if (other_value.template_selection == template_sel.SPECIFIC_VALUE) {
-			permutation_intervals = copyPermutations(other_value.permutation_intervals);
+			permutation_intervals = copy_permutations(other_value.permutation_intervals);
 		}
 	}
 
-	public final List<Pair_of_elements> copyPermutations(final List<Pair_of_elements> srcList) {
+	public final List<Pair_of_elements> copy_permutations(final List<Pair_of_elements> srcList) {
 		if (srcList == null) {
 			return null;
 		}
@@ -131,7 +131,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	/**
 	 * Removes all permutations set on this template, used when template variables are given new values.
 	 * */
-	public void removeAllPermutations() {
+	public void remove_all_permutations() {
 		clean_up_intervals();
 	}
 
@@ -141,7 +141,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	 * @param n integer number
 	 * @return st, nd, rd or th
 	 */
-	private static String getOrdinalIndicator(final int n) {
+	private static String get_ordinal_indicator(final int n) {
 		if (11 <= n % 100 && n % 100 <= 13) {
 			// exception case
 			return "th";
