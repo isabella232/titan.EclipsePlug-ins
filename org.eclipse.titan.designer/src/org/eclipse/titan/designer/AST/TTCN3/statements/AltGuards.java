@@ -491,7 +491,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					final ExpressionStruct expression = new ExpressionStruct();
 					guardExpression.generateCodeExpression(aData, expression, true);
 					source.append(expression.preamble);
-					source.append(MessageFormat.format("if(TitanBoolean.getNative({0})) '{'\n", expression.expression));
+					source.append(MessageFormat.format("if(TitanBoolean.get_native({0})) '{'\n", expression.expression));
 					source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", label, i));
 					source.append("} else {\n");
 					source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_NO;\n", label, i));
@@ -635,7 +635,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					} else {
 						aData.addBuiltinTypeImport( "TitanBoolean" );
 
-						guardExpression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
+						guardExpression.generateCodeTmp(aData, source, "if (TitanBoolean.get_native(", blockCount);
 						source.append(") ) {\n");
 					}
 					blockCount.incrementAndGet();
@@ -783,7 +783,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				final ExpressionStruct expression = new ExpressionStruct();
 				guardExpression.generateCodeExpression(aData, expression, true);
 				source.append(expression.preamble);
-				source.append(MessageFormat.format("if (TitanBoolean.getNative({0})) '{'\n", expression.expression));
+				source.append(MessageFormat.format("if (TitanBoolean.get_native({0})) '{'\n", expression.expression));
 				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", tempId, i));
 				source.append("} else {\n");
 				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_NO;\n", tempId, i));

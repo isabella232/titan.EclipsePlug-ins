@@ -688,7 +688,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			}
 
 			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype()) && !returnsNative()) {
-				init.append(MessageFormat.format("{0} = TitanBoolean.getNative({1});\n", tempId, expression.expression));
+				init.append(MessageFormat.format("{0} = TitanBoolean.get_native({1});\n", tempId, expression.expression));
 			} else {
 				init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
 			}

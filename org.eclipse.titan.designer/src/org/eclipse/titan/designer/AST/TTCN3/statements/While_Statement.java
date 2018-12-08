@@ -344,7 +344,7 @@ public final class While_Statement extends Statement {
 				} else {
 					aData.addBuiltinTypeImport( "TitanBoolean" );
 
-					last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+					last.generateCodeTmp(aData, source, "if (!TitanBoolean.get_native(", blockCount);
 					source.append(")) {\n");
 				}
 				source.append("break;\n");

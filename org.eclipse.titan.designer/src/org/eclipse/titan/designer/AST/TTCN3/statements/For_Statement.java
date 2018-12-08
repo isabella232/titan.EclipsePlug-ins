@@ -496,7 +496,7 @@ public final class For_Statement extends Statement {
 		} else {
 			aData.addBuiltinTypeImport( "TitanBoolean" );
 
-			finalExpression.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+			finalExpression.generateCodeTmp(aData, source, "if (!TitanBoolean.get_native(", blockCount);
 			source.append(")) {\n");
 		}
 		source.append("break;\n");
