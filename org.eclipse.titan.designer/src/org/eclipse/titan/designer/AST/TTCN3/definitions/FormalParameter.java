@@ -1093,8 +1093,6 @@ public final class FormalParameter extends Definition {
 		source.append( ' ' );
 		// parameter name
 		source.append( identifier.getName() );
-
-		//TODO: implement: handle default value
 	}
 
 	/**
