@@ -541,7 +541,7 @@ public final class AdditionalFunctions {
 	public static TitanOctetString char2oct(final TitanCharString value){
 		value.must_bound("The argument of function char2oct() is an unbound charstring value.");
 
-		return char2oct(value.getValue().toString());
+		return char2oct(value.get_value().toString());
 	}
 
 	public static TitanOctetString char2oct(final TitanCharString_Element value){
@@ -786,7 +786,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString decode_base64(final TitanCharString b64) {
-		final byte[] p_b64 = b64.getValue().toString().getBytes();
+		final byte[] p_b64 = b64.get_value().toString().getBytes();
 		int b64Pos = 0;
 		int chars_left = b64.lengthof().getInt();
 		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
@@ -1299,7 +1299,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError("The argument of function str2int() is an empty string, which does not represent a valid integer value.");
 		}
 		final StringBuilder value_str = new StringBuilder();
-		value_str.append(value.getValue().toString());
+		value_str.append(value.get_value().toString());
 		str2intState state = str2intState.S_INITIAL;
 		// state: expected characters
 		// S_INITIAL: +, -, first digit, leading whitespace
@@ -1429,7 +1429,7 @@ public final class AdditionalFunctions {
 
 		final char octets_ptr[] = new char[value_len / 2];
 		final StringBuilder chars_ptr = new StringBuilder();
-		chars_ptr.append(value.getValue().toString());
+		chars_ptr.append(value.get_value().toString());
 		for (int i = 0; i < value_len; i++) {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = char_to_hexdigit(c);
@@ -1477,7 +1477,7 @@ public final class AdditionalFunctions {
 		if (value.operator_equals("not_a_number")) {
 			return new TitanFloat(Double.NaN);
 		}
-		final StringBuilder value_str = value.getValue();
+		final StringBuilder value_str = value.get_value();
 		str2floatState state = str2floatState.S_INITIAL;
 		// state: expected characters
 		// S_INITIAL: +, -, first digit of integer part in mantissa,
@@ -1878,7 +1878,7 @@ public final class AdditionalFunctions {
 
 		check_substr_arguments(value.lengthof().getInt(), idx, returncount, "charstring", "character");
 
-		return new TitanCharString(value.getValue().substring(idx, idx + returncount));
+		return new TitanCharString(value.get_value().substring(idx, idx + returncount));
 	}
 
 	public static TitanCharString subString(final TitanCharString value, final int idx, final TitanInteger returncount) {
@@ -2305,9 +2305,9 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "charstring", "character");
 
 		final StringBuilder ret_val = new StringBuilder();
-		ret_val.append(value.getValue());
+		ret_val.append(value.get_value());
 
-		ret_val.replace(idx, idx + len, repl.getValue().toString());
+		ret_val.replace(idx, idx + len, repl.get_value().toString());
 
 		return new TitanCharString(ret_val);
 	}
@@ -2652,7 +2652,7 @@ public final class AdditionalFunctions {
 
 		final int value_length = value.lengthof().getInt();
 		final StringBuilder chars_ptr = new StringBuilder();
-		chars_ptr.append(value.getValue().toString());
+		chars_ptr.append(value.get_value().toString());
 		final StringBuilder ret_val = new StringBuilder();
 
 		for (int i = 0; i < value_length; i++) {
@@ -2703,7 +2703,7 @@ public final class AdditionalFunctions {
 
 		final int value_length = value.lengthof().getInt();
 		final StringBuilder chars_ptr = new StringBuilder();
-		chars_ptr.append(value.getValue().toString());
+		chars_ptr.append(value.get_value().toString());
 		final byte ret_val[] = new byte[value_length];
 
 		for (int i = 0; i < value_length; i++) {
@@ -2867,13 +2867,13 @@ public final class AdditionalFunctions {
 	public static String get_port_name(final TitanCharString port_name, final int array_index) {
 		port_name.must_bound("Internal error: Using an unbound charstring value to obtain the name of a port.");
 
-		return get_port_name(port_name.getValue().toString(), array_index);
+		return get_port_name(port_name.get_value().toString(), array_index);
 	}
 
 	public static String get_port_name(final TitanCharString port_name, final TitanInteger array_index) {
 		port_name.must_bound("Internal error: Using an unbound charstring value to obtain the name of a port.");
 		array_index.must_bound("Using an unbound integer value for indexing an array of ports.");
 
-		return get_port_name(port_name.getValue().toString(), array_index.getInt());
+		return get_port_name(port_name.get_value().toString(), array_index.getInt());
 	}
 }

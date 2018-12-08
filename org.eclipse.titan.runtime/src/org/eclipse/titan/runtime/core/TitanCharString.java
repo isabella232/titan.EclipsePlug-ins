@@ -89,7 +89,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// originally char*()
-	public StringBuilder getValue() {
+	public StringBuilder get_value() {
 		must_bound("Getting an unbound charstring value as string.");
 
 		return val_ptr;
@@ -400,7 +400,7 @@ public class TitanCharString extends Base_Type {
 			return new TitanUniversalCharString(aOtherValue);
 		}
 		if (aOtherValue.charstring) {
-			final StringBuilder ret_val = new StringBuilder(getValue());
+			final StringBuilder ret_val = new StringBuilder(get_value());
 			ret_val.append(aOtherValue.cstr.toString());
 
 			return new TitanUniversalCharString(ret_val);

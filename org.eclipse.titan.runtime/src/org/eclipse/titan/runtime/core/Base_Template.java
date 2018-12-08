@@ -224,7 +224,7 @@ public abstract class Base_Template {
 	}
 
 	protected boolean get_istemplate_kind(final TitanCharString type) {
-		return get_istemplate_kind(type.getValue().toString());
+		return get_istemplate_kind(type.get_value().toString());
 	}
 
 	public boolean is_omit() {

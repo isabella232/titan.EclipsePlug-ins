@@ -362,13 +362,13 @@ public class TTCN_Buffer {
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
 				for (int i = 0; i < n_chars; i++) {
-					data_ptr[buf_len + i] = p_cs.getValue().charAt(i);
+					data_ptr[buf_len + i] = p_cs.get_value().charAt(i);
 				}
 				buf_len += n_chars;
 			} else { // share the data
 				data_ptr = new char[n_chars];
 				for (int i = 0; i < n_chars; i++) {
-					data_ptr[i] = p_cs.getValue().charAt(i);
+					data_ptr[i] = p_cs.get_value().charAt(i);
 				}
 				buf_len = n_chars;
 			}

@@ -403,13 +403,13 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				throw new TtcnError("The upper bound is not set when " +
 						"matching with a charstring value range template.");
 			}
-			final char minValueChar = min_value.getValue().charAt(0);
-			final char maxValueChar = max_value.getValue().charAt(0);
+			final char minValueChar = min_value.get_value().charAt(0);
+			final char maxValueChar = max_value.get_value().charAt(0);
 			if (minValueChar > maxValueChar) {
 				throw new TtcnError("The lower bound (\"" + minValueChar + "\") is greater than the upper bound " +
 						"(\"" + maxValueChar + "\") when matching with a charstring value range template.");
 			}
-			final StringBuilder otherStr = otherValue.getValue();
+			final StringBuilder otherStr = otherValue.get_value();
 			int min_value_offset = 0;
 			int max_value_offset = 0;
 			if (min_is_exclusive) {
@@ -428,12 +428,12 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		case STRING_PATTERN:
 			if (!pattern_value_regexp_init) {
-				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(single_value.getValue().toString(), pattern_value_nocase);
+				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(single_value.get_value().toString(), pattern_value_nocase);
 			}
 			if (pattern_value_posix_regexp != null) {
-				return TTCN_Pattern.match(otherValue.getValue().toString(), pattern_value_posix_regexp, pattern_value_nocase);
+				return TTCN_Pattern.match(otherValue.get_value().toString(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
-			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", single_value.getValue().toString()));
+			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", single_value.get_value().toString()));
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
@@ -684,7 +684,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	public void log() {
 		switch (template_selection) {
 		case STRING_PATTERN:
-			log_pattern(single_value.lengthof().getInt(), single_value.getValue().toString(), pattern_value_nocase);
+			log_pattern(single_value.lengthof().getInt(), single_value.get_value().toString(), pattern_value_nocase);
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
@@ -708,13 +708,13 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (min_is_set) {
-				if (TTCN_Logger.isPrintable(min_value.getValue().charAt(0))) {
+				if (TTCN_Logger.isPrintable(min_value.get_value().charAt(0))) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(min_value.getValue().charAt(0));
+					TTCN_Logger.logCharEscaped(min_value.get_value().charAt(0));
 					TTCN_Logger.log_char('"');
 
 				} else {
-					TTCN_Logger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int) min_value.getValue().charAt(0)));
+					TTCN_Logger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int) min_value.get_value().charAt(0)));
 				}
 			} else {
 				TTCN_Logger.log_event_str("<unknown lower bound>");
@@ -724,12 +724,12 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (max_is_set) {
-				if (TTCN_Logger.isPrintable(max_value.getValue().charAt(0))) {
+				if (TTCN_Logger.isPrintable(max_value.get_value().charAt(0))) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(max_value.getValue().charAt(0));
+					TTCN_Logger.logCharEscaped(max_value.get_value().charAt(0));
 					TTCN_Logger.log_char('"');
 				} else {
-					TTCN_Logger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int) max_value.getValue().charAt(0)));
+					TTCN_Logger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int) max_value.get_value().charAt(0)));
 				}
 			} else {
 				TTCN_Logger.log_event_str("<unknown upper bound>");
@@ -1036,9 +1036,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				throw new TtcnError("Text encoder: The upper bound is not set in a charstring value range template.");
 			}
 			final byte[] temp = new byte[1];
-			temp[0] = (byte)min_value.getValue().charAt(0);
+			temp[0] = (byte)min_value.get_value().charAt(0);
 			text_buf.push_raw(1, temp);
-			temp[0] = (byte)max_value.getValue().charAt(0);
+			temp[0] = (byte)max_value.get_value().charAt(0);
 			text_buf.push_raw(1, temp);
 			break;
 		default:
@@ -1084,10 +1084,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			final byte[] temp = new byte[1];
 			text_buf.pull_raw(1, temp);
 			min_value = new TitanCharString();
-			min_value.getValue().setCharAt(0, (char)temp[0]);
+			min_value.get_value().setCharAt(0, (char)temp[0]);
 			text_buf.pull_raw(1, temp);
 			max_value = new TitanCharString();
-			max_value.getValue().setCharAt(0, (char)temp[0]);
+			max_value.get_value().setCharAt(0, (char)temp[0]);
 			min_is_set = true;
 			max_is_set = true;
 			min_is_exclusive = false;

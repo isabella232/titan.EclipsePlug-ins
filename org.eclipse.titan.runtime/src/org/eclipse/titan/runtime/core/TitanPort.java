@@ -543,7 +543,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	//originally check_port_state
 	public boolean check_port_state(final TitanCharString type) {
-		return check_port_state(type.getValue().toString());
+		return check_port_state(type.get_value().toString());
 	}
 
 	// originally any_check_port_state
@@ -564,7 +564,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	// originally any_check_port_state
 	public static boolean any_check_port_state(final TitanCharString type) {
-		return any_check_port_state(type.getValue().toString());
+		return any_check_port_state(type.get_value().toString());
 	}
 
 	//originally all_check_port_state
@@ -585,7 +585,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	//originally all_check_port_state
 	public static boolean all_check_port_state(final TitanCharString type) {
-		return all_check_port_state(type.getValue().toString());
+		return all_check_port_state(type.get_value().toString());
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {

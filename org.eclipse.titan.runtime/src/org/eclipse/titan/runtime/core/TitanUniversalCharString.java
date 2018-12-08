@@ -132,7 +132,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString(final TitanCharString otherValue) {
 		otherValue.must_bound("Copying an unbound charstring value.");
 
-		cstr = new StringBuilder(otherValue.getValue());
+		cstr = new StringBuilder(otherValue.get_value());
 		charstring = true;
 	}
 
@@ -273,7 +273,7 @@ public class TitanUniversalCharString extends Base_Type {
 			clean_up();
 			charstring = true;
 		}
-		cstr = new StringBuilder(otherValue.getValue());
+		cstr = new StringBuilder(otherValue.get_value());
 
 		return this;
 	}
@@ -485,7 +485,7 @@ public class TitanUniversalCharString extends Base_Type {
 		otherValue.must_bound("The right operand of comparison is an unbound charstring value.");
 
 		if (charstring) {
-			return otherValue.getValue().toString().equals(cstr.toString());
+			return otherValue.get_value().toString().equals(cstr.toString());
 		}
 		if (val_ptr.size() != otherValue.lengthof().getInt()) {
 			return false;
@@ -493,7 +493,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		for (int i = 0; i < val_ptr.size(); ++i) {
 			if (val_ptr.get(i).getUc_group() != 0 || val_ptr.get(i).getUc_plane() != 0 || val_ptr.get(i).getUc_row() != 0
-					|| val_ptr.get(i).getUc_cell() != otherValue.getValue().charAt(i)) {
+					|| val_ptr.get(i).getUc_cell() != otherValue.get_value().charAt(i)) {
 				return false;
 			}
 		}
@@ -739,7 +739,7 @@ public class TitanUniversalCharString extends Base_Type {
 		must_bound("The left operand of concatenation is an unbound universal charstring value.");
 		other_value.must_bound("The right operand of concatenation is an unbound charstring value.");
 
-		return operator_concatenate(other_value.getValue().toString());
+		return operator_concatenate(other_value.get_value().toString());
 	}
 
 	/**
@@ -2023,11 +2023,11 @@ public class TitanUniversalCharString extends Base_Type {
 		final TitanCharString buff_str = new TitanCharString();
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
-		final char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
+		final char[] tmp_val_ptr = buff_str.get_value().toString().toCharArray();
 		if(buff_str.is_bound()) {
 			charstring = true;
 			for (int i = 0; i < buff_str.lengthof().getInt(); ++i) {
-				if(buff_str.getValue().charAt(i) > 127) {
+				if(buff_str.get_value().charAt(i) > 127) {
 					charstring = false;
 					break;
 				}
@@ -2037,7 +2037,7 @@ public class TitanUniversalCharString extends Base_Type {
 			case UNKNOWN: //default is UTF-8
 			case UTF_8:
 				if(charstring) {
-					cstr = buff_str.getValue();
+					cstr = buff_str.get_value();
 				} else {
 					decode_utf8(tmp_val_ptr, CharCoding.UTF_8 , false);
 				}

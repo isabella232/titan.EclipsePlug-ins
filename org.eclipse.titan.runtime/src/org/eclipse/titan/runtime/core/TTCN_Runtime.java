@@ -333,7 +333,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
-		set_port_state(state.getInt(), info.getValue().toString(), bySystem);
+		set_port_state(state.getInt(), info.get_value().toString(), bySystem);
 	}
 
 	public static TitanPort get_translation_port() {

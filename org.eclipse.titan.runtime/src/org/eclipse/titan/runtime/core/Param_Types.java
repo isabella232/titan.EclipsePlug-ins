@@ -800,11 +800,11 @@ public final class Param_Types {
 		}
 
 		public Object get_string_data() {
-			return cstr.getValue().toString();
+			return cstr.get_value().toString();
 		}
 
 		public int get_string_size() {
-			return cstr.getValue().length();
+			return cstr.get_value().length();
 		}
 	}
 

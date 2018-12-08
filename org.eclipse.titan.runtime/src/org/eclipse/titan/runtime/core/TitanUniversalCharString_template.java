@@ -539,12 +539,12 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		case STRING_PATTERN:
 			if (!pattern_value_regexp_init) {
-				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(pattern_string.getValue().toString(), pattern_value_nocase);
+				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(pattern_string.get_value().toString(), pattern_value_nocase);
 			}
 			if (pattern_value_posix_regexp != null) {
 				return TTCN_Pattern.match(otherValue.toUtf(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
-			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.getValue().toString()));
+			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.get_value().toString()));
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
@@ -826,7 +826,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public void set_decmatch(final IDecode_Match dec_match, final TitanCharString codingString) {
-		set_decmatch(dec_match, codingString.getValue().toString());
+		set_decmatch(dec_match, codingString.get_value().toString());
 	}
 
 	public Object get_decmatch_dec_res() {
@@ -857,7 +857,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public void log() {
 		switch (template_selection) {
 		case STRING_PATTERN:
-			TitanCharString_template.log_pattern(pattern_string.lengthof().getInt(), pattern_string.getValue().toString(), pattern_value_nocase);
+			TitanCharString_template.log_pattern(pattern_string.lengthof().getInt(), pattern_string.get_value().toString(), pattern_value_nocase);
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
