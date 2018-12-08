@@ -169,7 +169,8 @@ public class TitanFloat extends Base_Type {
 	}
 
 	/**
-	 * this + aOtherValue
+	 * the unary + operator.
+	 *
 	 * originally operator+
 	 */
 
