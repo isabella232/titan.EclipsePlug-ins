@@ -211,7 +211,7 @@ public final class RecordOfGenerator {
 
 		if ( isSetOf ) {
 			source.append('\n');
-			source.append("\t\tprivate compare_function_t compare_function_set = new compare_function_t() {\n");
+			source.append("\t\tprivate final compare_function_t compare_function_set = new compare_function_t() {\n");
 			source.append("\t\t\t@Override\n");
 			source.append("\t\t\tpublic boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {\n");
 			source.append( MessageFormat.format( "\t\t\t\treturn compare_set(({0})left_ptr, left_index, ({0})right_ptr, right_index);\n", genName ) );
@@ -1283,7 +1283,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tprotected List<{0}> set_items;\n", ofTypeName ) );
 
 		source.append('\n');
-		source.append("\t\tprivate match_function_t match_function_set = new match_function_t() {\n");
+		source.append("\t\tprivate final match_function_t match_function_set = new match_function_t() {\n");
 		source.append("\t\t\t@Override\n");
 		source.append("\t\t\tpublic boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {\n");
 		source.append( MessageFormat.format( "\t\t\t\treturn match_set(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
@@ -1291,7 +1291,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t};\n");
 
 		source.append('\n');
-		source.append("\t\tprivate log_function_t log_function = new log_function_t() {\n");
+		source.append("\t\tprivate final log_function_t log_function = new log_function_t() {\n");
 		source.append("\t\t\t@Override\n");
 		source.append("\t\t\tpublic void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {\n");
 		source.append("\t\t\t\tif (value_ptr != null && template_ptr != null) {\n");
