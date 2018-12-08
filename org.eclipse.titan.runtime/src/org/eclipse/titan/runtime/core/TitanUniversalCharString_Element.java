@@ -105,16 +105,8 @@ public class TitanUniversalCharString_Element {
 
 		bound_flag = true;
 
-		if (otherValue.charstring) {
-			str_val.cstr = otherValue.cstr;
-			str_val.charstring = true;
-			str_val.val_ptr = null;
-		} else {
-			str_val.val_ptr = otherValue.val_ptr;
-			str_val.charstring = false;
-			str_val.cstr = null;
-		}
-		char_pos = 0;
+		operator_assign(otherValue.constGet_at(0));
+
 		return this;
 	}
 
