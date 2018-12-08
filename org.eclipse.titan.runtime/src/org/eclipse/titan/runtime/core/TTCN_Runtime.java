@@ -408,7 +408,7 @@ public final class TTCN_Runtime {
 
 		Module_List.initialize_component(component_type_module.get(), component_type_name.get(), true);
 
-		TitanPort.set_parameters(TitanComponent.self.get().getComponent(), component_name.get());
+		TitanPort.set_parameters(TitanComponent.self.get().get_component(), component_name.get());
 		TitanPort.all_start();
 
 		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.init__component__finish, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
@@ -758,7 +758,7 @@ public final class TTCN_Runtime {
 		}
 		component_reference.must_bound("Performing a start operation on an unbound component reference.");
 
-		final int compref = component_reference.getComponent();
+		final int compref = component_reference.get_component();
 		switch (compref) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Start operation cannot be performed on the null component reference.");
@@ -774,7 +774,7 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (TitanComponent.self.get().getComponent() == compref) {
+		if (TitanComponent.self.get().get_component() == compref) {
 			throw new TtcnError("Start operation cannot be performed on the own component reference of the initiating component (i.e. 'self.start' is not allowed).");
 		}
 
@@ -1796,7 +1796,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.end_event();
 
 		sourceComponent.must_bound("The first argument of connect operation contains an unbound component reference.");
-		switch (sourceComponent.getComponent()) {
+		switch (sourceComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The first argument of connect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1806,7 +1806,7 @@ public final class TTCN_Runtime {
 		}
 
 		destinationComponent.must_bound("The second argument of connect operation contains an unbound component reference.");
-		switch (destinationComponent.getComponent()) {
+		switch (destinationComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The second argument of connect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1817,19 +1817,19 @@ public final class TTCN_Runtime {
 
 		switch (executorState.get()) {
 		case SINGLE_TESTCASE:
-			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+			if (sourceComponent.get_component() != TitanComponent.MTC_COMPREF || destinationComponent.get_component() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of connect operation must refer to ports of mtc in single mode.");
 			}
 
 			TitanPort.make_local_connection(sourePort, destinationPort);
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_connect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.MTC_CONNECT);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_connect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.PTC_CONNECT);
 			wait_for_state_change();
 			break;
@@ -1841,7 +1841,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
@@ -1857,7 +1857,7 @@ public final class TTCN_Runtime {
 		TTCN_Logger.end_event();
 
 		sourceComponent.must_bound("The first argument of disconnect operation contains an unbound component reference.");
-		switch (sourceComponent.getComponent()) {
+		switch (sourceComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The first argument of disconnect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1867,7 +1867,7 @@ public final class TTCN_Runtime {
 		}
 
 		destinationComponent.must_bound("The second argument of disconnect operation contains an unbound component reference.");
-		switch (destinationComponent.getComponent()) {
+		switch (destinationComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The second argument of disconnect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1878,19 +1878,19 @@ public final class TTCN_Runtime {
 
 		switch (executorState.get()) {
 		case SINGLE_TESTCASE:
-			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+			if (sourceComponent.get_component() != TitanComponent.MTC_COMPREF || destinationComponent.get_component() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of disconnect operation must refer to ports of mtc in single mode.");
 			}
 
 			TitanPort.terminate_local_connection(sourePort, destinationPort);
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_disconnect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.MTC_DISCONNECT);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_disconnect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.PTC_DISCONNECT);
 			wait_for_state_change();
 			break;
@@ -1902,7 +1902,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 	}
 
 
@@ -1922,28 +1922,28 @@ public final class TTCN_Runtime {
 		sourceComponentRef.must_bound("The first argument of map operation contains an unbound component reference.");
 
 		final TitanComponent sourceComponent = sourceComponentRef;
-		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of map operation contains the null component reference.");
 		}
 
 		destinationComponentRef.must_bound("The second argument of map operation contains an unbound component reference.");
 
 		final TitanComponent destinationComponent = destinationComponentRef;
-		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (destinationComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of map operation contains the null component reference.");
 		}
 
 		TitanComponent componentReference;
 		String componentPort;
 		String systemPort;
-		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
-			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 				throw new TtcnError("Both arguments of map operation refer to system ports.");
 			}
 			componentReference = destinationComponent;
 			componentPort = destinationPort;
 			systemPort = sourePort;
-		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		} else if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 			componentReference = sourceComponent;
 			componentPort = sourePort;
 			systemPort = destinationPort;
@@ -1999,28 +1999,28 @@ public final class TTCN_Runtime {
 		sourceComponentRef.must_bound("The first argument of unmap operation contains an unbound component reference.");
 
 		final TitanComponent sourceComponent = sourceComponentRef;
-		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
 		}
 
 		destinationComponentRef.must_bound("The second argument of unmap operation contains an unbound component reference.");
 
 		final TitanComponent destinationComponent = destinationComponentRef;
-		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (destinationComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of unmap operation contains the null component reference.");
 		}
 
 		TitanComponent componentReference;
 		String componentPort;
 		String systemPort;
-		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
-			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 				throw new TtcnError("Both arguments of unmap operation refer to system ports.");
 			}
 			componentReference = destinationComponent;
 			componentPort = destinationPort;
 			systemPort = sourePort;
-		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		} else if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 			componentReference = sourceComponent;
 			componentPort = sourePort;
 			systemPort = destinationPort;

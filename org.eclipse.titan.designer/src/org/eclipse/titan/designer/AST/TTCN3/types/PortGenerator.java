@@ -1396,12 +1396,12 @@ public final class PortGenerator {
 		source.append("if (!destination_component.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
-		source.append("final TTCN_Logger.Severity log_severity = destination_component.getComponent() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMSEND : TTCN_Logger.Severity.PORTEVENT_MCSEND;\n");
+		source.append("final TTCN_Logger.Severity log_severity = destination_component.get_component() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMSEND : TTCN_Logger.Severity.PORTEVENT_MCSEND;\n");
 		source.append("if (TTCN_Logger.log_this_event(log_severity)) {\n");
 		source.append("TTCN_Logger.begin_event(log_severity);\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" {0} : \");\n", outType.mDisplayName));
 		source.append("send_par.log();\n");
-		source.append("TTCN_Logger.log_msgport_send(get_name(), destination_component.getComponent(), TTCN_Logger.end_event_log2str());\n");
+		source.append("TTCN_Logger.log_msgport_send(get_name(), destination_component.get_component(), TTCN_Logger.end_event_log2str());\n");
 		source.append("}\n");
 		if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
@@ -2415,7 +2415,7 @@ public final class PortGenerator {
 		source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 		source.append("call_temp.log();\n");
-		source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+		source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
@@ -2491,7 +2491,7 @@ public final class PortGenerator {
 			source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("reply_temp.log();\n");
-			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
@@ -2566,7 +2566,7 @@ public final class PortGenerator {
 			source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("raise_exception.log();\n");
-			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {

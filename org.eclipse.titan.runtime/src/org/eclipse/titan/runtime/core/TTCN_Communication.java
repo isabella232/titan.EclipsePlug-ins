@@ -1313,7 +1313,7 @@ public class TTCN_Communication {
 
 		local_incoming_buf.cut_message();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
 
@@ -1332,7 +1332,7 @@ public class TTCN_Communication {
 		final String remote_port = local_incoming_buf.pull_string();
 		final int temp_transport_type = local_incoming_buf.pull_int().getInt();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
 

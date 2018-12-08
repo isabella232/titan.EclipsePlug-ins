@@ -3083,7 +3083,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		source.append("Text_Buf text_buf = new Text_Buf();\n");
 		source.append("AtomicReference<Text_Buf> text_buf_ref = new AtomicReference<Text_Buf>(text_buf);\n");
-		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.getComponent(), \"{0}\", text_buf_ref);\n", displayName));
+		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.get_component(), \"{0}\", text_buf_ref);\n", displayName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append(MessageFormat.format("{0} return_value = new {0}();\n", genName));
 		source.append("return_value.decode_text(text_buf_ref.get());\n");

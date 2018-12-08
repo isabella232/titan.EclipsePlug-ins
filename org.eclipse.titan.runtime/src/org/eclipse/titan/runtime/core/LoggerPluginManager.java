@@ -212,7 +212,7 @@ public class LoggerPluginManager {
 				}
 				break;
 			case COMPONENT_ID_COMPREF:
-				if (par.component.id_compref == component_reference.getComponent()) {
+				if (par.component.id_compref == component_reference.get_component()) {
 					apply_parameter(par);
 				}
 				break;
