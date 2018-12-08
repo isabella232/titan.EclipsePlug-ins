@@ -463,7 +463,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 */
 	private boolean match_pattern(final int string_pattern[], final TitanBitString string_value) {
 		final int stringPatternSize = string_pattern.length;
-		final int stringValueNBits = string_value.getNBits();
+		final int stringValueNBits = string_value.get_n_bits();
 		if (stringPatternSize == 0) {
 			return stringValueNBits == 0;
 		}
@@ -476,7 +476,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		for (;;) {
 			switch (string_pattern[template_index]) {
 			case 0:
-				if (!string_value.getBit(value_index)) {
+				if (!string_value.get_bit(value_index)) {
 					value_index++;
 					template_index++;
 				} else {
@@ -488,7 +488,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				}
 				break;
 			case 1:
-				if (string_value.getBit(value_index)) {
+				if (string_value.get_bit(value_index)) {
 					value_index++;
 					template_index++;
 				} else {

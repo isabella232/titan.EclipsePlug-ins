@@ -828,7 +828,7 @@ public final class AdditionalFunctions {
 		value.must_bound("The argument of function bit2int() is an unbound bitstring value.");
 
 		final int n_bits = value.lengthof().getInt();
-		final int temp[] = value.getValue();
+		final int temp[] = value.get_value();
 
 		// skip the leading zero bits
 		int start_index = 0;
@@ -884,7 +884,7 @@ public final class AdditionalFunctions {
 		final int n_bits = value.lengthof().getInt();
 		final int n_nibbles = (n_bits + 3) / 4;
 		final int padding_bits = 4 * n_nibbles - n_bits;
-		final int bits_ptr[] = value.getValue();
+		final int bits_ptr[] = value.get_value();
 		final byte nibbles_ptr[] = new byte[n_nibbles];
 		for (int i = 0; i < n_bits; i++) {
 			if ((bits_ptr[i / 8] & (1 << (i % 8))) != 0) {
@@ -909,7 +909,7 @@ public final class AdditionalFunctions {
 		final int n_octets = (n_bits + 7) / 8;
 		final int padding_bits = 8 * n_octets - n_bits;
 		final int octets_ptr[] = new int[n_octets];
-		final int bits_ptr[] = value.getValue();
+		final int bits_ptr[] = value.get_value();
 
 		// bitstring conversion to hex characters
 		for (int i = 0; i < n_bits; i++) {
@@ -941,7 +941,7 @@ public final class AdditionalFunctions {
 		final StringBuilder ret_val = new StringBuilder(n_bits);
 
 		for (int i = 0; i < n_bits; i++) {
-			if (value.getBit(i)) {
+			if (value.get_bit(i)) {
 				ret_val.append('1');
 			} else {
 				ret_val.append('0');
@@ -1693,11 +1693,11 @@ public final class AdditionalFunctions {
 		if (idx % 8 != 0) {
 			final StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < returncount; i++) {
-				sb.append(value.getBit(idx + i) ? '1' : '0');
+				sb.append(value.get_bit(idx + i) ? '1' : '0');
 			}
 			return new TitanBitString(sb.toString());
 		} else {
-			final int bits_ptr[] = value.getValue();
+			final int bits_ptr[] = value.get_value();
 			final int ret_val[] = new int[(returncount + 7) / 8];
 			System.arraycopy(bits_ptr, idx / 8, ret_val, 0, (returncount + 7) / 8);
 			return new TitanBitString(ret_val, returncount);
@@ -2188,13 +2188,13 @@ public final class AdditionalFunctions {
 		final StringBuilder temp_sb = new StringBuilder(value_len);
 
 		for (int i = 0; i < idx; i++) {
-			temp_sb.append(value.getBit(i) ? '1' : '0');
+			temp_sb.append(value.get_bit(i) ? '1' : '0');
 		}
 		for (int i = 0; i < repl_len; i++) {
-			temp_sb.append(repl.getBit(i) ? '1' : '0');
+			temp_sb.append(repl.get_bit(i) ? '1' : '0');
 		}
 		for (int i = 0; i < value_len - idx - len; i++) {
-			temp_sb.append(value.getBit(idx + len + i) ? '1' : '0');
+			temp_sb.append(value.get_bit(idx + len + i) ? '1' : '0');
 		}
 		return new TitanBitString(temp_sb.toString());
 	}

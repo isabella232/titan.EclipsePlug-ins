@@ -710,11 +710,11 @@ public final class Param_Types {
 		}
 
 		public int get_string_size() {
-			return bstr.getNBits();
+			return bstr.get_n_bits();
 		}
 
 		public int[] get_string_data() {
-			return bstr.getValue();
+			return bstr.get_value();
 		}
 	}
 

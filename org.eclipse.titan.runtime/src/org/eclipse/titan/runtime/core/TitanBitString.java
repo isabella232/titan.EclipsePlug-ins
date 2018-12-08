@@ -154,11 +154,11 @@ public class TitanBitString extends Base_Type {
 	 * @param aBitIndex
 	 * @return bit value ( 0 or 1 )
 	 */
-	boolean getBit(final int aBitIndex) {
+	boolean get_bit(final int aBitIndex) {
 		return (bits_ptr[aBitIndex / 8] & (1 << (aBitIndex % 8))) != 0;
 	}
 
-	void setBit(final int aBitIndex, final boolean aNewValue) {
+	void set_bit(final int aBitIndex, final boolean aNewValue) {
 		final int mask = 1 << (aBitIndex % 8);
 		// the index of the actual byte, where the modification is made
 		final int listIndex = aBitIndex / 8;
@@ -172,7 +172,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally char*()
-	public int[] getValue() {
+	public int[] get_value() {
 		must_bound("Casting an unbound bitstring value to const unsigned char*.");
 
 		return bits_ptr;
@@ -290,7 +290,7 @@ public class TitanBitString extends Base_Type {
 			return false;
 		}
 
-		return getBit(0) == otherValue.get_bit();
+		return get_bit(0) == otherValue.get_bit();
 	}
 
 	@Override
@@ -393,7 +393,7 @@ public class TitanBitString extends Base_Type {
 		otherValue.must_bound("Unbound right operand of bitstring element");
 
 		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits + 1);
-		ret_val.setBit(n_bits, otherValue.get_bit());
+		ret_val.set_bit(n_bits, otherValue.get_bit());
 
 		return ret_val;
 	}
@@ -452,7 +452,7 @@ public class TitanBitString extends Base_Type {
 		}
 
 		final int result[] = new int[1];
-		result[0] = getBit(0) && otherValue.get_bit() ? 1 : 0;
+		result[0] = get_bit(0) && otherValue.get_bit() ? 1 : 0;
 
 		return new TitanBitString(result, 1);
 	}
@@ -490,7 +490,7 @@ public class TitanBitString extends Base_Type {
 		}
 
 		final int result[] = new int[1];
-		result[0] = getBit(0) || otherValue.get_bit() ? 1 : 0;
+		result[0] = get_bit(0) || otherValue.get_bit() ? 1 : 0;
 
 		return new TitanBitString(result, 1);
 	}
@@ -529,7 +529,7 @@ public class TitanBitString extends Base_Type {
 		}
 
 		final int result[] = new int[1];
-		result[0] = getBit(0) ^ otherValue.get_bit() ? 1 : 0;
+		result[0] = get_bit(0) ^ otherValue.get_bit() ? 1 : 0;
 
 		return new TitanBitString(result, 1);
 	}
@@ -750,7 +750,7 @@ public class TitanBitString extends Base_Type {
 		if (bits_ptr != null) {
 			TTCN_Logger.log_char('\'');
 			for (int bit_count = 0; bit_count < n_bits; bit_count++) {
-				TTCN_Logger.log_char(getBit(bit_count) ? '1' : '0');
+				TTCN_Logger.log_char(get_bit(bit_count) ? '1' : '0');
 			}
 			TTCN_Logger.log_event_str("'B");
 		} else {
@@ -823,7 +823,7 @@ public class TitanBitString extends Base_Type {
 		final StringBuilder result = new StringBuilder(n_bits + 2);
 		result.append('\'');
 		for (int i = 0; i < n_bits; i++) {
-			result.append(getBit(i) ? '1' : '0');
+			result.append(get_bit(i) ? '1' : '0');
 		}
 		result.append("\'B");
 
@@ -867,7 +867,7 @@ public class TitanBitString extends Base_Type {
 		}
 	}
 
-	public int getNBits() {
+	public int get_n_bits() {
 		return n_bits;
 	}
 
