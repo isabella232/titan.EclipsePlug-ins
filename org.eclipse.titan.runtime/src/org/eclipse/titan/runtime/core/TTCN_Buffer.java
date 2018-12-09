@@ -132,7 +132,7 @@ public class TTCN_Buffer {
 
 		buf_len = p_os.lengthof().getInt();
 		data_ptr = new char[buf_len];
-		System.arraycopy(p_os.getValue(), 0, data_ptr, 0, buf_len);
+		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
 	}
 
@@ -176,7 +176,7 @@ public class TTCN_Buffer {
 		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
 		buf_len = p_os.lengthof().getInt();
 		data_ptr = new char[buf_len];
-		System.arraycopy(p_os.getValue(), 0, data_ptr, 0, buf_len);
+		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
 		return this;
 	}
@@ -334,11 +334,11 @@ public class TTCN_Buffer {
 		if (n_octets > 0) {
 			if (buf_len > 0) {
 				increase_size(n_octets);
-				System.arraycopy(p_os.getValue(), 0, data_ptr, buf_len, n_octets);
+				System.arraycopy(p_os.get_value(), 0, data_ptr, buf_len, n_octets);
 				buf_len += n_octets;
 			} else {
 				data_ptr = new char[n_octets];
-				System.arraycopy(p_os.getValue(), 0, data_ptr, 0, n_octets);
+				System.arraycopy(p_os.get_value(), 0, data_ptr, 0, n_octets);
 				buf_len = n_octets;
 			}
 		}
@@ -423,9 +423,9 @@ public class TTCN_Buffer {
 		if (buf_len > 0) {
 			final char[] data = new char[buf_len];
 			System.arraycopy(data_ptr, 0, data, 0, buf_len);
-			p_os.setValue(data);
+			p_os.set_value(data);
 		} else {
-			p_os.setValue(new char[]{});
+			p_os.set_value(new char[]{});
 		}
 	}
 

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TitanGeneralString extends TitanUniversalCharString {
 	public static TitanGeneralString TTCN_ISO2022_2_GeneralString(final TitanOctetString p_os) {
-		final char osstr[] = p_os.getValue();
+		final char osstr[] = p_os.get_value();
 		final int len = osstr.length;
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 

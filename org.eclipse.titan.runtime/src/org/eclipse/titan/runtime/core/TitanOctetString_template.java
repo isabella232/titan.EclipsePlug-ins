@@ -491,7 +491,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 */
 	private boolean match_pattern(final char string_pattern[], final TitanOctetString string_value) {
 		final int stringPatternSize = string_pattern.length;
-		final int stringValueNOctets = string_value.getValue().length;
+		final int stringValueNOctets = string_value.get_value().length;
 		// the empty pattern matches the empty octetstring only
 		if (stringPatternSize == 0) {
 			return stringValueNOctets == 0;

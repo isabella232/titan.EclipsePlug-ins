@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TitanVideotexString extends TitanUniversalCharString {
 	public static TitanVideotexString TTCN_ISO2022_2_VideotexString(final TitanOctetString p_os) {
-		final char osstr[] = p_os.getValue();
+		final char osstr[] = p_os.get_value();
 		final int len = osstr.length;
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 

@@ -135,12 +135,12 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally char*()
-	public char[] getValue() {
+	public char[] get_value() {
 		return val_ptr;
 	}
 
 	// takes ownership of aOtherValue
-	public void setValue(final char[] aOtherValue) {
+	public void set_value(final char[] aOtherValue) {
 		val_ptr = aOtherValue;
 	}
 

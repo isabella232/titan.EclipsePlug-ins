@@ -150,7 +150,7 @@ public final class AdditionalFunctions {
 	private static CharCoding is_ascii(final TitanOctetString ostr) {
 		final int nonASCII = 1 << 7; // MSB is 1 in case of non ASCII character
 		CharCoding ret = CharCoding.ASCII;
-		final char[] strptr = ostr.getValue();
+		final char[] strptr = ostr.get_value();
 		for (int i = 0; i < strptr.length; i++) {
 			if (((strptr[i] & 0xFF) & nonASCII) != 0) {
 				ret = CharCoding.UNKNOWN;
@@ -164,7 +164,7 @@ public final class AdditionalFunctions {
 		final int MSB = 1 << 7; // MSB is 1 in case of non ASCII character
 		final int MSBmin1 = 1 << 6; // 0100 0000 
 		int i = 0;
-		final char strptr[] = ostr.getValue();
+		final char strptr[] = ostr.get_value();
 		while (ostr.lengthof().getInt() > i) {
 			if (((strptr[i] & 0xFF) & MSB) != 0) { //non ASCII char
 				int maskUTF8 = 1 << 6; // 111x xxxx shows how many additional bytes are there
@@ -637,7 +637,7 @@ public final class AdditionalFunctions {
 
 		int i = 0;
 		final int length = encoded_value.lengthof().getInt();
-		final char[] strptr = encoded_value.getValue();
+		final char[] strptr = encoded_value.get_value();
 
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
@@ -685,7 +685,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
-		final char str[] = encoded_value.getValue();
+		final char str[] = encoded_value.get_value();
 		int length_of_BOM = 0;
 		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
 			length_of_BOM = 4;
@@ -709,7 +709,7 @@ public final class AdditionalFunctions {
 
 	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
 		final char pad = '=';
-		final char[] p_msg = msg.getValue();
+		final char[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = msg.lengthof().getInt();
 		char[] output = new char[((octets_left*22) >> 4) + 7];
@@ -752,7 +752,7 @@ public final class AdditionalFunctions {
 
 	public static TitanCharString encode_base64(final TitanOctetString msg) {
 		final char pad = '=';
-		final char[] p_msg = msg.getValue();
+		final char[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = msg.lengthof().getInt();
 		char[] output = new char[((octets_left*22) >> 4) + 7];
@@ -1098,7 +1098,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger oct2int(final TitanOctetString value) {
 		value.must_bound("The argument of function oct2int() is an unbound octetstring value.");
 
-		final char octets_ptr[] = value.getValue();
+		final char octets_ptr[] = value.get_value();
 		final int n_octets = octets_ptr.length;
 
 		// skip the leading zero hex digits
@@ -1148,7 +1148,7 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthof().getInt();
 		final int bits_ptr[] = new int[n_octets];
-		final char octets_ptr[] = value.getValue();
+		final char octets_ptr[] = value.get_value();
 
 		for (int i = 0; i < n_octets; i++) {
 			bits_ptr[i] = bit_reverse_table[octets_ptr[i] & 0xFF];
@@ -1170,7 +1170,7 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthof().getInt();
 		final byte ret_val[] = new byte[n_octets * 2];
-		final char octets_ptr[] = value.getValue();
+		final char octets_ptr[] = value.get_value();
 
 		for (int i = 0; i < n_octets; i++) {
 			ret_val[i * 2] = (byte) ((octets_ptr[i] & 0xF0) >> 4);
@@ -1244,7 +1244,7 @@ public final class AdditionalFunctions {
 		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
-		unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
+		unicharStr.decode_utf8(value.get_value(), CharCoding.UTF_8, true);
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
@@ -1259,19 +1259,19 @@ public final class AdditionalFunctions {
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
 		if (encodeStr.operator_equals("UTF-8")) {
-			unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
+			unicharStr.decode_utf8(value.get_value(), CharCoding.UTF_8, true);
 		} else if (encodeStr.operator_equals("UTF-16")) {
-			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16);
+			unicharStr.decode_utf16(value.lengthof().getInt(), value.get_value(), CharCoding.UTF16);
 		} else if (encodeStr.operator_equals("UTF-16BE")) {
-			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16BE);
+			unicharStr.decode_utf16(value.lengthof().getInt(), value.get_value(), CharCoding.UTF16BE);
 		} else if (encodeStr.operator_equals("UTF-16LE")) {
-			unicharStr.decode_utf16(value.lengthof().getInt(), value.getValue(), CharCoding.UTF16LE);
+			unicharStr.decode_utf16(value.lengthof().getInt(), value.get_value(), CharCoding.UTF16LE);
 		} else if (encodeStr.operator_equals("UTF-32")) {
-			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32);
+			unicharStr.decode_utf32(value.lengthof().getInt(), value.get_value(), CharCoding.UTF32);
 		} else if (encodeStr.operator_equals("UTF-32BE")) {
-			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32BE);
+			unicharStr.decode_utf32(value.lengthof().getInt(), value.get_value(), CharCoding.UTF32BE);
 		} else if (encodeStr.operator_equals("UTF-32LE")) {
-			unicharStr.decode_utf32(value.lengthof().getInt(), value.getValue(), CharCoding.UTF32LE);
+			unicharStr.decode_utf32(value.lengthof().getInt(), value.get_value(), CharCoding.UTF32LE);
 		}
 		else {
 			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
@@ -1818,7 +1818,7 @@ public final class AdditionalFunctions {
 
 		check_substr_arguments(value.lengthof().getInt(), idx, returncount, "octetstring", "octet");
 		final char ret_val[] = new char[returncount];
-		final char src_ptr[] = value.getValue();
+		final char src_ptr[] = value.get_value();
 		System.arraycopy(src_ptr, idx, ret_val, 0, returncount);
 
 		return new TitanOctetString(ret_val);
@@ -2266,8 +2266,8 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "octetstring", "octet");
 
 		final int repl_len = repl.lengthof().getInt();
-		final char src_ptr[] = value.getValue();
-		final char repl_ptr[] = repl.getValue();
+		final char src_ptr[] = value.get_value();
+		final char repl_ptr[] = repl.get_value();
 		final char ret_val[] = new char[value_len + repl_len - len];
 
 		System.arraycopy(src_ptr, 0, ret_val, 0, idx);

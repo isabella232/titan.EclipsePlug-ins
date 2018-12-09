@@ -770,11 +770,11 @@ public final class Param_Types {
 		}
 
 		public Object get_string_data() {
-			return ostr.getValue();
+			return ostr.get_value();
 		}
 
 		public int get_string_size() {
-			return ostr.getValue().length;
+			return ostr.get_value().length;
 		}
 	}
 
