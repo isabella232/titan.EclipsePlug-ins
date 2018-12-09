@@ -242,7 +242,7 @@ public class TitanTimer {
 			TTCN_Logger.log_timer_guard(startValue);
 		}
 
-		time_started = TTCN_Snapshot.timeNow();
+		time_started = TTCN_Snapshot.time_now();
 		time_expires = time_started + startValue;
 	}
 
@@ -282,7 +282,7 @@ public class TitanTimer {
 		double returnValue;
 
 		if (is_started) {
-			final double currentTime = TTCN_Snapshot.timeNow();
+			final double currentTime = TTCN_Snapshot.time_now();
 			if (currentTime >= time_expires) {
 				returnValue = 0.0;
 			} else {
@@ -312,7 +312,7 @@ public class TitanTimer {
 	 * originally running(Index_Redirect*)
 	 */
 	public boolean running(final Index_Redirect index_redirect) {
-		return is_started && TTCN_Snapshot.timeNow() < time_expires;
+		return is_started && TTCN_Snapshot.time_now() < time_expires;
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class TitanTimer {
 	 * */
 	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
 		if (is_started) {
-			if (TTCN_Snapshot.getAltBegin() < time_expires) {
+			if (TTCN_Snapshot.get_alt_begin() < time_expires) {
 				return TitanAlt_Status.ALT_MAYBE;
 			}
 
@@ -428,7 +428,7 @@ public class TitanTimer {
 	 * */
 	public static boolean get_min_expiration(final Changeable_Double minValue) {
 		boolean minFlag = false;
-		final double altBegin = TTCN_Snapshot.getAltBegin();
+		final double altBegin = TTCN_Snapshot.get_alt_begin();
 
 		if (testcaseTimer.is_started && testcaseTimer.time_expires > altBegin) {
 			minValue.setValue(testcaseTimer.time_expires);
@@ -492,7 +492,7 @@ public class TitanTimer {
 		}
 		TTCN_Logger.log_event_str(", state: ");
 		if (is_started) {
-			final double current_time = TTCN_Snapshot.timeNow();
+			final double current_time = TTCN_Snapshot.time_now();
 			if (current_time < time_expires) {
 				TTCN_Logger.log_event_str("running");
 			} else {

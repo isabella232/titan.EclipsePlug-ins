@@ -800,7 +800,7 @@ public class TitanCharString extends Base_Type {
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 
 		default:
@@ -830,7 +830,7 @@ public class TitanCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 
 		default:
@@ -868,7 +868,7 @@ public class TitanCharString extends Base_Type {
 		} else {
 			myleaf.align = align_length;
 		}
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return myleaf.length = bl + align_length;
 	}
@@ -888,7 +888,7 @@ public class TitanCharString extends Base_Type {
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
-				errorContext.leaveContext();
+				errorContext.leave_context();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s.'", p_td.name);
@@ -949,7 +949,7 @@ public class TitanCharString extends Base_Type {
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return decode_length + prepaddlength;
 	}

@@ -3545,7 +3545,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
 		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
 		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
-		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("TTCN_Snapshot.take_new(false);\n");
 		source.append("for( ; ; ) {\n");
 		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
 
@@ -3572,7 +3572,7 @@ public final class PortGenerator {
 		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone {0} statement failed in file {1}, line {2}.\");\n", statementName, location.getFile().getProjectRelativePath(), location.getLine()));
 		source.append("}\n");
-		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("TTCN_Snapshot.take_new(true);\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");

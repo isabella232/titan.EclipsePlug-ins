@@ -1856,7 +1856,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 			}
 		}
-		error.leaveContext();
+		error.leave_context();
 	}
 
 	public void encode_utf32(final TTCN_Buffer buf, final CharCoding expected_coding) {
@@ -1909,7 +1909,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 			}
 		}
-		error.leaveContext();
+		error.leave_context();
 	}
 
 	@Override
@@ -1927,7 +1927,7 @@ public class TitanUniversalCharString extends Base_Type {
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 
 		default:
@@ -1957,7 +1957,7 @@ public class TitanUniversalCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 
 		default:
@@ -2053,7 +2053,7 @@ public class TitanUniversalCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
 			}
 		}
-		errorcontext.leaveContext();
+		errorcontext.leave_context();
 		return dec_len;
 	}
 

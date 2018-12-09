@@ -862,7 +862,7 @@ public class TitanInteger extends Base_Type {
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -894,7 +894,7 @@ public class TitanInteger extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -1173,7 +1173,7 @@ public class TitanInteger extends Base_Type {
 
 		if (value == Integer.MIN_VALUE) {
 			final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			return big_value.RAW_encode_openssl(p_td, myleaf);
 		}
 
@@ -1281,7 +1281,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return myleaf.length;
 	}
@@ -1411,7 +1411,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return myleaf.length;
 	}
@@ -1461,7 +1461,7 @@ public class TitanInteger extends Base_Type {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
 					}
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
 					return -error_type.ET_LEN_ERR.ordinal();
 				} else {
@@ -1472,7 +1472,7 @@ public class TitanInteger extends Base_Type {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
 					}
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
 					return -error_type.ET_INCOMPL_MSG.ordinal();
 				}
@@ -1507,7 +1507,7 @@ public class TitanInteger extends Base_Type {
 						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leaveContext();
+				errorContext.leave_context();
 
 				return -error_type.ET_LEN_ERR.ordinal();
 			}
@@ -1521,7 +1521,7 @@ public class TitanInteger extends Base_Type {
 						"There are not enough bits in the buffer to decode %s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leaveContext();
+				errorContext.leave_context();
 
 				return error_type.ET_INCOMPL_MSG.ordinal();
 			}
@@ -1529,7 +1529,7 @@ public class TitanInteger extends Base_Type {
 		}
 		clean_up();
 		if (decode_length < 0) {
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			return -1;
 		} else if (decode_length == 0 && partial_octet_bits == 0) {
 			boundFlag = true;
@@ -1605,7 +1605,7 @@ public class TitanInteger extends Base_Type {
 					}
 					decode_length += buff.increase_pos_padd(p_td.raw.padding);
 					boundFlag = true;
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
 					return decode_length + prepaddlength + len_bits;
 				} else {
@@ -1621,7 +1621,7 @@ public class TitanInteger extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		boundFlag = true;
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return decode_length + prepaddlength + len_bits;
 	}

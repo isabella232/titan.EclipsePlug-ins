@@ -804,7 +804,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
 		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
 		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
-		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -844,7 +844,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -2984,7 +2984,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
 		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
 		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
-		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -3024,7 +3024,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\terrorContext.leaveContext();\n");
+		source.append("\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");

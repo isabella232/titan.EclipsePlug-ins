@@ -385,7 +385,7 @@ public final class TTCN_Runtime {
 		final executorStateEnum oldState = executorState.get();
 
 		do {
-			TTCN_Snapshot.takeNew(true);
+			TTCN_Snapshot.take_new(true);
 		} while (oldState == executorState.get());
 	}
 
@@ -560,7 +560,7 @@ public final class TTCN_Runtime {
 			initialize_component_process_tables();
 
 			do {
-				TTCN_Snapshot.takeNew(true);
+				TTCN_Snapshot.take_new(true);
 				TTCN_Communication.process_all_messages_hc();
 			} while (executorState.get().ordinal() >= executorStateEnum.HC_IDLE.ordinal() && executorState.get().ordinal() < executorStateEnum.HC_EXIT.ordinal());
 
@@ -596,7 +596,7 @@ public final class TTCN_Runtime {
 			TTCN_Communication.send_mtc_created();
 
 			do {
-				TTCN_Snapshot.takeNew(true);
+				TTCN_Snapshot.take_new(true);
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
@@ -642,7 +642,7 @@ public final class TTCN_Runtime {
 			if (returnValue == 0) {
 				try {
 					do {
-						TTCN_Snapshot.takeNew(true);
+						TTCN_Snapshot.take_new(true);
 						TTCN_Communication.process_all_messages_tc();
 					} while (executorState.get() != executorStateEnum.PTC_EXIT);
 				} catch (final TtcnError error) {
@@ -2178,7 +2178,7 @@ public final class TTCN_Runtime {
 
 		TTCN_Default.restore_control_defaults();
 		TitanTimer.restore_control_timers();
-		TTCN_EncDec_ErrorContext.resetAllContexts();
+		TTCN_EncDec_ErrorContext.reset_all_contexts();
 		startTime.set(0.0);
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
@@ -2344,7 +2344,7 @@ public final class TTCN_Runtime {
 			@Override
 			public void run() {
 				//runs in the MTC
-				TTCN_Snapshot.reOpen();
+				TTCN_Snapshot.re_open();
 				TTCN_Communication.close_mc_connection();
 
 				TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
@@ -2391,7 +2391,7 @@ public final class TTCN_Runtime {
 			@Override
 			public void run() {
 				//runs in the PTC
-				TTCN_Snapshot.reOpen();
+				TTCN_Snapshot.re_open();
 				TTCN_Communication.close_mc_connection();
 
 				TitanComponent.self.set(new TitanComponent(component_reference));

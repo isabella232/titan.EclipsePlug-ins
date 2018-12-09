@@ -2834,7 +2834,7 @@ public final class AdditionalFunctions {
 
 	public static TitanFloat rnd() {
 		if (!rndSeedSet) {
-			setRndSeed(TTCN_Snapshot.timeNow());
+			setRndSeed(TTCN_Snapshot.time_now());
 		}
 
 		return rndGenerate();

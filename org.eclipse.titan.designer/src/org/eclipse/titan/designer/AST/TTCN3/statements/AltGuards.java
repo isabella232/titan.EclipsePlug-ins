@@ -462,7 +462,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 		// the first snapshot is taken in non-blocking mode
 		aData.addCommonLibraryImport("TTCN_Snapshot");
-		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("TTCN_Snapshot.take_new(false);\n");
 		// and opening infinite for() loop
 		source.append("for ( ; ; ) {\n");
 
@@ -470,7 +470,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			final AltGuard altGuard = altGuards.get(i);
 			final altguard_type altGuardType = altGuard.getType();
 			if (altGuardType.equals(altguard_type.AG_ELSE)) {
-				source.append("TTCN_Snapshot.elseBranchReached();\n");
+				source.append("TTCN_Snapshot.else_branch_reached();\n");
 				StatementBlock block = altGuard.getStatementBlock();
 				if (block.getSize() > 0) {
 					source.append("{\n");
@@ -587,7 +587,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append("\");\n");
 			source.append("}\n");
 
-			source.append("TTCN_Snapshot.takeNew(true);\n");
+			source.append("TTCN_Snapshot.take_new(true);\n");
 		}
 
 		source.append("}\n");
@@ -611,7 +611,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			final AltGuard altGuard = altGuards.get(i);
 			final altguard_type altGuardType = altGuard.getType();
 			if (altGuardType.equals(altguard_type.AG_ELSE)) {
-				source.append("TTCN_Snapshot.elseBranchReached();\n");
+				source.append("TTCN_Snapshot.else_branch_reached();\n");
 				final StatementBlock block = altGuard.getStatementBlock();
 				if (block.getSize() > 0) {
 					source.append("{\n");
@@ -766,7 +766,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		// and opening infinite for() loop
 		// the first snapshot is taken in non-blocking mode
 		aData.addCommonLibraryImport("TTCN_Snapshot");
-		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("TTCN_Snapshot.take_new(false);\n");
 		// and opening infinite for() loop
 		source.append("for ( ; ; ) {\n");
 		for (int i = 0; i < altGuards.size(); i++) {
@@ -852,7 +852,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		source.append("\");\n");
 		source.append("}\n");
 
-		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("TTCN_Snapshot.take_new(true);\n");
 		source.append("}\n");
 	}
 }

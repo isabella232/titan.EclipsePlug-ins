@@ -555,7 +555,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -595,7 +595,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 					break;
 				}
 			}
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:

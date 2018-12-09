@@ -805,7 +805,7 @@ public class TitanFloat extends Base_Type {
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -837,7 +837,7 @@ public class TitanFloat extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -934,14 +934,14 @@ public class TitanFloat extends Base_Type {
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
-				errorcontext.leaveContext();
+				errorcontext.leave_context();
 				return -1;
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
 			decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
 			float_value = new Ttcn3Float(0.0);
 			decode_length += buff.increase_pos_padd(p_td.raw.padding);
-			errorcontext.leaveContext();
+			errorcontext.leave_context();
 			return decode_length + prepaddlength;
 		}
 
@@ -979,7 +979,7 @@ public class TitanFloat extends Base_Type {
 			tmp = ByteBuffer.wrap(tmp_dv).getDouble();
 			if (Double.isNaN(tmp)) {
 				if (no_err) {
-					errorcontext.leaveContext();
+					errorcontext.leave_context();
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
@@ -997,7 +997,7 @@ public class TitanFloat extends Base_Type {
 				tmp = sign != 0 ? -0.0 : 0.0;
 			} else if (exponent == 0xFF && fraction != 0) {
 				if (no_err) {
-					errorcontext.leaveContext();
+					errorcontext.leave_context();
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
@@ -1013,7 +1013,7 @@ public class TitanFloat extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		float_value = new Ttcn3Float(tmp);
-		errorcontext.leaveContext();
+		errorcontext.leave_context();
 		return decode_length + prepaddlength;
 	}
 

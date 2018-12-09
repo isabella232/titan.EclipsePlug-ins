@@ -793,7 +793,7 @@ public class TitanOctetString extends Base_Type {
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -823,7 +823,7 @@ public class TitanOctetString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}'", p_td.name));
@@ -865,7 +865,7 @@ public class TitanOctetString extends Base_Type {
 		} else {
 			myleaf.align = -align_length;
 		}
-		errorcontext.leaveContext();
+		errorcontext.leave_context();
 
 		return myleaf.length = bl + align_length;
 	}
@@ -885,7 +885,7 @@ public class TitanOctetString extends Base_Type {
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
-				errorcontext.leaveContext();
+				errorcontext.leave_context();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s'.", p_td.name);
@@ -940,7 +940,7 @@ public class TitanOctetString extends Base_Type {
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		errorcontext.leaveContext();
+		errorcontext.leave_context();
 
 		return decode_length + prepaddlength;
 	}

@@ -428,7 +428,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		case STRING_PATTERN:
 			if (!pattern_value_regexp_init) {
-				pattern_value_posix_regexp = TTCN_Pattern.convertPattern(single_value.get_value().toString(), pattern_value_nocase);
+				pattern_value_posix_regexp = TTCN_Pattern.convert_pattern(single_value.get_value().toString(), pattern_value_nocase);
 			}
 			if (pattern_value_posix_regexp != null) {
 				return TTCN_Pattern.match(otherValue.get_value().toString(), pattern_value_posix_regexp, pattern_value_nocase);

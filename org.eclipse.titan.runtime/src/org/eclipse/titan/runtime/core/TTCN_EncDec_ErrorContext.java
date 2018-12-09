@@ -41,14 +41,14 @@ public class TTCN_EncDec_ErrorContext {
 		errors.add(this);
 	}
 
-	public void leaveContext() {
+	public void leave_context() {
 		if (errors.get(errors.size() - 1) != this) {
 			throw new TtcnError(" Internal error: TTCN_EncDec_ErrorContext.leaveContext()");
 		}
 		errors.remove(errors.size() - 1);
 	}
 
-	public static void resetAllContexts() {
+	public static void reset_all_contexts() {
 		errors.clear();
 	}
 
