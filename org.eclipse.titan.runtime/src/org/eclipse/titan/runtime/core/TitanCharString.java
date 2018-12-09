@@ -409,7 +409,7 @@ public class TitanCharString extends Base_Type {
 			for (int i = 0; i < val_ptr.length(); i++) {
 				ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, val_ptr.charAt(i)));
 			}
-			ret_val.addAll(aOtherValue.getValue());
+			ret_val.addAll(aOtherValue.get_value());
 
 			return new TitanUniversalCharString(ret_val);
 		}

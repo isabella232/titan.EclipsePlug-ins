@@ -459,7 +459,7 @@ public class TTCN_Buffer {
 			for (int i = 0; i < buf_len / 4; i++) {
 				data.add(new TitanUniversalChar(data_ptr[4 * i], data_ptr[4 * i + 1], data_ptr[4 * i + 2], data_ptr[4 * i + 3]));
 			}
-			p_cs.setValue(data);
+			p_cs.set_value(data);
 		} else {
 			p_cs.operator_assign("");
 		}

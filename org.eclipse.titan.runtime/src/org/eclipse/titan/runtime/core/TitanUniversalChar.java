@@ -71,7 +71,7 @@ public class TitanUniversalChar {
 	}
 
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
-	public static TitanBoolean lessThan(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+	public static TitanBoolean less_than(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		if (left_value.getUc_group() < right_value.getUc_group()) {
 			return new TitanBoolean(true);
 		} else if (left_value.getUc_group() == right_value.getUc_group()) {
@@ -97,8 +97,8 @@ public class TitanUniversalChar {
 		}
 	}
 
-	public TitanBoolean lessThan(final TitanUniversalChar right_value) {
-		return lessThan(this, right_value);
+	public TitanBoolean less_than(final TitanUniversalChar right_value) {
+		return less_than(this, right_value);
 	}
 
 	public char getUc_group() {
@@ -136,7 +136,7 @@ public class TitanUniversalChar {
 	/**
 	 * @return decoded quadruple as unicode string
 	 */
-	public String toUtf() {
+	public String to_utf() {
 		byte[] arr = new byte[4];
 		arr[0] = (byte)uc_group;
 		arr[1] = (byte)uc_plane;

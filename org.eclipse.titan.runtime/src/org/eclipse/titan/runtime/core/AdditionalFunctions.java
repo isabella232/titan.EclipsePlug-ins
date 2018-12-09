@@ -568,7 +568,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The length of the argument in function unichar2int() must be exactly 1 instead of {0}.", value.lengthof().getInt()));
 		}
 
-		return unichar2int(value.getValue().get(0));
+		return unichar2int(value.get_value().get(0));
 	}
 
 	public static TitanInteger unichar2int(final TitanUniversalCharString_Element value) {
@@ -1935,7 +1935,7 @@ public final class AdditionalFunctions {
 			return new TitanUniversalCharString(value.cstr.substring(idx, idx + returncount));
 		} else {
 			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
-			final List<TitanUniversalChar> src_ptr = value.getValue();
+			final List<TitanUniversalChar> src_ptr = value.get_value();
 			for (int i = 0; i < returncount; i++) {
 				ret_val.add(src_ptr.get(i + idx));
 			}

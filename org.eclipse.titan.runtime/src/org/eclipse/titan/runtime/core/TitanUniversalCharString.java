@@ -187,18 +187,18 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally operator universal_char*
-	public List<TitanUniversalChar> getValue() {
+	public List<TitanUniversalChar> get_value() {
 		must_bound("Casting an unbound universal charstring value to const universal_char*.");
 
 		if (charstring) {
-			convertCstrToUni();
+			convert_cstr_to_uni();
 		}
 
 		return val_ptr;
 	}
 
 	// takes ownership of aOtherValue
-	public void setValue(final List<TitanUniversalChar> aOtherValue) {
+	public void set_value(final List<TitanUniversalChar> aOtherValue) {
 		if (aOtherValue != null) {
 			val_ptr = aOtherValue;
 			cstr = null;
@@ -694,7 +694,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				ulist.add(other_value);
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString();
-				ret_val.setValue(ulist);
+				ret_val.set_value(ulist);
 				return ret_val;
 			}
 		}
@@ -790,7 +790,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				ulist.addAll(other_value.val_ptr);
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString();
-				ret_val.setValue(ulist);
+				ret_val.set_value(ulist);
 				return ret_val;
 			}
 		} else {
@@ -800,7 +800,7 @@ public class TitanUniversalCharString extends Base_Type {
 				final int cslen = cs.length();
 				for (int i = 0; i < cslen; i++) {
 					final TitanUniversalChar uc = new TitanUniversalChar((char) 0, (char) 0, (char) 0, cs.charAt(i));
-					ret_val.getValue().add(uc);
+					ret_val.get_value().add(uc);
 				}
 				return ret_val;
 			} else {
@@ -811,7 +811,7 @@ public class TitanUniversalCharString extends Base_Type {
 					return new TitanUniversalCharString(this);
 				}
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString(val_ptr);
-				ret_val.getValue().addAll(other_value.val_ptr);
+				ret_val.get_value().addAll(other_value.val_ptr);
 				return ret_val;
 			}
 		}
@@ -912,7 +912,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return constGet_at(index_value.getInt());
 	}
 
-	public static boolean isPrintable(final TitanUniversalChar uchar) {
+	public static boolean is_printable(final TitanUniversalChar uchar) {
 		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TTCN_Logger.isPrintable(uchar.getUc_cell());
 	}
 
@@ -931,7 +931,7 @@ public class TitanUniversalCharString extends Base_Type {
 			final StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.size(); i++) {
 				final TitanUniversalChar uchar = val_ptr.get(i);
-				if (isPrintable(uchar)) {
+				if (is_printable(uchar)) {
 					switch (state) {
 					case UCHAR:
 						buffer.append(" & ");
@@ -1101,7 +1101,7 @@ public class TitanUniversalCharString extends Base_Type {
 	/**
 	 * @return unicode string representation
 	 */
-	public String toUtf() {
+	public String to_utf() {
 		must_bound("Accessing an element of an unbound universal charstring value.");
 
 		if (charstring) {
@@ -1110,7 +1110,7 @@ public class TitanUniversalCharString extends Base_Type {
 			final StringBuilder str = new StringBuilder();
 
 			for (int i = 0; i < val_ptr.size(); ++i) {
-				str.append(val_ptr.get(i).toUtf());
+				str.append(val_ptr.get(i).to_utf());
 			}
 
 			return str.toString();
@@ -1123,7 +1123,7 @@ public class TitanUniversalCharString extends Base_Type {
 		must_bound("Text encoder: Encoding an unbound universal charstring value.");
 
 		if (charstring) {
-			convertCstrToUni();
+			convert_cstr_to_uni();
 		}
 
 		final int n_chars = val_ptr.size();
@@ -1162,7 +1162,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// intentionally package public
-	final TitanUniversalChar charAt(final int i) {
+	final TitanUniversalChar char_at(final int i) {
 		if (charstring) {
 			return new TitanUniversalChar((char) 0, (char) 0, (char) 0, cstr.charAt(i));
 		}
@@ -1171,15 +1171,15 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// intentionally package public
-	final void setCharAt(final int i, final TitanUniversalChar c) {
+	final void set_char_at(final int i, final TitanUniversalChar c) {
 		if (charstring) {
-			convertCstrToUni();
+			convert_cstr_to_uni();
 		}
 
 		val_ptr.set(i, c);
 	}
 
-	final void setCharAt(final int i, final char c) {
+	final void set_char_at(final int i, final char c) {
 		if (charstring) {
 			cstr.setCharAt(i, c);
 		} else {
@@ -1264,7 +1264,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return rotate_right(rotateCount.getInt());
 	}
 
-	public void convertCstrToUni() {
+	public void convert_cstr_to_uni() {
 		val_ptr = new ArrayList<TitanUniversalChar>(cstr.length());
 		for (int i = 0; i < cstr.length(); ++i) {
 			val_ptr.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, cstr.charAt(i)));
@@ -1309,7 +1309,7 @@ public class TitanUniversalCharString extends Base_Type {
 					ulist.add(uc);
 				}
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString();
-				ret_val.setValue(ulist);
+				ret_val.set_value(ulist);
 				return ret_val;
 			}
 		}

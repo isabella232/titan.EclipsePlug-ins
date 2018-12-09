@@ -70,7 +70,7 @@ public class TitanUniversalCharString_Element {
 				if (otherValue.str_val.charstring) {
 					str_val.cstr.setCharAt(char_pos, otherValue.get_char().getUc_cell());
 				} else {
-					str_val.convertCstrToUni();
+					str_val.convert_cstr_to_uni();
 					str_val.val_ptr.set(char_pos, otherValue.get_char());
 				}
 			} else {
@@ -128,7 +128,7 @@ public class TitanUniversalCharString_Element {
 				str_val.cstr.setCharAt(char_pos, otherValue.getUc_cell());
 				return this;
 			} else {
-				str_val.convertCstrToUni();
+				str_val.convert_cstr_to_uni();
 			}
 		}
 		str_val.val_ptr.set(char_pos, otherValue);
@@ -239,11 +239,11 @@ public class TitanUniversalCharString_Element {
 		must_bound("Unbound left operand of charstring element comparison.");
 		otherValue.must_bound("Unbound right operand of charstring element comparison.");
 
-		if (otherValue.getValue().size() != 1) {
+		if (otherValue.get_value().size() != 1) {
 			return false;
 		}
 
-		return get_char().operator_equals(otherValue.charAt(0));
+		return get_char().operator_equals(otherValue.char_at(0));
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class TitanUniversalCharString_Element {
 			return false;
 		}
 		if (!str_val.charstring && otherValue.is_char()) {
-			final TitanUniversalChar uchar = new TitanUniversalChar(str_val.charAt(char_pos));
+			final TitanUniversalChar uchar = new TitanUniversalChar(str_val.char_at(char_pos));
 			return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0
 					&& uchar.getUc_cell() == otherValue.getUc_cell();
 		}
@@ -460,7 +460,7 @@ public class TitanUniversalCharString_Element {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 
 		if (otherValue == null) {
-			return new TitanUniversalCharString(str_val.charAt(char_pos));
+			return new TitanUniversalCharString(str_val.char_at(char_pos));
 		}
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
@@ -597,7 +597,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	public TitanUniversalChar get_char() {
-		return str_val.charAt(char_pos);
+		return str_val.char_at(char_pos);
 	}
 
 	/** 
@@ -633,7 +633,7 @@ public class TitanUniversalCharString_Element {
 				return;
 			}
 			final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
-			if (TitanUniversalCharString.isPrintable(uchar)) {
+			if (TitanUniversalCharString.is_printable(uchar)) {
 				TTCN_Logger.log_char('"');
 				TTCN_Logger.logCharEscaped(uchar.getUc_cell());
 				TTCN_Logger.log_char('"');

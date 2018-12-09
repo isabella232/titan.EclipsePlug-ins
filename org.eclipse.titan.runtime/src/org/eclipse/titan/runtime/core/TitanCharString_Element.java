@@ -183,9 +183,9 @@ public class TitanCharString_Element {
 		if (otherValue.val_ptr.size() != 1) {
 			return false;
 		} else if (otherValue.charstring) {
-			return str_val.get_at(char_pos).get_char() == otherValue.charAt(0).getUc_cell();
+			return str_val.get_at(char_pos).get_char() == otherValue.char_at(0).getUc_cell();
 		} else {
-			final TitanUniversalChar temp = otherValue.charAt(0);
+			final TitanUniversalChar temp = otherValue.char_at(0);
 			return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
 					&& str_val.get_at(char_pos).get_char() == temp.getUc_cell();
 		}
@@ -309,7 +309,7 @@ public class TitanCharString_Element {
 			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 			ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char()));
 			for (int i = 0; i < aOtherValue.lengthof().getInt(); i++) {
-				ret_val.add(aOtherValue.charAt(i));
+				ret_val.add(aOtherValue.char_at(i));
 			}
 
 			return new TitanUniversalCharString(ret_val);
