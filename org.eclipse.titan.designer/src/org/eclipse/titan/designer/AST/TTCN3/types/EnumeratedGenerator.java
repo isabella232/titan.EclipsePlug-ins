@@ -1432,7 +1432,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\t\ttext_buf.push_int(single_value.get_int());\n");
+		source.append("\t\t\t\ttext_buf.push_int(single_value.getInt());\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
