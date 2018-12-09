@@ -283,7 +283,7 @@ public final class EnumeratedGenerator {
 			source.append( "\t\t * */\n" );
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}(final int otherValue) '{'\n", name));
-		source.append("\t\t\tif (!isValidEnum(otherValue)) {\n");
+		source.append("\t\t\tif (!is_valid_enum(otherValue)) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Initializing a variable of enumerated type `{0}'' with invalid numeric value {1} .\", otherValue));\n", name));
 		source.append("\t\t\t}\n\n");
 		source.append(MessageFormat.format("\t\t\tenum_value =  enum_type.getValue(otherValue);\n", name));
@@ -291,18 +291,18 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateValueIsValidEnum(final StringBuilder source, final String name) {
-		source.append("\t\tpublic static boolean isValidEnum(final int otherValue) {\n");
+		source.append("\t\tpublic static boolean is_valid_enum(final int otherValue) {\n");
 		source.append("\t\t\tfinal enum_type helper =  enum_type.getValue(otherValue);\n");
 		source.append("\t\t\treturn helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\tpublic static boolean isValidEnum(final enum_type otherValue) {\n");
+		source.append("\t\tpublic static boolean is_valid_enum(final enum_type otherValue) {\n");
 		source.append("\t\t\treturn otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;\n");
 		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueEnumToStr(final StringBuilder source) {
-		source.append("\t\tpublic static String enum2str(final enum_type enumPar) {\n");
+		source.append("\t\tpublic static String enum_to_str(final enum_type enumPar) {\n");
 		source.append("\t\t\treturn enumPar.name();\n");
 		source.append("\t\t}\n\n");
 	}
@@ -313,7 +313,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tif (enum_value == enum_type.UNBOUND_VALUE) {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_unbound();\n");
 		source.append("\t\t\t} else {\n");
-		source.append("\t\t\t\tTTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_enum(enum_to_str(enum_value), enum2int(enum_value));\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 	}
@@ -326,7 +326,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated_value\", \"{0}\");\n", name));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tenum_value = str_to_enum(param.get_enumerated());\n");
-		source.append("\t\t\tif (!isValidEnum(enum_value)) {\n");
+		source.append("\t\t\tif (!is_valid_enum(enum_value)) {\n");
 		source.append(MessageFormat.format("\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", name));
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
@@ -342,7 +342,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		source.append("\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
-		source.append("\t\t\tif (!isValidEnum(temp)) {\n");
+		source.append("\t\t\tif (!is_valid_enum(temp)) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", name));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tint2enum(temp);\n");
@@ -447,7 +447,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\tif (decoded_length < 0) {\n");
 			source.append("\t\t\t\treturn decoded_length;\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tif (isValidEnum(decoded_value.get())) {\n");
+			source.append("\t\t\tif (is_valid_enum(decoded_value.get())) {\n");
 			source.append("\t\t\t\tenum_value = enum_type.getValue(decoded_value.get());\n");
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tif (no_err) {\n");
@@ -490,14 +490,13 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateValueAsInt(final StringBuilder source) {
-		source.append("\t\t//originally int as_int()\n");
-		source.append("\t\tpublic int asInt() {\n");
+		source.append("\t\tpublic int as_int() {\n");
 		source.append("\t\t\treturn enum2int(enum_value);\n");
 		source.append("\t\t}\n\n");
 	}
 
 	private static void generateValueFromInt(final StringBuilder source) {
-		source.append("\t\tpublic void fromInt(final int otherValue) {\n");
+		source.append("\t\tpublic void from_int(final int otherValue) {\n");
 		source.append("\t\t\tenum_value = enum_type.getValue(otherValue);\n");
 		source.append("\t\t}\n\n");
 	}
@@ -505,7 +504,7 @@ public final class EnumeratedGenerator {
 	private static void generateValueIntToEnum(final StringBuilder source) {
 		//arg: int
 		source.append("\t\tpublic void int2enum(final int intValue) {\n");
-		source.append("\t\t\tif (!isValidEnum(intValue)) {\n");
+		source.append("\t\t\tif (!is_valid_enum(intValue)) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tenum_value = enum_type.getValue(intValue);\n");
@@ -513,7 +512,7 @@ public final class EnumeratedGenerator {
 
 		//arg: TitanInteger
 		source.append("\t\tpublic void int2enum(final TitanInteger intValue) {\n");
-		source.append("\t\t\tif (!isValidEnum(intValue.get_int())) {\n");
+		source.append("\t\t\tif (!is_valid_enum(intValue.get_int())) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue.get_int()+\" to a variable of enumerated type {}.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tenum_value = enum_type.getValue(intValue.get_int());\n");
@@ -726,7 +725,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final int otherValue)'{'\n", name));
-		source.append("\t\t\tif (!isValidEnum(otherValue)) {\n");
+		source.append("\t\t\tif (!is_valid_enum(otherValue)) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Assigning unknown numeric value {1} to a variable of enumerated type `{0}''.\", otherValue));\n", name));
 		source.append("\t\t\t}\n\n");
 		source.append(MessageFormat.format("\t\t\tenum_value =  enum_type.getValue(otherValue);\n", name));
@@ -933,7 +932,7 @@ public final class EnumeratedGenerator {
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template(final int otherValue) '{'\n", name));
 		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
-		source.append(MessageFormat.format("\t\t\tif (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif (!{0}.is_valid_enum(otherValue)) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", name));
 		source.append("\t\t\t}\n");
 		source.append(MessageFormat.format("\t\t\tsingle_value = {0}.enum_type.getValue(otherValue);\n", name));
@@ -1035,7 +1034,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final int otherValue) '{'\n", name));
-		source.append(MessageFormat.format("\t\t\tif (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\tif (!{0}.is_valid_enum(otherValue)) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tclean_up();\n");
@@ -1328,7 +1327,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\tpublic void log() {\n");
 		source.append("\t\t\tswitch (template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
+		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_enum({0}.enum_to_str(single_value), {0}.enum2int(single_value));\n", name));
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
@@ -1409,7 +1408,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcase MP_Enumerated: {\n");
 		source.append(MessageFormat.format("\t\t\t\tfinal {0}.enum_type enum_value = {0}.str_to_enum(param.get_enumerated());\n", name));
-		source.append(MessageFormat.format("\t\t\t\tif (!{0}.isValidEnum(enum_value)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\tif (!{0}.is_valid_enum(enum_value)) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\toperator_assign(enum_value);\n");
@@ -1457,7 +1456,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
 		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
-		source.append(MessageFormat.format("\t\t\t\tif (!{0}.isValidEnum(temp)) '{'\n", name));
+		source.append(MessageFormat.format("\t\t\t\tif (!{0}.is_valid_enum(temp)) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append(MessageFormat.format("\t\t\t\tsingle_value = {0}.enum_type.values()[temp];\n", name));
