@@ -96,32 +96,32 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 		array_size = length;
 	}
 
-	public void setOffset(final int offset) {
+	public void set_offset(final int offset) {
 		indexOffset = offset;
 	}
 
 	// originally T& operator[](int)
 	@SuppressWarnings("unchecked")
 	public T get_at(final int index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
 	//originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
 	public T get_at(final TitanInteger index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
 	//const originally T& operator[](int)
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final int index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
 	// const // originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final TitanInteger index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -179,7 +179,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 
 	// static functions
 
-	public static int getTimerArrayIndex(final int indexValue, final int arraySize, final int indexOffset) {
+	public static int get_timer_array_index(final int indexValue, final int arraySize, final int indexOffset) {
 		if (arraySize < 0) {
 			throw new TtcnError("Invalid array size");
 		}
@@ -197,10 +197,10 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 
 		return result;
 	}
-	public static int getTimerArrayIndex(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
+	public static int get_timer_array_index(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
 		indexValue.must_bound("Accessing an element of a timer array using an unbound index.");
 
-		return getTimerArrayIndex(indexValue.getInt(), arraySize, indexOffset);
+		return get_timer_array_index(indexValue.getInt(), arraySize, indexOffset);
 	}
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO

@@ -105,7 +105,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		}
 	}
 
-	public final List<Pair_of_elements> copyPermutations(final List<Pair_of_elements> srcList) {
+	public final List<Pair_of_elements> copy_permutations(final List<Pair_of_elements> srcList) {
 		if (srcList == null) {
 			return null;
 		}
@@ -118,7 +118,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		return newList;
 	}
 
-	public void removeAllPermutations() {
+	public void remove_all_permutations() {
 		clean_up_intervals();
 	}
 
@@ -548,15 +548,14 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	}
 
 	public TitanInteger lengthof() {
-		return sizeOf(false);
+		return size_of(false);
 	}
 
 	public TitanInteger size_of(){
-		return sizeOf(true);
+		return size_of(true);
 	}
 
-	// originally size_of
-	public TitanInteger sizeOf(final boolean isSize) {
+	public TitanInteger size_of(final boolean isSize) {
 		final String opName = isSize ? "size" : "length";
 		int minSize = 0;
 		boolean has_any_or_none = false;
@@ -600,9 +599,9 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			if (listSize != 0) {
 				throw new TtcnError("Performing " + opName + "of() operation on an array template containing an empty list.");
 			}
-			final int itemSize = value_list[0].sizeOf(isSize).getInt();
+			final int itemSize = value_list[0].size_of(isSize).getInt();
 			for (int i = 1; i < listSize; ++i) {
-				if (value_list[i].sizeOf(isSize).getInt() != itemSize) {
+				if (value_list[i].size_of(isSize).getInt() != itemSize) {
 					throw new TtcnError("Performing " + opName + "of() operation on an array template containing a value list with different sizes.");
 				}
 			}
