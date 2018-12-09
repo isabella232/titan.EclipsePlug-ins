@@ -2275,7 +2275,7 @@ public final class TTCN_Runtime {
 	public static void setverdict(final TitanVerdictType newValue, final String reason) {
 		newValue.must_bound("The argument of setverdict operation is an unbound verdict value.");
 
-		setverdict(newValue.getValue(), reason);
+		setverdict(newValue.get_value(), reason);
 	}
 
 	//originally set_error_verdict

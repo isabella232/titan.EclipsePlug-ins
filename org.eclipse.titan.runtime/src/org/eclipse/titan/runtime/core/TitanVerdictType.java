@@ -59,7 +59,7 @@ public class TitanVerdictType extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanVerdictType(final VerdictTypeEnum otherValue) {
-		if (!isValid(otherValue)) {
+		if (!is_valid(otherValue)) {
 			throw new TtcnError("Initializing a verdict variable with an invalid value (" + otherValue + ").");
 		}
 
@@ -84,7 +84,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//originally #define IS_VALID
-	public static boolean isValid(final VerdictTypeEnum aVerdictValue) {
+	public static boolean is_valid(final VerdictTypeEnum aVerdictValue) {
 		return aVerdictValue != VerdictTypeEnum.UNBOUND;
 	}
 
@@ -135,7 +135,7 @@ public class TitanVerdictType extends Base_Type {
 	public boolean operator_equals(final VerdictTypeEnum otherValue) {
 		must_bound("The left operand of comparison is an unbound verdict value.");
 
-		if (!isValid(otherValue)) {
+		if (!is_valid(otherValue)) {
 			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
 		}
 
@@ -182,7 +182,7 @@ public class TitanVerdictType extends Base_Type {
 	 * @return the new value object.
 	 */
 	public TitanVerdictType operator_assign(final VerdictTypeEnum otherValue) {
-		if (!isValid(otherValue)) {
+		if (!is_valid(otherValue)) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ").");
 		}
 
@@ -190,13 +190,13 @@ public class TitanVerdictType extends Base_Type {
 		return this;
 	}
 
-	public VerdictTypeEnum getValue() {
+	public VerdictTypeEnum get_value() {
 		return verdict_value;
 	}
 
 	@Override
 	public void log() {
-		if (isValid(verdict_value)) {
+		if (is_valid(verdict_value)) {
 			TTCN_Logger.log_event_str(verdict_name[verdict_value.ordinal()]);
 		} else if (verdict_value == VerdictTypeEnum.UNBOUND) {
 			TTCN_Logger.log_event_unbound();
@@ -212,7 +212,7 @@ public class TitanVerdictType extends Base_Type {
 			param.type_error("verdict value");
 		}
 		final TitanVerdictType verdict = param.get_verdict();
-		if (!isValid(verdict.verdict_value)) {
+		if (!is_valid(verdict.verdict_value)) {
 			param.error("Internal error: invalid verdict value (%d).", verdict);
 		}
 		verdict_value = verdict.verdict_value;

@@ -54,7 +54,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * */
 	public TitanVerdictType_template(final VerdictTypeEnum otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		if (!TitanVerdictType.isValid(otherValue)) {
+		if (!TitanVerdictType.is_valid(otherValue)) {
 			throw new TtcnError("Creating a template from an invalid verdict value (" + otherValue + ").");
 		}
 
@@ -160,7 +160,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * @return the new template object.
 	 */
 	public TitanVerdictType_template operator_assign(final VerdictTypeEnum otherValue) {
-		if (!TitanVerdictType.isValid(otherValue)) {
+		if (!TitanVerdictType.is_valid(otherValue)) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ") to a template.");
 		}
 
@@ -304,7 +304,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 *                use legacy mode.
 	 * */
 	public boolean match(final VerdictTypeEnum otherValue, final boolean legacy) {
-		if (!TitanVerdictType.isValid(otherValue)) {
+		if (!TitanVerdictType.is_valid(otherValue)) {
 			throw new TtcnError("Matching a verdict template with an invalid value (" + otherValue + ").");
 		}
 
@@ -343,18 +343,18 @@ public class TitanVerdictType_template extends Base_Template {
 			return false;
 		}
 
-		return match(other_value.getValue(), legacy);
+		return match(other_value.get_value(), legacy);
 	}
 
 	//originally boolean operator==(verdicttype par_value, const VERDICTTYPE& other_value)
 	public boolean operator_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
-		if (!TitanVerdictType.isValid(par_value)) {
+		if (!TitanVerdictType.is_valid(par_value)) {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
 		}
 
 		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
 
-		return par_value == other_value.getValue();
+		return par_value == other_value.get_value();
 	}
 
 	@Override
@@ -399,8 +399,8 @@ public class TitanVerdictType_template extends Base_Template {
 	public void log() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			if (TitanVerdictType.isValid(single_value.getValue())) {
-				TTCN_Logger.log_event(TitanVerdictType.verdict_name[ single_value.getValue().ordinal() ]);
+			if (TitanVerdictType.is_valid(single_value.get_value())) {
+				TTCN_Logger.log_event(TitanVerdictType.verdict_name[ single_value.get_value().ordinal() ]);
 			} else {
 				TTCN_Logger.log_event("<unknown verdict value: " + single_value + ">");
 			}

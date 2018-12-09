@@ -83,11 +83,11 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		array_size = length;
 	}*/
 
-	public int getOffset() {
+	public int get_offset() {
 		return indexOffset;
 	}
 
-	public void setOffset(final int offset) {
+	public void set_offset(final int offset) {
 		indexOffset = offset;
 	}
 
@@ -328,24 +328,24 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	// originally T& operator[](int)
 	@SuppressWarnings("unchecked")
 	public T get_at(final int index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
 	//originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
 	public T get_at(final TitanInteger index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 	//const originally T& operator[](int)
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final int index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
 	// const // originally T& operator[](const INTEGER)
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final TitanInteger index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -403,7 +403,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	//static method
 
-	public static int getArrayIndex(final int index, final int arraySize, final int indexofset) {
+	public static int get_array_index(final int index, final int arraySize, final int indexofset) {
 		if (arraySize < 0) {
 			throw new TtcnError("Invalid array size");
 		}
@@ -421,10 +421,10 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return result;
 	}
 
-	public static int getArrayIndex(final TitanInteger index, final int arraySize, final int indexofset) {
+	public static int get_array_index(final TitanInteger index, final int arraySize, final int indexofset) {
 		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return getArrayIndex(index.getInt(), arraySize, indexofset);
+		return get_array_index(index.getInt(), arraySize, indexofset);
 	}
 
 	@Override
