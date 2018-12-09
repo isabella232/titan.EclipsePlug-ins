@@ -100,14 +100,14 @@ public abstract class TitanRecordOf extends Base_Type {
 	/**
 	 * @return {@code true} if and only if otherValue is the same record of type as this
 	 */
-	private boolean isSameType(final Base_Type otherValue) {
+	private boolean is_same_type(final Base_Type otherValue) {
 		return otherValue instanceof TitanRecordOf && ofType == ((TitanRecordOf)otherValue).ofType;
 	}
 
 	@Override
 	public boolean operator_equals(final Base_Type otherValue) {
-		if (!isSameType(otherValue)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
+		if (!is_same_type(otherValue)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, get_of_type_name()));
 		}
 
 		//compiler warning is incorrect, it is not unchecked
@@ -124,8 +124,8 @@ public abstract class TitanRecordOf extends Base_Type {
 	 * @return {@code true} if the values are equivalent.
 	 */
 	public boolean operator_equals(final TitanRecordOf otherValue) {
-		must_bound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
-		otherValue.must_bound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
+		must_bound("The left operand of comparison is an unbound value of type record of " + get_of_type_name() + ".");
+		otherValue.must_bound("The right operand of comparison is an unbound value of type" + otherValue.get_of_type_name() + ".");
 
 		final int size = valueElements.size();
 		if (size != otherValue.valueElements.size()) {
@@ -145,8 +145,8 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	@Override
 	public Base_Type operator_assign(final Base_Type otherValue) {
-		if (!isSameType(otherValue)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
+		if (!is_same_type(otherValue)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, get_of_type_name()));
 		}
 
 		// compiler warning is incorrect, it is not unchecked
@@ -187,7 +187,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	//originally get_at(int)
 	public Base_Type get_at(final int index_value) {
 		if (index_value < 0) {
-			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
+			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", get_of_type_name(), index_value));
 		}
 
 		if (index_value >= valueElements.size()) {
@@ -206,21 +206,21 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	//originally get_at(const INTEGER&)
 	public Base_Type get_at(final TitanInteger index_value) {
-		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 		return get_at(index_value.getInt());
 	}
 
 	//originally get_at(int) const
 	public Base_Type constGet_at(final int index_value) {
-		must_bound(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
+		must_bound(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", get_of_type_name()));
 
 		if (index_value < 0) {
-			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
+			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", get_of_type_name(), index_value));
 		}
 		final int nofElements = n_elem();
 		if (index_value >= nofElements) {
 			throw new TtcnError(MessageFormat.format("Index overflow in a value of type record of {0}: The index is {1}, but the value has only {2} elements.",
-					getOfTypeName(), index_value, nofElements));
+					get_of_type_name(), index_value, nofElements));
 		}
 
 		final Base_Type elem = valueElements.get(index_value);
@@ -229,7 +229,7 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	//originally get_at(const INTEGER&) const
 	public Base_Type constGet_at(final TitanInteger index_value) {
-		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 
 		return constGet_at(index_value.getInt());
 	}
@@ -238,11 +238,11 @@ public abstract class TitanRecordOf extends Base_Type {
 		try {
 			return ofType.newInstance();
 		} catch (Exception e) {
-			throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), getOfTypeName()));
+			throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), get_of_type_name()));
 		}
 	}
 
-	private static String getOfTypeName(final Class<? extends Base_Type> aOfType) {
+	private static String get_of_type_name(final Class<? extends Base_Type> aOfType) {
 		// FIXME: this is surely not good like this
 		if (aOfType == TitanBoolean.class) {
 			return "boolean";
@@ -253,8 +253,8 @@ public abstract class TitanRecordOf extends Base_Type {
 		}
 	}
 
-	private String getOfTypeName() {
-		return getOfTypeName(ofType);
+	private String get_of_type_name() {
+		return get_of_type_name(ofType);
 	}
 
 	public int n_elem() {
@@ -266,7 +266,7 @@ public abstract class TitanRecordOf extends Base_Type {
 
 	public void add(final Base_Type aElement) {
 		if (aElement.getClass() != ofType) {
-			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", getOfTypeName(aElement.getClass()), getOfTypeName()));
+			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", get_of_type_name(aElement.getClass()), get_of_type_name()));
 		}
 		if (valueElements == null) {
 			valueElements = new ArrayList<Base_Type>();
