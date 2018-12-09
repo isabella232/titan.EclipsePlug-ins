@@ -54,7 +54,7 @@ public class TitanHexString extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanHexString(final byte otherValue[]) {
-		nibbles_ptr = TitanString_Utils.copyByteList(otherValue);
+		nibbles_ptr = TitanString_Utils.copy_byte_list(otherValue);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString(final TitanHexString otherValue) {
 		otherValue.must_bound("Copying an unbound hexstring value.");
 
-		nibbles_ptr = TitanString_Utils.copyByteList(otherValue.nibbles_ptr);
+		nibbles_ptr = TitanString_Utils.copy_byte_list(otherValue.nibbles_ptr);
 	}
 
 	/**

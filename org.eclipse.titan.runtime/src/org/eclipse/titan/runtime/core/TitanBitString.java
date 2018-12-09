@@ -49,7 +49,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	public TitanBitString(final int aOtherValue[], final int aNoBits) {
-		bits_ptr = TitanString_Utils.copyIntegerList(aOtherValue);
+		bits_ptr = TitanString_Utils.copy_integer_list(aOtherValue);
 		n_bits = aNoBits;
 		clear_unused_bits();
 	}
@@ -63,7 +63,7 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString(final TitanBitString otherValue) {
 		otherValue.must_bound("Copying an unbound bitstring value.");
 
-		bits_ptr = TitanString_Utils.copyIntegerList(otherValue.bits_ptr);
+		bits_ptr = TitanString_Utils.copy_integer_list(otherValue.bits_ptr);
 		n_bits = otherValue.n_bits;
 	}
 
@@ -224,7 +224,7 @@ public class TitanBitString extends Base_Type {
 
 		if (otherValue != this) {
 			clean_up();
-			bits_ptr = TitanString_Utils.copyIntegerList(otherValue.bits_ptr);
+			bits_ptr = TitanString_Utils.copy_integer_list(otherValue.bits_ptr);
 			n_bits = otherValue.n_bits;
 		}
 

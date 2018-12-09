@@ -19,7 +19,7 @@ public class TitanString_Utils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static final byte[] copyByteList(final byte srcList[]) {
+	static final byte[] copy_byte_list(final byte srcList[]) {
 		if (srcList == null) {
 			return null;
 		}
@@ -35,7 +35,7 @@ public class TitanString_Utils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static final int[] copyIntegerList(final int srcList[]) {
+	static final int[] copy_integer_list(final int srcList[]) {
 		if (srcList == null) {
 			return null;
 		}
@@ -50,7 +50,7 @@ public class TitanString_Utils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static char[] copyCharList(final char srcList[]) {
+	static char[] copy_char_list(final char srcList[]) {
 		if (srcList == null) {
 			return null;
 		}

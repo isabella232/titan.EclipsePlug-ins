@@ -133,7 +133,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	public TitanBitString_template(final int pattern_elements[]) {
 		super(template_sel.STRING_PATTERN);
-		pattern_value = TitanString_Utils.copyIntegerList(pattern_elements);
+		pattern_value = TitanString_Utils.copy_integer_list(pattern_elements);
 	}
 
 	public TitanBitString_template(final String patternString) {

@@ -123,7 +123,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	public TitanHexString_template(final byte pattern_elements[]) {
 		super(template_sel.STRING_PATTERN);
-		pattern_value = TitanString_Utils.copyByteList(pattern_elements);
+		pattern_value = TitanString_Utils.copy_byte_list(pattern_elements);
 	}
 
 	public TitanHexString_template(final String patternString) {

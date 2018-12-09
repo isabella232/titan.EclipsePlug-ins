@@ -125,7 +125,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	public TitanOctetString_template(final char pattern_elements[]) {
 		super(template_sel.STRING_PATTERN);
-		pattern_value = TitanString_Utils.copyCharList(pattern_elements);
+		pattern_value = TitanString_Utils.copy_char_list(pattern_elements);
 	}
 
 	public TitanOctetString_template(final String patternString) {

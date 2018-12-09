@@ -58,7 +58,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanOctetString(final char otherValue[]) {
-		val_ptr = TitanString_Utils.copyCharList(otherValue);
+		val_ptr = TitanString_Utils.copy_char_list(otherValue);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString(final TitanOctetString otherValue) {
 		otherValue.must_bound("Copying an unbound octetstring value.");
 
-		val_ptr = TitanString_Utils.copyCharList(otherValue.val_ptr);
+		val_ptr = TitanString_Utils.copy_char_list(otherValue.val_ptr);
 	}
 
 	/**
