@@ -241,6 +241,9 @@
     <command defaultHandler="org.eclipse.titanium.actions.OrganizeFromEditor"
       id="org.eclipse.titanium.commands.OrganizeImports" name="OrganizeImports">
     </command>
+    <command defaultHandler="org.eclipse.titanium.actions.ComponentFinderFromEditor"
+      id="org.eclipse.titanium.commands.ComponentFinder" name="ComponentFinder">
+    </command>
   </extension>
 
   <!-- Key bindings -->
@@ -434,14 +437,9 @@
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
         </command>
-      </menu>
-    </menuContribution>
-    <menuContribution allPopups="true"
-      locationURI="popup:org.eclipse.titan.designer.editors.ttcn3ppeditor.context?after=additions">
-      <menu label="Titanium">
-        <command commandId="org.eclipse.titanium.commands.OrganizeImports"
-          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
-          label="Organize imports">
+        <command commandId="org.eclipse.titanium.commands.ComponentFinder"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentFinder"
+          label="Component finder">
         </command>
       </menu>
     </menuContribution>
@@ -462,4 +460,5 @@
       </run>
     </application>
   </extension>
+  
 </plugin>
