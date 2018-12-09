@@ -172,7 +172,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -180,7 +180,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -189,7 +189,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -199,7 +199,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -207,7 +207,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -216,7 +216,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -225,7 +225,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -233,7 +233,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -242,7 +242,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -251,7 +251,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -259,7 +259,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -268,7 +268,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -277,7 +277,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -285,7 +285,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -294,7 +294,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -304,7 +304,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
 			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -312,7 +312,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -321,7 +321,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -331,7 +331,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
 			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -339,7 +339,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -348,7 +348,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -357,7 +357,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	@Override
 	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -365,7 +365,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			final TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -374,7 +374,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;

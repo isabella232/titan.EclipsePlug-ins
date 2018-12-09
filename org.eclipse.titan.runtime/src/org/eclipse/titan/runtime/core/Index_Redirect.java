@@ -39,15 +39,15 @@ public class Index_Redirect {
 		pos = -1;
 	}
 
-	public void incrPos() {
+	public void incr_pos() {
 		++pos;
 	}
 
-	public void decrPos() {
+	public void decr_pos() {
 		--pos;
 	}
 
-	public void addIndex(final int p_index) {
+	public void add_index(final int p_index) {
 		pos = p_index;
 	}
 }

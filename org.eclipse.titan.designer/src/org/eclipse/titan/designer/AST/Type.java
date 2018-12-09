@@ -3117,7 +3117,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (needs_any_from_done) {
 			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValue_Array<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.incrPos();\n");
+			source.append("index_redirect.incr_pos();\n");
 			source.append("}\n");
 
 			source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
@@ -3125,7 +3125,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.get_at(i), value_template, value_redirect, index_redirect);\n");
 			source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.addIndex(i + component_array.getOffset());\n");
+			source.append("index_redirect.add_index(i + component_array.getOffset());\n");
 			source.append("}\n");
 			source.append("result = ret_val;\n");
 			source.append("break;\n");
@@ -3134,7 +3134,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			source.append("}\n");
 			source.append("}\n");
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.decrPos();\n");
+			source.append("index_redirect.decr_pos();\n");
 			source.append("}\n");
 
 			source.append("return result;\n");

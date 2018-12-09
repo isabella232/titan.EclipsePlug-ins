@@ -208,7 +208,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 	// originally alt_status timeout(Index_Redirect* index_redirect)
 	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -216,7 +216,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 			final TitanAlt_Status ret_val = array_elements[i].timeout(index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				result = ret_val;
 				break;
@@ -233,20 +233,20 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 	// originally boolean running(Index_Redirect* index_redirect) const
 	public boolean running(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 		boolean ret_val = false;
 		for (int i = 0; i < array_size; ++i) {
 			ret_val = array_elements[i].running(index_redirect);
 			if (ret_val) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 		return ret_val;
 	}

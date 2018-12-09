@@ -507,7 +507,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -515,7 +515,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(value_redirect, index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 
 				result = returnValue;
@@ -527,7 +527,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -535,7 +535,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	public TitanAlt_Status killed(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -543,7 +543,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).killed(index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 
 				result = returnValue;
@@ -552,7 +552,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -560,7 +560,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	public boolean running(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		boolean returnValue = false;
@@ -568,14 +568,14 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
 			if (returnValue) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return returnValue;
@@ -583,7 +583,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	public boolean alive(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		boolean returnValue = false;
@@ -591,14 +591,14 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
 			if (returnValue) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return returnValue;
