@@ -443,6 +443,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		}
 		return ret_val;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

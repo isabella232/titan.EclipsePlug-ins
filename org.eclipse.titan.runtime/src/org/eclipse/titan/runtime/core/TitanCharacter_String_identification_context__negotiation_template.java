@@ -443,6 +443,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		}
 		return ret_val;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

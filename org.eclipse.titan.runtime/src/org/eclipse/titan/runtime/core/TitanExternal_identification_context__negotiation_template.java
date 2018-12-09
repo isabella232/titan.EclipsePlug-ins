@@ -443,6 +443,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 		return ret_val;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

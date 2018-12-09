@@ -27,6 +27,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	private TitanCharacter_String_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
 	private Base_Type field;
+
 	/**
 	 * Initializes to unbound value.
 	 * */
@@ -88,6 +89,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 		return this;
 	}
+
 	@Override
 	public TitanCharacter_String_identification operator_assign( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanCharacter_String_identification) {
@@ -173,6 +175,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean operator_equals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanCharacter_String_identification) {
@@ -378,6 +381,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 	public TitanCharacter_String_identification.union_selection_type get_selection() {
 		return union_selection;
 	}
+
 	@Override
 	public void log() {
 		switch (union_selection) {

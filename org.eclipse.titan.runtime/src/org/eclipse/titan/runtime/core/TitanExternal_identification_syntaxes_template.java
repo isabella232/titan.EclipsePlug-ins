@@ -443,6 +443,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 		return ret_val;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

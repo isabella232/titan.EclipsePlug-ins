@@ -501,6 +501,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		return ret_val;
 	}
+
 	/**
 	 * Returns the size (number of fields).
 	 *

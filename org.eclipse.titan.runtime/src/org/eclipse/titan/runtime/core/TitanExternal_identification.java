@@ -26,6 +26,7 @@ public class TitanExternal_identification extends Base_Type {
 	private TitanExternal_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
 	private Base_Type field;
+
 	/**
 	 * Initializes to unbound value.
 	 * */
@@ -87,6 +88,7 @@ public class TitanExternal_identification extends Base_Type {
 
 		return this;
 	}
+
 	@Override
 	public TitanExternal_identification operator_assign( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
@@ -172,6 +174,7 @@ public class TitanExternal_identification extends Base_Type {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean operator_equals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanExternal_identification) {
@@ -377,6 +380,7 @@ public class TitanExternal_identification extends Base_Type {
 	public TitanExternal_identification.union_selection_type get_selection() {
 		return union_selection;
 	}
+
 	@Override
 	public void log() {
 		switch (union_selection) {
