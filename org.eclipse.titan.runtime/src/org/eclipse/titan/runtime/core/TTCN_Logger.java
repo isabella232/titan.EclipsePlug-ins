@@ -1020,7 +1020,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static boolean isPrintable(final char c) {
+	public static boolean is_printable(final char c) {
 		if (c >= 32 && c <= 126) {
 			// it includes all the printable characters in the ascii code table
 			return true;
@@ -1038,7 +1038,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void logCharEscaped(final char c, final StringBuilder p_buffer) {
+	public static void log_char_escaped(final char c, final StringBuilder p_buffer) {
 		switch (c) {
 		case '\n':
 			p_buffer.append("\\n");
@@ -1062,7 +1062,7 @@ public final class TTCN_Logger {
 			p_buffer.append("\\\"");
 			break;
 		default:
-			if (isPrintable(c)) {
+			if (is_printable(c)) {
 				p_buffer.append(c);
 			} else {
 				log_event("\\%03o", c);
@@ -1071,7 +1071,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void logCharEscaped(final char c) {
+	public static void log_char_escaped(final char c) {
 		switch (c) {
 		case '\n':
 			log_event_str("\\n");
@@ -1095,7 +1095,7 @@ public final class TTCN_Logger {
 			log_event_str("\\\"");
 			break;
 		default:
-			if (isPrintable(c)) {
+			if (is_printable(c)) {
 				log_char(c);
 			} else {
 				log_event("\\%03o", c);

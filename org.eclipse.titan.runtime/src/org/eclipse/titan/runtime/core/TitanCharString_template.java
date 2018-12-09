@@ -708,9 +708,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (min_is_set) {
-				if (TTCN_Logger.isPrintable(min_value.get_value().charAt(0))) {
+				if (TTCN_Logger.is_printable(min_value.get_value().charAt(0))) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(min_value.get_value().charAt(0));
+					TTCN_Logger.log_char_escaped(min_value.get_value().charAt(0));
 					TTCN_Logger.log_char('"');
 
 				} else {
@@ -724,9 +724,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (max_is_set) {
-				if (TTCN_Logger.isPrintable(max_value.get_value().charAt(0))) {
+				if (TTCN_Logger.is_printable(max_value.get_value().charAt(0))) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(max_value.get_value().charAt(0));
+					TTCN_Logger.log_char_escaped(max_value.get_value().charAt(0));
 					TTCN_Logger.log_char('"');
 				} else {
 					TTCN_Logger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int) max_value.get_value().charAt(0)));

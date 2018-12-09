@@ -883,7 +883,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (min_is_set) {
 				if (TitanUniversalCharString.is_printable(min_value)) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(min_value.getUc_cell());
+					TTCN_Logger.log_char_escaped(min_value.getUc_cell());
 					TTCN_Logger.log_char('"');
 
 				} else {
@@ -899,7 +899,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (max_is_set) {
 				if (TitanUniversalCharString.is_printable(max_value)) {
 					TTCN_Logger.log_char('"');
-					TTCN_Logger.logCharEscaped(max_value.getUc_cell());
+					TTCN_Logger.log_char_escaped(max_value.getUc_cell());
 					TTCN_Logger.log_char('"');
 
 				} else {

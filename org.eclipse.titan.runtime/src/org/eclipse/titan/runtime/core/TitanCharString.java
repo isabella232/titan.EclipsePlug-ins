@@ -252,14 +252,14 @@ public class TitanCharString extends Base_Type {
 			final StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.length(); i++) {
 				final char c = val_ptr.charAt(i);
-				if (TTCN_Logger.isPrintable(c)) {
+				if (TTCN_Logger.is_printable(c)) {
 					switch (state) {
 					case NPCHAR:
 						buffer.append(" & ");
 					case INIT:
 						buffer.append("\"");
 					case PCHAR:
-						TTCN_Logger.logCharEscaped(c, buffer);
+						TTCN_Logger.log_char_escaped(c, buffer);
 						break;
 					}
 					state = States.PCHAR;

@@ -913,7 +913,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public static boolean is_printable(final TitanUniversalChar uchar) {
-		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TTCN_Logger.isPrintable(uchar.getUc_cell());
+		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TTCN_Logger.is_printable(uchar.getUc_cell());
 	}
 
 	private static enum States {
@@ -938,7 +938,7 @@ public class TitanUniversalCharString extends Base_Type {
 					case INIT:
 						buffer.append('\"');
 					case PCHAR:
-						TTCN_Logger.logCharEscaped(uchar.getUc_cell(), buffer);
+						TTCN_Logger.log_char_escaped(uchar.getUc_cell(), buffer);
 						break;
 					}
 					state = States.PCHAR;

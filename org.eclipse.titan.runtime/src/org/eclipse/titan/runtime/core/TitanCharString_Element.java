@@ -355,9 +355,9 @@ public class TitanCharString_Element {
 	public void log() {
 		if (bound_flag) {
 			final char c = str_val.get_at(char_pos).get_char();
-			if (TTCN_Logger.isPrintable(c)) {
+			if (TTCN_Logger.is_printable(c)) {
 				TTCN_Logger.log_char('"');
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_char('"');
 			} else {
 				TTCN_Logger.log_event("char(0, 0, 0, {0})", (int) c);

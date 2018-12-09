@@ -1364,7 +1364,7 @@ public final class AdditionalFunctions {
 				TtcnError.TtcnErrorBegin("The argument of function str2int(), which is ");
 				value.log();
 				TTCN_Logger.log_event_str(", does not represent a valid integer value. Invalid character `");
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event("' was found at index %d.", i);
 				TtcnError.TtcnErrorEnd();
 			}
@@ -1403,7 +1403,7 @@ public final class AdditionalFunctions {
 		final char c = value.get_char();
 		if (c < '0' || c > '9') {
 			TtcnError.TtcnErrorBegin("The argument of function str2int(), which is a charstring element containing character `");
-			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_char_escaped(c);
 			TTCN_Logger.log_event_str("', does not represent a valid integer value.");
 			TtcnError.TtcnErrorEnd();
 		}
@@ -1435,7 +1435,7 @@ public final class AdditionalFunctions {
 			final byte hexdigit = char_to_hexdigit(c);
 			if (hexdigit > 0x0F) {
 				TtcnError.TtcnErrorBegin("The argument of function str2oct() shall contain hexadecimal digits only, but character `");
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
@@ -1607,7 +1607,7 @@ public final class AdditionalFunctions {
 				TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
 				value.log();
 				TTCN_Logger.log_event_str("' , does not represent a valid float value. Invalid character ");
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
@@ -2666,7 +2666,7 @@ public final class AdditionalFunctions {
 				break;
 			default:
 				TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but character `");
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
@@ -2681,7 +2681,7 @@ public final class AdditionalFunctions {
 		final char c = value.get_char();
 		if (c != '0' && c != '1') {
 			TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but the given charstring element contains the character `");
-			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_char_escaped(c);
 			TTCN_Logger.log_event_str("'.");
 			TtcnError.TtcnErrorEnd();
 		}
@@ -2711,7 +2711,7 @@ public final class AdditionalFunctions {
 			final byte hexdigit = char_to_hexdigit(c);
 			if (hexdigit < 0x00) {
 				TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain hexadecimal digits only, but character `");
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
@@ -2729,7 +2729,7 @@ public final class AdditionalFunctions {
 
 		if (hexdigit < 0x00) {
 			TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character `");
-			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_char_escaped(c);
 			TTCN_Logger.log_event_str("'.");
 			TtcnError.TtcnErrorEnd();
 		}

@@ -360,7 +360,7 @@ public class TitanOctetString extends Base_Type {
 			for (int i = 0; i < val_ptr.length; i++) {
 				final char octet = val_ptr[i];
 				TTCN_Logger.log_octet(octet); // get_nibble(i)
-				if (onlyPrintable && !(TTCN_Logger.isPrintable(octet))) {
+				if (onlyPrintable && !(TTCN_Logger.is_printable(octet))) {
 					onlyPrintable = false;
 				}
 			}
@@ -368,7 +368,7 @@ public class TitanOctetString extends Base_Type {
 			if (onlyPrintable && val_ptr.length > 0) {
 				TTCN_Logger.log_event_str("(\"");
 				for (int i = 0; i < val_ptr.length; i++) {
-					TTCN_Logger.logCharEscaped(val_ptr[i]);
+					TTCN_Logger.log_char_escaped(val_ptr[i]);
 				}
 				TTCN_Logger.log_event_str("\")");
 			}

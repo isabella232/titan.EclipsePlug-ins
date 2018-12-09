@@ -629,13 +629,13 @@ public class TitanUniversalCharString_Element {
 	public void log() {
 		if (bound_flag) {
 			if (str_val.charstring) {
-				TTCN_Logger.logCharEscaped(str_val.cstr.charAt(char_pos));
+				TTCN_Logger.log_char_escaped(str_val.cstr.charAt(char_pos));
 				return;
 			}
 			final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
 			if (TitanUniversalCharString.is_printable(uchar)) {
 				TTCN_Logger.log_char('"');
-				TTCN_Logger.logCharEscaped(uchar.getUc_cell());
+				TTCN_Logger.log_char_escaped(uchar.getUc_cell());
 				TTCN_Logger.log_char('"');
 			} else {
 				TTCN_Logger.log_event_str(MessageFormat.format("char({0}, {1}, {2}, {3})", (int) uchar.getUc_group(),
