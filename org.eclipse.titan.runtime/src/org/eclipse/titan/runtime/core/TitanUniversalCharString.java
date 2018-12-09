@@ -487,7 +487,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			return otherValue.get_value().toString().equals(cstr.toString());
 		}
-		if (val_ptr.size() != otherValue.lengthof().getInt()) {
+		if (val_ptr.size() != otherValue.lengthof().get_int()) {
 			return false;
 		}
 
@@ -885,7 +885,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a universal charstring value with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	//originally operator[](int) const
@@ -909,7 +909,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a universal charstring value with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	public static boolean is_printable(final TitanUniversalChar uchar) {
@@ -1144,7 +1144,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		final int n_uchars = text_buf.pull_int().getInt();
+		final int n_uchars = text_buf.pull_int().get_int();
 		if (n_uchars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an universal charstring.");
 		}
@@ -1221,7 +1221,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_left(rotateCount.getInt());
+		return rotate_left(rotateCount.get_int());
 	}
 
 	// originally operator>>=
@@ -1261,7 +1261,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_right(rotateCount.getInt());
+		return rotate_right(rotateCount.get_int());
 	}
 
 	public void convert_cstr_to_uni() {
@@ -2026,7 +2026,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final char[] tmp_val_ptr = buff_str.get_value().toString().toCharArray();
 		if(buff_str.is_bound()) {
 			charstring = true;
-			for (int i = 0; i < buff_str.lengthof().getInt(); ++i) {
+			for (int i = 0; i < buff_str.lengthof().get_int(); ++i) {
 				if(buff_str.get_value().charAt(i) > 127) {
 					charstring = false;
 					break;

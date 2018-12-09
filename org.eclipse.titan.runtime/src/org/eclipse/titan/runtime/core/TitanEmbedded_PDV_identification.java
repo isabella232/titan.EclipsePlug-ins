@@ -518,7 +518,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 
 	@Override
 	public void decode_text(final Text_Buf text_buf) {
-		final int temp = text_buf.pull_int().getInt();
+		final int temp = text_buf.pull_int().get_int();
 		switch (temp) {
 		case 0:
 			get_field_syntaxes().decode_text(text_buf);

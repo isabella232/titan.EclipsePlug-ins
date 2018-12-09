@@ -85,7 +85,7 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	private boolean fromString(final String otherValue) {
+	private boolean from_string(final String otherValue) {
 		try {
 			final BigInteger temp = new BigInteger(otherValue);
 			if (temp.abs().compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == -1) {
@@ -113,7 +113,7 @@ public class TitanInteger extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
 		}
 		boundFlag = true;
-		if (!fromString(otherValue)) {
+		if (!from_string(otherValue)) {
 			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
 		}
 	}
@@ -750,7 +750,7 @@ public class TitanInteger extends Base_Type {
 		return !is_less_than(otherValue);
 	}
 
-	public boolean isNative() {
+	public boolean is_native() {
 		return nativeFlag;
 	}
 
@@ -784,7 +784,7 @@ public class TitanInteger extends Base_Type {
 		if (!boundFlag) {
 			return "<unbound>";
 		}
-		return getBigInteger().toString();
+		return get_BigInteger().toString();
 	}
 
 	@Override
@@ -801,7 +801,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally int()
-	public int getInt() {
+	public int get_int() {
 		must_bound("Using the value of an unbound integer variable.");
 
 		if (!nativeFlag) {
@@ -812,7 +812,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally get_long_long_val
-	public long getLong() {
+	public long get_long() {
 		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
@@ -823,7 +823,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally get_long_long_val
-	public BigInteger getBigInteger() {
+	public BigInteger get_BigInteger() {
 		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
@@ -1163,7 +1163,7 @@ public class TitanInteger extends Base_Type {
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
-		int value = getInt();
+		int value = get_int();
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");

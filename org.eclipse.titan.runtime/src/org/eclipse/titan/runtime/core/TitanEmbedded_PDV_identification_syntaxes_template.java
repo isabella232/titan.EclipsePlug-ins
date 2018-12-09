@@ -461,9 +461,9 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EMBEDDED PDV.identification.syntaxes containing an empty list.");
 			}
-			final int item_size = list_value.get(0).size_of().getInt();
+			final int item_size = list_value.get(0).size_of().get_int();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-				if (list_value.get(l_idx).size_of().getInt() != item_size) {
+				if (list_value.get(l_idx).size_of().get_int() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EMBEDDED PDV.identification.syntaxes containing a value list with different sizes.");
 				}
 			}
@@ -642,7 +642,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			list_value = new ArrayList<TitanEmbedded_PDV_identification_syntaxes_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanEmbedded_PDV_identification_syntaxes_template temp = new TitanEmbedded_PDV_identification_syntaxes_template();

@@ -133,7 +133,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 	public T array_element(final TitanInteger index) {
 		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return (T)array_elements[index.getInt()];
+		return (T)array_elements[index.get_int()];
 	}
 
 	public int n_elem() {
@@ -200,7 +200,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 	public static int get_timer_array_index(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
 		indexValue.must_bound("Accessing an element of a timer array using an unbound index.");
 
-		return get_timer_array_index(indexValue.getInt(), arraySize, indexOffset);
+		return get_timer_array_index(indexValue.get_int(), arraySize, indexOffset);
 	}
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO

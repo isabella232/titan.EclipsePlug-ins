@@ -141,11 +141,11 @@ public final class Text_Buf {
 	 * @param value the value to be pushed
 	 * */
 	public void push_int(final TitanInteger value) {
-		if (value.isNative()) {
-			final int nativeValue = value.getInt();
+		if (value.is_native()) {
+			final int nativeValue = value.get_int();
 			push_int(nativeValue);
 		} else {
-			final BigInteger bigValue = value.getBigInteger();
+			final BigInteger bigValue = value.get_BigInteger();
 			final boolean isNegative = bigValue.compareTo(BigInteger.ZERO) == -1;
 			BigInteger unsignedValue = bigValue.abs();
 			final int numBits = bigValue.bitLength();
@@ -373,7 +373,7 @@ public final class Text_Buf {
 	 * @return the extracted string
 	 * */
 	public String pull_string() {
-		final int len = pull_int().getInt();
+		final int len = pull_int().get_int();
 		if (len < 0) {
 			throw new TtcnError(MessageFormat.format("Text decoder: Negative string length ({0}).", len));
 		}
@@ -443,9 +443,9 @@ public final class Text_Buf {
 		boolean returnValue = false;
 		if (safe_pull_int(msg_len)) {
 			if (msg_len.is_less_than(0)) {
-				throw new TtcnError(MessageFormat.format("Text decoder: Negative message length ({0}).", msg_len.getInt()));
+				throw new TtcnError(MessageFormat.format("Text decoder: Negative message length ({0}).", msg_len.get_int()));
 			}
-			returnValue = buf_pos + msg_len.getInt() <= buf_begin + buf_len;
+			returnValue = buf_pos + msg_len.get_int() <= buf_begin + buf_len;
 		}
 		rewind();
 		return returnValue;
@@ -456,7 +456,7 @@ public final class Text_Buf {
 	 * */
 	public void cut_message() {
 		if (is_message()) {
-			final int msg_len = pull_int().getInt();
+			final int msg_len = pull_int().get_int();
 			final int msg_end = buf_pos + msg_len;
 			buf_len -= msg_end - buf_begin;
 

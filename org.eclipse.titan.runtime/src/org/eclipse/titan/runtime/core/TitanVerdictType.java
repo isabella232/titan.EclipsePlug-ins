@@ -229,7 +229,7 @@ public class TitanVerdictType extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		final int received_value = text_buf.pull_int().getInt();
+		final int received_value = text_buf.pull_int().get_int();
 		if (received_value < 0 || received_value > 5) {
 			throw new TtcnError(MessageFormat.format("Text decoder: Invalid verdict value ({0}) was received.", received_value));
 		}

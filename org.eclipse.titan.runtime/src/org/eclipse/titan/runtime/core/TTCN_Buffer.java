@@ -130,7 +130,7 @@ public class TTCN_Buffer {
 	public  TTCN_Buffer(final TitanOctetString p_os) {
 		p_os.must_bound("Initializing a TTCN_Buffer with an unbound octetstring value.");
 
-		buf_len = p_os.lengthof().getInt();
+		buf_len = p_os.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
@@ -143,7 +143,7 @@ public class TTCN_Buffer {
 	public TTCN_Buffer(final TitanCharString p_cs) {
 		p_cs.must_bound("Initializing a TTCN_Buffer with an unbound charstring value.");
 
-		buf_len = p_cs.lengthof().getInt();
+		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
 			data_ptr[i] =  p_cs.get_at(i).get_char();
@@ -174,7 +174,7 @@ public class TTCN_Buffer {
 	 * 				  */
 	public  TTCN_Buffer operator_assign(final TitanOctetString p_os) {
 		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
-		buf_len = p_os.lengthof().getInt();
+		buf_len = p_os.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
@@ -189,7 +189,7 @@ public class TTCN_Buffer {
 	public TTCN_Buffer operator_assign(final TitanCharString p_cs) {
 		p_cs.must_bound("Assignment of an unbound charstring value to a TTCN_Buffer.");
 
-		buf_len = p_cs.lengthof().getInt();
+		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
 			data_ptr[i] =  p_cs.get_at(i).get_char();
@@ -330,7 +330,7 @@ public class TTCN_Buffer {
 	public void put_string(final TitanOctetString p_os) {
 		p_os.must_bound("Appending an unbound octetstring value to a TTCN_Buffer.");
 
-		final int n_octets = p_os.lengthof().getInt();
+		final int n_octets = p_os.lengthof().get_int();
 		if (n_octets > 0) {
 			if (buf_len > 0) {
 				increase_size(n_octets);
@@ -357,7 +357,7 @@ public class TTCN_Buffer {
 	public void put_string(final TitanCharString p_cs) {
 		p_cs.must_bound("Appending an unbound charstring value to a TTCN_Buffer.");
 
-		final int n_chars = p_cs.lengthof().getInt();
+		final int n_chars = p_cs.lengthof().get_int();
 		if (n_chars > 0) { // there is something in the CHARSTRING
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);

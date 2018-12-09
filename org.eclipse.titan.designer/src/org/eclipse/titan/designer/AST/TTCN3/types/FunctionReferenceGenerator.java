@@ -1078,7 +1078,7 @@ public final class FunctionReferenceGenerator {
 		source.append("break;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST: {\n");
-		source.append("final int size = text_buf.pull_int().getInt();\n");
+		source.append("final int size = text_buf.pull_int().get_int();\n");
 		source.append( MessageFormat.format( "value_list = new ArrayList<{0}_template>(size);\n", def.genName));
 		source.append("for (int i = 0; i < size; i++) {\n");
 		source.append( MessageFormat.format( "final {0}_template temp = new {0}_template();\n", def.genName));

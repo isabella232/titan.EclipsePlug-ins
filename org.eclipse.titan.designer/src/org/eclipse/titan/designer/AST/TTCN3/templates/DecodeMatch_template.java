@@ -246,7 +246,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append("TtcnError.TtcnWarning(\"Decoded content matching failed, because the data could not be decoded.\");\n");
 		source.append("ret_val = false;\n");
 		source.append("} else if (os.lengthof().operator_not_equals(0)) {\n");
-		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthof().getInt()));\n");
+		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthof().get_int()));\n");
 		source.append("ret_val = false;\n");
 		source.append("} else {\n");
 		source.append("ret_val = target.match(dec_val, true);\n");

@@ -326,7 +326,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring value with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	// originally operator[](int) const
@@ -349,7 +349,7 @@ public class TitanOctetString extends Base_Type {
 	public final TitanOctetString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring value with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	@Override
@@ -472,7 +472,7 @@ public class TitanOctetString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		final int n_octets = text_buf.pull_int().getInt();
+		final int n_octets = text_buf.pull_int().get_int();
 		if (n_octets < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an octetstring.");
 		}
@@ -670,7 +670,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString shift_left(final TitanInteger otherValue) {
 		must_bound("Unbound right operand of octetstring shift left operator.");
 
-		return shift_left(otherValue.getInt());
+		return shift_left(otherValue.get_int());
 	}
 
 	// originally operator>>
@@ -706,7 +706,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString shift_right(final TitanInteger otherValue){
 		must_bound("Unbound right operand of octetstring shift right operator.");
 
-		return shift_right(otherValue.getInt());
+		return shift_right(otherValue.get_int());
 	}
 
 	// originally operator<<=
@@ -740,7 +740,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_left(rotateCount.getInt());
+		return rotate_left(rotateCount.get_int());
 	}
 
 	// originally operator>>=
@@ -775,7 +775,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_right(rotateCount.getInt());
+		return rotate_right(rotateCount.get_int());
 	}
 	
 	@Override

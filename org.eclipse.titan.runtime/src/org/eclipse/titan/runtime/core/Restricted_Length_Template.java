@@ -210,18 +210,18 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	void decode_text_restricted(final Text_Buf text_buf) {
 		decode_text_base(text_buf);
-		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().getInt() ];
+		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().get_int() ];
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
-			single_length = text_buf.pull_int().getInt();
+			single_length = text_buf.pull_int().get_int();
 			break;
 		case NO_LENGTH_RESTRICTION:
 			break;
 		case RANGE_LENGTH_RESTRICTION:
-			range_length_min_length = text_buf.pull_int().getInt();
-			range_length_max_length_set = text_buf.pull_int().getInt() != 0;
+			range_length_min_length = text_buf.pull_int().get_int();
+			range_length_max_length_set = text_buf.pull_int().get_int() != 0;
 			if (range_length_max_length_set) {
-				range_length_max_length = text_buf.pull_int().getInt();
+				range_length_max_length = text_buf.pull_int().get_int();
 			}
 			break;
 		default:
@@ -275,7 +275,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	public void set_single_length(final TitanInteger single_length) {
 		single_length.must_bound("Using an unbound integer value as length restriction.");
 
-		set_single_length(single_length.getInt());
+		set_single_length(single_length.get_int());
 	}
 
 	public void set_min_length(final int min_length) {
@@ -291,7 +291,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	public void set_min_length(final TitanInteger min_length) {
 		min_length.must_bound("Using an unbound integer value as lower length restriction.");
 
-		set_min_length(min_length.getInt());
+		set_min_length(min_length.get_int());
 	}
 
 	public void set_max_length(final int max_length) {
@@ -313,7 +313,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	public void set_max_length(final TitanInteger max_length) {
 		max_length.must_bound("Using an unbound integer value as upper length restriction.");
 
-		set_max_length(max_length.getInt());
+		set_max_length(max_length.get_int());
 	}
 
 	@Override

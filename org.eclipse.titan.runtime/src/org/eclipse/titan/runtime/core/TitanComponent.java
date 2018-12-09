@@ -259,7 +259,7 @@ public class TitanComponent extends Base_Type {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "component reference (integer or null) value");
 		switch (param.get_type()) {
 		case MP_Integer:
-			componentValue = param.get_integer().getInt();
+			componentValue = param.get_integer().get_int();
 			break;
 		case MP_Ttcn_Null:
 			componentValue = NULL_COMPREF;
@@ -337,7 +337,7 @@ public class TitanComponent extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		componentValue = text_buf.pull_int().getInt();
+		componentValue = text_buf.pull_int().get_int();
 
 		switch (componentValue) {
 		case NULL_COMPREF:

@@ -293,7 +293,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -304,7 +304,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -385,7 +385,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -403,7 +403,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -424,7 +424,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -554,21 +554,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -628,7 +628,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -671,7 +671,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanInteger>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanInteger temp2 = new TitanInteger();
@@ -979,7 +979,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -1166,7 +1166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED repl) {
@@ -1180,7 +1180,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -1238,7 +1238,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -1280,7 +1280,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -1375,9 +1375,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -1569,7 +1569,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -1589,7 +1589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -1647,7 +1647,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 				}
@@ -1661,7 +1661,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template();
@@ -1987,7 +1987,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -1998,7 +1998,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -2079,7 +2079,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -2097,7 +2097,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -2118,7 +2118,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -2248,21 +2248,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -2322,7 +2322,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -2365,7 +2365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanUniversalCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanUniversalCharString temp2 = new TitanUniversalCharString();
@@ -2705,7 +2705,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -2903,7 +2903,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING repl) {
@@ -2917,7 +2917,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -2975,7 +2975,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -3017,7 +3017,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanUniversalCharString_template setItem(final int set_index) {
@@ -3177,9 +3177,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -3385,7 +3385,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -3408,7 +3408,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -3449,7 +3449,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 				}
@@ -3463,7 +3463,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template temp2 = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template();
@@ -3780,7 +3780,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -3791,7 +3791,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -3872,7 +3872,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -3890,7 +3890,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -3911,7 +3911,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -4041,21 +4041,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -4115,7 +4115,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -4158,7 +4158,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanOctetString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanOctetString temp2 = new TitanOctetString();
@@ -4466,7 +4466,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -4653,7 +4653,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED repl) {
@@ -4667,7 +4667,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -4725,7 +4725,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -4767,7 +4767,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -4862,9 +4862,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -5056,7 +5056,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -5076,7 +5076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -5134,7 +5134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 				}
@@ -5148,7 +5148,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template();
@@ -5475,7 +5475,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__FLOAT rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -5486,7 +5486,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__FLOAT rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -5567,7 +5567,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -5585,7 +5585,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -5606,7 +5606,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -5736,21 +5736,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -5810,7 +5810,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -5853,7 +5853,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanFloat>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanFloat temp2 = new TitanFloat();
@@ -6161,7 +6161,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -6348,7 +6348,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT repl) {
@@ -6362,7 +6362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -6420,7 +6420,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -6462,7 +6462,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -6557,9 +6557,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -6751,7 +6751,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -6771,7 +6771,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -6829,7 +6829,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 				}
@@ -6843,7 +6843,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__FLOAT_template temp2 = new PREGEN__RECORD__OF__FLOAT_template();
@@ -7170,7 +7170,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -7181,7 +7181,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -7262,7 +7262,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -7280,7 +7280,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -7301,7 +7301,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -7431,21 +7431,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -7505,7 +7505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -7548,7 +7548,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanUniversalCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanUniversalCharString temp2 = new TitanUniversalCharString();
@@ -7856,7 +7856,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -8043,7 +8043,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING repl) {
@@ -8057,7 +8057,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -8115,7 +8115,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -8157,7 +8157,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -8252,9 +8252,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -8446,7 +8446,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -8466,7 +8466,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -8524,7 +8524,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 				}
@@ -8538,7 +8538,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template temp2 = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template();
@@ -8865,7 +8865,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__BITSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -8876,7 +8876,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__BITSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -8957,7 +8957,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -8975,7 +8975,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -8996,7 +8996,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -9126,21 +9126,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -9200,7 +9200,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -9243,7 +9243,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBitString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBitString temp2 = new TitanBitString();
@@ -9551,7 +9551,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -9738,7 +9738,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING repl) {
@@ -9752,7 +9752,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -9810,7 +9810,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -9852,7 +9852,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -9947,9 +9947,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -10141,7 +10141,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -10161,7 +10161,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -10219,7 +10219,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 				}
@@ -10233,7 +10233,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__BITSTRING_template temp2 = new PREGEN__RECORD__OF__BITSTRING_template();
@@ -10560,7 +10560,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -10571,7 +10571,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -10652,7 +10652,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -10670,7 +10670,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -10691,7 +10691,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -10821,21 +10821,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -10895,7 +10895,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -10938,7 +10938,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBoolean>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBoolean temp2 = new TitanBoolean();
@@ -11246,7 +11246,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -11433,7 +11433,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED repl) {
@@ -11447,7 +11447,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -11505,7 +11505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -11547,7 +11547,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -11642,9 +11642,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -11836,7 +11836,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -11856,7 +11856,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -11914,7 +11914,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 				}
@@ -11928,7 +11928,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template();
@@ -12255,7 +12255,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -12266,7 +12266,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -12347,7 +12347,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -12365,7 +12365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -12386,7 +12386,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -12516,21 +12516,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -12590,7 +12590,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -12633,7 +12633,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanCharString temp2 = new TitanCharString();
@@ -12941,7 +12941,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -13128,7 +13128,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING repl) {
@@ -13142,7 +13142,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -13200,7 +13200,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -13242,7 +13242,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -13337,9 +13337,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -13531,7 +13531,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -13551,7 +13551,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -13609,7 +13609,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 				}
@@ -13623,7 +13623,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__CHARSTRING_template temp2 = new PREGEN__RECORD__OF__CHARSTRING_template();
@@ -13950,7 +13950,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__BOOLEAN rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -13961,7 +13961,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__BOOLEAN rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -14042,7 +14042,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -14060,7 +14060,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -14081,7 +14081,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -14211,21 +14211,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -14285,7 +14285,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -14328,7 +14328,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBoolean>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBoolean temp2 = new TitanBoolean();
@@ -14636,7 +14636,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -14823,7 +14823,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN repl) {
@@ -14837,7 +14837,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -14895,7 +14895,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -14937,7 +14937,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -15032,9 +15032,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -15226,7 +15226,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -15246,7 +15246,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -15304,7 +15304,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 				}
@@ -15318,7 +15318,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__BOOLEAN_template temp2 = new PREGEN__RECORD__OF__BOOLEAN_template();
@@ -15645,7 +15645,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -15656,7 +15656,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -15737,7 +15737,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -15755,7 +15755,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -15776,7 +15776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -15906,21 +15906,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -15980,7 +15980,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -16023,7 +16023,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBitString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBitString temp2 = new TitanBitString();
@@ -16331,7 +16331,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -16518,7 +16518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED repl) {
@@ -16532,7 +16532,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -16590,7 +16590,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -16632,7 +16632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -16727,9 +16727,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -16921,7 +16921,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -16941,7 +16941,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -16999,7 +16999,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 				}
@@ -17013,7 +17013,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template();
@@ -17340,7 +17340,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__INTEGER rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -17351,7 +17351,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__INTEGER rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -17432,7 +17432,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -17450,7 +17450,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -17471,7 +17471,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -17601,21 +17601,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -17675,7 +17675,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -17718,7 +17718,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanInteger>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanInteger temp2 = new TitanInteger();
@@ -18026,7 +18026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -18213,7 +18213,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER repl) {
@@ -18227,7 +18227,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -18285,7 +18285,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -18327,7 +18327,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -18422,9 +18422,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -18616,7 +18616,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -18636,7 +18636,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -18694,7 +18694,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 				}
@@ -18708,7 +18708,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__INTEGER_template temp2 = new PREGEN__RECORD__OF__INTEGER_template();
@@ -19034,7 +19034,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -19045,7 +19045,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -19126,7 +19126,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -19144,7 +19144,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -19165,7 +19165,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -19295,21 +19295,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -19369,7 +19369,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -19412,7 +19412,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanUniversalCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanUniversalCharString temp2 = new TitanUniversalCharString();
@@ -19752,7 +19752,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -19950,7 +19950,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
@@ -19964,7 +19964,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -20022,7 +20022,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -20064,7 +20064,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanUniversalCharString_template setItem(final int set_index) {
@@ -20224,9 +20224,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -20432,7 +20432,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -20455,7 +20455,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -20496,7 +20496,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 				}
@@ -20510,7 +20510,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template temp2 = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template();
@@ -20826,7 +20826,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__BOOLEAN rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -20837,7 +20837,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__BOOLEAN rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -20918,7 +20918,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -20936,7 +20936,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -20957,7 +20957,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -21087,21 +21087,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -21161,7 +21161,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -21204,7 +21204,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBoolean>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBoolean temp2 = new TitanBoolean();
@@ -21544,7 +21544,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -21742,7 +21742,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN repl) {
@@ -21756,7 +21756,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -21814,7 +21814,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -21856,7 +21856,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanBoolean_template setItem(final int set_index) {
@@ -22016,9 +22016,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -22224,7 +22224,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -22247,7 +22247,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -22288,7 +22288,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 				}
@@ -22302,7 +22302,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__BOOLEAN_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__BOOLEAN_template temp2 = new PREGEN__SET__OF__BOOLEAN_template();
@@ -22618,7 +22618,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -22629,7 +22629,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -22710,7 +22710,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -22728,7 +22728,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -22749,7 +22749,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -22879,21 +22879,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -22953,7 +22953,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -22996,7 +22996,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanFloat>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanFloat temp2 = new TitanFloat();
@@ -23336,7 +23336,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -23534,7 +23534,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED repl) {
@@ -23548,7 +23548,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -23606,7 +23606,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -23648,7 +23648,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanFloat_template setItem(final int set_index) {
@@ -23808,9 +23808,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -24016,7 +24016,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -24039,7 +24039,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -24080,7 +24080,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 				}
@@ -24094,7 +24094,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__FLOAT__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__FLOAT__OPTIMIZED_template temp2 = new PREGEN__SET__OF__FLOAT__OPTIMIZED_template();
@@ -24410,7 +24410,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__INTEGER rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -24421,7 +24421,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__INTEGER rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -24502,7 +24502,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -24520,7 +24520,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -24541,7 +24541,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -24671,21 +24671,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final int len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -24745,7 +24745,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -24788,7 +24788,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanInteger>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanInteger temp2 = new TitanInteger();
@@ -25128,7 +25128,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -25326,7 +25326,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER replace(final int index, final int len, final PREGEN__SET__OF__INTEGER repl) {
@@ -25340,7 +25340,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -25398,7 +25398,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -25440,7 +25440,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanInteger_template setItem(final int set_index) {
@@ -25600,9 +25600,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -25808,7 +25808,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -25831,7 +25831,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -25872,7 +25872,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 				}
@@ -25886,7 +25886,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__INTEGER_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__INTEGER_template temp2 = new PREGEN__SET__OF__INTEGER_template();
@@ -26202,7 +26202,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -26213,7 +26213,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -26294,7 +26294,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -26312,7 +26312,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -26333,7 +26333,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -26463,21 +26463,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -26537,7 +26537,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -26580,7 +26580,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanCharString temp2 = new TitanCharString();
@@ -26920,7 +26920,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -27118,7 +27118,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING repl) {
@@ -27132,7 +27132,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -27190,7 +27190,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -27232,7 +27232,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanCharString_template setItem(final int set_index) {
@@ -27392,9 +27392,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -27600,7 +27600,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -27623,7 +27623,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -27664,7 +27664,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 				}
@@ -27678,7 +27678,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__CHARSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__CHARSTRING_template temp2 = new PREGEN__SET__OF__CHARSTRING_template();
@@ -27995,7 +27995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -28006,7 +28006,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -28087,7 +28087,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -28105,7 +28105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -28126,7 +28126,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -28256,21 +28256,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -28330,7 +28330,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -28373,7 +28373,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanUniversalCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanUniversalCharString temp2 = new TitanUniversalCharString();
@@ -28681,7 +28681,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -28868,7 +28868,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
@@ -28882,7 +28882,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -28940,7 +28940,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -28982,7 +28982,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -29077,9 +29077,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -29271,7 +29271,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -29291,7 +29291,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -29349,7 +29349,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 				}
@@ -29363,7 +29363,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template();
@@ -29689,7 +29689,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__HEXSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -29700,7 +29700,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__HEXSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -29781,7 +29781,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -29799,7 +29799,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -29820,7 +29820,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -29950,21 +29950,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -30024,7 +30024,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -30067,7 +30067,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanHexString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanHexString temp2 = new TitanHexString();
@@ -30407,7 +30407,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -30605,7 +30605,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING repl) {
@@ -30619,7 +30619,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -30677,7 +30677,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -30719,7 +30719,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanHexString_template setItem(final int set_index) {
@@ -30879,9 +30879,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -31087,7 +31087,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -31110,7 +31110,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -31151,7 +31151,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 				}
@@ -31165,7 +31165,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__HEXSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__HEXSTRING_template temp2 = new PREGEN__SET__OF__HEXSTRING_template();
@@ -31481,7 +31481,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -31492,7 +31492,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -31573,7 +31573,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -31591,7 +31591,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -31612,7 +31612,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -31742,21 +31742,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -31816,7 +31816,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -31859,7 +31859,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanHexString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanHexString temp2 = new TitanHexString();
@@ -32199,7 +32199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -32397,7 +32397,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED repl) {
@@ -32411,7 +32411,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -32469,7 +32469,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -32511,7 +32511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanHexString_template setItem(final int set_index) {
@@ -32671,9 +32671,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -32879,7 +32879,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -32902,7 +32902,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -32943,7 +32943,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 				}
@@ -32957,7 +32957,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template temp2 = new PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template();
@@ -33273,7 +33273,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__OCTETSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -33284,7 +33284,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__OCTETSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -33365,7 +33365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -33383,7 +33383,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -33404,7 +33404,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -33534,21 +33534,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -33608,7 +33608,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -33651,7 +33651,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanOctetString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanOctetString temp2 = new TitanOctetString();
@@ -33991,7 +33991,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -34189,7 +34189,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING repl) {
@@ -34203,7 +34203,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -34261,7 +34261,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -34303,7 +34303,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanOctetString_template setItem(final int set_index) {
@@ -34463,9 +34463,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -34671,7 +34671,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -34694,7 +34694,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -34735,7 +34735,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 				}
@@ -34749,7 +34749,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__OCTETSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__OCTETSTRING_template temp2 = new PREGEN__SET__OF__OCTETSTRING_template();
@@ -35065,7 +35065,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__FLOAT rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -35076,7 +35076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__FLOAT rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -35157,7 +35157,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -35175,7 +35175,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -35196,7 +35196,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -35326,21 +35326,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final int len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -35400,7 +35400,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -35443,7 +35443,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanFloat>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanFloat temp2 = new TitanFloat();
@@ -35783,7 +35783,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -35981,7 +35981,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__FLOAT replace(final int index, final int len, final PREGEN__SET__OF__FLOAT repl) {
@@ -35995,7 +35995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -36053,7 +36053,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -36095,7 +36095,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanFloat_template setItem(final int set_index) {
@@ -36255,9 +36255,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -36463,7 +36463,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -36486,7 +36486,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -36527,7 +36527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 				}
@@ -36541,7 +36541,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__FLOAT_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__FLOAT_template temp2 = new PREGEN__SET__OF__FLOAT_template();
@@ -36857,7 +36857,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -36868,7 +36868,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -36949,7 +36949,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -36967,7 +36967,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -36988,7 +36988,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -37118,21 +37118,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -37192,7 +37192,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -37235,7 +37235,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanInteger>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanInteger temp2 = new TitanInteger();
@@ -37575,7 +37575,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -37773,7 +37773,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED repl) {
@@ -37787,7 +37787,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -37845,7 +37845,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -37887,7 +37887,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanInteger_template setItem(final int set_index) {
@@ -38047,9 +38047,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -38255,7 +38255,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -38278,7 +38278,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -38319,7 +38319,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 				}
@@ -38333,7 +38333,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__INTEGER__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__INTEGER__OPTIMIZED_template temp2 = new PREGEN__SET__OF__INTEGER__OPTIMIZED_template();
@@ -38649,7 +38649,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -38660,7 +38660,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -38741,7 +38741,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -38759,7 +38759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -38780,7 +38780,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -38910,21 +38910,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -38984,7 +38984,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -39027,7 +39027,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanOctetString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanOctetString temp2 = new TitanOctetString();
@@ -39367,7 +39367,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -39565,7 +39565,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED repl) {
@@ -39579,7 +39579,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -39637,7 +39637,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -39679,7 +39679,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanOctetString_template setItem(final int set_index) {
@@ -39839,9 +39839,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -40047,7 +40047,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -40070,7 +40070,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -40111,7 +40111,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 				}
@@ -40125,7 +40125,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template temp2 = new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template();
@@ -40442,7 +40442,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -40453,7 +40453,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -40534,7 +40534,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -40552,7 +40552,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -40573,7 +40573,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -40703,21 +40703,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -40777,7 +40777,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -40820,7 +40820,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanOctetString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanOctetString temp2 = new TitanOctetString();
@@ -41128,7 +41128,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -41315,7 +41315,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING repl) {
@@ -41329,7 +41329,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -41387,7 +41387,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -41429,7 +41429,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -41524,9 +41524,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -41718,7 +41718,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -41738,7 +41738,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -41796,7 +41796,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 				}
@@ -41810,7 +41810,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__OCTETSTRING_template temp2 = new PREGEN__RECORD__OF__OCTETSTRING_template();
@@ -42137,7 +42137,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__HEXSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -42148,7 +42148,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__HEXSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -42229,7 +42229,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -42247,7 +42247,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -42268,7 +42268,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -42398,21 +42398,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -42472,7 +42472,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -42515,7 +42515,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanHexString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanHexString temp2 = new TitanHexString();
@@ -42823,7 +42823,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -43010,7 +43010,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING repl) {
@@ -43024,7 +43024,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -43082,7 +43082,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -43124,7 +43124,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -43219,9 +43219,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -43413,7 +43413,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -43433,7 +43433,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -43491,7 +43491,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 				}
@@ -43505,7 +43505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__HEXSTRING_template temp2 = new PREGEN__RECORD__OF__HEXSTRING_template();
@@ -43831,7 +43831,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -43842,7 +43842,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -43923,7 +43923,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -43941,7 +43941,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -43962,7 +43962,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -44092,21 +44092,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -44166,7 +44166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -44209,7 +44209,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanCharString temp2 = new TitanCharString();
@@ -44549,7 +44549,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -44747,7 +44747,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED repl) {
@@ -44761,7 +44761,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -44819,7 +44819,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -44861,7 +44861,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanCharString_template setItem(final int set_index) {
@@ -45021,9 +45021,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -45229,7 +45229,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -45252,7 +45252,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -45293,7 +45293,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 				}
@@ -45307,7 +45307,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template temp2 = new PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template();
@@ -45623,7 +45623,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__BITSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -45634,7 +45634,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__BITSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -45715,7 +45715,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -45733,7 +45733,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -45754,7 +45754,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -45884,21 +45884,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -45958,7 +45958,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -46001,7 +46001,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBitString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBitString temp2 = new TitanBitString();
@@ -46341,7 +46341,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -46539,7 +46539,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING repl) {
@@ -46553,7 +46553,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -46611,7 +46611,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -46653,7 +46653,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanBitString_template setItem(final int set_index) {
@@ -46813,9 +46813,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -47021,7 +47021,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -47044,7 +47044,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -47085,7 +47085,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 				}
@@ -47099,7 +47099,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__BITSTRING_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__BITSTRING_template temp2 = new PREGEN__SET__OF__BITSTRING_template();
@@ -47415,7 +47415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -47426,7 +47426,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -47507,7 +47507,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -47525,7 +47525,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -47546,7 +47546,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -47676,21 +47676,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -47750,7 +47750,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -47793,7 +47793,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBoolean>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBoolean temp2 = new TitanBoolean();
@@ -48133,7 +48133,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -48331,7 +48331,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED repl) {
@@ -48345,7 +48345,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -48403,7 +48403,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -48445,7 +48445,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanBoolean_template setItem(final int set_index) {
@@ -48605,9 +48605,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -48813,7 +48813,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -48836,7 +48836,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -48877,7 +48877,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 				}
@@ -48891,7 +48891,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template temp2 = new PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template();
@@ -49208,7 +49208,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -49219,7 +49219,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -49300,7 +49300,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -49318,7 +49318,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -49339,7 +49339,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -49469,21 +49469,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -49543,7 +49543,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -49586,7 +49586,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanCharString temp2 = new TitanCharString();
@@ -49894,7 +49894,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -50081,7 +50081,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED repl) {
@@ -50095,7 +50095,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -50153,7 +50153,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -50195,7 +50195,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -50290,9 +50290,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -50484,7 +50484,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -50504,7 +50504,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -50562,7 +50562,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 				}
@@ -50576,7 +50576,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template();
@@ -50903,7 +50903,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -50914,7 +50914,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -50995,7 +50995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -51013,7 +51013,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -51034,7 +51034,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -51164,21 +51164,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -51238,7 +51238,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -51281,7 +51281,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanFloat>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanFloat temp2 = new TitanFloat();
@@ -51589,7 +51589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -51776,7 +51776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED repl) {
@@ -51790,7 +51790,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -51848,7 +51848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -51890,7 +51890,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -51985,9 +51985,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -52179,7 +52179,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -52199,7 +52199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -52257,7 +52257,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 				}
@@ -52271,7 +52271,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template();
@@ -52597,7 +52597,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -52608,7 +52608,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -52689,7 +52689,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -52707,7 +52707,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -52728,7 +52728,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -52858,21 +52858,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -52932,7 +52932,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -52975,7 +52975,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanBitString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanBitString temp2 = new TitanBitString();
@@ -53315,7 +53315,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -53513,7 +53513,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED repl) {
@@ -53527,7 +53527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -53585,7 +53585,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -53627,7 +53627,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public TitanBitString_template setItem(final int set_index) {
@@ -53787,9 +53787,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -53995,7 +53995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if (template_selection == template_sel.SPECIFIC_VALUE) {
-						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+						RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 					} else {
 						if(previous_size != 0) {
 							TTCN_Logger.print_logmatch_buffer();
@@ -54018,7 +54018,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			} else {
 				TTCN_Logger.log_event_str(" unmatched");
 				if (template_selection == template_sel.SPECIFIC_VALUE) {
-					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);
+					RecordOf_Match.log_match_heuristics(match_value, match_value.size_of().get_int(), this, value_elements.size(), match_function_specific, log_function, legacy);
 				}
 			}
 		}
@@ -54059,7 +54059,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 				}
@@ -54073,7 +54073,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__SET__OF__BITSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template temp2 = new PREGEN__SET__OF__BITSTRING__OPTIMIZED_template();
@@ -54390,7 +54390,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator<<=
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
-			return rotate_left(rotate_count.getInt());
+			return rotate_left(rotate_count.get_int());
 		}
 
 		//originally operator<<=
@@ -54401,7 +54401,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		//originally operator>>=
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
-			return rotate_right(rotate_count.getInt());
+			return rotate_right(rotate_count.get_int());
 		}
 
 		//originally operator>>=
@@ -54482,7 +54482,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
-			return get_at( index_value.getInt() );
+			return get_at( index_value.get_int() );
 		}
 
 		/**
@@ -54500,7 +54500,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().getInt();
+			final int nofElements = n_elem().get_int();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -54521,7 +54521,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 * */
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
-			return constGet_at( index_value.getInt() );
+			return constGet_at( index_value.get_int() );
 		}
 
 		/**
@@ -54651,21 +54651,21 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index, len.getInt(), repl.valueof());
+			return replace(index, len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len, repl.valueof());
+			return replace(index.get_int(), len, repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return replace(index.getInt(), len.getInt(), repl.valueof());
+			return replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 		@Override
 		public void log() {
@@ -54725,7 +54725,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (!is_bound()) {
 						operator_assign(TitanNull_Type.NULL_VALUE);
 					}
-					final int start_idx = lengthof().getInt();
+					final int start_idx = lengthof().get_int();
 					for (int i = 0; i < param.get_size(); i++) {
 						final Module_Parameter current = param.get_elem(i);
 						if (current.get_type() != Module_Parameter.type_t.MP_NotUsed) {
@@ -54768,7 +54768,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			valueElements = new ArrayList<TitanHexString>(temp);
 			for (int i = 0; i < temp; i++) {
 				final TitanHexString temp2 = new TitanHexString();
@@ -55076,7 +55076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(!other_value.is_bound()) {
 				return false;
 			}
-			final int value_length = other_value.size_of().getInt();
+			final int value_length = other_value.size_of().get_int();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -55263,7 +55263,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl.valueof());
+			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED repl) {
@@ -55277,7 +55277,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
-			return valueof().replace(index.getInt(), len.getInt(), repl);
+			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
 		/**
@@ -55335,7 +55335,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 
-			return get_at(index_value.getInt());
+			return get_at(index_value.get_int());
 		}
 
 		/**
@@ -55377,7 +55377,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 
-			return constGet_at(index_value.getInt());
+			return constGet_at(index_value.get_int());
 		}
 
 		public void set_size(final int new_size) {
@@ -55472,9 +55472,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (list_value.isEmpty()) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
-				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
 				for (int i = 1; i < list_value.size(); i++) {
-					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
+					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
 				}
@@ -55666,7 +55666,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str(" matched");
 				} else {
-					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
@@ -55686,7 +55686,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return;
 			}
-			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().getInt()) {
+			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 					if (elem_count > 0) {
@@ -55744,7 +55744,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE: {
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				if (temp < 0) {
 					throw new TtcnError("Text decoder: Negative size was received for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 				}
@@ -55758,7 +55758,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template>(size);
 				for (int i = 0; i < size; i++) {
 					final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template temp2 = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template();
@@ -56065,7 +56065,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			switch (temp) {
 			default:
 				throw new TtcnError("Text decoder: Unrecognized union selector was received for type @PreGenRecordOf.anytype.");
@@ -56540,13 +56540,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_OR_OMIT:
 				break;
 			case SPECIFIC_VALUE:{
-				final int temp = text_buf.pull_int().getInt();
+				final int temp = text_buf.pull_int().get_int();
 				switch (temp) {
 				}
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {
-				final int size = text_buf.pull_int().getInt();
+				final int size = text_buf.pull_int().get_int();
 				value_list = new ArrayList<anytype_template>(size);
 				for (int i = 0; i < size; i++) {
 					final anytype_template temp2 = new anytype_template();

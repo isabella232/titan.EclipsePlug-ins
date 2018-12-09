@@ -85,7 +85,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		final int new_size = text_buf.pull_int().getInt();
+		final int new_size = text_buf.pull_int().get_int();
 		if (new_size < 0) {
 			throw new TtcnError("Text decoder: Negative size was received for a value of type record of.");
 		}
@@ -207,7 +207,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	//originally get_at(const INTEGER&)
 	public Base_Type get_at(final TitanInteger index_value) {
 		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	//originally get_at(int) const
@@ -231,7 +231,7 @@ public abstract class TitanRecordOf extends Base_Type {
 	public Base_Type constGet_at(final TitanInteger index_value) {
 		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	private Base_Type get_unbound_elem() {

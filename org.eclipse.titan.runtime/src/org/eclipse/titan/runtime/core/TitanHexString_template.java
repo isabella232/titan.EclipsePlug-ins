@@ -128,10 +128,10 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	public TitanHexString_template(final String patternString) {
 		super(template_sel.STRING_PATTERN);
-		pattern_value = patternString2List(patternString);
+		pattern_value = pattern_string_2_list(patternString);
 	}
 
-	private static byte[] patternString2List(final String patternString) {
+	private static byte[] pattern_string_2_list(final String patternString) {
 		if (patternString == null) {
 			throw new TtcnError("Internal error: hexstring pattern is null.");
 		}
@@ -139,7 +139,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		final byte result[] = new byte[patternString.length()];
 		for (int i = 0; i < patternString.length(); i++) {
 			final char patternChar = patternString.charAt(i);
-			result[i] = patternChar2byte(patternChar);
+			result[i] = pattern_char_2_byte(patternChar);
 		}
 		return result;
 	}
@@ -150,7 +150,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 .. 15 -> 0 .. F, 16 -> ?, 17 -> *
 	 */
-	private static byte patternChar2byte(final char patternChar) {
+	private static byte pattern_char_2_byte(final char patternChar) {
 		if ('0' <= patternChar && '9' >= patternChar) {
 			return (byte) (patternChar - '0');
 		}
@@ -342,7 +342,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	public TitanHexString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	// originally operator[](int) const
@@ -358,7 +358,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	public TitanHexString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	@Override
@@ -404,7 +404,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 
 		final TitanInteger value_length = otherValue.lengthof();
-		if (!match_length(value_length.getInt())) {
+		if (!match_length(value_length.get_int())) {
 			return false;
 		}
 
@@ -539,7 +539,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		boolean has_any_or_none = false;
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthof().getInt();
+			min_length = single_value.lengthof().get_int();
 			break;
 		case OMIT_VALUE:
 			throw new TtcnError("Performing lengthof() operation on a hexstring template containing omit value.");
@@ -552,9 +552,9 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a hexstring template containing an empty list.");
 			}
-			final int item_length = value_list.get(0).lengthof().getInt();
+			final int item_length = value_list.get(0).lengthof().get_int();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthof().getInt() != item_length) {
+				if (value_list.get(i).lengthof().get_int() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a hexstring template containing a value list with different lengths.");
 				}
 			}
@@ -827,7 +827,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanHexString_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanHexString_template temp = new TitanHexString_template();
@@ -837,7 +837,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		}
 		case STRING_PATTERN: {
-			final int n_elements = text_buf.pull_int().getInt();
+			final int n_elements = text_buf.pull_int().get_int();
 			pattern_value = new byte[n_elements];
 			text_buf.pull_raw(n_elements, pattern_value);
 			break;

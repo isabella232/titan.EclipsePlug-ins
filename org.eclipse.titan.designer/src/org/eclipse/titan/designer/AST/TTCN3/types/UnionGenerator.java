@@ -726,7 +726,7 @@ public final class UnionGenerator {
 
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
-		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
 		source.append("\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -1845,7 +1845,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
-		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
 		source.append("\t\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -1859,7 +1859,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().get_int();\n");
 		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(size);\n", genName));
 		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp2 = new {0}_template();\n", genName));

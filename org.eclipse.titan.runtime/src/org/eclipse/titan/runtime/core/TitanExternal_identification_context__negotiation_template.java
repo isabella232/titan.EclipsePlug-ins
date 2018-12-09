@@ -461,9 +461,9 @@ public class TitanExternal_identification_context__negotiation_template extends 
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EXTERNAL.identification.context-negotiation containing an empty list.");
 			}
-			final int item_size = list_value.get(0).size_of().getInt();
+			final int item_size = list_value.get(0).size_of().get_int();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-				if (list_value.get(l_idx).size_of().getInt() != item_size) {
+				if (list_value.get(l_idx).size_of().get_int() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL.identification.context-negotiation containing a value list with different sizes.");
 				}
 			}
@@ -642,7 +642,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			list_value = new ArrayList<TitanExternal_identification_context__negotiation_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanExternal_identification_context__negotiation_template temp = new TitanExternal_identification_context__negotiation_template();

@@ -333,7 +333,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
-		set_port_state(state.getInt(), info.get_value().toString(), bySystem);
+		set_port_state(state.get_int(), info.get_value().toString(), bySystem);
 	}
 
 	public static TitanPort get_translation_port() {
@@ -2527,12 +2527,12 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
-		final int n_PTCS = text_buf.pull_int().getInt();
+		final int n_PTCS = text_buf.pull_int().get_int();
 		if (n_PTCS > 0) {
 			for (int i = 0; i < n_PTCS; i++) {
-				final int ptc_compref = text_buf.pull_int().getInt();
+				final int ptc_compref = text_buf.pull_int().get_int();
 				final String ptc_name = text_buf.pull_string();
-				final int verdictInt = text_buf.pull_int().getInt();
+				final int verdictInt = text_buf.pull_int().get_int();
 				final String ptc_verdict_reason = text_buf.pull_string();
 				if (verdictInt < VerdictTypeEnum.NONE.ordinal() || verdictInt > VerdictTypeEnum.ERROR.ordinal()) {
 					throw new TtcnError(MessageFormat.format("Internal error: Invalid PTC verdict was received from MC: {0}.", verdictInt));
@@ -2552,7 +2552,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
-		final boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
+		final boolean continueExecution = text_buf.pull_int().get_int() == 0 ? false : true;
 		if (continueExecution) {
 			executorState.set(executorStateEnum.MTC_CONTROLPART);
 		} else {

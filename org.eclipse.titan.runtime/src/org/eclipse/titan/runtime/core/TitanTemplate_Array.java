@@ -74,12 +74,12 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	private void decode_text_permutation(final Text_Buf text_buf) {
 		decode_text_restricted(text_buf);
 
-		final int number_of_permutations = text_buf.pull_int().getInt();
+		final int number_of_permutations = text_buf.pull_int().get_int();
 		permutationIntervals = new ArrayList<Pair_of_elements>(number_of_permutations);
 
 		for (int i = 0; i < number_of_permutations; i++) {
-			final int start_index = text_buf.pull_int().getInt();
-			final int end_index = text_buf.pull_int().getInt();
+			final int start_index = text_buf.pull_int().get_int();
+			final int end_index = text_buf.pull_int().get_int();
 			permutationIntervals.add(new Pair_of_elements(start_index, end_index));
 		}
 	}
@@ -506,7 +506,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	public Ttemplate get_at(final TitanInteger index) {
 		index.must_bound("Using an unbound integer value for indexing an array template.");
 
-		return get_at(index.getInt());
+		return get_at(index.get_int());
 	}
 
 	// originally const T& operator[](int)
@@ -533,7 +533,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	public Ttemplate constGet_at(final TitanInteger index) {
 		index.must_bound("Using an unbound integer value for indexing an array template.");
 
-		return constGet_at(index.getInt());
+		return constGet_at(index.get_int());
 	}
 
 	public int n_elem() {
@@ -599,9 +599,9 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			if (listSize != 0) {
 				throw new TtcnError("Performing " + opName + "of() operation on an array template containing an empty list.");
 			}
-			final int itemSize = value_list[0].size_of(isSize).getInt();
+			final int itemSize = value_list[0].size_of(isSize).get_int();
 			for (int i = 1; i < listSize; ++i) {
-				if (value_list[i].size_of(isSize).getInt() != itemSize) {
+				if (value_list[i].size_of(isSize).get_int() != itemSize) {
 					throw new TtcnError("Performing " + opName + "of() operation on an array template containing a value list with different sizes.");
 				}
 			}
@@ -818,7 +818,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
-			singleSize = text_buf.pull_int().getInt();
+			singleSize = text_buf.pull_int().get_int();
 			if (singleSize < 0) {
 				throw new TtcnError("Text decoder: Negative size was received for an array template.");
 			}
@@ -837,7 +837,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			listSize = text_buf.pull_int().getInt();
+			listSize = text_buf.pull_int().get_int();
 			value_list = new TitanTemplate_Array[listSize];
 			for (int i = 0; i < listSize; ++i) {
 				value_list[i] = new TitanTemplate_Array<Tvalue,Ttemplate>(classValue, classTemplate);

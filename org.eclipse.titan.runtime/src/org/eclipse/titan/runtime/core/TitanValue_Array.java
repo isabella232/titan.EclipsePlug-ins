@@ -286,7 +286,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public TitanValue_Array<T> rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotate_left(rotateCount.getInt());
+		return rotate_left(rotateCount.get_int());
 	}
 
 	//originally  operator>>=
@@ -322,7 +322,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public TitanValue_Array<T> rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotate_right(rotateCount.getInt());
+		return rotate_right(rotateCount.get_int());
 	}
 
 	// originally T& operator[](int)
@@ -357,7 +357,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public T array_element(final TitanInteger index) {
 		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return (T)array_elements[index.getInt()];
+		return (T)array_elements[index.get_int()];
 	}
 
 	// originally n_elem()
@@ -424,7 +424,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public static int get_array_index(final TitanInteger index, final int arraySize, final int indexofset) {
 		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return get_array_index(index.getInt(), arraySize, indexofset);
+		return get_array_index(index.get_int(), arraySize, indexofset);
 	}
 
 	@Override

@@ -325,7 +325,7 @@ public class TitanBoolean extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		final int int_value = text_buf.pull_int().getInt();
+		final int int_value = text_buf.pull_int().get_int();
 		switch (int_value) {
 		case 0:
 			boolean_value = false;

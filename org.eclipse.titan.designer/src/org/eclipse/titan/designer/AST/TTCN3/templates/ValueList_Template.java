@@ -255,7 +255,7 @@ public final class ValueList_Template extends CompositeTemplate {
 
 				variableReferences[variables.get(v)] = expression.expression;
 				setType.append(expression.expression);
-				setType.append(".n_elem().getInt()");
+				setType.append(".n_elem().get_int()");
 			}
 
 			source.append(preamble);
@@ -271,12 +271,12 @@ public final class ValueList_Template extends CompositeTemplate {
 					// the template must be all from
 					final StringBuilder storedExpression = variableReferences[i];
 
-					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", storedExpression));
+					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", storedExpression));
 
 					final String embeddedName = MessageFormat.format("{0}.list_item({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName, storedExpression);
 					source.append("}\n");
-					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", storedExpression));
+					shifty.append(MessageFormat.format("-1 + {0}.n_elem().get_int()", storedExpression));
 					break;
 				}
 				default:

@@ -517,10 +517,10 @@ public class TitanInteger_template extends Base_Template {
 		switch (template_selection) {
 		case SPECIFIC_VALUE: {
 			String tmp_str;
-			if (single_value.isNative()) {
-				tmp_str = Integer.toString(single_value.getInt());
+			if (single_value.is_native()) {
+				tmp_str = Integer.toString(single_value.get_int());
 			} else {
-				tmp_str = single_value.getBigInteger().toString();
+				tmp_str = single_value.get_BigInteger().toString();
 			}
 			TTCN_Logger.log_event("%s", tmp_str);
 			break;
@@ -543,10 +543,10 @@ public class TitanInteger_template extends Base_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (min_is_present) {
-				if (min_value.isNative()) {
-					TTCN_Logger.log_event("%s", Integer.toString(min_value.getInt()));
+				if (min_value.is_native()) {
+					TTCN_Logger.log_event("%s", Integer.toString(min_value.get_int()));
 				} else {
-					TTCN_Logger.log_event("%s", min_value.getBigInteger().toString());
+					TTCN_Logger.log_event("%s", min_value.get_BigInteger().toString());
 				}
 			} else {
 				TTCN_Logger.log_event_str("-infinity");
@@ -557,10 +557,10 @@ public class TitanInteger_template extends Base_Template {
 				TTCN_Logger.log_char('!');
 			}
 			if (max_is_present) {
-				if (max_value.isNative()) {
-					TTCN_Logger.log_event("%s", Integer.toString(max_value.getInt()));
+				if (max_value.is_native()) {
+					TTCN_Logger.log_event("%s", Integer.toString(max_value.get_int()));
 				} else {
-					TTCN_Logger.log_event("%s", max_value.getBigInteger().toString());
+					TTCN_Logger.log_event("%s", max_value.get_BigInteger().toString());
 				}
 			} else {
 				TTCN_Logger.log_event_str("infinity");
@@ -652,7 +652,7 @@ public class TitanInteger_template extends Base_Template {
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanInteger_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanInteger_template temp = new TitanInteger_template();
@@ -662,11 +662,11 @@ public class TitanInteger_template extends Base_Template {
 			break;
 		}
 		case VALUE_RANGE:
-			min_is_present = text_buf.pull_int().getInt() != 0;
+			min_is_present = text_buf.pull_int().get_int() != 0;
 			if (min_is_present) {
 				min_value = text_buf.pull_int();
 			}
-			max_is_present = text_buf.pull_int().getInt() != 0;
+			max_is_present = text_buf.pull_int().get_int() != 0;
 			if (max_is_present) {
 				max_value = text_buf.pull_int();
 			}

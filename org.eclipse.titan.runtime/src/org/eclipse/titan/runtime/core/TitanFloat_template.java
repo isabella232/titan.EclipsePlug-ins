@@ -645,7 +645,7 @@ public class TitanFloat_template extends Base_Template {
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanFloat_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanFloat_template temp = new TitanFloat_template();
@@ -655,11 +655,11 @@ public class TitanFloat_template extends Base_Template {
 			break;
 		}
 		case VALUE_RANGE:
-			min_is_present = text_buf.pull_int().getInt() != 0;
+			min_is_present = text_buf.pull_int().get_int() != 0;
 			if (min_is_present) {
 				min_value = new TitanFloat(text_buf.pull_double());
 			}
-			max_is_present = text_buf.pull_int().getInt() != 0;
+			max_is_present = text_buf.pull_int().get_int() != 0;
 			if (max_is_present) {
 				max_value = new TitanFloat(text_buf.pull_double());
 			}

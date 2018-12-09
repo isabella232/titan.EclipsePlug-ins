@@ -647,7 +647,7 @@ public class RAW {
 		if(fl < 0) {
 			return fl;
 		}
-		value.set(i.getInt());
+		value.set(i.get_int());
 
 		return fl + buff.increase_pos_padd(p_td.raw.padding);
 	}

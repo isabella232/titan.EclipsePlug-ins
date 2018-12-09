@@ -999,7 +999,7 @@ public final class Param_Types {
 					TTCN_Logger.log_event_str("-");
 				}
 				TTCN_Logger.log_event_str("infinity");
-			} else if (bound.isNative()) {
+			} else if (bound.is_native()) {
 				bound.log();
 			} else {
 				bound.log();

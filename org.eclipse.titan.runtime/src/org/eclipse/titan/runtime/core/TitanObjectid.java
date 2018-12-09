@@ -178,7 +178,7 @@ public class TitanObjectid extends Base_Type {
 	public final TitanInteger constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	// originally operator[]
@@ -211,7 +211,7 @@ public class TitanObjectid extends Base_Type {
 	public TitanInteger get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class TitanObjectid extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		n_components = text_buf.pull_int().getInt();
+		n_components = text_buf.pull_int().get_int();
 		if (n_components < 0) {
 			throw new TtcnError("Text decoder: Negative number of components was received for an objid value.");
 		}

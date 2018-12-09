@@ -341,7 +341,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring value with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	// originally operator[](int) const
@@ -365,7 +365,7 @@ public class TitanHexString extends Base_Type {
 	public final TitanHexString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring value with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	@Override
@@ -423,7 +423,7 @@ public class TitanHexString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		final int n_nibbles = text_buf.pull_int().getInt();
+		final int n_nibbles = text_buf.pull_int().get_int();
 		if (n_nibbles < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a hexstring.");
 		}
@@ -730,7 +730,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString shift_left(final TitanInteger shiftCount) {
 		shiftCount.must_bound("Unbound right operand of hexstring shift left operator.");
 
-		return this.shift_left(shiftCount.getInt());
+		return this.shift_left(shiftCount.get_int());
 	}
 
 	// originally operator>>
@@ -766,7 +766,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString shift_right(final TitanInteger shiftCount) {
 		shiftCount.must_bound("Unbound right operand of hexstring right left operator.");
 
-		return this.shift_right(shiftCount.getInt());
+		return this.shift_right(shiftCount.get_int());
 	}
 
 	//originally operator<<=
@@ -791,7 +791,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotate_left(final TitanInteger rotateCount){
 		rotateCount.must_bound("Unbound right operand of hexstring rotate left operator.");
 
-		return this.rotate_left(rotateCount.getInt());
+		return this.rotate_left(rotateCount.get_int());
 	}
 
 	//originally operator>>=
@@ -817,7 +817,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotate_right(final TitanInteger rotateCount){
 		rotateCount.must_bound("Unbound right operand of hexstring rotate right operator.");
 
-		return this.rotate_right(rotateCount.getInt());
+		return this.rotate_right(rotateCount.get_int());
 	}
 
 	@Override

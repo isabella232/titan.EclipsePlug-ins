@@ -625,13 +625,13 @@ public final class Template_List extends CompositeTemplate {
 						preamble.append(referenceExpression.preamble);
 					}
 
-					setSize.append(".n_elem().getInt()");
-					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
+					setSize.append(".n_elem().get_int()");
+					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
 
 					final String embeddedName = MessageFormat.format("{0}.get_at({1} + i_i)", name, counter);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, body, embeddedName, referenceExpression.expression);
 					body.append("}\n");
-					body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, referenceExpression.expression));
+					body.append(MessageFormat.format("{0} += {1}.n_elem().get_int();\n", counter, referenceExpression.expression));
 				} else if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
 					final int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
 					final String permutationStart = aData.getTemporaryVariableName();
@@ -670,14 +670,14 @@ public final class Template_List extends CompositeTemplate {
 								preamble.append(referenceExpression.preamble);
 							}
 
-							setSize.append(".n_elem().getInt()");
-							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
+							setSize.append(".n_elem().get_int()");
+							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
 
 							final String embeddedName = MessageFormat.format("{0}.get_at({1} + i_i)", name, counter);
 							((All_From_Template) template2).generateCodeInitAllFrom(aData, body, embeddedName, referenceExpression.expression);
 							body.append("}\n");
 
-							body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, referenceExpression.expression));
+							body.append(MessageFormat.format("{0} += {1}.n_elem().get_int();\n", counter, referenceExpression.expression));
 							template2.lastTimeBuilt = aData.buildTimestamp;
 						} else {
 							fixedPart++;

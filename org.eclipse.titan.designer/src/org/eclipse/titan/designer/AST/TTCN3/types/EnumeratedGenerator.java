@@ -341,7 +341,7 @@ public final class EnumeratedGenerator {
 
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
-		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
 		source.append("\t\t\tif (!isValidEnum(temp)) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", name));
 		source.append("\t\t\t}\n");
@@ -513,10 +513,10 @@ public final class EnumeratedGenerator {
 
 		//arg: TitanInteger
 		source.append("\t\tpublic void int2enum(final TitanInteger intValue) {\n");
-		source.append("\t\t\tif (!isValidEnum(intValue.getInt())) {\n");
-		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue.getInt()+\" to a variable of enumerated type {}.\");\n");
+		source.append("\t\t\tif (!isValidEnum(intValue.get_int())) {\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue.get_int()+\" to a variable of enumerated type {}.\");\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tenum_value = enum_type.getValue(intValue.getInt());\n");
+		source.append("\t\t\tenum_value = enum_type.getValue(intValue.get_int());\n");
 		source.append("\t\t}\n\n");
 	}
 
@@ -1432,7 +1432,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\t\ttext_buf.push_int(single_value.getInt());\n");
+		source.append("\t\t\t\ttext_buf.push_int(single_value.get_int());\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
@@ -1456,7 +1456,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
-		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
 		source.append(MessageFormat.format("\t\t\t\tif (!{0}.isValidEnum(temp)) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", displayName));
 		source.append("\t\t\t\t}\n");
@@ -1465,7 +1465,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().get_int();\n");
 		source.append(MessageFormat.format("\t\t\t\tvalue_list = new ArrayList<{0}_template>(size);\n", name));
 		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", name));

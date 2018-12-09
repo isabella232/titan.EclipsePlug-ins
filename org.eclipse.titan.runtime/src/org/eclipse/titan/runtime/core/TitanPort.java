@@ -1058,7 +1058,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void process_data(final port_connection connection, final Text_Buf incoming_buf) {
-		final int connection_int = incoming_buf.pull_int().getInt();
+		final int connection_int = incoming_buf.pull_int().get_int();
 		final port_connection.connection_data_type_enum conn_data_type = port_connection.connection_data_type_enum.values()[connection_int];
 
 		if (conn_data_type != port_connection.connection_data_type_enum.CONN_DATA_LAST) {

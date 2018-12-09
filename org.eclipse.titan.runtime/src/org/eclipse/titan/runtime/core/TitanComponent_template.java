@@ -503,11 +503,11 @@ public class TitanComponent_template extends Base_Template {
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
-			single_value = text_buf.pull_int().getInt();
+			single_value = text_buf.pull_int().get_int();
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanComponent_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanComponent_template temp = new TitanComponent_template();

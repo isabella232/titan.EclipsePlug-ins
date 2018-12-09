@@ -161,7 +161,7 @@ public class LoggerPluginManager {
 			return;
 		} else {
 			for (final LogEntry entry : entry_list_) {
-				if (entry.event_.get_field_severity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+				if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 					String new_log_message = TTCN_Logger.get_logger_settings_str();
 					entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
 					new_log_message = null;
@@ -364,7 +364,7 @@ public class LoggerPluginManager {
 			return;
 		}
 
-		final int severityIndex = event.get_field_severity().getInt();
+		final int severityIndex = event.get_field_severity().get_int();
 		final Severity severity = Severity.values()[severityIndex];
 
 		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
@@ -477,7 +477,7 @@ public class LoggerPluginManager {
 			if (plugins_.get(i).is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
-					if (entry.event_.get_field_severity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+					if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 						String new_log_message = TTCN_Logger.get_logger_settings_str();
 						entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
 						new_log_message = "";

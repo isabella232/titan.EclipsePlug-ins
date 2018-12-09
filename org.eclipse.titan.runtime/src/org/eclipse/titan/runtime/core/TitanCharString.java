@@ -314,7 +314,7 @@ public class TitanCharString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		final int n_chars = text_buf.pull_int().getInt();
+		final int n_chars = text_buf.pull_int().get_int();
 		if (n_chars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a charstring.");
 		}
@@ -627,7 +627,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString rotate_left(final TitanInteger rotatecount) {
 		rotatecount.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotate_left(rotatecount.getInt());
+		return rotate_left(rotatecount.get_int());
 	}
 
 	// originally operator>>=
@@ -661,7 +661,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString rotate_right(final TitanInteger rotatecount) {
 		rotatecount.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotate_right(rotatecount.getInt());
+		return rotate_right(rotatecount.get_int());
 	}
 
 	//originally operator[](int)
@@ -694,7 +694,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring value with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	// originally operator[](int) const
@@ -718,7 +718,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring value with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	/** 

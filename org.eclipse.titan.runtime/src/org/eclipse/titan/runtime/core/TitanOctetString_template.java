@@ -130,10 +130,10 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	public TitanOctetString_template(final String patternString) {
 		super(template_sel.STRING_PATTERN);
-		pattern_value = patternString2List(patternString);
+		pattern_value = pattern_string_2_list(patternString);
 	}
 
-	private static char[] patternString2List(final String patternString) {
+	private static char[] pattern_string_2_list(final String patternString) {
 		if (patternString == null) {
 			throw new TtcnError("Internal error: octetstring pattern is null.");
 		}
@@ -141,7 +141,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		final int patternLength = patternString.length();
 		final List<Character> tmp_result = new ArrayList<Character>(patternLength);
 		for (int i = 0; i < patternLength; i++) {
-			int patternValue = octetDigit1(patternString.charAt(i));
+			int patternValue = octet_digit1(patternString.charAt(i));
 			if (patternValue < 16) {
 				// there is an other digit, which is not ? or *
 				++i;
@@ -149,7 +149,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 					throw new TtcnError("Internal error: last octet is incomplete.");
 				}
 				patternValue *= 16;
-				patternValue += octetDigit2(patternString.charAt(i));
+				patternValue += octet_digit2(patternString.charAt(i));
 
 			}
 			tmp_result.add((char) patternValue);
@@ -171,7 +171,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * @param digit hexadecimal digit or ? or *
 	 * @return int value
 	 */
-	private static int octetDigit1(final char digit) {
+	private static int octet_digit1(final char digit) {
 		if ('0' <= digit && '9' >= digit) {
 			return digit - '0';
 		}
@@ -201,7 +201,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * @param digit hexadecimal digit.
 	 * @return int value
 	 */
-	private static int octetDigit2(final char digit) {
+	private static int octet_digit2(final char digit) {
 		if ('0' <= digit && '9' >= digit) {
 			return digit - '0';
 		}
@@ -385,7 +385,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	public TitanOctetString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring template with an unbound integer value.");
 
-		return get_at(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
 	// originally operator[](int) const
@@ -401,7 +401,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	public TitanOctetString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring template with an unbound integer value.");
 
-		return constGet_at(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
 	@Override
@@ -447,7 +447,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 
 		final TitanInteger value_length = otherValue.lengthof();
-		if (!match_length(value_length.getInt())) {
+		if (!match_length(value_length.get_int())) {
 			return false;
 		}
 
@@ -632,7 +632,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		switch (template_selection)
 		{
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthof().getInt();
+			min_length = single_value.lengthof().get_int();
 			has_any_or_none = false;
 			break;
 		case OMIT_VALUE:
@@ -650,9 +650,9 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 						+ "containing an empty list.");
 			}
 
-			final int item_length = value_list.get(0).lengthof().getInt();
+			final int item_length = value_list.get(0).lengthof().get_int();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthof().getInt() != item_length) {
+				if (value_list.get(i).lengthof().get_int() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on an octetstring template "
 							+ "containing a value list with different lengths.");
 				}
@@ -936,7 +936,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanOctetString_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanOctetString_template temp = new TitanOctetString_template();
@@ -946,7 +946,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		}
 		case STRING_PATTERN: {
-			final int n_elements = text_buf.pull_int().getInt();
+			final int n_elements = text_buf.pull_int().get_int();
 			pattern_value = new char[n_elements];
 			final byte[] temp = new byte[n_elements];
 			text_buf.pull_raw(n_elements, temp);

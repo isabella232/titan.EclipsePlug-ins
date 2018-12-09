@@ -2405,9 +2405,9 @@ public final class RecordSetCodeGenerator {
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t}\n" );
-		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).size_of().getInt();\n" );
+		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).size_of().get_int();\n" );
 		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_value.size(); l_idx++) {\n" );
-		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).size_of().getInt() != item_size) {\n" );
+		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).size_of().get_int() != item_size) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing a value list with different sizes.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\t}\n" );
@@ -2640,7 +2640,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().get_int();\n");
 		source.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(size);\n", genName));
 		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", genName));
@@ -3488,7 +3488,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		source.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		source.append("\t\t\t\tfinal int size = text_buf.pull_int().get_int();\n");
 		source.append( MessageFormat.format( "\t\t\t\tlist_value = new ArrayList<{0}_template>(size);\n", className));
 		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", className));
@@ -3755,7 +3755,7 @@ public final class RecordSetCodeGenerator {
 					source.append("{\n");
 					source.append("int old_pos = buff.get_pos_bit();\n");
 					source.append(MessageFormat.format("if (start_of_field{0} != -1 && start_pos_of_field{1} != -1) '{'\n", i, pointedField.raw.pointerbase));
-					source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.getInt() * {4} + {5};\n", i, pointedField.raw.pointerbase, pointedField.mVarName, pointedField.isOptional ? ".get()" : "", pointedField.raw.unit, pointedField.raw.ptroffset));
+					source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.get_int() * {4} + {5};\n", i, pointedField.raw.pointerbase, pointedField.mVarName, pointedField.isOptional ? ".get()" : "", pointedField.raw.unit, pointedField.raw.ptroffset));
 					source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
 					source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
 				}
@@ -3844,7 +3844,7 @@ public final class RecordSetCodeGenerator {
 		}
 		if (tempRawOption.pointerof > 0) {
 			final FieldInfo tempPointed = fieldInfos.get(tempRawOption.pointerof - 1);
-			source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.getInt() * {4} + {5};\n", i, tempPointed.raw.pointerbase, tempPointed.mJavaVarName, tempPointed.isOptional ? ".get()":"", tempPointed.raw.unit, tempPointed.raw.ptroffset));
+			source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get_field_{2}(){3}.get_int() * {4} + {5};\n", i, tempPointed.raw.pointerbase, tempPointed.mJavaVarName, tempPointed.isOptional ? ".get()":"", tempPointed.raw.unit, tempPointed.raw.ptroffset));
 			source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
 			source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
 		}
@@ -3933,7 +3933,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("{0}{1}.get_field_{2}(){3}.operator_assign({0}{1}.get_field_{2}(){3} - {4});\n",
 							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
-				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}(){4}.getLong() * {5};\n",
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}(){4}.get_long() * {5};\n",
 						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 					source.append("}\n");
@@ -3945,7 +3945,7 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfo.raw.lengthto_offset != 0) {
 						source.append(MessageFormat.format("{0}{1}.get_field_{2}().operator_assign({0}{1}.get_field_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
 					}
-					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}().getLong() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}().get_long() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 					source.append("break;\n");
 				}
 				source.append("default:\n");
@@ -3953,13 +3953,13 @@ public final class RecordSetCodeGenerator {
 				source.append("}\n");
 			} else {
 				if (fieldInfo.raw.lengthto_offset != 0) {
-					source.append(MessageFormat.format("{0}{1}.operator_assign({0}{1}.getInt() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("{0}{1}.operator_assign({0}{1}.get_int() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
 				}
-				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.getLong() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_long() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 			}
 		}
 		if (tempRawOption.pointerto) {
-			source.append(MessageFormat.format("start_of_field{0} = {1}{2}.getInt() {3};\n ", fieldInfo.raw.pointerto, fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.ptroffset > 0? " + 1": "- 1"));
+			source.append(MessageFormat.format("start_of_field{0} = {1}{2}.get_int() {3};\n ", fieldInfo.raw.pointerto, fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.ptroffset > 0? " + 1": "- 1"));
 		}
 		if (!delayed_decode) {
 			/* mark the used bits in length area*/

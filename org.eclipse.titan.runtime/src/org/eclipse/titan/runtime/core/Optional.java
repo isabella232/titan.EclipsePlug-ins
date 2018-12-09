@@ -244,7 +244,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		clean_up();
 
-		final int temp = text_buf.pull_int().getInt();
+		final int temp = text_buf.pull_int().get_int();
 		if (temp == 1) {
 			set_to_present();
 			optionalValue.decode_text(text_buf);

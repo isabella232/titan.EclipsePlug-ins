@@ -186,8 +186,8 @@ public abstract class Base_Template {
 	}
 
 	protected void decode_text_base(final Text_Buf text_buf) {
-		template_selection = template_sel.getWithValue(text_buf.pull_int().getInt());
-		is_ifPresent = text_buf.pull_int().getInt() == 1;
+		template_selection = template_sel.getWithValue(text_buf.pull_int().get_int());
+		is_ifPresent = text_buf.pull_int().get_int() == 1;
 	}
 
 	public boolean get_istemplate_kind(final String type) {

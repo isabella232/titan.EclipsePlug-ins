@@ -1983,7 +1983,7 @@ public final class PortGenerator {
 					}
 					source.append("for (;;) {\n");
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).getInt();\n", target.functionName));
+					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).get_int();\n", target.functionName));
 					source.append("if (decoding_result == 0) {\n");
 					hasCondition = true;
 					break;
@@ -2067,7 +2067,7 @@ public final class PortGenerator {
 					source.append("} else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
-					source.append("if (slider.lengthof().getInt() == 0) {\n");
+					source.append("if (slider.lengthof().get_int() == 0) {\n");
 					source.append("return;\n");
 					source.append("}\n");
 					source.append("if (decoding_result == 2) {\n");

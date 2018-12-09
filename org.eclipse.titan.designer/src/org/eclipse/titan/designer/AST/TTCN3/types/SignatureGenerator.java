@@ -651,7 +651,7 @@ public final class SignatureGenerator {
 
 			source.append("public void decode_text(final Text_Buf text_buf) {\n");
 			source.append("final TitanInteger temp = text_buf.pull_int();\n");
-			source.append("switch (temp.getInt()) {\n");
+			source.append("switch (temp.get_int()) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 

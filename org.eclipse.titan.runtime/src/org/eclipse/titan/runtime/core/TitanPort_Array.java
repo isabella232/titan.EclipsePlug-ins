@@ -99,7 +99,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	// originally operator[]
 	@SuppressWarnings("unchecked")
 	public T get_at(final TitanInteger index_value) {
-		return (T)array_elements[get_port_array_index(index_value.getInt(), array_size, indexofset)];
+		return (T)array_elements[get_port_array_index(index_value.get_int(), array_size, indexofset)];
 	}
 
 	// originally operator[]
@@ -397,7 +397,7 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	public static int get_port_array_index(final TitanInteger index_value, final int array_size, final int index_offset) {
 		index_value.must_bound("Accessing an element of a port array using an unbound index.");
 
-		return get_port_array_index(index_value.getInt(), array_size, index_offset);
+		return get_port_array_index(index_value.get_int(), array_size, index_offset);
 	}
 
 }

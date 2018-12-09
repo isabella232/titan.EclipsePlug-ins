@@ -164,7 +164,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			log_file_emerg(event);
 		}
 
-		final int severityIndex = event.get_field_severity().getInt();
+		final int severityIndex = event.get_field_severity().get_int();
 		final Severity severity = Severity.values()[severityIndex];
 		if (use_emergency_mask) {
 			if (TTCN_Logger.should_log_to_emergency(severity) || TTCN_Logger.should_log_to_file(severity)) {
@@ -458,16 +458,16 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		if (!TTCN_Communication.send_log(event.get_field_timestamp__().get_field_seconds().getInt(), event.get_field_timestamp__().get_field_microSeconds().getInt(), event.get_field_severity().getInt(), event_str)) {
+		if (!TTCN_Communication.send_log(event.get_field_timestamp__().get_field_seconds().get_int(), event.get_field_timestamp__().get_field_microSeconds().get_int(), event.get_field_severity().get_int(), event_str)) {
 			// The event text shall be printed to stderr when there is no control
 			// connection towards MC (e.g. in single mode or in case of network
 			// error).
 			if (event_str.length() > 0) {
 				// Write the location info to the console for user logs only.
-				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.get_field_sourceInfo__list().lengthof().getInt() > 0) {
-					final int stackdepth = event.get_field_sourceInfo__list().lengthof().getInt();
+				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.get_field_sourceInfo__list().lengthof().get_int() > 0) {
+					final int stackdepth = event.get_field_sourceInfo__list().lengthof().get_int();
 					final LocationInfo loc = event.get_field_sourceInfo__list().get_at(stackdepth - 1);
-					System.err.print(MessageFormat.format("{0}:{1}", loc.get_field_filename().get_value(), loc.get_field_line().getInt()));
+					System.err.print(MessageFormat.format("{0}:{1}", loc.get_field_filename().get_value(), loc.get_field_line().get_int()));
 				}
 
 				System.err.print(event_str);
@@ -516,8 +516,8 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
-				final int event_timestamp_seconds = event.get_field_timestamp__().get_field_seconds().getInt();
-				final int event_timestamp_microseconds = event.get_field_timestamp__().get_field_microSeconds().getInt();
+				final int event_timestamp_seconds = event.get_field_timestamp__().get_field_seconds().get_int();
+				final int event_timestamp_microseconds = event.get_field_timestamp__().get_field_microSeconds().get_int();
 				int diff_seconds = 0;
 				int diff_microseconds = 0;
 				// If the specified time period has elapsed retry logging to file.
@@ -604,8 +604,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case DISKFULL_RETRY:
 				is_disk_full_ = true;
-				disk_full_time_seconds = event.get_field_timestamp__().get_field_seconds().getInt();
-				disk_full_time_microseconds = event.get_field_timestamp__().get_field_microSeconds().getInt();
+				disk_full_time_seconds = event.get_field_timestamp__().get_field_seconds().get_int();
+				disk_full_time_microseconds = event.get_field_timestamp__().get_field_microSeconds().get_int();
 				break;
 			case DISKFULL_DELETE:
 				// Try to delete older logfiles while writing fails, must leave at least
@@ -690,7 +690,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		final StringBuilder sourceInfo = new StringBuilder();
 		if (event.get_field_sourceInfo__list().is_bound()) {
 			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
-			final int stack_size = event.get_field_sourceInfo__list().size_of().getInt();
+			final int stack_size = event.get_field_sourceInfo__list().size_of().get_int();
 			if (stack_size > 0) {
 				int i = 0;
 				switch (source_info_format) {
@@ -712,7 +712,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						sourceInfo.append("->");
 					}
 
-					sourceInfo.append(loc.get_field_filename().get_value()).append(':').append(loc.get_field_line().getInt());
+					sourceInfo.append(loc.get_field_filename().get_value()).append(':').append(loc.get_field_line().get_int());
 
 					switch (loc.get_field_ent__type().enum_value) {
 					case controlpart:
@@ -747,9 +747,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 
-		final int severityIndex = event.get_field_severity().getInt();
+		final int severityIndex = event.get_field_severity().get_int();
 		final Severity severity = Severity.values()[severityIndex];
-		append_header(returnValue, event.get_field_timestamp__().get_field_seconds().getInt(), event.get_field_timestamp__().get_field_microSeconds().getInt(), severity, sourceInfo);
+		append_header(returnValue, event.get_field_timestamp__().get_field_seconds().get_int(), event.get_field_timestamp__().get_field_microSeconds().get_int(), severity, sourceInfo);
 
 		final LogEventType_choice choice = event.get_field_logEvent().get_field_choice();
 		switch (choice.get_selection()) {
@@ -772,7 +772,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		case ALT_actionEvent: {
 			final Strings_str__list slist = choice.get_field_actionEvent().get_field_str__list();
-			final int size = slist.size_of().getInt();
+			final int size = slist.size_of().get_int();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.get_at(i).get_value());
 			}
@@ -780,7 +780,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_userLog: {
 			final Strings_str__list slist = choice.get_field_userLog().get_field_str__list();
-			final int size = slist.size_of().getInt();
+			final int size = slist.size_of().get_int();
 			for (int i = 0; i < size; i++) {
 				returnValue.append(slist.get_at(i).get_value());
 			}
@@ -813,7 +813,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				final FunctionEvent_choice_random ra = choice.get_field_functionEvent().get_field_choice().get_field_random();
 				switch (ra.get_field_operation().enum_value) {
 				case seed:
-					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_field_retval().get_value(), ra.get_field_intseed().getInt()));
+					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.get_field_retval().get_value(), ra.get_field_intseed().get_int()));
 					break;
 				case read__out:
 					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.get_field_retval().get_value()));
@@ -885,13 +885,13 @@ public class LegacyLogger implements ILoggerPlugin {
 		switch (choice.get_selection()) {
 		case ALT_defaultopActivate: {
 			final DefaultOp dflt = choice.get_field_defaultopActivate();
-			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.get_field_name().get_value(), dflt.get_field_id().getInt()));
+			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.get_field_name().get_value(), dflt.get_field_id().get_int()));
 			break;
 		}
 		case ALT_defaultopDeactivate: {
 			final DefaultOp dflt = choice.get_field_defaultopDeactivate();
 			if (dflt.get_field_name().lengthof().is_greater_than(0)) {
-				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.get_field_id().getInt(), dflt.get_field_name().get_value()));
+				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.get_field_id().get_int(), dflt.get_field_name().get_value()));
 			} else {
 				returnValue.append("Deactivate operation on a null default reference was ignored.");
 			}
@@ -899,7 +899,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_defaultopExit: {
 			final DefaultOp dflt = choice.get_field_defaultopExit();
-			returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) ", dflt.get_field_id().getInt(), dflt.get_field_name().get_value()));
+			returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) ", dflt.get_field_id().get_int(), dflt.get_field_name().get_value()));
 
 			switch (dflt.get_field_end().enum_value) {
 			case UNBOUND_VALUE:
@@ -972,7 +972,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Exiting.");
 				break;
 			case fd__limits:
-				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {1}", rt.get_field_pid().get().getInt(), rt.get_field_fd__setsize()));
+				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {1}", rt.get_field_pid().get().get_int(), rt.get_field_fd__setsize()));
 				break;
 			case host__controller__started:
 				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: {1}. ", rt.get_field_module__name().get().get_value(), TTCN_Runtime.PRODUCT_NUMBER));
@@ -987,7 +987,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append(MessageFormat.format("Initializing module {0} finished.", rt.get_field_module__name().get().get_value()));
 				break;
 			case mtc__created:
-				returnValue.append(MessageFormat.format("MTC was created. Process id: {0}.", rt.get_field_pid().get().getInt()));
+				returnValue.append(MessageFormat.format("MTC was created. Process id: {0}.", rt.get_field_pid().get().get_int()));
 				break;
 			case overload__check:
 				returnValue.append("Trying to create a dummy child process to verify if the host is still overloaded.");
@@ -1080,16 +1080,16 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case address__of__mc__was__set:
 				if (name.equals(ip_addr_str)) {
-					returnValue.append(MessageFormat.format("The address of MC was set to {0}[{1}]:{2}.", name, ip_addr_str, ex.get_field_port__().getInt()));
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}[{1}]:{2}.", name, ip_addr_str, ex.get_field_port__().get_int()));
 				} else {
-					returnValue.append(MessageFormat.format("The address of MC was set to {0}:{1}.", ip_addr_str, ex.get_field_port__().getInt()));
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}:{1}.", ip_addr_str, ex.get_field_port__().get_int()));
 				}
 				break;
 			case address__of__control__connection:
 				returnValue.append(MessageFormat.format("The local IP address of the control connection to MC is {0}.", ip_addr_str));
 				break;
 			case host__support__unix__domain__sockets:
-				if (ex.get_field_port__().getInt() == 0) {
+				if (ex.get_field_port__().get_int() == 0) {
 					returnValue.append("This host supports UNIX domain sockets for local communication.");
 				} else {
 					returnValue.append("This host does not support UNIX domain sockets for local communication.");
@@ -1160,11 +1160,11 @@ public class LegacyLogger implements ILoggerPlugin {
 			case ALT_info: {
 				final FinalVerdictInfo info = choice.get_field_finalVerdict().get_field_choice().get_field_info();
 				if (info.get_field_is__ptc().getValue()) {
-					if (info.get_field_ptc__compref().is_present() && info.get_field_ptc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
-						if (info.get_field_ptc__name().is_present() && info.get_field_ptc__name().get().lengthof().getInt() > 0) {
-							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.get_field_ptc__name().get().get_value(), info.get_field_ptc__compref().get().getInt()));
+					if (info.get_field_ptc__compref().is_present() && info.get_field_ptc__compref().get().get_int() != TitanComponent.UNBOUND_COMPREF) {
+						if (info.get_field_ptc__name().is_present() && info.get_field_ptc__name().get().lengthof().get_int() > 0) {
+							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.get_field_ptc__name().get().get_value(), info.get_field_ptc__compref().get().get_int()));
 						} else {
-							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.get_field_ptc__compref().get().getInt()));
+							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.get_field_ptc__compref().get().get_int()));
 						}
 
 						final int ptcOrdinal = info.get_field_ptc__verdict().enum_value.ordinal();
@@ -1175,7 +1175,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", ptcVerdictName, localVerdictName, newVerdictName));
-						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().get_int() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().get_value()));
 						}
 					} else {
@@ -1183,7 +1183,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", localVerdictName));
-						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+						if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().get_int() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().get_value()));
 						}
 					}
@@ -1192,7 +1192,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
 					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", localVerdictName));
-					if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().getInt() > 0) {
+					if (info.get_field_verdict__reason().is_present() && info.get_field_verdict__reason().get().lengthof().get_int() > 0) {
 						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.get_field_verdict__reason().get().get_value()));
 					}
 				}
@@ -1219,11 +1219,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		switch (choice.get_selection()) {
 		case ALT_verdictStatistics: {
 			final StatisticsType_choice_verdictStatistics statistics = choice.get_field_verdictStatistics();
-			final int none_count = statistics.get_field_none__().getInt();
-			final int pass_count = statistics.get_field_pass__().getInt();
-			final int inconc_count = statistics.get_field_inconc__().getInt();
-			final int fail_count = statistics.get_field_fail__().getInt();
-			final int error_count = statistics.get_field_error__().getInt();
+			final int none_count = statistics.get_field_none__().get_int();
+			final int pass_count = statistics.get_field_pass__().get_int();
+			final int inconc_count = statistics.get_field_inconc__().get_int();
+			final int fail_count = statistics.get_field_fail__().get_int();
+			final int error_count = statistics.get_field_error__().get_int();
 			if (none_count > 0 || pass_count > 0 || inconc_count > 0 || fail_count > 0 || error_count > 0) {
 				returnValue.append(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
 								none_count, statistics.get_field_nonePercent().get_value(),
@@ -1243,7 +1243,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			returnValue.append(MessageFormat.format("Execution of control part in module {0} finished.", choice.get_field_controlpartFinish().get_value()));
 			break;
 		case ALT_controlpartErrors:
-			returnValue.append(MessageFormat.format("Number of errors outside test cases: {0}", choice.get_field_controlpartErrors().getInt()));
+			returnValue.append(MessageFormat.format("Number of errors outside test cases: {0}", choice.get_field_controlpartErrors().get_int()));
 			break;
 		case UNBOUND_VALUE:
 			break;
@@ -1262,7 +1262,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case init__component__start:
 				returnValue.append(MessageFormat.format("Initializing variables, timers and ports of component type {0}.{1}", ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
-				if (ptc.get_field_tc__loc().lengthof().getInt() > 0) {
+				if (ptc.get_field_tc__loc().lengthof().get_int() > 0) {
 					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_field_tc__loc().get_value()));
 				}
 				returnValue.append('.');
@@ -1275,7 +1275,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case component__shut__down:
 				returnValue.append(MessageFormat.format("Component type {0}.{1} was shut down", ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
-				if (ptc.get_field_tc__loc().lengthof().getInt() > 0) {
+				if (ptc.get_field_tc__loc().lengthof().get_int() > 0) {
 					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.get_field_tc__loc().get_value()));
 				}
 				returnValue.append('.');
@@ -1284,24 +1284,24 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Error occurred on idle PTC. The component terminates.");
 				break;
 			case ptc__created:
-				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.get_field_compref().getInt(), ptc.get_field_alive__pid().getInt() > 0 ? "yes" : "no", ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
-				if (ptc.get_field_compname().lengthof().getInt() > 0) {
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.get_field_compref().get_int(), ptc.get_field_alive__pid().get_int() > 0 ? "yes" : "no", ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
+				if (ptc.get_field_compname().lengthof().get_int() > 0) {
 					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_field_compname().get_value()));
 				}
-				if (ptc.get_field_tc__loc().lengthof().getInt() != 0) {
+				if (ptc.get_field_tc__loc().lengthof().get_int() != 0) {
 					returnValue.append(MessageFormat.format(", location: {0}", ptc.get_field_tc__loc().get_value()));
 				}
 				returnValue.append('.');
 				break;
 			case ptc__created__pid:
-				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.get_field_compref().getInt(), ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
-				if (ptc.get_field_compname().lengthof().getInt() > 0) {
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.get_field_compref().get_int(), ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
+				if (ptc.get_field_compname().lengthof().get_int() > 0) {
 					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_field_compname().get_value()));
 				}
-				if (ptc.get_field_tc__loc().lengthof().getInt() != 0) {
+				if (ptc.get_field_tc__loc().lengthof().get_int() != 0) {
 					returnValue.append(MessageFormat.format(", testcase name: {0}", ptc.get_field_tc__loc().get_value()));
 				}
-				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.get_field_alive__pid().getInt()));
+				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.get_field_alive__pid().get_int()));
 				break;
 			case function__started:
 				returnValue.append("Function was started.");
@@ -1310,28 +1310,28 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append(MessageFormat.format("Function {0} was stopped. PTC terminates.", ptc.get_field_name().get_value()));
 				break;
 			case function__finished:
-				returnValue.append(MessageFormat.format("Function {0} finished. PTC {1}.", ptc.get_field_name().get_value(), ptc.get_field_alive__pid().getInt() == 0 ? "terminates" :  "remains alive and is waiting for next start"));
+				returnValue.append(MessageFormat.format("Function {0} finished. PTC {1}.", ptc.get_field_name().get_value(), ptc.get_field_alive__pid().get_int() == 0 ? "terminates" :  "remains alive and is waiting for next start"));
 				break;
 			case function__error:
 				returnValue.append(MessageFormat.format("Function {0} finished with an error. PTC terminates.", ptc.get_field_name().get_value()));
 				break;
 			case ptc__done:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} is done.", ptc.get_field_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is done.", ptc.get_field_compref().get_int()));
 				break;
 			case ptc__killed:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} is killed.", ptc.get_field_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is killed.", ptc.get_field_compref().get_int()));
 				break;
 			case stopping__mtc:
 				returnValue.append("Stopping MTC. The current test case will be terminated.");
 				break;
 			case ptc__stopped:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} was stopped.", ptc.get_field_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was stopped.", ptc.get_field_compref().get_int()));
 				break;
 			case all__comps__stopped:
 				returnValue.append("All components were stopped.");
 				break;
 			case ptc__was__killed:
-				returnValue.append(MessageFormat.format("PTC with component reference {0} was killed.", ptc.get_field_compref().getInt()));
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was killed.", ptc.get_field_compref().get_int()));
 				break;
 			case all__comps__killed:
 				returnValue.append("All components were killed.");
@@ -1344,7 +1344,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				//TODO add process statistics
 				break;
 			case ptc__finished:
-				returnValue.append(MessageFormat.format("TC {0}({1}) finished.", ptc.get_field_compname().get_value(), ptc.get_field_compref().getInt()));
+				returnValue.append(MessageFormat.format("TC {0}({1}) finished.", ptc.get_field_compname().get_value(), ptc.get_field_compref().get_int()));
 				//TODO add process statistics
 				break;
 			case starting__function:
@@ -1354,7 +1354,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_parallelPTC__exit: {
 			final PTC__exit px = choice.get_field_parallelPTC__exit();
-			final int compref = px.get_field_compref().getInt();
+			final int compref = px.get_field_compref().get_int();
 			if (compref == TitanComponent.MTC_COMPREF) {
 				returnValue.append("MTC finished.");
 			} else {
@@ -1364,7 +1364,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				} else {
 					returnValue.append(MessageFormat.format("PTC {0}({1}) finished.", comp_name, compref));
 				}
-				returnValue.append(MessageFormat.format(" Process statistics: { process id: {0}, ", px.get_field_pid().getInt()));
+				returnValue.append(MessageFormat.format(" Process statistics: { process id: {0}, ", px.get_field_pid().get_int()));
 				//TOXO not finished in compiler
 			}
 			break;
@@ -1395,8 +1395,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			}
 
-			final String src = TitanComponent.get_component_string(pp.get_field_srcCompref().getInt());
-			final String dst = TitanComponent.get_component_string(pp.get_field_dstCompref().getInt());
+			final String src = TitanComponent.get_component_string(pp.get_field_srcCompref().get_int());
+			final String dst = TitanComponent.get_component_string(pp.get_field_dstCompref().get_int());
 			returnValue.append(MessageFormat.format(" operation {0} {1}:{2} {3} {4}:{5} finished.", direction, src, pp.get_field_srcPort().get_value(), preposition, dst, pp.get_field_dstPort().get_value()));
 			break;
 		}
@@ -1428,10 +1428,10 @@ public class LegacyLogger implements ILoggerPlugin {
 			case UNKNOWN_VALUE:
 				break;
 			case done__failed__no__return:
-				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function did not return a value.", md.get_field_type__().get_value(), md.get_field_ptc().getInt()));
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function did not return a value.", md.get_field_type__().get_value(), md.get_field_ptc().get_int()));
 				break;
 			case done__failed__wrong__return__type:
-				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function returned a value of type {2}.", md.get_field_type__().get_value(), md.get_field_ptc().getInt(), md.get_field_return__type().get_value()));
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function returned a value of type {2}.", md.get_field_type__().get_value(), md.get_field_ptc().get_int(), md.get_field_return__type().get_value()));
 				break;
 			case any__component__done__successful:
 				returnValue.append("Operation 'any component.done' was successful.");
@@ -1587,30 +1587,30 @@ public class LegacyLogger implements ILoggerPlugin {
 			final Port__Queue portQueue = choice.get_field_portQueue();
 			switch (portQueue.get_field_operation().enum_value) {
 			case enqueue__msg: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
-				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().get_int());
+				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().get_int()));
 				break;
 			}
 			case enqueue__call: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
-				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().get_int());
+				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().get_int()));
 				break;
 			}
 			case enqueue__reply: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
-				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().get_int());
+				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().get_int()));
 				break;
 			}
 			case enqueue__exception: {
-				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().getInt());
-				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().getInt()));
+				final String comp_str = TitanComponent.get_component_string(portQueue.get_field_compref().get_int());
+				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.get_field_port__name().get_value(), comp_str, portQueue.get_field_address__().get_value(), portQueue.get_field_param__().get_value(), portQueue.get_field_msgid().get_int()));
 				break;
 			}
 			case extract__msg:
-				returnValue.append(MessageFormat.format("Message with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().getInt(), portQueue.get_field_port__name().get_value()));
+				returnValue.append(MessageFormat.format("Message with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().get_int(), portQueue.get_field_port__name().get_value()));
 				break;
 			case extract__op:
-				returnValue.append(MessageFormat.format("Operation with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().getInt(), portQueue.get_field_port__name().get_value()));
+				returnValue.append(MessageFormat.format("Operation with id {0} was extracted from the queue of {1}.", portQueue.get_field_msgid().get_int(), portQueue.get_field_port__name().get_value()));
 				break;
 			default:
 				break;
@@ -1639,10 +1639,10 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_procPortSend: {
 			final Proc__port__out ps = choice.get_field_procPortSend();
 			final String dest;
-			if (ps.get_field_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
+			if (ps.get_field_compref().get_int() == TitanComponent.SYSTEM_COMPREF) {
 				dest = ps.get_field_sys__name().get_value().toString();
 			} else {
-				dest = TitanComponent.get_component_string(ps.get_field_compref().getInt());
+				dest = TitanComponent.get_component_string(ps.get_field_compref().get_int());
 			}
 
 			switch (ps.get_field_operation().enum_value) {
@@ -1680,13 +1680,13 @@ public class LegacyLogger implements ILoggerPlugin {
 				return;
 			}
 
-			final String source = TitanComponent.get_component_string(ps.get_field_compref().getInt());
-			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, {1} from {2}: {3} id {4}", ps.get_field_port__name().get_value(), op2, source, ps.get_field_parameter().get_value(), ps.get_field_msgid().getInt()));
+			final String source = TitanComponent.get_component_string(ps.get_field_compref().get_int());
+			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, {1} from {2}: {3} id {4}", ps.get_field_port__name().get_value(), op2, source, ps.get_field_parameter().get_value(), ps.get_field_msgid().get_int()));
 			break;
 		}
 		case ALT_msgPortSend: {
 			final Msg__port__send ms = choice.get_field_msgPortSend();
-			final String dest = TitanComponent.get_component_string(ms.get_field_compref().getInt());
+			final String dest = TitanComponent.get_component_string(ms.get_field_compref().get_int());
 			returnValue.append(MessageFormat.format("Sent on {0} to {1}{2}", ms.get_field_port__name().get_value(), dest, ms.get_field_parameter().get_value()));
 			break;
 		}
@@ -1707,21 +1707,21 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 
 			returnValue.append(MessageFormat.format(" operation on port {0} succeeded, message from ", ms.get_field_port__name().get_value()));
-			if (ms.get_field_compref().getInt() == TitanComponent.SYSTEM_COMPREF) {
+			if (ms.get_field_compref().get_int() == TitanComponent.SYSTEM_COMPREF) {
 				returnValue.append(MessageFormat.format("system({0})", ms.get_field_sys__name().get_value()));
 			} else {
-				final String dest = TitanComponent.get_component_string(ms.get_field_compref().getInt());
+				final String dest = TitanComponent.get_component_string(ms.get_field_compref().get_int());
 				returnValue.append(dest);
 			}
 
-			returnValue.append(MessageFormat.format("{0} id {1}", ms.get_field_parameter().get_value(), ms.get_field_msgid().getInt()));
+			returnValue.append(MessageFormat.format("{0} id {1}", ms.get_field_parameter().get_value(), ms.get_field_msgid().get_int()));
 			break;
 		}
 		case ALT_dualMapped: {
 			final Dualface__mapped dual = choice.get_field_dualMapped();
 			returnValue.append(MessageFormat.format("{0} message was mapped to {1} : {2}", (dual.get_field_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_field_target__type().get_value(), dual.get_field_value__().get_value()));
 			if (dual.get_field_incoming().getValue()) {
-				returnValue.append(MessageFormat.format(" id {0}", dual.get_field_msgid().getInt()));
+				returnValue.append(MessageFormat.format(" id {0}", dual.get_field_msgid().get_int()));
 			}
 			break;
 		}
@@ -1738,14 +1738,14 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_setState: {
 			final Setstate setstate = choice.get_field_setState();
 			returnValue.append(MessageFormat.format("The state of the {0} port was changed by a setstate operation to {1}.", setstate.get_field_port__name().get_value(), setstate.get_field_state().get_value()));
-			if (setstate.get_field_info().lengthof().getInt() != 0) {
+			if (setstate.get_field_info().lengthof().get_int() != 0) {
 				returnValue.append(MessageFormat.format(" Information: {0}", setstate.get_field_info().get_value()));
 			}
 			break;
 		}
 		case ALT_portMisc: {
 			final Port__Misc portMisc = choice.get_field_portMisc();
-			final String comp_str = TitanComponent.get_component_string(portMisc.get_field_remote__component().getInt());
+			final String comp_str = TitanComponent.get_component_string(portMisc.get_field_remote__component().get_int());
 			switch (portMisc.get_field_reason().enum_value) {
 			case removing__unterminated__connection:
 				returnValue.append(MessageFormat.format("Removing unterminated connection between port {0} and {1}:{2}.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value()));
@@ -1763,7 +1763,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append(MessageFormat.format("Port {0} has terminated the connection with local port {1}.", portMisc.get_field_port__name().get_value(), portMisc.get_field_remote__port().get_value()));
 				break;
 			case port__is__waiting__for__connection__tcp:
-				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value(), portMisc.get_field_ip__address().get_value(), portMisc.get_field_tcp__port().getInt()));
+				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value(), portMisc.get_field_ip__address().get_value(), portMisc.get_field_tcp__port().get_int()));
 				break;
 			case port__is__waiting__for__connection__unix:
 				returnValue.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on UNIX pathname {3}.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value(), portMisc.get_field_ip__address().get_value()));
@@ -1787,7 +1787,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append(MessageFormat.format("Sending the acknowledgment for connection termination request on port {0} to remote endpoint {1}:{2} failed.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value()));
 				break;
 			case sending__would__block:
-				returnValue.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value(), portMisc.get_field_tcp__port().getInt(), portMisc.get_field_new__size().getInt()));
+				returnValue.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value(), portMisc.get_field_tcp__port().get_int(), portMisc.get_field_new__size().get_int()));
 				break;
 			case connection__accepted:
 				returnValue.append(MessageFormat.format("Port {0} has accepted the connection from {1}:{2}.", portMisc.get_field_port__name().get_value(), comp_str, portMisc.get_field_remote__port().get_value()));

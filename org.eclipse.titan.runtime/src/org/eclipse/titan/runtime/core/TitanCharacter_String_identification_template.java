@@ -834,7 +834,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:{
-			final int temp = text_buf.pull_int().getInt();
+			final int temp = text_buf.pull_int().get_int();
 			switch (temp) {
 			case 0:
 				single_value = new TitanCharacter_String_identification_syntaxes_template();
@@ -864,7 +864,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		}
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int size = text_buf.pull_int().getInt();
+			final int size = text_buf.pull_int().get_int();
 			value_list = new ArrayList<TitanCharacter_String_identification_template>(size);
 			for (int i = 0; i < size; i++) {
 				final TitanCharacter_String_identification_template temp2 = new TitanCharacter_String_identification_template();
