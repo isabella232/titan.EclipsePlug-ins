@@ -1686,7 +1686,7 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanBitString subString(final TitanBitString value, final int idx, final int returncount) {
+	public static TitanBitString substr(final TitanBitString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound bitstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "bitstring", "bit");
@@ -1704,26 +1704,26 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanBitString subString(final TitanBitString value, final int idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanBitString subString(final TitanBitString value, final TitanInteger idx, final int returncount) {
+	public static TitanBitString substr(final TitanBitString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanBitString subString(final TitanBitString value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanBitString subString(final TitanBitString_Element value, final int idx, final int returncount) {
+	public static TitanBitString substr(final TitanBitString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound bitstring element.");
 
 		check_substr_arguments(idx, returncount, "bitstring", "bit");
@@ -1734,26 +1734,26 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanBitString subString(final TitanBitString_Element value, final int idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanBitString subString(final TitanBitString_Element value, final TitanInteger idx, final int returncount) {
+	public static TitanBitString substr(final TitanBitString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanBitString subString(final TitanBitString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanHexString subString(final TitanHexString value, final int idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound hexstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "hexstring", "hexadecimal digi");
@@ -1764,26 +1764,26 @@ public final class AdditionalFunctions {
 		return new TitanHexString(ret_val);
 	}
 
-	public static TitanHexString subString(final TitanHexString value, final int idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanHexString subString(final TitanHexString value, final TitanInteger idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanHexString subString(final TitanHexString_Element value, final int idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound hexstring element.");
 
 		check_substr_arguments(idx, returncount, "hexstring", "hexadecimal digit");
@@ -1794,26 +1794,26 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanHexString subString(final TitanHexString_Element value, final int idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanHexString subString(final TitanHexString_Element value, final TitanInteger idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanOctetString subString(final TitanOctetString value, final int idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound octetstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "octetstring", "octet");
@@ -1824,26 +1824,26 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(ret_val);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString value, final int idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanOctetString subString(final TitanOctetString value, final TitanInteger idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_Element value, final int idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound octetstring element.");
 
 		check_substr_arguments(idx, returncount, "octetstring", "octet");
@@ -1854,26 +1854,26 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_Element value, final int idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_Element value, final TitanInteger idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanCharString subString(final TitanCharString value, final int idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound charstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "charstring", "character");
@@ -1881,26 +1881,26 @@ public final class AdditionalFunctions {
 		return new TitanCharString(value.get_value().substring(idx, idx + returncount));
 	}
 
-	public static TitanCharString subString(final TitanCharString value, final int idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanCharString subString(final TitanCharString value, final TitanInteger idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanCharString subString(final TitanCharString_Element value, final int idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound charstring element.");
 
 		check_substr_arguments(idx, returncount, "charstring", "character");
@@ -1908,26 +1908,26 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(value.get_char()));
 	}
 
-	public static TitanCharString subString(final TitanCharString_Element value, final int idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanCharString subString(final TitanCharString_Element value, final TitanInteger idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString value, final int idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound universal charstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "universal charstring", "character");
@@ -1944,26 +1944,26 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString value, final int idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString value, final TitanInteger idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, final int idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound universal charstring element.");
 
 		check_substr_arguments(idx, returncount, "universal charstring", "character");
@@ -1974,184 +1974,184 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, final int idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx, returncount.get_int());
+		return substr(value, idx, returncount.get_int());
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, final TitanInteger idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount);
+		return substr(value, idx.get_int(), returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
-		return subString(value, idx.get_int(), returncount.get_int());
+		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
-	//subString() on templates
-	public static TitanBitString subString(final TitanBitString_template value, final int idx, final int returncount) {
+	//substr() on templates
+	public static TitanBitString substr(final TitanBitString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanBitString subString(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
+	public static TitanBitString substr(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanBitString substr(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString_template value, final int idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString_template value, final int idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString_template value, final TitanInteger idx, final int returncount) {
+	public static TitanHexString substr(final TitanHexString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanHexString subString(final TitanHexString_template value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanHexString substr(final TitanHexString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if(!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
+	public static TitanOctetString substr(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanOctetString substr(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString_template value, final int idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final int returncount) {
+	public static TitanCharString substr(final TitanCharString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanCharString substr(final TitanCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final int returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
-	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
+	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
-		return subString(value.valueof(), idx, returncount);
+		return substr(value.valueof(), idx, returncount);
 	}
 
 	// C.35 - replace
@@ -2815,17 +2815,17 @@ public final class AdditionalFunctions {
 	//C.36 - rnd
 
 	//TODO update with Java 1.7 to ThreadLocalRandom
-	static boolean rndSeedSet = false;
+	private static boolean rndSeedSet = false;
 	private final static Random random = new Random();
 
-	public static void setRndSeed(final double floatSeed) {
+	public static void set_rnd_seed(final double floatSeed) {
 		TitanFloat.check_numeric(floatSeed,"The seed value of function rnd()");
 		random.setSeed((long)floatSeed);
 		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
 		rndSeedSet = true;
 	}
 
-	public static TitanFloat rndGenerate() {
+	public static TitanFloat rnd_generate() {
 		final double returnValue = random.nextDouble();
 		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
 
@@ -2834,23 +2834,23 @@ public final class AdditionalFunctions {
 
 	public static TitanFloat rnd() {
 		if (!rndSeedSet) {
-			setRndSeed(TTCN_Snapshot.time_now());
+			set_rnd_seed(TTCN_Snapshot.time_now());
 		}
 
-		return rndGenerate();
+		return rnd_generate();
 	}
 
 	public static TitanFloat rnd(final double seed) {
-		setRndSeed(seed);
+		set_rnd_seed(seed);
 
-		return rndGenerate();
+		return rnd_generate();
 	}
 
 	public static TitanFloat rnd(final TitanFloat seed) {
 		seed.must_bound("Initializing the random number generator with an unbound float value as seed.");
 
-		setRndSeed(seed.get_value());
-		return rndGenerate();
+		set_rnd_seed(seed.get_value());
+		return rnd_generate();
 	}
 
 	// for internal purposes
