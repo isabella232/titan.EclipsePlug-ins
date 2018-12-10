@@ -33,6 +33,7 @@ public enum ProblemTypePreference {
 	EMPTY_STATEMENT_BLOCK("Report empty statement blocks", EnumSet.of(CodeSmellType.EMPTY_STATEMENT_BLOCK)),
 	DEFINITION_NAME_TOO_LONG("Report usuage of long definition names",EnumSet.of(CodeSmellType.DEFINITION_NAME_TOO_LONG)),
 	GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.GOTO)),
+	PRIVATE_COMPONENT_VARIABLE_ACCESS("Report the privat variable access from an another module.", EnumSet.of(CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS)),
 	IF_INSTEAD_ALTGUARD("Report alt branches that should use alt guards", EnumSet.of(CodeSmellType.IF_INSTEAD_ALTGUARD)),
 	IF_INSTEAD_RECEIVE_TEMPLATE("Report alt branches that should use receive template", EnumSet.of(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE)),
 	IF_WITHOUT_ELSE("Report conditional statements with positive condition and without else block", EnumSet.of(CodeSmellType.IF_WITHOUT_ELSE)),

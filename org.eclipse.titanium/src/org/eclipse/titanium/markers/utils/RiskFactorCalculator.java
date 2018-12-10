@@ -39,6 +39,7 @@ public class RiskFactorCalculator {
 		CodeSmellType.VISIBILITY_IN_DEFINITION,
 		CodeSmellType.UNINITIALIZED_VARIABLE,
 		CodeSmellType.GOTO,
+		CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS,
 		CodeSmellType.UNUSED_IMPORT,
 		CodeSmellType.UNUSED_GLOBAL_DEFINITION,
 		CodeSmellType.UNUSED_LOCAL_DEFINITION,
