@@ -339,7 +339,7 @@ public final class AndExpression extends Expression_Value {
 			expression2.expression.append(" = ");
 			value1.generateCodeExpressionMandatory(aData, expression2, false);
 			if (!value1.returnsNative()) {
-				expression2.expression.append(".getValue() ");
+				expression2.expression.append(".get_value() ");
 			}
 			expression2.mergeExpression(expression.preamble);
 
@@ -352,7 +352,7 @@ public final class AndExpression extends Expression_Value {
 			expression2.expression.append(" = ");
 			value2.generateCodeExpressionMandatory(aData, expression2, false);
 			if (!value2.returnsNative()) {
-				expression2.expression.append(".getValue()");
+				expression2.expression.append(".get_value()");
 			}
 
 			expression2.mergeExpression(expression.preamble);

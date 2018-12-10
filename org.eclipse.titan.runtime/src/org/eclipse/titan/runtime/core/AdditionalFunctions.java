@@ -715,7 +715,7 @@ public final class AdditionalFunctions {
 		char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		int n_4chars = 0;
-		final boolean linebreaks = use_linebreaks.getValue();
+		final boolean linebreaks = use_linebreaks.get_value();
 		while (octets_left >= 3) {
 			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);

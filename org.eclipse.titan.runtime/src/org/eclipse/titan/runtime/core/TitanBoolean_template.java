@@ -345,7 +345,7 @@ public class TitanBoolean_template extends Base_Template {
 			return false;
 		}
 
-		return match(otherValue.getValue(), legacy);
+		return match(otherValue.get_value(), legacy);
 	}
 
 	@Override
@@ -390,7 +390,7 @@ public class TitanBoolean_template extends Base_Template {
 	public void log() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			TTCN_Logger.log_event_str(single_value.getValue() ? "true" : "false");
+			TTCN_Logger.log_event_str(single_value.get_value() ? "true" : "false");
 			break;
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");
@@ -506,7 +506,7 @@ public class TitanBoolean_template extends Base_Template {
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
-			text_buf.push_int(single_value.getValue() ? 1 : 0);
+			text_buf.push_int(single_value.get_value() ? 1 : 0);
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:

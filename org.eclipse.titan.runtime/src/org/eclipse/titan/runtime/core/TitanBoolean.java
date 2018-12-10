@@ -62,11 +62,11 @@ public class TitanBoolean extends Base_Type {
 		boolean_value = otherValue.boolean_value;
 	}
 
-	public Boolean getValue() {
+	public Boolean get_value() {
 		return boolean_value;
 	}
 
-	public void setValue(final Boolean aOtherValue) {
+	public void set_value(final Boolean aOtherValue) {
 		boolean_value = aOtherValue;
 	}
 
@@ -343,7 +343,7 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	public static boolean get_native(final TitanBoolean otherValue) {
-		return otherValue.getValue();
+		return otherValue.get_value();
 	}
 
 	// static and

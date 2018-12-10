@@ -163,7 +163,7 @@ public class TitanFloat extends Base_Type {
 	}
 
 	public static void check_numeric(final double floatValue, final String errorMsg) {
-		if (is_special(floatValue).getValue()) {
+		if (is_special(floatValue).get_value()) {
 			throw new TtcnError(MessageFormat.format("{0} must be a numeric value instead of {1}", errorMsg, floatValue));
 		}
 	}

@@ -1159,7 +1159,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case ALT_info: {
 				final FinalVerdictInfo info = choice.get_field_finalVerdict().get_field_choice().get_field_info();
-				if (info.get_field_is__ptc().getValue()) {
+				if (info.get_field_is__ptc().get_value()) {
 					if (info.get_field_ptc__compref().is_present() && info.get_field_ptc__compref().get().get_int() != TitanComponent.UNBOUND_COMPREF) {
 						if (info.get_field_ptc__name().is_present() && info.get_field_ptc__name().get().lengthof().get_int() > 0) {
 							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.get_field_ptc__name().get().get_value(), info.get_field_ptc__compref().get().get_int()));
@@ -1500,11 +1500,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_matchingProblem: {
 			final MatchingProblemType mp = choice.get_field_matchingProblem();
 			returnValue.append("Operation `");
-			if (mp.get_field_any__port().getValue()) {
+			if (mp.get_field_any__port().get_value()) {
 				returnValue.append("any port.");
 			}
 
-			if (mp.get_field_check__().getValue()) {
+			if (mp.get_field_check__().get_value()) {
 				returnValue.append("check(");
 			}
 			switch (mp.get_field_operation().enum_value) {
@@ -1529,7 +1529,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			default:
 				break;
 			}
-			if (mp.get_field_check__().getValue()) {
+			if (mp.get_field_check__().get_value()) {
 				returnValue.append(')');
 			}
 			returnValue.append("' ");
@@ -1666,15 +1666,15 @@ public class LegacyLogger implements ILoggerPlugin {
 			String op2 = "";
 			switch (ps.get_field_operation().enum_value) {
 			case call__op:
-				returnValue.append(ps.get_field_check__().getValue() ? "Check-getcall" : "Getcall");
+				returnValue.append(ps.get_field_check__().get_value() ? "Check-getcall" : "Getcall");
 				op2 = "call";
 				break;
 			case reply__op:
-				returnValue.append(ps.get_field_check__().getValue() ? "Check-getreply" : "Getreply");
+				returnValue.append(ps.get_field_check__().get_value() ? "Check-getreply" : "Getreply");
 				op2 = "reply";
 				break;
 			case exception__op:
-				returnValue.append(ps.get_field_check__().getValue() ? "Check-catch" : "Catch");
+				returnValue.append(ps.get_field_check__().get_value() ? "Check-catch" : "Catch");
 				op2 = "exception";
 			default:
 				return;
@@ -1719,16 +1719,16 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_dualMapped: {
 			final Dualface__mapped dual = choice.get_field_dualMapped();
-			returnValue.append(MessageFormat.format("{0} message was mapped to {1} : {2}", (dual.get_field_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_field_target__type().get_value(), dual.get_field_value__().get_value()));
-			if (dual.get_field_incoming().getValue()) {
+			returnValue.append(MessageFormat.format("{0} message was mapped to {1} : {2}", (dual.get_field_incoming().get_value() ? "Incoming" : "Outgoing"), dual.get_field_target__type().get_value(), dual.get_field_value__().get_value()));
+			if (dual.get_field_incoming().get_value()) {
 				returnValue.append(MessageFormat.format(" id {0}", dual.get_field_msgid().get_int()));
 			}
 			break;
 		}
 		case ALT_dualDiscard: {
 			final Dualface__discard dual = choice.get_field_dualDiscard();
-			returnValue.append(MessageFormat.format("{0} message of type {1} ", (dual.get_field_incoming().getValue() ? "Incoming" : "Outgoing"), dual.get_field_target__type().get_value()));
-			if (dual.get_field_unhandled().getValue()) {
+			returnValue.append(MessageFormat.format("{0} message of type {1} ", (dual.get_field_incoming().get_value() ? "Incoming" : "Outgoing"), dual.get_field_target__type().get_value()));
+			if (dual.get_field_unhandled().get_value()) {
 				returnValue.append(MessageFormat.format("could not be handled by the type mapping rules on port {0}.  The message was discarded.", dual.get_field_port__name().get_value()));
 			} else {
 				returnValue.append(MessageFormat.format(" was discarded on port {0}", dual.get_field_port__name().get_value()));
