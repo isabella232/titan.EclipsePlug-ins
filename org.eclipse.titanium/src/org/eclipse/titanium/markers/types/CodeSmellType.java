@@ -25,7 +25,7 @@ public enum CodeSmellType implements ProblemType{
 	EMPTY_STATEMENT_BLOCK("Empty statement block", 0.0 ,2.0, 5.0),
 	DEFINITION_NAME_TOO_LONG("Definition name is too long",0.0, 0.0, 0.0), //FIXME: valid parameters
 	GOTO("Goto", 1.0, 5.5, 26.0),
-	//TODO: PRIVATE_COMPONENT_VARIABLE_ACCESS - Write real risk Factor parameters.
+	//FIXME: PRIVATE_COMPONENT_VARIABLE_ACCESS - Write valid risk Factor parameters.
 	PRIVATE_COMPONENT_VARIABLE_ACCESS("Private Component Variable Access", 0.0, 0.0, 0.0),
 	IF_INSTEAD_ALTGUARD("If instead altguard", 1.0, 2.0, 8.0),
 	IF_INSTEAD_RECEIVE_TEMPLATE("If instead receive template", 1.0, 2.0, 8.0),

@@ -10,6 +10,8 @@ package org.eclipse.titanium.markers.spotters.implementation;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -28,7 +30,7 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	/**
 	 * The error message contain the private components name and the module name too.
 	 */
-	private static final String ERROR_MESSAGE = "The \"{0}\" is a Private component in the \"{1}\" module. Access is not allowed from \"{2}\" module.";
+	private static final String ERROR_MESSAGE = "The \"{0}\" is a Private component in the \"{1}\" module. Access is not recommended from \"{2}\" module.";
 	
 	/**
 	 * The constructor based on the superclass constructor.
@@ -41,11 +43,11 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 /**
 	 * Internal processing the node.
 	 * <p>
-	 * When the referred object is a definition and the defied variable is private
+	 * When the referred object is a definition and the defined variable is private
 	 * and the reference's module isn't equals with the definiton's module then the 
 	 * code smell report the problem.
 	 * Attention! The <code>definition</code> variable can be NULL, because the 
-	 * <code>getRefdAssignment</code>'s behavior. In the code was handled this situation.
+	 * <code>getRefdAssignment</code>'s behavior. In the code it was handled.
 	 * </p>
 	 *
 	 * @see org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter
@@ -59,13 +61,17 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Reference) {
 			final Reference reference = (Reference) node;
-			final Definition definition = (Definition) reference.getRefdAssignment(reference.getLastTimeChecked(), true);
-			
-			if(definition instanceof Definition) {
-				if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
-					if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
-						problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
-								definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
+			if(!reference.getIsErroneous((reference.getLastTimeChecked()))){
+				Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), true);
+				if(referedAssignment != null) {
+					final Definition definition = (Definition) referedAssignment;
+					if(definition instanceof Definition) {
+						if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
+							if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
+								problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
+									definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
+							}
+						}
 					}
 				}
 			}

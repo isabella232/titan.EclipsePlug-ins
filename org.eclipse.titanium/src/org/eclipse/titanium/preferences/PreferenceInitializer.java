@@ -52,7 +52,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.INFINITE_LOOP.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.READONLY_VARIABLE.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.GOTO.getPreferenceName(), GeneralConstants.IGNORE);
-		preferenceStore.setDefault(ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS.getPreferenceName(), GeneralConstants.ERROR);
+		preferenceStore.setDefault(ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.CIRCULAR_IMPORTATION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.LANGUAGE_MIXING.getPreferenceName(), GeneralConstants.IGNORE);
