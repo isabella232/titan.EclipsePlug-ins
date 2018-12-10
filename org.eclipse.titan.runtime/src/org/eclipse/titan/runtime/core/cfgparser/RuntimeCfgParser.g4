@@ -496,7 +496,7 @@ pr_MainControllerItemTcpPort:
 pr_IncludeSection:
 	INCLUDE_SECTION
 	( f = INCLUDE_FILENAME
-		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
+		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			//TODO: remove one of them, it is redundant
 			includeSectionHandler.getFiles().add( fileName );
@@ -507,7 +507,7 @@ pr_IncludeSection:
 pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
 	( f = ORDERED_INCLUDE_FILENAME
-		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
+		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			//TODO: remove one of them, it is redundant
 			orderedIncludeSectionHandler.getFiles().add( fileName );
@@ -693,7 +693,7 @@ pr_DatabaseFile:
 pr_DatabaseFilePart:
 (	STRING
 |	macro = MACRO
-		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 );
@@ -720,7 +720,7 @@ pr_StatisticsFile:
 pr_StatisticsFilePart:
 (	STRING
 |	macro = MACRO
-		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 );
@@ -1186,11 +1186,11 @@ pr_HostName:
 (	pr_DNSName
 |	TTCN3IDENTIFIER
 |	macro1 = MACRO_HOSTNAME
-		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 |	macro2 = MACRO
-		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 )
@@ -1274,9 +1274,7 @@ pr_TestportName:
 
 pr_Identifier returns [String identifier]:
 (	macro = MACRO_ID
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
-			$identifier = value;
-		}
+		{	$identifier = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
 |	a = TTCN3IDENTIFIER
 		{	$identifier = $a.getText();	}
 )
@@ -1349,11 +1347,11 @@ pr_MPNaturalNumber returns [TitanInteger integer]:
 
 pr_MacroNaturalNumber returns [CFGNumber integer]:
 (	macro1 = MACRO_INT
-		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
+		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
 			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
 |	macro2 = MACRO
-		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
+		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
 			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
 )
@@ -1649,7 +1647,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 	{
 		//TODO: handle nocase
 		boolean nocase = false;
-		$moduleparameter = new Module_Param_Pattern($pcl.ucstr.toUtf(), nocase);
+		$moduleparameter = new Module_Param_Pattern($pcl.ucstr.to_utf(), nocase);
 	}
 |	bsm = pr_BStringMatch			{	$moduleparameter = new Module_Param_Bitstring_Template($bsm.string);	}
 |	hsm = pr_HStringMatch			{	$moduleparameter = new Module_Param_Hexstring_Template($hsm.string);	}
@@ -1746,7 +1744,7 @@ pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
 pr_Float returns [CFGNumber floatnum]:
 (	a = FLOAT {$floatnum = new CFGNumber($a.text);}
 |	macro = MACRO_FLOAT
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
+		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
 			$floatnum = new CFGNumber( value.length() > 0 ? value : "0.0" );
 		}
 |	TTCN3IDENTIFIER // module parameter name
@@ -1771,7 +1769,7 @@ pr_Boolean returns [Boolean bool]:
 (	t = TRUE { $bool = true; }
 |	f = FALSE { $bool = false; }
 |	macro = MACRO_BOOL
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
+		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
 			$bool = "true".equalsIgnoreCase( value );
 		}
 )
@@ -2121,14 +2119,14 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 			if (cs.lengthof().operator_not_equals(1)) {
 				config_process_error("Lower bound of char range must be 1 character only");
 			} else {
-				lower = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
+				lower = new TitanUniversalChar((char)0, (char)0, (char)0, cs.get_value().charAt(0));
 			}
 		} else {
 			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s1.cstr;
 			if (ucs.lengthof().operator_not_equals(1)) {
 				config_process_error("Lower bound of char range must be 1 character only");
 			} else {
-				lower = ucs.getValue().get(0);
+				lower = ucs.get_value().get(0);
 			}
 		}
 	}
@@ -2139,20 +2137,20 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 			if (cs.lengthof().operator_not_equals(1)) {
 				config_process_error("Upper bound of char range must be 1 character only");
 			} else {
-				upper = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
+				upper = new TitanUniversalChar((char)0, (char)0, (char)0, cs.get_value().charAt(0));
 			}
 		} else {
 			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s2.cstr;
 			if (ucs.lengthof().operator_not_equals(1)) {
 				config_process_error("Upper bound of char range must be 1 character only");
 			} else {
-				upper = ucs.getValue().get(0);
+				upper = ucs.get_value().get(0);
 			}
 		}
 	}
 	RPAREN
 {
-	if (upper.lessThan(lower).getValue()) {
+	if (upper.less_than(lower).getValue()) {
 		config_process_error("Lower bound is larger than upper bound in the char range");
 		lower = upper;
 	}
