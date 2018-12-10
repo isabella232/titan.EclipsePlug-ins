@@ -773,7 +773,7 @@ public final class ProjectFileHandler {
 
 			if (file.isAccessible() && file.exists() && localFile.canRead()) {
 				final InputStream is = file.getContents(true);
-				final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				final BufferedReader br = new BufferedReader(new InputStreamReader(is, file.getCharset()));
 				final StringBuilder sb = new StringBuilder();
 				String line;
 				boolean firstLine = true;

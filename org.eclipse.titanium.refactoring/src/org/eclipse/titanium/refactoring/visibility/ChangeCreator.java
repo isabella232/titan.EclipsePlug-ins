@@ -140,7 +140,7 @@ class ChangeCreator {
 				final int BUF_LEN = 8;
 				try {
 					InputStream is = file.getContents();
-					InputStreamReader isr = new InputStreamReader(is);
+					InputStreamReader isr = new InputStreamReader(is, file.getCharset());
 					int currOffset = 0;
 					char[] content = new char[BUF_LEN];
 					for (ILocateableNode node : nodes) {

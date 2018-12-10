@@ -314,7 +314,7 @@ class SelectionFinder {
 		try {
 			final char[] buf = new char[1024];
 			final InputStream is = toRead.getContents();
-			final InputStreamReader isr = new InputStreamReader(is);
+			final InputStreamReader isr = new InputStreamReader(is, toRead.getCharset());
 			while (isr.ready()) {
 				isr.read(buf);
 				sb.append(buf);

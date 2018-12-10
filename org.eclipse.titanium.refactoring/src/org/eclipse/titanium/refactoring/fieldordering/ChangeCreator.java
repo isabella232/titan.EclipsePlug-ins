@@ -452,7 +452,7 @@ class ChangeCreator {
 		StringBuilder fileContents;
 		try {
 			final InputStream is = toLoad.getContents();
-			final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is, toLoad.getCharset()));
 			fileContents = new StringBuilder();
 			final char[] buff = new char[1024];
 			while (br.ready()) {

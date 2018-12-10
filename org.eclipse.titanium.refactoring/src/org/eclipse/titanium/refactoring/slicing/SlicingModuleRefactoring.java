@@ -239,8 +239,9 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 	private String createFunctionBody(Def_Function fun, Module module) {
 		String body2 = "";
 		try {
-			final InputStream istream = ((IFile)module.getLocation().getFile()).getContents();
-			final BufferedReader br = new BufferedReader(new InputStreamReader(istream));
+			final IFile file = (IFile)module.getLocation().getFile();
+			final InputStream istream = file.getContents();
+			final BufferedReader br = new BufferedReader(new InputStreamReader(istream, file.getCharset()));
 			final int startOffset = fun.getLocation().getOffset();
 			final int endOffset = fun.getLocation().getEndOffset();
 			br.skip(startOffset);

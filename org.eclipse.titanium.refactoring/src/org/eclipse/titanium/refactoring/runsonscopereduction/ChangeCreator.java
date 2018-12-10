@@ -179,12 +179,13 @@ public class ChangeCreator {
 
 			if (definitions.isEmpty()) {
 				if (!isTestCase) {
-					final InputStream is =  toVisit.getContents();
-					final InputStreamReader isr = new InputStreamReader(is);
-					int lenght = offset - node.getIdentifier().getLocation().getEndOffset();
-					final char[] content = new char[lenght];
 					int currOffset = 0;
 					try {
+						final InputStream is =  toVisit.getContents();
+						final InputStreamReader isr = new InputStreamReader(is, toVisit.getCharset());
+						int lenght = offset - node.getIdentifier().getLocation().getEndOffset();
+						final char[] content = new char[lenght];
+
 						isr.skip(offset - lenght);
 						isr.read(content);
 						lenght--;
@@ -196,6 +197,9 @@ public class ChangeCreator {
 					} catch (IOException e) {
 						ErrorReporter.logError("RunsOnScopeReductionRefactoring.ChangeCreator: Error while reading source project.");
 						ErrorReporter.logExceptionStackTrace(e);
+					} catch (CoreException ce) {
+						ErrorReporter.logError("ChangeCreator.loadFileContent(): Unable to get file contents (CoreException) for file: " + toVisit.getName());
+						return null;
 					}
 					
 					edit.addChild(new DeleteEdit(offset-currOffset, endoffset - offset+currOffset));

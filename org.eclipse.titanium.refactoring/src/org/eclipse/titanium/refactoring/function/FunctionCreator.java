@@ -201,7 +201,7 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 		final List<StringBuilder> body = new ArrayList<StringBuilder>();
 		try {
 			final InputStream istream = selectedFile.getContents();
-			final BufferedReader br = new BufferedReader(new InputStreamReader(istream));
+			final BufferedReader br = new BufferedReader(new InputStreamReader(istream, selectedFile.getCharset()));
 			final int startOffset = selectedStatements.getLocation().getOffset();
 			final int endOffset = selectedStatements.getLocation().getEndOffset();
 			br.skip(startOffset);
