@@ -514,10 +514,6 @@ public abstract class Expression_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(".operator_assign(");
@@ -526,8 +522,6 @@ public abstract class Expression_Value extends Value {
 
 		expression.expression.append(')');
 		expression.mergeExpression(source);
-
-		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
