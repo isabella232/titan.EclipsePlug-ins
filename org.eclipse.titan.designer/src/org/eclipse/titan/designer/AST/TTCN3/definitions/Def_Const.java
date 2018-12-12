@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -499,7 +500,11 @@ public final class Def_Const extends Definition {
 
 		globalVariable.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
-		last.generateCodeInit( aData, aData.getPreInit(), genName );
+		if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
+			last.generateCodeInit( aData, aData.getPreInit(), genName );
+		} else if (value.getLastTimeBuilt() == null || value.getLastTimeBuilt().isLess(aData.getBuildTimstamp())) {
+			value.generateCodeInit( aData, aData.getPreInit(), genName );
+		}
 
 		aData.addGlobalVariable(typeGeneratedName, globalVariable.toString());
 	}
