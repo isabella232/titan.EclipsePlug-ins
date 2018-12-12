@@ -122,7 +122,7 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 *                the referenced governed simple.
 	 * */
 	public boolean needsInitPrecede(final JavaGenData aData, final IGovernedSimple refd) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+		if (refd.getLastTimeBuilt() != null && !refd.getLastTimeBuilt().isLess(aData.getBuildTimstamp())) {
 			return false;
 		}
 
