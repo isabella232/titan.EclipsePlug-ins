@@ -35,6 +35,11 @@
           name="MakeArchive">
     </command>
     <command
+          defaultHandler="org.eclipse.titan.designer.actions.MakeCliArchive"
+          id="org.eclipse.titan.designer.actions.MakeCLIArchive"
+          name="MakeCLIArchive">
+    </command>
+    <command
           defaultHandler="org.eclipse.titan.designer.actions.ConvertXSD2TTCN"
           id="org.eclipse.titan.designer.actions.ConvertXSD2TTCN"
           name="Convert XSD files to TTCN-3">
@@ -445,6 +450,22 @@
           </visibleWhen>
         </command>
       </menu>
+      <command
+        commandId="org.eclipse.titan.designer.actions.MakeCLIArchive"
+        id="org.eclipse.titan.designer.actions.MakeCLIArchive"
+        label="Make CLI archive" mode="FORCE_TEXT">
+        <visibleWhen checkEnabled="false">
+          <with variable="selection">
+            <iterate operator="or">
+              <adapt type="org.eclipse.core.resources.IProject">
+                <test property="org.eclipse.core.resources.projectNature"
+                  value="org.eclipse.titan.designer.core.TITANNature">
+                </test>
+              </adapt>
+            </iterate>
+          </with>
+        </visibleWhen>
+      </command>
     </menuContribution>
 
     <menuContribution
