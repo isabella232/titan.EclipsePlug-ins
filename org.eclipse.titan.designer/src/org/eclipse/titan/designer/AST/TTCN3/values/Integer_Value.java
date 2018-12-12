@@ -292,10 +292,6 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		source.append(name);
 		source.append(".operator_assign( ");
 		if (isNative()) {

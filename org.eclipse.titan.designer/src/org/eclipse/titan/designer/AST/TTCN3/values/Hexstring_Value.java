@@ -197,10 +197,6 @@ public final class Hexstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		if (myGovernor != null) {
 			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			switch (type.getTypetype()) {

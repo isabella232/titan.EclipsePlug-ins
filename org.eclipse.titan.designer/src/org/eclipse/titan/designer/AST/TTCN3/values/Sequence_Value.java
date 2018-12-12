@@ -904,10 +904,6 @@ public final class Sequence_Value extends Value {
 	 * generate_code_init_se in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		if (convertedValue != null) {
 			convertedValue.generateCodeInit(aData, source, name);
 

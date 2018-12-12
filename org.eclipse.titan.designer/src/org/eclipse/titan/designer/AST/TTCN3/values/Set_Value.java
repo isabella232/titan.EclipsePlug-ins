@@ -679,10 +679,6 @@ public final class Set_Value extends Value {
 	 * generate_code_init_se in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);

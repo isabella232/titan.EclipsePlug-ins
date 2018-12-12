@@ -435,10 +435,6 @@ public final class Choice_Value extends Value {
 	 * generate_code_init_choice in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		final String altName = this.name.getName();
 
 		if (value.needsTemporaryReference()) {

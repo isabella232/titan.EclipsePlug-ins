@@ -150,10 +150,6 @@ public final class Omit_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 
 		source.append(MessageFormat.format("{0}.operator_assign( template_sel.OMIT_VALUE );\n", name));

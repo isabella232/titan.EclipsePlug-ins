@@ -503,10 +503,6 @@ public final class Undefined_Block_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		if (realValue != null && realValue != this) {
 			realValue.generateCodeInit(aData, source, name);
 

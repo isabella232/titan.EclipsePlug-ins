@@ -271,10 +271,6 @@ public final class RelativeObjectIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
-			return source;
-		}
-
 		aData.addBuiltinTypeImport( "TitanObjectid" );
 
 		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
