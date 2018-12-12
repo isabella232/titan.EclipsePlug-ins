@@ -63,7 +63,7 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 			final Reference reference = (Reference) node;
 			if(!reference.getIsErroneous((reference.getLastTimeChecked()))){
 				Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), true);
-				if(referedAssignment != null) {
+				if(referedAssignment instanceof Definition) {
 					final Definition definition = (Definition) referedAssignment;
 					if(definition instanceof Definition) {
 						if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
