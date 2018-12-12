@@ -449,23 +449,23 @@
             </with>
           </visibleWhen>
         </command>
+        <command
+          commandId="org.eclipse.titan.designer.actions.MakeCLIArchive"
+          id="org.eclipse.titan.designer.actions.MakeCLIArchive"
+          label="Make CLI archive" mode="FORCE_TEXT">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <iterate operator="or">
+                <adapt type="org.eclipse.core.resources.IProject">
+                  <test property="org.eclipse.core.resources.projectNature"
+                    value="org.eclipse.titan.designer.core.TITANNature">
+                  </test>
+                </adapt>
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
       </menu>
-      <command
-        commandId="org.eclipse.titan.designer.actions.MakeCLIArchive"
-        id="org.eclipse.titan.designer.actions.MakeCLIArchive"
-        label="Make CLI archive" mode="FORCE_TEXT">
-        <visibleWhen checkEnabled="false">
-          <with variable="selection">
-            <iterate operator="or">
-              <adapt type="org.eclipse.core.resources.IProject">
-                <test property="org.eclipse.core.resources.projectNature"
-                  value="org.eclipse.titan.designer.core.TITANNature">
-                </test>
-              </adapt>
-            </iterate>
-          </with>
-        </visibleWhen>
-      </command>
     </menuContribution>
 
     <menuContribution
