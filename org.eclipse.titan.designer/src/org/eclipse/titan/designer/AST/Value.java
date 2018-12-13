@@ -230,6 +230,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 				final String encodingName = ((Charstring_Value)last).getValue();
 				if (!encodingName.equals("UTF-8")
 					&& !encodingName.equals("UTF-16")
+					&& !encodingName.equals("UTF-16LE")
+					&& !encodingName.equals("UTF-16BE")
 					&& !encodingName.equals("UTF-32")
 					&& !encodingName.equals("UTF-32LE")
 					&& !encodingName.equals("UTF-32BE")) {
