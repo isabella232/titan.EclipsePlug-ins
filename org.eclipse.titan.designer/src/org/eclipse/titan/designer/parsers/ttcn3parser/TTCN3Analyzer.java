@@ -309,6 +309,10 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			lexer.enableRealtime();
 		}
 
+		final TitanListener lexerListener = new TitanListener();
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(lexerListener);
+
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");
