@@ -21,8 +21,8 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
@@ -498,6 +498,7 @@ public final class Def_Const extends Definition {
 			arrayType.generateCodeValue(aData, temp_sb);
 		}
 
+		//TODO const with references to other const does not need to copy
 		globalVariable.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
 		if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
