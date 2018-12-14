@@ -114,6 +114,9 @@ public final class TTCN3Module extends Module {
 
 	private final List<Reference> missingReferences;
 
+	//The MD5 hash of the module
+	private byte[] digest;
+
 	public TTCN3Module(final Identifier identifier, final IProject project) {
 		super(identifier, project);
 
@@ -153,6 +156,16 @@ public final class TTCN3Module extends Module {
 		}
 
 		return builder;
+	}
+
+	/**
+	 * Sets the MD5 digest of this module.
+	 *
+	 * @param digest the digest.
+	 * */
+	public void addMD5Digest(final byte[] digest) {
+		this.digest = new byte[digest.length];
+		System.arraycopy(digest, 0, this.digest, 0, digest.length);
 	}
 
 	public void setLanguageSpecifications(final List<String> languageSpecifications) {
@@ -1278,7 +1291,20 @@ public final class TTCN3Module extends Module {
 
 		final StringBuilder constructor = aData.getConstructor();
 		constructor.append(MessageFormat.format("\tpublic {0}() '{'\n", identifier.getName()));
-		constructor.append(MessageFormat.format("\t\tsuper(\"{0}\", module_type_enum.TTCN3_MODULE);\n", identifier.getDisplayName()));
+		constructor.append(MessageFormat.format("\t\tsuper(\"{0}\", module_type_enum.TTCN3_MODULE", identifier.getDisplayName()));
+		if (digest == null) {
+			constructor.append(", null");
+		} else {
+			constructor.append(", new byte[] {");
+			for (int i = 0; i < digest.length; i++) {
+				if (i > 0) {
+					constructor.append(", ");
+				}
+				constructor.append("(byte)").append(digest[i] & 0xff);
+			}
+			constructor.append("}");
+		}
+		constructor.append(");\n");
 		constructor.append("\t}\n\n");
 
 		if (anytypeDefinition != null) {

@@ -563,8 +563,7 @@ public class TTCN_Communication {
 		text_buf.push_int(TTCN_Runtime.TTCN3_PATCHLEVEL);
 		text_buf.push_int(TTCN_Runtime.TTCN3_BUILDNUMBER);
 
-		text_buf.push_int(0);//for now send no module info
-		//Module_List.push_version(text_buf);
+		Module_List.push_version(text_buf);
 
 		//FIXME fill with correct machine info
 		text_buf.push_string(TTCN_Runtime.get_host_name());//node

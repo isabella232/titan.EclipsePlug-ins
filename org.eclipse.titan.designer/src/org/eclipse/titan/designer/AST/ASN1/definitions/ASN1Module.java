@@ -444,7 +444,7 @@ public final class ASN1Module extends Module {
 
 		final StringBuilder constructor = aData.getConstructor();
 		constructor.append(MessageFormat.format("\tpublic {0}() '{'\n", identifier.getName()));
-		constructor.append(MessageFormat.format("\t\tsuper(\"{0}\", module_type_enum.ASN1_MODULE);\n", identifier.getDisplayName()));
+		constructor.append(MessageFormat.format("\t\tsuper(\"{0}\", module_type_enum.ASN1_MODULE, null);\n", identifier.getDisplayName()));
 		constructor.append("\t}\n\n");
 
 		if ( assignments != null ) {

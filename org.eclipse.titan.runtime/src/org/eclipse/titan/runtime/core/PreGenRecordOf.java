@@ -101,7 +101,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null);
 
 	public PreGenRecordOf() {
-		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE);
+		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)2, (byte)172, (byte)107, (byte)74, (byte)67, (byte)37, (byte)48, (byte)47, (byte)113, (byte)216, (byte)134, (byte)12, (byte)12, (byte)157, (byte)70, (byte)204});
 	}
 
 	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Base_Type {

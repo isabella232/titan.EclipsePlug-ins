@@ -16,12 +16,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.UnbufferedCharStream;
 import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.atn.PredictionContextCache;
@@ -58,6 +61,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
 	private TTCN3Module actualTtc3Module;
+	private byte[] digest = null;
 
 	/**
 	 * The list of markers (ERROR and WARNING) created during parsing
@@ -98,9 +102,11 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	public void parse( final IFile aFile, final String aCode ) {
 		Reader reader;
+		Reader reader2;
 		int rootInt;
 		if ( aCode != null ) {
 			reader = new StringReader( aCode );
+			reader2 = new StringReader( aCode );
 			rootInt = aCode.length();
 		} else if (aFile != null) {
 			try {
@@ -115,6 +121,17 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				}
 
 				reader = new BufferedReader(temp);
+				InputStreamReader temp2 = new InputStreamReader(aFile.getContents());
+				if (!aFile.getCharset().equals(temp.getEncoding())) {
+					try {
+						temp2.close();
+					} catch (IOException e) {
+						ErrorReporter.logWarningExceptionStackTrace(e);
+					}
+					temp2 = new InputStreamReader(aFile.getContents(), aFile.getCharset());
+				}
+
+				reader2 = new BufferedReader(temp2);
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
@@ -138,6 +155,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		parse( reader, rootInt, aFile );
+		md5_processing(reader2);
 	}
 
 	/**
@@ -147,9 +165,11 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	public void parse(final File aFile ) {
 		BufferedReader bufferedReader;
+		BufferedReader bufferedReader2;
 
 		try {
 			bufferedReader = new BufferedReader( new FileReader( aFile ) );
+			bufferedReader2 = new BufferedReader( new FileReader( aFile ) );
 		} catch ( FileNotFoundException e ) {
 			//TODO: handle error
 			return;
@@ -157,6 +177,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		final int fileLength = (int)aFile.length();
 		parse( bufferedReader, fileLength, null );
+		md5_processing(bufferedReader2);
 	}
 
 	/**
@@ -167,7 +188,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	private void parse( final Reader aReader, final int aFileLength, final IFile aEclipseFile ) {
 		final IPreferencesService prefs = Platform.getPreferencesService();
-		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);
 
 		final CharStream charStream = new UnbufferedCharStream( aReader );
 		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
@@ -273,6 +294,41 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		try {
 			aReader.close();
 		} catch (IOException e) {
+		}
+	}
+
+	private void md5_processing(final Reader aReader) {
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
+
+		final CharStream charStream = new UnbufferedCharStream( aReader );
+		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
+		lexer.setCommentTodo( true );
+		lexer.setTokenFactory( new CommonTokenFactory( true ) );
+		if (realtimeEnabled) {
+			lexer.enableRealtime();
+		}
+
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+
+		List<? extends Token> tokens = lexer.getAllTokens();
+		for (Token token: tokens) {
+			if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+				final String text = token.getText();
+				md5.update(text.getBytes());
+				md5.update(" ".getBytes());
+			}
+		}
+		if (md5 != null) {
+			digest = md5.digest();
+			  if (actualTtc3Module != null) {
+				  actualTtc3Module.addMD5Digest(digest);
+			  }
 		}
 	}
 }

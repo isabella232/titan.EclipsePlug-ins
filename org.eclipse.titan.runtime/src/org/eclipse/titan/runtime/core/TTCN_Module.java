@@ -24,13 +24,15 @@ public class TTCN_Module {
 
 	private final module_type_enum module_type;
 	public final String module_name;
+	byte[] md5_checksum;
 
 	protected boolean pre_init_called = false;
 	protected boolean post_init_called = false;
 
-	public TTCN_Module(final String name, final module_type_enum moduleType) {
+	public TTCN_Module(final String name, final module_type_enum moduleType, final byte[] md5_checksum) {
 		this.module_name = name;
 		this.module_type = moduleType;
+		this.md5_checksum = md5_checksum;
 	}
 
 	public boolean set_module_param(final Param_Types.Module_Parameter param) {
