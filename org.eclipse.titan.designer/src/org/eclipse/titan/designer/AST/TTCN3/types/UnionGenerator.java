@@ -712,7 +712,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0});\n", i));
+			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0});\n", i + 1));
 			source.append("\t\t\t\tbreak;\n");
 		}
 
@@ -730,7 +730,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\tcase {0}:\n", i));
+			source.append(MessageFormat.format("\t\t\tcase {0}:\n", i + 1));
 			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
 			source.append("\t\t\t\tbreak;\n");
 		}
