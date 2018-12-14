@@ -140,7 +140,9 @@ public class ProjectSourceCompiler {
 		contentBuilder.append( ";\n\n" );
 
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.PreGenRecordOf;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Single_main;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
 		for ( final String moduleName : knownModuleNames ) {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
@@ -149,6 +151,8 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
+		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
+		contentBuilder.append("Module_List.add_module(new TitanLoggerApi());\n");
 		for ( final String moduleName : knownModuleNames ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
@@ -207,7 +211,9 @@ public class ProjectSourceCompiler {
 		contentBuilder.append( ";\n\n" );
 
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.PreGenRecordOf;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Parallel_main;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
 		for ( final String moduleName : knownModuleNames ) {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
@@ -216,6 +222,8 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
+		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
+		contentBuilder.append("Module_List.add_module(new TitanLoggerApi());\n");
 		for ( final String moduleName : knownModuleNames ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
