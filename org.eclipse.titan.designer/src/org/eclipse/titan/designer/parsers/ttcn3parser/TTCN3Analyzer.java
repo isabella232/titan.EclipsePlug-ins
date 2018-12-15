@@ -155,7 +155,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		parse( reader, rootInt, aFile );
-		md5_processing(reader2);
+		md5_processing(reader2, aFile);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		final int fileLength = (int)aFile.length();
 		parse( bufferedReader, fileLength, null );
-		md5_processing(bufferedReader2);
+		md5_processing(bufferedReader2, null);
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 	}
 
-	private void md5_processing(final Reader aReader) {
+	private void md5_processing(final Reader aReader, final IFile aEclipseFile) {
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
 
@@ -309,10 +309,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			lexer.enableRealtime();
 		}
 
-		final TitanListener lexerListener = new TitanListener();
-		lexer.removeErrorListeners();
-		lexer.addErrorListener(lexerListener);
-
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");
@@ -320,14 +316,43 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		List<? extends Token> tokens = lexer.getAllTokens();
-		for (Token token: tokens) {
-			if (token.getChannel() != Token.HIDDEN_CHANNEL) {
-				final String text = token.getText();
-				md5.update(text.getBytes());
-				md5.update(" ".getBytes());
+		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
+		PreprocessedTokenStream preprocessor = null;
+
+		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
+			lexer.setTTCNPP();
+			preprocessor = new PreprocessedTokenStream(lexer);
+			preprocessor.setActualFile(aEclipseFile);
+			if ( aEclipseFile.getProject() != null ) {
+				preprocessor.setMacros( PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines( aEclipseFile.getProject() ) );
+			}
+			Ttcn3Parser parser = new Ttcn3Parser( preprocessor );
+			ParserUtilities.setBuildParseTree( parser );
+			preprocessor.setActualLexer(lexer);
+			preprocessor.setParser(parser);
+
+			List<? extends Token> tokens = preprocessor.get(0, preprocessor.size());
+			for (Token token: tokens) {
+				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+					final String text = token.getText();
+					md5.update(text.getBytes());
+					md5.update(" ".getBytes());
+				}
+			}
+		} else {
+			List<? extends Token> tokens = lexer.getAllTokens();
+			for (Token token: tokens) {
+				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+					final String text = token.getText();
+					md5.update(text.getBytes());
+					md5.update(" ".getBytes());
+				}
 			}
 		}
+
+
+
+		
 		if (md5 != null) {
 			digest = md5.digest();
 			  if (actualTtc3Module != null) {
