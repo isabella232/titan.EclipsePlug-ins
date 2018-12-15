@@ -204,15 +204,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
 
-		// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
-		// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
-		// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
-		//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
-		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
-		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-
-		Ttcn3Parser parser = new Ttcn3Parser( tokenStream );
-		ParserUtilities.setBuildParseTree( parser );
+		Ttcn3Parser parser;
 		PreprocessedTokenStream preprocessor = null;
 
 		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
@@ -222,10 +214,21 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			if ( aEclipseFile.getProject() != null ) {
 				preprocessor.setMacros( PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines( aEclipseFile.getProject() ) );
 			}
+
 			parser = new Ttcn3Parser( preprocessor );
 			ParserUtilities.setBuildParseTree( parser );
 			preprocessor.setActualLexer(lexer);
 			preprocessor.setParser(parser);
+		} else {
+			// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
+			// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
+			// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
+			//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
+			// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
+			final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
+
+			parser = new Ttcn3Parser( tokenStream );
+			ParserUtilities.setBuildParseTree( parser );
 		}
 
 		if ( aEclipseFile != null ) {
@@ -316,7 +319,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 		PreprocessedTokenStream preprocessor = null;
 
 		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
