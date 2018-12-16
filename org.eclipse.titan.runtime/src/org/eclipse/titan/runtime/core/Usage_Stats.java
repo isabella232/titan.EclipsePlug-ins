@@ -24,36 +24,37 @@ public final class Usage_Stats {
 	private static final int PORT = 80;
 
 	private static StringBuilder collectSystemData() {
-		StringBuilder result2 = new StringBuilder();
-		result2.append("plugin_id=").append("org.eclipse.titan.runtime");
+		final StringBuilder urlparameters = new StringBuilder();
+
+		urlparameters.append("plugin_id=").append("org.eclipse.titan.runtime");
 		//does not really know yet how to add the full qualifier, without depending on eclipse
-		result2.append("&").append("plugin_version_qualifier=").append(TTCN_Runtime.PRODUCT_NUMBER);
-		result2.append("&").append("plugin_version=").append(TTCN_Runtime.VERSION_STRING);
+		urlparameters.append("&").append("plugin_version_qualifier=").append(TTCN_Runtime.PRODUCT_NUMBER);
+		urlparameters.append("&").append("plugin_version=").append(TTCN_Runtime.VERSION_STRING);
 
 		try {
-			result2.append("&").append("os_version=").append(System.getProperty("os.version"));
-			result2.append("&").append("os_arch=").append(System.getProperty("os.arch"));
-			result2.append("&").append("eclipse_version=").append("n/a");
-			result2.append("&").append("eclipse_version_qualifier=").append("n/a");
+			urlparameters.append("&").append("os_version=").append(System.getProperty("os.version"));
+			urlparameters.append("&").append("os_arch=").append(System.getProperty("os.arch"));
+			urlparameters.append("&").append("eclipse_version=").append("n/a");
+			urlparameters.append("&").append("eclipse_version_qualifier=").append("n/a");
 		} catch (final SecurityException e) {
-			return result2;
+			return urlparameters;
 		}
 		try {
-			result2.append("&").append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
+			urlparameters.append("&").append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
 		} catch (final Exception e) {
-			result2.append("&").append("hostname=").append("UNKNOWN");
+			urlparameters.append("&").append("hostname=").append("UNKNOWN");
 		}
 		try {
-			result2.append("&").append("java_vendor=").append(System.getProperty("java.vendor"));
-			result2.append("&").append("user_id=").append(System.getProperty("user.name"));
-			result2.append("&").append("java_version=").append(System.getProperty("java.version"));
-			result2.append("&").append("os_name=").append(System.getProperty("os.name"));
+			urlparameters.append("&").append("java_vendor=").append(System.getProperty("java.vendor"));
+			urlparameters.append("&").append("user_id=").append(System.getProperty("user.name"));
+			urlparameters.append("&").append("java_version=").append(System.getProperty("java.version"));
+			urlparameters.append("&").append("os_name=").append(System.getProperty("os.name"));
 		} catch (final SecurityException e) {
-			return result2;
+			return urlparameters;
 		}
 
-		result2.append("&").append("info=").append("Java runtime(just experimenting)");
-		return result2;
+		urlparameters.append("&").append("info=").append("Java runtime(just experimenting)");
+		return urlparameters;
 	}
 
 	private static void post(final String message) {
