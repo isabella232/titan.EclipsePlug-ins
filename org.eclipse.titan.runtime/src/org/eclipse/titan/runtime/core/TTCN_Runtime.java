@@ -39,6 +39,7 @@ public final class TTCN_Runtime {
 	public static final int TTCN3_PATCHLEVEL = 0;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
+	public static final String VERSION_STRING = "6.5.0";
 	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R5A";
 
 	public enum executorStateEnum {
@@ -555,6 +556,9 @@ public final class TTCN_Runtime {
 			TTCN_Communication.set_mc_address(MC_host, MC_port);
 			TTCN_Communication.connect_mc();
 
+			if (Product_Constants.USAGE_STAT_SENDING) {
+				Module_List.send_usage_stats();
+			}
 			executorState.set(executorStateEnum.HC_IDLE);
 			TTCN_Communication.send_version();
 			initialize_component_process_tables();
@@ -578,6 +582,10 @@ public final class TTCN_Runtime {
 
 		if (is_hc()) {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
+		}
+
+		if (Product_Constants.USAGE_STAT_SENDING) {
+			Module_List.clean_up_usage_stats();
 		}
 
 		return returnValue;

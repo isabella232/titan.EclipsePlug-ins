@@ -172,6 +172,17 @@ public final class Module_List {
 	}
 
 	//FIXME implement print version
+
+	public static void send_usage_stats() {
+		//FIXME collect version info
+		StringBuilder builder = new StringBuilder("module version infos");
+		//FIXME add module versions
+		Product_Constants.sendAsync(builder.toString());
+	}
+	public static void clean_up_usage_stats() {
+		
+	}
+
 	//FIXME implement list_testcases
 	public static void push_version(final Text_Buf text_buf) {
 		text_buf.push_int(modules.size());

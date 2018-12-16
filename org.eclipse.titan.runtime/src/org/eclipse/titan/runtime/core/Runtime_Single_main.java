@@ -42,6 +42,10 @@ public final class Runtime_Single_main {
 		TTCN_Logger.set_executable_name();
 		TTCN_Logger.set_start_time();
 
+		if (Product_Constants.USAGE_STAT_SENDING) {
+			Module_List.send_usage_stats();
+		}
+
 		try {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 			Module_List.pre_init_modules();
