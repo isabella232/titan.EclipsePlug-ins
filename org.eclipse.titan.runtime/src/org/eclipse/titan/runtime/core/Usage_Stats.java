@@ -36,14 +36,11 @@ public final class Usage_Stats {
 			result2.append("&").append("eclipse_version=").append("n/a");
 			result2.append("&").append("eclipse_version_qualifier=").append("n/a");
 		} catch (final SecurityException e) {
-			//ErrorReporter.logWarningExceptionStackTrace("Could not access a system property",e);
 			return result2;
 		}
 		try {
 			result2.append("&").append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
 		} catch (final Exception e) {
-			//ErrorReporter.logWarningExceptionStackTrace("While resolving the local host's address", e);
-			//result.put("hostname", "UNKNOWN");
 			result2.append("&").append("hostname=").append("UNKNOWN");
 		}
 		try {
@@ -52,7 +49,6 @@ public final class Usage_Stats {
 			result2.append("&").append("java_version=").append(System.getProperty("java.version"));
 			result2.append("&").append("os_name=").append(System.getProperty("os.name"));
 		} catch (final SecurityException e) {
-			//ErrorReporter.logWarningExceptionStackTrace("Could not access a system property",e);
 			return result2;
 		}
 
