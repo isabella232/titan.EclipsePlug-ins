@@ -36,6 +36,10 @@ public final class Usage_Stats {
 			urlparameters.append("&").append("os_arch=").append(System.getProperty("os.arch"));
 			urlparameters.append("&").append("eclipse_version=").append("n/a");
 			urlparameters.append("&").append("eclipse_version_qualifier=").append("n/a");
+			urlparameters.append("&").append("java_vendor=").append(System.getProperty("java.vendor"));
+			urlparameters.append("&").append("user_id=").append(System.getProperty("user.name"));
+			urlparameters.append("&").append("java_version=").append(System.getProperty("java.version"));
+			urlparameters.append("&").append("os_name=").append(System.getProperty("os.name"));
 		} catch (final SecurityException e) {
 			return urlparameters;
 		}
@@ -43,14 +47,6 @@ public final class Usage_Stats {
 			urlparameters.append("&").append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
 		} catch (final Exception e) {
 			urlparameters.append("&").append("hostname=").append("UNKNOWN");
-		}
-		try {
-			urlparameters.append("&").append("java_vendor=").append(System.getProperty("java.vendor"));
-			urlparameters.append("&").append("user_id=").append(System.getProperty("user.name"));
-			urlparameters.append("&").append("java_version=").append(System.getProperty("java.version"));
-			urlparameters.append("&").append("os_name=").append(System.getProperty("os.name"));
-		} catch (final SecurityException e) {
-			return urlparameters;
 		}
 
 		urlparameters.append("&").append("info=").append("Java runtime(just experimenting)");
