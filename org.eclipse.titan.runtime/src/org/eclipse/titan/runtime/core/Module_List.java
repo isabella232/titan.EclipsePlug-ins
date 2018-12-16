@@ -177,7 +177,7 @@ public final class Module_List {
 		//FIXME collect version info
 		StringBuilder builder = new StringBuilder("module version infos");
 		//FIXME add module versions
-		Product_Constants.sendAsync(builder.toString());
+		Usage_Stats.sendAsync(builder.toString());
 	}
 	public static void clean_up_usage_stats() {
 		

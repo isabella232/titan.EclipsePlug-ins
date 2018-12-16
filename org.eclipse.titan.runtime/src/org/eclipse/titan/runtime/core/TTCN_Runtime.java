@@ -556,7 +556,7 @@ public final class TTCN_Runtime {
 			TTCN_Communication.set_mc_address(MC_host, MC_port);
 			TTCN_Communication.connect_mc();
 
-			if (Product_Constants.USAGE_STAT_SENDING) {
+			if (Usage_Stats.USAGE_STAT_SENDING) {
 				Module_List.send_usage_stats();
 			}
 			executorState.set(executorStateEnum.HC_IDLE);
@@ -584,7 +584,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
 		}
 
-		if (Product_Constants.USAGE_STAT_SENDING) {
+		if (Usage_Stats.USAGE_STAT_SENDING) {
 			Module_List.clean_up_usage_stats();
 		}
 

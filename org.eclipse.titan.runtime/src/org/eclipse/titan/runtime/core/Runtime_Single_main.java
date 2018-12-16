@@ -42,7 +42,7 @@ public final class Runtime_Single_main {
 		TTCN_Logger.set_executable_name();
 		TTCN_Logger.set_start_time();
 
-		if (Product_Constants.USAGE_STAT_SENDING) {
+		if (Usage_Stats.USAGE_STAT_SENDING) {
 			Module_List.send_usage_stats();
 		}
 
