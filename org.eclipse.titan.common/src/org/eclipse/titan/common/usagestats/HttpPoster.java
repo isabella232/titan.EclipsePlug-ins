@@ -32,6 +32,7 @@ public class HttpPoster {
 	}
 
 	public void post(final Map<String, String> data) {
+		//TODO evaluate why we need 3 tries with special numbers.
 		final int[] ports = {49555, 59555, 61555, 0};
 		final Socket socket = new Socket();
 
@@ -39,6 +40,7 @@ public class HttpPoster {
 			try {
 				// try binding the first port
 				socket.bind(new InetSocketAddress(InetAddress.getLocalHost(), ports[i]));
+				break;
 			} catch (IOException e) {
 				if (socket.isBound()) {
 					try {
