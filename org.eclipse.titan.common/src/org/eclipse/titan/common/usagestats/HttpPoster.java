@@ -32,7 +32,7 @@ public class HttpPoster {
 	}
 
 	public void post(final Map<String, String> data) {
-		//TODO evaluate why we need 3 tries with special numbers.
+		//the first three tries are "named" so that they can be opened on firewalls in labs.
 		final int[] ports = {49555, 59555, 61555, 0};
 		final Socket socket = new Socket();
 
