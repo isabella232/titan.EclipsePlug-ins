@@ -59,21 +59,29 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 */
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
-		if (node instanceof Reference) {
-			final Reference reference = (Reference) node;
-			if(!reference.getIsErroneous((reference.getLastTimeChecked()))){
-				Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), false);
-				if(referedAssignment instanceof Definition) {
-					final Definition definition = (Definition) referedAssignment;
-					if(definition instanceof Definition) {
-						if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
-							if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
-								problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
-									definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
-							}
-						}
-					}
-				}
+		
+		if (!(node instanceof Reference)) {
+			return;
+		}
+		final Reference reference = (Reference) node;
+		
+		if(reference.getIsErroneous((reference.getLastTimeChecked()))){
+			return;
+		}
+		final Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), false);
+		
+		if(referedAssignment == null) {
+			return;
+		}
+		if(!(referedAssignment instanceof Definition)) {
+			return;
+		}
+		final Definition definition = (Definition) referedAssignment;
+		
+		if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
+			if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
+				problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
+					definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
 			}
 		}
 	}
