@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
@@ -78,9 +79,11 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 
 		final Definition definition = (Definition) referedAssignment;
 		if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
-			if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
+			final Module referingModule = reference.getMyScope().getModuleScope();
+			final Module referedModule = definition.getMyScope().getModuleScope();
+			if(!referingModule.equals(referedModule)) {
 				problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
-						definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
+						referedModule.getName(), referingModule.getName()));
 			}
 		}
 	}
