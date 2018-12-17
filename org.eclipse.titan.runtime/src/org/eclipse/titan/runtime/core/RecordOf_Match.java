@@ -85,6 +85,11 @@ public class RecordOf_Match {
 		SUBSET, EXACT, SUPERSET
 	};
 
+	// this class should not be instantiated
+	private RecordOf_Match() {
+		//intentionally empty
+	}
+
 	/*
 	  Generic comparison function for 'set of' values. The fifth argument
 	  is a pointer to a type-specific callback function: boolean

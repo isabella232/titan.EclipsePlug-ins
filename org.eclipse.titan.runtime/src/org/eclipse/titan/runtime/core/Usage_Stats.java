@@ -17,11 +17,16 @@ public final class Usage_Stats {
 	/**
 	 * Global configuration flag for usage statistics sending, true if usage statistics is sent
 	 */
-	public static final boolean USAGE_STAT_SENDING = false;
+	public static final boolean USAGE_STAT_SENDING = true;
 
 	private static final String HOST = "ttcn.ericsson.se";
 	private static final String PAGE = "/download/usage_stats/usage_stats.php";
 	private static final int PORT = 80;
+
+	// this class should not be instantiated
+	private Usage_Stats() {
+		//intentionally empty
+	}
 
 	private static StringBuilder collectSystemData() {
 		final StringBuilder urlparameters = new StringBuilder();
