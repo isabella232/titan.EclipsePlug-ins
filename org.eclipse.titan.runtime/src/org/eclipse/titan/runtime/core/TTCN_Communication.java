@@ -33,7 +33,7 @@ import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
  *
  * @author Kristof Szabados
  */
-public class TTCN_Communication {
+public final class TTCN_Communication {
 	/* Any relation - any direction */
 
 	private static final int MSG_ERROR = 0;

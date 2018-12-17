@@ -12,7 +12,7 @@ package org.eclipse.titan.runtime.core;
  *
  * @author Kristof Szabados
  * */
-class Changeable_Double {
+final class Changeable_Double {
 	private double value;
 
 	public Changeable_Double(final double value) {

@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
  * Utility class for match functionality of record of/set of/arrays
  * @author Arpad Lovassy
  */
-public class RecordOf_Match {
+public final class RecordOf_Match {
 
 	/**
 	 * Interface for matching

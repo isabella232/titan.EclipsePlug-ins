@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * TTCN-3 boolean
  * @author Kristof Szabados
  */
-public class Optional<TYPE extends Base_Type> extends Base_Type {
+public final class Optional<TYPE extends Base_Type> extends Base_Type {
 	public enum optional_sel { OPTIONAL_UNBOUND, OPTIONAL_OMIT, OPTIONAL_PRESENT };
 
 	private TYPE optionalValue;
