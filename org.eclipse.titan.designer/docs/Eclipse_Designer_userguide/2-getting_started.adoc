@@ -81,7 +81,21 @@ Decoration here means a string added to a project, folder or file name or a pict
 
 The image:images/check.png[check] mark on the top right corner of a project’s icon means the project has been built and the binaries are up to date. If the plug-in detects the modification of a non-excluded file or folder inside the project, the check mark will disappear.
 
-Decoration after a project name shows whether the `Makefile` has been automatically generated. If it has, the corresponding command line switches are displayed between brackets; for example, `[ -s ]` for single mode. No additional text is displayed if the `Makefile` has been manually generated (not even the brackets).
+Decoration after a project name shows whether the `Makefile` has been automatically generated. 
+If it has, the corresponding command line switches of the command `makefilegen` are displayed between brackets; for example, `[ -s ]` for single mode.
+
+Some of these:
+
+- a - use absolute pathnames in the generated Makefile
+- c - use the pre-compiled files from central directories (central storage)
+- f - force overwriting of the output Makefile
+- g - generate Makefile for use with GNU make
+- R - use function test runtime (TITAN_RUNTIME_2)
+- s - generate Makefile for single mode
+- l - use dynamic linking
+
+
+No additional text is displayed if the `Makefile` has been manually generated (not even the brackets).
 
 Decoration after a folder name indicates that the folder is used as a central storage (`[ centralstorage ]`) or the folder is excluded from build (`[ excluded by X]`). If both are true, `[ excluded by X centralstorage ]` is displayed.
 
