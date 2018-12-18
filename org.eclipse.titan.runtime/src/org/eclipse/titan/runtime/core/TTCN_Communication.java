@@ -1520,6 +1520,13 @@ public class TTCN_Communication {
 		} catch (TtcnError error) {
 			//no operation needed
 		}
+
+		if (is_connected.get()) {
+			send_mtc_ready();
+			TTCN_Runtime.set_state(executorStateEnum.MTC_IDLE);
+		} else {
+			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
+		}
 	}
 
 	private static void process_ptc_verdict() {
