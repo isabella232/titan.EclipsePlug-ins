@@ -17,7 +17,7 @@ public final class Usage_Stats {
 	/**
 	 * Global configuration flag for usage statistics sending, true if usage statistics is sent
 	 */
-	public static final boolean USAGE_STAT_SENDING = true;
+	public static final boolean USAGE_STAT_SENDING = false;
 
 	private static final String HOST = "ttcn.ericsson.se";
 	private static final String PAGE = "/download/usage_stats/usage_stats.php";
@@ -33,28 +33,28 @@ public final class Usage_Stats {
 
 		urlparameters.append("plugin_id=").append("org.eclipse.titan.runtime");
 		//does not really know yet how to add the full qualifier, without depending on eclipse
-		urlparameters.append("&").append("plugin_version_qualifier=").append(TTCN_Runtime.PRODUCT_NUMBER);
-		urlparameters.append("&").append("plugin_version=").append(TTCN_Runtime.VERSION_STRING);
+		urlparameters.append('&').append("plugin_version_qualifier=").append(TTCN_Runtime.PRODUCT_NUMBER);
+		urlparameters.append('&').append("plugin_version=").append(TTCN_Runtime.VERSION_STRING);
 
 		try {
-			urlparameters.append("&").append("os_version=").append(System.getProperty("os.version"));
-			urlparameters.append("&").append("os_arch=").append(System.getProperty("os.arch"));
-			urlparameters.append("&").append("eclipse_version=").append("n/a");
-			urlparameters.append("&").append("eclipse_version_qualifier=").append("n/a");
-			urlparameters.append("&").append("java_vendor=").append(System.getProperty("java.vendor"));
-			urlparameters.append("&").append("user_id=").append(System.getProperty("user.name"));
-			urlparameters.append("&").append("java_version=").append(System.getProperty("java.version"));
-			urlparameters.append("&").append("os_name=").append(System.getProperty("os.name"));
+			urlparameters.append('&').append("os_version=").append(System.getProperty("os.version"));
+			urlparameters.append('&').append("os_arch=").append(System.getProperty("os.arch"));
+			urlparameters.append('&').append("eclipse_version=").append("n/a");
+			urlparameters.append('&').append("eclipse_version_qualifier=").append("n/a");
+			urlparameters.append('&').append("java_vendor=").append(System.getProperty("java.vendor"));
+			urlparameters.append('&').append("user_id=").append(System.getProperty("user.name"));
+			urlparameters.append('&').append("java_version=").append(System.getProperty("java.version"));
+			urlparameters.append('&').append("os_name=").append(System.getProperty("os.name"));
 		} catch (final SecurityException e) {
 			return urlparameters;
 		}
 		try {
-			urlparameters.append("&").append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
+			urlparameters.append('&').append("hostname=").append(InetAddress.getLocalHost().getCanonicalHostName());
 		} catch (final Exception e) {
-			urlparameters.append("&").append("hostname=").append("UNKNOWN");
+			urlparameters.append('&').append("hostname=").append("UNKNOWN");
 		}
 
-		urlparameters.append("&").append("info=").append("Java runtime(just experimenting)");
+		urlparameters.append('&').append("info=").append("Java runtime(just experimenting)");
 		return urlparameters;
 	}
 

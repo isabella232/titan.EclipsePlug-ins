@@ -509,22 +509,23 @@ public final class RecordSetCodeGenerator {
 	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
 		aSb.append( "\t\tpublic boolean is_bound() {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			if (fi.isOptional) {
-				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
-				aSb.append( fi.mVarName );
-				aSb.append(".get_selection()) || ");
-				aSb.append(fi.mVarName);
-				aSb.append( ".is_bound() ) { return true; }\n" );
-			} else {
-				aSb.append( "\t\t\tif ( " );
-				aSb.append( fi.mVarName );
-				aSb.append( ".is_bound() ) { return true; }\n" );
-			}
+		for (int i = 0; i < aNamesList.size() - 1; i++) {
+			final FieldInfo fi = aNamesList.get(i);
 
+			if (fi.isOptional) {
+				aSb.append( MessageFormat.format( "\t\t\tif (optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) || {0}.is_bound()) '{' return true; '}'\n", fi.mVarName ) );
+			} else {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_bound()) '{' return true; '}'\n", fi.mVarName ) );
+			}
 		}
-		aSb.append( "\t\t\treturn false;\n" +
-				"\t\t}\n" );
+
+		final FieldInfo fi = aNamesList.get(aNamesList.size() - 1);
+		if (fi.isOptional) {
+			aSb.append( MessageFormat.format( "\t\t\treturn optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) || {0}.is_bound();\n", fi.mVarName ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_bound();\n", fi.mVarName ) );
+		}
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -558,21 +559,24 @@ public final class RecordSetCodeGenerator {
 					"\t\t}\n" );
 			return;
 		}
-		for ( final FieldInfo fi : aNamesList ) {
+
+		for (int i = 0; i < aNamesList.size() - 1; i++) {
+			final FieldInfo fi = aNamesList.get(i);
+
 			if (fi.isOptional) {
-				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
-				aSb.append( fi.mVarName );
-				aSb.append(".get_selection()) && !");
-				aSb.append(fi.mVarName);
-				aSb.append( ".is_value() ) { return false; }\n" );
+				aSb.append( MessageFormat.format( "\t\t\tif (!optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) && !{0}.is_value()) '{' return false; '}'\n", fi.mVarName ) );
 			} else {
-				aSb.append( "\t\t\tif ( !" );
-				aSb.append( fi.mVarName );
-				aSb.append( ".is_value() ) { return false; }\n" );
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.is_value()) '{' return false; '}'\n", fi.mVarName ) );
 			}
 		}
-		aSb.append( "\t\t\treturn true;\n" +
-				"\t\t}\n\n" );
+
+		final FieldInfo fi = aNamesList.get(aNamesList.size() - 1);
+		if (fi.isOptional) {
+			aSb.append( MessageFormat.format( "\t\t\treturn optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) || {0}.is_value();\n", fi.mVarName ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_value();\n", fi.mVarName ) );
+		}
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -1613,7 +1617,10 @@ public final class RecordSetCodeGenerator {
 		aSb.append( "\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE) {\n"
 				+ "\t\t\t\treturn true;\n"
 				+ "\t\t\t}\n" );
-		for ( final FieldInfo fi : aNamesList ) {
+
+		for (int i = 0; i < aNamesList.size() - 1; i++) {
+			final FieldInfo fi = aNamesList.get(i);
+
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.is_omit() || {0}.is_bound()) '{'\n"
 						+ "\t\t\t\treturn true;\n"
@@ -1624,8 +1631,14 @@ public final class RecordSetCodeGenerator {
 						+ "\t\t\t}\n", fi.mVarName ) );
 			}
 		}
-		aSb.append( "\t\t\treturn false;\n" +
-				"\t\t}\n" );
+
+		final FieldInfo fi = aNamesList.get(aNamesList.size() - 1);
+		if (fi.isOptional) {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_omit() || {0}.is_bound();\n", fi.mVarName ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_bound();\n", fi.mVarName ) );
+		}
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -1642,7 +1655,10 @@ public final class RecordSetCodeGenerator {
 		aSb.append( "\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n"
 				+ "\t\t\t\treturn false;\n"
 				+ "\t\t\t}\n" );
-		for ( final FieldInfo fi : aNamesList ) {
+
+		for (int i = 0; i < aNamesList.size() - 1; i++) {
+			final FieldInfo fi = aNamesList.get(i);
+
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.is_omit() && !{0}.is_value()) '{'\n"
 						+ "\t\t\t\treturn false;\n"
@@ -1653,8 +1669,14 @@ public final class RecordSetCodeGenerator {
 						+ "\t\t\t}\n", fi.mVarName ) );
 			}
 		}
-		aSb.append( "\t\t\treturn true;\n" +
-				"\t\t}\n" );
+
+		final FieldInfo fi = aNamesList.get(aNamesList.size() - 1);
+		if (fi.isOptional) {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_omit() || {0}.is_value();\n", fi.mVarName ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\treturn {0}.is_value();\n", fi.mVarName ) );
+		}
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -1686,11 +1708,15 @@ public final class RecordSetCodeGenerator {
 			aSb.append("\t\t */\n");
 		}
 		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue) '{'\n", aClassName ) );
-		for ( final FieldInfo fi : aNamesList ) {
+		for (int i = 0; i < aNamesList.size() - 1; i++) {
+			final FieldInfo fi = aNamesList.get(i);
+
 			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operator_equals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
 		}
-		aSb.append( "\t\t\treturn true;\n" +
-				"\t\t}\n" );
+
+		final FieldInfo fi = aNamesList.get(aNamesList.size() - 1);
+		aSb.append( MessageFormat.format( "\t\t\treturn this.{0}.operator_equals( otherValue.{0} );\n", fi.mVarName ) );
+		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
