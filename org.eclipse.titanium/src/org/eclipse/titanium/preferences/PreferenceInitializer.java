@@ -164,7 +164,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.VISIBILITY_IN_DEFINITION, 2, 15000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNINITIALIZED_VARIABLE, 2, 50);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.GOTO, 3, 2000);
-		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS, 3, 2000);
+		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS, 3, 2000); // TODO
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES, 3, 2000); // TODOTODO 3
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_IMPORT, 1, 150);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_GLOBAL_DEFINITION, 1, 150);

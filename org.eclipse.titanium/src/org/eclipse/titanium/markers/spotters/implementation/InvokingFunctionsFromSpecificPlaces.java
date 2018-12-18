@@ -61,13 +61,10 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 			if(node instanceof Referenced_Value) {
 				Referenced_Value value = (Referenced_Value) node;
 				Assignment_type asst = value.getReference().getAssOld().getAssignmentType();
-				if(
-						asst == Assignment_type.A_FUNCTION_RVAL ||
+				if (asst == Assignment_type.A_FUNCTION_RVAL ||
 						asst == Assignment_type.A_EXT_FUNCTION_RVAL ||
 						asst == Assignment_type.A_FUNCTION_RTEMP ||
-						asst == Assignment_type.A_EXT_FUNCTION_RTEMP
-
-						) {
+						asst == Assignment_type.A_EXT_FUNCTION_RTEMP) {
 					problems.report(value.getLocation(), "Invoking function may change the actual snapshot");
 				}
 			}
@@ -111,11 +108,9 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 			}
 		}
 
-		if(
-				node instanceof Receive_Port_Statement ||
-				node instanceof Check_Receive_Port_Statement ||
-				node instanceof Check_Port_Statement
-				) {
+		if(node instanceof Receive_Port_Statement ||
+			node instanceof Check_Receive_Port_Statement ||
+			node instanceof Check_Port_Statement) {
 			node.accept(visitor);
 		}
 	}

@@ -96,7 +96,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"In almost all cases the usage of goto should be forbidden as it can very easily breaks the principles of"
 						+ " structured/well designed source code.");
 		m.put(ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS,
-				"The access of a private variable from an another module is not recommended.");
+				"The access of a private component variable from an another module is not recommended.");
 		m.put(ProblemTypePreference.DUPLICATE_NAME,
 				"In almost all cases the usage of same name is discouraged as it can introduce confusion"
 						+ " in structured/well designed source code.");

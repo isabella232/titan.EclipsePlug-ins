@@ -172,6 +172,10 @@ The code smells here might indicate some kind of architectural issue in the code
 
 * *Report the usage of label and goto statements*: go to statements and labels usually indicate incorrect programing practices. Developers are encouraged to used elements of structured programming practices.
 +
+* *Report private component access from other module*: report instances when a private component variable is accessed from a function located in a different module, but running on that component.
++
+* *Report operations which are not safe in blocking statements*: reports the usage of operations, that are not safe to be used in blocking statements.
++
 * *Report circular module dependencies*: Report the case when module imports form a circle. This situation slows down the parallel build, and might disable compilation in some cases.
 +
 NOTE: The algorithm will not report all circles, in a few cases where a small circle is embedded in a larger one, both of them cannot be detected at the same time.
