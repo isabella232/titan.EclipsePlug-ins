@@ -913,6 +913,9 @@ public final class TTCN_Logger {
 
 	public static void terminate_logger() {
 		//empty for now
+		if (plugins_ != null) {
+			plugins_.destructor();
+		}
 	}
 
 	public static void log(final Severity msg_severity, final String formatString, final Object... args ) {

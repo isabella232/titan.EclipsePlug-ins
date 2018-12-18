@@ -124,6 +124,19 @@ public final class LoggerPluginManager {
 		plugins_.add(new LegacyLogger());
 	}
 
+	public void destructor() {
+		if (entry_list_ != null) {
+			for (final LogEntry entry : entry_list_) {
+				for (int i = 0; i < plugins_.size(); i++) {
+					//TODO only if the plugin is configured
+					plugins_.get(i).log(entry.event_, true, false, false);
+				}
+			}
+
+			entry_list_.clear();
+		}
+	}
+
 	public void ring_buffer_dump(final boolean do_close_file) {
 		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			TitanLoggerApi.TitanLogEvent ringEvent;
