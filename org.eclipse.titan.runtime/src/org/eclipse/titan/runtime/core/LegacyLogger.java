@@ -52,7 +52,9 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__list;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
@@ -688,9 +690,10 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
 		final StringBuilder returnValue = new StringBuilder();
 		final StringBuilder sourceInfo = new StringBuilder();
-		if (event.get_field_sourceInfo__list().is_bound()) {
+		final TitanLogEvent_sourceInfo__list sourceInfoList = event.get_field_sourceInfo__list();
+		if (sourceInfoList.is_bound()) {
 			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
-			final int stack_size = event.get_field_sourceInfo__list().size_of().get_int();
+			final int stack_size = sourceInfoList.size_of().get_int();
 			if (stack_size > 0) {
 				int i = 0;
 				switch (source_info_format) {
@@ -705,7 +708,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 				boolean firstLocation = true;
 				for (; i < stack_size; i++) {
-					final LocationInfo loc = event.get_field_sourceInfo__list().get_at(i);
+					final LocationInfo loc = sourceInfoList.get_at(i);
 					if (firstLocation) {
 						firstLocation = false;
 					} else {
@@ -749,7 +752,8 @@ public class LegacyLogger implements ILoggerPlugin {
 
 		final int severityIndex = event.get_field_severity().get_int();
 		final Severity severity = Severity.values()[severityIndex];
-		append_header(returnValue, event.get_field_timestamp__().get_field_seconds().get_int(), event.get_field_timestamp__().get_field_microSeconds().get_int(), severity, sourceInfo);
+		final TimestampType timestamp = event.get_field_timestamp__();
+		append_header(returnValue, timestamp.get_field_seconds().get_int(), timestamp.get_field_microSeconds().get_int(), severity, sourceInfo);
 
 		final LogEventType_choice choice = event.get_field_logEvent().get_field_choice();
 		switch (choice.get_selection()) {
