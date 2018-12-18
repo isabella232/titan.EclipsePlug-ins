@@ -178,16 +178,17 @@ public final class TTCN_Snapshot {
 					}
 				}
 
-				if (selector.get().keys().isEmpty() && pollTimeout < 0) {
+				final Selector localSelector = selector.get();
+				if (localSelector.keys().isEmpty() && pollTimeout < 0) {
 					throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
 				}
 
 				int selectReturn = 0;
-				if (selector.get().keys().isEmpty()) {
+				if (localSelector.keys().isEmpty()) {
 					//no channels to wait for
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.get().select(pollTimeout);
+							selectReturn = localSelector.select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -197,19 +198,19 @@ public final class TTCN_Snapshot {
 				} else {
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.get().select(pollTimeout);
+							selectReturn = localSelector.select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
 					} else if (pollTimeout < 0) {
 						try {
-							selectReturn = selector.get().select(0);
+							selectReturn = localSelector.select(0);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
 					} else {
 						try {
-							selectReturn = selector.get().selectNow();
+							selectReturn = localSelector.selectNow();
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -217,7 +218,7 @@ public final class TTCN_Snapshot {
 				}
 
 				if (selectReturn > 0) {
-					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
+					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
 						for (final SelectionKey key : selectedKeys) {
@@ -239,7 +240,7 @@ public final class TTCN_Snapshot {
 						}
 					}
 
-					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
+					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
 						for (final SelectionKey key : selectedKeys) {
