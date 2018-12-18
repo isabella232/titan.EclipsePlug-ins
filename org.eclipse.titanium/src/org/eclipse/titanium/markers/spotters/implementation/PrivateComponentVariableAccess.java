@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
@@ -31,7 +32,7 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 * The error message contain the private components name and the module name too.
 	 */
 	private static final String ERROR_MESSAGE = "The \"{0}\" is a Private component in the \"{1}\" module. Access is not recommended from \"{2}\" module.";
-	
+
 	/**
 	 * The constructor based on the superclass constructor.
 	 * @see org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter
@@ -40,7 +41,7 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 		super(CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS);
 	}
 
-	 /**
+	/**
 	 * Internal processing the node.
 	 * <p>
 	 * When the referred object is a definition and the defined variable is private
@@ -59,33 +60,34 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 */
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
-		
 		if (!(node instanceof Reference)) {
 			return;
 		}
+
 		final Reference reference = (Reference) node;
-		
 		if(reference.getIsErroneous((reference.getLastTimeChecked()))){
 			return;
 		}
+
 		final Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), false);
-		
 		if(referedAssignment == null) {
 			return;
 		}
 		if(!(referedAssignment instanceof Definition)) {
 			return;
 		}
+
 		final Definition definition = (Definition) referedAssignment;
-		
 		if(definition.getVisibilityModifier().equals(VisibilityModifier.Private)) {
-			if(!reference.getMyScope().getModuleScope().equals(definition.getMyScope().getModuleScope())) {
+			final Module referingModule = reference.getMyScope().getModuleScope();
+			final Module referedModule = definition.getMyScope().getModuleScope();
+			if(!referingModule.equals(referedModule)) {
 				problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
-					definition.getMyScope().getModuleScope().getName(), reference.getMyScope().getModuleScope().getName()));
+						referedModule.getName(), referingModule.getName()));
 			}
 		}
 	}
-	
+
 	/**
 	 * The spotter was registered for the references in the visitor,
 	 * and the process method run on all of references.
