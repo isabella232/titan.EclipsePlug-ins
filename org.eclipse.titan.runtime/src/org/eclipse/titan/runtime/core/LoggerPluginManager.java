@@ -76,7 +76,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
  *
  * @author Kristof Szabados
  */
-public class LoggerPluginManager {
+public final class LoggerPluginManager {
 	private final LinkedBlockingQueue<TitanLogEvent> ring_buffer = new LinkedBlockingQueue<TitanLoggerApi.TitanLogEvent>();
 
 	private enum event_destination_t {

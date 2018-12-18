@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * 
  * Please note the constructors and leaveContext function has to be called in pairs.
  * */
-public class TTCN_EncDec_ErrorContext {
+public final class TTCN_EncDec_ErrorContext {
 
 	private static ArrayList<TTCN_EncDec_ErrorContext> errors = new ArrayList<TTCN_EncDec_ErrorContext>();
 	private String format;

@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
  * Utility class for match functionality of record of/set of/arrays
  * @author Arpad Lovassy
  */
-public class RecordOf_Match {
+public final class RecordOf_Match {
 
 	/**
 	 * Interface for matching
@@ -84,6 +84,11 @@ public class RecordOf_Match {
 	public enum type_of_matching {
 		SUBSET, EXACT, SUPERSET
 	};
+
+	// this class should not be instantiated
+	private RecordOf_Match() {
+		//intentionally empty
+	}
 
 	/*
 	  Generic comparison function for 'set of' values. The fifth argument

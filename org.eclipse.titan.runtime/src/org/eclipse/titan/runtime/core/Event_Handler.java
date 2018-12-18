@@ -19,7 +19,7 @@ import java.util.List;
  *
  * FIXME not yet complete
  */
-public class Event_Handler {
+public final class Event_Handler {
 
 	static abstract class Channel_Event_Handler {
 		//FIXME implement rest

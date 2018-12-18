@@ -22,7 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  *
  * @author Farkas Izabella Ingrid
  */
-public class TTCN_Buffer {
+public final class TTCN_Buffer {
 	final static private int INITIAL_SIZE = 1024;
 
 	private char data_ptr[];

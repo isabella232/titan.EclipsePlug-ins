@@ -14,7 +14,7 @@ import java.text.MessageFormat;
  *
  * @author Arpad Lovassy
  */
-public class Module_Param_Length_Restriction {
+public final class Module_Param_Length_Restriction {
 	private int min;
 	private boolean has_max;
 	private int max;
