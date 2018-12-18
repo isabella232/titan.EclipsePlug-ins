@@ -688,7 +688,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
-		final StringBuilder returnValue = new StringBuilder();
+		final StringBuilder returnValue = new StringBuilder(100);
 		final StringBuilder sourceInfo = new StringBuilder();
 		final TitanLogEvent_sourceInfo__list sourceInfoList = event.get_field_sourceInfo__list();
 		if (sourceInfoList.is_bound()) {
