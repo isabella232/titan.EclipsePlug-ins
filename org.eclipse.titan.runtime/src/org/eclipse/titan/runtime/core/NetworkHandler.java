@@ -10,8 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 
@@ -78,6 +80,11 @@ public class NetworkHandler {
 				return null;
 			}
 		}
+	}
+
+	public void clean_up() {
+		m_family = NetworkFamily.ipv0;
+		m_addr = null;
 	}
 
 	//IPAdress functions
@@ -184,6 +191,11 @@ public class NetworkHandler {
 			return m_local_addr.getPort(); 
 		}
 
+		public void clean_up() {
+			m_local_addr = null;
+			m_mc_addr = null;
+		}
+
 		//IPAdress functions
 		public boolean is_local(final InetSocketAddress p_addr) {
 			if (p_addr == null) {
@@ -199,6 +211,118 @@ public class NetworkHandler {
 				return Arrays.equals(p_addr.getAddress().getAddress(), localhost_bytes) || Arrays.equals(p_addr.getAddress().getAddress(), mapped_ipv4_localhost);
 			}
 			return false;
+		}
+
+		/**
+		 * originally push_raw()
+		 * Use it when you want to push the local address to @param p_buf Text Buffer. 
+		 */
+		public void push_raw_local_addr(final Text_Buf p_buf) {
+			if (m_local_addr.getAddress() instanceof Inet4Address) {
+				p_buf.push_raw(1, new byte[]{2}); //C++ AF_INET
+				p_buf.push_int(m_local_addr.getPort());
+				p_buf.push_raw(4, m_local_addr.getAddress().getAddress());
+				//TODO: check to need
+				//p_buf.push_raw(8, new byte[]{0,0,0,0,0,0,0,0});
+				return;
+			}
+			if (m_local_addr.getAddress() instanceof Inet6Address) {
+				p_buf.push_raw(1, new byte[] {23}); //C++ AF_INET6
+				p_buf.push_int(m_local_addr.getPort());
+				//TODO: push flow info
+				p_buf.push_raw(16, m_local_addr.getAddress().getAddress());
+				//TODO: push scope id
+			}
+		}
+
+		/**
+		 * originally push_raw()
+		 * Use it when you want to push the main controller address to @param p_buf Text Buffer. 
+		 */
+		public void push_raw_mc_addr(final Text_Buf p_buf) {
+			if (m_mc_addr.getAddress() instanceof Inet4Address) {
+				p_buf.push_raw(1, new byte[]{2}); //C++ AF_INET
+				p_buf.push_int(m_mc_addr.getPort());
+				p_buf.push_raw(4, m_mc_addr.getAddress().getAddress());
+				//TODO: check to need
+				//p_buf.push_raw(8, new byte[]{0,0,0,0,0,0,0,0});
+				return;
+			}
+			if (m_mc_addr.getAddress() instanceof Inet6Address) {
+				p_buf.push_raw(1, new byte[] {23}); //C++ AF_INET6
+				p_buf.push_int(m_mc_addr.getPort());
+				//TODO: push flow info
+				p_buf.push_raw(16, m_mc_addr.getAddress().getAddress());
+				//TODO: push scope id
+			}
+		}
+
+		/**
+		 * originally pull_raw()
+		 * Use it when you want to pull the local address from @param p_buf Text Buffer.
+		 */
+		public void pull_raw_local_addr(final Text_Buf p_buf) {
+			final byte network_family[] = new byte[1]; 
+			p_buf.pull_raw(1, network_family);
+			//IPv4 address
+			if (network_family[0] == 2) {
+				final int port_number = p_buf.pull_int().get_int();
+				final byte ip_address[] = new byte[4];
+				p_buf.pull_raw(4, ip_address);
+				try {
+					m_local_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
+					return;
+				} catch (UnknownHostException e) {
+					m_local_addr = null;
+					return;
+				}
+				//IPv6 address
+			} else if (network_family[0] == 23) {
+				final int port_number = p_buf.pull_int().get_int();
+				final byte ip_address[] = new byte[16];
+				p_buf.pull_raw(16, ip_address);
+				try {
+					m_local_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
+					return;
+				} catch (UnknownHostException e) {
+					m_local_addr = null;
+					return;
+				}
+			}
+		}
+		
+		/**
+		 * originally pull_raw()
+		 * Use it when you want to pull the main controller address from @param p_buf Text Buffer.
+		 */
+		public void pull_raw_mc_addr(final Text_Buf p_buf) {
+			final byte network_family[] = new byte[1]; 
+			p_buf.pull_raw(1, network_family);
+			//IPv4 address
+			if (network_family[0] == 2) {
+				final int port_number = p_buf.pull_int().get_int();
+				final byte ip_address[] = new byte[4];
+				p_buf.pull_raw(4, ip_address);
+				try {
+					m_mc_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
+					return;
+				} catch (UnknownHostException e) {
+					m_mc_addr = null;
+					return;
+				}
+				//IPv6 address
+			} else if (network_family[0] == 23) {
+				final int port_number = p_buf.pull_int().get_int();
+				final byte ip_address[] = new byte[16];
+				p_buf.pull_raw(16, ip_address);
+				try {
+					m_mc_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
+					return;
+				} catch (UnknownHostException e) {
+					m_mc_addr = null;
+					return;
+				}
+			}
 		}
 	}
 }
