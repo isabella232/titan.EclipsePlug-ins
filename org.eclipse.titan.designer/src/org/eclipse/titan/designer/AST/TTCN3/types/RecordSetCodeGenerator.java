@@ -1856,16 +1856,18 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal template_sel old_selection = template_selection;\n");
 		source.append("\t\t\t\tclean_up();\n");
 		source.append("\t\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
-		}
+		
 		source.append("\t\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\t\t{0}.operator_assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\t{0} = new {1}(template_sel.ANY_OR_OMIT);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\t\t{0}.operator_assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\t{0} = new {1}(template_sel.ANY_VALUE);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 			}
+		}
+		source.append("\t\t\t\t} else {\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 		}
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
