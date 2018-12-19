@@ -496,22 +496,22 @@ public class TitanExternal_identification extends Base_Type {
 	public void encode_text(final Text_Buf text_buf) {
 		switch (union_selection) {
 		case ALT_syntaxes:
-			text_buf.push_int(0);
-			break;
-		case ALT_syntax:
 			text_buf.push_int(1);
 			break;
-		case ALT_presentation__context__id:
+		case ALT_syntax:
 			text_buf.push_int(2);
 			break;
-		case ALT_context__negotiation:
+		case ALT_presentation__context__id:
 			text_buf.push_int(3);
 			break;
-		case ALT_transfer__syntax:
+		case ALT_context__negotiation:
 			text_buf.push_int(4);
 			break;
-		case ALT_fixed:
+		case ALT_transfer__syntax:
 			text_buf.push_int(5);
+			break;
+		case ALT_fixed:
+			text_buf.push_int(6);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an unbound value of union type EXTERNAL.identification.");
@@ -523,22 +523,22 @@ public class TitanExternal_identification extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		final int temp = text_buf.pull_int().get_int();
 		switch (temp) {
-		case 0:
+		case 1:
 			get_field_syntaxes().decode_text(text_buf);
 			break;
-		case 1:
+		case 2:
 			get_field_syntax().decode_text(text_buf);
 			break;
-		case 2:
+		case 3:
 			get_field_presentation__context__id().decode_text(text_buf);
 			break;
-		case 3:
+		case 4:
 			get_field_context__negotiation().decode_text(text_buf);
 			break;
-		case 4:
+		case 5:
 			get_field_transfer__syntax().decode_text(text_buf);
 			break;
-		case 5:
+		case 6:
 			get_field_fixed().decode_text(text_buf);
 			break;
 		default:

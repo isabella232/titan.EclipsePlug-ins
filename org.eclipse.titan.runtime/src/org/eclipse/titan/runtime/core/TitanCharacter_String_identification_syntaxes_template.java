@@ -240,13 +240,8 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			return true;
 		}
-		if (abstract_.is_bound()) {
-			return true;
-		}
-		if (transfer.is_bound()) {
-			return true;
-		}
-		return false;
+		return abstract_.is_bound()
+				|| transfer.is_bound();
 	}
 
 	@Override
@@ -294,13 +289,8 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;
 		}
-		if (!abstract_.is_value()) {
-			return false;
-		}
-		if (!transfer.is_value()) {
-			return false;
-		}
-		return true;
+		return abstract_.is_value()
+				&& transfer.is_value();
 	}
 	/**
 	 * Gives access to the field abstract.
@@ -355,11 +345,12 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			final template_sel old_selection = template_selection;
 			clean_up();
 			set_selection(template_sel.SPECIFIC_VALUE);
-			abstract_ = new TitanObjectid_template();
-			transfer = new TitanObjectid_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				abstract_.operator_assign(template_sel.ANY_VALUE);
-				transfer.operator_assign(template_sel.ANY_VALUE);
+				abstract_ = new TitanObjectid_template(template_sel.ANY_VALUE);
+				transfer = new TitanObjectid_template(template_sel.ANY_VALUE);
+			} else {
+				abstract_ = new TitanObjectid_template();
+				transfer = new TitanObjectid_template();
 			}
 		}
 	}

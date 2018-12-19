@@ -255,16 +255,9 @@ public class TitanExternal_template extends Base_Template {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			return true;
 		}
-		if (identification.is_bound()) {
-			return true;
-		}
-		if (data__value__descriptor.is_omit() || data__value__descriptor.is_bound()) {
-			return true;
-		}
-		if (data__value.is_bound()) {
-			return true;
-		}
-		return false;
+		return identification.is_bound()
+				|| data__value__descriptor.is_omit() || data__value__descriptor.is_bound()
+				|| data__value.is_bound();
 	}
 
 	@Override
@@ -312,16 +305,9 @@ public class TitanExternal_template extends Base_Template {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;
 		}
-		if (!identification.is_value()) {
-			return false;
-		}
-		if (!data__value__descriptor.is_omit() && !data__value__descriptor.is_value()) {
-			return false;
-		}
-		if (!data__value.is_value()) {
-			return false;
-		}
-		return true;
+		return identification.is_value()
+				&& (data__value__descriptor.is_omit() || data__value__descriptor.is_value())
+				&& data__value.is_value();
 	}
 	/**
 	 * Gives access to the field identification.
@@ -400,13 +386,14 @@ public class TitanExternal_template extends Base_Template {
 			final template_sel old_selection = template_selection;
 			clean_up();
 			set_selection(template_sel.SPECIFIC_VALUE);
-			identification = new TitanExternal_identification_template();
-			data__value__descriptor = new TitanUniversalCharString_template();
-			data__value = new TitanOctetString_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				identification.operator_assign(template_sel.ANY_VALUE);
-				data__value__descriptor.operator_assign(template_sel.ANY_OR_OMIT);
-				data__value.operator_assign(template_sel.ANY_VALUE);
+				identification = new TitanExternal_identification_template(template_sel.ANY_VALUE);
+				data__value__descriptor = new TitanUniversalCharString_template(template_sel.ANY_OR_OMIT);
+				data__value = new TitanOctetString_template(template_sel.ANY_VALUE);
+			} else {
+				identification = new TitanExternal_identification_template();
+				data__value__descriptor = new TitanUniversalCharString_template();
+				data__value = new TitanOctetString_template();
 			}
 		}
 	}

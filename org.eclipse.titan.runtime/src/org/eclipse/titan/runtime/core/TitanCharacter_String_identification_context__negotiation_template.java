@@ -240,13 +240,8 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			return true;
 		}
-		if (presentation__context__id.is_bound()) {
-			return true;
-		}
-		if (transfer__syntax.is_bound()) {
-			return true;
-		}
-		return false;
+		return presentation__context__id.is_bound()
+				|| transfer__syntax.is_bound();
 	}
 
 	@Override
@@ -294,13 +289,8 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;
 		}
-		if (!presentation__context__id.is_value()) {
-			return false;
-		}
-		if (!transfer__syntax.is_value()) {
-			return false;
-		}
-		return true;
+		return presentation__context__id.is_value()
+				&& transfer__syntax.is_value();
 	}
 	/**
 	 * Gives access to the field presentation-context-id.
@@ -355,11 +345,12 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			final template_sel old_selection = template_selection;
 			clean_up();
 			set_selection(template_sel.SPECIFIC_VALUE);
-			presentation__context__id = new TitanInteger_template();
-			transfer__syntax = new TitanObjectid_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				presentation__context__id.operator_assign(template_sel.ANY_VALUE);
-				transfer__syntax.operator_assign(template_sel.ANY_VALUE);
+				presentation__context__id = new TitanInteger_template(template_sel.ANY_VALUE);
+				transfer__syntax = new TitanObjectid_template(template_sel.ANY_VALUE);
+			} else {
+				presentation__context__id = new TitanInteger_template();
+				transfer__syntax = new TitanObjectid_template();
 			}
 		}
 	}

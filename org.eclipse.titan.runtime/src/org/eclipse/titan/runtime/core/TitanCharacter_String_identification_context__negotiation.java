@@ -105,9 +105,8 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 
 	@Override
 	public boolean is_bound() {
-		if ( presentation__context__id.is_bound() ) { return true; }
-		if ( transfer__syntax.is_bound() ) { return true; }
-		return false;
+		return presentation__context__id.is_bound()
+				|| transfer__syntax.is_bound();
 	}
 
 	@Override
@@ -117,11 +116,9 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 
 	@Override
 	public boolean is_value() {
-		if ( !presentation__context__id.is_value() ) { return false; }
-		if ( !transfer__syntax.is_value() ) { return false; }
-		return true;
+		return presentation__context__id.is_value()
+				&& transfer__syntax.is_value();
 	}
-
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -133,9 +130,8 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operator_equals( final TitanCharacter_String_identification_context__negotiation otherValue) {
-		if ( !this.presentation__context__id.operator_equals( otherValue.presentation__context__id ) ) { return false; }
-		if ( !this.transfer__syntax.operator_equals( otherValue.transfer__syntax ) ) { return false; }
-		return true;
+		return this.presentation__context__id.operator_equals( otherValue.presentation__context__id )
+				&& this.transfer__syntax.operator_equals( otherValue.transfer__syntax );
 	}
 
 	@Override

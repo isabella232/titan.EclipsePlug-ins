@@ -120,10 +120,9 @@ public class TitanEmbedded_PDV extends Base_Type {
 
 	@Override
 	public boolean is_bound() {
-		if ( identification.is_bound() ) { return true; }
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.is_bound() ) { return true; }
-		if ( data__value.is_bound() ) { return true; }
-		return false;
+		return identification.is_bound()
+				|| optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.is_bound()
+				|| data__value.is_bound();
 	}
 
 	@Override
@@ -133,12 +132,10 @@ public class TitanEmbedded_PDV extends Base_Type {
 
 	@Override
 	public boolean is_value() {
-		if ( !identification.is_value() ) { return false; }
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.is_value() ) { return false; }
-		if ( !data__value.is_value() ) { return false; }
-		return true;
+		return identification.is_value()
+				&& (optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.is_value())
+				&& data__value.is_value();
 	}
-
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -150,10 +147,9 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operator_equals( final TitanEmbedded_PDV otherValue) {
-		if ( !this.identification.operator_equals( otherValue.identification ) ) { return false; }
-		if ( !this.data__value__descriptor.operator_equals( otherValue.data__value__descriptor ) ) { return false; }
-		if ( !this.data__value.operator_equals( otherValue.data__value ) ) { return false; }
-		return true;
+		return this.identification.operator_equals( otherValue.identification )
+				&& this.data__value__descriptor.operator_equals( otherValue.data__value__descriptor )
+				&& this.data__value.operator_equals( otherValue.data__value );
 	}
 
 	@Override

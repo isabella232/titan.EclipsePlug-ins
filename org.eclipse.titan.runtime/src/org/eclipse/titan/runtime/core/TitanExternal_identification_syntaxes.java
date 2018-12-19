@@ -105,9 +105,8 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 
 	@Override
 	public boolean is_bound() {
-		if ( abstract_.is_bound() ) { return true; }
-		if ( transfer.is_bound() ) { return true; }
-		return false;
+		return abstract_.is_bound()
+				|| transfer.is_bound();
 	}
 
 	@Override
@@ -117,11 +116,9 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 
 	@Override
 	public boolean is_value() {
-		if ( !abstract_.is_value() ) { return false; }
-		if ( !transfer.is_value() ) { return false; }
-		return true;
+		return abstract_.is_value()
+				&& transfer.is_value();
 	}
-
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -133,9 +130,8 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
 	public boolean operator_equals( final TitanExternal_identification_syntaxes otherValue) {
-		if ( !this.abstract_.operator_equals( otherValue.abstract_ ) ) { return false; }
-		if ( !this.transfer.operator_equals( otherValue.transfer ) ) { return false; }
-		return true;
+		return this.abstract_.operator_equals( otherValue.abstract_ )
+				&& this.transfer.operator_equals( otherValue.transfer );
 	}
 
 	@Override
