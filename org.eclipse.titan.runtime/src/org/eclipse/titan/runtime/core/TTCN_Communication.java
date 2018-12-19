@@ -546,6 +546,7 @@ public final class TTCN_Communication {
 						break;
 					default:
 						process_unsupported_message(msg_type, msg_end);
+						break;
 					}
 				}
 			}

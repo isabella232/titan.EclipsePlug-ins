@@ -607,6 +607,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -636,6 +637,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -666,6 +668,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -694,6 +697,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -722,6 +726,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -750,6 +755,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -778,6 +784,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -806,6 +813,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -834,6 +842,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -852,6 +861,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
 			returnValue = TitanAlt_Status.ALT_MAYBE;
+			break;
 		case ALT_NO:
 			break;
 		default:
@@ -865,6 +875,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -879,6 +890,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:
@@ -890,6 +902,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
 			returnValue = TitanAlt_Status.ALT_MAYBE;
+			break;
 		case ALT_NO:
 			break;
 		default:
@@ -913,6 +926,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
 			case ALT_NO:
 				break;
 			default:

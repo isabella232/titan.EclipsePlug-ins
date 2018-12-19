@@ -1091,6 +1091,7 @@ public final class TTCN_Runtime {
 			break;
 		default:
 			stop_ptc(component_reference);
+			break;
 		}
 	}
 
@@ -1140,6 +1141,7 @@ public final class TTCN_Runtime {
 			break;
 		default:
 			kill_ptc(component_reference);
+			break;
 		}
 	}
 
@@ -2150,6 +2152,7 @@ public final class TTCN_Runtime {
 		case MTC_MAP:
 		case MTC_UNMAP:
 			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
 		case MTC_TESTCASE:
 			break;
 		case SINGLE_TESTCASE:
@@ -2591,6 +2594,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Kill was requested from MC.");
 
 			kill_execution();
+			break;
 		}
 	}
 

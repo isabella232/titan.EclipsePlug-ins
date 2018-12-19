@@ -983,6 +983,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tparam.type_error(\"{0} of value\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
+		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase OT_CONCAT:\n");
@@ -1005,6 +1006,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tparam.type_error(\"{0} of value\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
+		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
@@ -2862,6 +2864,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\t\tdefault:\n");
 			aSb.append("\t\t\t\t\t\tget_at(current_index).set_param(param.get_elem(i));\n");
 			aSb.append("\t\t\t\t\t\tcurrent_index++;\n");
+			aSb.append("\t\t\t\t\t\tbreak;\n");
 			aSb.append("\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t}\n");
 			aSb.append("\t\t\t\tbreak;\n");
@@ -2869,6 +2872,7 @@ public final class RecordOfGenerator {
 		}
 		aSb.append("\t\t\tdefault:\n");
 		aSb.append(MessageFormat.format("\t\t\t\tparam.type_error(\"{0} of template\", \"{1}\");\n", isSetOf ? "set" : "record", displayName));
+		aSb.append("\t\t\t\tbreak;\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
 		aSb.append("\t\t\tset_length_range(param);\n");

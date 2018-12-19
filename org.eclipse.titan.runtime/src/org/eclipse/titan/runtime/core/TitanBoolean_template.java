@@ -439,6 +439,7 @@ public class TitanBoolean_template extends Base_Template {
 			break;
 		default:
 			param.type_error("boolean template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

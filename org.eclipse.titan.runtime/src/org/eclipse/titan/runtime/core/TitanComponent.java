@@ -272,6 +272,7 @@ public class TitanComponent extends Base_Type {
 			break;
 		default:
 			param.type_error("component reference (integer or null) value");
+			break;
 		}
 	}
 

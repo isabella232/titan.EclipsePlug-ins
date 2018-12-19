@@ -1413,6 +1413,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated template\", \"{0}\");\n", displayName));
+		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
 		source.append("\t\t}\n\n");

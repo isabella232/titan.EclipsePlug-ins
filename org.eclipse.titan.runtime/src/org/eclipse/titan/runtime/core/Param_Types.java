@@ -361,6 +361,7 @@ public final class Param_Types {
 				break;
 			default:
 				TTCN_Logger.log_event_str("???");
+				break;
 			}
 			TTCN_Logger.log_event_str(" ");
 			if (id != null && id.is_custom()) {
@@ -382,6 +383,7 @@ public final class Param_Types {
 				break;
 			default:
 				TTCN_Logger.log_event_str("' ??? '");
+				break;
 			}
 			log(false);
 			TTCN_Logger.log_event_str("': ");

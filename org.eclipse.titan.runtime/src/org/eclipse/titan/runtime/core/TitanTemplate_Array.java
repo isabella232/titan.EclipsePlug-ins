@@ -498,6 +498,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			break;
 		default:
 			set_size(index + 1);
+			break;
 		}
 		return (Ttemplate)single_value[index];
 	}
@@ -774,6 +775,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			break;
 		default:
 			param.type_error("array template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

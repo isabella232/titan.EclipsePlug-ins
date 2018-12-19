@@ -1630,6 +1630,7 @@ public final class AdditionalFunctions {
 			value.log();
 			TTCN_Logger.log_event_str("' , does not represent a valid float value. Premature end of the string.");
 			TtcnError.TtcnErrorEnd();
+			break;
 		}
 		if (leading_ws) {
 			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2float(): ");
@@ -2669,6 +2670,7 @@ public final class AdditionalFunctions {
 				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
+				break;
 			}
 		}
 

@@ -480,6 +480,7 @@ public class TitanVerdictType_template extends Base_Template {
 			break;
 		default:
 			param.type_error("verdict template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

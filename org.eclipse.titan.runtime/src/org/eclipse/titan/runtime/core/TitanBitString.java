@@ -911,6 +911,7 @@ public class TitanBitString extends Base_Type {
 			case TOP_BIT_RIGHT:
 			default:
 				order = raw_order_t.ORDER_MSB;
+				break;
 			}
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);

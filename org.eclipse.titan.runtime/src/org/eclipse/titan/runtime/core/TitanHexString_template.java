@@ -748,6 +748,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		default:
 			param.type_error("hexstring template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 		if (param.get_length_restriction() != null) {

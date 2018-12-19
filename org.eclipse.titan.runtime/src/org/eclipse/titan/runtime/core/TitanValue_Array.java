@@ -462,6 +462,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			break;
 		default:
 			param.type_error("array value");
+			break;
 		}
 	}
 

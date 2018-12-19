@@ -380,6 +380,7 @@ public class TitanObjectid_template extends Base_Template {
 			//TODO: MP_Objid_Template in both runtime
 		default:
 			param.type_error("objid template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

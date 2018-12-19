@@ -708,6 +708,7 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\tdefault:\n");
 		aSb.append(MessageFormat.format("\t\t\t\tparam.type_error(\"{0} value\", \"{1}\");\n", isSet ? "set" : "record", classReadableName));
+		aSb.append("\t\t\t\tbreak;\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t}\n\n");
 	}
@@ -2744,6 +2745,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"{0} template\", \"{1}\");\n", isSet ? "set" : "record", displayName));
+		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
 		source.append("\t\t}\n\n");
@@ -3547,6 +3549,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"empty record/set template\", \"{0}\");\n", classDisplayName));
+		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
 		source.append("\t\t}\n\n");

@@ -475,6 +475,7 @@ public class TitanDefault_template extends Base_Template {
 		}
 		default:
 			param.type_error("default reference (null) template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

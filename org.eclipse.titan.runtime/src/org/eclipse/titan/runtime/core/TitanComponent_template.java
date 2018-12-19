@@ -436,6 +436,7 @@ public class TitanComponent_template extends Base_Template {
 			break;
 		default:
 			param.type_error("component reference (integer or null) template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

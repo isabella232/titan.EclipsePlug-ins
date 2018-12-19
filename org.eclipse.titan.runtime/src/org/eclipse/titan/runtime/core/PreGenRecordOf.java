@@ -620,6 +620,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -642,6 +643,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -1727,12 +1729,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -2314,6 +2318,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -2336,6 +2341,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING");
+					break;
 				}
 				break;
 			default:
@@ -3525,6 +3531,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -4107,6 +4114,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -4129,6 +4137,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -5214,12 +5223,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -5802,6 +5813,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -5824,6 +5836,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT");
+					break;
 				}
 				break;
 			default:
@@ -6909,12 +6922,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -7497,6 +7512,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -7519,6 +7535,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING");
+					break;
 				}
 				break;
 			default:
@@ -8604,12 +8621,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -9192,6 +9211,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -9214,6 +9234,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING");
+					break;
 				}
 				break;
 			default:
@@ -10299,12 +10320,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -10887,6 +10910,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -10909,6 +10933,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -11994,12 +12019,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -12582,6 +12609,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -12604,6 +12632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING");
+					break;
 				}
 				break;
 			default:
@@ -13689,12 +13718,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -14277,6 +14308,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -14299,6 +14331,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN");
+					break;
 				}
 				break;
 			default:
@@ -15384,12 +15417,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -15972,6 +16007,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -15994,6 +16030,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -17079,12 +17116,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -17667,6 +17706,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -17689,6 +17729,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER");
+					break;
 				}
 				break;
 			default:
@@ -18774,12 +18815,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -19361,6 +19404,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -19383,6 +19427,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -20572,6 +20617,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -21153,6 +21199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -21175,6 +21222,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN");
+					break;
 				}
 				break;
 			default:
@@ -22364,6 +22412,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -22945,6 +22994,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -22967,6 +23017,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -24156,6 +24207,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -24737,6 +24789,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -24759,6 +24812,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER");
+					break;
 				}
 				break;
 			default:
@@ -25948,6 +26002,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -26529,6 +26584,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -26551,6 +26607,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING");
+					break;
 				}
 				break;
 			default:
@@ -27740,6 +27797,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -28322,6 +28380,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -28344,6 +28403,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -29429,12 +29489,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -30016,6 +30078,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -30038,6 +30101,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING");
+					break;
 				}
 				break;
 			default:
@@ -31227,6 +31291,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -31808,6 +31873,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -31830,6 +31896,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -33019,6 +33086,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -33600,6 +33668,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -33622,6 +33691,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING");
+					break;
 				}
 				break;
 			default:
@@ -34811,6 +34881,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -35392,6 +35463,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -35414,6 +35486,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT");
+					break;
 				}
 				break;
 			default:
@@ -36603,6 +36676,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_FLOAT");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -37184,6 +37258,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -37206,6 +37281,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -38395,6 +38471,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -38976,6 +39053,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -38998,6 +39076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -40187,6 +40266,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -40769,6 +40849,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -40791,6 +40872,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING");
+					break;
 				}
 				break;
 			default:
@@ -41876,12 +41958,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -42464,6 +42548,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -42486,6 +42571,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING");
+					break;
 				}
 				break;
 			default:
@@ -43571,12 +43657,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -44158,6 +44246,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -44180,6 +44269,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -45369,6 +45459,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -45950,6 +46041,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -45972,6 +46064,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING");
+					break;
 				}
 				break;
 			default:
@@ -47161,6 +47254,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -47742,6 +47836,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -47764,6 +47859,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -48953,6 +49049,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -49535,6 +49632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -49557,6 +49655,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -50642,12 +50741,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -51230,6 +51331,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -51252,6 +51354,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -52337,12 +52440,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -52924,6 +53029,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -52946,6 +53052,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("set of value", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -54135,6 +54242,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			default:
 				param.type_error("set of template", "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -54717,6 +54825,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			case OT_CONCAT:
@@ -54739,6 +54848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					break;
 				default:
 					param.type_error("record of value", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED");
+					break;
 				}
 				break;
 			default:
@@ -55824,12 +55934,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 					default:
 						get_at(current_index).set_param(param.get_elem(i));
 						current_index++;
+						break;
 					}
 				}
 				break;
 			}
 			default:
 				param.type_error("record of template", "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED");
+				break;
 			}
 			is_ifPresent = param.get_ifpresent();
 			set_length_range(param);
@@ -56493,6 +56605,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				default:
 					TTCN_Logger.print_logmatch_buffer();
 					TTCN_Logger.log_event_str("<invalid selector>");
+					break;
 				}
 			} else {
 				TTCN_Logger.print_logmatch_buffer();
@@ -56543,6 +56656,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				final int temp = text_buf.pull_int().get_int();
 				switch (temp) {
 				}
+				break;
 			}
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST: {

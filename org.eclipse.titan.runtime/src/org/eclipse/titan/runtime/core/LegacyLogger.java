@@ -1658,6 +1658,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case exception__op:
 				returnValue.append("Raised");
+				break;
 			default:
 				return;
 			}
@@ -1680,6 +1681,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			case exception__op:
 				returnValue.append(ps.get_field_check__().get_value() ? "Check-catch" : "Catch");
 				op2 = "exception";
+				break;
 			default:
 				return;
 			}

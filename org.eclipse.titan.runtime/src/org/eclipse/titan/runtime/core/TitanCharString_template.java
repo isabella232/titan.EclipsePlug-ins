@@ -826,6 +826,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			break;
 		default:
 			param.type_error("charstring template");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 		if (param.get_length_restriction() != null) {

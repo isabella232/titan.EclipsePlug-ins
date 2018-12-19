@@ -1780,6 +1780,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tdefault:\n");
 		source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
@@ -1856,6 +1857,7 @@ public final class UnionGenerator {
 			source.append("\t\t\t\t\tbreak;\n");
 		}
 		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");

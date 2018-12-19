@@ -1007,6 +1007,7 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
@@ -1020,6 +1021,7 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
@@ -1126,6 +1128,7 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
