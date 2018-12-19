@@ -455,7 +455,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final {0} otherValue ) '{'\n", aClassName));
-		source.append(MessageFormat.format("\t\t\t\totherValue.must_bound( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
+		source.append(MessageFormat.format("\t\t\totherValue.must_bound( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
 		source.append("\t\t\tif (otherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get_field_{0}().is_bound() ) '{'\n", fi.mJavaVarName));
