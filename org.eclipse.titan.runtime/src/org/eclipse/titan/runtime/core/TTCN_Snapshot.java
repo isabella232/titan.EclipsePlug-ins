@@ -179,10 +179,6 @@ public final class TTCN_Snapshot {
 				}
 
 				final Selector localSelector = selector.get();
-				if (localSelector.keys().isEmpty() && pollTimeout < 0) {
-					throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
-				}
-
 				int selectReturn = 0;
 				if (localSelector.keys().isEmpty()) {
 					//no channels to wait for
