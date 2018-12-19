@@ -1686,12 +1686,12 @@ public final class RecordSetCodeGenerator {
 			aSb.append("\t\t *\n");
 			aSb.append("\t\t * operator== in the core\n");
 			aSb.append("\t\t *\n");
-			aSb.append("\t\t * @param otherValue\n");
+			aSb.append("\t\t * @param other_value\n");
 			aSb.append("\t\t *                the other value to check against.\n");
 			aSb.append("\t\t * @return {@code true} if all fields are equivalent, {@code false} otherwise.\n");
 			aSb.append("\t\t */\n");
 		}
-		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue) '{'\n", aClassName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} other_value) '{'\n", aClassName ) );
 		aSb.append( "\t\t\treturn " );
 		for (int i = 0; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
@@ -1700,18 +1700,18 @@ public final class RecordSetCodeGenerator {
 				aSb.append( "\n\t\t\t\t\t&& " );
 			}
 
-			aSb.append( MessageFormat.format( "this.{0}.operator_equals( otherValue.{0} )", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "{0}.operator_equals( other_value.{0} )", fi.mVarName ) );
 		}
 		aSb.append(";\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
-		aSb.append("\t\tpublic boolean operator_equals(final Base_Type otherValue) {\n");
-		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		aSb.append("\t\t\t\treturn operator_equals((").append( aClassName ).append(") otherValue);\n");
+		aSb.append("\t\tpublic boolean operator_equals(final Base_Type other_value) {\n");
+		aSb.append("\t\t\tif (other_value instanceof ").append(aClassName).append(" ) {\n");
+		aSb.append("\t\t\t\treturn operator_equals((").append( aClassName ).append(") other_value);\n");
 		aSb.append("\t\t\t}\n\n");
-		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
+		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", other_value));\n");
 		aSb.append("\t\t}\n\n");
 	}
 
