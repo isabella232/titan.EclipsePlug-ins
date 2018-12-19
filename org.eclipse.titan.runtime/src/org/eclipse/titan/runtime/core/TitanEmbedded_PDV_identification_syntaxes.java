@@ -125,22 +125,22 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *
 	 * operator== in the core
 	 *
-	 * @param otherValue
+	 * @param other_value
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operator_equals( final TitanEmbedded_PDV_identification_syntaxes otherValue) {
-		return this.abstract_.operator_equals( otherValue.abstract_ )
-				&& this.transfer.operator_equals( otherValue.transfer );
+	public boolean operator_equals( final TitanEmbedded_PDV_identification_syntaxes other_value) {
+		return abstract_.operator_equals( other_value.abstract_ )
+				&& transfer.operator_equals( other_value.transfer );
 	}
 
 	@Override
-	public boolean operator_equals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanEmbedded_PDV_identification_syntaxes ) {
-			return operator_equals((TitanEmbedded_PDV_identification_syntaxes) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanEmbedded_PDV_identification_syntaxes ) {
+			return operator_equals((TitanEmbedded_PDV_identification_syntaxes) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.syntaxes", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.syntaxes", other_value));
 	}
 
 	/**

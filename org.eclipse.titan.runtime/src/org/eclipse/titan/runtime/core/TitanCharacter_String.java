@@ -142,23 +142,23 @@ public class TitanCharacter_String extends Base_Type {
 	 *
 	 * operator== in the core
 	 *
-	 * @param otherValue
+	 * @param other_value
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operator_equals( final TitanCharacter_String otherValue) {
-		return this.identification.operator_equals( otherValue.identification )
-				&& this.data__value__descriptor.operator_equals( otherValue.data__value__descriptor )
-				&& this.string__value.operator_equals( otherValue.string__value );
+	public boolean operator_equals( final TitanCharacter_String other_value) {
+		return identification.operator_equals( other_value.identification )
+				&& data__value__descriptor.operator_equals( other_value.data__value__descriptor )
+				&& string__value.operator_equals( other_value.string__value );
 	}
 
 	@Override
-	public boolean operator_equals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanCharacter_String ) {
-			return operator_equals((TitanCharacter_String) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanCharacter_String ) {
+			return operator_equals((TitanCharacter_String) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING", other_value));
 	}
 
 	/**

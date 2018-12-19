@@ -142,23 +142,23 @@ public class TitanExternal extends Base_Type {
 	 *
 	 * operator== in the core
 	 *
-	 * @param otherValue
+	 * @param other_value
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operator_equals( final TitanExternal otherValue) {
-		return this.identification.operator_equals( otherValue.identification )
-				&& this.data__value__descriptor.operator_equals( otherValue.data__value__descriptor )
-				&& this.data__value.operator_equals( otherValue.data__value );
+	public boolean operator_equals( final TitanExternal other_value) {
+		return identification.operator_equals( other_value.identification )
+				&& data__value__descriptor.operator_equals( other_value.data__value__descriptor )
+				&& data__value.operator_equals( other_value.data__value );
 	}
 
 	@Override
-	public boolean operator_equals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanExternal ) {
-			return operator_equals((TitanExternal) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanExternal ) {
+			return operator_equals((TitanExternal) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", other_value));
 	}
 
 	/**

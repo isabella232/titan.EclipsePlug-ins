@@ -125,22 +125,22 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *
 	 * operator== in the core
 	 *
-	 * @param otherValue
+	 * @param other_value
 	 *                the other value to check against.
 	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
 	 */
-	public boolean operator_equals( final TitanCharacter_String_identification_context__negotiation otherValue) {
-		return this.presentation__context__id.operator_equals( otherValue.presentation__context__id )
-				&& this.transfer__syntax.operator_equals( otherValue.transfer__syntax );
+	public boolean operator_equals( final TitanCharacter_String_identification_context__negotiation other_value) {
+		return presentation__context__id.operator_equals( other_value.presentation__context__id )
+				&& transfer__syntax.operator_equals( other_value.transfer__syntax );
 	}
 
 	@Override
-	public boolean operator_equals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanCharacter_String_identification_context__negotiation ) {
-			return operator_equals((TitanCharacter_String_identification_context__negotiation) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanCharacter_String_identification_context__negotiation ) {
+			return operator_equals((TitanCharacter_String_identification_context__negotiation) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.context-negotiation", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.context-negotiation", other_value));
 	}
 
 	/**
