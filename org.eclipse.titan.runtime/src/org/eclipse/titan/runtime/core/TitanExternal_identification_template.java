@@ -786,6 +786,7 @@ public class TitanExternal_identification_template extends Base_Template {
 			default:
 				TTCN_Logger.print_logmatch_buffer();
 				TTCN_Logger.log_event_str("<invalid selector>");
+				break;
 			}
 		} else {
 			TTCN_Logger.print_logmatch_buffer();

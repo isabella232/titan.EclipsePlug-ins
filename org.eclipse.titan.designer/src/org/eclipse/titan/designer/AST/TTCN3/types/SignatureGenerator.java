@@ -760,6 +760,7 @@ public final class SignatureGenerator {
 			}
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
+			source.append("break;");
 			source.append("}\n");
 			source.append("} else {\n");
 			source.append("match_value.log();\n");
@@ -775,6 +776,7 @@ public final class SignatureGenerator {
 			}
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
+			source.append("break;");
 			source.append("}\n");
 			source.append("if (match(match_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
 			source.append("else TTCN_Logger.log_event_str(\" unmatched\");\n");
