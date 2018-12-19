@@ -537,10 +537,7 @@ public class TitanCharString extends Base_Type {
 		}
 
 		final TitanUniversalChar uc = otherValue.get_char();
-		if (uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0 && uc.getUc_cell() == val_ptr.charAt(0)) {
-			return true;
-		}
-		return false;
+		return uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0 && uc.getUc_cell() == val_ptr.charAt(0);
 	}
 
 	/**

@@ -905,11 +905,7 @@ public final class TTCN_Communication {
 			/* If an ERROR message (indicating a version mismatch) arrives from MC
 			   in state HC_IDLE (i.e. before CONFIGURE) it shall be
 			   printed to the console as well. */
-			if (TTCN_Runtime.get_state() == executorStateEnum.HC_IDLE) {
-				return false;
-			}
-
-			return true;
+			return TTCN_Runtime.get_state() != executorStateEnum.HC_IDLE;
 		} else {
 			switch (TTCN_Runtime.get_state()) {
 			case HC_EXIT:
