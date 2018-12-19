@@ -514,7 +514,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (i != 0) {
-				aSb.append( "\n\t\t\t\t|| " );
+				aSb.append( "\n\t\t\t\t\t|| " );
 			}
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) || {0}.is_bound()", fi.mVarName ) );
@@ -563,7 +563,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (i != 0) {
-				aSb.append( "\n\t\t\t\t&& " );
+				aSb.append( "\n\t\t\t\t\t&& " );
 			}
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "(optional_sel.OPTIONAL_OMIT.equals({0}.get_selection()) || {0}.is_value())", fi.mVarName ) );
@@ -1619,7 +1619,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (i != 0) {
-				aSb.append( "\n\t\t\t\t|| " );
+				aSb.append( "\n\t\t\t\t\t|| " );
 			}
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "{0}.is_omit() || {0}.is_bound()", fi.mVarName ) );
@@ -1651,7 +1651,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (i != 0) {
-				aSb.append( "\n\t\t\t\t&& " );
+				aSb.append( "\n\t\t\t\t\t&& " );
 			}
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "({0}.is_omit() || {0}.is_value())", fi.mVarName ) );
@@ -1697,7 +1697,7 @@ public final class RecordSetCodeGenerator {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (i != 0) {
-				aSb.append( "\n\t\t\t\t&& " );
+				aSb.append( "\n\t\t\t\t\t&& " );
 			}
 
 			aSb.append( MessageFormat.format( "this.{0}.operator_equals( otherValue.{0} )", fi.mVarName ) );
