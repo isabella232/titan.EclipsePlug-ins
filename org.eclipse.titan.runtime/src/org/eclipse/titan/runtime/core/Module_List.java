@@ -187,13 +187,7 @@ public final class Module_List {
 	public static void push_version(final Text_Buf text_buf) {
 		text_buf.push_int(modules.size());
 		for (final TTCN_Module module: modules) {
-			text_buf.push_string(module.module_name);
-			if(module.md5_checksum == null) {
-				text_buf.push_int(0);
-			} else {
-				text_buf.push_int(16);
-				text_buf.push_raw(16, module.md5_checksum);
-			}
+			module.push_version(text_buf);
 		}
 	}
 }

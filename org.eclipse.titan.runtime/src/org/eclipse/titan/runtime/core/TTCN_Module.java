@@ -89,4 +89,14 @@ public class TTCN_Module {
 	public void execute_all_testcases() {
 		throw new TtcnError(MessageFormat.format("Module {0} does not contain test cases.", module_name));
 	}
+
+	public void push_version(final Text_Buf text_buf) {
+		text_buf.push_string(module_name);
+		if(md5_checksum == null) {
+			text_buf.push_int(0);
+		} else {
+			text_buf.push_int(16);
+			text_buf.push_raw(16, md5_checksum);
+		}
+	}
 }
