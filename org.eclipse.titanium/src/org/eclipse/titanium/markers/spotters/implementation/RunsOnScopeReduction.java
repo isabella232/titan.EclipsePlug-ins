@@ -38,7 +38,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 	}
 
 	@Override
-	protected void process(IVisitableNode node, Problems problems) {
+	protected void process(final IVisitableNode node, final Problems problems) {
  		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
@@ -103,7 +103,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		}
 	}
 
-	private ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, Set<Identifier> identifiersOfTree) {
+	private ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, final Set<Identifier> identifiersOfTree) {
 		final List<ComponentTypeBody> parentComponentBodies = component.getExtensions().getComponentBodies();
 		if (parentComponentBodies.isEmpty()) {
 			identifiersOfTree.add(component.getIdentifier());
