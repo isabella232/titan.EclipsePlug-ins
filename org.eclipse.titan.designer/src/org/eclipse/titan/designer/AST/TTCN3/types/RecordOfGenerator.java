@@ -100,7 +100,7 @@ public final class RecordOfGenerator {
 		generateValueGetterSetters( aData, source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
 		generateValueToString( source );
-		generateValueReplace( source, genName, ofTypeName, displayName );
+		generateValueReplace( aData, source, genName, ofTypeName, displayName );
 		generateValueLog( source );
 		generateValueSetParam(source, displayName, isSetOf);
 		generateValueSetImplicitOmit(source);
@@ -162,7 +162,7 @@ public final class RecordOfGenerator {
 		generateTemplateMatchOmit( source );
 		generateTemplateoperator_assign(aData, source, genName, displayName );
 		generateTemplateCleanup( source );
-		generateTemplateReplace( source, genName, displayName );
+		generateTemplateReplace( aData, source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
 		if ( isSetOf ) {
 			generateTemplateGetterSettersSetOf( source, genName, ofTypeName, displayName );
@@ -828,6 +828,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate substr() and replace()
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -838,7 +840,7 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateValueReplace( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\t\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
@@ -850,9 +852,23 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn ret_val;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The first argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\trepl.must_bound(\"The fourth argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
@@ -877,34 +893,90 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn ret_val;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		//int index,int len:
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn replace(index, len, repl.valueof());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 		//int,TitanInteger
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final int index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn replace(index, len.get_int(), repl.valueof());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 		//TitanInteger,int
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final TitanInteger index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn replace(index.get_int(), len, repl.valueof());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 		//TitanInteger,TitanInteger
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!repl.is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
@@ -1763,12 +1835,14 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\ttemplate_selection = template_sel.UNINITIALIZED_TEMPLATE;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate replace functions for template
 	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1777,9 +1851,23 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateReplace(final StringBuilder source, final String genName, final String displayName) {
+	private static void generateTemplateReplace(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName) {
  		//int,int
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
@@ -1788,9 +1876,23 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn valueof().replace(index, len, repl.valueof());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 		//TitanInteger, TitanInteger
- 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
@@ -1799,18 +1901,46 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn valueof().replace(index.get_int(), len.get_int(), repl.valueof());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		//int,int
- 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn valueof().replace(index, len, repl);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 		//TitanInteger, TitanInteger
- 		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the parts from the provided index at the provided length\n");
+			source.append("\t\t * being replaced by the provided values.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start replacing at.\n");
+			source.append("\t\t * @param len\n");
+			source.append("\t\t *                the number of elements to replace.\n");
+			source.append("\t\t * @param repl\n");
+			source.append("\t\t *                the values to insert.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\t\tif (!is_value()) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");

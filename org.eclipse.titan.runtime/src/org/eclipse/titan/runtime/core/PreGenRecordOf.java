@@ -517,6 +517,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -543,6 +556,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -550,6 +576,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -557,6 +596,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -564,6 +616,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -1151,6 +1216,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -1161,6 +1239,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -1171,6 +1262,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -1178,6 +1282,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -2215,6 +2332,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -2241,6 +2371,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -2248,6 +2391,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -2255,6 +2411,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -2262,6 +2431,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -2892,6 +3074,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -2902,6 +3097,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -2912,6 +3120,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -2919,6 +3140,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -4011,6 +4245,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -4037,6 +4284,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -4044,6 +4304,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -4051,6 +4324,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -4058,6 +4344,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -4645,6 +4944,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -4655,6 +4967,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -4665,6 +4990,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -4672,6 +5010,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -5710,6 +6061,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -5736,6 +6100,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -5743,6 +6120,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -5750,6 +6140,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -5757,6 +6160,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -6344,6 +6760,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -6354,6 +6783,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -6364,6 +6806,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -6371,6 +6826,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -7409,6 +7877,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -7435,6 +7916,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -7442,6 +7936,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -7449,6 +7956,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -7456,6 +7976,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -8043,6 +8576,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -8053,6 +8599,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -8063,6 +8622,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -8070,6 +8642,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -9108,6 +9693,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -9134,6 +9732,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -9141,6 +9752,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -9148,6 +9772,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -9155,6 +9792,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -9742,6 +10392,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -9752,6 +10415,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -9762,6 +10438,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -9769,6 +10458,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -10807,6 +11509,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -10833,6 +11548,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -10840,6 +11568,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -10847,6 +11588,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -10854,6 +11608,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -11441,6 +12208,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -11451,6 +12231,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -11461,6 +12254,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -11468,6 +12274,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -12506,6 +13325,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -12532,6 +13364,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -12539,6 +13384,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -12546,6 +13404,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -12553,6 +13424,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -13140,6 +14024,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -13150,6 +14047,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -13160,6 +14070,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -13167,6 +14090,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -14205,6 +15141,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -14231,6 +15180,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -14238,6 +15200,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -14245,6 +15220,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -14252,6 +15240,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -14839,6 +15840,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -14849,6 +15863,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -14859,6 +15886,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final int index, final int len, final PREGEN__RECORD__OF__BOOLEAN repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -14866,6 +15906,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BOOLEAN repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -15904,6 +16957,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -15930,6 +16996,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -15937,6 +17016,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -15944,6 +17036,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -15951,6 +17056,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -16538,6 +17656,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -16548,6 +17679,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -16558,6 +17702,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -16565,6 +17722,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -17603,6 +18773,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -17629,6 +18812,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -17636,6 +18832,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -17643,6 +18852,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -17650,6 +18872,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -18237,6 +19472,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -18247,6 +19495,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -18257,6 +19518,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final int index, final int len, final PREGEN__RECORD__OF__INTEGER repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -18264,6 +19538,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__INTEGER repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -19301,6 +20588,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -19327,6 +20627,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -19334,6 +20647,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -19341,6 +20667,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -19348,6 +20687,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -19978,6 +21330,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -19988,6 +21353,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -19998,6 +21376,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -20005,6 +21396,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -21096,6 +22500,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -21122,6 +22539,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -21129,6 +22559,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -21136,6 +22579,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -21143,6 +22599,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -21773,6 +23242,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -21783,6 +23265,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -21793,6 +23288,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -21800,6 +23308,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -22891,6 +24412,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -22917,6 +24451,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -22924,6 +24471,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -22931,6 +24491,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -22938,6 +24511,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -23568,6 +25154,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -23578,6 +25177,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -23588,6 +25200,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__FLOAT__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -23595,6 +25220,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -24686,6 +26324,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final int index, final int len, final PREGEN__SET__OF__INTEGER repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -24712,6 +26363,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final int index, final int len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -24719,6 +26383,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final int index, final TitanInteger len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -24726,6 +26403,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final int len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -24733,6 +26423,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -25363,6 +27066,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final int index, final int len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -25373,6 +27089,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -25383,6 +27112,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final int index, final int len, final PREGEN__SET__OF__INTEGER repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -25390,6 +27132,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -26481,6 +28236,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -26507,6 +28275,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -26514,6 +28295,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -26521,6 +28315,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -26528,6 +28335,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -27158,6 +28978,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -27168,6 +29001,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -27178,6 +29024,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -27185,6 +29044,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -28277,6 +30149,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -28303,6 +30188,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -28310,6 +30208,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -28317,6 +30228,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -28324,6 +30248,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -28911,6 +30848,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -28921,6 +30871,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -28931,6 +30894,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -28938,6 +30914,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -29975,6 +31964,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -30001,6 +32003,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -30008,6 +32023,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -30015,6 +32043,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -30022,6 +32063,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -30652,6 +32706,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -30662,6 +32729,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -30672,6 +32752,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -30679,6 +32772,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -31770,6 +33876,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -31796,6 +33915,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -31803,6 +33935,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -31810,6 +33955,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -31817,6 +33975,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -32447,6 +34618,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -32457,6 +34641,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -32467,6 +34664,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -32474,6 +34684,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -33565,6 +35788,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -33591,6 +35827,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -33598,6 +35847,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -33605,6 +35867,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -33612,6 +35887,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -34242,6 +36530,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -34252,6 +36553,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -34262,6 +36576,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -34269,6 +36596,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -35360,6 +37700,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final int index, final int len, final PREGEN__SET__OF__FLOAT repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -35386,6 +37739,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final int index, final int len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -35393,6 +37759,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final int index, final TitanInteger len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -35400,6 +37779,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final int len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -35407,6 +37799,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -36037,6 +38442,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final int index, final int len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -36047,6 +38465,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -36057,6 +38488,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final int index, final int len, final PREGEN__SET__OF__FLOAT repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -36064,6 +38508,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__FLOAT repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -37155,6 +39612,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -37181,6 +39651,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -37188,6 +39671,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -37195,6 +39691,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -37202,6 +39711,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -37832,6 +40354,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -37842,6 +40377,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -37852,6 +40400,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__INTEGER__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -37859,6 +40420,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__INTEGER__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -38950,6 +41524,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -38976,6 +41563,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -38983,6 +41583,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -38990,6 +41603,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -38997,6 +41623,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -39627,6 +42266,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -39637,6 +42289,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -39647,6 +42312,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -39654,6 +42332,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -40746,6 +43437,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -40772,6 +43476,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -40779,6 +43496,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -40786,6 +43516,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -40793,6 +43536,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -41380,6 +44136,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -41390,6 +44159,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -41400,6 +44182,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__OCTETSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -41407,6 +44202,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__OCTETSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -42445,6 +45253,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -42471,6 +45292,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -42478,6 +45312,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -42485,6 +45332,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -42492,6 +45352,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -43079,6 +45952,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -43089,6 +45975,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -43099,6 +45998,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -43106,6 +46018,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -44143,6 +47068,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -44169,6 +47107,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -44176,6 +47127,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -44183,6 +47147,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -44190,6 +47167,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -44820,6 +47810,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -44830,6 +47833,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -44840,6 +47856,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -44847,6 +47876,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -45938,6 +48980,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -45964,6 +49019,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -45971,6 +49039,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -45978,6 +49059,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -45985,6 +49079,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -46615,6 +49722,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -46625,6 +49745,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -46635,6 +49768,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -46642,6 +49788,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -47733,6 +50892,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -47759,6 +50931,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -47766,6 +50951,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -47773,6 +50971,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -47780,6 +50991,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -48410,6 +51634,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -48420,6 +51657,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -48430,6 +51680,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -48437,6 +51700,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -49529,6 +52805,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -49555,6 +52844,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -49562,6 +52864,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -49569,6 +52884,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -49576,6 +52904,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -50163,6 +53504,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -50173,6 +53527,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -50183,6 +53550,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -50190,6 +53570,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -51228,6 +54621,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -51254,6 +54660,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -51261,6 +54680,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -51268,6 +54700,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -51275,6 +54720,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -51862,6 +55320,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -51872,6 +55343,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -51882,6 +55366,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -51889,6 +55386,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__FLOAT__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -52926,6 +56436,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -52952,6 +56475,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -52959,6 +56495,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -52966,6 +56515,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -52973,6 +56535,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -53603,6 +57178,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -53613,6 +57201,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -53623,6 +57224,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -53630,6 +57244,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__SET__OF__BITSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -54722,6 +58349,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED repl) {
 			must_bound("The first argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			repl.must_bound("The fourth argument of replace() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -54748,6 +58388,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -54755,6 +58408,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -54762,6 +58428,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index, len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -54769,6 +58448,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return replace(index.get_int(), len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!repl.is_value()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
@@ -55356,6 +59048,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -55366,6 +59071,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -55376,6 +59094,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl.valueof());
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final int index, final int len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -55383,6 +59114,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index, len, repl);
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the parts from the provided index at the provided length
+		 * being replaced by the provided values.
+		 *
+		 * @param index
+		 *                the index to start replacing at.
+		 * @param len
+		 *                the number of elements to replace.
+		 * @param repl
+		 *                the values to insert.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED replace(final TitanInteger index, final TitanInteger len, final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED repl) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
