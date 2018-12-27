@@ -10,15 +10,20 @@ package org.eclipse.titan.runtime.core;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketOption;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
+import java.nio.channels.NetworkChannel;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import java.nio.channels.spi.AbstractSelectableChannel;
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.NetworkHandler.HCNetworkHandler;
+import org.eclipse.titan.runtime.core.NetworkHandler.NetworkFamily;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason.enum_type;
@@ -174,6 +179,7 @@ public final class TTCN_Communication {
 	private static String MC_host;
 	private static int MC_port;
 	private static HCNetworkHandler hcnh = new HCNetworkHandler();
+	private static boolean local_addr_set = false;
 
 	private static ThreadLocal<SocketChannel> mc_socketchannel = new ThreadLocal<SocketChannel>() {
 		@Override
@@ -263,6 +269,38 @@ public final class TTCN_Communication {
 		}
 		
 	}
+	
+	public static NetworkFamily get_network_family() {
+		return hcnh.get_family();
+	}
+	
+	public static boolean has_local_address() {
+		return local_addr_set;
+	}
+	
+	public static void set_local_address(final String host_name) {
+		if (local_addr_set) {
+			TtcnError.TtcnWarning("The local address has already been set.");
+		}
+		if (is_connected.get()) {
+			throw new TtcnError("Trying to change the local address, but there is an existing control connection to MC.");
+		}
+		if (host_name == null) {
+			throw new TtcnError("TTCN_Communication.set_local_address: internal error: invalid host name."); // There is no connection to the MC
+		}
+		if (!hcnh.set_local_addr(host_name, 0)) {
+			throw new TtcnError(MessageFormat.format("Could not get the IP address for the local address ({0}): Host name lookup failure.", host_name));
+		}
+		TTCN_Logger.log_executor_misc(enum_type.local__address__was__set, hcnh.get_local_host_str(), hcnh.get_local_addr_str(), 0);
+		local_addr_set = true;
+	}
+	
+	public static InetAddress get_local_address() {
+		if (!local_addr_set) {
+			throw new TtcnError("TTCN_Communication.get_local_address: internal error: the local address has not been set.");
+		}
+		return hcnh.get_local_addr().getAddress();
+	}
 
 	public static void set_mc_address(final String MC_host, final int MC_port) {
 		if (mc_addr_set) {
@@ -306,7 +344,6 @@ public final class TTCN_Communication {
 			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
 		//FIXME register
-		//FIXME implement
 		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
 		try {
 			mc_socketchannel.get().configureBlocking(false);
@@ -341,6 +378,32 @@ public final class TTCN_Communication {
 
 			TTCN_Snapshot.channelMap.get().remove(mc_socketchannel);
 			TTCN_Snapshot.set_timer(mc_connection.get(), 0.0, true, true, true);
+		}
+	}
+
+	//use NetworkChannel instead of file descriptor
+	public static boolean set_tcp_nodelay(final NetworkChannel fd, final boolean enable_nodelay) {
+		try {
+			fd.setOption(StandardSocketOptions.TCP_NODELAY, enable_nodelay);
+			return true;
+		} catch (IOException e) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event(e.toString());
+			TTCN_Logger.end_event();
+			return false;
+		}
+	}
+
+	//use AbstractSelectableChannel instead of file descriptor
+	public static boolean set_non_blocking_mode(final AbstractSelectableChannel fd, final boolean enable_nonblock) {
+		try {
+			fd.configureBlocking(enable_nonblock);
+			return true;
+		} catch (IOException e) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event(e.toString());
+			TTCN_Logger.end_event();
+			return false;
 		}
 	}
 
