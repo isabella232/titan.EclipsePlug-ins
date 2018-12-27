@@ -409,9 +409,9 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Settings of the code smell analyzer have changed," +
 				   " the known projects have to be re-analyzed completly.\nThis might take some time.");
 
-			final IProject[] projs = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 			final Analyzer analyzer = AnalyzerCache.withPreference();
-			for (final IProject project : projs) {
+			for (final IProject project : projects) {
 				if (TITANNature.hasTITANNature(project)) {
 					final WorkspaceJob op = new WorkspaceJob("Code smells") {
 						@Override
