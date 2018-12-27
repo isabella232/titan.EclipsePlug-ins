@@ -21,15 +21,15 @@ import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-@author Torok Gabor
-**/
+ * @author Torok Gabor
+ **/
 public class UnnecessaryArrays extends BaseModuleCodeSmellSpotter {
 
 	private static final String ERROR_MESSAGE = "Arrays can slow compilation, consider using record of types";
 	protected final CompilationTimeStamp timestamp;
 	public UnnecessaryArrays() {
-			super(CodeSmellType.UNNECESSARY_ARRAYS);
-			timestamp = CompilationTimeStamp.getBaseTimestamp();
+		super(CodeSmellType.UNNECESSARY_ARRAYS);
+		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
 
 
@@ -43,7 +43,6 @@ public class UnnecessaryArrays extends BaseModuleCodeSmellSpotter {
 		if(s.getType(timestamp) instanceof Array_Type) {
 			problems.report(s.getLocation(), ERROR_MESSAGE);
 		}
-		
 	}
 
 	@Override
@@ -53,5 +52,4 @@ public class UnnecessaryArrays extends BaseModuleCodeSmellSpotter {
 		ret.add(Def_Const.class);
 		return ret;
 	}
-	
 }

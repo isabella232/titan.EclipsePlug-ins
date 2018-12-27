@@ -28,9 +28,9 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-*
-* @author Farkas Izabella Ingrid
-*/
+ *
+ * @author Farkas Izabella Ingrid
+ */
 public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	public UnusedGlobalDefinition() {
