@@ -119,6 +119,7 @@ public class NetworkHandler {
 				return false;
 			}
 			m_local_addr = new InetSocketAddress(p_addr, p_port);
+			set_family(m_local_addr);
 			return m_local_addr != null;
 		}
 
@@ -127,6 +128,7 @@ public class NetworkHandler {
 				return false;
 			}
 			m_mc_addr = new InetSocketAddress(p_addr, p_port);
+			set_family(m_mc_addr);
 			return m_mc_addr != null;
 		}
 
@@ -231,7 +233,7 @@ public class NetworkHandler {
 				p_buf.push_int(m_local_addr.getPort());
 				//TODO: push flow info
 				p_buf.push_raw(16, m_local_addr.getAddress().getAddress());
-				//TODO: push scope id
+				p_buf.push_int(getIpv6Address(m_local_addr.getAddress()).getScopeId());
 			}
 		}
 
@@ -253,7 +255,7 @@ public class NetworkHandler {
 				p_buf.push_int(m_mc_addr.getPort());
 				//TODO: push flow info
 				p_buf.push_raw(16, m_mc_addr.getAddress().getAddress());
-				//TODO: push scope id
+				p_buf.push_int(getIpv6Address(m_mc_addr.getAddress()).getScopeId());
 			}
 		}
 
@@ -281,9 +283,17 @@ public class NetworkHandler {
 				final int port_number = p_buf.pull_int().get_int();
 				final byte ip_address[] = new byte[16];
 				p_buf.pull_raw(16, ip_address);
+				int scope_id = 0;
+				if (p_buf.pull_int().is_bound()) {
+					scope_id = p_buf.pull_int().get_int();
+				}
 				try {
-					m_local_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
-					return;
+					if (scope_id != 0) {
+						m_local_addr = new InetSocketAddress(Inet6Address.getByAddress("", ip_address, scope_id), port_number);
+					} else {
+						m_local_addr = new InetSocketAddress(InetAddress.getByAddress(ip_address), port_number);
+						return;
+					}
 				} catch (UnknownHostException e) {
 					m_local_addr = null;
 					return;
@@ -323,6 +333,11 @@ public class NetworkHandler {
 					return;
 				}
 			}
+		}
+	
+		//returns an IPv6 address.
+		private Inet6Address getIpv6Address(final InetAddress p_address) {
+			return (Inet6Address)p_address;
 		}
 	}
 }
