@@ -284,7 +284,7 @@ public class StatementNode extends Node {
 			sb.append("MOVED; ");
 		}
 		if (isDeclaration()) {
-			sb.append("declaration: " + declaredVar);
+			sb.append("declaration: ").append(declaredVar);
 		}
 		return sb.toString();
 	}
