@@ -168,7 +168,10 @@ public class DecodeMatch_template extends TTCN3Template {
 	 * @return true if the value contains a reference to lhs
 	 * */
 	public boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final IType type, final boolean implicitOmit, final Assignment lhs) {
-		target.getTemplateBody().setLoweridToReference(timestamp);
+		final TTCN3Template targetBody = target.getTemplateBody();
+		targetBody.setMyGovernor(type);
+
+		targetBody.setLoweridToReference(timestamp);
 		IType targetType = target.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (targetType == null) {
 			target.getLocation().reportSemanticError("Type of template instance cannot be determined");
@@ -180,7 +183,7 @@ public class DecodeMatch_template extends TTCN3Template {
 			targetType = targetType.getTypeRefdLast(timestamp);
 		}
 
-		boolean selfReference = target.getTemplateBody().checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
+		boolean selfReference = targetBody.checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
 		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false);
 
 		if (stringEncoding != null) {
@@ -209,10 +212,6 @@ public class DecodeMatch_template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
-
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport("IDecode_Match");

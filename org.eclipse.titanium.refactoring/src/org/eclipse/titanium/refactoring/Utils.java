@@ -59,6 +59,10 @@ public class Utils {
 
 	private static final String SOURCE_DIR = "src";
 
+	private Utils() {
+		// private constructor to disable instantiation.
+	}
+
 	public static TTCN3Editor getActiveEditor() {
 		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (!(editor instanceof TTCN3Editor)) {

@@ -177,7 +177,7 @@ public class OrganizeImportsRefactoring extends Refactoring{
 		private final CompositeChange change;
 
 		public ResourceVisitor() {
-			this.change = new CompositeChange("OrganizeImportsRefactoring");;
+			this.change = new CompositeChange("OrganizeImportsRefactoring");
 		}
 
 		private CompositeChange getChange() {

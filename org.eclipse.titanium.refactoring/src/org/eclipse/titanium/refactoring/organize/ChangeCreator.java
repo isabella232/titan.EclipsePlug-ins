@@ -64,7 +64,6 @@ public class ChangeCreator {
 	private static boolean sortImports = true;
 	private static boolean addImports = true;
 	private static boolean removeImports = true;
-	//private static String importChangeMethod;
 	private static boolean reportDebug;
 
 	//in
@@ -108,12 +107,10 @@ public class ChangeCreator {
 		}
 
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
-		IDocument doc;
-
 		final TTCN3Module tModule = (TTCN3Module) module;
 
 		try {
-			doc = tfc.getCurrentDocument(null);
+			final IDocument doc = tfc.getCurrentDocument(null);
 			final MultiTextEdit resultEdit = organizeImportsEdit(tModule, doc);
 			if (!resultEdit.hasChildren()) {
 				return null;
@@ -224,9 +221,7 @@ public class ChangeCreator {
 					final String importName = addMod.getIdentifier().getTtcnName();
 					if (!importNamesAdded.contains(importName)) {
 						final StringBuilder impText = new StringBuilder("import from ").append(importName).append(" all;");
-						//if (importChangeMethod.equals(OrganizeImportPreferencePage.COMMENT_THEM)) {
 						impText.append(" // Added automatically to resolve ").append(ref.getDisplayName());
-						//}
 						newImports.add(new ImportText(importName, impText.toString() + NEWLINE));
 						importNamesAdded.add(importName);
 
@@ -293,15 +288,10 @@ public class ChangeCreator {
 								+ ((endLineRegion.getOffset() - startLineRegion.getOffset())
 										+ endLineRegion.getLength() + delLength), stream);
 					}
-					/*if (importChangeMethod.equals(OrganizeImportPreferencePage.COMMENT_THEM)) {
-						removeEdit.addChild(new InsertEdit(m.getLocation().getOffset(), "/*"));
-						// hack to handle the semicolon
-						removeEdit.addChild(new InsertEdit(m.getLocation().getEndOffset() + 1, ""));
-					} else {*/
+
 					removeEdit.addChild(new DeleteEdit(startLineRegion.getOffset(),
 							(endLineRegion.getOffset() - startLineRegion.getOffset()) + endLineRegion.getLength()
 							+ delLength));
-					//}
 				}
 				if (needSorting && (!removeImports || m.getUsedForImportation())) {
 					importsKept.add(new ImportText(m.getName(), doc.substring(startLineRegion.getOffset(),
