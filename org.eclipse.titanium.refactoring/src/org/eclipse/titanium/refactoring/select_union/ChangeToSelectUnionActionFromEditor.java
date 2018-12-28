@@ -49,8 +49,8 @@ public class ChangeToSelectUnionActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		final IStructuredSelection structSelection = new StructuredSelection(selectedFile);
-		final ChangeToSelectUnionRefactoring refactoring = new ChangeToSelectUnionRefactoring(structSelection);		
-		
+		final ChangeToSelectUnionRefactoring refactoring = new ChangeToSelectUnionRefactoring(structSelection);
+
 		//open wizard
 		final ChangeToSelectUnionWizard wiz = new ChangeToSelectUnionWizard(refactoring);
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(wiz);

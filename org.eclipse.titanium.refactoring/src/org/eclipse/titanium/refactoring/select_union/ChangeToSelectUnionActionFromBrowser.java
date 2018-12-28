@@ -27,10 +27,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class ChangeToSelectUnionActionFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
-	
+
 	@Override
 	public void run(final IAction action) {
-		performChangeToSelectUnion();		
+		performChangeToSelectUnion();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ChangeToSelectUnionActionFromBrowser extends AbstractHandler implem
 	@Override
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 	}
-	
+
 	private void performChangeToSelectUnion() {
 		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
