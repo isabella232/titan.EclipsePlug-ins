@@ -251,8 +251,9 @@ public final class CharString_Type extends Type {
 	 * */
 	public static boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final Type type,
 			final ITTCN3Template template, final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
-		boolean selfReference = false;
+		template.setMyGovernor(type);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case VALUE_RANGE: {
 			final ValueRange range = ((Value_Range_Template) template).getValueRange();
