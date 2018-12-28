@@ -35,14 +35,14 @@ import org.eclipse.ui.handlers.HandlerUtil;
  */
 public class OrganizeImportsFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
-	
+
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		performOrganizeImport();
 		return null;
 	}
-	
+
 	@Override
 	public void run(final IAction action) {
 		performOrganizeImport();
@@ -57,7 +57,7 @@ public class OrganizeImportsFromBrowser extends AbstractHandler implements IObje
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		// intentionally empty
 	}
-	
+
 	private void performOrganizeImport() {
 		// getting the active editor
 		final TTCN3Editor targetEditor = Utils.getActiveEditor();

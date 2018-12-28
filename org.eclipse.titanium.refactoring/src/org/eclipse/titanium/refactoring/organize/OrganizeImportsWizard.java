@@ -15,7 +15,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 
 /**
  * Wizard for the 'Organize imports modifires' operation.
- * 
+ *
  * @author Farkas Izabella Ingrid
  */
 
