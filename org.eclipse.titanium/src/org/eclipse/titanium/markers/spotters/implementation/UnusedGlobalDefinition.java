@@ -28,9 +28,9 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-*
-* @author Farkas Izabella Ingrid
-*/
+ *
+ * @author Farkas Izabella Ingrid
+ */
 public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	public UnusedGlobalDefinition() {
@@ -38,7 +38,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 	}
 
 	@Override
-	protected void process(IProject project, Problems problems) {
+	protected void process(final IProject project, final Problems problems) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<Module> modules = new ArrayList<Module>();

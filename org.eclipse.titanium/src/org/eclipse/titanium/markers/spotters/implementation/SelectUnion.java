@@ -40,43 +40,43 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 public class SelectUnion extends BaseModuleCodeSmellSpotter {
 
 	private static final String ERR_MSG = "Suspected a select, which can be transformed into a select union statement.";
-	
+
 	private final CompilationTimeStamp timestamp;
-	
+
 	public SelectUnion() {
 		super(CodeSmellType.SELECT_UNION);
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
 
 	@Override
-	protected void process(IVisitableNode node, Problems problems) {
+	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof SelectCase_Statement)) {
 			return;
 		}
 		final SelectCase_Statement s = (SelectCase_Statement)node;
-		
+
 		final Value v = s.getExpression();
 		if (v == null || v.getIsErroneous(timestamp)) {
 			return;
 		}
-		
+
 		final SelectCases scs = s.getSelectCases();
 		if (scs == null || scs.getSelectCaseArray() == null) {
 			return;
 		}
-		
+
 		// Check the expression - must be true.
 		if(!(v instanceof Boolean_Value) || !((Boolean_Value) v).getValue()){
 			return;
 		}
-		
+
 		// Check the cases.
 		final CaseVisitor caseVisitor = new CaseVisitor();
 		scs.accept(caseVisitor);
 		if (caseVisitor.isErronous()) {
 			return;
 		}
-		
+
 		// Check the union, get the types.
 		final UnionItemVisitor unionVisitor = new UnionItemVisitor();
 		List<Identifier> foundIds = new ArrayList<Identifier>();
@@ -94,7 +94,7 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 			return;
 		}
 		caseVisitor.getUnionType().accept(unionVisitor);
-		
+
 		// Check if the found types are the same as the union types.
 		List<Identifier> unionItems = unionVisitor.getItemsFound();
 		if(unionItems.isEmpty()){
@@ -114,25 +114,24 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 		ret.add(SelectCase_Statement.class);
 		return ret;
 	}
-	
 
 	private final class CaseVisitor extends ASTVisitor {
 		private boolean errorDuringVisiting = false;
 		private List<Reference> references = new ArrayList<Reference>();
 		IType unionType = null;
-		
+
 		public boolean isErronous() {
 			return this.errorDuringVisiting;
 		}
-		
+
 		public List<Reference> getReferenceList(){
 			return this.references;
 		}
-		
+
 		public IType getUnionType(){
 			return this.unionType;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof SelectCases) {
@@ -148,7 +147,7 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 					errorDuringVisiting = true;
 					return V_ABORT;
 				}
-				
+
 				IsChoosenExpression expr = (IsChoosenExpression)val;
 				final IsChoosenItemVisitor itemVisitor = new IsChoosenItemVisitor();
 				expr.accept(itemVisitor);
@@ -176,11 +175,10 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 			return V_SKIP;
 		}
 	}
-	
-	private static final class IsChoosenItemVisitor extends ASTVisitor {
 
+	private static final class IsChoosenItemVisitor extends ASTVisitor {
 		private Reference reference;
-		
+
 		public Reference getReference(){
 			return this.reference;
 		}
@@ -195,13 +193,12 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-
 	}
-	
+
 	private final class UnionItemVisitor extends ASTVisitor {
 
 		private final List<Identifier> itemsFound = new ArrayList<Identifier>();
-		
+
 		public List<Identifier> getItemsFound() {
 			return this.itemsFound;
 		}
@@ -222,7 +219,5 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-
 	}
-	
 }
