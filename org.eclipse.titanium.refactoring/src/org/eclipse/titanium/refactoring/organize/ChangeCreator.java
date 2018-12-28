@@ -152,7 +152,7 @@ public class ChangeCreator {
 		for (final String moduleName : projectSourceParser.getKnownModuleNames()) {
 			final Module m = projectSourceParser.getModuleByName(moduleName);
 			if (m != null && m.getAssignments().hasLocalAssignmentWithID(CompilationTimeStamp.getBaseTimestamp(), identifier)) {
-				Assignment assignment = m.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), identifier);
+				final Assignment assignment = m.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), identifier);
 				if (assignment != null) {
 					collected.add(new DeclarationCollectionHelper(assignment.getProposalDescription(), assignment.getIdentifier().getLocation(),
 							assignment));
@@ -173,7 +173,7 @@ public class ChangeCreator {
 			Display.getDefault().syncExec(dialog);
 			loc = dialog.getSelected();
 		} else if (collected.size() == 1) {
-			DeclarationCollectionHelper declaration = collected.get(0);
+			final DeclarationCollectionHelper declaration = collected.get(0);
 			loc = declaration.location;
 			TITANDebugConsole.println("Exactly one module for " + reference.getDisplayName() + " is found: " + loc.getFile().getName());
 		} else {
