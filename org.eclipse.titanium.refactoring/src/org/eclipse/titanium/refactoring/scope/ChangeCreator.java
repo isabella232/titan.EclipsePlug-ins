@@ -144,7 +144,7 @@ public class ChangeCreator {
 		}
 		//create edits
 		final List<Edit> allEdits = new ArrayList<Edit>();
-		for (Definition def: funcs) {
+		for (final Definition def: funcs) {
 			final List<Edit> edits = analyzeFunction(def);
 			if (edits == null) {
 				continue;
@@ -170,9 +170,9 @@ public class ChangeCreator {
 		final List<TextEdit> allTes = new LinkedList<TextEdit>();
 		//collect processed (insert) edits with their created insert edit
 		final Map<Edit, InsertEdit> editsDone = new HashMap<Edit, InsertEdit>();
-		for (Edit e: allEdits) {
+		for (final Edit e: allEdits) {
 			final TextEdit[] tes = createTextEdit(toVisit, fileContents, e, editsDone);
-			for (TextEdit te: tes) {
+			for (final TextEdit te: tes) {
 				if (!(te instanceof DeleteEdit)) {
 					allTes.add(te);
 
@@ -199,7 +199,7 @@ public class ChangeCreator {
 			}
 		}
 		Collections.reverse(allTes);
-		for (TextEdit te: allTes) {
+		for (final TextEdit te: allTes) {
 			rootEdit.addChild(te);
 		}
 
@@ -221,7 +221,7 @@ public class ChangeCreator {
 			if (!e.isRemoveEdit()) {
 				//update insert location if the insertionPoint stmt was moved
 				int insertOffset = ((ILocateableNode)e.insertionPoint.getAstNode()).getLocation().getOffset();
-				for (Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
+				for (final Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
 					if (ed.getKey().declSt.equals(e.insertionPoint)) {
 						insertOffset = ed.getValue().getOffset();
 						break;
@@ -245,7 +245,7 @@ public class ChangeCreator {
 				//update insert location if the insertionPoint stmt was moved
 				final Location insPLoc = ((ILocateableNode)e.insertionPoint.getAstNode()).getLocation();
 				int insertOffset = insPLoc.getOffset();
-				for (Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
+				for (final Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
 					if (ed.getKey().declSt.equals(e.insertionPoint)) {
 						insertOffset = ed.getValue().getOffset();
 						break;
