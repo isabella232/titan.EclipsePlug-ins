@@ -30,7 +30,7 @@ import org.eclipse.titanium.refactoring.insertfield.InsertFieldRefactoring.Setti
  * */
 public class InsertFieldWizardInputPage extends UserInputWizardPage {
 
-	private Settings settings;
+	private final Settings settings;
 
 	private static final String INVALIDNAME = "Name is not valid. ";
 	private static final String NAMEEXISTS = "Name already exists. ";
@@ -45,7 +45,7 @@ public class InsertFieldWizardInputPage extends UserInputWizardPage {
 	private Text nameField;
 	private Text valueField;
 
-	private Definition selection;
+	private final Definition selection;
 
 	private String positionErrorMessage = "";
 	private String nameErrorMessage = "";
