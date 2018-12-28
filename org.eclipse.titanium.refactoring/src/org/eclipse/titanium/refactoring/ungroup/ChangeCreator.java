@@ -122,7 +122,7 @@ public class ChangeCreator {
 		int precedeOffset = -1;
 		final String fileContents = loadFileContent(toVisit);
 
-		for (Definition node : locations) {
+		for (final Definition node : locations) {
 
 			final Location l = node.getCumulativeDefinitionLocation();
 			final Location typeLocation = node.getType(CompilationTimeStamp.getBaseTimestamp()).getLocation();
@@ -135,24 +135,24 @@ public class ChangeCreator {
 
 			}
 
-			String typeText = fileContents.substring(typeLocation.getOffset(), typeLocation.getEndOffset()).trim();
-			String name = fileContents.substring(identifierLocation.getOffset(), identifierLocation.getEndOffset()).trim();
+			final String typeText = fileContents.substring(typeLocation.getOffset(), typeLocation.getEndOffset()).trim();
+			final String name = fileContents.substring(identifierLocation.getOffset(), identifierLocation.getEndOffset()).trim();
 			String newModulePar = "";
 			if (node instanceof Def_ModulePar) {
-				Def_ModulePar modulePar = (Def_ModulePar) node;
+				final Def_ModulePar modulePar = (Def_ModulePar) node;
 				if (modulePar.getDefaultValue() != null) {
 					final Location valueLocation = modulePar.getDefaultValue().getLocation();
-					String valueText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
+					final String valueText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
 					newModulePar = "modulepar " + typeText + " " + name + " := " + valueText + ";\n";
 				} else {
 					newModulePar = "modulepar " + typeText + " "  + name + ";\n";
 				}
 				
 			} else if (node instanceof Def_ModulePar_Template) {
-				Def_ModulePar_Template modulePar = (Def_ModulePar_Template) node;
+				final Def_ModulePar_Template modulePar = (Def_ModulePar_Template) node;
 				if (modulePar.getDefaultTemplate() != null) {
 					final Location valueLocation = modulePar.getDefaultTemplate().getLocation();
-					String temlateText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
+					final String temlateText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
 					newModulePar = "modulepar template " + typeText + " "  + name + " := " + temlateText + ";\n";
 				} else {
 					newModulePar = "modulepar template " + typeText + " "  + name + ";\n";
