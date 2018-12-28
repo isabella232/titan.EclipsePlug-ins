@@ -165,7 +165,7 @@ public class StatementNode extends Node {
 		if (this.equals(n)) {
 			return true;
 		}
-		for (BlockNode bn: blocks) {
+		for (final BlockNode bn: blocks) {
 			if (bn.containsNode(n)) {
 				return true;
 			}
@@ -295,13 +295,13 @@ public class StatementNode extends Node {
 		sb.append(prefix).append("SN: ").append(toString()).append('\n');
 		if (recursive) {
 			sb.append(prefix).append("  blocks:\n");
-			for (BlockNode bn: blocks) {
+			for (final BlockNode bn: blocks) {
 				sb.append(bn.toStringRecursive(true, prefixLen+4)).append('\n');
 			}
 			sb.append('\n');
 		}
 		sb.append(prefix).append("  refdVars:\n");
-		for (Variable var: referedVars) {
+		for (final Variable var: referedVars) {
 			sb.append(var.toStringRecursive(false, prefixLen+4)).append('\n');
 		}
 		return sb.toString();
