@@ -181,7 +181,7 @@ public final class RecordOfGenerator {
 		generateTemplateListItem( source, genName, displayName );
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
-		generateTemplateSubstr( source, genName );
+		generateTemplateSubstr( aData, source, genName );
 		generateTemplateLog( aData, source, genName, displayName, isSetOf );
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
 		generateTemplateSetParam(source, displayName, isSetOf);
@@ -822,7 +822,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tsb.append('}');\n");
 		source.append("\t\t\treturn sb.toString();\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -841,7 +841,18 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueReplace( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Creates a new record/set of value from the current value,\n");
+			source.append("\t\t * with the elements from the provided index at the provided length.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the index to start at.\n");
+			source.append("\t\t * @param returncount\n");
+			source.append("\t\t *                the number of elements to copy.\n");
+			source.append("\t\t * @return the new value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\tAdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, \"{0}\",\"element\");\n", displayName ) );
@@ -2612,20 +2623,33 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn ret_val;\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generating substr() function for template
-	 * 
+	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                "record of/set of" type.
 	 */
-	private static void generateTemplateSubstr( final StringBuilder aSb, final String genName ) {
-		aSb.append('\n');
+	private static void generateTemplateSubstr(final JavaGenData aData, final StringBuilder aSb, final String genName ) {
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Creates a new record/set of value from the current value,\n");
+			aSb.append("\t\t * with the elements from the provided index at the provided length.\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * @param index\n");
+			aSb.append("\t\t *                the index to start at.\n");
+			aSb.append("\t\t * @param returncount\n");
+			aSb.append("\t\t *                the number of elements to copy.\n");
+			aSb.append("\t\t * @return the new value.\n");
+			aSb.append("\t\t * */\n");
+		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
 		aSb.append("\t\t\tif (!is_value()) {\n");
 		aSb.append("\t\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template with non-specific value.\");\n");
