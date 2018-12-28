@@ -218,9 +218,6 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
