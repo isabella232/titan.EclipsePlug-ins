@@ -47,14 +47,14 @@ public class OrganizeImportsRefactoring extends Refactoring{
 	public static final String PROJECTCONTAINSERRORS = "The project `{0}'' contains errors, which might corrupt the result of the refactoring";
 	private static final String PROJECTCONTAINSTTCNPPFILES = "The project `{0}'' contains .ttcnpp files, which might corrupt the result of the refactoring";
 
-	
+
 	private Object[] affectedObjects; // look at creatChange
 	private final IStructuredSelection selection;
 	private final Set<IProject> projects = new HashSet<IProject>();
 
 	public OrganizeImportsRefactoring(final IStructuredSelection selection) {
-		this.selection = selection; 
-		
+		this.selection = selection;
+
 		final Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
 			final Object o = it.next();
@@ -64,14 +64,14 @@ public class OrganizeImportsRefactoring extends Refactoring{
 			}
 		}
 	}
-	
+
 	public Object[] getAffectedObjects() {
 		return affectedObjects;
 	}
-	
-	
+
+
 	//METHODS FROM REFACTORING
-	
+
 	@Override
 	public String getName() {
 		return "Organize imports";
@@ -80,38 +80,38 @@ public class OrganizeImportsRefactoring extends Refactoring{
 	@Override
 	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
-		
+
 		final RefactoringStatus result = new RefactoringStatus();
 		try{
 			pm.beginTask("Checking preconditions...", 2);
-			
+
 			final IPreferencesService prefs = Platform.getPreferencesService();//PreferenceConstants.USEONTHEFLYPARSING
 			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
 				result.addError(ONTHEFLYANALAYSISDISABLED);
 			}
-			
+
 			// check that there are no ttcnpp files in the
 			// project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				if (hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
 			}
-		    pm.worked(1);
-		    
-		    // check that there are no error markers in the
-		    // project
-		    for (IProject project : projects) {
-		 		final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
-		 		for (IMarker marker : markers) {
-		 			if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-		 				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
-		 				break;
-		 			}
-		 		}
-		 	}
-		 	pm.worked(1);
-			
+			pm.worked(1);
+
+			// check that there are no error markers in the
+			// project
+			for (final IProject project : projects) {
+				final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
+				for (final IMarker marker : markers) {
+					if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+						result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
+						break;
+					}
+				}
+			}
+			pm.worked(1);
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			result.addFatalError(e.getMessage());
@@ -151,7 +151,7 @@ public class OrganizeImportsRefactoring extends Refactoring{
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
+			for (final IResource res : children) {
 				if (hasTtcnppFiles(res)) {
 					return true;
 				}
@@ -162,7 +162,7 @@ public class OrganizeImportsRefactoring extends Refactoring{
 		}
 		return false;
 	}
-	
+
 	//METHODS FROM REFACTORING END
 
 	/**
@@ -188,7 +188,7 @@ public class OrganizeImportsRefactoring extends Refactoring{
 		public boolean visit(final IResource resource) throws CoreException {
 			if (resource instanceof IFile) {
 				final ChangeCreator chCreator = new ChangeCreator((IFile)resource);
-				chCreator.perform(); // this work 
+				chCreator.perform(); // this work
 				final Change ch = chCreator.getChange();
 				if (ch != null) {
 					change.add(ch);

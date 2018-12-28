@@ -50,8 +50,8 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
  * Some methods to make convenient organizing import statements.
- * 
- * @author Farkas Izabella Ingrid 
+ *
+ * @author Farkas Izabella Ingrid
  * @see org.eclipse.titanium.organize.OrganizeImports
  */
 
@@ -66,7 +66,7 @@ public class ChangeCreator {
 	private static boolean removeImports = true;
 	//private static String importChangeMethod;
 	private static boolean reportDebug;
-	
+
 	//in
 	private final IFile selectedFile;
 
@@ -82,7 +82,7 @@ public class ChangeCreator {
 	}
 
 	/**
-	 * Creates the {@link #change} object, which contains all the inserted, deleted and sorted imports 
+	 * Creates the {@link #change} object, which contains all the inserted, deleted and sorted imports
 	 * in the selected resources.
 	 * */
 	public void perform() {
@@ -96,22 +96,22 @@ public class ChangeCreator {
 		if (toVisit == null) {
 			return null;
 		}
-		
+
 		final String designerId = ProductConstants.PRODUCT_ID_DESIGNER;
 		final String displayDebugInfo = org.eclipse.titan.designer.preferences.PreferenceConstants.DISPLAYDEBUGINFORMATION;
 		reportDebug = Platform.getPreferencesService().getBoolean(designerId, displayDebugInfo, false, null);
-				
+
 		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(toVisit.getProject());
 		final Module module = sourceParser.containedModule(toVisit);
 		if(module == null || !(module instanceof TTCN3Module)) {
 			return null;
 		}
-		
+
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		IDocument doc;
-		
+
 		final TTCN3Module tModule = (TTCN3Module) module;
-		
+
 		try {
 			doc = tfc.getCurrentDocument(null);
 			final MultiTextEdit resultEdit = organizeImportsEdit(tModule, doc);
@@ -124,10 +124,10 @@ public class ChangeCreator {
 		} catch (CoreException e1) {
 			ErrorReporter.logExceptionStackTrace("Error while organizing imports", e1);
 		}
-		
+
 		return tfc;
 	}
-	
+
 	/**
 	 * Try to find the declaration of the reference in any module of the
 	 * project.
@@ -137,7 +137,7 @@ public class ChangeCreator {
 	 * dialog is displayed to the user to choose one. If none found, or the user
 	 * cancels the dialog, <code>null</code> is returned.
 	 * </p>
-	 * 
+	 *
 	 * @param reference
 	 *            The (missing) reference we are searching for.
 	 * @param project
@@ -152,7 +152,7 @@ public class ChangeCreator {
 		for (final String moduleName : projectSourceParser.getKnownModuleNames()) {
 			final Module m = projectSourceParser.getModuleByName(moduleName);
 			if (m != null && m.getAssignments().hasLocalAssignmentWithID(CompilationTimeStamp.getBaseTimestamp(), identifier)) {
-				Assignment assignment = m.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), identifier);
+				final Assignment assignment = m.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), identifier);
 				if (assignment != null) {
 					collected.add(new DeclarationCollectionHelper(assignment.getProposalDescription(), assignment.getIdentifier().getLocation(),
 							assignment));
@@ -173,7 +173,7 @@ public class ChangeCreator {
 			Display.getDefault().syncExec(dialog);
 			loc = dialog.getSelected();
 		} else if (collected.size() == 1) {
-			DeclarationCollectionHelper declaration = collected.get(0);
+			final DeclarationCollectionHelper declaration = collected.get(0);
 			loc = declaration.location;
 			TITANDebugConsole.println("Exactly one module for " + reference.getDisplayName() + " is found: " + loc.getFile().getName());
 		} else {
@@ -194,12 +194,12 @@ public class ChangeCreator {
 	 * <link>MultiTextEdit</link>, which is then returned.
 	 * </p>
 	 * TODO: notice and handle ambiguous references
-	 * 
+	 *
 	 * @param module
 	 *            The module which import statements are to organize.
 	 * @param document
 	 *            The document that contains the module.
-	 * 
+	 *
 	 * @return The edit, which contains the proper changes.
 	 */
 	private static MultiTextEdit organizeImportsEdit(final TTCN3Module module, final IDocument document) throws BadLocationException {
@@ -225,7 +225,7 @@ public class ChangeCreator {
 					if (!importNamesAdded.contains(importName)) {
 						final StringBuilder impText = new StringBuilder("import from ").append(importName).append(" all;");
 						//if (importChangeMethod.equals(OrganizeImportPreferencePage.COMMENT_THEM)) {
-							impText.append(" // Added automatically to resolve ").append(ref.getDisplayName());
+						impText.append(" // Added automatically to resolve ").append(ref.getDisplayName());
 						//}
 						newImports.add(new ImportText(importName, impText.toString() + NEWLINE));
 						importNamesAdded.add(importName);
@@ -296,11 +296,11 @@ public class ChangeCreator {
 					/*if (importChangeMethod.equals(OrganizeImportPreferencePage.COMMENT_THEM)) {
 						removeEdit.addChild(new InsertEdit(m.getLocation().getOffset(), "/*"));
 						// hack to handle the semicolon
-						removeEdit.addChild(new InsertEdit(m.getLocation().getEndOffset() + 1, "")); 
+						removeEdit.addChild(new InsertEdit(m.getLocation().getEndOffset() + 1, ""));
 					} else {*/
-						removeEdit.addChild(new DeleteEdit(startLineRegion.getOffset(),
-								(endLineRegion.getOffset() - startLineRegion.getOffset()) + endLineRegion.getLength()
-										+ delLength));
+					removeEdit.addChild(new DeleteEdit(startLineRegion.getOffset(),
+							(endLineRegion.getOffset() - startLineRegion.getOffset()) + endLineRegion.getLength()
+							+ delLength));
 					//}
 				}
 				if (needSorting && (!removeImports || m.getUsedForImportation())) {
@@ -350,74 +350,74 @@ public class ChangeCreator {
 }
 
 class ImportText implements Comparable<ImportText> {
-		private final String moduleName;
-		private final String importText;
+	private final String moduleName;
+	private final String importText;
 
-		public ImportText(final String moduleName, final String importText) {
-			this.moduleName = moduleName;
-			this.importText = importText;
+	public ImportText(final String moduleName, final String importText) {
+		this.moduleName = moduleName;
+		this.importText = importText;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public String getText() {
+		return importText;
+	}
+
+	@Override
+	public int compareTo(final ImportText rhs) {
+		return moduleName.compareTo(rhs.moduleName);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
 		}
 
-		public String getModuleName() {
-			return moduleName;
+		if (!(obj instanceof ImportText)) {
+			return false;
 		}
 
-		public String getText() {
-			return importText;
-		}
+		return moduleName.equals(((ImportText) obj).moduleName);
+	}
 
-		@Override
-		public int compareTo(final ImportText rhs) {
-			return moduleName.compareTo(rhs.moduleName);
-		}
-
-		@Override
-		public boolean equals(final Object obj) {
-			if (obj == null) {
-				return false;
-			}
-
-			if (!(obj instanceof ImportText)) {
-				return false;
-			}
-
-			return moduleName.equals(((ImportText) obj).moduleName);
-		}
-
-		@Override
-		public int hashCode() {
-			return moduleName.hashCode();
-		}
+	@Override
+	public int hashCode() {
+		return moduleName.hashCode();
+	}
 }
 
 class ImportSelectionDialog implements Runnable {
-		private final Reference reference;
-		private final List<DeclarationCollectionHelper> collected;
-		private Location selected;
-		private final IResource source;
+	private final Reference reference;
+	private final List<DeclarationCollectionHelper> collected;
+	private Location selected;
+	private final IResource source;
 
-		public ImportSelectionDialog(final Reference reference, final List<DeclarationCollectionHelper> collected, final IResource source) {
-			this.reference = reference;
-			this.collected = collected;
-			this.selected = null;
-			this.source = source;
-		}
+	public ImportSelectionDialog(final Reference reference, final List<DeclarationCollectionHelper> collected, final IResource source) {
+		this.reference = reference;
+		this.collected = collected;
+		this.selected = null;
+		this.source = source;
+	}
 
-		@Override
-		public void run() {
-			final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
-			final ElementListSelectionDialog dialog = new ElementListSelectionDialog(new Shell(Display.getCurrent()), labelProvider);
-			dialog.setTitle("Add Import");
-			dialog.setMessage("For the missing reference: " + reference.getDisplayName() 
-					+ " in " + source.getProjectRelativePath().toString() + ".");
-			dialog.setElements(collected.toArray());
-			dialog.setHelpAvailable(false);
-			if (dialog.open() == Window.OK) {
-				selected = ((DeclarationCollectionHelper) dialog.getFirstResult()).location;
-			}
+	@Override
+	public void run() {
+		final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
+		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(new Shell(Display.getCurrent()), labelProvider);
+		dialog.setTitle("Add Import");
+		dialog.setMessage("For the missing reference: " + reference.getDisplayName()
+				+ " in " + source.getProjectRelativePath().toString() + ".");
+		dialog.setElements(collected.toArray());
+		dialog.setHelpAvailable(false);
+		if (dialog.open() == Window.OK) {
+			selected = ((DeclarationCollectionHelper) dialog.getFirstResult()).location;
 		}
+	}
 
-		public Location getSelected() {
-			return selected;
-		}
+	public Location getSelected() {
+		return selected;
+	}
 }

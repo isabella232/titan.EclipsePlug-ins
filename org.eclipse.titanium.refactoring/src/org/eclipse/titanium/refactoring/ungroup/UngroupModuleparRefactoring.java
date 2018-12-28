@@ -110,7 +110,7 @@ public class UngroupModuleparRefactoring extends Refactoring {
 		private final CompositeChange change;
 
 		public ResourceVisitor() {
-			this.change = new CompositeChange("UngroupModuleparRefactoring");;
+			this.change = new CompositeChange("UngroupModuleparRefactoring");
 		}
 
 		private CompositeChange getChange() {

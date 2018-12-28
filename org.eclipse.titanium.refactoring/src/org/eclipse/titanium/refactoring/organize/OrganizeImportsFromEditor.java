@@ -23,15 +23,15 @@ import org.eclipse.titanium.refactoring.Utils;
 
 /**
  * The organize imports action, which can be called while editing a ttcn3 file.
- * 
+ *
  * @author Farkas Izabella Ingrid
- * 
+ *
  */
 public final class OrganizeImportsFromEditor extends AbstractHandler {
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		
+
 		//update AST
 		Utils.updateASTForProjectActiveInEditor("OrganizeImports");
 		Activator.getDefault().pauseHandlingResourceChanges();
@@ -53,7 +53,7 @@ public final class OrganizeImportsFromEditor extends AbstractHandler {
 		//open wizard
 		final OrganizeImportsWizard wiz = new OrganizeImportsWizard(refactoring);
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(wiz);
-		
+
 		try {
 			operation.run(targetEditor.getEditorSite().getShell(), "");
 		} catch (InterruptedException irex) {
