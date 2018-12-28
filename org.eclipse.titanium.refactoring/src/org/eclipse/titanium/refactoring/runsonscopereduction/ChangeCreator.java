@@ -267,9 +267,10 @@ class ReferenceCheck extends ASTVisitor {
 			if (((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 				return V_CONTINUE;
 			}
+
 			final Reference reference = (Reference) node;
-			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			if (reference != null) {
+				final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 				final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 				if (assignment != null){
 					if (assignment instanceof Def_Function) {
