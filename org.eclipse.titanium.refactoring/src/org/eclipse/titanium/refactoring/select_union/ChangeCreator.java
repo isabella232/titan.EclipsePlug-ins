@@ -128,22 +128,22 @@ class ChangeCreator {
 		final ReplaceEdit insertUnion = new ReplaceEdit(statement.getLocation().getOffset()+6, 0, " union");
 		
 		// Statement part changes
-		int statementBegin = statement.getExpression().getLocation().getOffset(); 
-		int statementEnd = statement.getExpression().getLocation().getEndOffset();
-		int elementNameLength = elements.get(0).getDisplayName().lastIndexOf(".");
-		String elementName = elements.get(0).getDisplayName().substring(0, elementNameLength);
+		final int statementBegin = statement.getExpression().getLocation().getOffset(); 
+		final int statementEnd = statement.getExpression().getLocation().getEndOffset();
+		final int elementNameLength = elements.get(0).getDisplayName().lastIndexOf(".");
+		final String elementName = elements.get(0).getDisplayName().substring(0, elementNameLength);
 		final ReplaceEdit changeExpression = new ReplaceEdit(statementBegin, statementEnd-statementBegin, elementName);
 		
 		// Calculate the case branch changes
 		ReplaceEdit[] changeCases = new ReplaceEdit[elements.size()];
-		List<SelectCase> scs = statement.getSelectCases().getSelectCaseArray();
+		final List<SelectCase> scs = statement.getSelectCases().getSelectCaseArray();
 		if(scs.size() < elements.size()){
 			return;
 		}
 		for(Integer i = 0; i < elements.size(); i++){
-			int startOfIschosen = scs.get(i).getLocation().getOffset();
-			int startOfStatement = scs.get(i).getStatementBlock().getLocation().getOffset();
-			String fieldName = elements.get(i).getDisplayName().substring(elementNameLength+1);
+			final int startOfIschosen = scs.get(i).getLocation().getOffset();
+			final int startOfStatement = scs.get(i).getStatementBlock().getLocation().getOffset();
+			final String fieldName = elements.get(i).getDisplayName().substring(elementNameLength+1);
 			changeCases[i] = new ReplaceEdit(startOfIschosen, startOfStatement - startOfIschosen, "case("+fieldName+")");
 		}
 		
@@ -218,9 +218,9 @@ class ChangeCreator {
 			
 			// Check the union, get the types.
 			final UnionItemVisitor unionVisitor = new UnionItemVisitor();
-			List<Identifier> foundIds = new ArrayList<Identifier>();
-			for(Reference ref : caseVisitor.getReferenceList()){
-				List<ISubReference> reflist = ref.getSubreferences();
+			final List<Identifier> foundIds = new ArrayList<Identifier>();
+			for(final Reference ref : caseVisitor.getReferenceList()){
+				final List<ISubReference> reflist = ref.getSubreferences();
 				if(reflist.isEmpty()){
 					continue;
 				}
@@ -235,11 +235,11 @@ class ChangeCreator {
 			caseVisitor.getUnionType().accept(unionVisitor);
 			
 			// Check if the found types are the same as the union types.
-			List<Identifier> unionItems = unionVisitor.getItemsFound();
+			final List<Identifier> unionItems = unionVisitor.getItemsFound();
 			if(unionItems.isEmpty() || (!hasElseBranch && unionItems.size() != foundIds.size())){
 				return V_CONTINUE;
 			}
-			for(Identifier item : foundIds){
+			for(final Identifier item : foundIds){
 				unionItems.remove(item);
 			}
 			if(!hasElseBranch && unionItems.isEmpty() || hasElseBranch){
@@ -276,13 +276,13 @@ class ChangeCreator {
 					return V_CONTINUE;
 				} else if (node instanceof TemplateInstance) {
 					final TemplateInstance ti = (TemplateInstance)node;
-					IValue val = ti.getTemplateBody().getValue();
+					final IValue val = ti.getTemplateBody().getValue();
 					if (val == null || val.getIsErroneous(timestamp) || !(val instanceof IsChoosenExpression)) {
 						errorDuringVisiting = true;
 						return V_ABORT;
 					}
 					
-					IsChoosenExpression expr = (IsChoosenExpression)val;
+					final IsChoosenExpression expr = (IsChoosenExpression)val;
 					final IsChoosenItemVisitor itemVisitor = new IsChoosenItemVisitor();
 					expr.accept(itemVisitor);
 					if(itemVisitor.getReference() == null){
@@ -346,9 +346,9 @@ class ChangeCreator {
 				} else if (node instanceof WithAttributesPath) {
 					return V_CONTINUE;
 				} else if (node instanceof CompFieldMap){
-					CompFieldMap cm = (CompFieldMap) node;
-					Map<String, CompField> map = cm.getComponentFieldMap(timestamp);
-					for(Map.Entry<String, CompField> entry : map.entrySet()) {
+					final CompFieldMap cm = (CompFieldMap) node;
+					final Map<String, CompField> map = cm.getComponentFieldMap(timestamp);
+					for(final Map.Entry<String, CompField> entry : map.entrySet()) {
 						itemsFound.add(entry.getValue().getIdentifier());
 					}
 					return V_CONTINUE;
