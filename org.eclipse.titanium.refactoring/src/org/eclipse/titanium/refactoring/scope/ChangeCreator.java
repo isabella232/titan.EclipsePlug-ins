@@ -701,15 +701,9 @@ public class ChangeCreator {
 				return V_CONTINUE;
 			}
 			if (node instanceof Statement) {
-				if (suspendStackBuildingForNode == null) {
-					final Node n = currStack.pop();
-				}
 				checkForUnsuspend(node);
 			}
 			if (node instanceof StatementBlock) {
-				if (suspendStackBuildingForNode == null) {
-					final Node n = currStack.pop();
-				}
 				checkForUnsuspend(node);
 			}
 			return V_CONTINUE;
