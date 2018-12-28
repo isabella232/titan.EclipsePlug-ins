@@ -736,7 +736,7 @@ public class ChangeCreator {
 	 * */
 	private static class FunctionCollector extends ASTVisitor {
 
-		private Set<Definition> result = new HashSet<Definition>();
+		private final Set<Definition> result = new HashSet<Definition>();
 
 		public Set<Definition> getResult() {
 			return result;
