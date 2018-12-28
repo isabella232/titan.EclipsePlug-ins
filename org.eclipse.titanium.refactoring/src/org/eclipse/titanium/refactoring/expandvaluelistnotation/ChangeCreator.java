@@ -83,7 +83,7 @@ class ChangeCreator {
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
 
-		for (ILocateableNode node : nodes) {
+		for (final ILocateableNode node : nodes) {
 			final SequenceOf_Value seqOfValues = (SequenceOf_Value) node;
 			if (seqOfValues.getMyGovernor() == null) {
 				continue;
