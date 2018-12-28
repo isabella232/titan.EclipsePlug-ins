@@ -252,7 +252,7 @@ class ChangeCreator {
 		private final class CaseVisitor extends ASTVisitor {
 			private boolean errorDuringVisiting = false;
 			private final List<Reference> references = new ArrayList<Reference>();
-			IType unionType = null;
+			private IType unionType = null;
 			
 			public boolean isErronous() {
 				return this.errorDuringVisiting;
