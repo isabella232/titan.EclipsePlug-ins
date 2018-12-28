@@ -29,9 +29,6 @@ import org.eclipse.titanium.refactoring.insertfield.InsertFieldRefactoring.Setti
  * @author Bianka Bekefi
  * */
 public class InsertFieldWizardInputPage extends UserInputWizardPage {
-
-	private final Settings settings;
-
 	private static final String INVALIDNAME = "Name is not valid. ";
 	private static final String NAMEEXISTS = "Name already exists. ";
 	private static final String NEGATIVEPOSITION = "Position must be at least 0. ";
@@ -40,12 +37,13 @@ public class InsertFieldWizardInputPage extends UserInputWizardPage {
 	private static final String TYPEMANDATORY = "Type is mandatory. ";
 	private static final String VALUEMANDATORY = "Value is mandatory. ";
 
+	private final Settings settings;
+	private final Definition selection;
+
 	private Text positionField;
 	private Text typeField;
 	private Text nameField;
 	private Text valueField;
-
-	private final Definition selection;
 
 	private String positionErrorMessage = "";
 	private String nameErrorMessage = "";
