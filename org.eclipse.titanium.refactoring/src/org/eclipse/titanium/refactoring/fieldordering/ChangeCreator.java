@@ -92,7 +92,6 @@ class ChangeCreator {
 		final DefinitionVisitor vis = new DefinitionVisitor();
 		module.accept(vis);
 		final NavigableSet<ILocateableNode> nodes = vis.getLocations();
-
 		if (nodes.isEmpty()) {
 			return null;
 		}
@@ -101,7 +100,6 @@ class ChangeCreator {
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
-
 		if (nodes.isEmpty()) {
 			return tfc;
 		}
@@ -122,7 +120,7 @@ class ChangeCreator {
 
 		return tfc;
 	}
-	
+
 
 	private static void orderSequence_Value(final String fileContents, final Sequence_Value sequence_Value, final MultiTextEdit rootEdit) {
 		if (sequence_Value.getNofComponents() == 0) {
@@ -143,32 +141,25 @@ class ChangeCreator {
 		final ArrayList<Identifier> fieldNamesOrdered = new ArrayList<Identifier>();
 		if (refType instanceof TTCN3_Set_Type) {
 			final TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
-
 			for (int i = 0; i < setType.getNofComponents(); ++i) {
-				
 				final Identifier identifier = setType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof TTCN3_Sequence_Type) {
 			final TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
-
 			for (int i = 0; i < sequenceType.getNofComponents(); ++i) {
-				
 				final Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof ASN1_Set_Type) {
 			final ASN1_Set_Type setType = (ASN1_Set_Type) refType;
-
 			for (int i = 0; i < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
-				
 				final Identifier identifier = setType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof ASN1_Sequence_Type) {
 			final ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
 			for (int i = 0; i < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
-				
 				final Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
@@ -178,7 +169,6 @@ class ChangeCreator {
 		for (int i = 0; i < fieldNamesOrdered.size() ; i++) {
 			final Identifier identifier = fieldNamesOrdered.get(i);
 			final NamedValue componentByName = sequence_Value.getComponentByName(identifier);
-
 			if (componentByName == null) { // no value defined
 				continue;
 			}
@@ -204,9 +194,8 @@ class ChangeCreator {
 			//FIXME log and continue
 		}
 	}
-	
-	private static void orderSequenceOf_Value(final String fileContents, final SequenceOf_Value sequenceOf_Value, final MultiTextEdit rootEdit) {
 
+	private static void orderSequenceOf_Value(final String fileContents, final SequenceOf_Value sequenceOf_Value, final MultiTextEdit rootEdit) {
 		if (!sequenceOf_Value.isIndexed()) { // ordered
 			return;
 		}
@@ -223,7 +212,6 @@ class ChangeCreator {
 		}
 
 		for (long i = 0; i < maxIndex; ++i) {
-
 			final long realIndex = i + 1;
 			final IValue indexedValueByRealIndex = sequenceOf_Value.getValues().getIndexedValueByRealIndex((int) realIndex);
 
@@ -240,14 +228,13 @@ class ChangeCreator {
 			final int start = indexedValueByRealIndex.getLocation().getOffset();
 			final int end = indexedValueByRealIndex.getLocation().getEndOffset();
 			builder.append('[').append(realIndex).append("] := ").append(fileContents.substring(start, end));
-
 		}
 
 		final int seqStartOffset = sequenceOf_Value.getLocation().getOffset() + 1;
 		final int seqEndOffset = sequenceOf_Value.getLocation().getEndOffset() - 1;
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
-	
+
 	private static Long getIndexUpperBound(final SequenceOf_Value sequenceOf_Value) {
 		long result = 0;
 		for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
@@ -264,7 +251,7 @@ class ChangeCreator {
 
 		return result;
 	}
-	
+
 	/**
 	 * Collects the locations of all the definitions in a module where the visibility modifier
 	 *  is not yet minimal.
