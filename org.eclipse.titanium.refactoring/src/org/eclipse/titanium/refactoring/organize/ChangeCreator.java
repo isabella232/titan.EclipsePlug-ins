@@ -107,12 +107,10 @@ public class ChangeCreator {
 		}
 
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
-		IDocument doc;
-
 		final TTCN3Module tModule = (TTCN3Module) module;
 
 		try {
-			doc = tfc.getCurrentDocument(null);
+			final IDocument doc = tfc.getCurrentDocument(null);
 			final MultiTextEdit resultEdit = organizeImportsEdit(tModule, doc);
 			if (!resultEdit.hasChildren()) {
 				return null;
