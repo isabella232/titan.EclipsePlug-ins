@@ -108,7 +108,7 @@ class ChangeCreator {
 
 		final String fileContents = loadFileContent(toVisit);
 
-		for (ILocateableNode node : nodes) {
+		for (final ILocateableNode node : nodes) {
 			if (node instanceof Sequence_Value) {
 				orderSequence_Value(fileContents, (Sequence_Value) node, rootEdit);
 			} else if (node instanceof SequenceOf_Value) {
@@ -133,51 +133,51 @@ class ChangeCreator {
 			return;
 		}
 
-		IType type = sequence_Value.getMyGovernor();
+		final IType type = sequence_Value.getMyGovernor();
 		if (!(type instanceof Referenced_Type)) {
 			return;
 		}
 
-		IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		StringBuilder builder = new StringBuilder();
-		ArrayList<Identifier> fieldNamesOrdered = new ArrayList<Identifier>();
+		final IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final StringBuilder builder = new StringBuilder();
+		final ArrayList<Identifier> fieldNamesOrdered = new ArrayList<Identifier>();
 		if (refType instanceof TTCN3_Set_Type) {
-			TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
+			final TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
 
 			for (int i = 0; i < setType.getNofComponents(); ++i) {
 				
-				Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				final Identifier identifier = setType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof TTCN3_Sequence_Type) {
-			TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
+			final TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
 
 			for (int i = 0; i < sequenceType.getNofComponents(); ++i) {
 				
-				Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				final Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof ASN1_Set_Type) {
-			ASN1_Set_Type setType = (ASN1_Set_Type) refType;
+			final ASN1_Set_Type setType = (ASN1_Set_Type) refType;
 
 			for (int i = 0; i < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
 				
-				Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				final Identifier identifier = setType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		} else if (refType instanceof ASN1_Sequence_Type) {
-			ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
+			final ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
 			for (int i = 0; i < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
 				
-				Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				final Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
 				fieldNamesOrdered.add(identifier);
 			}
 		}
 
 		boolean isFirst = true;
 		for (int i = 0; i < fieldNamesOrdered.size() ; i++) {
-			Identifier identifier = fieldNamesOrdered.get(i);
-			NamedValue componentByName = sequence_Value.getComponentByName(identifier);
+			final Identifier identifier = fieldNamesOrdered.get(i);
+			final NamedValue componentByName = sequence_Value.getComponentByName(identifier);
 
 			if (componentByName == null) { // no value defined
 				continue;
@@ -189,14 +189,14 @@ class ChangeCreator {
 				builder.append(",\n");
 			}
 
-			IValue value = componentByName.getValue();
-			int start = value.getLocation().getOffset();
-			int end = value.getLocation().getEndOffset();
+			final IValue value = componentByName.getValue();
+			final int start = value.getLocation().getOffset();
+			final int end = value.getLocation().getEndOffset();
 			builder.append(identifier.getDisplayName()).append(" := ").append(fileContents.substring(start, end));
 		}
 
-		int seqStartOffset = sequence_Value.getLocation().getOffset() + 1;
-		int seqEndOffset = sequence_Value.getLocation().getEndOffset() - 1;
+		final int seqStartOffset = sequence_Value.getLocation().getOffset() + 1;
+		final int seqEndOffset = sequence_Value.getLocation().getEndOffset() - 1;
 		final ReplaceEdit newEdit = new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString());
 		try {
 			rootEdit.addChild(newEdit);
@@ -215,17 +215,17 @@ class ChangeCreator {
 			return;
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		boolean isFirst = true;
-		Long maxIndex = getIndexUpperBound(sequenceOf_Value);
+		final Long maxIndex = getIndexUpperBound(sequenceOf_Value);
 		if (maxIndex == null) {
 			return;
 		}
 
 		for (long i = 0; i < maxIndex; ++i) {
 
-			long realIndex = i + 1;
-			IValue indexedValueByRealIndex = sequenceOf_Value.getValues().getIndexedValueByRealIndex((int) realIndex);
+			final long realIndex = i + 1;
+			final IValue indexedValueByRealIndex = sequenceOf_Value.getValues().getIndexedValueByRealIndex((int) realIndex);
 
 			if (indexedValueByRealIndex == null) { // no value defined
 				continue;
@@ -237,26 +237,26 @@ class ChangeCreator {
 				builder.append(", ");
 			}
 
-			int start = indexedValueByRealIndex.getLocation().getOffset();
-			int end = indexedValueByRealIndex.getLocation().getEndOffset();
+			final int start = indexedValueByRealIndex.getLocation().getOffset();
+			final int end = indexedValueByRealIndex.getLocation().getEndOffset();
 			builder.append('[').append(realIndex).append("] := ").append(fileContents.substring(start, end));
 
 		}
 
-		int seqStartOffset = sequenceOf_Value.getLocation().getOffset() + 1;
-		int seqEndOffset = sequenceOf_Value.getLocation().getEndOffset() - 1;
+		final int seqStartOffset = sequenceOf_Value.getLocation().getOffset() + 1;
+		final int seqEndOffset = sequenceOf_Value.getLocation().getEndOffset() - 1;
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
 	
 	private static Long getIndexUpperBound(final SequenceOf_Value sequenceOf_Value) {
 		long result = 0;
 		for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
-			IValue indexByIndex = sequenceOf_Value.getIndexByIndex(i);
+			final IValue indexByIndex = sequenceOf_Value.getIndexByIndex(i);
 			if (indexByIndex.getValuetype() != Value_type.INTEGER_VALUE) {
 				return null;
 			}
 
-			long value = ((Integer_Value)indexByIndex).getValue();
+			final long value = ((Integer_Value)indexByIndex).getValue();
 			if (value > result) {
 				result = value;
 			}
@@ -303,7 +303,7 @@ class ChangeCreator {
 		 * @return true if the value can and needs to be ordered, false otherwise
 		 * */
 		private boolean needsOrdering(final Sequence_Value sequence_Value) {
-			IType type = sequence_Value.getMyGovernor();
+			final IType type = sequence_Value.getMyGovernor();
 			if (!(type instanceof Referenced_Type)) {
 				return false;
 			}
@@ -316,17 +316,17 @@ class ChangeCreator {
 				return false;
 			}
 
-			IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (refType instanceof TTCN3_Set_Type) {
-				TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
+				final TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
 				int typeIndex = 0;
 				for (int i = 0; i < sequence_Value.getNofComponents(); ++i) {
-					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					final NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
 					boolean found = false;
 					while (typeIndex < setType.getNofComponents()) {
-						Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
+						final Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
 						typeIndex++;
 						if (identifier.equals(namedValue.getName())) {
 							found = true;
@@ -337,15 +337,15 @@ class ChangeCreator {
 				}
 				return !inOrder;
 			} else if (refType instanceof TTCN3_Sequence_Type) {
-				TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
+				final TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
 				int typeIndex = 0;
 				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
-					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					final NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
 					boolean found = false;
 					while (typeIndex < sequenceType.getNofComponents()) {
-						Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
+						final Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
 						typeIndex++;
 						if (identifier.equals(namedValue.getName())) {
 							found = true;
@@ -356,15 +356,15 @@ class ChangeCreator {
 				}
 				return !inOrder;
 			} else if (refType instanceof ASN1_Set_Type) {
-				ASN1_Set_Type setType = (ASN1_Set_Type) refType;
+				final ASN1_Set_Type setType = (ASN1_Set_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
 				int typeIndex = 0;
 				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
-					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					final NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
 					boolean found = false;
 					while (typeIndex < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp())) {
-						Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
+						final Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
 						typeIndex++;
 						if (identifier.equals(namedValue.getName())) {
 							found = true;
@@ -375,15 +375,15 @@ class ChangeCreator {
 				}
 				return !inOrder;
 			} else if (refType instanceof ASN1_Sequence_Type) {
-				ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
+				final ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
 				int typeIndex = 0;
 				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
-					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					final NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
 					boolean found = false;
 					while (typeIndex < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp())) {
-						Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
+						final Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
 						typeIndex++;
 						if (identifier.equals(namedValue.getName())) {
 							found = true;
@@ -412,7 +412,7 @@ class ChangeCreator {
 
 			int lastIndex = -1;
 			for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
-				IValue index = sequenceOf_Value.getIndexByIndex(i);
+				final IValue index = sequenceOf_Value.getIndexByIndex(i);
 				if (!(index instanceof Integer_Value)) {
 					return false;
 				}
