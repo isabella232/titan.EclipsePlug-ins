@@ -61,7 +61,7 @@ class ChangeCreator {
 	private Change change;
 
 	private final CompilationTimeStamp timestamp;
-	
+
 	ChangeCreator(final IFile selectedFile) {
 		this.selectedFile = selectedFile;
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
@@ -122,18 +122,18 @@ class ChangeCreator {
 
 		return tfc;
 	}
-	
+
 	private void makeChange(final SelectCase_Statement statement, final MultiTextEdit rootEdit, final List<Reference> elements){
 		// Insert the "union" word after the "select"
 		final ReplaceEdit insertUnion = new ReplaceEdit(statement.getLocation().getOffset()+6, 0, " union");
-		
+
 		// Statement part changes
-		final int statementBegin = statement.getExpression().getLocation().getOffset(); 
+		final int statementBegin = statement.getExpression().getLocation().getOffset();
 		final int statementEnd = statement.getExpression().getLocation().getEndOffset();
 		final int elementNameLength = elements.get(0).getDisplayName().lastIndexOf(".");
 		final String elementName = elements.get(0).getDisplayName().substring(0, elementNameLength);
 		final ReplaceEdit changeExpression = new ReplaceEdit(statementBegin, statementEnd-statementBegin, elementName);
-		
+
 		// Calculate the case branch changes
 		ReplaceEdit[] changeCases = new ReplaceEdit[elements.size()];
 		final List<SelectCase> scs = statement.getSelectCases().getSelectCaseArray();
@@ -146,7 +146,7 @@ class ChangeCreator {
 			final String fieldName = elements.get(i).getDisplayName().substring(elementNameLength+1);
 			changeCases[i] = new ReplaceEdit(startOfIschosen, startOfStatement - startOfIschosen, "case("+fieldName+")");
 		}
-		
+
 		try {
 			rootEdit.addChild(insertUnion);
 			rootEdit.addChild(changeExpression);
@@ -175,7 +175,7 @@ class ChangeCreator {
 		private List<SelectCase_Statement> getLocations() {
 			return locations;
 		}
-		
+
 		private List<List<Reference>> getReferences(){
 			return references;
 		}
@@ -186,12 +186,12 @@ class ChangeCreator {
 				return V_CONTINUE;
 			}
 			final SelectCase_Statement s = (SelectCase_Statement)node;
-			
+
 			final Value v = s.getExpression();
 			if (v == null || v.getIsErroneous(timestamp)) {
 				return V_CONTINUE;
 			}
-			
+
 			final SelectCases scs = s.getSelectCases();
 			if (scs == null || scs.getSelectCaseArray() == null) {
 				return V_CONTINUE;
@@ -203,19 +203,19 @@ class ChangeCreator {
 					hasElseBranch = true;
 				}
 			}
-			
+
 			// Check the expression - must be true.
 			if(!(v instanceof Boolean_Value) || !((Boolean_Value) v).getValue()){
 				return V_CONTINUE;
 			}
-			
+
 			// Check the cases.
 			final CaseVisitor caseVisitor = new CaseVisitor();
 			scs.accept(caseVisitor);
 			if (caseVisitor.isErronous()) {
 				return V_CONTINUE;
 			}
-			
+
 			// Check the union, get the types.
 			final UnionItemVisitor unionVisitor = new UnionItemVisitor();
 			final List<Identifier> foundIds = new ArrayList<Identifier>();
@@ -233,7 +233,7 @@ class ChangeCreator {
 				return V_CONTINUE;
 			}
 			caseVisitor.getUnionType().accept(unionVisitor);
-			
+
 			// Check if the found types are the same as the union types.
 			final List<Identifier> unionItems = unionVisitor.getItemsFound();
 			if(unionItems.isEmpty() || (!hasElseBranch && unionItems.size() != foundIds.size())){
@@ -253,19 +253,19 @@ class ChangeCreator {
 			private boolean errorDuringVisiting = false;
 			private final List<Reference> references = new ArrayList<Reference>();
 			private IType unionType = null;
-			
+
 			public boolean isErronous() {
 				return this.errorDuringVisiting;
 			}
-			
+
 			public List<Reference> getReferenceList(){
 				return this.references;
 			}
-			
+
 			public IType getUnionType(){
 				return this.unionType;
 			}
-			
+
 			@Override
 			public int visit(final IVisitableNode node) {
 				if (node instanceof SelectCases) {
@@ -281,7 +281,7 @@ class ChangeCreator {
 						errorDuringVisiting = true;
 						return V_ABORT;
 					}
-					
+
 					final IsChoosenExpression expr = (IsChoosenExpression)val;
 					final IsChoosenItemVisitor itemVisitor = new IsChoosenItemVisitor();
 					expr.accept(itemVisitor);
@@ -309,11 +309,11 @@ class ChangeCreator {
 				return V_SKIP;
 			}
 		}
-		
+
 		private final class IsChoosenItemVisitor extends ASTVisitor {
 
 			private Reference reference;
-			
+
 			public Reference getReference(){
 				return this.reference;
 			}
@@ -330,11 +330,11 @@ class ChangeCreator {
 			}
 
 		}
-		
+
 		private final class UnionItemVisitor extends ASTVisitor {
 
 			private final List<Identifier> itemsFound = new ArrayList<Identifier>();
-			
+
 			public List<Identifier> getItemsFound() {
 				return this.itemsFound;
 			}
