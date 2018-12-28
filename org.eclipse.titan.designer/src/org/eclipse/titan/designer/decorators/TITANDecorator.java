@@ -326,13 +326,14 @@ public final class TITANDecorator extends LabelProvider implements ILabelDecorat
 				result.append(ABSOLUTE_PATH_OPTION);
 			}
 
-			final int nofReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects().length;
+			final ProjectBasedBuilder builder = ProjectBasedBuilder.getProjectBasedBuilder(project);
+			final int nofReferencedProjects = builder.getReferencedProjects().length;
 			boolean preProcessorOptionSet = false;
 
 			if (visitor.getHasCentralStorage() || nofReferencedProjects != 0) {
 				result.append(CENTRAL_STORAGE_OPTION);
 
-				final List<IProject> reachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+				final List<IProject> reachableProjects = builder.getAllReachableProjects();
 				IProject reachableProject;
 				DecoratorVisitor visitor2;
 				boolean prePorcessorOptionFound = false;
