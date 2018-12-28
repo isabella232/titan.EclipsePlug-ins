@@ -180,7 +180,7 @@ public class ChangeCreator {
 					if (node.getCumulativeDefinitionLocation().getOffset() == precedeOffset) {
 						locations_out.add(precedeNode);
 					} else {
-						if (locations_out.size() != 0) {
+						if (!locations_out.isEmpty()) {
 							final Definition lastInserted = locations_out.get(locations_out.size() - 1);
 
 							if (precedeNode.getCumulativeDefinitionLocation().getOffset() == lastInserted
@@ -194,7 +194,7 @@ public class ChangeCreator {
 					precedeNode = node;
 
 				}
-				if (locations_out.size() != 0) {
+				if (!locations_out.isEmpty()) {
 					final Definition lastnode = nodes.last();
 					final Definition lastInserted = locations_out.get(locations_out.size() - 1);
 
