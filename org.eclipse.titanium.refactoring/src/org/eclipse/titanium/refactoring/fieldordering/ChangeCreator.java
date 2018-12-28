@@ -403,8 +403,10 @@ class ChangeCreator {
 				if (!(index instanceof Integer_Value)) {
 					return false;
 				}
-				if (((Integer_Value)index).intValue() > lastIndex) {
-					lastIndex = ((Integer_Value)index).intValue();
+
+				final int currentIndex = ((Integer_Value)index).intValue();
+				if (currentIndex > lastIndex) {
+					lastIndex = currentIndex;
 				} else {
 					return true;
 				}
