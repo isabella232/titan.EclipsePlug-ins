@@ -177,8 +177,8 @@ public final class BitString_Type extends Type {
 			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
-		boolean selfReference = false;
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case BSTR_PATTERN:
 			break;
