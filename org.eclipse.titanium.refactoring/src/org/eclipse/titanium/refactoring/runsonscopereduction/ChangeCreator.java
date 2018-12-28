@@ -251,7 +251,7 @@ public class ChangeCreator {
 
 class ReferenceCheck extends ASTVisitor {
 
-	private Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
+	private final Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
 
 	public ReferenceCheck() {
 		setOfIdentifier.clear();
@@ -264,11 +264,12 @@ class ReferenceCheck extends ASTVisitor {
 	@Override
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Reference) {
-			if (((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
+			if (((Reference) node).getIsErroneous(timestamp)) {
 				return V_CONTINUE;
 			}
+
 			final Reference reference = (Reference) node;
-			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			if (reference != null) {
 				final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 				if (assignment != null){
