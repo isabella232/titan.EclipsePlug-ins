@@ -81,13 +81,13 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 				this.monitor.beginTask(Messages.getString("ExtractComponentsAction.0"), 100); //$NON-NLS-1$
 			}
 
-			long start = System.currentTimeMillis();
+			final long start = System.currentTimeMillis();
 			this.componentExtractor.extractComponentsFromLogFile(this.logFileMetaData, monitor);
-			long stop = System.currentTimeMillis();
+			final long stop = System.currentTimeMillis();
 
 			this.components = this.componentExtractor.getComponents();
 			// SUT and MTC is expected to always exist in log file
-			int numComp = this.components.size() + 2;
+			final int numComp = this.components.size() + 2;
 			ConsoleWriter.getInstance().writeToConsole(
 					Messages.getString("ExtractComponentsAction.1")
 					+ numComp + Messages.getString("ExtractComponentsAction.4")
@@ -98,7 +98,7 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 		} catch (final IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			// Generate Technical Error
-			String errorMsg = Messages.getString("ExtractComponentsAction.3") + //$NON-NLS-1$
+			final String errorMsg = Messages.getString("ExtractComponentsAction.3") + //$NON-NLS-1$
 					this.logFile.getName()
 					+ "Reason: " + e.getMessage(); //$NON-NLS-1$
 			TitanLogExceptionHandler.handleException(new TechnicalException(errorMsg));
@@ -114,11 +114,12 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 	@Override
 	public void update(final Observable observable, final Object event) {
 		if (event instanceof ComponentEvent) {
-			ComponentEvent componentEvent = (ComponentEvent) event;
+			final ComponentEvent componentEvent = (ComponentEvent) event;
 			if (this.monitor != null) {
 				this.monitor.subTask(componentEvent.getCompName());
 			}
-			int worked = componentEvent.getProgress();
+
+			final int worked = componentEvent.getProgress();
 			if (this.monitor != null) {
 				this.monitor.worked(worked - this.lastWorked);
 			}

@@ -34,7 +34,7 @@ public class LogFileActionProvider extends CommonActionProvider {
 
 	@Override
 	public void fillActionBars(final IActionBars actionBars) {
-		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		if (selection.size() == 1 && selection.getFirstElement() instanceof IFile) {
 			openLogFileAction.selectionChanged(null, selection);
 			//			actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, openLogFileAction);
@@ -59,15 +59,13 @@ public class LogFileActionProvider extends CommonActionProvider {
 
 	private void addOpenWithMenu(final IMenuManager aMenu) {
 		final IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
-
 		if (selection == null || selection.size() != 1
 				|| !(selection.getFirstElement() instanceof IFile)) {
 			return;
 		}
 
 		final IFile file = (IFile) selection.getFirstElement();
-
-		IMenuManager submenu = new MenuManager("Open with", ICommonMenuConstants.GROUP_OPEN_WITH);
+		final IMenuManager submenu = new MenuManager("Open with", ICommonMenuConstants.GROUP_OPEN_WITH);
 		submenu.add(new GroupMarker(ICommonMenuConstants.GROUP_TOP));
 		submenu.add(new OpenWithMenu(viewSite.getPage(), file));
 		submenu.add(new GroupMarker(ICommonMenuConstants.GROUP_ADDITIONS));

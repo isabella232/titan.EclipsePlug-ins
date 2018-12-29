@@ -71,13 +71,14 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 		if (!SelectionUtils.isSelectionALogFile(selection)) {
 			return;
 		}
-		IFile logFile = SelectionUtils.selectionToIFile(selection);
+
+		final IFile logFile = SelectionUtils.selectionToIFile(selection);
 		if (logFile == null) {
 			return;
 		}
 
 		try {
-			ExtractComponentsAction extractCompAction = new ExtractComponentsAction(logFile);
+			final ExtractComponentsAction extractCompAction = new ExtractComponentsAction(logFile);
 			new ProgressMonitorDialog(null).run(false, false, extractCompAction);
 			components = extractCompAction.getComponents();
 		} catch (InvocationTargetException e) {
@@ -91,8 +92,8 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 							Messages.getString("ExtractComponentsMenuAction.1")  + e.getMessage())); //$NON-NLS-1$
 		}
 
-		String projectName = logFile.getProject().getName();
-		PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(projectName);
+		final String projectName = logFile.getProject().getName();
+		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(projectName);
 
 		setNewProperties(components, logFile, preferences);
 	}
@@ -105,8 +106,8 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 		// Check APPEND / REPLACE
 		if (!preferences.getReplaceCompVisOrder()) {
 			// Append
-			List<String> compVisOrder = preferences.getVisualOrderComponents();
-			for (String currComponent : components) {
+			final List<String> compVisOrder = preferences.getVisualOrderComponents();
+			for (final String currComponent : components) {
 				if (!compVisOrder.contains(currComponent)) {
 					compVisOrder.add(currComponent);
 				}
@@ -121,22 +122,22 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 		// Check DIALOG / NO DIALOG
 		if (preferences.getOpenPropAfterCompExt()) {
 			// Open dialog
-			PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(
+			final PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(
 					null, logFile.getProject(), PreferenceConstants.PAGE_ID_COMP_VIS_ORDER_PAGE, null, null);
-			Object currentPage = dialog.getSelectedPage();
+			final Object currentPage = dialog.getSelectedPage();
 			if (currentPage instanceof ComponentsVisualOrderPrefPage) {
-				ComponentsVisualOrderPrefPage componentsVisualOrderPrefPage = (ComponentsVisualOrderPrefPage) currentPage;
+				final ComponentsVisualOrderPrefPage componentsVisualOrderPrefPage = (ComponentsVisualOrderPrefPage) currentPage;
 				componentsVisualOrderPrefPage.setUseProjectSetting(true);
 				componentsVisualOrderPrefPage.clearList();
-				for (String component : components) {
+				for (final String component : components) {
 					componentsVisualOrderPrefPage.addComponent(component);
 				}
 				dialog.open();
 			}
 		} else {
 			// No dialog - write directly to properties
-			StringBuilder path = new StringBuilder(""); //$NON-NLS-1$
-			for (String currComponent : components) {
+			final StringBuilder path = new StringBuilder(""); //$NON-NLS-1$
+			for (final String currComponent : components) {
 				path.append(currComponent);
 				path.append(File.pathSeparator);
 			}
