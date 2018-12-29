@@ -87,7 +87,7 @@ public class SourceInformation {
 	 * For this format: timestamp someEvent SIP_Examples.ttcn:171(controlpart:SIP_Examples) "ver1"
 	 */
 	private static String getPathAndLineNumber(final String lastStackElem) {
-		final int indexOfPar = lastStackElem.indexOf("(");
+		final int indexOfPar = lastStackElem.indexOf('(');
 		if (indexOfPar != -1) {
 			return lastStackElem.substring(0, indexOfPar);
 		}
