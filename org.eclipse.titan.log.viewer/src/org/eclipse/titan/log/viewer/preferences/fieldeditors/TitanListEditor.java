@@ -160,11 +160,11 @@ public abstract class TitanListEditor extends FieldEditor {
 						@Override
 						public void propertyChange(
 								final PropertyChangeEvent event) {
-							RGB selectedColor = TitanListEditor.this.colorEditor
+							final RGB selectedColor = TitanListEditor.this.colorEditor
 									.getColorSelector().getColorValue();
-							String[] selection = TitanListEditor.this.list
+							final String[] selection = TitanListEditor.this.list
 									.getSelection();
-							for (String string : selection) {
+							for (final String string : selection) {
 								TitanListEditor.this.colors.put(string,
 										selectedColor);
 							}
@@ -193,7 +193,7 @@ public abstract class TitanListEditor extends FieldEditor {
 				return;
 			}
 
-			int index = this.list.getSelectionIndex();
+			final int index = this.list.getSelectionIndex();
 			if (index >= 0) {
 				this.list.add(input, index + 1);
 			} else {
@@ -205,7 +205,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-		Control control = getLabelControl();
+		final Control control = getLabelControl();
 		((GridData) control.getLayoutData()).horizontalSpan = numColumns;
 		((GridData) this.list.getLayoutData()).horizontalSpan = numColumns - 1;
 	}
@@ -257,11 +257,11 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * @return Button
 	 */
 	private Button createPushButton(final Composite parent, final String key) {
-		Button button = new Button(parent, SWT.PUSH);
+		final Button button = new Button(parent, SWT.PUSH);
 		button.setText(JFaceResources.getString(key));
 		button.setFont(parent.getFont());
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		int widthHint = convertHorizontalDLUsToPixels(button,
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final int widthHint = convertHorizontalDLUsToPixels(button,
 				IDialogConstants.BUTTON_WIDTH);
 		data.widthHint = Math.max(widthHint,
 				button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
@@ -277,7 +277,7 @@ public abstract class TitanListEditor extends FieldEditor {
 		this.selectionListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
-				Widget widget = event.widget;
+				final Widget widget = event.widget;
 				String[] selection;
 				if (TitanListEditor.this.list != null) {
 					selection = TitanListEditor.this.list.getSelection();
@@ -324,7 +324,7 @@ public abstract class TitanListEditor extends FieldEditor {
 			}
 
 			private boolean containsMtsORSut(final String[] element) {
-				for (String anElement : element) {
+				for (final String anElement : element) {
 					if ((anElement.equals(PreferenceConstants.SUT_DESCRIPTION))
 							|| (anElement.equals(PreferenceConstants.MTC_DESCRIPTION))) {
 						return true;
@@ -336,7 +336,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	}
 
 	private void removeMultipleElements(final String[] elements) {
-		for (String element : elements) {
+		for (final String element : elements) {
 			this.list.remove(element);
 		}
 		selectionChanged();
@@ -344,13 +344,13 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-		Control control = getLabelControl(parent);
+		final Control control = getLabelControl(parent);
 		GridData gd = new GridData();
 		gd.horizontalSpan = numColumns;
 		control.setLayoutData(gd);
 
 		this.list = getListControl(parent);
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = numColumns;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -370,12 +370,12 @@ public abstract class TitanListEditor extends FieldEditor {
 
 		if (this.list != null) {
 			list.removeAll();
-			String s = getPreferenceStore().getString(getPreferenceName());
+			final String s = getPreferenceStore().getString(getPreferenceName());
 			if (this.colorEditor != null) {
 				loadColors(s);
 			} else {
-				String[] array = parseString(s);
-				for (String str : array) {
+				final String[] array = parseString(s);
+				for (final String str : array) {
 					this.list.add(str);
 				}
 			}
@@ -389,9 +389,9 @@ public abstract class TitanListEditor extends FieldEditor {
 		}
 
 		this.list.removeAll();
-		String s = getPreferenceStore().getDefaultString(getPreferenceName());
-		String[] array = parseString(s);
-		for (String str : array) {
+		final String s = getPreferenceStore().getDefaultString(getPreferenceName());
+		final String[] array = parseString(s);
+		for (final String str : array) {
 			this.list.add(str);
 		}
 	}
@@ -399,7 +399,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	@Override
 	protected void doStore() {
 		String s = null;
-		String[] listItems = this.list.getItems();
+		final String[] listItems = this.list.getItems();
 		if (this.colorEditor != null) {
 			s = createColorList(listItems);
 		} else {
@@ -427,7 +427,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	public Composite getButtonBoxControl(final Composite parent) {
 		if (this.buttonBox == null) {
 			this.buttonBox = new Composite(parent, SWT.NULL);
-			GridLayout layout = new GridLayout();
+			final GridLayout layout = new GridLayout();
 			layout.marginWidth = 0;
 			this.buttonBox.setLayout(layout);
 			createButtons(this.buttonBox);
@@ -462,7 +462,7 @@ public abstract class TitanListEditor extends FieldEditor {
 			this.list = new List(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
 					| SWT.H_SCROLL);
 			this.list.setFont(parent.getFont());
-			for (SelectionListener listener : registeredSelectionListeners) {
+			for (final SelectionListener listener : registeredSelectionListeners) {
 				this.list.addSelectionListener(listener);
 			}
 			this.list.addDisposeListener(new DisposeListener() {
@@ -539,11 +539,11 @@ public abstract class TitanListEditor extends FieldEditor {
 	 */
 	private void removePressed() {
 		setPresentsDefaultValue(false);
-		int index = this.list.getSelectionIndex();
+		final int index = this.list.getSelectionIndex();
 
 		if (index >= 0) {
 			if (this.colorEditor != null) {
-				String item = this.list.getItem(index);
+				final String item = this.list.getItem(index);
 				this.colors.remove(item);
 			}
 			this.list.remove(index);
@@ -556,10 +556,10 @@ public abstract class TitanListEditor extends FieldEditor {
 	 */
 	private void selectionChanged() {
 
-		int index = this.list.getSelectionIndex();
-		int size = this.list.getItemCount();
+		final int index = this.list.getSelectionIndex();
+		final int size = this.list.getItemCount();
 		if (index != -1) {
-			String item = this.list.getItem(index);
+			final String item = this.list.getItem(index);
 
 			if (item.equals(Messages.getString("TitanListEditor.0")) || item.equals(Messages.getString("TitanListEditor.1"))) {
 				this.removeButton.setEnabled(false);
@@ -572,11 +572,11 @@ public abstract class TitanListEditor extends FieldEditor {
 			if (this.colorEditor != null) {
 				this.colorEditor.setEnabled(index >= 0, this.buttonBox);
 
-				RGB rgb = this.colors.get(item);
+				final RGB rgb = this.colors.get(item);
 				if (rgb != null) {
 					this.colorEditor.getColorSelector().setColorValue(rgb);
 				} else {
-					RGB black = new RGB(0, 0, 0);
+					final RGB black = new RGB(0, 0, 0);
 					this.colorEditor.getColorSelector().setColorValue(black);
 				}
 			}
@@ -600,11 +600,11 @@ public abstract class TitanListEditor extends FieldEditor {
 	 */
 	private void swap(final boolean up) {
 		setPresentsDefaultValue(false);
-		int index = this.list.getSelectionIndex();
-		int target = up ? index - 1 : index + 1;
+		final int index = this.list.getSelectionIndex();
+		final int target = up ? index - 1 : index + 1;
 
 		if (index >= 0) {
-			String[] selection = this.list.getSelection();
+			final String[] selection = this.list.getSelection();
 			this.list.remove(index);
 			this.list.add(selection[0], target);
 			this.list.setSelection(target);
@@ -631,7 +631,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	private void valueChanged() {
 
-		String[] newItems = this.list.getItems();
+		final String[] newItems = this.list.getItems();
 		if (!Arrays.equals(newItems, this.oldItems)) {
 			fireValueChanged(VALUE, this.oldItems, newItems);
 			this.oldItems = newItems;
@@ -674,9 +674,9 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * OS-specific path separator.
 	 */
 	private String createColorList(final String[] listItems) {
-		StringBuilder colorString = new StringBuilder("");
-		for (String item : listItems) {
-			RGB rgb = this.colors.get(item);
+		final StringBuilder colorString = new StringBuilder("");
+		for (final String item : listItems) {
+			final RGB rgb = this.colors.get(item);
 			if (rgb != null) {
 				colorString.append(item);
 				colorString.append(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
@@ -715,25 +715,25 @@ public abstract class TitanListEditor extends FieldEditor {
 	}
 
 	private void loadColors(final String stringList) {
-		StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
+		final StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
 
 		while (stringColors.hasMoreElements()) {
 
-			String stringColor = (String) stringColors.nextElement();
-			String[] sc = stringColor.split(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
+			final String stringColor = (String) stringColors.nextElement();
+			final String[] sc = stringColor.split(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
 			if (sc.length > 1) {
-				String item = sc[0];
-				String colorString = sc[1];
+				final String item = sc[0];
+				final String colorString = sc[1];
 
 				// Add string to list
 				this.list.add(item);
 
 				RGB rgb = null;
 				if ((colorString != null) && (colorString.trim().length() > 0)) {
-					String[] splitColor = colorString.split(PreferenceConstants.RGB_COLOR_SEPARATOR);
-					int red = Integer.parseInt(splitColor[0]);
-					int green = Integer.parseInt(splitColor[1]);
-					int blue = Integer.parseInt(splitColor[2]);
+					final String[] splitColor = colorString.split(PreferenceConstants.RGB_COLOR_SEPARATOR);
+					final int red = Integer.parseInt(splitColor[0]);
+					final int green = Integer.parseInt(splitColor[1]);
+					final int blue = Integer.parseInt(splitColor[2]);
 					rgb = new RGB(red, green, blue);
 				}
 				if ((item != null) && (rgb != null)) {

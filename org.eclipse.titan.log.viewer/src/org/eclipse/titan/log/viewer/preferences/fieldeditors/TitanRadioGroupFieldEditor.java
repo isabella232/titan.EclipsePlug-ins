@@ -160,7 +160,7 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-		Control control = getLabelControl();
+		final Control control = getLabelControl();
 		if (control != null) {
 			((GridData) control.getLayoutData()).horizontalSpan = numColumns;
 		}
@@ -170,8 +170,8 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
 		if (this.useGroup) {
-			Control control = getRadioBoxControl(parent);
-			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			final Control control = getRadioBoxControl(parent);
+			final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			control.setLayoutData(gd);
 		} else {
 			Control control = getLabelControl(parent);
@@ -220,23 +220,23 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 	 public Composite getRadioBoxControl(final Composite parent) {
 		 if (this.radioBox == null) {
 
-			 Font font = parent.getFont();
+			 final  Font font = parent.getFont();
 
 			 if (this.useGroup) {
-				 Group group = new Group(parent, SWT.NONE);
+				 final  Group group = new Group(parent, SWT.NONE);
 				 group.setFont(font);
-				 String text = getLabelText();
+				 final String text = getLabelText();
 				 if (text != null) {
 					 group.setText(text);
 				 }
 				 this.radioBox = group;
-				 GridLayout layout = new GridLayout();
+				 final GridLayout layout = new GridLayout();
 				 layout.horizontalSpacing = HORIZONTAL_GAP;
 				 layout.numColumns = this.numColumns;
 				 this.radioBox.setLayout(layout);
 			 } else {
 				 this.radioBox = new Composite(parent, SWT.NONE);
-				 GridLayout layout = new GridLayout();
+				 final GridLayout layout = new GridLayout();
 				 layout.marginWidth = 0;
 				 layout.marginHeight = 0;
 				 layout.horizontalSpacing = HORIZONTAL_GAP;
@@ -247,16 +247,16 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 
 			 this.radioButtons = new Button[this.labelsAndValues.length];
 			 for (int i = 0; i < this.labelsAndValues.length; i++) {
-				 Button radio = new Button(this.radioBox, SWT.RADIO | SWT.LEFT);
+				 final  Button radio = new Button(this.radioBox, SWT.RADIO | SWT.LEFT);
 				 this.radioButtons[i] = radio;
-				 String[] labelAndValue = this.labelsAndValues[i];
+				 final String[] labelAndValue = this.labelsAndValues[i];
 				 radio.setText(labelAndValue[0]);
 				 radio.setData(labelAndValue[1]);
 				 radio.setFont(font);
 				 radio.addSelectionListener(new SelectionAdapter() {
 					 @Override
 					 public void widgetSelected(final SelectionEvent event) {
-						 String oldValue = TitanRadioGroupFieldEditor.this.value;
+						 final  String oldValue = TitanRadioGroupFieldEditor.this.value;
 						 TitanRadioGroupFieldEditor.this.value = (String) event.widget.getData();
 						 setPresentsDefaultValue(false);
 						 fireValueChanged(VALUE, oldValue, TitanRadioGroupFieldEditor.this.value);
@@ -303,7 +303,7 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 		 if (this.value != null) {
 			 boolean found = false;
 			 for (int i = 0; i < this.radioButtons.length; i++) {
-				 Button radio = this.radioButtons[i];
+				 final Button radio = this.radioButtons[i];
 				 boolean selection = false;
 				 if (((String) radio.getData()).equals(this.value)) {
 					 selection = true;
