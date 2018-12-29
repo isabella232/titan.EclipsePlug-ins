@@ -114,7 +114,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		}
 	}
 
-	protected void setResult(final LogSearchResult result) {
+	private void setResult(final LogSearchResult result) {
 		tree = new HashMap<IResource, List<IResource>>();
 		this.result = result;
 		for (Object child : result.getElements()) {
@@ -127,7 +127,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		result.addListener(searchResultListener);
 	}
 
-	protected LogSearchResultPage getPage() {
+	private LogSearchResultPage getPage() {
 		return page;
 	}
 
