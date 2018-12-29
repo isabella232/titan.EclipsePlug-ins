@@ -77,8 +77,6 @@ public final class LogFileCacheHandler {
 	 * @return true if the log file has changed, false if not
 	 */
 	public static boolean hasLogFileChanged(final IFile logFile) {
-		final File file = new File(logFile.getLocationURI());
-
 		// Check if property file exists...
 		final File propertyFile = getPropertyFileForLogFile(logFile);
 		if (!propertyFile.exists()) {
@@ -103,6 +101,7 @@ public final class LogFileCacheHandler {
 		}
 
 		// Check if update is needed (log file file has changed)
+		final File file = new File(logFile.getLocationURI());
 		return updateNeeded(file, propertyFile);
 	}
 
@@ -543,8 +542,6 @@ public final class LogFileCacheHandler {
 	 * @return true if the processing was successful, false otherwise
 	 */
 	public static boolean processLogFile(final IFile logFile, final IProgressMonitor pMonitor, final boolean quietMode) {
-		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
-
 		if (!logFile.exists()) {
 			if (!quietMode) {
 				TitanLogExceptionHandler.handleException(new UserException("The log file does not exist: " + logFile.getName())); //$NON-NLS-1$
@@ -577,8 +574,8 @@ public final class LogFileCacheHandler {
 			return false;
 		}
 
+		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
 		final LogFileHandler logFileHandler = new LogFileHandler(logFile);
-
 		try {
 			final LogFileMetaData logFileMetaData = logFileHandler.autoDetect();
 

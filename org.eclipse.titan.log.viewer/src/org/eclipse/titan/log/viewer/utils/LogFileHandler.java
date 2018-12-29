@@ -185,8 +185,6 @@ public class LogFileHandler {
 	 * @throws TechnicalException invalid log file
 	 */
 	public LogFileMetaData autoDetect() throws TechnicalException {
-		String logLine = null;
-		BufferedReader bufferedReader = null;
 		final File logFile = new File(this.fileMetaInfo.getFilePath());
 
 		// check if the log file exists
@@ -215,6 +213,8 @@ public class LogFileHandler {
 		}
 
 		// read first line in the log file
+		String logLine = null;
+		BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new FileReader(logFile));
 			try {
