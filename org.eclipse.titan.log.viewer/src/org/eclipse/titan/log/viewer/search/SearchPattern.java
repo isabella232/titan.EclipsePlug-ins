@@ -80,11 +80,11 @@ public class SearchPattern {
 		settings.put("isCaseSensitive", filterPattern.isCaseSensitive());
 		settings.put("isRegularExpression", filterPattern.isRegularExpression());
 
-		for (Entry<String, Boolean> entry : filterPattern.getEventsToFilter().entrySet()) {
+		for (final Entry<String, Boolean> entry : filterPattern.getEventsToFilter().entrySet()) {
 			settings.put(entry.getKey(), entry.getValue());
 		}
 
-		for (Entry<Field, Boolean> entry : filterPattern.getFieldsToFilter().entrySet()) {
+		for (final Entry<Field, Boolean> entry : filterPattern.getFieldsToFilter().entrySet()) {
 			settings.put(entry.getKey().toString(), entry.getValue());
 		}
 
@@ -102,27 +102,27 @@ public class SearchPattern {
 	}
 
 	public static SearchPattern create(final IDialogSettings settings) {
-		String loadedSearchString = settings.get("searchString");
-		boolean loadedIsCaseSensitive = settings.getBoolean("isCaseSensitive");
-		boolean loadedIsRegularExpression = settings.getBoolean("isRegularExpression");
+		final String loadedSearchString = settings.get("searchString");
+		final boolean loadedIsCaseSensitive = settings.getBoolean("isCaseSensitive");
+		final boolean loadedIsRegularExpression = settings.getBoolean("isRegularExpression");
 
-		SortedMap<String, Boolean> loadedEvents = new TreeMap<String, Boolean>();
-		for (String entry : Constants.EVENT_CATEGORIES.keySet()) {
+		final SortedMap<String, Boolean> loadedEvents = new TreeMap<String, Boolean>();
+		for (final String entry : Constants.EVENT_CATEGORIES.keySet()) {
 			loadedEvents.put(entry, settings.getBoolean(entry));
 		}
 
-		Map<Field, Boolean> loadedLimitTo = new HashMap<Field, Boolean>();
+		final Map<Field, Boolean> loadedLimitTo = new HashMap<Field, Boolean>();
 		loadedLimitTo.put(Field.SOURCE_INFO, settings.getBoolean(Field.SOURCE_INFO.toString()));
 		loadedLimitTo.put(Field.MESSAGE, settings.getBoolean(Field.MESSAGE.toString()));
 
-		FilterPattern loadedFilterPattern = new FilterPattern(loadedSearchString, loadedLimitTo,
+		final FilterPattern loadedFilterPattern = new FilterPattern(loadedSearchString, loadedLimitTo,
 				loadedIsCaseSensitive, loadedIsRegularExpression);
 		loadedFilterPattern.setEventsToFilter(loadedEvents, true, false);
 
-		String[] wsIds = settings.getArray("workingSets"); //$NON-NLS-1$
+		final String[] wsIds = settings.getArray("workingSets"); //$NON-NLS-1$
 		IWorkingSet[] workingSets = null;
 		if (wsIds != null && wsIds.length > 0) {
-			IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
+			final IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
 			workingSets = new IWorkingSet[wsIds.length];
 			for (int i = 0; workingSets != null && i < wsIds.length; i++) {
 				workingSets[i] = workingSetManager.getWorkingSet(wsIds[i]);

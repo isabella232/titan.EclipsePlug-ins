@@ -47,14 +47,14 @@ public class LogSearchQuery implements ISearchQuery {
 		result.removeAll();
 
 		int numOfRecords = 0;
-		for (IFile logFile : files) {
-			File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+		for (final IFile logFile : files) {
+			final File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 			numOfRecords += LogFileCacheHandler.getNumberOfLogRecordIndexes(indexFile);
 		}
 
 		monitor.beginTask("Searching", numOfRecords);
 
-		for (IFile logFile : files) {
+		for (final IFile logFile : files) {
 			if (monitor.isCanceled()) {
 				break;
 			}
@@ -64,10 +64,10 @@ public class LogSearchQuery implements ISearchQuery {
 				continue;
 			}
 
-			File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+			final File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 			try {
-				LogRecordIndex[] indexes = LogFileCacheHandler.readLogRecordIndexFile(indexFile, 0, LogFileCacheHandler.getNumberOfLogRecordIndexes(indexFile));
-				SequentialLogFileReader reader = new SequentialLogFileReader(logFile.getLocationURI(), indexes);
+				final LogRecordIndex[] indexes = LogFileCacheHandler.readLogRecordIndexFile(indexFile, 0, LogFileCacheHandler.getNumberOfLogRecordIndexes(indexFile));
+				final SequentialLogFileReader reader = new SequentialLogFileReader(logFile.getLocationURI(), indexes);
 
 				monitor.subTask("Filtering");
 				filterRecords(monitor, logFile, reader);
@@ -87,7 +87,7 @@ public class LogSearchQuery implements ISearchQuery {
 		return new Status(IStatus.OK, Constants.PLUGIN_ID, IStatus.OK, "Search done.", null);
 	}
 
-	private void filterRecords(IProgressMonitor monitor, IFile logFile, SequentialLogFileReader reader) throws ParseException, IOException {
+	private void filterRecords(final IProgressMonitor monitor, final IFile logFile, final SequentialLogFileReader reader) throws ParseException, IOException {
 		for (LogRecord record = reader.getNext(); reader.hasNext(); record = reader.getNext()) {
 			if (pattern.match(record)) {
 				result.addMatch(new Match(logFile, Match.UNIT_LINE, record.getRecordNumber(), 1));
