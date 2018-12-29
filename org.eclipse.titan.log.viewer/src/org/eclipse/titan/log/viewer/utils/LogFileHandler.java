@@ -112,7 +112,7 @@ public class LogFileHandler {
 				break;
 			}
 
-			String temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
+			final String temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
 			if (validateDateTime(temp)) {
 				return temp;
 			}
@@ -123,7 +123,7 @@ public class LogFileHandler {
 				break;
 			}
 
-			String temp = logLine.substring(0, Constants.TIME_FORMAT.length());
+			final String temp = logLine.substring(0, Constants.TIME_FORMAT.length());
 			if (validateTime(temp)) {
 				return temp;
 			}
@@ -139,7 +139,7 @@ public class LogFileHandler {
 				return null;
 			}
 
-			String temp = strings[0];
+			final String temp = strings[0];
 			if (validateSeconds(temp)) {
 				return temp;
 			}
