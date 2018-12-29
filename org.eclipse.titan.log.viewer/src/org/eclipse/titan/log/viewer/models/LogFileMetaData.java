@@ -236,7 +236,7 @@ public class LogFileMetaData implements Serializable {
 	 */
 	public void setOption(final String option) {
 		this.option = option;
-		if ((option != null) && (option.trim().length() > 0)) {
+		if ((option != null) && (!option.trim().isEmpty())) {
 			final String[] strings = option.split(";"); //$NON-NLS-1$
 			for (final String string : strings) {
 				final String[] values = string.split(":="); //$NON-NLS-1$
