@@ -45,14 +45,14 @@ public class TestFileReader implements Closeable {
 
 		this.currentRecord = 0;
 		this.logRecordIndexes = logRecordIndexes;
-		long fileOffset = logRecordIndexes[this.currentRecord].getFileOffset();
+		final long fileOffset = logRecordIndexes[this.currentRecord].getFileOffset();
 		this.randomAccessFile = new RandomAccessFile(new File(fileURI), MSCConstants.READ_ONLY);
 		this.randomAccessFile.seek(fileOffset);
 	}
 
 	public void setCurrentLogRecord(final int currentRecord) throws IOException {
 		this.currentRecord = currentRecord;
-		long fileOffset = logRecordIndexes[this.currentRecord].getFileOffset();
+		final long fileOffset = logRecordIndexes[this.currentRecord].getFileOffset();
 		this.randomAccessFile.seek(fileOffset);
 	}
 
@@ -81,10 +81,10 @@ public class TestFileReader implements Closeable {
 	 * @throws ParseException
 	 */
 	public LogRecord getNextRecord() throws IOException, ParseException {
-		String logData = readNextRecord();
+		final String logData = readNextRecord();
 		LogRecord aRecord;
 		try {
-			RecordParser recordParser = new RecordParser();
+			final RecordParser recordParser = new RecordParser();
 			aRecord = recordParser.parse(logData);
 			aRecord.setRecordOffset(this.logRecordIndexes[this.currentRecord].getFileOffset());
 			aRecord.setRecordLength(this.logRecordIndexes[this.currentRecord].getRecordLength());
@@ -92,7 +92,7 @@ public class TestFileReader implements Closeable {
 			this.currentRecord++;
 		} catch (ParseException e) {
 			ErrorReporter.logExceptionStackTrace(e);
-			ParseException throwable = new ParseException("Could not parse the " + currentRecord +"th record ", 0);  //$NON-NLS-1$
+			final ParseException throwable = new ParseException("Could not parse the " + currentRecord +"th record ", 0);  //$NON-NLS-1$
 			throwable.initCause(e);
 			throw throwable;
 		}
@@ -114,7 +114,7 @@ public class TestFileReader implements Closeable {
 	 * @throws IOException
 	 */
 	private String readNextRecord() throws IOException {
-		String s = new String(getNextRecordFromFile());
+		final String s = new String(getNextRecordFromFile());
 		return s.trim();
 	}
 
@@ -124,8 +124,8 @@ public class TestFileReader implements Closeable {
 	 * @throws IOException
 	 */
 	private byte[] getNextRecordFromFile() throws IOException {
-		int nextLen = this.logRecordIndexes[this.currentRecord].getRecordLength();
-		byte[] buffer = new byte[nextLen];
+		final int nextLen = this.logRecordIndexes[this.currentRecord].getRecordLength();
+		final byte[] buffer = new byte[nextLen];
 		this.randomAccessFile.read(buffer, 0, nextLen);
 		return buffer;
 	}

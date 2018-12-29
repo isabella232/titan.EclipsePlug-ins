@@ -50,9 +50,9 @@ public class LogFileReader implements ILogReader {
 	 * @throws ClassNotFoundException
 	 */
 	public static LogFileReader getReaderForLogFile(final IFile logFile) throws IOException, ClassNotFoundException {
-		File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
-		int numRecords = LogFileCacheHandler.getNumberOfLogRecordIndexes(logRecordIndexFile);
-		LogRecordIndex[] logRecordIndexes = LogFileCacheHandler.readLogRecordIndexFile(logRecordIndexFile, 0, numRecords);
+		final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+		final int numRecords = LogFileCacheHandler.getNumberOfLogRecordIndexes(logRecordIndexFile);
+		final LogRecordIndex[] logRecordIndexes = LogFileCacheHandler.readLogRecordIndexFile(logRecordIndexFile, 0, numRecords);
 
 		return new LogFileReader(logFile.getLocationURI(), logRecordIndexes);
 	}
@@ -67,7 +67,7 @@ public class LogFileReader implements ILogReader {
 			aRecord.setRecordNumber(logRecordIndexes[position].getRecordNumber());
 		} catch (ParseException e) {
 			ErrorReporter.logExceptionStackTrace(e);
-			ParseException throwable = new ParseException(Messages.getString("TestFileReader.1"), 0);  //$NON-NLS-1$
+			final ParseException throwable = new ParseException(Messages.getString("TestFileReader.1"), 0);  //$NON-NLS-1$
 			throwable.initCause(e);
 			throw throwable;
 		}
@@ -89,8 +89,8 @@ public class LogFileReader implements ILogReader {
 	 * @param index The index of the record. (0 <= index < this.size())
 	 */
 	private byte[] readRecordFromFile(final int index) throws IOException {
-		int nextLen = this.logRecordIndexes[index].getRecordLength();
-		byte[] buffer = new byte[nextLen];
+		final int nextLen = this.logRecordIndexes[index].getRecordLength();
+		final byte[] buffer = new byte[nextLen];
 		randomAccessFile.seek(logRecordIndexes[index].getFileOffset());
 		this.randomAccessFile.read(buffer, 0, nextLen);
 		return buffer;

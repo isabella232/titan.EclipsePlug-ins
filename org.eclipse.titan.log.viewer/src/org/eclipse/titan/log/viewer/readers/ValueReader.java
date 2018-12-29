@@ -54,19 +54,19 @@ public final class ValueReader {
 			return cache.get(event.getRecordOffset());
 		}
 
-		LogRecord temp = readLogRecordFromLogFile(logFilePath, event);
+		final LogRecord temp = readLogRecordFromLogFile(logFilePath, event);
 		cache.put(event.getRecordOffset(), temp);
 
 		return temp;
 	}
 
 	public LogRecord readLogRecordFromLogFile(final URI logFilePath, final EventObject event) throws IOException, ParseException {
-		long offset = event.getRecordOffset();
-		int length = event.getRecordLength();
+		final long offset = event.getRecordOffset();
+		final int length = event.getRecordLength();
 
 		LogRecord logrecord = getLogRecord(logFilePath, offset, length);
-		String message = logrecord.getMessage();
-		EventType type = event.getType();
+		String message = logrecord.getMessage();//TODO why if its overwritten?
+		final EventType type = event.getType();
 		switch (type) {
 		case SEND:
 			message = readSendEvent(message);
@@ -81,16 +81,16 @@ public final class ValueReader {
 			message = readEnqueuedEvent(message);
 			break;
 		case SETVERDICT:
-			ConnectedRecord[] connectedRecords = event.getConnectedRecords();
+			final ConnectedRecord[] connectedRecords = event.getConnectedRecords();
 
 			if (connectedRecords != null) {
-				StringBuilder messageBuilder = new StringBuilder("{ message := " + message.trim());
+				final StringBuilder messageBuilder = new StringBuilder("{ message := " + message.trim());
 				if (connectedRecords.length > 0) {
 					messageBuilder.append(", causedBy := { ");
 				}
 				for (int i = 0; i < connectedRecords.length; i++) {
-					int eventNumber = i + 1;
-					ConnectedRecord connectedEvent = connectedRecords[i];
+					final int eventNumber = i + 1;
+					final ConnectedRecord connectedEvent = connectedRecords[i];
 					logrecord = getLogRecord(logFilePath, connectedEvent.getRecordOffset(), connectedEvent.getRecordLength());
 					messageBuilder.append("event" + eventNumber
 							+ " := { timestamp := " + logrecord.getTimestamp()
@@ -118,7 +118,7 @@ public final class ValueReader {
 
 	private String readEnqueuedEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
+			final int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 		}
 		if (message.contains(":")) { //$NON-NLS-1$
@@ -129,7 +129,7 @@ public final class ValueReader {
 
 	private String readReceiveEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
+			final int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 			if (message.contains(":")) { //$NON-NLS-1$
 				message = message.substring(message.indexOf(':') + 1); //$NON-NLS-1$
@@ -153,7 +153,7 @@ public final class ValueReader {
 
 	private String readSendEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
+			final int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 			if (message.contains(":")) { //$NON-NLS-1$
 				message = message.substring(message.indexOf(':') + 1); //$NON-NLS-1$
@@ -177,10 +177,10 @@ public final class ValueReader {
 		try {
 			random = new RandomAccessFile(new File(logFilePath), MSCConstants.READ_ONLY);
 			random.seek(offset);
-			byte[] buffer = new byte [length];
+			final byte[] buffer = new byte [length];
 			random.read(buffer, 0, length);
-			RecordParser recordParser = new RecordParser();
-			LogRecord logRecord = recordParser.parse(buffer);
+			final RecordParser recordParser = new RecordParser();
+			final LogRecord logRecord = recordParser.parse(buffer);
 			message = logRecord.getMessage();
 		} finally {
 			IOUtils.closeQuietly(random);
@@ -195,9 +195,9 @@ public final class ValueReader {
 		try {
 			random = new RandomAccessFile(new File(logFilePath), MSCConstants.READ_ONLY);
 			random.seek(offset);
-			byte[] buffer = new byte [length];
+			final byte[] buffer = new byte [length];
 			random.read(buffer, 0, length);
-			RecordParser recordParser = new RecordParser();
+			final RecordParser recordParser = new RecordParser();
 			logRecord = recordParser.parse(buffer);
 		} finally {
 			IOUtils.closeQuietly(random);
