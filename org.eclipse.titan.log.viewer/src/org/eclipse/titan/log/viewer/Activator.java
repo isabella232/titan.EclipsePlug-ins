@@ -64,7 +64,7 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 
 		// Installs a resource change listener on workspace level
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.resourceListener = new ResourceListener();
 		workspace.addResourceChangeListener(this.resourceListener,
 				RESOURCE_CHANGE_FILTER);
@@ -79,7 +79,7 @@ public class Activator extends AbstractUIPlugin {
 	@Override
 	public void stop(final BundleContext context) throws Exception {
 		// Dispose PreferenceHandler
-		PreferencesHandler prefHandler = PreferencesHandler.getInstance();
+		final PreferencesHandler prefHandler = PreferencesHandler.getInstance();
 		prefHandler.removeListener();
 		prefHandler.dispose();
 		setDefault(null);
@@ -87,7 +87,7 @@ public class Activator extends AbstractUIPlugin {
 		disposeGUIResources();
 
 		// removes the the resource change listener
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.removeResourceChangeListener(this.resourceListener);
 
 		super.stop(context);
@@ -156,9 +156,10 @@ public class Activator extends AbstractUIPlugin {
 	 * Clears the image cache
 	 */
 	private void disposeImages() {
-		for (Iterator<Image> i = this.imageCache.values().iterator(); i.hasNext();) {
+		for (final Iterator<Image> i = this.imageCache.values().iterator(); i.hasNext();) {
 			i.next().dispose();
 		}
+
 		this.imageCache.clear();
 	}
 
@@ -171,10 +172,12 @@ public class Activator extends AbstractUIPlugin {
 		if (this.guiResourceCache.containsKey(key)) {
 			return this.guiResourceCache.get(key);
 		}
-		Resource resource = MSCConstants.getResource(key);
+
+		final Resource resource = MSCConstants.getResource(key);
 		if (resource == null) {
 			TitanLogExceptionHandler.handleException(new TechnicalException("Resource could not be found")); //$NON-NLS-1$
 		}
+
 		return addResource(key, resource);
 	}
 
@@ -184,7 +187,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @return resource the resource
 	 */
 	public Resource getCachedResource(final RGB color) {
-		String key = String.valueOf(color.red)
+		final String key = String.valueOf(color.red)
 				+ PreferenceConstants.RGB_COLOR_SEPARATOR
 				+ String.valueOf(color.green)
 				+ PreferenceConstants.RGB_COLOR_SEPARATOR
@@ -193,7 +196,8 @@ public class Activator extends AbstractUIPlugin {
 		if (this.guiResourceCache.containsKey(key)) {
 			return this.guiResourceCache.get(key);
 		}
-		Resource resource = new Color(Display.getDefault(), color);
+
+		final Resource resource = new Color(Display.getDefault(), color);
 		TitanLogExceptionHandler.handleException(new TechnicalException("Resource could not be found")); //$NON-NLS-1$
 		return addResource(key, resource);
 	}
@@ -214,9 +218,10 @@ public class Activator extends AbstractUIPlugin {
 	 * Clears the GUI resource cache
 	 */
 	private void disposeGUIResources() {
-		for (Resource resource : this.guiResourceCache.values()) {
+		for (final Resource resource : this.guiResourceCache.values()) {
 			resource.dispose();
 		}
+
 		this.guiResourceCache.clear();
 	}
 
@@ -227,11 +232,12 @@ public class Activator extends AbstractUIPlugin {
 	 * @return the section of the given name
 	 */
 	public IDialogSettings getDialogSettingsSection(final String name) {
-		IDialogSettings dialogSettings = getDialogSettings();
+		final IDialogSettings dialogSettings = getDialogSettings();
 		IDialogSettings section = dialogSettings.getSection(name);
 		if (section == null) {
 			section = dialogSettings.addNewSection(name);
 		}
+
 		return section;
 	}
 }
