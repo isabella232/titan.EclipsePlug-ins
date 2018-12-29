@@ -63,10 +63,10 @@ public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences() {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
 		String signalFilter = ""; //$NON-NLS-1$
-		String[] elements = this.filterComponentsEditor.getElements();
-		for (String element : elements) {
+		final String[] elements = this.filterComponentsEditor.getElements();
+		for (final String element : elements) {
 			signalFilter = signalFilter.concat(element + PreferenceConstants.PREFERENCE_DELIMITER);
 		}
 		currentPrefs.put(this.filterComponentsEditor.getPreferenceName(), signalFilter);
@@ -78,7 +78,7 @@ public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 		currentPrefs.put(this.filterComponentsEditor.getPreferenceName(), this.filterComponentsEditor.getElements());
 		return currentPrefs;
 	}
@@ -90,7 +90,7 @@ public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_FILTERED_COMP_PAGE);
+		final Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_FILTERED_COMP_PAGE);
 		//if cancel
 		if (prop == null) {
 			return;

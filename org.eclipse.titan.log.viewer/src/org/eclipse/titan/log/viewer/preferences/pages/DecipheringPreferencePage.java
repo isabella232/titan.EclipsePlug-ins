@@ -89,9 +89,9 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 					return "The name should contain at least one character.";
 				}
 
-				String[] items = DecipheringPreferencePage.this.comboFieldEditor.getItems();
+				final String[] items = DecipheringPreferencePage.this.comboFieldEditor.getItems();
 
-				for (String str : items) {
+				for (final String str : items) {
 					if (str.equals(newText)) {
 						return "Ruleset with the given name already exists.";
 					}
@@ -161,16 +161,16 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 	@Override
 	protected void exportPreferences() {
 
-		Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
-		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		final Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
+		final FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		final String exportLastDir = PreferencesHandler.getInstance().getExportLastDir();
-		boolean pathValid = new Path(exportLastDir).isValidPath(exportLastDir);
+		final boolean pathValid = new Path(exportLastDir).isValidPath(exportLastDir);
 		if ((exportLastDir.compareTo("") != 0) && pathValid) {
 			dialog.setFilterPath(exportLastDir);
 		}
 		dialog.setFilterExtensions(new String[] {XML_EXTENSION_MASK});
 		dialog.setText(Messages.getString("ImportExportUtils.0"));
-		String dialogResult = dialog.open();
+		final String dialogResult = dialog.open();
 		if (dialogResult == null) {
 			return;
 		}
@@ -179,7 +179,7 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 			if (!resultFile.endsWith(XML_EXTENSION)) {
 				resultFile = resultFile.concat(XML_EXTENSION);
 			}
-			File file = new File(resultFile);
+			final File file = new File(resultFile);
 			PreferencesHandler.getInstance().setExportLastDir(file.getParentFile().getPath());
 
 			exportToFile(file);
@@ -189,12 +189,12 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		String fileName = ImportExportUtils.getImportSourceFileWithDialog();
+		final String fileName = ImportExportUtils.getImportSourceFileWithDialog();
 		if (fileName == null) {
 			return;
 		}
 
-		File file = new File(fileName);
+		final File file = new File(fileName);
 		if (!file.exists() || file.length() == 0) {
 			final Display display = Display.getDefault();
 			display.asyncExec(new Runnable() {
@@ -273,11 +273,11 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void performApply() {
-		for (String ruleset : deletedRuleSets) {
+		for (final String ruleset : deletedRuleSets) {
 			deleteRuleset(ruleset);
 		}
 
-		for (Entry<String, String> entry : deletedMsgTypes.entrySet()) {
+		for (final Entry<String, String> entry : deletedMsgTypes.entrySet()) {
 			deleteMsgType(entry.getKey(), entry.getValue());
 		}
 

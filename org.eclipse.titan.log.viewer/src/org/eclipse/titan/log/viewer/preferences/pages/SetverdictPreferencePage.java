@@ -112,12 +112,12 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences(final String separator) {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
-		String setverdictE = String.valueOf(this.setverdictError.getBooleanValue());
-		String setverdictF = String.valueOf(this.setverdictFail.getBooleanValue());
-		String setverdictI = String.valueOf(this.setverdictInconc.getBooleanValue());
-		String setverdictN = String.valueOf(this.setverdictNone.getBooleanValue());
-		String setverdictP = String.valueOf(this.setverdictPass.getBooleanValue());
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
+		final String setverdictE = String.valueOf(this.setverdictError.getBooleanValue());
+		final String setverdictF = String.valueOf(this.setverdictFail.getBooleanValue());
+		final String setverdictI = String.valueOf(this.setverdictInconc.getBooleanValue());
+		final String setverdictN = String.valueOf(this.setverdictNone.getBooleanValue());
+		final String setverdictP = String.valueOf(this.setverdictPass.getBooleanValue());
 
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_ERROR_ID, setverdictE);
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_FAIL_ID, setverdictF);
@@ -145,17 +145,17 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 
-		String[] setverdictErrors = new String[] {String.valueOf(this.setverdictError.getBooleanValue())};
+		final String[] setverdictErrors = new String[] {String.valueOf(this.setverdictError.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_ERROR_ID, setverdictErrors);
-		String[] setverdictFails = new String[] {String.valueOf(this.setverdictFail.getBooleanValue())};
+		final String[] setverdictFails = new String[] {String.valueOf(this.setverdictFail.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_FAIL_ID, setverdictFails);
-		String[] setverdictInconcs = new String[] {String.valueOf(this.setverdictInconc.getBooleanValue())};
+		final String[] setverdictInconcs = new String[] {String.valueOf(this.setverdictInconc.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_INCONC_ID, setverdictInconcs);
-		String[] setverdictNones = new String[] {String.valueOf(this.setverdictNone.getBooleanValue())};
+		final String[] setverdictNones = new String[] {String.valueOf(this.setverdictNone.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_NONE_ID, setverdictNones);
-		String[] setverdictPasses = new String[] {String.valueOf(this.setverdictPass.getBooleanValue())};
+		final String[] setverdictPasses = new String[] {String.valueOf(this.setverdictPass.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_PASS_ID, setverdictPasses);
 
 		currentPrefs.put(this.errorCausedByEditor.getPreferenceName(), this.errorCausedByEditor.getElements());
@@ -170,7 +170,7 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_SETVERDICT_PAGE);
+		final Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_SETVERDICT_PAGE);
 		//if cancel
 		if (prop == null) {
 			return;
