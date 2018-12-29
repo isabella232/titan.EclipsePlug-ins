@@ -118,9 +118,10 @@ public final class DecipheringPreferenceHandler {
 		if (!getAvailableRuleSets().contains(name)) {
 			return null;
 		}
-		List<String> msgTypes = PreferenceUtils.deserializeFromString(getPreferenceStore().getString(getPreferenceKeyForMessageTypeList(name)));
+
+		final List<String> msgTypes = PreferenceUtils.deserializeFromString(getPreferenceStore().getString(getPreferenceKeyForMessageTypeList(name)));
 		final Map<String, List<String>> result = new HashMap<String, List<String>>();
-		for (String msgType : msgTypes) {
+		for (final String msgType : msgTypes) {
 			final List<String> rules = PreferenceUtils.deserializeFromString(getPreferenceStore().getString(getPreferenceKeyForRuleList(name, msgType)));
 			result.put(msgType, new ArrayList<String>(rules));
 		}
@@ -151,7 +152,7 @@ public final class DecipheringPreferenceHandler {
 		final Set<String> msgTypes = ruleset.keySet();
 		prefStore.setValue(getPreferenceKeyForMessageTypeList(rulesetName), PreferenceUtils.serializeToString(msgTypes));
 
-		for (Entry<String, List<String>> entry : ruleset.entrySet()) {
+		for (final Entry<String, List<String>> entry : ruleset.entrySet()) {
 			prefStore.setValue(getPreferenceKeyForRuleList(rulesetName, entry.getKey()),
 					PreferenceUtils.serializeToString(entry.getValue()));
 		}
@@ -179,7 +180,7 @@ public final class DecipheringPreferenceHandler {
 		final List<String> msgTypesList = PreferenceUtils.deserializeFromString(prefStore.getString(getPreferenceKeyForMessageTypeList(rulesetName)));
 		prefStore.setToDefault(getPreferenceKeyForMessageTypeList(rulesetName));
 
-		for (String msgType : msgTypesList) {
+		for (final String msgType : msgTypesList) {
 			prefStore.setToDefault(getPreferenceKeyForRuleList(rulesetName, msgType));
 		}
 	}
@@ -207,13 +208,13 @@ public final class DecipheringPreferenceHandler {
 	public static void exportToFile(final File file) {
 
 		try {
-			Document document = createDocument();
-			Element root = document.getDocumentElement();
+			final Document document = createDocument();
+			final Element root = document.getDocumentElement();
 			root.setAttribute(VERSION_ATTRIBUTE_KEY, DECIPHERING_XML_VERSION);
 
 			final List<String> ruleSets = PreferenceUtils.deserializeFromString(getPreferenceStore().getString(RULESETS_PREFIX));
 
-			for (String ruleSet : ruleSets) {
+			for (final String ruleSet : ruleSets) {
 				final Element ruleSetElem = createXMLElementFromRuleSet(document, ruleSet);
 				root.appendChild(ruleSetElem);
 			}
@@ -240,23 +241,23 @@ public final class DecipheringPreferenceHandler {
 	private static Document createDocument() throws ParserConfigurationException {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		DOMImplementation implementation = builder.getDOMImplementation();
+		final DocumentBuilder builder = factory.newDocumentBuilder();
+		final DOMImplementation implementation = builder.getDOMImplementation();
 		return implementation.createDocument(null, TAG_ROOT, null);
 	}
 
-	private static void writeToFile(File file, Document document) throws IOException, TransformerException {
+	private static void writeToFile(final File file, final Document document) throws IOException, TransformerException {
 		FileOutputStream stream = null;
 		OutputStreamWriter writer = null;
 		try {
 			file.createNewFile();
 			stream = new FileOutputStream(file);
 			writer = new OutputStreamWriter(stream, "utf-8");
-			Source input = new DOMSource(document);
-			StreamResult output = new StreamResult(writer);
-			TransformerFactory xFormFactory = TransformerFactory.newInstance();
+			final Source input = new DOMSource(document);
+			final StreamResult output = new StreamResult(writer);
+			final TransformerFactory xFormFactory = TransformerFactory.newInstance();
 			xFormFactory.setAttribute("indent-number", 2);
-			Transformer idTransform = xFormFactory.newTransformer();
+			final Transformer idTransform = xFormFactory.newTransformer();
 			idTransform.setOutputProperty(OutputKeys.INDENT, "yes");
 			idTransform.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			idTransform.transform(input, output);
@@ -279,10 +280,10 @@ public final class DecipheringPreferenceHandler {
 			stream = new FileInputStream(file);
 			final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-			DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
-			InputSource inputSource = new InputSource(stream);
-			Document document = builder.parse(inputSource);
-			Element documentElement = document.getDocumentElement();
+			final DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
+			final InputSource inputSource = new InputSource(stream);
+			final Document document = builder.parse(inputSource);
+			final Element documentElement = document.getDocumentElement();
 
 			if (!documentElement.getNodeName().contentEquals(TAG_ROOT)) {
 				throw new ImportFailedException("The xml file is not valid");
@@ -290,11 +291,11 @@ public final class DecipheringPreferenceHandler {
 
 			final List<String> alreadyExistingRulesets = getAvailableRuleSets();
 
-			NodeList rulesets = document.getElementsByTagName(TAG_RULE_SET);
+			final NodeList rulesets = document.getElementsByTagName(TAG_RULE_SET);
 			Boolean overwriteAll = null;
 			for (int i = 0; i < rulesets.getLength(); ++i) {
-				Element ruleElement = (Element) rulesets.item(i);
-				NodeList nameList = ruleElement.getElementsByTagName(TAG_NAME);
+				final Element ruleElement = (Element) rulesets.item(i);
+				final NodeList nameList = ruleElement.getElementsByTagName(TAG_NAME);
 
 				if (nameList.getLength() == 0) {
 					throw new ImportFailedException("The ruleset's name is missing.");
@@ -305,16 +306,16 @@ public final class DecipheringPreferenceHandler {
 					throw new ImportFailedException("The ruleset name can not be the empty string.");
 				}
 
-				NodeList messageTypeListList = ruleElement.getElementsByTagName(TAG_MSG_TYPE_LIST);
+				final NodeList messageTypeListList = ruleElement.getElementsByTagName(TAG_MSG_TYPE_LIST);
 				if (messageTypeListList.getLength() == 0) {
 					throw new ImportFailedException("The message type list for the ruleset '" + rulesetName + "' is missing.");
 				}
 
-				Element messageTypeListElement = (Element) messageTypeListList.item(0);
+				final Element messageTypeListElement = (Element) messageTypeListList.item(0);
 
-				NodeList msgTypeList = messageTypeListElement.getElementsByTagName(TAG_MSG_TYPE);
+				final NodeList msgTypeList = messageTypeListElement.getElementsByTagName(TAG_MSG_TYPE);
 
-				Map<String, List<String>> msgTypesMap = importMessageTypes(rulesetName, msgTypeList);
+				final Map<String, List<String>> msgTypesMap = importMessageTypes(rulesetName, msgTypeList);
 
 				if (!alreadyExistingRulesets.contains(rulesetName)) {
 					alreadyExistingRulesets.add(rulesetName);
@@ -358,11 +359,11 @@ public final class DecipheringPreferenceHandler {
 		}
 	}
 
-	private static Map<String, List<String>> importMessageTypes(String rulesetName, NodeList msgTypeList) throws ImportFailedException {
-		Map<String, List<String>> msgTypesMap = new HashMap<String, List<String>>();
+	private static Map<String, List<String>> importMessageTypes(final String rulesetName, final NodeList msgTypeList) throws ImportFailedException {
+		final Map<String, List<String>> msgTypesMap = new HashMap<String, List<String>>();
 		for (int j = 0; j < msgTypeList.getLength(); ++j) {
-			Element currentMsgType = (Element) msgTypeList.item(j);
-			NodeList msgTypeNameList = currentMsgType.getElementsByTagName(TAG_NAME);
+			final Element currentMsgType = (Element) msgTypeList.item(j);
+			final NodeList msgTypeNameList = currentMsgType.getElementsByTagName(TAG_NAME);
 			if (msgTypeList.getLength() == 0) {
 				throw new ImportFailedException("The messagetype's name is missing in the ruleset '" + rulesetName + "'");
 			}
@@ -373,14 +374,14 @@ public final class DecipheringPreferenceHandler {
 						+ rulesetName + "' in the message type '" + msgTypeName + "'.");
 			}
 
-			NodeList ruleListList = currentMsgType.getElementsByTagName(TAG_RULE_LIST);
+			final NodeList ruleListList = currentMsgType.getElementsByTagName(TAG_RULE_LIST);
 			if (ruleListList.getLength() == 0) {
 				throw new ImportFailedException("The ruleList element is missing in the ruleset '"
 						+ rulesetName + "' in the message type '" + msgTypeName + "'.");
 			}
 
-			List<String> rulesParsed = new ArrayList<String>();
-			NodeList ruleList = ((Element) ruleListList.item(0)).getElementsByTagName(TAG_RULE);
+			final List<String> rulesParsed = new ArrayList<String>();
+			final NodeList ruleList = ((Element) ruleListList.item(0)).getElementsByTagName(TAG_RULE);
 
 			for (int k = 0; k < ruleList.getLength(); ++k) {
 				final String rule = ruleList.item(k).getTextContent();
@@ -417,7 +418,7 @@ public final class DecipheringPreferenceHandler {
 		ruleSetElement.appendChild(msgTypeListElement);
 		final List<String> msgTypes =
 				PreferenceUtils.deserializeFromString(getPreferenceStore().getString(getPreferenceKeyForMessageTypeList(ruleSetName)));
-		for (String msgType : msgTypes) {
+		for (final String msgType : msgTypes) {
 			final Element msgTypeElement = document.createElement(TAG_MSG_TYPE);
 			msgTypeListElement.appendChild(msgTypeElement);
 
@@ -430,7 +431,7 @@ public final class DecipheringPreferenceHandler {
 			final Element ruleListElement = document.createElement(TAG_RULE_LIST);
 			msgTypeElement.appendChild(ruleListElement);
 
-			for (String rule : rules) {
+			for (final String rule : rules) {
 				final Element ruleElement = document.createElement(TAG_RULE);
 				ruleElement.setTextContent(rule);
 				ruleListElement.appendChild(ruleElement);
