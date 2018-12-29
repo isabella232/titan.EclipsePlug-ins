@@ -79,24 +79,23 @@ class EventObjectFactory {
 			break;
 
 			// This event type represents a test case start event.
-		case TC_START:
-
+		case TC_START:{
 			final String tcName = messageAnalyser1.getTestcaseName();
 			eventObject.setName(tcName);
 			break;
-
+		}
 			// This event type represents a test case termination event.
 		case TC_END:
 			eventObject.setName(messageAnalyser1.getTestcaseVerdict());
 			break;
 
 			// This event type represents a send event.
-		case SEND:
+		case SEND: {
 			final String sendSource = messageAnalyser1.getSendSource();
 			eventObject.setReference(sendSource);
 			eventObject.setPort(sendSource);
 			break;
-
+		}
 		case SILENT_EVENT:
 			if (logRecord != null) {
 				eventObject.setTarget(logRecord.getComponentReference());
