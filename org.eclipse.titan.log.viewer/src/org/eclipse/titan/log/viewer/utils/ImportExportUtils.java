@@ -117,7 +117,7 @@ public final class ImportExportUtils {
 		}
 		//for GTK versions older than 2.4.10 file dialog filters does not work
 		resultFile = addXmlExtension(resultFile);
-		File file = new File(resultFile);
+		final File file = new File(resultFile);
 		// Set last dir
 		PreferencesHandler.getInstance().setExportLastDir(file.getParentFile().getPath());
 
@@ -129,7 +129,7 @@ public final class ImportExportUtils {
 		}
 	}
 
-	private static String addXmlExtension(String resultFile) {
+	private static String addXmlExtension(final String resultFile) {
 		if (!resultFile.endsWith(XML_EXTENSION)) {
 			return resultFile.concat(XML_EXTENSION);
 		}
@@ -137,35 +137,34 @@ public final class ImportExportUtils {
 	}
 
 	private static String getTargetFileFromWithDialog() {
-		Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
-		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-		String exportLastDir = PreferencesHandler.getInstance().getExportLastDir();
-		boolean pathValid = new Path(exportLastDir).isValidPath(exportLastDir);
+		final Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
+		final FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		final String exportLastDir = PreferencesHandler.getInstance().getExportLastDir();
+		final boolean pathValid = new Path(exportLastDir).isValidPath(exportLastDir);
 		if (!exportLastDir.isEmpty() && pathValid) {
 			dialog.setFilterPath(exportLastDir);
 		}
 		dialog.setFilterExtensions(new String[]{XML_EXTENSION_MASK});
 		dialog.setText(Messages.getString("ImportExportUtils.0"));
-		String dialogResult = dialog.open();
+		final String dialogResult = dialog.open();
 		if (dialogResult == null) {
 			return null;
 		}
 		return dialog.getFilterPath() + File.separator + dialog.getFileName();
 	}
 
-	protected static void exportToXml(String pageID, Map<String, String[]> settings, boolean useIndentation, OutputStream stream)
+	protected static void exportToXml(final String pageID, final Map<String, String[]> settings, final boolean useIndentation, final OutputStream stream)
 			throws TechnicalException {
 		try {
-			Document document = createDocument(pageID);
-
-			Element root = document.getDocumentElement();
+			final Document document = createDocument(pageID);
+			final Element root = document.getDocumentElement();
 			root.setAttribute(VERSION_ATTRIBUTE_KEY, CURRENT_LV_VERSION);
 			// Add all keys/values
-			SortedMap<String, String[]> sortedMap = new TreeMap<String, String[]>(settings);
-			for (Map.Entry<String, String[]> entry : sortedMap.entrySet()) {
-				String currentKey = entry.getKey();
-				String[] values = entry.getValue();
-				Element parent = document.createElement(currentKey);
+			final SortedMap<String, String[]> sortedMap = new TreeMap<String, String[]>(settings);
+			for (final Map.Entry<String, String[]> entry : sortedMap.entrySet()) {
+				final String currentKey = entry.getKey();
+				final String[] values = entry.getValue();
+				final Element parent = document.createElement(currentKey);
 				if (useIndentation) {
 					root.appendChild(document.createTextNode(NEW_LINE + PARENT_INDENTATION));
 				}
@@ -188,11 +187,11 @@ public final class ImportExportUtils {
 
 	}
 
-	private static Document createDocument(String pageID) throws ParserConfigurationException {
+	private static Document createDocument(final String pageID) throws ParserConfigurationException {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		DOMImplementation implementation = builder.getDOMImplementation();
+		final DocumentBuilder builder = factory.newDocumentBuilder();
+		final DOMImplementation implementation = builder.getDOMImplementation();
 		// Create an xml document
 		return implementation.createDocument(null, pageID, null);
 	}
@@ -218,30 +217,30 @@ public final class ImportExportUtils {
 		}
 	}
 
-	protected static void exportKeywordColorsToXml(String pageID, Map<String, Object[]> settings, boolean useIndentation, OutputStream stream)
+	protected static void exportKeywordColorsToXml(final String pageID, final Map<String, Object[]> settings, final boolean useIndentation, final OutputStream stream)
 			throws TechnicalException {
 		try {
-			Document document = createDocument(pageID);
-			Element root = document.getDocumentElement();
+			final Document document = createDocument(pageID);
+			final Element root = document.getDocumentElement();
 			root.setAttribute(VERSION_ATTRIBUTE_KEY, CURRENT_LV_VERSION);
-			SortedMap<String, Object[]> sortedMap = new TreeMap<String, Object[]>(settings);
-			for (Map.Entry<String, Object[]> entry : sortedMap.entrySet()) {
-				String currentKey = entry.getKey();
-				Element parent = document.createElement(currentKey);
+			final SortedMap<String, Object[]> sortedMap = new TreeMap<String, Object[]>(settings);
+			for (final Map.Entry<String, Object[]> entry : sortedMap.entrySet()) {
+				final String currentKey = entry.getKey();
+				final Element parent = document.createElement(currentKey);
 				if (useIndentation) {
 					root.appendChild(document.createTextNode(NEW_LINE + PARENT_INDENTATION));
 				}
 				root.appendChild(parent);
 
-				Object[] values = entry.getValue();
+				final Object[] values = entry.getValue();
 				if (values instanceof String[]) {
-					String[] stringValues = (String[]) values;
+					final String[] stringValues = (String[]) values;
 					for (int i = 0; i < stringValues.length; i++) {
 						addStringElement(useIndentation, document, parent, stringValues[i]);
 						addNewLineIfLast(document, parent, values, i);
 					}
 				} else if (values instanceof KeywordColor[]) {
-					KeywordColor[] colorValues = (KeywordColor[]) values;
+					final KeywordColor[] colorValues = (KeywordColor[]) values;
 					for (int i = 0; i < colorValues.length; i++) {
 						addKeywordColor(useIndentation, document, parent, colorValues[i]);
 						addNewLineIfLast(document, parent, values, i);
@@ -260,29 +259,30 @@ public final class ImportExportUtils {
 		}
 	}
 
-	private static void addNewLineIfLast(Document document, Element parent, Object[] values, int i) {
+	private static void addNewLineIfLast(final Document document, final Element parent, final Object[] values, final int i) {
 		// if last child
 		if (i == (values.length - 1)) {
 			parent.appendChild(document.createTextNode(NEW_LINE + PARENT_INDENTATION));
 		}
 	}
 
-	private static void addKeywordColor(boolean useIndentation, Document document, Element parent, KeywordColor keywordColor) {
-		Element child = document.createElement(VALUE_ELEMENT_KEY);
+	private static void addKeywordColor(final boolean useIndentation, final Document document, final Element parent, final KeywordColor keywordColor) {
+		final Element child = document.createElement(VALUE_ELEMENT_KEY);
 		if (useIndentation) {
 			parent.appendChild(document.createTextNode(NEW_LINE + CHILD_INDENTATION));
 		}
 		parent.appendChild(child);
 
-		Element keywordChild = document.createElement(KEYWORD_ELEMENT_KEY);
+		final Element keywordChild = document.createElement(KEYWORD_ELEMENT_KEY);
 		keywordChild.setTextContent(keywordColor.getKeyword());
 		if (useIndentation) {
 			child.appendChild(document.createTextNode(NEW_LINE + COLOR_CHILD_INDENTATION));
 		}
+
 		child.appendChild(keywordChild);
-		Element colorChild = document.createElement(COLOR_ELEMENT_KEY);
+		final Element colorChild = document.createElement(COLOR_ELEMENT_KEY);
 		if (keywordColor.getColor() != null) {
-			String color = keywordColor.getColor().red
+			final String color = keywordColor.getColor().red
 					+ PreferenceConstants.RGB_COLOR_SEPARATOR + keywordColor.getColor().green
 					+ PreferenceConstants.RGB_COLOR_SEPARATOR + keywordColor.getColor().blue;
 			colorChild.setTextContent(color);
@@ -296,8 +296,8 @@ public final class ImportExportUtils {
 		child.appendChild(document.createTextNode(NEW_LINE + CHILD_INDENTATION));
 	}
 
-	private static void addStringElement(boolean useIndentation, Document document, Element parent, String stringValue) {
-		Element child = document.createElement(VALUE_ELEMENT_KEY);
+	private static void addStringElement(final boolean useIndentation, final Document document, final Element parent, final String stringValue) {
+		final Element child = document.createElement(VALUE_ELEMENT_KEY);
 		child.setTextContent(stringValue);
 		if (useIndentation) {
 			parent.appendChild(document.createTextNode(NEW_LINE + CHILD_INDENTATION));
@@ -305,11 +305,11 @@ public final class ImportExportUtils {
 		parent.appendChild(child);
 	}
 
-	private static void writeDocument(OutputStream stream, Document document) throws TransformerException {
-		Source input = new DOMSource(document);
-		StreamResult output = new StreamResult(stream);
-		TransformerFactory xFormFactory = TransformerFactory.newInstance();
-		Transformer idTransform = xFormFactory.newTransformer();
+	private static void writeDocument(final OutputStream stream, final Document document) throws TransformerException {
+		final Source input = new DOMSource(document);
+		final StreamResult output = new StreamResult(stream);
+		final TransformerFactory xFormFactory = TransformerFactory.newInstance();
+		final Transformer idTransform = xFormFactory.newTransformer();
 		idTransform.transform(input, output);
 	}
 
@@ -318,13 +318,13 @@ public final class ImportExportUtils {
 	 * @return the properties / preferences of the given xml tag (if it exists)
 	 */
 	public static Map<String, String> importSettings(final String pageID) {
-		String resultFile = getImportSourceFileWithDialog();
+		final String resultFile = getImportSourceFileWithDialog();
 		if (resultFile == null
 				|| resultFile.compareTo(File.separator) == 0) {
 			return null;
 		}
 
-		File file = new File(resultFile);
+		final File file = new File(resultFile);
 		if (!file.exists() || file.length() == 0) {
 			// Empty file selected
 			final Display display = Display.getDefault();
@@ -341,7 +341,7 @@ public final class ImportExportUtils {
 		FileInputStream stream = null;
 		try {
 			stream = new FileInputStream(file);
-			Map<String, String> result = importFromStream(pageID, stream);
+			final Map<String, String> result = importFromStream(pageID, stream);
 			if (result != null) {
 				PreferencesHandler.getInstance().setImportLastDir(file.getParentFile().getPath());
 			}
@@ -361,12 +361,12 @@ public final class ImportExportUtils {
 		return null;
 	}
 
-	protected static Map<String, String> importFromStream(String pageID, InputStream stream)
+	protected static Map<String, String> importFromStream(final String pageID, final InputStream stream)
 			throws ParserConfigurationException, IOException, SAXException {
-		InputSource inputSource = new InputSource(stream);
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		Document document = builder.parse(inputSource);
-		Element documentElement = document.getDocumentElement();
+		final InputSource inputSource = new InputSource(stream);
+		final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		final Document document = builder.parse(inputSource);
+		final Element documentElement = document.getDocumentElement();
 
 		if (!documentElement.getNodeName().contentEquals(pageID)) {
 			// Nothing to import
@@ -381,7 +381,7 @@ public final class ImportExportUtils {
 			return null;
 		}
 
-		String version = documentElement.getAttribute(VERSION_ATTRIBUTE_KEY);
+		final String version = documentElement.getAttribute(VERSION_ATTRIBUTE_KEY);
 		if (version.contentEquals(CURRENT_LV_VERSION)) {
 			return importNewSettings(documentElement);
 		} else {
@@ -390,18 +390,18 @@ public final class ImportExportUtils {
 	}
 
 	public static String getImportSourceFileWithDialog() {
-		Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
-		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+		final Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay());
+		final FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 
 		dialog.setFilterExtensions(new String[]{XML_EXTENSION_MASK});
 		dialog.setText(Messages.getString("ImportExportUtils.1"));
-		String importLastDir = PreferencesHandler.getInstance().getImportLastDir();
+		final String importLastDir = PreferencesHandler.getInstance().getImportLastDir();
 
-		boolean pathValid = new Path(importLastDir).isValidPath(importLastDir);
+		final boolean pathValid = new Path(importLastDir).isValidPath(importLastDir);
 		if (!isNullOrEmpty(importLastDir) && pathValid) {
 			dialog.setFilterPath(importLastDir);
 		}
-		String dialogResult = dialog.open();
+		final String dialogResult = dialog.open();
 		if (dialogResult == null || isNullOrEmpty(dialog.getFileName())) {
 			return null;
 		}
@@ -415,13 +415,13 @@ public final class ImportExportUtils {
 	 * @return The key and values of the element
 	 */
 	private static Map<String, String> importNewSettings(final Element documentElement) {
-		Map<String, String> result = new HashMap<String, String>();
-		NodeList parents = documentElement.getChildNodes();
+		final Map<String, String> result = new HashMap<String, String>();
+		final NodeList parents = documentElement.getChildNodes();
 		for (int i = 0; i < parents.getLength(); i++) {
-			Node currentNode = parents.item(i);
-			NodeList values = currentNode.getChildNodes();
+			final Node currentNode = parents.item(i);
+			final NodeList values = currentNode.getChildNodes();
 			for (int j = 0; j < values.getLength(); j++) {
-				Node currentValue = values.item(j);
+				final Node currentValue = values.item(j);
 
 				if (currentValue.getNodeName().contentEquals(VALUE_ELEMENT_KEY)) {
 					importValueElement(result, currentNode, currentValue);
@@ -431,15 +431,15 @@ public final class ImportExportUtils {
 		return result;
 	}
 
-	private static void importValueElement(Map<String, String> result, Node currentNode, Node currentValue) {
-		String storedValue = result.get(currentNode.getNodeName());
+	private static void importValueElement(final Map<String, String> result, final Node currentNode, final Node currentValue) {
+		final String storedValue = result.get(currentNode.getNodeName());
 		String fetchedValue;
 
-		NodeList keywords = currentValue.getChildNodes();
+		final NodeList keywords = currentValue.getChildNodes();
 		if (keywords.getLength() > 1) {
-			StringBuilder keywordColor = new StringBuilder();
+			final StringBuilder keywordColor = new StringBuilder();
 			for (int k = 0; k < keywords.getLength(); k++) {
-				Node currentKeyword = keywords.item(k);
+				final Node currentKeyword = keywords.item(k);
 				if (currentKeyword.getNodeName().contentEquals(KEYWORD_ELEMENT_KEY)) {
 					keywordColor.append(currentKeyword.getTextContent());
 				}
@@ -466,13 +466,13 @@ public final class ImportExportUtils {
 	 * @return The key and values of the element
 	 */
 	private static Map<String, String> importOldSettings(final String pageID, final Element documentElement) {
-		Map<String, String> result = new HashMap<String, String>();
-		NodeList childNodes = documentElement.getChildNodes();
+		final Map<String, String> result = new HashMap<String, String>();
+		final NodeList childNodes = documentElement.getChildNodes();
 		for (int i = 0; i < childNodes.getLength(); i++) {
-			String nodeName = childNodes.item(i).getNodeName();
+			final String nodeName = childNodes.item(i).getNodeName();
 			if (nodeName.compareTo(pageID) == 0) {
-				Element e = (Element) childNodes.item(i);
-				NamedNodeMap attributes = e.getAttributes();
+				final Element e = (Element) childNodes.item(i);
+				final NamedNodeMap attributes = e.getAttributes();
 				for (int j = 0; j < attributes.getLength(); j++) {
 					// Add all keys and values from the xml
 					result.put(attributes.item(j).getNodeName(), attributes.item(j).getNodeValue());

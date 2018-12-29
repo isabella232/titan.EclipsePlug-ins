@@ -67,10 +67,10 @@ public final class ActionUtils {
 			@Override
 			public void run() {
 				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+				final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 
 				if (view instanceof CommonNavigator) {
-					CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
+					final CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
 					viewer.refresh(logFile, true);
 					viewer.expandToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 				}
@@ -86,13 +86,13 @@ public final class ActionUtils {
 	 * @param viewReferences views
 	 */
 	private static void closeViewsForProject(final IProject project, final IWorkbenchPage activePage, final IViewReference[] viewReferences) {
-		for (IViewReference reference : viewReferences) {
-			IViewPart view = reference.getView(false);
+		for (final IViewReference reference : viewReferences) {
+			final IViewPart view = reference.getView(false);
 			closeView(project, activePage, reference, view);
 		}
 	}
 
-	private static void closeView(IProject project, IWorkbenchPage activePage, IViewReference reference, IViewPart view) {
+	private static void closeView(final IProject project, final IWorkbenchPage activePage, final IViewReference reference, final IViewPart view) {
 		//	 a restored view with faulty content
 		if (view == null) {
 			activePage.hideView(reference);
@@ -125,15 +125,15 @@ public final class ActionUtils {
 	 */
 	private static void closeViewsForFiles(final IFile file, final IWorkbenchPage activePage, final IViewReference[] viewReferences) {
 
-		for (IViewReference reference : viewReferences) {
+		for (final IViewReference reference : viewReferences) {
 			closeView(file, activePage, reference);
 		}
 
 		LogFileCacheHandler.clearCache(file);
 	}
 
-	private static void closeView(IFile file, IWorkbenchPage activePage, IViewReference reference) {
-		IViewPart view = reference.getView(false);
+	private static void closeView(final IFile file, final IWorkbenchPage activePage, final IViewReference reference) {
+		final IViewPart view = reference.getView(false);
 
 		// a restored view with faulty content
 		if (view == null) {
@@ -172,7 +172,7 @@ public final class ActionUtils {
 	private static void closeViewsInclInFolder(final IFolder folder, final IWorkbenchPage activePage, final IViewReference[] viewReferences) {
 		if (folder.isAccessible()) {
 			try {
-				IResource[] resource = folder.members();
+				final IResource[] resource = folder.members();
 
 				closeViewsOfLogFiles(activePage, viewReferences, resource);
 			} catch (CoreException e) {
@@ -183,8 +183,8 @@ public final class ActionUtils {
 		LogFileCacheHandler.clearLogFolderCache(folder);
 	}
 
-	private static void closeViewsOfLogFiles(IWorkbenchPage activePage, IViewReference[] viewReferences, IResource[] resource) {
-		for (IResource aResource : resource) {
+	private static void closeViewsOfLogFiles(final IWorkbenchPage activePage, final IViewReference[] viewReferences, final IResource[] resource) {
+		for (final IResource aResource : resource) {
 			if (aResource instanceof IFile) {
 				closeViewsForFiles((IFile) aResource, activePage, viewReferences);
 			} else if (aResource instanceof IFolder) {
