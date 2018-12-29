@@ -34,7 +34,7 @@ public final class ConsoleWriter {
 	//Singleton instance holder
 	private static ConsoleWriter instance;
 
-	private MessageConsole console;
+	private final MessageConsole console;
 	private MessageConsoleStream out;
 
 	private ConsoleWriter() {

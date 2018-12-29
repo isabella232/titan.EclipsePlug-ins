@@ -49,11 +49,11 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 
 	private static final String NAME = Messages.getString("OpenValueViewMenuAction.0"); //$NON-NLS-1$
 	private EventSelection eventSelection;
-	private ISelectionProvider view;
-	private boolean forceEditorOpening = false;
+	private final ISelectionProvider view;
+	private final boolean forceEditorOpening;
 
 	private ISelection delayedSelection = null;
-	private InternalRunnable runnable = new InternalRunnable();
+	private final InternalRunnable runnable = new InternalRunnable();
 
 	class InternalRunnable implements Runnable {
 		private boolean running = false;

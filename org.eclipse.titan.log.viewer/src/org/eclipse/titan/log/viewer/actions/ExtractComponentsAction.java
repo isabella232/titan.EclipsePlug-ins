@@ -35,14 +35,14 @@ import org.eclipse.titan.log.viewer.utils.Messages;
  */
 public class ExtractComponentsAction implements IRunnableWithProgress, Observer {
 
-	private IFile logFile;
-	private ComponentExtractor componentExtractor;
-	private LogFileHandler logFileHandler;
+	private final IFile logFile;
+	private final ComponentExtractor componentExtractor;
+	private final LogFileHandler logFileHandler;
 	private LogFileMetaData logFileMetaData;
 	private IProgressMonitor monitor;
 	private int lastWorked;
 	private List<String> components;
-	private ComponentEventDispatcher componentEventDispatcher;
+	private final ComponentEventDispatcher componentEventDispatcher;
 
 	/**
 	 * Extracts components from a log file

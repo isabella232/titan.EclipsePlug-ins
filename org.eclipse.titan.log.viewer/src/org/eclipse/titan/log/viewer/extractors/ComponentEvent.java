@@ -13,8 +13,8 @@ package org.eclipse.titan.log.viewer.extractors;
  */
 public class ComponentEvent {
 
-	private String compName;
-	private int progress;
+	private final String compName;
+	private final int progress;
 
 	/**
 	 * Constructor

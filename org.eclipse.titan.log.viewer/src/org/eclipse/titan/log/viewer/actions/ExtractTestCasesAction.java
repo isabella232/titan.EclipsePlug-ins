@@ -51,13 +51,13 @@ import org.eclipse.ui.navigator.CommonViewer;
 public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 
 	public static final String PROJECT_EXPLORER_VIEW_ID = "org.eclipse.ui.navigator.ProjectExplorer";
-	private IFile logFile;
+	private final IFile logFile;
 	private final TestCaseExtractor testCaseExtractor;
-	private LogFileHandler logFileHandler;
+	private final LogFileHandler logFileHandler;
 	private LogFileMetaData logFileMetaData;
 	private IProgressMonitor monitor;
 	private int lastWorked;
-	private TestCaseEventDispatcher testCaseEventDispatcher;
+	private final TestCaseEventDispatcher testCaseEventDispatcher;
 
 	/**
 	 * Extracts test cases from a log file

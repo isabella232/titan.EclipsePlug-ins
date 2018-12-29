@@ -43,16 +43,16 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 public class OpenSourceViewMenuAction extends SelectionProviderAction {
 
 	private EventSelection eventSelection;
-	private TextTableView view;
+	private final TextTableView view;
 
-	private boolean silent;
-	private boolean forceEditorOpening = false;
+	private final boolean silent;
+	private final boolean forceEditorOpening;
 
 	private static String lastFilename = null;
 	private static URI lastPath = null;
 
 	private ISelection delayedselection = null;
-	private InternalRunnable runnable = new InternalRunnable();
+	private final InternalRunnable runnable = new InternalRunnable();
 
 	class InternalRunnable implements Runnable {
 		private boolean isRunning = false;

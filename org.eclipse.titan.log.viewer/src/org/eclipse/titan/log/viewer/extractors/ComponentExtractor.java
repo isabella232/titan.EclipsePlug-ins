@@ -25,7 +25,7 @@ public class ComponentExtractor extends Extractor {
 	private int currentProgress;
 	private int currentCompRef;
 	private String currentCompName;
-	private Map<Integer, String> components;
+	private final Map<Integer, String> components;
 
 	// Constants for ComponentExtractor
 	private static final char[] PTC_CREATION = "PTC was created. Component reference: ".toCharArray(); //$NON-NLS-1$
