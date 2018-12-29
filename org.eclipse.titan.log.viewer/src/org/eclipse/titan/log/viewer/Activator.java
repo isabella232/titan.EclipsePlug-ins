@@ -39,7 +39,7 @@ public class Activator extends AbstractUIPlugin {
 			| IResourceChangeEvent.PRE_CLOSE | IResourceChangeEvent.PRE_DELETE;
 
 	// Cache for GUI resources, fonts and colors
-	private Map<String, Resource> guiResourceCache;
+	private final Map<String, Resource> guiResourceCache;
 
 	private ResourceListener resourceListener;
 
@@ -47,7 +47,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	// Cache for the images
-	private Map<String, Image> imageCache;
+	private final Map<String, Image> imageCache;
 
 	/**
 	 * The constructor
