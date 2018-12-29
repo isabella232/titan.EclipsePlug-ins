@@ -270,7 +270,7 @@ public class ChangeCreator {
 		}
 
 		if (needSorting || removeImports) {
-			ImportsCheck check = new ImportsCheck();
+			final ImportsCheck check = new ImportsCheck();
 			module.accept(check);
 			final Set<Module> usedModules = check.getModules();
 
