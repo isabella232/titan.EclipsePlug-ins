@@ -118,21 +118,21 @@ public final class ValueReader {
 
 	private String readEnqueuedEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(")"); //$NON-NLS-1$
+			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 		}
 		if (message.contains(":")) { //$NON-NLS-1$
-			message = message.substring(message.indexOf(":") + 2); //$NON-NLS-1$
+			message = message.substring(message.indexOf(':') + 2); //$NON-NLS-1$
 		}
 		return message;
 	}
 
 	private String readReceiveEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(")"); //$NON-NLS-1$
+			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 			if (message.contains(":")) { //$NON-NLS-1$
-				message = message.substring(message.indexOf(":") + 1); //$NON-NLS-1$
+				message = message.substring(message.indexOf(':') + 1); //$NON-NLS-1$
 			}
 		}
 		String[] strings = message.split("with queue id \\d+: \\S++ : "); //$NON-NLS-1$
@@ -153,10 +153,10 @@ public final class ValueReader {
 
 	private String readSendEvent(String message) {
 		if (message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = message.indexOf(")"); //$NON-NLS-1$
+			int stopIndex = message.indexOf(')'); //$NON-NLS-1$
 			message = message.substring(stopIndex + 1);
 			if (message.contains(":")) { //$NON-NLS-1$
-				message = message.substring(message.indexOf(":") + 1); //$NON-NLS-1$
+				message = message.substring(message.indexOf(':') + 1); //$NON-NLS-1$
 			}
 		} else {
 			String[] strings = message.split(" to \\S++ \\S++ : ");  //$NON-NLS-1$
