@@ -451,7 +451,7 @@ public final class ImportExportUtils {
 		} else {
 			fetchedValue = currentValue.getTextContent();
 		}
-		if ((storedValue != null) && !storedValue.contentEquals("")) { //$NON-NLS-1$
+		if (storedValue != null && !storedValue.contentEquals("")) { //$NON-NLS-1$
 			result.put(currentNode.getNodeName(), storedValue.concat(File.pathSeparator.concat(fetchedValue)));
 		} else {
 			result.put(currentNode.getNodeName(), fetchedValue);
