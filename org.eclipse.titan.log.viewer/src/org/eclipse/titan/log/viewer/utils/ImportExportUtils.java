@@ -153,7 +153,7 @@ public final class ImportExportUtils {
 		return dialog.getFilterPath() + File.separator + dialog.getFileName();
 	}
 
-	protected static void exportToXml(final String pageID, final Map<String, String[]> settings, final boolean useIndentation, final OutputStream stream)
+	private static void exportToXml(final String pageID, final Map<String, String[]> settings, final boolean useIndentation, final OutputStream stream)
 			throws TechnicalException {
 		try {
 			final Document document = createDocument(pageID);
@@ -217,7 +217,7 @@ public final class ImportExportUtils {
 		}
 	}
 
-	protected static void exportKeywordColorsToXml(final String pageID, final Map<String, Object[]> settings, final boolean useIndentation, final OutputStream stream)
+	private static void exportKeywordColorsToXml(final String pageID, final Map<String, Object[]> settings, final boolean useIndentation, final OutputStream stream)
 			throws TechnicalException {
 		try {
 			final Document document = createDocument(pageID);
@@ -361,7 +361,7 @@ public final class ImportExportUtils {
 		return null;
 	}
 
-	protected static Map<String, String> importFromStream(final String pageID, final InputStream stream)
+	private static Map<String, String> importFromStream(final String pageID, final InputStream stream)
 			throws ParserConfigurationException, IOException, SAXException {
 		final InputSource inputSource = new InputSource(stream);
 		final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
