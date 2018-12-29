@@ -63,7 +63,7 @@ public final class ConsoleWriter {
 	 */
 	public void writeToConsole(final String msg, final String projectName) {
 		// Check with preference store
-		PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(projectName);
+		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(projectName);
 		if (preferences.getVerbosePrintoutsEnabled()) {
 			try {
 				this.out.println(msg);
@@ -91,20 +91,21 @@ public final class ConsoleWriter {
 	 * @return The Console
 	 */
 	private MessageConsole findConsole(final String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		final ConsolePlugin plugin = ConsolePlugin.getDefault();
 		// Protection, Activator.stop exception...
 		if (plugin == null) {
 			return null;
 		}
-		IConsoleManager conMan = plugin.getConsoleManager();
-		IConsole[] existing = conMan.getConsoles();
-		for (IConsole anExisting : existing) {
+
+		final IConsoleManager conMan = plugin.getConsoleManager();
+		final IConsole[] existing = conMan.getConsoles();
+		for (final IConsole anExisting : existing) {
 			if (name.equals(anExisting.getName())) {
 				return (MessageConsole) anExisting;
 			}
 		}
 		//no console found, so create a new one
-		MessageConsole myConsole = new MessageConsole(name, null);
+		final MessageConsole myConsole = new MessageConsole(name, null);
 		conMan.addConsoles(new IConsole[]{myConsole});
 		return myConsole;
 	}

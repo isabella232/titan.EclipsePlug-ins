@@ -51,11 +51,11 @@ public abstract class Extractor extends Observable {
 	 * @throws IOException if log file not found or error while extracting
 	 */
 	protected void extractFromLogFile(final LogFileMetaData logFileMetaData, final IProgressMonitor pMonitor) throws IOException {
-		IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
+		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
 		this.logFileMetaData = logFileMetaData;
-		File logFile = new File(logFileMetaData.getFilePath());
+		final File logFile = new File(logFileMetaData.getFilePath());
 		monitor.beginTask(logFile.getName() + ": Extracting testcases.", 100);
-		long monitorStep = logFile.length() / 100;
+		final long monitorStep = logFile.length() / 100;
 		long monitorNextTick = monitorStep;
 
 		FileInputStream in = null;
@@ -76,14 +76,14 @@ public abstract class Extractor extends Observable {
 				int recordsInBlock = 0;
 				while (nextChar < charsInBuffer) {
 					// consumes the next char in the buffer
-					byte aChar = this.buffer[nextChar];
+					final byte aChar = this.buffer[nextChar];
 					if (aChar == Constants.LF) {
 						foundRecord = true;
 						this.lineCounter++;
 						recordsInBlock++;
 						processRow(startLineIdx, nextChar, this.recordNumber);
 						this.recordNumber++;
-						int recordLength = nextChar - startLineIdx + 1;
+						final int recordLength = nextChar - startLineIdx + 1;
 						this.filePointer += recordLength; // filePointer
 						if (filePointer >= monitorNextTick) {
 							monitor.worked(1);
@@ -101,7 +101,7 @@ public abstract class Extractor extends Observable {
 
 				// here we have a block containing no full record
 				if (!foundRecord) {
-					byte[] oldBuffer = this.buffer;
+					final byte[] oldBuffer = this.buffer;
 					// doubles the buffer size
 					this.buffer = new byte [this.buffer.length * 2];
 					System.arraycopy(oldBuffer, 0, this.buffer, 0, oldBuffer.length);
@@ -167,14 +167,14 @@ public abstract class Extractor extends Observable {
 		switch (this.logFileMetaData.getTimeStampConstant()) {
 		case Constants.DATETIME_FORMAT_LENGTH:
 			if (remaining >= Constants.DATETIME_FORMAT_LENGTH) {
-				String time = new String(this.buffer, nextChar, Constants.DATETIME_FORMAT_LENGTH);
+				final String time = new String(this.buffer, nextChar, Constants.DATETIME_FORMAT_LENGTH);
 				return Pattern.matches(Constants.REGEXP_DATETIME_FORMAT, time);
 
 			}
 			break;
 		case Constants.TIME_FORMAT_LENGTH:
 			if (remaining >= Constants.TIME_FORMAT_LENGTH) {
-				String time = new String(this.buffer, nextChar, Constants.TIME_FORMAT_LENGTH);
+				final String time = new String(this.buffer, nextChar, Constants.TIME_FORMAT_LENGTH);
 				return Pattern.matches(Constants.REGEXP_TIME_FORMAT, time);
 
 			}
@@ -186,7 +186,7 @@ public abstract class Extractor extends Observable {
 			if (remaining >= Constants.SECONDS_FORMAT_LENGTH) {
 				boolean foundWhiteSpace = false;
 				int endPos = nextChar;
-				int lastPos = nextChar + remaining;
+				final int lastPos = nextChar + remaining;
 				while (endPos < lastPos) {
 					if (Character.isWhitespace(this.buffer[endPos])) {
 						foundWhiteSpace = true;
@@ -195,7 +195,7 @@ public abstract class Extractor extends Observable {
 					endPos++;
 				}
 				if (foundWhiteSpace) {
-					String seconds = new String(this.buffer, nextChar, endPos - nextChar);
+					final String seconds = new String(this.buffer, nextChar, endPos - nextChar);
 					if (Pattern.matches(Constants.REGEXP_SECONDS_FORMAT, seconds)) {
 						return true;
 					}

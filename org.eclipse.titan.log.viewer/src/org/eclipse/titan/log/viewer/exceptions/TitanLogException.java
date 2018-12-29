@@ -31,7 +31,7 @@ public class TitanLogException extends Exception {
 		super(msg);
 	}
 
-	public TitanLogException(String message, Throwable cause) {
+	public TitanLogException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }
