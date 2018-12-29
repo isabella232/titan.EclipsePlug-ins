@@ -49,7 +49,7 @@ public final class ResourcePropertyHandler {
 			} else { // No sub values
 				String value = resource.getPersistentProperty(new QualifiedName(pageId, propertyKey));
 				// Upgrade Protection 1.0 -> 1.1 (Silent Events)
-				if (propertyKey.contentEquals(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES) && (value == null)) {
+				if (propertyKey.contentEquals(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES) && value == null) {
 					// Value not set, look for old values
 					if (FilteredSilentEventUtils.hasPropertiesOldFilteredSilentEvents(resource, pageId)) {
 						// Old values found
