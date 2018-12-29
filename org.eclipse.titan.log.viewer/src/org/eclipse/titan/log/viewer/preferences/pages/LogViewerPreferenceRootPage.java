@@ -47,7 +47,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	public static final String TRUE = "true"; //$NON-NLS-1$
 	public static final String USEPROJECTSETTINGS = "useProjectSettings"; //$NON-NLS-1$
 
-	private List<FieldEditor> editors = new ArrayList<FieldEditor>();
+	private final List<FieldEditor> editors = new ArrayList<FieldEditor>();
 	private IAdaptable element;
 	private IPreferenceStore overlayStore;
 	private String pageId;
@@ -59,7 +59,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	private Button selectAll;
 	private Button deselectAll;
 	private Map<String, String> oldPreferences;
-	private boolean enableSelectDeselectButtons;
+	private final boolean enableSelectDeselectButtons;
 
 	/**
 	 * Constructor
