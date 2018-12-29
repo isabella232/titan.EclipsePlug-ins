@@ -343,11 +343,9 @@ public class TestCaseExtractor extends Extractor {
 	private void addCrashedTestCase() {
 		if (!this.crashed) {
 			this.crashed = true;
-			this.testCaseVector.add(
-					new TestCase(logFile, -1,
-							Messages.getString("TestCaseExtractor.3"),
-							this.filePointer, Constants.VERDICT_CRASHED,
-							this.recordNumber, this.recordNumber));
+			final TestCase temp = new TestCase(logFile, -1, Messages.getString("TestCaseExtractor.3"), this.filePointer,
+					Constants.VERDICT_CRASHED, this.recordNumber, this.recordNumber);
+			this.testCaseVector.add(temp);
 		}
 	}
 
