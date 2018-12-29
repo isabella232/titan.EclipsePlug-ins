@@ -23,12 +23,12 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(final IPageLayout layout) {
 
-		String editorArea = layout.getEditorArea();
+		final String editorArea = layout.getEditorArea();
 
-		IFolderLayout left = layout.createFolder(Constants.LAYOUT_LEFT, IPageLayout.LEFT, (float) 0.7, editorArea);
+		final IFolderLayout left = layout.createFolder(Constants.LAYOUT_LEFT, IPageLayout.LEFT, (float) 0.7, editorArea);
 		left.addView("org.eclipse.ui.navigator.ProjectExplorer");
 
-		IFolderLayout top = layout.createFolder(Constants.LAYOUT_TOP, IPageLayout.RIGHT, (float) 0.25, Constants.LAYOUT_LEFT);
+		final IFolderLayout top = layout.createFolder(Constants.LAYOUT_TOP, IPageLayout.RIGHT, (float) 0.25, Constants.LAYOUT_LEFT);
 		top.addPlaceholder(org.eclipse.titan.log.viewer.utils.Constants.MSC_VIEW_ID);
 		top.addPlaceholder(org.eclipse.titan.log.viewer.utils.Constants.MSC_VIEW_ID + ":*"); //$NON-NLS-1$
 		top.addPlaceholder(org.eclipse.titan.log.viewer.utils.Constants.TEXT_TABLE_VIEW_ID);
@@ -36,7 +36,7 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		top.addPlaceholder(org.eclipse.titan.log.viewer.utils.Constants.STATISTICAL_VIEW_ID);
 		top.addPlaceholder(org.eclipse.titan.log.viewer.utils.Constants.STATISTICAL_VIEW_ID + ":*"); //$NON-NLS-1$
 
-		IFolderLayout bottom = layout.createFolder(Constants.LAYOUT_BOTTOM, IPageLayout.BOTTOM, (float) 0.75, Constants.LAYOUT_TOP);
+		final IFolderLayout bottom = layout.createFolder(Constants.LAYOUT_BOTTOM, IPageLayout.BOTTOM, (float) 0.75, Constants.LAYOUT_TOP);
 		bottom.addView(Constants.CONSOLE_ID);
 		layout.setEditorAreaVisible(false);
 	}
