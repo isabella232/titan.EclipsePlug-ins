@@ -49,7 +49,7 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 
 		run(selection);
@@ -97,7 +97,7 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 		setNewProperties(components, logFile, preferences);
 	}
 
-	private void setNewProperties(List<String> components, IFile logFile, PreferencesHolder preferences) {
+	private void setNewProperties(List<String> components, final IFile logFile, final PreferencesHolder preferences) {
 		if (components == null) {
 			return;
 		}

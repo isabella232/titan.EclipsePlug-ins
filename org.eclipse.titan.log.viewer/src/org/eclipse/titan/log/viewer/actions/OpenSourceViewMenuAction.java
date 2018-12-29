@@ -105,16 +105,16 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 			return;
 		}
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		LogFileMetaData logFileMetaData;
 		logFileMetaData = this.view.getLogFileMetaData();
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(logFileMetaData.getProjectName());
-		IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(logFileMetaData.getProjectName());
+		final IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			TitanLogExceptionHandler.handleException(new UserException("The log file could not be found.\n Please perform the Open Text Table action again.")); //$NON-NLS-1$
 			return;
@@ -125,8 +125,8 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 			return;
 		}
 
-		EventObject eventObject = this.eventSelection.getEventObject();
-		String testCase = this.eventSelection.getTestCaseName();
+		final EventObject eventObject = this.eventSelection.getEventObject();
+		final String testCase = this.eventSelection.getTestCaseName();
 		if ((eventObject == null) || (testCase == null)) {
 			return;
 		}
@@ -149,7 +149,7 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 			sourceInformation = SourceInformation.createInstance(logrecord.getSourceInformation());
 		} catch (InvalidSourceInformationException e) {
 			if (!silent) {
-				String setting = logFileMetaData.getOptionsSettings("SourceInfoFormat");
+				final String setting = logFileMetaData.getOptionsSettings("SourceInfoFormat");
 				if (setting == null) {
 					Display.getDefault().asyncExec(new Runnable() {
 						@Override
@@ -181,7 +181,7 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 
 		IFile targetFile;
 		if (lastFilename != null && lastFilename.equals(fileName) && lastPath != null) {
-			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(lastPath);
+			final IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(lastPath);
 			if (files.length == 0) {
 				view.getViewSite().getActionBars().getStatusLineManager().setErrorMessage("The file `" + lastFilename + "' could not be found");
 				setLastFilename(null);
@@ -211,11 +211,11 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 		super.selectionChanged(selection);
 	}
 
-	private static synchronized void setLastFilename(String lastFilename) {
+	private static synchronized void setLastFilename(final String lastFilename) {
 		OpenSourceViewMenuAction.lastFilename = lastFilename;
 	}
 
-	public static synchronized void setLastPath(URI lastPath) {
+	public static synchronized void setLastPath(final URI lastPath) {
 		OpenSourceViewMenuAction.lastPath = lastPath;
 	}
 }

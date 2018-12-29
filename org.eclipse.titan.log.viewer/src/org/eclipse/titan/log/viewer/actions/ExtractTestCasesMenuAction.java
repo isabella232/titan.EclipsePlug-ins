@@ -54,7 +54,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 		}
 		final IFile logFile = SelectionUtils.selectionToIFile(selection);
 		try {
-			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
 				return;
 			}
@@ -62,7 +62,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		WorkspaceJob op = new WorkspaceJob("Testcase extraction from logfile " + logFile.getProjectRelativePath().toString()) {
+		final WorkspaceJob op = new WorkspaceJob("Testcase extraction from logfile " + logFile.getProjectRelativePath().toString()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				final ExtractTestCasesAction extractTestCasesAction = new ExtractTestCasesAction(logFile);
@@ -113,7 +113,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 
 		run(selection);

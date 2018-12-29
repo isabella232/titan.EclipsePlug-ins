@@ -89,7 +89,7 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 		}
 
 		try {
-			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
 				monitor.done();
 				return;
@@ -103,10 +103,10 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 			this.monitor.beginTask(Messages.getString("ExtractTestCasesAction.0"), 100); //$NON-NLS-1$
 
 			// Check if a property file exists for the log file (if log file has changed or not)
-			boolean logFileHasChanged = LogFileCacheHandler.hasLogFileChanged(this.logFile);
+			final boolean logFileHasChanged = LogFileCacheHandler.hasLogFileChanged(this.logFile);
 
 			// Get the property file
-			File propertyFile = LogFileCacheHandler.getPropertyFileForLogFile(this.logFile);
+			final File propertyFile = LogFileCacheHandler.getPropertyFileForLogFile(this.logFile);
 
 			if (logFileHasChanged) {
 				if (updateLogFileIndex()) {
@@ -134,10 +134,10 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 			@Override
 			public void run() {
 				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewPart view = activePage.findView(PROJECT_EXPLORER_VIEW_ID);
+				final IViewPart view = activePage.findView(PROJECT_EXPLORER_VIEW_ID);
 
 				if (view instanceof CommonNavigator) {
-					CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
+					final CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
 					viewer.refresh(logFile, true);
 					viewer.expandToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 				}
@@ -159,10 +159,10 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewPart view = activePage.findView(PROJECT_EXPLORER_VIEW_ID);
+				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final IViewPart view = activePage.findView(PROJECT_EXPLORER_VIEW_ID);
 				if (view instanceof CommonNavigator) {
-					CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
+					final CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
 					viewer.refresh(logFile, true);
 					viewer.collapseToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 				}
@@ -180,9 +180,9 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 				@Override
 				public void run() {
 					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+					final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 					if (view instanceof CommonNavigator) {
-						CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
+						final CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
 						viewer.refresh(logFile, true);
 						viewer.collapseToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 					}
@@ -196,7 +196,7 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 		return false;
 	}
 
-	private void setExtractionRunningProperty(boolean on) {
+	private void setExtractionRunningProperty(final boolean on) {
 		try {
 			logFile.setSessionProperty(Constants.EXTRACTION_RUNNING, on);
 		} catch (CoreException e) {
@@ -207,7 +207,7 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 	private void handleExtractingError(final Exception e) throws InterruptedException {
 		ErrorReporter.logExceptionStackTrace(e);
 		// Generate Technical Error
-		String errorMsg = Messages.getString("ExtractTestCasesAction.5")
+		final String errorMsg = Messages.getString("ExtractTestCasesAction.5")
 				+ this.logFile.getName() + Messages.getString("ExtractTestCasesAction.6") + e.getMessage();
 		TitanLogExceptionHandler.handleException(new TechnicalException(errorMsg));
 		// Clear cache so index file is regenerated next time
@@ -218,9 +218,9 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 	@Override
 	public void update(final Observable observable, final Object event) {
 		if (event instanceof TestCaseEvent) {
-			TestCaseEvent testCaseEvent = (TestCaseEvent) event;
+			final TestCaseEvent testCaseEvent = (TestCaseEvent) event;
 			this.monitor.subTask(testCaseEvent.getTestCaseName());
-			int worked = testCaseEvent.getProgress();
+			final int worked = testCaseEvent.getProgress();
 			this.monitor.worked(worked - this.lastWorked);
 			this.lastWorked = worked;
 		}
