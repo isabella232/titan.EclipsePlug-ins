@@ -254,10 +254,9 @@ public class TestCaseExtractor extends Extractor {
 
 			this.withinTestCase = false;
 			final int verdictPos = findPos(Constants.VERDICT, offsetStart, offsetEnd);
-			String verdict;
 			if (verdictPos != -1) {
 				final int off = verdictPos + Constants.VERDICT.length + 2;
-				verdict = new String(this.buffer, off, offsetEnd - off);
+				String verdict = new String(this.buffer, off, offsetEnd - off);
 				final int spacePos = verdict.indexOf(' '); // In case there is a verdict reason e.g.: "Verdict: inconc reason: SUT Response guard timer timed out"
 				if (spacePos > 0) {
 					verdict = verdict.substring(0, spacePos);
