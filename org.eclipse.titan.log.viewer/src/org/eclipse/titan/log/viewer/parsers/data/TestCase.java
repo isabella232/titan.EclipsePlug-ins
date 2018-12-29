@@ -28,7 +28,7 @@ public class TestCase implements Serializable {
 	private int verdict;
 	private int startRecordNumber;
 	private int endRecordNumber;
-	private URI logFileURI;
+	private final URI logFileURI;
 	private transient IFile logFile;
 
 	/**
