@@ -58,9 +58,9 @@ public class Parser {
 	private boolean mtcTerminated = false;
 	private Set<String> currentlyLivingComponents;
 	private Map<String, TestComponent> components;
-	private List<Integer> setverdictVector = new ArrayList<Integer>();
-	private List<ConnectedRecord> errorVector = new ArrayList<ConnectedRecord>();
-	private List<ConnectedRecord> failVector = new ArrayList<ConnectedRecord>();
+	private final List<Integer> setverdictVector = new ArrayList<Integer>();
+	private final List<ConnectedRecord> errorVector = new ArrayList<ConnectedRecord>();
+	private final List<ConnectedRecord> failVector = new ArrayList<ConnectedRecord>();
 	private boolean displaySetverdictError;
 	private boolean displaySetverdictFail;
 	private boolean displaySetverdictInconc;
@@ -73,7 +73,7 @@ public class Parser {
 
 	private List<Integer> eventVector = new ArrayList<Integer>();
 
-	private EventObjectFactory eventObjectFactory = new EventObjectFactory();
+	private final EventObjectFactory eventObjectFactory = new EventObjectFactory();
 
 	public Parser(final LogFileMetaData logFileMetaData) {
 		this.logFileMetaData = logFileMetaData;
