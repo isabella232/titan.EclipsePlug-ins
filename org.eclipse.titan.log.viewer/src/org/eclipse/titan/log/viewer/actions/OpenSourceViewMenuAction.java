@@ -106,9 +106,7 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 		}
 
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		LogFileMetaData logFileMetaData;
-		logFileMetaData = this.view.getLogFileMetaData();
-
+		final LogFileMetaData logFileMetaData = this.view.getLogFileMetaData();
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IWorkspaceRoot root = workspace.getRoot();
 		final IProject project = root.getProject(logFileMetaData.getProjectName());
