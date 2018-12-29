@@ -83,7 +83,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 
 	private LogSearchResult result;
 	private LogSearchResultPage page;
-	private SearchResultListener searchResultListener;
+	private final SearchResultListener searchResultListener;
 
 	private Map<IResource, List<IResource>> tree;
 

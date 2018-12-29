@@ -21,7 +21,7 @@ import org.eclipse.ui.IEditorPart;
 public class LogSearchResult extends AbstractTextSearchResult
 implements IFileMatchAdapter, IEditorMatchAdapter {
 
-	private LogSearchQuery query;
+	private final LogSearchQuery query;
 
 	public LogSearchResult(final LogSearchQuery query) {
 		super();

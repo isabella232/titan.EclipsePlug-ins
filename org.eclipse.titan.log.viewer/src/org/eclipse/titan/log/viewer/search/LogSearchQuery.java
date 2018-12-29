@@ -32,9 +32,9 @@ import org.eclipse.titan.log.viewer.utils.LogFileCacheHandler;
 
 public class LogSearchQuery implements ISearchQuery {
 
-	private List<IFile> files;
-	private SearchPattern pattern;
-	private LogSearchResult result;
+	private final List<IFile> files;
+	private final SearchPattern pattern;
+	private final LogSearchResult result;
 
 	public LogSearchQuery(final List<IFile> files, final SearchPattern pattern) {
 		this.files = files;

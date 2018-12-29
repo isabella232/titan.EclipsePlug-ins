@@ -24,9 +24,9 @@ import org.eclipse.ui.PlatformUI;
 
 public class SearchPattern {
 
-	private FilterPattern filterPattern;
-	private IWorkingSet[] workingSets;
-	private int scope;
+	private final FilterPattern filterPattern;
+	private final IWorkingSet[] workingSets;
+	private final int scope;
 
 	public SearchPattern(final String searchString, final boolean isCaseSensitive, final boolean isRegularExpression,
 			final Map<String, Boolean> events, final Map<Field, Boolean> limitTo,
