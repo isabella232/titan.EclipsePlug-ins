@@ -213,7 +213,7 @@ public class Parser {
 			final LogRecordIndex[] logRecordIndexes, final PreferencesHolder preferences,
 			final FilterPattern filterPattern, final IProgressMonitor monitor)
 					throws IOException, ParseException, TechnicalException {
-		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		wasCanceled = false;
 		this.logRecordIndexes = logRecordIndexes;
 
@@ -275,7 +275,7 @@ public class Parser {
 			while (reader.hasNextRecord() && !internalMonitor.isCanceled()) {
 
 				try {
-					LogRecord logRecord = reader.getNextRecord();
+					final LogRecord logRecord = reader.getNextRecord();
 					// Add test case record number offset to record
 					logRecord.setRecordNumber(testCase.getStartRecordNumber() + logRecord.getRecordNumber());
 
@@ -283,7 +283,7 @@ public class Parser {
 					internalMonitor.worked(1);
 				} catch (ParseException e) {
 					ErrorReporter.logExceptionStackTrace(e);
-					ParseException throwable = new ParseException(e.getMessage(), 0);
+					final ParseException throwable = new ParseException(e.getMessage(), 0);
 					throwable.initCause(e);
 					throw throwable;
 				}
@@ -299,8 +299,8 @@ public class Parser {
 
 		// The components which were not terminated
 		int additionalIndex = 3;
-		for (String compRef : currentlyLivingComponents) {
-			EventObject event = new EventObject(EventType.PTC_TERMINATE);
+		for (final String compRef : currentlyLivingComponents) {
+			final EventObject event = new EventObject(EventType.PTC_TERMINATE);
 			event.setEventNumber(eventVector.size() + additionalIndex);
 			additionalIndex++;
 			event.setReference(compRef);
@@ -342,13 +342,13 @@ public class Parser {
 	private void setVerdict() {
 		int[] setverdictArray = new int[setverdictVector.size()];
 		for (int i = 0; i < setverdictVector.size(); i++) {
-			int verdictPlace = setverdictVector.get(i);
+			final int verdictPlace = setverdictVector.get(i);
 			setverdictArray[i] = verdictPlace;
 		}
 		this.executionModel.setSetverdict(setverdictArray);
 	}
 
-	private void setUpFromPreferences(PreferencesHolder preferences, FilterPattern filterPattern) {
+	private void setUpFromPreferences(final PreferencesHolder preferences, final FilterPattern filterPattern) {
 		// Preferences for setverdict
 		this.messageAnalyser.setErrorCausedBy(preferences.getErrorCausedBy());
 		this.messageAnalyser.setFailCausedBy(preferences.getFailCausedBy());
@@ -385,10 +385,10 @@ public class Parser {
 	 * */
 	public List<EventObject> parseRegion(final int startIndex, final int endIndex, final IProgressMonitor monitor)
 			throws IOException, ParseException {
-		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		TestFileReader reader = null;
 		wasCanceled = false;
-		List<EventObject> result = new ArrayList<EventObject>(endIndex - startIndex + 6 + 1);
+		final List<EventObject> result = new ArrayList<EventObject>(endIndex - startIndex + 6 + 1);
 
 		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName());
 
@@ -418,20 +418,20 @@ public class Parser {
 			internalMonitor.beginTask("Loading...", reader.size());
 			for (int i = startIndex; i <= endIndex && i < eventVector.size() && !internalMonitor.isCanceled(); i++) {
 				try {
-					int actualIndex = eventVector.get(i) - testCase.getStartRecordNumber();
+					final int actualIndex = eventVector.get(i) - testCase.getStartRecordNumber();
 					reader.setCurrentLogRecord(actualIndex);
-					LogRecord logRecord = reader.getNextRecord();
+					final LogRecord logRecord = reader.getNextRecord();
 					// Add test case record number offset to record
 					logRecord.setRecordNumber(testCase.getStartRecordNumber() + logRecord.getRecordNumber());
 
-					EventObject event = parseLogRecord(logRecord, i);
+					final EventObject event = parseLogRecord(logRecord, i);
 					if (event != null) {
 						result.add(event);
 					}
 					internalMonitor.worked(1);
 				} catch (ParseException e) {
 					ErrorReporter.logExceptionStackTrace(e);
-					ParseException throwable = new ParseException(e.getMessage(), 0);
+					final ParseException throwable = new ParseException(e.getMessage(), 0);
 					throwable.initCause(e);
 					throw throwable;
 				}
@@ -444,8 +444,8 @@ public class Parser {
 
 		internalMonitor.done();
 
-		for (String compRef : currentlyLivingComponents) {
-			EventObject event = new EventObject(EventType.PTC_TERMINATE);
+		for (final String compRef : currentlyLivingComponents) {
+			final EventObject event = new EventObject(EventType.PTC_TERMINATE);
 			event.setReference(compRef);
 			event.setName(compRef);
 
@@ -491,15 +491,15 @@ public class Parser {
 
 		// This branch handles send events.
 		if (this.messageAnalyser.isSend()) {
-			String sendType = messageAnalyser.getSendType();
+			final String sendType = messageAnalyser.getSendType();
 			if (!isLogRecordIgnored && !isSignalIgnored(sendType)
 					&& components != null) {
-				String sendTarget = messageAnalyser.getSendTarget();
-				TestComponent tc = components.get(sendTarget);
+				final String sendTarget = messageAnalyser.getSendTarget();
+				final TestComponent tc = components.get(sendTarget);
 				if (tc != null) {
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> sources = tc.getMappedFromReference(messageAnalyser.getSendSource());
-					String source = getSource(logComponentRef, sources);
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> sources = tc.getMappedFromReference(messageAnalyser.getSendSource());
+					final String source = getSource(logComponentRef, sources);
 
 					if (source != null && !isComponentIgnored(source)) {
 						sends++;
@@ -509,17 +509,17 @@ public class Parser {
 			}
 		} else if (messageAnalyser.isReceive()) {
 			// This branch handles receive events.
-			String receiveType = messageAnalyser.getReceiveType();
+			final String receiveType = messageAnalyser.getReceiveType();
 			if (!isLogRecordIgnored && !isSignalIgnored(receiveType)
 					&& components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String receiveTargetPort = messageAnalyser.getReceiveTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
+					final String receiveTargetPort = messageAnalyser.getReceiveTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
 
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						recs++;
@@ -529,18 +529,18 @@ public class Parser {
 			}
 		} else if (messageAnalyser.isEnqueued()) {
 			// This branch handles enqueued events.
-			String receiveType = messageAnalyser.getReceiveType();
+			final String receiveType = messageAnalyser.getReceiveType();
 			if (!isLogRecordIgnored && !isSignalIgnored(receiveType)
 					&& components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String enqueuedTargetPort = messageAnalyser.getEnqueuedTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(enqueuedTargetPort);
+					final String enqueuedTargetPort = messageAnalyser.getEnqueuedTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(enqueuedTargetPort);
 
 					// In case of valid log files it cannot happen.
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						enqs++;
@@ -551,17 +551,17 @@ public class Parser {
 		} else if (this.messageAnalyser.isReceiveOperation()) {
 			// This branch handles receive operation events. AFAIK,
 			// it is obsolete in new (>= 1.7.pl0) TITAN versions.
-			String recieveType = messageAnalyser.getReceiveOperationType();
+			final String recieveType = messageAnalyser.getReceiveOperationType();
 			if (!isLogRecordIgnored && !isSignalIgnored(recieveType)
 					&& components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String receiveTargetPort = messageAnalyser.getReceiveOperationTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
+					final String receiveTargetPort = messageAnalyser.getReceiveOperationTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
 
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						recs++;
 						eventVector.add(logRecord.getRecordNumber());
@@ -571,7 +571,7 @@ public class Parser {
 		} else if (this.messageAnalyser.isStartFunction()) {
 			// This branch handles function start events.
 			if (components != null) {
-				String targetRef = this.messageAnalyser.getStartFunctionReference();
+				final String targetRef = this.messageAnalyser.getStartFunctionReference();
 				if ((targetRef != null)
 						&& !isLogRecordIgnored
 						&& !isComponentIgnored(targetRef)
@@ -582,11 +582,11 @@ public class Parser {
 		} else if (this.messageAnalyser.isComponentCreation()) {
 			// This branch handles component creation events.
 			if (components != null) {
-				EventObject event = createEventObject(logRecord, EventType.PTC_CREATE);
+				final EventObject event = createEventObject(logRecord, EventType.PTC_CREATE);
 				event.setEventNumber(eventVector.size() + 3);
-				String reference = event.getReference();
+				final String reference = event.getReference();
 				currentlyLivingComponents.add(reference);
-				TestComponent tc = components.get(reference);
+				final TestComponent tc = components.get(reference);
 				if (tc == null) {
 					addComponent(event);
 					if ((reference != null)
@@ -605,9 +605,9 @@ public class Parser {
 			}
 		} else if (this.messageAnalyser.isComponentDone()) {
 			// This branch handles component done events.
-			EventObject event = createEventObject(logRecord, EventType.PTC_DONE);
+			final EventObject event = createEventObject(logRecord, EventType.PTC_DONE);
 
-			String reference = event.getReference();
+			final String reference = event.getReference();
 			if ((reference != null)
 					&& !isComponentIgnored(reference)) {
 				eventVector.add(logRecord.getRecordNumber());
@@ -615,16 +615,16 @@ public class Parser {
 		} else if (this.messageAnalyser.isComponentTermination()) {
 			// This branch handles component termination events.
 			if (components != null) {
-				String ref = this.messageAnalyser.getComponentTerminationReference();
+				final String ref = this.messageAnalyser.getComponentTerminationReference();
 				currentlyLivingComponents.remove(ref);
 				if ((ref != null) && !isComponentIgnored(ref)) {
-					String terminationVerdict = this.messageAnalyser.getComponentTerminationVerdict();
-					TestComponent component = components.get(ref);
+					final String terminationVerdict = this.messageAnalyser.getComponentTerminationVerdict();
+					final TestComponent component = components.get(ref);
 					if (component != null) {
 						component.setVerdict(terminationVerdict);
 					}
 
-					EventObject event = createEventObject(logRecord, EventType.PTC_TERMINATE);
+					final EventObject event = createEventObject(logRecord, EventType.PTC_TERMINATE);
 					event.setEventNumber(eventVector.size() + 3);
 					event.setReference(ref);
 					eventVector.add(logRecord.getRecordNumber());
@@ -633,13 +633,13 @@ public class Parser {
 			}
 		} else if (this.messageAnalyser.isPortMapping()) {
 			// This branch handles port mapping events.
-			String mappingSource = this.messageAnalyser	.getPortMappingSource();
+			final String mappingSource = this.messageAnalyser	.getPortMappingSource();
 			final String compRef = this.messageAnalyser.getComponentRef(mappingSource);
 
-			String target = this.messageAnalyser.getPortMappingTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(mappingSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortMappingTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(mappingSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterMappingPorts && !isLogRecordIgnored
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
@@ -652,12 +652,13 @@ public class Parser {
 			addPortMapping(compRef, sourcePort, targetRef, targetPort);
 		} else if (this.messageAnalyser.isPortUnmapping()) {
 			// This branch handles port unmapping events.
-			String unmappingSource = this.messageAnalyser.getPortUnMapping();
+			final String unmappingSource = this.messageAnalyser.getPortUnMapping();
 			String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
+			//TODO check why overwrite?
 			compRef = this.messageAnalyser.getComponentRef(compRef);
 
-			String target = this.messageAnalyser.getPortUnMappingTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String target = this.messageAnalyser.getPortUnMappingTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
 
 			if (!filterMappingPorts && !isLogRecordIgnored
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
@@ -670,14 +671,14 @@ public class Parser {
 			// removePortMapping(messageAnalyser.getPortMappingSource(),
 		} else if (this.messageAnalyser.isPortConnection()) {
 			// This branch handles port connection events.
-			String connectionSource = this.messageAnalyser.getPortConnectionSource();
+			final String connectionSource = this.messageAnalyser.getPortConnectionSource();
 			final String compRef = this.messageAnalyser.getComponentRef(connectionSource);
 
 			// Used for connect port and reference
-			String target = this.messageAnalyser.getPortConnectionTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(connectionSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortConnectionTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(connectionSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterConnectingPorts && !isLogRecordIgnored
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
@@ -688,11 +689,11 @@ public class Parser {
 			addPortMapping(compRef, sourcePort, targetRef, targetPort);
 		} else if (this.messageAnalyser.isPortDisconnection()) {
 			// This branch handles port disconnection events.
-			String disconnectionSource = this.messageAnalyser.getPortDisconnectionSource();
+			final String disconnectionSource = this.messageAnalyser.getPortDisconnectionSource();
 			final String compRef = this.messageAnalyser.getComponentRef(disconnectionSource);
 			// Used for disconnect port and reference
-			String target = this.messageAnalyser.getPortConnectionTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String target = this.messageAnalyser.getPortConnectionTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
 
 			if (!filterConnectingPorts && !isLogRecordIgnored
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
@@ -709,7 +710,7 @@ public class Parser {
 			eventVector.add(logRecord.getRecordNumber());
 			notifyChange();
 		} else if (this.messageAnalyser.isMTCCreation()) {
-			EventObject event = createEventObject(logRecord, EventType.MTC_CREATE);
+			final EventObject event = createEventObject(logRecord, EventType.MTC_CREATE);
 			addComponent(event);
 			eventVector.add(logRecord.getRecordNumber());
 		} else if (this.messageAnalyser.isMTCTermination()) {
@@ -725,7 +726,7 @@ public class Parser {
 					&& !isComponentIgnored(logRecord.getComponentReference())) {
 
 				// Get type - change type inconc
-				String setverdicttype = this.messageAnalyser.getSetverdictType();
+				final String setverdicttype = this.messageAnalyser.getSetverdictType();
 				if (Constants.TEST_CASE_VERDICT_INCONCLUSIVE.equals(setverdicttype)
 						&& displaySetverdictInconc) {
 					setverdictVector.add(eventVector.size());
@@ -755,7 +756,7 @@ public class Parser {
 			}
 		} else {
 			// Silent events
-			Boolean filtered = isEventIgnored(logRecord.getEventType());
+			final Boolean filtered = isEventIgnored(logRecord.getEventType());
 			String compRef = logRecord.getComponentReference();
 			if (compRef == null || compRef.length() == 0) {
 				compRef = this.messageAnalyser.isSilentEvent();
@@ -776,19 +777,19 @@ public class Parser {
 		// check if Dynamic test case error, used for
 		// setverdict(error)
 		if (this.messageAnalyser.isDynamicTestCaseError()) {
-			ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
+			final ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
 			errorVector.add(connectedRecord);
 		} // check if fail messages, used for setverdict(fail)
 		if (this.messageAnalyser.isFailMessages()) {
-			ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
+			final ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
 			failVector.add(connectedRecord);
 		}
 	}
 
-	private String getSource(String logComponentRef, Set<String> sources) {
+	private String getSource(final String logComponentRef, final Set<String> sources) {
 		String source = null;
 		if (sources != null) {
-			for (String source1 : sources) {
+			for (final String source1 : sources) {
 				source = source1;
 				if (logComponentRef != null && logComponentRef.equals(source)) {
 					break;
@@ -798,10 +799,10 @@ public class Parser {
 		return source;
 	}
 
-	private String getTargetRef(String logComponentRef, Set<String> targetRefs) {
+	private String getTargetRef(final String logComponentRef, final Set<String> targetRefs) {
 		String targetRef = null;
 		if (targetRefs != null) {
-			for (String targetRef1 : targetRefs) {
+			for (final String targetRef1 : targetRefs) {
 				targetRef = targetRef1;
 				if (logComponentRef != null && logComponentRef.equals(targetRef)) {
 					break;
@@ -819,7 +820,7 @@ public class Parser {
 			return;
 		}
 
-		EventObject object = new EventObject(EventType.PTC_CREATE);
+		final EventObject object = new EventObject(EventType.PTC_CREATE);
 		object.setReference(compRef);
 		object.setName(compRef);
 		object.setRecordNumber(0);
@@ -853,19 +854,19 @@ public class Parser {
 
 		// This branch handles send events.
 		if (this.messageAnalyser.isSend()) {
-			String sendType = messageAnalyser.getSendType();
+			final String sendType = messageAnalyser.getSendType();
 			if (!isSignalIgnored(sendType) && components != null) {
-				String sendTarget = messageAnalyser.getSendTarget();
-				TestComponent tc = components.get(sendTarget);
+				final String sendTarget = messageAnalyser.getSendTarget();
+				final TestComponent tc = components.get(sendTarget);
 				if (tc != null) {
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> sources = tc.getMappedFromReference(messageAnalyser.getSendSource());
-					String source =  getSource(logComponentRef, sources);
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> sources = tc.getMappedFromReference(messageAnalyser.getSendSource());
+					final String source =  getSource(logComponentRef, sources);
 
 					if (source != null && !isComponentIgnored(source)) {
 						sends++;
-						EventObject event = createEventObject(logRecord, EventType.SEND);
-						String deciphered = decipherer.decipher(sendType.trim(), messageAnalyser.getSendValue());
+						final EventObject event = createEventObject(logRecord, EventType.SEND);
+						final String deciphered = decipherer.decipher(sendType.trim(), messageAnalyser.getSendValue());
 						if (deciphered != null) {
 							event.setName(deciphered);
 						} else {
@@ -883,15 +884,15 @@ public class Parser {
 			}
 		} else if (messageAnalyser.isReceive()) {
 			// This branch handles receive events.
-			String recieveType = messageAnalyser.getReceiveType();
+			final String recieveType = messageAnalyser.getReceiveType();
 			if (!isSignalIgnored(recieveType) && !isLogRecordIgnored && components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String recieveTargetPort = messageAnalyser.getReceiveTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(recieveTargetPort);
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String recieveTargetPort = messageAnalyser.getReceiveTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(recieveTargetPort);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						return handleReceive(logRecord, recieveType, sourceRef, tc, recieveTargetPort, targetRef);
@@ -900,24 +901,24 @@ public class Parser {
 			}
 		} else if (messageAnalyser.isEnqueued()) {
 			// This branch handles enqueued events.
-			String recieveType = messageAnalyser.getReceiveType();
+			final String recieveType = messageAnalyser.getReceiveType();
 			if (!isSignalIgnored(recieveType) && !isLogRecordIgnored && components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String enqueuedTargetPort = messageAnalyser.getEnqueuedTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(enqueuedTargetPort);
+					final String enqueuedTargetPort = messageAnalyser.getEnqueuedTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(enqueuedTargetPort);
 
 					// In case of valid log files it cannot happen.
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						enqs++;
-						EventObject event = createEventObject(logRecord, EventType.ENQUEUED);
-						String msg = messageAnalyser.getReceiveValue();
+						final EventObject event = createEventObject(logRecord, EventType.ENQUEUED);
+						final String msg = messageAnalyser.getReceiveValue();
 
-						String deciphered = decipherer.decipher(recieveType, msg);
+						final String deciphered = decipherer.decipher(recieveType, msg);
 						if (deciphered != null) {
 							event.setName(deciphered);
 						} else {
@@ -936,15 +937,15 @@ public class Parser {
 		} else if (this.messageAnalyser.isReceiveOperation()) {
 			// This branch handles receive operation events. AFAIK,
 			// it is obsolete in new (>= 1.7.pl0) TITAN versions.
-			String recieveType = messageAnalyser.getReceiveOperationType();
+			final String recieveType = messageAnalyser.getReceiveOperationType();
 			if (!isSignalIgnored(recieveType) && components != null) {
-				String sourceRef = messageAnalyser.getReceiveSource();
-				TestComponent tc = components.get(sourceRef);
+				final String sourceRef = messageAnalyser.getReceiveSource();
+				final TestComponent tc = components.get(sourceRef);
 				if (tc != null) {
-					String receiveTargetPort = messageAnalyser.getReceiveOperationTarget();
-					String logComponentRef = logRecord.getComponentReference();
-					Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
-					String targetRef = getTargetRef(logComponentRef, targetRefs);
+					final String receiveTargetPort = messageAnalyser.getReceiveOperationTarget();
+					final String logComponentRef = logRecord.getComponentReference();
+					final Set<String> targetRefs = tc.getMappedFromReference(receiveTargetPort);
+					final String targetRef = getTargetRef(logComponentRef, targetRefs);
 
 					if (targetRef != null && !isComponentIgnored(targetRef)) {
 						return handleReceive(logRecord, recieveType, sourceRef, tc, receiveTargetPort, targetRef);
@@ -954,11 +955,11 @@ public class Parser {
 		} else if (this.messageAnalyser.isStartFunction()) {
 			// This branch handles function start events.
 			if (components != null) {
-				String targetRef = this.messageAnalyser.getStartFunctionReference();
+				final String targetRef = this.messageAnalyser.getStartFunctionReference();
 				if ((targetRef != null)
 						&& !isComponentIgnored(targetRef)
 						&& !isFunctionIgnored(this.messageAnalyser.getStartFunctionName())) {
-					EventObject event = createEventObject(logRecord, EventType.FUNCTION);
+					final EventObject event = createEventObject(logRecord, EventType.FUNCTION);
 					event.setName(this.messageAnalyser.getStartFunctionName());
 					event.setReference(Constants.MTC_REFERENCE);
 					event.setTarget(targetRef);
@@ -969,8 +970,8 @@ public class Parser {
 			// This branch handles component creation events.
 			if (components != null) {
 				EventObject event = createEventObject(logRecord, EventType.PTC_CREATE);
-				String reference = event.getReference();
-				TestComponent tc = components.get(reference);
+				final String reference = event.getReference();
+				final TestComponent tc = components.get(reference);
 				if (tc == null || tc.getRecordNumber() == logRecord.getRecordNumber()) {
 					if ((reference != null)
 							&& !isComponentIgnored(reference)) {
@@ -986,9 +987,9 @@ public class Parser {
 			}
 		} else if (this.messageAnalyser.isComponentDone()) {
 			// This branch handles component done events.
-			EventObject event = createEventObject(logRecord, EventType.PTC_DONE);
+			final EventObject event = createEventObject(logRecord, EventType.PTC_DONE);
 
-			String reference = event.getReference();
+			final String reference = event.getReference();
 			if ((reference != null)
 					&& !isComponentIgnored(reference)) {
 				return event;
@@ -996,15 +997,15 @@ public class Parser {
 		} else if (this.messageAnalyser.isComponentTermination()) {
 			// This branch handles component termination events.
 			if (components != null) {
-				String ref = this.messageAnalyser.getComponentTerminationReference();
+				final String ref = this.messageAnalyser.getComponentTerminationReference();
 				if ((ref != null) && !isComponentIgnored(ref)) {
-					String terminationVerdict = this.messageAnalyser.getComponentTerminationVerdict();
-					TestComponent component = components.get(ref);
+					final String terminationVerdict = this.messageAnalyser.getComponentTerminationVerdict();
+					final TestComponent component = components.get(ref);
 					if (component != null) {
 						component.setVerdict(terminationVerdict);
 					}
 
-					EventObject event = createEventObject(logRecord, EventType.PTC_TERMINATE);
+					final EventObject event = createEventObject(logRecord, EventType.PTC_TERMINATE);
 					event.setReference(ref);
 					event.setName(terminationVerdict);
 					return event;
@@ -1012,19 +1013,19 @@ public class Parser {
 			}
 		} else if (this.messageAnalyser.isPortMapping()) {
 			// This branch handles port mapping events.
-			String mappingSource = this.messageAnalyser.getPortMappingSource();
+			final String mappingSource = this.messageAnalyser.getPortMappingSource();
 			final String compRef = this.messageAnalyser.getComponentRef(mappingSource);
 
-			String target = this.messageAnalyser.getPortMappingTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(mappingSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortMappingTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(mappingSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterMappingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 
 				logRecord.setComponentReference(compRef);
-				EventObject event = createEventObject(logRecord, EventType.MAPPING_PORT);
+				final EventObject event = createEventObject(logRecord, EventType.MAPPING_PORT);
 				event.setPort(sourcePort);
 				event.setTargetPort(targetPort);
 				event.setTarget(targetRef);
@@ -1035,19 +1036,20 @@ public class Parser {
 			addPortMapping(compRef, sourcePort, targetRef, targetPort);
 		} else if (this.messageAnalyser.isPortUnmapping()) {
 			// This branch handles port unmapping events.
-			String unmappingSource = this.messageAnalyser.getPortUnMapping();
+			final String unmappingSource = this.messageAnalyser.getPortUnMapping();
 			String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
+			//TODO check why overwrite?
 			compRef = this.messageAnalyser.getComponentRef(compRef);
 
-			String target = this.messageAnalyser.getPortUnMappingTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(unmappingSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortUnMappingTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(unmappingSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterMappingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
-				EventObject event = createEventObject(logRecord, EventType.UNMAPPING_PORT);
+				final EventObject event = createEventObject(logRecord, EventType.UNMAPPING_PORT);
 				event.setPort(sourcePort);
 				event.setTargetPort(targetPort);
 				event.setTarget(targetRef);
@@ -1058,19 +1060,19 @@ public class Parser {
 			// Used for mapping ports to reference
 		} else if (this.messageAnalyser.isPortConnection()) {
 			// This branch handles port connection events.
-			String connectionSource = this.messageAnalyser.getPortConnectionSource();
+			final String connectionSource = this.messageAnalyser.getPortConnectionSource();
 			final String compRef = this.messageAnalyser.getComponentRef(connectionSource);
 
 			// Used for connect port and reference
-			String target = this.messageAnalyser.getPortConnectionTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(connectionSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortConnectionTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(connectionSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterConnectingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
-				EventObject event = createEventObject(logRecord, EventType.CONNECTING_PORT);
+				final EventObject event = createEventObject(logRecord, EventType.CONNECTING_PORT);
 				event.setPort(sourcePort);
 				event.setTargetPort(targetPort);
 				event.setTarget(targetRef);
@@ -1080,18 +1082,18 @@ public class Parser {
 			addPortMapping(compRef, sourcePort, targetRef, targetPort);
 		} else if (this.messageAnalyser.isPortDisconnection()) {
 			// This branch handles port disconnection events.
-			String disconnectionSource = this.messageAnalyser.getPortDisconnectionSource();
+			final String disconnectionSource = this.messageAnalyser.getPortDisconnectionSource();
 			final String compRef = this.messageAnalyser.getComponentRef(disconnectionSource);
 			// Used for disconnect port and reference
-			String target = this.messageAnalyser.getPortConnectionTarget();
-			String targetRef = this.messageAnalyser.getComponentRef(target);
-			String sourcePort = this.messageAnalyser.getPort(disconnectionSource);
-			String targetPort = this.messageAnalyser.getPort(target);
+			final String target = this.messageAnalyser.getPortConnectionTarget();
+			final String targetRef = this.messageAnalyser.getComponentRef(target);
+			final String sourcePort = this.messageAnalyser.getPort(disconnectionSource);
+			final String targetPort = this.messageAnalyser.getPort(target);
 
 			if (!filterConnectingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
-				EventObject event = createEventObject(logRecord, EventType.DISCONNECTING_PORT);
+				final EventObject event = createEventObject(logRecord, EventType.DISCONNECTING_PORT);
 				event.setPort(sourcePort);
 				event.setTargetPort(targetPort);
 				event.setTarget(targetRef);
@@ -1105,7 +1107,7 @@ public class Parser {
 			// This branch handles test case end events.
 			return eventObjectFactory.createEventObject(EventType.TC_END, logRecord, this.messageAnalyser, this.logFileMetaData.getTimeStampConstant());
 		} else if (this.messageAnalyser.isMTCCreation()) {
-			EventObject event = createEventObject(logRecord, EventType.MTC_CREATE);
+			final EventObject event = createEventObject(logRecord, EventType.MTC_CREATE);
 			addComponent(event);
 			return event;
 		} else if (this.messageAnalyser.isMTCTermination()) {
@@ -1114,13 +1116,13 @@ public class Parser {
 		} else if (this.messageAnalyser.isMTCDone()) {
 			// This branch handles master test component done and sets the verdict.
 			if (components != null) {
-				TestComponent component = components.get(Constants.MTC_REFERENCE);
+				final TestComponent component = components.get(Constants.MTC_REFERENCE);
 				if (component != null) {
-					String verdict = this.messageAnalyser.getMTCVerdict();
+					final String verdict = this.messageAnalyser.getMTCVerdict();
 					component.setVerdict(verdict);
 				}
 			}
-			EventObject event = createEventObject(logRecord, EventType.SILENT_EVENT);
+			final EventObject event = createEventObject(logRecord, EventType.SILENT_EVENT);
 			event.setReference(Constants.MTC_REFERENCE);
 			return event;
 		} else if (this.messageAnalyser.isSetverdict()) {
@@ -1129,40 +1131,40 @@ public class Parser {
 					&& !isComponentIgnored(logRecord.getComponentReference())) {
 
 				// Get type - change type inconc
-				String setverdicttype = this.messageAnalyser.getSetverdictType();
+				final String setverdicttype = this.messageAnalyser.getSetverdictType();
 				if (Constants.TEST_CASE_VERDICT_INCONCLUSIVE.equals(setverdicttype)
 						&& displaySetverdictInconc) {
 					setverdictVector.add(eventIndex);
-					EventObject event = createEventObject(logRecord, EventType.SETVERDICT_INCONC);
+					final EventObject event = createEventObject(logRecord, EventType.SETVERDICT_INCONC);
 					event.setName(setverdicttype);
 					return event;
 				} else if (Constants.TEST_CASE_VERDICT_ERROR.equals(setverdicttype)
 						&& displaySetverdictError) {
 					setverdictVector.add(eventIndex);
-					EventObject event = createEventObject(logRecord, EventType.SETVERDICT);
+					final EventObject event = createEventObject(logRecord, EventType.SETVERDICT);
 					event.setName(setverdicttype);
-					ConnectedRecord[] connectedRecords = errorVector.toArray(new ConnectedRecord[errorVector.size()]);
+					final ConnectedRecord[] connectedRecords = errorVector.toArray(new ConnectedRecord[errorVector.size()]);
 					event.setConnectedRecords(connectedRecords);
 					return event;
 				} else if (Constants.TEST_CASE_VERDICT_FAIL.equals(setverdicttype)
 						&& displaySetverdictFail) {
 					setverdictVector.add(eventIndex);
-					EventObject event = createEventObject(logRecord, EventType.SETVERDICT);
+					final EventObject event = createEventObject(logRecord, EventType.SETVERDICT);
 					event.setName(setverdicttype);
-					ConnectedRecord[] connectedRecords = failVector.toArray(new ConnectedRecord[failVector.size()]);
+					final ConnectedRecord[] connectedRecords = failVector.toArray(new ConnectedRecord[failVector.size()]);
 					event.setConnectedRecords(connectedRecords);
 					return event;
 				} else if (Constants.TEST_CASE_VERDICT_NONE.equals(setverdicttype)
 						&& displaySetverdictNone) {
 					setverdictVector.add(eventIndex);
-					EventObject event = createEventObject(logRecord, EventType.SETVERDICT_NONE);
+					final EventObject event = createEventObject(logRecord, EventType.SETVERDICT_NONE);
 					event.setName(setverdicttype);
 					return event;
 				} else if (Constants.TEST_CASE_VERDICT_PASS.equals(setverdicttype)
 						&& displaySetverdictPass) {
 					setverdictVector.add(eventIndex);
-					EventType setverdictPass = EventType.SETVERDICT_PASS;
-					EventObject event = createEventObject(logRecord, setverdictPass);
+					final EventType setverdictPass = EventType.SETVERDICT_PASS;
+					final EventObject event = createEventObject(logRecord, setverdictPass);
 					event.setName(setverdicttype);
 					return event;
 				}
@@ -1174,7 +1176,7 @@ public class Parser {
 			}
 		} else {
 			// Silent events
-			Boolean filtered = isEventIgnored(logRecord.getEventType());
+			final Boolean filtered = isEventIgnored(logRecord.getEventType());
 			if (!filtered) {
 				// component reference exists in the log record
 				if ((logRecord.getComponentReference() != null)
@@ -1190,25 +1192,25 @@ public class Parser {
 		// check if Dynamic test case error, used for
 		// setverdict(error)
 		if (this.messageAnalyser.isDynamicTestCaseError()) {
-			ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
+			final ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
 			errorVector.add(connectedRecord);
 		} // check if fail messages, used for setverdict(fail)
 		if (this.messageAnalyser.isFailMessages()) {
-			ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
+			final ConnectedRecord connectedRecord = new ConnectedRecord(logRecord.getRecordOffset(), logRecord.getRecordLength(), logRecord.getRecordNumber());
 			failVector.add(connectedRecord);
 		}
 
 		return null;
 	}
 
-	private EventObject createEventObject(LogRecord logRecord, EventType eventType) {
+	private EventObject createEventObject(final LogRecord logRecord, final EventType eventType) {
 		return eventObjectFactory.createEventObject(eventType, logRecord, this.messageAnalyser, this.logFileMetaData.getTimeStampConstant());
 	}
 
-	private EventObject handleReceive(LogRecord logRecord, String receiveType, String sourceRef, TestComponent tc, String receiveTargetPort, String targetRef) {
+	private EventObject handleReceive(final LogRecord logRecord, final String receiveType, final String sourceRef, final TestComponent tc, final String receiveTargetPort, final String targetRef) {
 		recs++;
-		EventObject event = createEventObject(logRecord, EventType.RECEIVE);
-		String deciphered = decipherer.decipher(receiveType, messageAnalyser.getReceiveValue());
+		final EventObject event = createEventObject(logRecord, EventType.RECEIVE);
+		final String deciphered = decipherer.decipher(receiveType, messageAnalyser.getReceiveValue());
 		if (deciphered != null) {
 			event.setName(deciphered);
 		} else {

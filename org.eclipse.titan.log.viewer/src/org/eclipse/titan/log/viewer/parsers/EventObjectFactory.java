@@ -17,15 +17,15 @@ import org.eclipse.titan.log.viewer.views.msc.model.EventType;
 class EventObjectFactory {
 
 	public EventObject createEventObject(final EventType type, final LogRecord logRecord,
-			MessageAnalyser messageAnalyser1, int timeStampConstant) {
+			final MessageAnalyser messageAnalyser1, final int timeStampConstant) {
 
-		EventObject eventObject = new EventObject(type);
+		final EventObject eventObject = new EventObject(type);
 		if (logRecord != null) {
 			// general settings for an eventObject
 			// Only send time to the eventObject if the time format is DateTime
 			// otherwise send the whole timestamp
 			if (timeStampConstant == org.eclipse.titan.log.viewer.utils.Constants.DATETIME_FORMAT_LENGTH) {
-				String timestamp = logRecord.getTimestamp();
+				final String timestamp = logRecord.getTimestamp();
 				eventObject.setTime(getTimeStamp(timestamp));
 			} else {
 				eventObject.setTime(logRecord.getTimestamp());
@@ -81,7 +81,7 @@ class EventObjectFactory {
 			// This event type represents a test case start event.
 		case TC_START:
 
-			String tcName = messageAnalyser1.getTestcaseName();
+			final String tcName = messageAnalyser1.getTestcaseName();
 			eventObject.setName(tcName);
 			break;
 
@@ -92,7 +92,7 @@ class EventObjectFactory {
 
 			// This event type represents a send event.
 		case SEND:
-			String sendSource = messageAnalyser1.getSendSource();
+			final String sendSource = messageAnalyser1.getSendSource();
 			eventObject.setReference(sendSource);
 			eventObject.setPort(sendSource);
 			break;
@@ -117,7 +117,7 @@ class EventObjectFactory {
 	 * @return String timestamp
 	 */
 	private static String getTimeStamp(final String timestamp) {
-		StringTokenizer tokenizer = new StringTokenizer(timestamp, " ");
+		final StringTokenizer tokenizer = new StringTokenizer(timestamp, " ");
 		if (tokenizer.hasMoreTokens()) {
 			tokenizer.nextToken();
 		}
