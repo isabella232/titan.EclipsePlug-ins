@@ -65,7 +65,7 @@ public final class ValueReader {
 		final int length = event.getRecordLength();
 
 		LogRecord logrecord = getLogRecord(logFilePath, offset, length);
-		String message = logrecord.getMessage();//TODO why if its overwritten?
+		String message = logrecord.getMessage();
 		final EventType type = event.getType();
 		switch (type) {
 		case SEND:
@@ -80,7 +80,7 @@ public final class ValueReader {
 		case ENQUEUED:
 			message = readEnqueuedEvent(message);
 			break;
-		case SETVERDICT:
+		case SETVERDICT:{
 			final ConnectedRecord[] connectedRecords = event.getConnectedRecords();
 
 			if (connectedRecords != null) {
@@ -108,6 +108,7 @@ public final class ValueReader {
 
 			message = message + "}\n"; //$NON-NLS-1$
 			break;
+		}
 		case PTC_CREATE:
 		default:
 			break;
