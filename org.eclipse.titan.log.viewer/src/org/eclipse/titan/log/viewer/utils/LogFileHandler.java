@@ -106,29 +106,30 @@ public class LogFileHandler {
 	 * @return
 	 */
 	public static String validateTimeStamp(final String logLine, final String format) {
-		String temp;
 		switch (format.length()) {
-		case Constants.DATETIME_FORMAT_LENGTH:
+		case Constants.DATETIME_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.DATETIME_FORMAT.length()) {
 				break;
 			}
-			temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
+
+			String temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
 			if (validateDateTime(temp)) {
 				return temp;
 			}
 			break;
-
-		case Constants .TIME_FORMAT_LENGTH:
+		}
+		case Constants .TIME_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.TIME_FORMAT.length()) {
 				break;
 			}
-			temp = logLine.substring(0, Constants.TIME_FORMAT.length());
+
+			String temp = logLine.substring(0, Constants.TIME_FORMAT.length());
 			if (validateTime(temp)) {
 				return temp;
 			}
 			break;
-
-		case Constants.SECONDS_FORMAT_LENGTH:
+		}
+		case Constants.SECONDS_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.SECONDS_FORMAT.length()) {
 				break;
 			}
@@ -137,12 +138,13 @@ public class LogFileHandler {
 			if (strings.length < 1) {
 				return null;
 			}
-			temp = strings[0];
+
+			String temp = strings[0];
 			if (validateSeconds(temp)) {
 				return temp;
 			}
 			break;
-
+		}
 		default:
 			break;
 		}
