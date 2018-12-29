@@ -110,7 +110,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		}
 
 		if (newInput instanceof LogSearchResultPage) {
-			page = ((LogSearchResultPage) newInput);
+			page = (LogSearchResultPage) newInput;
 		}
 	}
 
