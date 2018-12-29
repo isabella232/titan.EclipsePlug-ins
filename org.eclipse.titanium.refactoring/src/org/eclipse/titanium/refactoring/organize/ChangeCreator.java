@@ -276,9 +276,10 @@ public class ChangeCreator {
 
 			// remove the imports not needed, or every if sorting is required
 			for (final ImportModule m : module.getImports()) {
+				final Identifier importedIdentifier = m.getIdentifier();
 				boolean isused = false;
 				for (Module m2 : usedModules) {
-					if(m2.getIdentifier().equals(m.getIdentifier())) {
+					if(m2.getIdentifier().equals(importedIdentifier)) {
 						isused = true;
 					}
 				}
