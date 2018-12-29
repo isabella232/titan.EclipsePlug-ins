@@ -175,6 +175,7 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 		if (prop == null) {
 			return;
 		}
+
 		setOldPreferences(getCurrentPreferences(File.pathSeparator));
 		setProperties(prop);
 		// Settings changed -> Enable apply button
@@ -183,7 +184,6 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void updatePage() {
-
 		this.setverdictError.load();
 		this.setverdictFail.load();
 		this.setverdictInconc.load();

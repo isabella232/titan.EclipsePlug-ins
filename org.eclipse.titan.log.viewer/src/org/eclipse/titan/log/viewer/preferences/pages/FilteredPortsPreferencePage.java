@@ -41,7 +41,6 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	public void createFieldEditors() {
-
 		this.connectingPortsEditor = new BooleanFieldEditor(
 				PreferenceConstants.PREF_CONNECTING_PORTS_ID,
 				Messages.getString("FilteredPortsPreferencePage.1"), //$NON-NLS-1$
@@ -105,6 +104,7 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 		if (prop == null) {
 			return;
 		}
+
 		setOldPreferences(getCurrentPreferences());
 		setProperties(prop);
 		// Settings changed -> Enable apply button
@@ -113,10 +113,7 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void updatePage() {
-
 		this.connectingPortsEditor.load();
 		this.mappingPortsEditor.load();
-
 	}
-
 }

@@ -177,6 +177,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			// Save state of radio buttons in project properties
 			writeProperty();
 		}
+
 		return result;
 	}
 
@@ -186,6 +187,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			setProperties(this.oldPreferences);
 			this.oldPreferences.clear();
 		}
+
 		return super.performCancel();
 	}
 
@@ -224,6 +226,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		if (event.getSource() instanceof FieldEditor) {
 			getApplyButton().setEnabled(true);
 		}
+
 		super.propertyChange(event);
 	}
 
@@ -232,6 +235,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		if (isPropertyPage()) {
 			return this.overlayStore;
 		}
+
 		return super.getPreferenceStore();
 	}
 
@@ -250,6 +254,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 				updateFieldEditors();
 			}
 		});
+
 		return button;
 	}
 
@@ -271,8 +276,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		this.useProjectSettingsButton = createRadioButton(radioGroup, Messages.getString("FieldEditorOverlayPage.1")); //$NON-NLS-1$
 		// Set workspace/project radio buttons
 		try {
-			final String use =
-					((IResource) getElement()).getPersistentProperty(
+			final String use = ((IResource) getElement()).getPersistentProperty(
 							new QualifiedName(this.pageId, USEPROJECTSETTINGS));
 			if (TRUE.equals(use)) {
 				this.useProjectSettingsButton.setSelection(true);
