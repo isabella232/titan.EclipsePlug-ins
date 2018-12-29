@@ -180,10 +180,9 @@ public abstract class TitanListEditor extends FieldEditor {
 	 */
 	private void addPressed() {
 		setPresentsDefaultValue(false);
+
 		String input = getNewInputObject();
-
 		if (input != null) {
-
 			// make sure that leading and trailing white space is removed
 			input = input.trim();
 
@@ -330,6 +329,7 @@ public abstract class TitanListEditor extends FieldEditor {
 						return true;
 					}
 				}
+
 				return false;
 			}
 		};
@@ -367,7 +367,6 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	@Override
 	protected void doLoad() {
-
 		if (this.list != null) {
 			list.removeAll();
 			final String s = getPreferenceStore().getString(getPreferenceName());
@@ -465,6 +464,7 @@ public abstract class TitanListEditor extends FieldEditor {
 			for (final SelectionListener listener : registeredSelectionListeners) {
 				this.list.addSelectionListener(listener);
 			}
+
 			this.list.addDisposeListener(new DisposeListener() {
 				@Override
 				public void widgetDisposed(final DisposeEvent event) {
@@ -474,6 +474,7 @@ public abstract class TitanListEditor extends FieldEditor {
 		} else {
 			checkParent(this.list, parent);
 		}
+
 		return this.list;
 	}
 
@@ -502,6 +503,7 @@ public abstract class TitanListEditor extends FieldEditor {
 		if (this.selectionListener == null) {
 			createSelectionListener();
 		}
+
 		return this.selectionListener;
 	}
 
@@ -518,6 +520,7 @@ public abstract class TitanListEditor extends FieldEditor {
 		if (this.addButton == null) {
 			return null;
 		}
+
 		return this.addButton.getShell();
 	}
 
@@ -540,12 +543,12 @@ public abstract class TitanListEditor extends FieldEditor {
 	private void removePressed() {
 		setPresentsDefaultValue(false);
 		final int index = this.list.getSelectionIndex();
-
 		if (index >= 0) {
 			if (this.colorEditor != null) {
 				final String item = this.list.getItem(index);
 				this.colors.remove(item);
 			}
+
 			this.list.remove(index);
 			selectionChanged();
 		}
@@ -555,17 +558,16 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * Notifies that the list selection has changed.
 	 */
 	private void selectionChanged() {
-
 		final int index = this.list.getSelectionIndex();
 		final int size = this.list.getItemCount();
 		if (index != -1) {
 			final String item = this.list.getItem(index);
-
 			if (item.equals(Messages.getString("TitanListEditor.0")) || item.equals(Messages.getString("TitanListEditor.1"))) {
 				this.removeButton.setEnabled(false);
 			} else {
 				this.removeButton.setEnabled(index >= 0);
 			}
+
 			this.upButton.setEnabled((size > 1) && (index > 0));
 			this.downButton.setEnabled((size > 1) && (index >= 0)
 					&& (index < size - 1));
@@ -581,7 +583,6 @@ public abstract class TitanListEditor extends FieldEditor {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -630,7 +631,6 @@ public abstract class TitanListEditor extends FieldEditor {
 	}
 
 	private void valueChanged() {
-
 		final String[] newItems = this.list.getItems();
 		if (!Arrays.equals(newItems, this.oldItems)) {
 			fireValueChanged(VALUE, this.oldItems, newItems);
@@ -693,6 +693,7 @@ public abstract class TitanListEditor extends FieldEditor {
 				colorString.append(File.pathSeparator);
 			}
 		}
+
 		return colorString.toString();
 	}
 
@@ -716,9 +717,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	private void loadColors(final String stringList) {
 		final StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
-
 		while (stringColors.hasMoreElements()) {
-
 			final String stringColor = (String) stringColors.nextElement();
 			final String[] sc = stringColor.split(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
 			if (sc.length > 1) {

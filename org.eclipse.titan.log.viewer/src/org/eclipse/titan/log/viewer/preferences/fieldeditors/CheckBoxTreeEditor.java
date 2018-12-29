@@ -188,6 +188,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 			if (parent.getGrayed()) {
 				parent.setGrayed(false);
 			}
+
 			final TreeItem[] children = parent.getItems();
 			setChecked(children, true);
 		}
@@ -223,7 +224,6 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
 		for (final String category : categories) {
 			final String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
-
 			if (currCategory.length > 1) {
 				final String currKey = currCategory[0];
 				final boolean currValue = Boolean.valueOf(currCategory[1]);
@@ -310,6 +310,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 				checked++;
 			}
 		}
+
 		return checked;
 	}
 

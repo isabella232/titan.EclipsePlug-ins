@@ -140,7 +140,6 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 	 * @return value
 	 */
 	public String getSelectedLabelValue() {
-
 		for (int i = 0; i < this.radioButtons.length; i++) {
 			if (this.radioButtons[i].getSelection()) {
 				return returnLabelValue(this.radioButtons[i].getText());
@@ -155,6 +154,7 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 				return this.labelsAndValues[i][1];
 			}
 		}
+
 		return ""; //$NON-NLS-1$
 	}
 
@@ -273,6 +273,7 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 		} else {
 			checkParent(this.radioBox, parent);
 		}
+
 		return this.radioBox;
 	}
 
@@ -333,8 +334,5 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 		for (int i = 0; i < this.radioButtons.length; i++) {
 			this.radioButtons[i].setEnabled(enabled);
 		}
-
 	}
-
-
 }

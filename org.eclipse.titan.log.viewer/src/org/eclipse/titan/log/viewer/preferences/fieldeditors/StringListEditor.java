@@ -88,7 +88,6 @@ public class StringListEditor extends TitanListEditor {
 
 	@Override
 	protected String getNewInputObject() {
-
 		final InputDialog dialog = new InputDialog(getShell(),
 				Messages.getString("StringListEditor.0"), //$NON-NLS-1$
 				Messages.getString("StringListEditor.1"), //$NON-NLS-1$

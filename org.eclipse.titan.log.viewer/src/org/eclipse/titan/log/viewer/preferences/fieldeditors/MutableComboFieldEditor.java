@@ -115,6 +115,7 @@ public class MutableComboFieldEditor extends FieldEditor {
 		if (index < 0 || index >= comboBox.getItemCount()) {
 			return;
 		}
+
 		final String[] oldvalue = new String[comboBox.getItems().length];
 		System.arraycopy(comboBox.getItems(), 0, oldvalue, 0, comboBox.getItems().length);
 		final String removedItem = comboBox.getItem(index);
@@ -139,7 +140,6 @@ public class MutableComboFieldEditor extends FieldEditor {
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-
 		final Control control = getLabelControl(parent);
 		final GridData gd = new GridData();
 		gd.horizontalSpan = numColumns;
@@ -163,7 +163,6 @@ public class MutableComboFieldEditor extends FieldEditor {
 		buttons.setLayoutData(buttonsData);
 		final GridLayout gridLayout = new GridLayout(2, false);
 		buttons.setLayout(gridLayout);
-
 
 		addButton = new Button(buttons, SWT.PUSH);
 		addButton.setText("Add");
