@@ -6194,6 +6194,7 @@ pr_CharStringValue returns[Value value]
 			}
 		}
 |	ustring_value = pr_Quadruple { $value = new UniversalCharstring_Value($ustring_value.string); }
+|	usi_value = pr_USI	{ $value = new UniversalCharstring_Value(new UniversalCharstring($usi_value.uid_elements, getLocation( $usi_value.start, $usi_value.stop))); }
 )
 {
 	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
@@ -6224,6 +6225,30 @@ pr_Quadruple returns[UniversalCharstring string]
 		// do nothing
 	}
 };
+
+// the optional + sign is handled with an identifier
+pr_USI_element returns[String string]:
+(	UID	{$string = $UID.text;}
+|	IDENTIFIER	{final String temp = $IDENTIFIER.text;
+			if (temp.startsWith("u") || temp.startsWith("U")) {
+				$string = temp;
+			} else {
+				reportError( "The USI notation requires the format to be [uU][+]?[0-9A-Fa-f]{1,8}", $IDENTIFIER, $IDENTIFIER );
+			}}
+);
+
+pr_USI returns[List<String> uid_elements]
+@init {
+	$uid_elements = new ArrayList<String>();
+}:
+(	CHARKEYWORD
+	pr_LParen
+	a = pr_USI_element	{if ($a.string != null) {$uid_elements.add($a.string);}}
+	(	pr_Comma
+		b = pr_USI_element	{if ($b.string != null) {$uid_elements.add($b.string);}}
+	)*
+	pr_RParen
+);
 
 pr_ReferencedValue returns[Value value]
 @init {

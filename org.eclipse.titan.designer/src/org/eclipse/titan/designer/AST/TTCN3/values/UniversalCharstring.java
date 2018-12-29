@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc.DecodeException;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2IntExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -79,6 +81,39 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			for (int i = 0; i < string.length(); i++) {
 				value.add(new UniversalChar(string.charAt(i)));
 			}
+		}
+	}
+
+	public UniversalCharstring(final List<String> uid_elements, final Location location) {
+		//uid_elements should come in the form of [uU][+]?[0-9A-Fa-f]{1,8}
+		// ... but we need to check as regular Identifiers starting with u/U are also allowed here
+		value = new ArrayList<UniversalChar>();
+
+		if (uid_elements == null) {
+			return;
+		}
+
+		for (int i = 0; i < uid_elements.size(); i++) {
+			final String uidChar = uid_elements.get(i);
+			int offset = 1; //already ensured that it starts with u or U
+			if (uidChar.length() > 1 && uidChar.charAt(1) == '+') {
+				offset++;
+			}
+
+			final String chunk = uidChar.substring(offset);
+			if (!chunk.matches("[0-9a-fA-F]{1,8}")) {
+				location.reportSyntacticError(MessageFormat.format("The USI like notation requires element {0} to have between 1 and 8 hexadecimal characters", i));
+
+				return;
+			}
+
+			final Integer_Value val = Hex2IntExpression.hex2int(chunk);
+			final long intValue = val.getValue();
+			final long group = (intValue >> 24) & 0xFF;
+			final long plane = (intValue >> 16) & 0xFF;
+			final long row = (intValue >> 8) & 0xFF;
+			final long cell = intValue & 0xFF;
+			value.add(new UniversalChar((int)group, (int)plane, (int)row, (int)cell));
 		}
 	}
 

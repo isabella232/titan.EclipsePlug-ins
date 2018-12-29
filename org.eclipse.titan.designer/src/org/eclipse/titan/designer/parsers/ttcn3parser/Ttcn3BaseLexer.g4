@@ -322,6 +322,11 @@ CSTRING:
 '"'
 ;
 
+//[uU][+]?[0-9A-Fa-f]{1,8} but the optional + sign is handled with identifiers
+UID:
+	[uU][+][0-9a-fA-F]+
+;
+
 fragment BIN: [01];
 fragment BINORMATCH: BIN | '?' | '*';
 fragment HEX: [0-9A-Fa-f];
