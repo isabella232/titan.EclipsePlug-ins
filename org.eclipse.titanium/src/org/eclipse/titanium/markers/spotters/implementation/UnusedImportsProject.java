@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ModuleImportation;
 import org.eclipse.titan.designer.AST.Reference;
@@ -62,9 +63,10 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
 			if (module instanceof TTCN3Module) {
 				for (ImportModule mod : ((TTCN3Module)module).getImports()){
+					final Identifier importIdentifier = mod.getIdentifier();
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(mod.getIdentifier())) {
-							problems.report(mod.getIdentifier().getLocation(), "Possibly unused importation");
+						if(m.getIdentifier().equals(importIdentifier)) {
+							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
 					}
 				}
@@ -72,9 +74,10 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				final ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
 				for (ModuleImportation im : importsCheck.getImports()) {
+					final Identifier importIdentifier = im.getIdentifier();
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(im.getIdentifier())) {
-							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation");
+						if(m.getIdentifier().equals(importIdentifier)) {
+							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
 					}
 				}
