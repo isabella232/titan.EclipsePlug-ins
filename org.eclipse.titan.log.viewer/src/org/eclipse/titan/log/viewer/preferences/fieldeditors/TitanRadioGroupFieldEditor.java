@@ -217,124 +217,124 @@ public class TitanRadioGroupFieldEditor extends FieldEditor {
 	 * @param parent The parent to create the radioBox in
 	 * @return the radio group control
 	 */
-	 public Composite getRadioBoxControl(final Composite parent) {
-		 if (this.radioBox == null) {
+	public Composite getRadioBoxControl(final Composite parent) {
+		if (this.radioBox == null) {
 
-			 final  Font font = parent.getFont();
+			final  Font font = parent.getFont();
 
-			 if (this.useGroup) {
-				 final  Group group = new Group(parent, SWT.NONE);
-				 group.setFont(font);
-				 final String text = getLabelText();
-				 if (text != null) {
-					 group.setText(text);
-				 }
-				 this.radioBox = group;
-				 final GridLayout layout = new GridLayout();
-				 layout.horizontalSpacing = HORIZONTAL_GAP;
-				 layout.numColumns = this.numColumns;
-				 this.radioBox.setLayout(layout);
-			 } else {
-				 this.radioBox = new Composite(parent, SWT.NONE);
-				 final GridLayout layout = new GridLayout();
-				 layout.marginWidth = 0;
-				 layout.marginHeight = 0;
-				 layout.horizontalSpacing = HORIZONTAL_GAP;
-				 layout.numColumns = this.numColumns;
-				 this.radioBox.setLayout(layout);
-				 this.radioBox.setFont(font);
-			 }
+			if (this.useGroup) {
+				final  Group group = new Group(parent, SWT.NONE);
+				group.setFont(font);
+				final String text = getLabelText();
+				if (text != null) {
+					group.setText(text);
+				}
+				this.radioBox = group;
+				final GridLayout layout = new GridLayout();
+				layout.horizontalSpacing = HORIZONTAL_GAP;
+				layout.numColumns = this.numColumns;
+				this.radioBox.setLayout(layout);
+			} else {
+				this.radioBox = new Composite(parent, SWT.NONE);
+				final GridLayout layout = new GridLayout();
+				layout.marginWidth = 0;
+				layout.marginHeight = 0;
+				layout.horizontalSpacing = HORIZONTAL_GAP;
+				layout.numColumns = this.numColumns;
+				this.radioBox.setLayout(layout);
+				this.radioBox.setFont(font);
+			}
 
-			 this.radioButtons = new Button[this.labelsAndValues.length];
-			 for (int i = 0; i < this.labelsAndValues.length; i++) {
-				 final  Button radio = new Button(this.radioBox, SWT.RADIO | SWT.LEFT);
-				 this.radioButtons[i] = radio;
-				 final String[] labelAndValue = this.labelsAndValues[i];
-				 radio.setText(labelAndValue[0]);
-				 radio.setData(labelAndValue[1]);
-				 radio.setFont(font);
-				 radio.addSelectionListener(new SelectionAdapter() {
-					 @Override
-					 public void widgetSelected(final SelectionEvent event) {
-						 final  String oldValue = TitanRadioGroupFieldEditor.this.value;
-						 TitanRadioGroupFieldEditor.this.value = (String) event.widget.getData();
-						 setPresentsDefaultValue(false);
-						 fireValueChanged(VALUE, oldValue, TitanRadioGroupFieldEditor.this.value);
-					 }
-				 });
-			 }
-			 this.radioBox.addDisposeListener(new DisposeListener() {
-				 @Override
-				 public void widgetDisposed(final DisposeEvent event) {
-					 TitanRadioGroupFieldEditor.this.radioBox = null;
-					 TitanRadioGroupFieldEditor.this.radioButtons = null;
-				 }
-			 });
-		 } else {
-			 checkParent(this.radioBox, parent);
-		 }
-		 return this.radioBox;
-	 }
+			this.radioButtons = new Button[this.labelsAndValues.length];
+			for (int i = 0; i < this.labelsAndValues.length; i++) {
+				final  Button radio = new Button(this.radioBox, SWT.RADIO | SWT.LEFT);
+				this.radioButtons[i] = radio;
+				final String[] labelAndValue = this.labelsAndValues[i];
+				radio.setText(labelAndValue[0]);
+				radio.setData(labelAndValue[1]);
+				radio.setFont(font);
+				radio.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(final SelectionEvent event) {
+						final  String oldValue = TitanRadioGroupFieldEditor.this.value;
+						TitanRadioGroupFieldEditor.this.value = (String) event.widget.getData();
+						setPresentsDefaultValue(false);
+						fireValueChanged(VALUE, oldValue, TitanRadioGroupFieldEditor.this.value);
+					}
+				});
+			}
+			this.radioBox.addDisposeListener(new DisposeListener() {
+				@Override
+				public void widgetDisposed(final DisposeEvent event) {
+					TitanRadioGroupFieldEditor.this.radioBox = null;
+					TitanRadioGroupFieldEditor.this.radioButtons = null;
+				}
+			});
+		} else {
+			checkParent(this.radioBox, parent);
+		}
+		return this.radioBox;
+	}
 
-	 /**
-	  * Sets the indent used for the first column of the radion button matrix.
-	  *
-	  * @param indent the indent (in pixels)
-	  */
-	 public void setIndent(final int indent) {
-		 if (indent < 0) {
-			 this.indent = 0;
-		 } else {
-			 this.indent = indent;
-		 }
-	 }
+	/**
+	 * Sets the indent used for the first column of the radion button matrix.
+	 *
+	 * @param indent the indent (in pixels)
+	 */
+	public void setIndent(final int indent) {
+		if (indent < 0) {
+			this.indent = 0;
+		} else {
+			this.indent = indent;
+		}
+	}
 
-	 /**
-	  * Select the radio button that conforms to the given value.
-	  *
-	  * @param selectedValue the selected value
-	  */
-	 private void updateValue(final String selectedValue) {
-		 this.value = selectedValue;
-		 if (this.radioButtons == null) {
-			 return;
-		 }
+	/**
+	 * Select the radio button that conforms to the given value.
+	 *
+	 * @param selectedValue the selected value
+	 */
+	private void updateValue(final String selectedValue) {
+		this.value = selectedValue;
+		if (this.radioButtons == null) {
+			return;
+		}
 
-		 if (this.value != null) {
-			 boolean found = false;
-			 for (int i = 0; i < this.radioButtons.length; i++) {
-				 final Button radio = this.radioButtons[i];
-				 boolean selection = false;
-				 if (((String) radio.getData()).equals(this.value)) {
-					 selection = true;
-					 found = true;
-				 }
-				 radio.setSelection(selection);
-			 }
-			 if (found) {
-				 return;
-			 }
-		 }
+		if (this.value != null) {
+			boolean found = false;
+			for (int i = 0; i < this.radioButtons.length; i++) {
+				final Button radio = this.radioButtons[i];
+				boolean selection = false;
+				if (((String) radio.getData()).equals(this.value)) {
+					selection = true;
+					found = true;
+				}
+				radio.setSelection(selection);
+			}
+			if (found) {
+				return;
+			}
+		}
 
-		 // We weren't able to find the value. So we select the first
-		 // radio button as a default.
-		 if (this.radioButtons.length > 0) {
-			 this.radioButtons[0].setSelection(true);
-			 this.value = (String) this.radioButtons[0].getData();
-		 }
-		 return;
-	 }
+		// We weren't able to find the value. So we select the first
+		// radio button as a default.
+		if (this.radioButtons.length > 0) {
+			this.radioButtons[0].setSelection(true);
+			this.value = (String) this.radioButtons[0].getData();
+		}
+		return;
+	}
 
-	 @Override
-	 public void setEnabled(final boolean enabled, final Composite parent) {
-		 if (!this.useGroup) {
-			 super.setEnabled(enabled, parent);
-		 }
-		 for (int i = 0; i < this.radioButtons.length; i++) {
-			 this.radioButtons[i].setEnabled(enabled);
-		 }
+	@Override
+	public void setEnabled(final boolean enabled, final Composite parent) {
+		if (!this.useGroup) {
+			super.setEnabled(enabled, parent);
+		}
+		for (int i = 0; i < this.radioButtons.length; i++) {
+			this.radioButtons[i].setEnabled(enabled);
+		}
 
-	 }
+	}
 
 
 }
