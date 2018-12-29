@@ -27,7 +27,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 
 	// Variables
 	private Tree checkTree;
-	private String prefName;
+	private final String prefName;
 	private int numberOfNodes = 0;
 
 	/**
