@@ -33,7 +33,7 @@ public class TreeModel {
 			return;
 		}
 
-		String newValue = message;
+		final String newValue = message;
 
 		if ((newValue.length() >= 2) && newValue.startsWith(": ")) {
 			this.value = newValue.substring(2);
@@ -54,10 +54,10 @@ public class TreeModel {
 	 */
 	private void buildTreeModel(final String namePort) {
 
-		String logString = this.value;
-		StringTokenizer tokenizer = new StringTokenizer(logString, "{},", true);
-		Deque<TreeParent> parentStack = new ArrayDeque<TreeParent>();
-		TreeParent root = new TreeParent(namePort);
+		final String logString = this.value;
+		final StringTokenizer tokenizer = new StringTokenizer(logString, "{},", true);
+		final Deque<TreeParent> parentStack = new ArrayDeque<TreeParent>();
+		final TreeParent root = new TreeParent(namePort);
 
 		parentStack.add(root);
 
@@ -80,7 +80,7 @@ public class TreeModel {
 
 				if (token.endsWith("}")) {
 					if (!parentStack.isEmpty()) {
-						TreeParent tmpParent = parentStack.peek();
+						final TreeParent tmpParent = parentStack.peek();
 						parentStack.pop();
 						if (!parentStack.isEmpty()) {
 							parentStack.peek().addChild(tmpParent);
@@ -93,7 +93,7 @@ public class TreeModel {
 				}
 
 				if (!(token.endsWith(":="))) {
-					String[] arr = token.split(":=");
+					final String[] arr = token.split(":=");
 
 					if (arr.length == 2 && !parentStack.isEmpty()) {
 						parentStack.peek().addChild(new TreeLeaf(arr[0].trim(), arr[1].trim()));
@@ -126,8 +126,8 @@ public class TreeModel {
 			if (idx >= qualifiedName.size()) {
 				return null;
 			}
-			TreeParent parent = (TreeParent) tree;
-			TreeObject child = parent.getChild(qualifiedName.get(idx));
+			final TreeParent parent = (TreeParent) tree;
+			final TreeObject child = parent.getChild(qualifiedName.get(idx));
 			if (child == null) {
 				return null;
 			}

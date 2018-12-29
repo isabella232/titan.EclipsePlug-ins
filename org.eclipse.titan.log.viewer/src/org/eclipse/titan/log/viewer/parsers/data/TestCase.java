@@ -82,7 +82,7 @@ public class TestCase implements Serializable {
 			return logFile;
 		}
 
-		IFile[] logFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(logFileURI);
+		final IFile[] logFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(logFileURI);
 		if (logFiles.length > 0) {
 			logFile = logFiles[0];
 		}
@@ -206,7 +206,7 @@ public class TestCase implements Serializable {
 	 */
 	// FIXME there should be a better way than this, but that might need some restructuring.
 	public boolean isControlPart() {
-		int indexOfSpace = "controlpart".length();
+		final int indexOfSpace = "controlpart".length();
 		return testCaseName != null && testCaseName.length() > indexOfSpace
 				&& testCaseName.charAt(indexOfSpace) == ' ';
 	}
