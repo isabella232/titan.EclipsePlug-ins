@@ -55,7 +55,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			setOfImportedModules.clear();
 			setOfImportedModules.addAll( module.getImportedModules());
 
-			ImportsCheck check = new ImportsCheck();
+			final ImportsCheck check = new ImportsCheck();
 			module.accept(check);
 
 			setOfImportedModules.removeAll(check.getModules());
@@ -69,7 +69,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 					}
 				}
 			} else {
-				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
+				final ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
 				for (ModuleImportation im : importsCheck.getImports()) {
 					for (Module m : setOfImportedModules) {
