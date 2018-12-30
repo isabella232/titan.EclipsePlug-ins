@@ -125,7 +125,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 						MSCView.this.refresh.run();
 					}
 				} else {
-					FilterPattern pattern = new FilterPattern(loadEventsFromPreferences(), true, true);
+					final FilterPattern pattern = new FilterPattern(loadEventsFromPreferences(), true, true);
 					pattern.setTimeInterval(new TimeInterval("", "", MSCView.this.getLogFileMetaData().getTimeStampFormat()));
 					dialog = new MSCFilterDialog(MSCView.this.getSite().getShell(), pattern);
 					if (dialog.open() == 0 && dialog.getChanged()) {
@@ -147,13 +147,13 @@ public class MSCView extends ViewPart implements ILogViewerView {
 			return;
 		}
 
-		IMemento tempMemento = memento.createChild("mscview"); //$NON-NLS-1$
+		final IMemento tempMemento = memento.createChild("mscview"); //$NON-NLS-1$
 
 		try {
-			IMemento viewAttributes = tempMemento.createChild("attributes"); //$NON-NLS-1$
+			final IMemento viewAttributes = tempMemento.createChild("attributes"); //$NON-NLS-1$
 			// Save state to be able to restore logfilemetaData
-			Path filePath = new Path(this.logFileMetaData.getProjectRelativePath());
-			IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+			final Path filePath = new Path(this.logFileMetaData.getProjectRelativePath());
+			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 
 			// Store project name
 			viewAttributes.putString("projectName", this.logFileMetaData.getProjectName()); //$NON-NLS-1$
@@ -161,13 +161,13 @@ public class MSCView extends ViewPart implements ILogViewerView {
 			if ((logFile != null) && logFile.exists()) {
 				// Store property file
 				viewAttributes.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
-				File aLogFile = logFile.getLocation().toFile();
+				final File aLogFile = logFile.getLocation().toFile();
 				viewAttributes.putString("fileSize", String.valueOf(aLogFile.length())); //$NON-NLS-1$
 				viewAttributes.putString("fileModification", String.valueOf(aLogFile.lastModified())); //$NON-NLS-1$
 			}
 
 			// Store test case number
-			TestCase testCase = this.model.getTestCase();
+			final TestCase testCase = this.model.getTestCase();
 			viewAttributes.putInteger("testCaseNumber", testCase.getTestCaseNumber()); //$NON-NLS-1$
 
 			// Store current selection
@@ -201,45 +201,45 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		this.memento = this.memento.getChild("mscview"); //$NON-NLS-1$
 		if (this.memento != null) {
 			try {
-				IMemento viewAttributes = this.memento.getChild("attributes"); //$NON-NLS-1$
+				final IMemento viewAttributes = this.memento.getChild("attributes"); //$NON-NLS-1$
 
 				// Restore logfilemetaData
-				String propertyFilePath = viewAttributes.getString("propertyFile"); //$NON-NLS-1$
+				final String propertyFilePath = viewAttributes.getString("propertyFile"); //$NON-NLS-1$
 				if (propertyFilePath != null) {
-					File propertyFile = new File(propertyFilePath);
+					final File propertyFile = new File(propertyFilePath);
 					if (propertyFile.exists()) {
 						this.logFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 					}
 				}
 
 				// Get project
-				String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+				final String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
+				final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
 				if ((this.logFileMetaData != null) && (project != null) && project.exists() && project.isOpen()) {
-					Path path = new Path(this.logFileMetaData.getProjectRelativePath());
-					IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+					final Path path = new Path(this.logFileMetaData.getProjectRelativePath());
+					final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 					if ((logFile != null) && logFile.exists() && logFile.getProject().getName().equals(project.getName())) {
 
-						String fileSizeString = viewAttributes.getString("fileSize"); //$NON-NLS-1$
+						final String fileSizeString = viewAttributes.getString("fileSize"); //$NON-NLS-1$
 						long fileSize = 0;
 						if (fileSizeString != null) {
 							fileSize = Long.parseLong(fileSizeString);
 						}
-						String fileModificationString = viewAttributes.getString("fileModification");  //$NON-NLS-1$
+						final String fileModificationString = viewAttributes.getString("fileModification");  //$NON-NLS-1$
 						long fileModification = 0;
 						if (fileModificationString != null) {
 							fileModification = Long.parseLong(fileModificationString);
 						}
-						File file = logFile.getLocation().toFile();
+						final File file = logFile.getLocation().toFile();
 
 						if ((file.lastModified() == fileModification)	&& (file.length() == fileSize)) {
 
 							// Load the Test case from index file
-							Integer testCaseNumber = viewAttributes.getInteger("testCaseNumber"); //$NON-NLS-1$
-							File indexFileForLogFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
-							File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+							final Integer testCaseNumber = viewAttributes.getInteger("testCaseNumber"); //$NON-NLS-1$
+							final File indexFileForLogFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
+							final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 
 							if (!indexFileForLogFile.exists() || !logRecordIndexFile.exists()) {
 								return null;
@@ -321,12 +321,12 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 * @param recordNumber The record number of the record.
 	 */
 	public void setSelection(final int recordNumber) {
-		int positionInEventsVector = model.getRecordsPosition(recordNumber);
+		final int positionInEventsVector = model.getRecordsPosition(recordNumber);
 		if (positionInEventsVector == -1) {
 			return;
 		}
 
-		int lineToSelect = positionInEventsVector + 2;	// + 2 == difference between the log records position in the events vector
+		final int lineToSelect = positionInEventsVector + 2;	// + 2 == difference between the log records position in the events vector
 		//			and the position on the screen
 		mscWidget.setSelection(new StructuredSelection(lineToSelect));
 	}
@@ -336,8 +336,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 * @return The record number
 	 */
 	public int getSelectedRecordNumber() {
-		int selectedLine = (Integer) ((IStructuredSelection) mscWidget.getSelection()).getFirstElement();
-		IEventObject event = model.getEvent(selectedLine - 2);
+		final int selectedLine = (Integer) ((IStructuredSelection) mscWidget.getSelection()).getFirstElement();
+		final IEventObject event = model.getEvent(selectedLine - 2);
 		return event.getRecordNumber();
 	}
 
@@ -346,18 +346,18 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 		final WorkspaceJob job = restoreState(); // restores any saved state
 		if (this.problemDuringRestore) {
-			Label text = new Label(c, SWT.LEFT);
+			final Label text = new Label(c, SWT.LEFT);
 			text.setText(Messages.getString("MSCView.0")); //$NON-NLS-1$
 			return;
 		}
 
-		Composite parent = new Composite(c, SWT.NONE);
-		GridLayout parentLayout = new GridLayout();
+		final Composite parent = new Composite(c, SWT.NONE);
+		final GridLayout parentLayout = new GridLayout();
 		parentLayout.numColumns = 1;
 		parentLayout.marginWidth = 0;
 		parentLayout.marginHeight = 0;
 		parent.setLayout(parentLayout);
-		GridData seqDiagLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+		final GridData seqDiagLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.GRAB_HORIZONTAL
 				| GridData.GRAB_VERTICAL
 				| GridData.VERTICAL_ALIGN_FILL);
@@ -372,8 +372,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 					return;
 				}
 
-				PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(MSCView.this.logFileMetaData.getProjectName());
-				int defaultBehaviour = preferences.getMscViewDefault();
+				final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(MSCView.this.logFileMetaData.getProjectName());
+				final int defaultBehaviour = preferences.getMscViewDefault();
 				if (defaultBehaviour == PreferenceConstants.DEFAULT_TEXT) {
 					MSCView.this.openTextTable.run();
 				} else {
@@ -385,8 +385,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 			@Override
 			public void mouseDoubleClick(final MouseEvent e) {
-				PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(MSCView.this.logFileMetaData.getProjectName());
-				int defaultBehaviour = preferences.getMscViewDefault();
+				final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(MSCView.this.logFileMetaData.getProjectName());
+				final int defaultBehaviour = preferences.getMscViewDefault();
 				if (defaultBehaviour == PreferenceConstants.DEFAULT_TEXT) {
 					MSCView.this.openTextTable.run();
 				} else {
@@ -419,7 +419,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 					return;
 				}
 
-				for (IViewReference viewReference : viewReferences) {
+				for (final IViewReference viewReference : viewReferences) {
 					final IViewPart viewPart = viewReference.getView(false);
 
 					if (viewPart instanceof TextTableView
@@ -428,7 +428,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 									((TextTableView) viewPart).getLogFileMetaData().getFilePath())) {
 						final Integer selectedLine = (Integer) structuredSelection.getFirstElement();
 						final int recordNumber = MSCView.this.model.getEvent(selectedLine - 2).getRecordNumber();
-						TextTableView textTableView = (TextTableView) viewPart;
+						final TextTableView textTableView = (TextTableView) viewPart;
 						if (textTableView.getSelectedRecord() != null
 								&& textTableView.getSelectedRecord().getRecordNumber() != recordNumber) {
 							textTableView.setSelectedRecord(recordNumber);
@@ -446,7 +446,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		hookContextMenu();
 		parent.layout(true);
 
-		WorkspaceJob job2 = new WorkspaceJob("Displaying loaded log information") {
+		final WorkspaceJob job2 = new WorkspaceJob("Displaying loaded log information") {
 
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
@@ -497,7 +497,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 				fillContextMenu(manager);
 			}
 		});
-		Menu menu = this.menuMgr.createContextMenu(this.mscWidget.getViewControl());
+
+		final Menu menu = this.menuMgr.createContextMenu(this.mscWidget.getViewControl());
 		this.mscWidget.getViewControl().setMenu(menu);
 	}
 
@@ -526,7 +527,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 * return by ISDPovider.HasNext and HasPrev<br>
 	 */
 	protected void createCoolbarContent() {
-		IActionBars bar = getViewSite().getActionBars();
+		final IActionBars bar = getViewSite().getActionBars();
 
 		bar.getToolBarManager().removeAll();
 
@@ -545,7 +546,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		this.silentOpenSource = new OpenSourceAction(this, true, false);
 		this.silentOpenSource.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(Constants.ICONS_TEXT_TABLE_VIEW));
 
-		IAction switchToTextTable = new Action() {
+		final IAction switchToTextTable = new Action() {
 			@Override
 			public void run() {
 				if (logFileMetaData == null) {
@@ -582,18 +583,18 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		this.refresh.setId("refreshMSCView"); //$NON-NLS-1$
 		this.refresh.setToolTipText(Messages.getString("MSCView.1")); //$NON-NLS-1$
 		this.refresh.setImageDescriptor(ImageDescriptor.createFromImage(Activator.getDefault().getIcon(Constants.ICONS_REFRESH)));
-		IActionBars actionBar = getViewSite().getActionBars();
+		final IActionBars actionBar = getViewSite().getActionBars();
 		actionBar.setGlobalActionHandler(ActionFactory.REFRESH.getId(), this.refresh);
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, this.refresh);
 
-		IAction closeAllAction = new Action() {
+		final IAction closeAllAction = new Action() {
 			@Override
 			public void run() {
-				IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewReference[] viewReferences = activePage.getViewReferences();
+				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final IViewReference[] viewReferences = activePage.getViewReferences();
 
-				for (IViewReference reference : viewReferences) {
-					IViewPart view = reference.getView(false);
+				for (final IViewReference reference : viewReferences) {
+					final IViewPart view = reference.getView(false);
 					// memento restored views that never have had focus are null!!!
 					if (view == null) {
 						activePage.hideView(reference);
@@ -603,7 +604,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 				}
 
 				// Clear Details view if needed
-				DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
+				final DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
 				if (detailsView != null) {
 					detailsView.setData(null, false);
 				}
@@ -616,14 +617,14 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		closeAllAction.setEnabled(true);
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, closeAllAction);
 
-		ZoomAction resetZoom = new ZoomAction(this);
+		final ZoomAction resetZoom = new ZoomAction(this);
 		resetZoom.setId(MSCConstants.ID_RESET_ZOOM);
 		resetZoom.setText(Messages.getString("MSCView.3")); //$NON-NLS-1$
 		resetZoom.setToolTipText(Messages.getString("MSCView.4")); //$NON-NLS-1$
 		resetZoom.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(MSCConstants.ICON_RESET_ZOOM));
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, resetZoom);
 
-		ZoomAction noZoom = new ZoomAction(this);
+		final ZoomAction noZoom = new ZoomAction(this);
 		noZoom.setChecked(true);
 		noZoom.setId(MSCConstants.ID_NO_ZOOM);
 		noZoom.setText(Messages.getString("MSCView.5")); //$NON-NLS-1$
@@ -631,14 +632,14 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		noZoom.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(MSCConstants.ICON_MOVE));
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, noZoom);
 
-		ZoomAction zoomIn = new ZoomAction(this);
+		final ZoomAction zoomIn = new ZoomAction(this);
 		zoomIn.setId(MSCConstants.ID_ZOOM_IN);
 		zoomIn.setText(Messages.getString("MSCView.7")); //$NON-NLS-1$
 		zoomIn.setToolTipText(Messages.getString("MSCView.8")); //$NON-NLS-1$
 		zoomIn.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(MSCConstants.ICON_ZOOM_IN));
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, zoomIn);
 
-		ZoomAction zoomOut = new ZoomAction(this);
+		final ZoomAction zoomOut = new ZoomAction(this);
 		zoomOut.setId(MSCConstants.ID_ZOOM_OUT);
 		zoomOut.setText(Messages.getString("MSCView.9")); //$NON-NLS-1$
 		zoomOut.setToolTipText(Messages.getString("MSCView.10")); //$NON-NLS-1$
@@ -647,12 +648,12 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, filterAction);
 
-		Action decipheringAction = new Action() {
+		final Action decipheringAction = new Action() {
 			@Override
 			public void run() {
 				final List<String> rulesets = DecipheringPreferenceHandler.getAvailableRuleSets();
 
-				ElementListSelectionDialog dialog = new ElementListSelectionDialog(MSCView.this.getSite().getShell(), new LabelProvider());
+				final ElementListSelectionDialog dialog = new ElementListSelectionDialog(MSCView.this.getSite().getShell(), new LabelProvider());
 				dialog.setTitle("Message name deciphering");
 				dialog.setMessage("Select a deciphering ruleset");
 				dialog.setHelpAvailable(false);
@@ -679,16 +680,16 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	}
 
 	private SortedMap<String, Boolean> loadEventsFromPreferences() {
-		SortedMap<String, Boolean> result = new TreeMap<String, Boolean>();
+		final SortedMap<String, Boolean> result = new TreeMap<String, Boolean>();
 
-		String prefValues = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES);
-		String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
-		for (String category : categories) {
-			String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
+		final String prefValues = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES);
+		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
+		for (final String category : categories) {
+			final String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
 
 			if (currCategory.length > 1) {
-				String currKey = currCategory[0];
-				boolean currValue = !Boolean.valueOf(currCategory[1]);
+				final String currKey = currCategory[0];
+				final boolean currValue = !Boolean.valueOf(currCategory[1]);
 				result.put(currKey, currValue);
 			}
 		}
@@ -707,11 +708,11 @@ public class MSCView extends ViewPart implements ILogViewerView {
 			sutName = MSCConstants.SUT_NAME;
 		}
 		this.model = model;
-		MSCModel mscModel = new MSCModel(model, this.logFileMetaData, sutName);
-		Frame frame = mscModel.getModelFrame();
+		final MSCModel mscModel = new MSCModel(model, this.logFileMetaData, sutName);
+		final Frame frame = mscModel.getModelFrame();
 
 		// Change order of components according to preferences
-		List<String> visualOrderComponents =
+		final List<String> visualOrderComponents =
 				PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName()).getVisualOrderComponents();
 		for (int i = visualOrderComponents.size() - 1; i >= 0; i--) {
 			String currentComp = visualOrderComponents.get(i);
@@ -721,7 +722,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 				currentComp = MSCConstants.MTC_NAME;
 			}
 			for (int j = 1; j < frame.lifeLinesCount(); j++) {
-				Lifeline lifeLine = frame.getLifeline(j);
+				final Lifeline lifeLine = frame.getLifeline(j);
 				if (lifeLine.getName().contentEquals(currentComp)) {
 					// Move to first position
 					frame.moveLifeLineToPosition(lifeLine, 1);
@@ -733,7 +734,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		setFrame(frame, true);
 		setContentDescription(this.logFileMetaData.getProjectRelativePath());
 
-		int verdict = model.getTestCase().getVerdict();
+		final int verdict = model.getTestCase().getVerdict();
 		switch (verdict) {
 		case Constants.VERDICT_PASS:
 			setTitleImage(Activator.getDefault().getIcon(Constants.ICONS_PASS));
@@ -774,7 +775,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 * Creates the menu group
 	 */
 	protected void createMenuGroups() {
-		IActionBars bar = getViewSite().getActionBars();
+		final IActionBars bar = getViewSite().getActionBars();
 		if (bar == null) {
 			return;
 		}
@@ -810,14 +811,14 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		}
 
 		// Clear Details View if needed
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage != null) {
-			DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
+			final DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
 			if ((detailsView != null) && (this.model != null)) {
-				String dvTestCaseName = detailsView.getTestCaseName();
-				String mTestCaseName = model.getTestCase().getTestCaseName();
-				URI dvFullPath = detailsView.getFullPath();
-				URI mFullPath = this.logFileMetaData.getFilePath();
+				final String dvTestCaseName = detailsView.getTestCaseName();
+				final String mTestCaseName = model.getTestCase().getTestCaseName();
+				final URI dvFullPath = detailsView.getFullPath();
+				final URI mFullPath = this.logFileMetaData.getFilePath();
 				if (dvTestCaseName != null && mTestCaseName != null	&& dvFullPath != null && mFullPath != null) {
 					if (dvTestCaseName.equals(mTestCaseName) && dvFullPath.equals(mFullPath)) {
 						detailsView.setData(null, false);
