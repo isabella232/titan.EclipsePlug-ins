@@ -16,7 +16,7 @@ class SetVerdictFilter {
 	boolean setverdictNone;
 	boolean setverdictPass;
 
-	public SetVerdictFilter(PreferencesHolder preferences) {
+	public SetVerdictFilter(final PreferencesHolder preferences) {
 		setverdictError = preferences.getSetverdictError();
 		setverdictFail = preferences.getSetverdictFail();
 		setverdictInconc = preferences.getSetverdictInconc();

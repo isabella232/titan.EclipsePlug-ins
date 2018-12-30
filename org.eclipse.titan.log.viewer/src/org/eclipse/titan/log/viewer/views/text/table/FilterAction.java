@@ -41,7 +41,7 @@ class FilterAction extends Action {
 	private TextTableView textTableView;
 	private volatile boolean isFilterRunning = false;
 
-	public FilterAction(TextTableView textTableView) {
+	public FilterAction(final TextTableView textTableView) {
 		super("Filter", ImageDescriptor.createFromImage(Activator.getDefault().getIcon(Constants.ICONS_FILTER)));
 		this.textTableView = textTableView;
 		setId("filterTextTable");
@@ -50,7 +50,7 @@ class FilterAction extends Action {
 	@Override
 	public void run() {
 		if (isFilterRunning) {
-			MessageBox msgBox = new MessageBox(textTableView.getSite().getShell());
+			final MessageBox msgBox = new MessageBox(textTableView.getSite().getShell());
 			msgBox.setMessage("The filter is already running!");
 			msgBox.setText("Filter");
 			msgBox.open();
@@ -60,19 +60,19 @@ class FilterAction extends Action {
 
 		if (textTableView.getFilterPattern() == null) {
 			textTableView.setFilterPattern(new FilterPattern(new TimeInterval("", "", textTableView.getLogFileMetaData().getTimeStampFormat())));
-			SortedMap<String, Boolean> eventsToFilter = new TreeMap<String, Boolean>();
-			for (Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
+			final SortedMap<String, Boolean> eventsToFilter = new TreeMap<String, Boolean>();
+			for (final Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
 				eventsToFilter.put(entry.getKey(), true);
 			}
 			textTableView.getFilterPattern().setEventsToFilter(eventsToFilter, true, false);
 		}
 
-		MSCFilterDialog dialog = new MSCFilterDialog(textTableView.getSite().getShell(), textTableView.getFilterPattern());
+		final MSCFilterDialog dialog = new MSCFilterDialog(textTableView.getSite().getShell(), textTableView.getFilterPattern());
 
 		if (dialog.open() == 0 && dialog.getChanged() && !dialog.getFilterPattern().equals(textTableView.getFilterPattern())) {
 			final FilterPattern tmpFilterPattern = dialog.getFilterPattern();
 
-			WorkspaceJob op = new WorkspaceJob("Filtering") {
+			final WorkspaceJob op = new WorkspaceJob("Filtering") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor)
 						throws CoreException {
