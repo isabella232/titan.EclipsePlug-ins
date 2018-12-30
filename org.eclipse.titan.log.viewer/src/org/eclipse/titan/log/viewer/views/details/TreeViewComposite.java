@@ -64,7 +64,7 @@ public class TreeViewComposite extends Composite {
 
 		this.viewer.getContentProvider().inputChanged(this.viewer, newInput, newInput);
 
-		Tree tree = this.viewer.getTree();
+		final Tree tree = this.viewer.getTree();
 		tree.setVisible(false);
 		if (tree.getItemCount() > 0) {
 			this.viewer.setSelection(new StructuredSelection(tree.getItem(0).getData()));
