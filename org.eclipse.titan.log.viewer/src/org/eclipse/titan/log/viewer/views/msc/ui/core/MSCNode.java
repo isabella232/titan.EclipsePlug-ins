@@ -202,12 +202,9 @@ public abstract class MSCNode {
 		final int y = node.getY();
 		final int width = node.getWidth();
 		final int height = node.getHeight();
-		if (((x + width) < vx) || // To the left
+		return !(((x + width) < vx) || // To the left
 				(x > (vx + vwidth)) || // To the right
 				((y + height) < vy) || // Above
-				(y > (vy + vheight))) { // Below
-			return false;
-		}
-		return true;
+				(y > (vy + vheight))); // Below
 	}
 }
