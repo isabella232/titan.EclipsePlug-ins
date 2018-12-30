@@ -336,7 +336,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			final Path filePath = new Path(this.logFileMetaData.getProjectRelativePath());
 			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 
-			if ((logFile != null) && logFile.exists()) {
+			if (logFile != null && logFile.exists()) {
 				// add property file to the memento
 				viewAttributes.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
 				final File aLogFile = logFile.getLocation().toFile();
@@ -371,7 +371,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			final IMemento viewAttributes = this.memento.getChild("viewAttributes"); //$NON-NLS-1$
 			final String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
 			final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			if ((project == null) || !project.exists() || !project.isOpen()) {
+			if (project == null || !project.exists() || !project.isOpen()) {
 				return;
 			}
 
@@ -390,7 +390,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			// get log file
 			final Path path = new Path(this.logFileMetaData.getProjectRelativePath());
 			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if ((logFile == null) || !logFile.exists() || !logFile.getProject().getName().equals(project.getName())) {
+			if (logFile == null || !logFile.exists() || !logFile.getProject().getName().equals(project.getName())) {
 				return;
 			}
 
@@ -408,7 +408,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			if (fileModificationString != null) {
 				fileModification = Long.parseLong(fileModificationString);
 			}
-			if ((file.lastModified() != fileModification) || (file.length() != fileSize)) {
+			if (file.lastModified() != fileModification || file.length() != fileSize) {
 				return;
 			}
 
@@ -582,7 +582,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	@Override
 	public void setFocus() {
-		if ((this.table != null) && !this.table.isDisposed()) {
+		if (this.table != null && !this.table.isDisposed()) {
 			this.table.forceFocus();
 		}
 	}
@@ -676,10 +676,10 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage != null) {
 			final DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
-			if ((detailsView != null) && (this.selectedEventObject != null)) {
+			if (detailsView != null && this.selectedEventObject != null) {
 				final URI dvFullPath = detailsView.getFullPath();
 				final URI ttFullPath = this.logFileMetaData.getFilePath();
-				if ((dvFullPath != null) && (ttFullPath != null) && dvFullPath.equals(ttFullPath)) {
+				if (dvFullPath != null && ttFullPath != null && dvFullPath.equals(ttFullPath)) {
 					detailsView.setData(null, false);
 				}
 			}
