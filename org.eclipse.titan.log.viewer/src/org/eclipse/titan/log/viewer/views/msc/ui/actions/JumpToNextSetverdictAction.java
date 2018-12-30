@@ -35,17 +35,19 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 		if (this.widget == null) {
 			return;
 		}
-		ExecutionModel model = this.view.getModel();
+
+		final ExecutionModel model = this.view.getModel();
 		if (model == null) {
 			return;
 		}
-		int[] setverdictPlaces = model.getSetverdict();
-		int selectedLine = (Integer) this.selection.getFirstElement();
+
+		final int[] setverdictPlaces = model.getSetverdict();
+		final int selectedLine = (Integer) this.selection.getFirstElement();
 		selectSetVerdict(setverdictPlaces, selectedLine);
 	}
 
-	private void selectSetVerdict(int[] setverdictPlaces, int selectedLine) {
-		for (int setverdictPlace : setverdictPlaces) {
+	private void selectSetVerdict(final int[] setverdictPlaces, final int selectedLine) {
+		for (final int setverdictPlace : setverdictPlaces) {
 			if (setverdictPlace > selectedLine) {
 				this.widget.setSelection(new StructuredSelection(setverdictPlace));
 				return;
@@ -56,11 +58,10 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 	@Override
 	public void selectionChanged(final IStructuredSelection selection) {
 		this.selection = selection;
-		int selectedLine = (Integer) this.selection.getFirstElement();
-
+		final int selectedLine = (Integer) this.selection.getFirstElement();
 		boolean enable = false;
 
-		ExecutionModel model = this.view.getModel();
+		final ExecutionModel model = this.view.getModel();
 		if (model == null) {
 			setEnabled(false);
 			return;

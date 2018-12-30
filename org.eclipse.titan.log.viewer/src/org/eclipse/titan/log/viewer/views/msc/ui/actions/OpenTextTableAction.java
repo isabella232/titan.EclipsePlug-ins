@@ -34,7 +34,7 @@ public class OpenTextTableAction extends SelectionProviderAction {
 
 	@Override
 	public void run() {
-		LogFileMetaData logFileMetadata = mscView.getLogFileMetaData();
+		final LogFileMetaData logFileMetadata = mscView.getLogFileMetaData();
 		TextTableViewHelper.open(logFileMetadata.getProjectName(), logFileMetadata.getProjectRelativePath(), mscView.getSelectedRecordNumber());
 	}
 

@@ -17,11 +17,11 @@ class DelayedSelector extends Thread {
 	private volatile boolean shouldRun = true;
 	private final Object lock = new Object();
 
-	public DelayedSelector(DelayedSelectable selectable) {
+	public DelayedSelector(final DelayedSelectable selectable) {
 		this.selectable = selectable;
 	}
 
-	public void setShouldRun(boolean shouldRun) {
+	public void setShouldRun(final boolean shouldRun) {
 		this.shouldRun = shouldRun;
 	}
 
