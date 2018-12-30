@@ -33,7 +33,7 @@ public class Overview {
 	private static Cursor overviewCursor;
 	/** default size for overview */
 	private int overviewSize = 100;
-	private ScrollView sv;
+	private final ScrollView sv;
 	private static final int MIN_SCROLL_VALUE = -50;
 	private static final int MAX_SCROLL_VALUE = 50;
 	private static final int MIN_EVENTTIME = 40;

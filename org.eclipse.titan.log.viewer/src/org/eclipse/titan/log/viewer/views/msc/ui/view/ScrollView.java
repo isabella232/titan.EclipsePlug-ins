@@ -594,7 +594,7 @@ public class ScrollView extends Composite {
 	private static class AutoScroll extends TimerTask {
 		private int dx, dy;
 
-		private ScrollView sv;
+		private final ScrollView sv;
 
 		public AutoScroll(final ScrollView sv, final int dx, final int dy) {
 			this.sv = sv;

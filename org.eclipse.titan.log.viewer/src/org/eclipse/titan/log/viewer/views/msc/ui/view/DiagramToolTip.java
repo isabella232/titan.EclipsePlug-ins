@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DiagramToolTip implements PaintListener  {
 
-	private Control parent = null;
-	private Shell toolTipShell = null;
+	private final Control parent;
+	private final Shell toolTipShell;
 	private String text = null;
 
 	/**

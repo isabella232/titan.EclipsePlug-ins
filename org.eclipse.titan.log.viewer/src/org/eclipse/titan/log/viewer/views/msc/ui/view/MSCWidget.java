@@ -45,7 +45,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class MSCWidget extends ScrollView implements ISelectionProvider, SelectionListener, DisposeListener {
 
-	private DiagramToolTip toolTip = null;
+	private final DiagramToolTip toolTip;
 	private Frame frame;
 	private Image overView = null;
 	private MSCNode dragAndDrop = null;
@@ -57,7 +57,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 	private int dragY = 0;
 	private int dragAndDropOffsetX;
 	private float zoomValue = 1;
-	private Set<ISelectionChangedListener> registeredListeners = new HashSet<ISelectionChangedListener>();
+	private final Set<ISelectionChangedListener> registeredListeners = new HashSet<ISelectionChangedListener>();
 
 	/**
 	 * Constructor
