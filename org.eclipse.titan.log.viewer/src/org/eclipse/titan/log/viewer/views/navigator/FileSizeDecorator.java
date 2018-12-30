@@ -36,7 +36,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 
 		final IFile aFile = (IFile) element;
 		final String extension = aFile.getFileExtension();
-		if (extension == null || !extension.contentEquals(Constants.LOG_EXTENSION)) {
+		if (!Constants.LOG_EXTENSION.equals(extension)) {
 			return;
 		}
 		try {
