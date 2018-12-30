@@ -22,8 +22,8 @@ class IconHandler {
 			return null;
 		}
 
-		final int startPos = message.indexOf("(");
-		final int stopPos = message.indexOf(")");
+		final int startPos = message.indexOf('(');
+		final int stopPos = message.indexOf(')');
 		final String type = message.substring(startPos + 1, stopPos);
 
 		return filter(setVerdictFilter, type);
