@@ -102,7 +102,6 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 		final IFile logFile = (IFile) match.getElement();
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
-		TextTableView openedView;
 		final IViewReference viewReference = activePage.findViewReference(Constants.TEXT_TABLE_VIEW_ID, logFile.getFullPath().toOSString());
 		if (viewReference == null) {
 			openTextTableView(logFile, match.getOffset());
@@ -128,7 +127,7 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 			return;
 		}
 
-		openedView = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID,
+		TextTableView openedView = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID,
 				logFile.getFullPath().toOSString(),
 				org.eclipse.ui.IWorkbenchPage.VIEW_VISIBLE);
 		openedView.setSelectedRecord(match.getOffset());

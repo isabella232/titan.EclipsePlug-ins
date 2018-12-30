@@ -235,13 +235,13 @@ public class MSCView extends ViewPart implements ILogViewerView {
 						if ((file.lastModified() == fileModification)	&& (file.length() == fileSize)) {
 
 							// Load the Test case from index file
-							final Integer testCaseNumber = viewAttributes.getInteger("testCaseNumber"); //$NON-NLS-1$
 							final File indexFileForLogFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
 							final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 							if (!indexFileForLogFile.exists() || !logRecordIndexFile.exists()) {
 								return null;
 							}
 
+							final Integer testCaseNumber = viewAttributes.getInteger("testCaseNumber"); //$NON-NLS-1$
 							final Parser parser = new Parser(this.logFileMetaData);
 							final TestCase testCase = TestCaseExtractor.getTestCaseFromIndexFile(indexFileForLogFile, testCaseNumber);
 							final LogRecordIndex[] logRecordIndexes = LogFileCacheHandler.readLogRecordIndexFile(
@@ -405,13 +405,12 @@ public class MSCView extends ViewPart implements ILogViewerView {
 					return;
 				}
 
-				final IStructuredSelection structuredSelection = (IStructuredSelection) event.getSelection();
-				final IViewReference[] viewReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences();
-
 				if (MSCView.this.logFileMetaData == null) {
 					return;
 				}
 
+				final IStructuredSelection structuredSelection = (IStructuredSelection) event.getSelection();
+				final IViewReference[] viewReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences();
 				for (final IViewReference viewReference : viewReferences) {
 					final IViewPart viewPart = viewReference.getView(false);
 

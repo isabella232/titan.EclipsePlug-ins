@@ -373,9 +373,6 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 				detailObject.setEventType(mementoEventObject.getString("eventType")); //$NON-NLS-1$
 				detailObject.setSourceInfo(mementoEventObject.getString("sourceInfo")); //$NON-NLS-1$
 
-				final long fileSize = Long.parseLong(mementoEventObject.getString("fileSize")); //$NON-NLS-1$
-				final long fileModification = Long.parseLong(mementoEventObject.getString("fileModification")); //$NON-NLS-1$
-
 				//retrieve logfilemetaData
 				final String propertyFilePath = mementoEventObject.getString("propertyFile"); //$NON-NLS-1$
 				if (propertyFilePath != null) {
@@ -392,6 +389,8 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 					final Path path = new Path(logFileMetaData.getProjectRelativePath());
 					final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 					if (logFile != null && logFile.getProject().getName().equals(project.getName()) && logFile.exists()) {
+						final long fileSize = Long.parseLong(mementoEventObject.getString("fileSize")); //$NON-NLS-1$
+						final long fileModification = Long.parseLong(mementoEventObject.getString("fileModification")); //$NON-NLS-1$
 						final File file = logFile.getLocation().toFile();
 						if (file.lastModified() == fileModification && file.length() == fileSize) {
 
