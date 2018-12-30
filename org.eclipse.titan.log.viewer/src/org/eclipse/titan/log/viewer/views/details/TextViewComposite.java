@@ -82,14 +82,13 @@ public class TextViewComposite extends Composite {
 		}
 		// If message is null or empty
 		String newText = newInput.getLine();
-		final String newName = newInput.getName();
-
 		if (isNullOrEmpty(newText)) {
 			currentText = null;
 			styledText.setText(""); //$NON-NLS-1$
 			return;
 		}
 
+		final String newName = newInput.getName();
 		if (isNullOrEmpty(newName)) {
 			currentName = null;
 		}
