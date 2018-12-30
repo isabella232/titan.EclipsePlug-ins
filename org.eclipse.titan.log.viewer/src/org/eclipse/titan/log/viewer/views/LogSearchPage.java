@@ -249,13 +249,14 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 		final List<IFile> files = new ArrayList<IFile>();
 
 		switch (getContainer().getSelectedScope()) {
-		case ISearchPageContainer.WORKSPACE_SCOPE:
+		case ISearchPageContainer.WORKSPACE_SCOPE:{
 			final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 			for (final IProject project : projects) {
 				getLogFilesFromResource(project, files);
 			}
 			break;
-		case ISearchPageContainer.SELECTION_SCOPE:
+		}
+		case ISearchPageContainer.SELECTION_SCOPE:{
 			final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			final ISelection selection = activePage.getSelection();
 			if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
@@ -268,14 +269,16 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 				}
 			}
 			break;
-		case ISearchPageContainer.SELECTED_PROJECTS_SCOPE:
+		}
+		case ISearchPageContainer.SELECTED_PROJECTS_SCOPE:{
 			final String[] projectNames = getContainer().getSelectedProjectNames();
 			for (final String name : projectNames) {
 				final IProject currentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 				getLogFilesFromResource(currentProject, files);
 			}
 			break;
-		case ISearchPageContainer.WORKING_SET_SCOPE:
+		}
+		case ISearchPageContainer.WORKING_SET_SCOPE: {
 			final IWorkingSet[] workingSets = getContainer().getSelectedWorkingSets();
 			if (workingSets == null || workingSets.length < 1) {
 				break;
@@ -286,6 +289,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 				}
 			}
 			break;
+		}
 		default:
 			break;
 		}

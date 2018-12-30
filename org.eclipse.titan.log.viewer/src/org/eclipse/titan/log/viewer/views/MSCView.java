@@ -215,32 +215,29 @@ public class MSCView extends ViewPart implements ILogViewerView {
 				// Get project
 				final String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
 				final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-
 				if ((this.logFileMetaData != null) && (project != null) && project.exists() && project.isOpen()) {
 					final Path path = new Path(this.logFileMetaData.getProjectRelativePath());
 					final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-
 					if ((logFile != null) && logFile.exists() && logFile.getProject().getName().equals(project.getName())) {
-
 						final String fileSizeString = viewAttributes.getString("fileSize"); //$NON-NLS-1$
 						long fileSize = 0;
 						if (fileSizeString != null) {
 							fileSize = Long.parseLong(fileSizeString);
 						}
+
 						final String fileModificationString = viewAttributes.getString("fileModification");  //$NON-NLS-1$
 						long fileModification = 0;
 						if (fileModificationString != null) {
 							fileModification = Long.parseLong(fileModificationString);
 						}
-						final File file = logFile.getLocation().toFile();
 
+						final File file = logFile.getLocation().toFile();
 						if ((file.lastModified() == fileModification)	&& (file.length() == fileSize)) {
 
 							// Load the Test case from index file
 							final Integer testCaseNumber = viewAttributes.getInteger("testCaseNumber"); //$NON-NLS-1$
 							final File indexFileForLogFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
 							final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
-
 							if (!indexFileForLogFile.exists() || !logRecordIndexFile.exists()) {
 								return null;
 							}
@@ -253,7 +250,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 							// Restore model
 							job = new WorkspaceJob("Loading log information") {
-
 								@Override
 								public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 									try {
@@ -265,7 +261,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 								}
 							};
 							job.schedule();
-
 
 							// Restore selection
 							final Integer temp = viewAttributes.getInteger("rowSelection"); //$NON-NLS-1$
@@ -281,7 +276,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 						}
 					}
 				}
-
 			} catch (Exception e) {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
@@ -343,7 +337,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 	@Override
 	public void createPartControl(final Composite c) {
-
 		final WorkspaceJob job = restoreState(); // restores any saved state
 		if (this.problemDuringRestore) {
 			final Label text = new Label(c, SWT.LEFT);
@@ -528,7 +521,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 */
 	protected void createCoolbarContent() {
 		final IActionBars bar = getViewSite().getActionBars();
-
 		bar.getToolBarManager().removeAll();
 
 		createMenuGroups();
@@ -645,7 +637,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		zoomOut.setToolTipText(Messages.getString("MSCView.10")); //$NON-NLS-1$
 		zoomOut.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(MSCConstants.ICON_ZOOM_OUT));
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, zoomOut);
-
 		bar.getToolBarManager().appendToGroup(MSCConstants.ID_ZOOM_GROUP, filterAction);
 
 		final Action decipheringAction = new Action() {
@@ -686,7 +677,6 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
 		for (final String category : categories) {
 			final String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
-
 			if (currCategory.length > 1) {
 				final String currKey = currCategory[0];
 				final boolean currValue = !Boolean.valueOf(currCategory[1]);
@@ -779,6 +769,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 		if (bar == null) {
 			return;
 		}
+
 		bar.getToolBarManager().add(new Separator(MSCConstants.ID_ZOOM_GROUP));
 		bar.getToolBarManager().add(new Separator(Constants.ID_SWITCH_VIEW_GROUP));
 	}
@@ -838,5 +829,4 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	public String getName() {
 		return "MSC View";
 	}
-
 }

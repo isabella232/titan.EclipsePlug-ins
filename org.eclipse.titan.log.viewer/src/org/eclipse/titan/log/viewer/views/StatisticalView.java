@@ -218,7 +218,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 					image = Activator.getDefault().getIcon(Constants.ICONS_PASS);
 					noOfPass++;
 					break;
-				case Constants.VERDICT_ERROR:
+				case Constants.VERDICT_ERROR:{
 					image = Activator.getDefault().getIcon(Constants.ICONS_ERROR);
 					final TableItem tcErrorItem = new TableItem(this.errorTestCasesTable, SWT.BORDER);
 					tcErrorItem.setImage(1, image);
@@ -228,7 +228,8 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 					tcErrorItem.setData(tc);
 					noOfError++;
 					break;
-				case Constants.VERDICT_FAIL:
+				}
+				case Constants.VERDICT_FAIL:{
 					image = Activator.getDefault().getIcon(Constants.ICONS_FAIL);
 					final TableItem tcFailItem = new TableItem(this.failTestCasesTable, SWT.BORDER);
 					tcFailItem.setImage(1, image);
@@ -239,6 +240,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 					noOfFail++;
 					break;
+				}
 				case Constants.VERDICT_INCONCLUSIVE:
 					image = Activator.getDefault().getIcon(Constants.ICONS_INCONCLUSIVE);
 					noOfInconc++;
@@ -251,7 +253,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 					image = Activator.getDefault().getIcon(Constants.ICONS_CRASHED);
 					noOfCrash++;
 					break;
-
 				default:
 					// Could not find image return null
 					image = null;
@@ -268,7 +269,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 			if (this.errorTestCasesTable.getItems().length < 1) {
 				this.errorTestCasesTable.setLinesVisible(false);
-
 			} else {
 				this.errorTestCasesTable.redraw();
 				ecError.setExpanded(true);
@@ -276,7 +276,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 			if (this.failTestCasesTable.getItems().length < 1) {
 				this.failTestCasesTable.setLinesVisible(false);
-
 			} else {
 				this.failTestCasesTable.redraw();
 				ecFail.setExpanded(true);
@@ -292,7 +291,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			item.setText(4, String.valueOf(noOfNone + getPercent(noOfNone, noTotal)));
 			item.setText(5, String.valueOf(noOfError + getPercent(noOfError, noTotal)));
 			item.setText(6, String.valueOf(noOfCrash + getPercent(noOfCrash, noTotal)));
-
 		}
 
 		if (statisticalDataVector.size() > 1) {
@@ -648,9 +646,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private Table createAmountTable(final Composite composite) {
 		this.amountTable = toolkit.createTable(composite, SWT.NONE);
 		amountTable.setBackgroundMode(SWT.INHERIT_DEFAULT);
-
 		this.amountTable.setHeaderVisible(true);
-
 		this.amountTable.setLinesVisible(true);
 
 		createAmountColumn(Messages.getString("StatisticalView.1"));
