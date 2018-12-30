@@ -104,7 +104,7 @@ public class TextViewComposite extends Composite {
 
 		currentText = newText;
 		currentName = newName;
-		final int newLineIndex = currentText.indexOf("\n"); //$NON-NLS-1$
+		final int newLineIndex = currentText.indexOf('\n'); //$NON-NLS-1$
 		// index should be greater or equal than zero (if not found indexOf returns -1
 		// index should not be length -1 (last char), which is often \n
 		final boolean hasNewLine = (newLineIndex >= 0) && (newLineIndex != (currentText.length() - 1));
