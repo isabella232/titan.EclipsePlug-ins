@@ -99,10 +99,10 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	private OpenValueViewMenuAction silentOpenValueViewMenuAction;
 	private OpenSourceViewMenuAction openSourceViewMenuAction;
 	private OpenSourceViewMenuAction silentOpenSourceViewMenuAction;
-	private IAction filterAction;
+	private final IAction filterAction;
 
 	private ISelection eventSelection;
-	private List<ISelectionChangedListener> registeredListeners;
+	private final List<ISelectionChangedListener> registeredListeners;
 	private EventObject selectedEventObject;
 	private Listener tableSetDataListener = null;
 

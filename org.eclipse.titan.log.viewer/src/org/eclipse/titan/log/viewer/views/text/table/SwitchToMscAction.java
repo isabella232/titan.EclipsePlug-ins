@@ -32,7 +32,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 class SwitchToMscAction extends Action {
-	private TextTableView textTableView;
+	private final TextTableView textTableView;
 
 	public SwitchToMscAction(final TextTableView textTableView) {
 		super("", ImageDescriptor.createFromImage(Activator.getDefault().getIcon(Constants.ICONS_MSC_VIEW)));

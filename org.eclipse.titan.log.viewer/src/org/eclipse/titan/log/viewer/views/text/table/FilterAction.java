@@ -38,7 +38,7 @@ import org.eclipse.ui.progress.IProgressConstants;
 
 class FilterAction extends Action {
 
-	private TextTableView textTableView;
+	private final TextTableView textTableView;
 	private volatile boolean isFilterRunning = false;
 
 	public FilterAction(final TextTableView textTableView) {
