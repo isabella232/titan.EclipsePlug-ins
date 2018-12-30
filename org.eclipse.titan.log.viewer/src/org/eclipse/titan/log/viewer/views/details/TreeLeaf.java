@@ -9,7 +9,7 @@ package org.eclipse.titan.log.viewer.views.details;
 
 public class TreeLeaf extends TreeObject {
 
-	private String value;
+	private final String value;
 
 	public TreeLeaf(final String name, final String value) {
 		super(name);

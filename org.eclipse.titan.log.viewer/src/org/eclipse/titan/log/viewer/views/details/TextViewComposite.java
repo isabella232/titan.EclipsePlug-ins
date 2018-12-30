@@ -32,11 +32,11 @@ import org.eclipse.titan.log.viewer.preferences.PreferencesHolder;
  */
 public class TextViewComposite extends Composite {
 
-	private StyledText styledText;
+	private final StyledText styledText;
 	private String currentText;
 	private String currentName;
 	private boolean useFormatting;
-	private Font font;
+	private final Font font;
 	private LogFileMetaData logFileMetaData;
 
 	/**

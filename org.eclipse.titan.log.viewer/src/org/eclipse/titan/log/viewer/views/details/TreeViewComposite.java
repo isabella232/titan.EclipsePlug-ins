@@ -16,7 +16,7 @@ import org.eclipse.ui.IViewSite;
 
 public class TreeViewComposite extends Composite {
 
-	private TreeViewer viewer;
+	private final TreeViewer viewer;
 	private DetailData currentData;
 
 
