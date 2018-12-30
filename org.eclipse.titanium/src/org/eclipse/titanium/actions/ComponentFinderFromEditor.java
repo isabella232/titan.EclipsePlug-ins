@@ -49,9 +49,9 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 	public ComponentFinderFromEditor() {
 	}
 
-	
+
 	@Override
-	public Object execute(final ExecutionEvent event) throws ExecutionException {		
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		final Definition selection = findSelection();
 		if (selection instanceof Def_Testcase) {
 			final Def_Testcase tc = (Def_Testcase)selection;
@@ -65,8 +65,8 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 
 		return null;
 	}
-	
-	
+
+
 	private Definition findSelection() {
 		//getting the active editor
 		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
@@ -104,7 +104,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		}
 		return selectedDef;
 	}
-	
+
 	private static class SelectionFinderVisitor extends ASTVisitor {
 
 		private Definition def;
@@ -154,13 +154,13 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		return (TextSelection)sel;
 	}
 
-	
+
 	private static class TestcaseVisitor extends ASTVisitor {
 
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private List<Def_Function> checkedFunctions;
 		private int counter;
-		
+
 		TestcaseVisitor(final List<Def_Function> checkedFunctions) {
 			comps = new ArrayList<Component_Type>();
 			this.checkedFunctions = checkedFunctions;
@@ -182,7 +182,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
 				final PortReference pr = ((PortReference)node);
-				
+
 				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
 					final Def_Port dp = (Def_Port)as;
@@ -210,20 +210,20 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 								comps.add(ct);
 							}
 						}
-						
+
 					}
-				}				
+				}
 			}
 			return V_CONTINUE;
 		}
 
 	}
-	
+
 	private static class ModuleVisitor extends ASTVisitor {
 
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private Def_Port port;
-		
+
 		ModuleVisitor(final Def_Port port) {
 			comps = new ArrayList<Component_Type>();
 			this.port = port;
