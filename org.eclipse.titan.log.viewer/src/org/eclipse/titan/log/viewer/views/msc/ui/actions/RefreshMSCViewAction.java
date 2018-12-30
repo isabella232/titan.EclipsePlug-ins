@@ -57,8 +57,6 @@ public class RefreshMSCViewAction extends Action {
 	public void run() {
 		// Set current log file meta data
 		final LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
-		final ExecutionModel model = this.mscView.getModel();
-
 		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(logFileMetaData.getProjectName());
 		if (preferences.getVisualOrderComponents().isEmpty()) {
 			final String userE = Messages.getString("RefreshMSCViewAction.3"); //$NON-NLS-1$
@@ -87,7 +85,7 @@ public class RefreshMSCViewAction extends Action {
 		// Get log record index file for selected log file - No need to check is exists due to
 		// LogFileCacheHandler.hasLogFileChanged(logFile) returning false above
 		final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
-
+		final ExecutionModel model = this.mscView.getModel();
 		try {
 			// Read/parse log file
 			final TestCase tc = model.getTestCase();
@@ -123,11 +121,11 @@ public class RefreshMSCViewAction extends Action {
 				}
 
 				private ExecutionModel parseLogFile() throws TechnicalException {
-					ExecutionModel model;
 					if (logFileMetaData.getExecutionMode() == null) {
 						throw new TechnicalException("Error while parsing of the log file: ExecutionMode is null");
 					}
 
+					ExecutionModel model;
 					try {
 						// re-parse tc
 						Parser parser = new Parser(logFileMetaData);

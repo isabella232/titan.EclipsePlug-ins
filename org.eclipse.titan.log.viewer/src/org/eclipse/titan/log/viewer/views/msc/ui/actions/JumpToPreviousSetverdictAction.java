@@ -58,9 +58,6 @@ public class JumpToPreviousSetverdictAction extends SelectionProviderAction {
 	@Override
 	public void selectionChanged(final IStructuredSelection selection) {
 		this.selection = selection;
-		final int selectedLine = (Integer) this.selection.getFirstElement();
-
-		boolean enable = false;
 
 		final ExecutionModel model = this.view.getModel();
 		if (model == null) {
@@ -68,6 +65,8 @@ public class JumpToPreviousSetverdictAction extends SelectionProviderAction {
 			return;
 		}
 
+		final int selectedLine = (Integer) this.selection.getFirstElement();
+		boolean enable = false;
 		for (int j = 0; j < model.getSetverdict().length; j++) {
 			if (model.getSetverdict()[j] < selectedLine) {
 				enable = true;
