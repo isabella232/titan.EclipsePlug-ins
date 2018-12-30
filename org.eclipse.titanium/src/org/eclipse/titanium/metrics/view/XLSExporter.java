@@ -85,7 +85,7 @@ public class XLSExporter {
 	 * */
 	private String getSheetName(final IMetricEnum metric) {
 		final StringBuilder builder = new StringBuilder(metric.getName());
-		builder.append(" (").append(metric.groupName()).append(")");
+		builder.append(" (").append(metric.groupName()).append(')');
 		return builder.length() > 31 ? builder.substring(0, 31): builder.toString();
 	}
 
