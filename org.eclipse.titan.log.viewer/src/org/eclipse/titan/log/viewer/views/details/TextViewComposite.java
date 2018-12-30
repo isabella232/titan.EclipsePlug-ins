@@ -152,7 +152,7 @@ public class TextViewComposite extends Composite {
 
 		final StringBuilder text = new StringBuilder();
 		final String port = newInput.getPort();
-		if (port != null && port.trim().length() > 0) {
+		if (port != null && !port.trim().isEmpty()) {
 			text.append(newInput.getName());
 			text.append('(');
 			text.append(newInput.getPort());

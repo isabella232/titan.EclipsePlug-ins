@@ -63,7 +63,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 
 		final String name = nI.getName();
 		final String port = nI.getPort();
-		if ((port != null) && (port.trim().length() > 0)) {
+		if ((port != null) && (!port.trim().isEmpty())) {
 			buildTreeModel(name + '(' + port + ')');
 		} else {
 			buildTreeModel(name);
