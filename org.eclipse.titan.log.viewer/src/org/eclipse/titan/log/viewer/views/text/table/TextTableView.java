@@ -254,7 +254,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		private final int visibleItems;
 		private volatile boolean stoped = false;
 
-		private ClearingRunnable(final int topIndex, final int visibleItems) {
+		public ClearingRunnable(final int topIndex, final int visibleItems) {
 			this.topIndex = topIndex;
 			this.visibleItems = visibleItems;
 		}
