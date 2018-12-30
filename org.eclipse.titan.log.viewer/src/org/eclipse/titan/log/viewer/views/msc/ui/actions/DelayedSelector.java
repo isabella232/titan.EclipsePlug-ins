@@ -13,7 +13,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 
 class DelayedSelector extends Thread {
 
-	private DelayedSelectable selectable;
+	private final DelayedSelectable selectable;
 	private volatile boolean shouldRun = true;
 	private final Object lock = new Object();
 

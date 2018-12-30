@@ -59,8 +59,8 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 
 	private MSCView mscView;
 	private Integer selectedLine;
-	private boolean silent;
-	private boolean forceEditorOpening = false;
+	private final boolean silent;
+	private final boolean forceEditorOpening;
 
 	private static String lastFilename = null;
 	private static URI lastPath = null;

@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IResourceVisitor;
  * */
 public class FileFinder implements IResourceVisitor {
 	private IFile targetFile = null;
-	private String fileName;
+	private final String fileName;
 
 	public FileFinder(final String fileName) {
 		this.fileName = fileName;

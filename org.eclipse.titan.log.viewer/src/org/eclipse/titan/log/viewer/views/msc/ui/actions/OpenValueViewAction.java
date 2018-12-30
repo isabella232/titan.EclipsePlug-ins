@@ -46,7 +46,7 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 	private static final String NAME = Messages.getString("OpenValueViewAction.0"); //$NON-NLS-1$
 	private MSCView mscView;
 	private Integer selectedLine;
-	private boolean forceEditorOpening = false;
+	private final boolean forceEditorOpening;
 
 	private ISelection delayedSelection = null;
 

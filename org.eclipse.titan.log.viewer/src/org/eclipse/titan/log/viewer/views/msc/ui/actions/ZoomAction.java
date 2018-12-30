@@ -28,11 +28,11 @@ import org.eclipse.ui.IViewPart;
  */
 public class ZoomAction extends Action {
 
-	private MSCWidget viewer = null;
-	private MSCView view = null;
+	private final MSCWidget viewer;
+	private final MSCView view;
 	private boolean lastZoomIn = false;
-	private Cursor zoomIn = null;
-	private Cursor zoomOut = null;
+	private final Cursor zoomIn;
+	private final Cursor zoomOut;
 
 	public ZoomAction(final IViewPart view) {
 		super("", AS_RADIO_BUTTON); //$NON-NLS-1$

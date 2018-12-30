@@ -21,8 +21,8 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 public class JumpToNextSetverdictAction extends SelectionProviderAction {
 
 	private IStructuredSelection selection;
-	private MSCView view = null;
-	private MSCWidget widget = null;
+	private final MSCView view;
+	private final MSCWidget widget;
 
 	public JumpToNextSetverdictAction(final MSCView view) {
 		super(view.getMSCWidget(), "");

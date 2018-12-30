@@ -46,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
 public class RefreshMSCViewAction extends Action {
 
 	private static final String NAME = Messages.getString("RefreshMSCViewAction.0"); //$NON-NLS-1$
-	private MSCView mscView;
+	private final MSCView mscView;
 
 	public RefreshMSCViewAction(final MSCView mscView) {
 		super(NAME);
