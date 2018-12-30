@@ -200,6 +200,14 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	}
 
 	private static PreferencesHolder preferences;
+	private final List<Column> orderedColumns = Arrays.asList(
+			Column.COL_TIMESTAMP,
+			Column.COL_COMP_REF,
+			Column.COL_EVENT_TYPE,
+			Column.COL_SRC_INFO,
+			Column.COL_MESSAGE);
+
+	private ClearingRunnable clearingThread = null;
 
 	private class TableSetDataListener implements Listener {
 		@Override
@@ -238,16 +246,6 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		}
 	}
 
-
-	private final List<Column> orderedColumns = Arrays.asList(
-			Column.COL_TIMESTAMP,
-			Column.COL_COMP_REF,
-			Column.COL_EVENT_TYPE,
-			Column.COL_SRC_INFO,
-			Column.COL_MESSAGE);
-
-
-	private ClearingRunnable clearingThread = null;
 	/**
 	 * Helper class used to clear out data of items not visible at a later time in a parallel thread.
 	 * */
