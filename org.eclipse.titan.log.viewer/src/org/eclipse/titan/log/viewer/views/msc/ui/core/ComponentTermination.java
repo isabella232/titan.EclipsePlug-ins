@@ -16,7 +16,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class ComponentTermination extends ComponentEventNode {
 
-	private String verdict;
+	private final String verdict;
 
 	/**
 	 * Constructor

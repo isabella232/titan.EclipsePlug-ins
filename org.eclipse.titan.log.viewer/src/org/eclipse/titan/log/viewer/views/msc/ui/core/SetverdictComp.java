@@ -18,8 +18,8 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class SetverdictComp extends MSCNode {
 
-	private Lifeline lifeline;
-	private String verdict;
+	private final Lifeline lifeline;
+	private final String verdict;
 
 	/**
 	 * Constructor

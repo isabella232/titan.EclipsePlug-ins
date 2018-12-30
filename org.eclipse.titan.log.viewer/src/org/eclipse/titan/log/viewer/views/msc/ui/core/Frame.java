@@ -22,13 +22,13 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCNodeComparator;
  * Represents the base sequence diagram graph nodes container
  */
 public class Frame extends BasicFrame {
-	private MSCModel model;
+	private final MSCModel model;
 	private boolean hasChildren = false;
 
 	private List<Lifeline> lifelineNodes;
 	private List<LifelineHeader> lifelineHeaderNodes;
 
-	private MSCNodeComparator comparator;
+	private final MSCNodeComparator comparator;
 	private int selectedLine = 3;
 
 	private String name = ""; //$NON-NLS-1$

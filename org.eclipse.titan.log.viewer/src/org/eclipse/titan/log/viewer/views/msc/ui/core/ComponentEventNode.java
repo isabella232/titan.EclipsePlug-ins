@@ -28,7 +28,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
 public abstract class ComponentEventNode extends MSCNode {
 
-	private Lifeline lifeline;
+	private final Lifeline lifeline;
 
 	public ComponentEventNode(final int eventOccurrence, final Lifeline lifeline) {
 		super(eventOccurrence);

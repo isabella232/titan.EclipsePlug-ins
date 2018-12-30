@@ -19,7 +19,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class SetverdictUnknown extends MSCNode {
 
-	private String verdict;
+	private final String verdict;
 	private int lifelines;
 
 	/**
