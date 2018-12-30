@@ -457,7 +457,7 @@ public class MSCModel {
 	private MSCNode[] addSignal(final Signal signal, final String ref, final String target, final String name, final String time, final int occurrence) {
 		final Lifeline source = this.lifelines.get(ref);
 		final Lifeline dest = this.lifelines.get(target);
-		if ((source == null) || (dest == null)) {
+		if (source == null || dest == null) {
 			return new MSCNode[] {};
 		}
 
@@ -475,7 +475,7 @@ public class MSCModel {
 		final Enqueued message = new Enqueued();
 		final Lifeline source = this.lifelines.get(ref);
 		final Lifeline dest = this.lifelines.get(target);
-		if ((source == null) || (dest == null)) {
+		if (source == null || dest == null) {
 			return new MSCNode[] {};
 		}
 
@@ -520,7 +520,7 @@ public class MSCModel {
 	private MSCNode[] addFunctionNode(final FunctionNode function, final String ref, final String target, final String name, final String time, final int occurrence) {
 		final Lifeline source = this.lifelines.get(ref);
 		final Lifeline destination = this.lifelines.get(target);
-		if ((source == null) || (destination == null)) {
+		if (source == null || destination == null) {
 			return new MSCNode[] {};
 		}
 
@@ -537,7 +537,7 @@ public class MSCModel {
 	private MSCNode[] addPortEventNode(final PortEventNode portEventNode, final String ref, final String target, final String time, final int occurrence) {
 		final Lifeline source = this.lifelines.get(ref);
 		final Lifeline destination = this.lifelines.get(target);
-		if ((source == null) || (destination == null)) {
+		if (source == null || destination == null) {
 			return new MSCNode[] {};
 		}
 
@@ -552,7 +552,7 @@ public class MSCModel {
 
 	private MSCNode[] addSetVerdict(final String ref, final String name, final String time, final int occurrence) {
 		final MSCNode[] temp = new MSCNode[2];
-		if ((ref == null) || (ref.length() == 0)) {
+		if (ref == null || ref.length() == 0) {
 			final SetverdictUnknown setverdictUnknown = new SetverdictUnknown(occurrence, name);
 			setverdictUnknown.setName(name);
 			temp[0] = setverdictUnknown;
