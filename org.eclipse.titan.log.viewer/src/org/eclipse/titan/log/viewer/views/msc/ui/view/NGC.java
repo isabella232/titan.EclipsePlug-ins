@@ -124,7 +124,7 @@ public class NGC implements IGC {
 			} else if ((code1 & code2) != 0) {
 				end = true;
 			} else {
-				codex = (code1 != 0) ? code1 : code2;
+				codex = (code1 == 0) ? code2 : code1;
 				if ((codex & 0x01) != 0) { // top
 					x = tempX1 + ((tempX2 - tempX1) * (this.yx - tempY1)) / (tempY2 - tempY1);
 					y = this.yx;
@@ -161,11 +161,11 @@ public class NGC implements IGC {
 
 		// Workaround to avoid problems for some special cases (not very nice)
 		int tempY;
-		if (y != getContentsY()) {
+		if (y == getContentsY()) {
+			tempY = 0;
+		} else {
 			tempY = Math.round(y * this.view.getZoomFactor());
 			tempY = this.view.contentsToViewY(tempY);
-		} else {
-			tempY = 0;
 		}
 
 		final int tempWidth = Math.round(width * this.view.getZoomFactor());
@@ -232,11 +232,11 @@ public class NGC implements IGC {
 		int tempX = Math.round(x * this.view.getZoomFactor());
 		// Workaround to avoid problems for some special cases (not very nice)
 		int tempY;
-		if (y != getContentsY()) {
+		if (y == getContentsY()) {
+			tempY = 1;
+		} else {
 			tempY = Math.round(y * this.view.getZoomFactor());
 			tempY = this.view.contentsToViewY(tempY) + 1;
-		} else {
-			tempY = 1;
 		}
 
 		final int tempWidth = Math.round(width * this.view.getZoomFactor()) - 1;

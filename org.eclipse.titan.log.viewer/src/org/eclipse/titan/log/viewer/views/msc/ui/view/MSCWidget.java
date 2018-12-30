@@ -158,10 +158,10 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 			final int x = Math.round(event.x / this.zoomValue);
 			final int y = Math.round(event.y / this.zoomValue);
 			final MSCNode graphNode = this.frame.getNodeAt(x, y);
-			if (graphNode != null) {
-				this.toolTip.showToolTip(graphNode.getName());
-			} else {
+			if (graphNode == null) {
 				this.toolTip.hideToolTip();
+			} else {
+				this.toolTip.showToolTip(graphNode.getName());
 			}
 		}
 	}
