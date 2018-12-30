@@ -31,8 +31,8 @@ public final class CheckDependentNodes<V, E> {
 
 	public boolean isDependent(final V node, final List<V> neighbors) {
 		final Collection<E> inEdges = graph.getInEdges(node);
-		for (E edge : inEdges) {
-			V source = graph.getSource(edge);
+		for (final E edge : inEdges) {
+			final V source = graph.getSource(edge);
 			if (!neighbors.contains(source)) {
 				return false;
 			}
