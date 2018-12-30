@@ -95,7 +95,7 @@ public class TextViewComposite extends Composite {
 		}
 
 		// If message has not changed
-		if ((currentText != null && currentText.contentEquals(newText))
+		if (currentText != null && currentText.contentEquals(newText)
 				&& currentName != null && currentName.equals(newName)) {
 			return;
 		}
