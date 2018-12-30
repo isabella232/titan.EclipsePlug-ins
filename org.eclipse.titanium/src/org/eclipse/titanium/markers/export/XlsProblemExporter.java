@@ -122,7 +122,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			final Map<TaskType, List<IMarker>> markers = collectMarkers();
 			// export the task markers:
 			for (final TaskType t : TaskType.values()) {
-				createTaskSheet(workbook, t, markers.get(t), projects.size() > 0);
+				createTaskSheet(workbook, t, markers.get(t), !projects.isEmpty());
 
 				final Row row1 = summarySheet.createRow(summaryRow++);
 				label = row1.createCell(0);
@@ -142,7 +142,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			progress.setWorkRemaining(CodeSmellType.values().length + 1);
 			// export the semantic problem markers:
 			for (final CodeSmellType t : CodeSmellType.values()) {
-				createCodeSmellSheet(workbook, mh, t, projects.size() > 0);
+				createCodeSmellSheet(workbook, mh, t, !projects.isEmpty());
 
 				final Row row1 = summarySheet.createRow(summaryRow++);
 				label = row1.createCell(0);
@@ -158,7 +158,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 
 			final StringBuilder nameBuilder = new StringBuilder("Project: ");
 			nameBuilder.append(project.getName());
-			if (projects.size() > 0) {
+			if (!projects.isEmpty()) {
 				nameBuilder.append(" including ( ");
 				for(int i = 0; i < projects.size(); i++) {
 					if(i > 0) {
