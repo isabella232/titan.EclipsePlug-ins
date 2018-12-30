@@ -333,11 +333,11 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 				header = header + "  -  " + testCaseName; //$NON-NLS-1$
 			}
 			final String name = this.currentEventObject.getName();
-			if (name != null && name.trim().length() > 0) {
+			if (name != null && !name.trim().isEmpty()) {
 				header = header + " - " + name; //$NON-NLS-1$
 			}
 			final String eventType = this.currentEventObject.getEventType();
-			if (eventType != null && eventType.trim().length() > 0) {
+			if (eventType != null && !eventType.trim().isEmpty()) {
 				header = header + " - " + eventType; //$NON-NLS-1$
 			}
 			this.setContentDescription(header);
