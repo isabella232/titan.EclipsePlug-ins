@@ -131,7 +131,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 	class ReferenceCheck extends ASTVisitor {
 
-		private Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
+		private final Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
 
 		public ReferenceCheck() {
 			setOfIdentifier.clear();

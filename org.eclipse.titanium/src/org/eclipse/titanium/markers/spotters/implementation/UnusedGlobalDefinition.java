@@ -67,7 +67,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	class GlobalDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public GlobalDefinitionCheck() {
 			setOfDefinition.clear();
@@ -91,7 +91,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	class GlobalUsedDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public GlobalUsedDefinitionCheck() {
 			setOfDefinition.clear();

@@ -87,7 +87,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
 	class ImportsCheck extends ASTVisitor {
 
-		private Set<Module> setOfModules = new HashSet<Module>();
+		private final Set<Module> setOfModules = new HashSet<Module>();
 
 		public ImportsCheck() {
 			setOfModules.clear();
@@ -118,7 +118,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 	}
 
 	class ModuleImportsCheck extends ASTVisitor {
-		private Set<ModuleImportation> setOfModules = new HashSet<ModuleImportation>();
+		private final Set<ModuleImportation> setOfModules = new HashSet<ModuleImportation>();
 
 		public ModuleImportsCheck() {
 			setOfModules.clear();
