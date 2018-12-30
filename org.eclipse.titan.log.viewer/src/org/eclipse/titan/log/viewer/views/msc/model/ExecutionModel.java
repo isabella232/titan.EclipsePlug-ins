@@ -345,7 +345,7 @@ public class ExecutionModel extends Observable {
 		this.components.put(reference, new TestComponent(event, alternative));
 		// add component name to vector if name exists in event
 		final String componentName = event.getName();
-		if ((componentName != null) && (componentName.trim().length() > 0)) {
+		if ((componentName != null) && (!componentName.trim().isEmpty())) {
 			this.componentNames.put(event.getName(), reference);
 		}
 	}
