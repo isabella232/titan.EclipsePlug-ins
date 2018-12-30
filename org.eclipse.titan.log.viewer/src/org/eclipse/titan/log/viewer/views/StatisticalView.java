@@ -98,7 +98,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private static final int DEFAULT_AMOUNT_COLUMN_WIDTH = 75;
 	private OpenMSCViewAction openMSCViewAction;
 	private OpenTextTableStatisticalViewMenuAction openTextTableStatisticalViewMenuAction;
-	private List<ISelectionChangedListener> registeredListeners;
+	private final List<ISelectionChangedListener> registeredListeners;
 	private TestCase testcaseSelection = null;
 	private ISelection eventSelection;
 
@@ -108,7 +108,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private ExpandableComposite ecFail;
 	private ExpandableComposite ecTestCases;
 
-	private Map<String, Section> cachedSections;
+	private final Map<String, Section> cachedSections;
 	private List<StatisticalData> statisticalDataVector;
 
 	/**

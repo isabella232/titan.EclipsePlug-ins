@@ -107,7 +107,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	private IMemento memento;
 	private boolean problemDuringRestore = false;
 	private int restoredSelection;
-	private IAction filterAction;
+	private final IAction filterAction;
 	private FilterPattern filterPattern;
 
 	public MSCView() {

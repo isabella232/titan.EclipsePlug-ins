@@ -59,14 +59,14 @@ public class MSCFilterDialog extends Dialog {
 	private boolean isFilterStringValid = true;
 	private boolean isStartTimeStampValid = true;
 	private boolean isEndTimeStampValid = true;
-	private Listener changeListener = new Listener() {
+	private final Listener changeListener = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			MSCFilterDialog.this.changed = true;
 		}
 	};
 
-	private Listener filterStringChanged = new Listener() {
+	private final Listener filterStringChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (!isRegularExpressionButton.getSelection()) {
@@ -91,7 +91,7 @@ public class MSCFilterDialog extends Dialog {
 		}
 	};
 
-	private Listener startTimeStampChanged = new Listener() {
+	private final Listener startTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (startTimestamp.getText().length() > 0
@@ -112,7 +112,7 @@ public class MSCFilterDialog extends Dialog {
 		}
 	};
 
-	private Listener endTimeStampChanged = new Listener() {
+	private final Listener endTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (endTimestamp.getText().length() > 0
