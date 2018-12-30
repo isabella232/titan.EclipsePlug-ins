@@ -274,12 +274,12 @@ public final class MSCConstants {
 	 * @return the resource of null if key not found
 	 */
 	public static Resource getResource(final String resourceKey) {
-		Resources resourceValue = MSCConstants.Resources.getResourceValue(resourceKey);
+		final Resources resourceValue = MSCConstants.Resources.getResourceValue(resourceKey);
 		if (resourceValue == null) {
 			return null;
 		}
 
-		Resource resource = null;
+		final Resource resource = null;
 		switch (resourceValue) {
 		// Colors
 		case COLOR_BLACK: 			   return new Color(Display.getDefault(),   0,   0,   0);
