@@ -20,7 +20,7 @@ public class EventObject implements IEventObject {
 	private int recordLength;
 	private int recordNumber;
 	/** The type of the event. */
-	private EventType type;
+	private final EventType type;
 	/** The time stamp for the event. */
 	private String time = "";
 	/** The name of the event. //$NON-NLS-1$ */

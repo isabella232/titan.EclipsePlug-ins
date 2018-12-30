@@ -34,14 +34,14 @@ public class ExecutionModel extends Observable {
 	private Map<String, Integer> ignoredSignals;
 	private Map<String, Integer> ignoredFunctions;
 	/** map of components we deal with. */
-	private Map<String, TestComponent> components;
+	private final Map<String, TestComponent> components;
 	private TestCase containedTestCase;
 	/** Hash map with all component names and ref */
-	private Map<String, String> componentNames;
+	private final Map<String, String> componentNames;
 	private int[] setverdict;
 	private String sutName;
-	private Parser parser;
-	private List<EventObject> lifeLineInfo;
+	private final Parser parser;
+	private final List<EventObject> lifeLineInfo;
 
 	public ExecutionModel(final Parser parser) {
 		this.components        = new HashMap<String, TestComponent>();

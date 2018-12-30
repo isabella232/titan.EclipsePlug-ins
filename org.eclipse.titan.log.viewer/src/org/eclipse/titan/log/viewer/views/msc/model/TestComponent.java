@@ -24,14 +24,14 @@ public class TestComponent {
 	/** The name of this component. */
 	private String name;
 	/** The reference of this component. */
-	private String reference;
+	private final String reference;
 	/** Alternative if filtered.*/
-	private String alternative;
+	private final String alternative;
 	/** The verdict for the component. */
 	private String verdict;
 	/** Map of port mappings to */
-	private Map<String, Set<String>> ports;
-	private int recordNumber;
+	private final Map<String, Set<String>> ports;
+	private final int recordNumber;
 
 	/**
 	 * Constructor.

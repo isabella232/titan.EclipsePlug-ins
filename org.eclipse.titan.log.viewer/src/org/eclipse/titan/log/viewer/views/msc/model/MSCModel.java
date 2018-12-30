@@ -53,12 +53,12 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class MSCModel {
 
-	private ExecutionModel model;
-	private Map<String, Lifeline> lifelines;
+	private final ExecutionModel model;
+	private final Map<String, Lifeline> lifelines;
 	private Lifeline sutLifeline;
 	private Frame frame;
-	private URI logFilePath;
-	private String sutName;
+	private final URI logFilePath;
+	private final String sutName;
 	private static final int MAX_CHARS = 100;
 
 	/**
