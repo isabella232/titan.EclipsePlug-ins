@@ -71,7 +71,7 @@ public class ExecutionModel extends Observable {
 	 * @return the event in this model
 	 */
 	public IEventObject getEvent(final int index) {
-		List<IEventObject> result = getEvents(index, index);
+		final List<IEventObject> result = getEvents(index, index);
 		return result.get(3);
 	}
 
@@ -134,7 +134,7 @@ public class ExecutionModel extends Observable {
 	 * @return the events parsed from the given region.
 	 * */
 	public List<IEventObject> getEvents(final int startIndex, final int endIndex) {
-		int end = endIndex > getNumberOfEvents() ? getNumberOfEvents() : endIndex;
+		final int end = endIndex > getNumberOfEvents() ? getNumberOfEvents() : endIndex;
 		try {
 			return new ArrayList<IEventObject>(parser.parseRegion(startIndex, end, null));
 		} catch (ParseException e) {
@@ -183,9 +183,9 @@ public class ExecutionModel extends Observable {
 			return null;
 		}
 
-		Set<String> filteredComp = this.ignoredComponents.keySet();
-		for (String currComp : filteredComp) {
-			int filterType = this.ignoredComponents.get(currComp);
+		final Set<String> filteredComp = this.ignoredComponents.keySet();
+		for (final String currComp : filteredComp) {
+			final int filterType = this.ignoredComponents.get(currComp);
 			switch (filterType) {
 			case PreferenceConstants.FILTER_EQUALS:
 				if (name.contentEquals(currComp)) {
@@ -228,7 +228,7 @@ public class ExecutionModel extends Observable {
 			return false;
 		}
 
-		TestComponent component = this.components.get(reference);
+		final TestComponent component = this.components.get(reference);
 
 		return component != null
 				&& component.getAlternative() != null;
@@ -246,10 +246,11 @@ public class ExecutionModel extends Observable {
 		if (this.ignoredSignals == null) {
 			return false;
 		}
-		String tempSignal = signal.trim();
-		Set<String> filteredSignal = this.ignoredSignals.keySet();
-		for (String currSignal : filteredSignal) {
-			int filterType = this.ignoredSignals.get(currSignal);
+
+		final String tempSignal = signal.trim();
+		final Set<String> filteredSignal = this.ignoredSignals.keySet();
+		for (final String currSignal : filteredSignal) {
+			final int filterType = this.ignoredSignals.get(currSignal);
 
 			switch (filterType) {
 			case PreferenceConstants.FILTER_EQUALS:
@@ -297,9 +298,9 @@ public class ExecutionModel extends Observable {
 			return false;
 		}
 
-		Set<String> filteredFunc = this.ignoredFunctions.keySet();
-		for (String currFunction : filteredFunc) {
-			int filterType = this.ignoredFunctions.get(currFunction);
+		final Set<String> filteredFunc = this.ignoredFunctions.keySet();
+		for (final String currFunction : filteredFunc) {
+			final int filterType = this.ignoredFunctions.get(currFunction);
 
 			switch (filterType) {
 			case PreferenceConstants.FILTER_EQUALS:
@@ -334,15 +335,16 @@ public class ExecutionModel extends Observable {
 	 * component creation if found in the log file text.
 	 */
 	public void addComponent(final EventObject event) {
-		String reference = event.getReference();
+		final String reference = event.getReference();
 		String name = event.getName();
 		if (name.length() == 0) {
 			name = reference;
 		}
-		String alternative = getAlternativeComponent(name);
+
+		final String alternative = getAlternativeComponent(name);
 		this.components.put(reference, new TestComponent(event, alternative));
 		// add component name to vector if name exists in event
-		String componentName = event.getName();
+		final String componentName = event.getName();
 		if ((componentName != null) && (componentName.trim().length() > 0)) {
 			this.componentNames.put(event.getName(), reference);
 		}
@@ -361,13 +363,13 @@ public class ExecutionModel extends Observable {
 	 */
 	public void addPortMapping(final String sourceRef, final String sourcePort, final String targetRef, final String targetPort) {
 		if (this.components != null) {
-			TestComponent sourceComponent = this.components.get(sourceRef);
+			final TestComponent sourceComponent = this.components.get(sourceRef);
 
 			if (sourceComponent != null) {
 				sourceComponent.addFromEntry(targetPort, targetRef);
 			}
 
-			TestComponent targetComponent = this.components.get(targetRef);
+			final TestComponent targetComponent = this.components.get(targetRef);
 			// FIXME: sourcePort can be null at this point
 			if (targetComponent != null) {
 				targetComponent.addFromEntry(sourcePort, sourceRef);

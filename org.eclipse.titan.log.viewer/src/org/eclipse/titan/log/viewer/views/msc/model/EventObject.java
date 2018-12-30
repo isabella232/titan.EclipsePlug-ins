@@ -38,7 +38,7 @@ public class EventObject implements IEventObject {
 	private ConnectedRecord[] connectedRecords;
 	private int eventNumber;
 
-	public EventObject(EventType type) {
+	public EventObject(final EventType type) {
 		this.type = type;
 	}
 
