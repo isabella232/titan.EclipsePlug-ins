@@ -26,7 +26,7 @@ public abstract class BaseMessage extends MSCNode {
 	protected static final int LEFT = -1;
 	protected static final int RIGHT = 1;
 
-	protected BaseMessage(int eventOccurrence) {
+	protected BaseMessage(final int eventOccurrence) {
 		super(eventOccurrence);
 	}
 
@@ -76,13 +76,14 @@ public abstract class BaseMessage extends MSCNode {
 	@Override
 	public boolean isVisible(final int vx, final int vy, final int vwidth, final int vheight) {
 		int x = getX();
-		int y = getY();
+		final int y = getY();
 		int width = getWidth();
 		if (width < 0) {
 			width = -width;
 			x = x - width;
 		}
-		int height = getHeight();
+
+		final int height = getHeight();
 		if (((x + width) < vx) || // To the left
 				(x > (vx + vwidth)) || // To the right
 				((y + height) < vy) || // Above
@@ -132,19 +133,19 @@ public abstract class BaseMessage extends MSCNode {
 
 	@Override
 	public boolean contains(final int oldX, final int oldY) {
-		int x = getX();
-		int y = getY();
-		int width = getWidth();
-		int height = getHeight();
+		final int x = getX();
+		final int y = getY();
+		final int width = getWidth();
+		final int height = getHeight();
 		return MSCNode.contains(x, y, width, height, oldX, oldY);
 	}
 
 	@Override
 	public void draw(final IGC context) {
-		int x = getX();
-		int y = getY();
-		int width = getWidth();
-		int height = getHeight();
+		final int x = getX();
+		final int y = getY();
+		final int width = getWidth();
+		final int height = getHeight();
 		context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);
 		context.setLineStyle(getLineStyle());
 
@@ -160,10 +161,10 @@ public abstract class BaseMessage extends MSCNode {
 			// 4 <--------
 			//       3
 			context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
-			int xLeft = x;
-			int xRight = x + MSCConstants.INTERNAL_MESSAGE_WIDTH;
-			int yTop = y + (height - MSCConstants.INTERNAL_MESSAGE_WIDTH) / 2;
-			int yBottom = y + MSCConstants.INTERNAL_MESSAGE_WIDTH + (height - MSCConstants.INTERNAL_MESSAGE_WIDTH) / 2;
+			final int xLeft = x;
+			final int xRight = x + MSCConstants.INTERNAL_MESSAGE_WIDTH;
+			final int yTop = y + (height - MSCConstants.INTERNAL_MESSAGE_WIDTH) / 2;
+			final int yBottom = y + MSCConstants.INTERNAL_MESSAGE_WIDTH + (height - MSCConstants.INTERNAL_MESSAGE_WIDTH) / 2;
 
 			// Draw 1
 			context.drawLine(xLeft, yTop, xRight, yTop);
@@ -202,7 +203,7 @@ public abstract class BaseMessage extends MSCNode {
 			context.drawLine(x, y + height, x + width, y + height);
 
 			// Compute the coordinates of the two little lines which make the arrow part of the message
-			int spaceBTWStartEnd = this.endLifeline.getX() - this.startLifeline.getX();
+			final int spaceBTWStartEnd = this.endLifeline.getX() - this.startLifeline.getX();
 			int direction = RIGHT;
 			if (spaceBTWStartEnd < 0) {
 				direction = LEFT;

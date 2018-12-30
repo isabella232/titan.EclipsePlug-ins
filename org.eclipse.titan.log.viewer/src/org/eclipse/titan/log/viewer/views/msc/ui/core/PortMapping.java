@@ -90,7 +90,7 @@ public class PortMapping extends PortEventNode {
 		//       \ /                   \ /
 		//       P4                    P4
 
-		int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+		final int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
 				x, y};

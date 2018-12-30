@@ -164,8 +164,8 @@ public final class Lifeline extends MSCNode {
 	 * @param y - the y coordinate
 	 */
 	public void draw(final IGC context, final int x, final int y) {
-		int visYStart = this.frame.getVisibleAreaY();
-		int visYStop = visYStart + this.frame.getVisibleAreaHeight();
+		final int visYStart = this.frame.getVisibleAreaY();
+		final int visYStop = visYStart + this.frame.getVisibleAreaHeight();
 		int yStart;
 		if (start == null) {
 			yStart = visYStart;

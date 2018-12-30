@@ -21,7 +21,7 @@ public final class RectangleDrawer {
 		// Hide constructor
 	}
 
-	public static void drawBox(IGC context, Rectangle rectangle, Color backgroundColor, Color gradientColor, int shadowSize) {
+	public static void drawBox(final IGC context, final Rectangle rectangle, final Color backgroundColor, final Color gradientColor, final int shadowSize) {
 		context.setBackground(backgroundColor);
 		if (MSCConstants.DRAW_GRADIENT) {
 			context.setGradientColor(gradientColor);
@@ -31,14 +31,14 @@ public final class RectangleDrawer {
 		}
 	}
 
-	public static void drawBorder(IGC context, Rectangle rectangle, Color lineColor, int shadowSize) {
+	public static void drawBorder(final IGC context, final Rectangle rectangle, final Color lineColor, final int shadowSize) {
 		if (MSCConstants.DRAW_BORDER) {
 			context.setForeground(lineColor);
 			context.drawRectangle(rectangle.x, rectangle.y, rectangle.width - shadowSize, rectangle.height - shadowSize);
 		}
 	}
 
-	public static void drawShadow(IGC context, Rectangle rectangle, Color shadowColor, int shadowSize) {
+	public static void drawShadow(final IGC context, final Rectangle rectangle, final Color shadowColor, final int shadowSize) {
 		if (MSCConstants.DRAW_SHADOW) {
 			context.setLineStyle(context.getLineSolidStyle());
 			context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);
@@ -47,11 +47,11 @@ public final class RectangleDrawer {
 		}
 	}
 
-	public static Color getColor(String key) {
+	public static Color getColor(final String key) {
 		return (Color) Activator.getDefault().getCachedResource(key);
 	}
 
-	public static void drawText(IGC context, Rectangle rectangle, String nodeText, Color fontColor, Font font, int shadowSize) {
+	public static void drawText(final IGC context, final Rectangle rectangle, final String nodeText, final Color fontColor, final Font font, final int shadowSize) {
 		context.setForeground(fontColor);
 		context.setFont(font);
 		context.drawTextTruncatedCentred(nodeText, rectangle.x, rectangle.y, rectangle.width - shadowSize, rectangle.width - shadowSize, true);

@@ -30,7 +30,7 @@ public abstract class ComponentEventNode extends MSCNode {
 
 	private Lifeline lifeline;
 
-	public ComponentEventNode(int eventOccurrence, final Lifeline lifeline) {
+	public ComponentEventNode(final int eventOccurrence, final Lifeline lifeline) {
 		super(eventOccurrence);
 		this.lifeline = lifeline;
 	}
@@ -62,7 +62,7 @@ public abstract class ComponentEventNode extends MSCNode {
 
 	@Override
 	public void draw(final IGC context) {
-		Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		final Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		drawShadow(context, rectangle, getColor(COMPONENT_SHADOW_COLOR), COMPONENT_SHADOW_SIZE);
 		drawBox(context, rectangle, getBackgroundColor(), getColor(DEFAULT_BACKGROUND_COLOR), COMPONENT_SHADOW_SIZE);
 		drawBorder(context, rectangle, getColor(COMPONENT_LINE_COLOR), COMPONENT_SHADOW_SIZE);
@@ -70,7 +70,7 @@ public abstract class ComponentEventNode extends MSCNode {
 		drawText(context, rectangle);
 	}
 
-	private void drawText(IGC context, Rectangle rectangle) {
+	private void drawText(final IGC context, final Rectangle rectangle) {
 		context.setForeground(getColor(COMPONENT_FONT_COLOR));
 		context.setFont((Font) Activator.getDefault().getCachedResource(MSCConstants.MSC_DEFAULT_FONT));
 		context.drawTextTruncatedCentred(getName(),

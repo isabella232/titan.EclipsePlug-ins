@@ -60,7 +60,7 @@ public class SetverdictComp extends MSCNode {
 		int y = getY();
 		int width = getWidth() - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		int height = getHeight() - MSCConstants.SETVERDICT_SHADOW_SIZE;
-		int size = MSCConstants.SETVERDICT_SIZE;
+		final int size = MSCConstants.SETVERDICT_SIZE;
 
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(size / 2);
@@ -71,11 +71,11 @@ public class SetverdictComp extends MSCNode {
 			context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_SHADOW_COLOR));
 			x = x + MSCConstants.SETVERDICT_SHADOW_SIZE;
 			y = y + MSCConstants.SETVERDICT_SHADOW_SIZE;
-			int[] shadowPointsA = {x, y,
+			final int[] shadowPointsA = {x, y,
 					x + size, y,
 					x + width, y + height,
 					x + width - size, y + height};
-			int[] shadowPointsB = {x + width, y,
+			final int[] shadowPointsB = {x + width, y,
 					x + width - size, y,
 					x, y + height,
 					x + size, y + height};
@@ -89,11 +89,11 @@ public class SetverdictComp extends MSCNode {
 		width = width - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		height = height - MSCConstants.SETVERDICT_SHADOW_SIZE;
 
-		int[] pointsA = {x, y,
+		final int[] pointsA = {x, y,
 				x + size, y,
 				x + width, y + height,
 				x + width - size, y + height};
-		int[] pointsB = {x + width, y,
+		final int[] pointsB = {x + width, y,
 				x + width - size, y,
 				x, y + height,
 				x + size, y + height};

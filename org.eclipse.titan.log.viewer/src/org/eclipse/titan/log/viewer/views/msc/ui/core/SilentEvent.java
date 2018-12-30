@@ -57,7 +57,7 @@ public class SilentEvent extends MSCNode {
 
 	@Override
 	public void draw(final IGC context) {
-		Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		final Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
 		context.setLineStyle(context.getLineSolidStyle());
 
