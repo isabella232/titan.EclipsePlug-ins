@@ -23,7 +23,7 @@ import edu.uci.ics.jung.graph.Graph;
  *            edge type
  */
 public final class CheckDependentNodes<V, E> {
-	private Graph<V, E> graph;
+	private final Graph<V, E> graph;
 
 	public CheckDependentNodes(final Graph<V, E> graph) {
 		this.graph = graph;

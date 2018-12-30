@@ -167,7 +167,7 @@ public class NodePopupMenu extends JPopupMenu {
 					final NodeDescriptor neighbor = neighbors.get(0);
 					final List<EdgeDescriptor> edges2 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
 
-					for (EdgeDescriptor edge : edges2) {
+					for (final EdgeDescriptor edge : edges2) {
 						final NodeDescriptor vertex = graph.getDest(edge);
 						if (!dependentNodes.contains(vertex)) {
 							neighbors.add(vertex);
