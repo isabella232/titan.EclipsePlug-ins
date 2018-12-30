@@ -75,6 +75,12 @@ public class ScrollView extends Composite {
 	/** TimerTask for autoScroll feature !=null when auto scroll is running */
 	private Timer autoScrollTimer = null;
 
+	/** where mouse down appear on contents area */
+	private int mouseDownX = -1, mouseDownY = -1;
+
+	public static final int VBAR = 0x01;
+	public static final int HBAR = 0x02;
+
 	/**
 	 * Create a ScrollView, child of composite c.
 	 * Both scroll bar have the mode AUTO.
@@ -587,9 +593,6 @@ public class ScrollView extends Composite {
 		this.mouseDownY = e.y;
 	}
 
-	/** where mouse down appear on contents area */
-	private int mouseDownX = -1, mouseDownY = -1;
-
 	/** TimerTask for auto scroll feature. */
 	private static class AutoScroll extends TimerTask {
 		private int dx, dy;
@@ -1014,10 +1017,6 @@ public class ScrollView extends Composite {
 	public final ScrollBar getHorizontalBar() {
 		return this.horzsb.getHorizontalBar();
 	}
-
-	public static final int VBAR = 0x01;
-
-	public static final int HBAR = 0x02;
 
 	/** compute visibility of vert/hor bar using given width/height and current visibility
 	 * (ie is barr size are already in for_xxx */
