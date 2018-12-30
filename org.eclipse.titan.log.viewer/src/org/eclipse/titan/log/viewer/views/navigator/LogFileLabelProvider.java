@@ -19,7 +19,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 public class LogFileLabelProvider extends LabelProvider {
 	@Override
 	public String getText(final Object element) {
-		String defaultText = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getText(element);
+		final String defaultText = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getText(element);
 		if (!(element instanceof IFile)) {
 			return defaultText;
 		}
@@ -32,7 +32,7 @@ public class LogFileLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(final Object element) {
-		Image defaultImage = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getImage(element);
+		final Image defaultImage = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getImage(element);
 
 		if (!(element instanceof IFile)) {
 			return defaultImage;
@@ -47,7 +47,7 @@ public class LogFileLabelProvider extends LabelProvider {
 
 	private boolean isExtractionRunningOn(final IFile file) {
 		try {
-			Object temp = file.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = file.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			return temp != null && (Boolean) temp;
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);

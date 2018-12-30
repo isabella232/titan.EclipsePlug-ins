@@ -53,7 +53,7 @@ public class LogFileContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(final Object parentElement) {
-		Object[] emptyResult = new Object[] {};
+		final Object[] emptyResult = new Object[] {};
 		if (!(parentElement instanceof IFile)) {
 			return emptyResult;
 		}
@@ -62,13 +62,14 @@ public class LogFileContentProvider implements ITreeContentProvider {
 		if (!logFile.exists()) {
 			return emptyResult;
 		}
-		String fileExtension = logFile.getFileExtension();
+
+		final String fileExtension = logFile.getFileExtension();
 		if (fileExtension == null || !fileExtension.equals(Constants.LOG_EXTENSION)) {
 			return emptyResult;
 		}
 
 		try {
-			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
 				return emptyResult;
 			}
@@ -89,11 +90,11 @@ public class LogFileContentProvider implements ITreeContentProvider {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 					if (view instanceof CommonNavigator) {
-						CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
-						for (TestCase testCase : extractor.getTestCases()) {
+						final CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
+						for (final TestCase testCase : extractor.getTestCases()) {
 							viewer.expandToLevel(testCase, AbstractTreeViewer.ALL_LEVELS);
 							viewer.refresh(testCase, true);
 						}
@@ -109,10 +110,10 @@ public class LogFileContentProvider implements ITreeContentProvider {
 	}
 
 	private void handleLogFileChange(final IFile logFile) {
-		WorkspaceJob job = new WorkspaceJob("Testcase extraction from logfile " + logFile.getProjectRelativePath().toString()) {
+		final WorkspaceJob job = new WorkspaceJob("Testcase extraction from logfile " + logFile.getProjectRelativePath().toString()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
-				ExtractTestCasesAction extractTestCasesAction = new ExtractTestCasesAction(logFile);
+				final ExtractTestCasesAction extractTestCasesAction = new ExtractTestCasesAction(logFile);
 				try {
 					extractTestCasesAction.run(monitor);
 				} catch (InvocationTargetException e) {

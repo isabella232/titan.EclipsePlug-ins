@@ -26,7 +26,7 @@ public class TestCasesViewerLabelProvider extends LabelProvider {
 			return WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getText(element);
 		}
 
-		TestCase tc = (TestCase) element;
+		final TestCase tc = (TestCase) element;
 		return tc.getTestCaseName();
 	}
 
@@ -36,7 +36,7 @@ public class TestCasesViewerLabelProvider extends LabelProvider {
 			return WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getImage(element);
 		}
 
-		TestCase tc = (TestCase) element;
+		final TestCase tc = (TestCase) element;
 		if (tc.getVerdict() == Constants.VERDICT_PASS) {
 			return Activator.getDefault().getIcon(Constants.ICONS_PASS);
 		} else if (tc.getVerdict() == Constants.VERDICT_FAIL) {
