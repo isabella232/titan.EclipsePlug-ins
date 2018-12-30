@@ -72,7 +72,6 @@ class SwitchToMscAction extends Action {
 			return;
 		}
 
-		final List<TestCase> testCases = extractor.getTestCases();
 		if (textTableView.getSelectedRecord() == null) {
 			final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
 			mb.setText("Invalid selection.");
@@ -81,6 +80,7 @@ class SwitchToMscAction extends Action {
 		}
 
 		final int recordNumber = textTableView.getSelectedRecord().getRecordNumber();
+		final List<TestCase> testCases = extractor.getTestCases();
 		final int testCaseNumber = findContainingTestCase(testCases, recordNumber);
 
 		if (testCaseNumber == -1) {
