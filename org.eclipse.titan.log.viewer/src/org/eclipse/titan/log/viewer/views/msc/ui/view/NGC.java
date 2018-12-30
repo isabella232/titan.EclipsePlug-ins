@@ -168,16 +168,16 @@ public class NGC implements IGC {
 			tempY = 0;
 		}
 
-		int tempWidth = Math.round(width * this.view.getZoomFactor());
-		int tempHeight = Math.round(height * this.view.getZoomFactor());
+		final int tempWidth = Math.round(width * this.view.getZoomFactor());
+		final int tempHeight = Math.round(height * this.view.getZoomFactor());
 		tempX = this.view.contentsToViewX(tempX);
 
-		Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
+		final Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
 		transformRectangle(rectangle);
 		this.context.drawRectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
 
-	private void transformRectangle(Rectangle rectangle) {
+	private void transformRectangle(final Rectangle rectangle) {
 		if (rectangle.x < -vscreenBounds) {
 			rectangle.width = rectangle.width + rectangle.x + vscreenBounds;
 			rectangle.x = -vscreenBounds;
@@ -205,11 +205,11 @@ public class NGC implements IGC {
 
 	@Override
 	public void fillPolygon(final int[] points) {
-		int len = (points.length / 2) * 2;
-		int[] localPoint = new int[len];
+		final int len = (points.length / 2) * 2;
+		final int[] localPoint = new int[len];
 		for (int i = 0; i < len; i++) {
 			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * this.view.getZoomFactor()));
-			i++;
+			i++;//TODO check why like this.
 			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * this.view.getZoomFactor()));
 		}
 		this.context.fillPolygon(localPoint);
@@ -217,11 +217,11 @@ public class NGC implements IGC {
 
 	@Override
 	public void drawPolygon(final int[] points) {
-		int len = (points.length / 2) * 2;
-		int[] localPoint = new int[len];
+		final int len = (points.length / 2) * 2;
+		final int[] localPoint = new int[len];
 		for (int i = 0; i < len; i++) {
 			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * this.view.getZoomFactor()));
-			i++;
+			i++;//TODO check why.
 			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * this.view.getZoomFactor()));
 		}
 		this.context.drawPolygon(localPoint);
@@ -238,11 +238,12 @@ public class NGC implements IGC {
 		} else {
 			tempY = 1;
 		}
-		int tempWidth = Math.round(width * this.view.getZoomFactor()) - 1;
-		int tempHeight = Math.round(height * this.view.getZoomFactor()) - 1;
+
+		final int tempWidth = Math.round(width * this.view.getZoomFactor()) - 1;
+		final int tempHeight = Math.round(height * this.view.getZoomFactor()) - 1;
 		tempX = this.view.contentsToViewX(tempX) + 1;
 
-		Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
+		final Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
 		transformRectangle(rectangle);
 		this.context.fillRectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
@@ -251,9 +252,9 @@ public class NGC implements IGC {
 	public void fillGradientRectangle(final int x, final int y, final int width, final int height, final boolean vertical) {
 		int tempX = Math.round(x * this.view.getZoomFactor());
 		int tempY = Math.round(y * this.view.getZoomFactor());
-		int tempWidth = Math.round(width * this.view.getZoomFactor());
+		final int tempWidth = Math.round(width * this.view.getZoomFactor());
 		int tempHeight = Math.round(height * this.view.getZoomFactor());
-		Color tempColor = this.foreGround;
+		final Color tempColor = this.foreGround;
 		setForeground(this.gradientColor);
 		tempX = this.view.contentsToViewX(tempX);
 		tempY = this.view.contentsToViewY(tempY);
@@ -267,7 +268,7 @@ public class NGC implements IGC {
 			this.context.fillGradientRectangle(tempX, tempY, tempWidth, tempHeight, true);
 			setForeground(tempColor);
 		} else {
-			Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
+			final Rectangle rectangle = new Rectangle(tempX, tempY, tempWidth, tempHeight);
 			transformRectangle(rectangle);
 			this.context.fillGradientRectangle(rectangle.x + rectangle.width, rectangle.y, -rectangle.width,
 					rectangle.height + 1, false);
@@ -282,32 +283,32 @@ public class NGC implements IGC {
 
 	@Override
 	public void drawText(final String string, final int x, final int y, final boolean trans) {
-		int tempX = Math.round(x * this.view.getZoomFactor());
-		int tempY = Math.round(y * this.view.getZoomFactor());
+		final int tempX = Math.round(x * this.view.getZoomFactor());
+		final int tempY = Math.round(y * this.view.getZoomFactor());
 		this.context.drawText(string, this.view.contentsToViewX(tempX), this.view.contentsToViewY(tempY), trans);
 		if (this.drawWithFocus) {
-			Point r = this.context.textExtent(string);
+			final Point r = this.context.textExtent(string);
 			this.context.drawFocus(tempX - 1, tempY - 1, r.x + 2, r.y + 2);
 		}
 	}
 
 	@Override
 	public void drawText(final String string, final int x, final int y) {
-		int tempX = Math.round(x * this.view.getZoomFactor());
-		int tempY = Math.round(y * this.view.getZoomFactor());
+		final int tempX = Math.round(x * this.view.getZoomFactor());
+		final int tempY = Math.round(y * this.view.getZoomFactor());
 		this.context.drawText(string, this.view.contentsToViewX(tempX), this.view.contentsToViewY(tempY), true);
 		if (this.drawWithFocus) {
-			Point r = this.context.textExtent(string);
+			final Point r = this.context.textExtent(string);
 			this.context.drawFocus(tempX - 1, tempY - 1, r.x + 2, r.y + 2);
 		}
 	}
 
 	@Override
 	public void fillOval(final int x, final int y, final int width, final int height) {
-		int tempX = Math.round(x * this.view.getZoomFactor());
-		int tempY = Math.round(y * this.view.getZoomFactor());
-		int tempWidth = Math.round(width * this.view.getZoomFactor());
-		int tempHeight = Math.round(height * this.view.getZoomFactor());
+		final int tempX = Math.round(x * this.view.getZoomFactor());
+		final int tempY = Math.round(y * this.view.getZoomFactor());
+		final int tempWidth = Math.round(width * this.view.getZoomFactor());
+		final int tempHeight = Math.round(height * this.view.getZoomFactor());
 
 		this.context.fillOval(this.view.contentsToViewX(tempX), this.view.contentsToViewY(tempY), tempWidth, tempHeight);
 	}
@@ -370,7 +371,7 @@ public class NGC implements IGC {
 
 	// Linux GTK Workaround
 	private void localDrawText(final String string, final int x, final int y, final boolean trans) {
-		Point r = this.context.textExtent(string);
+		final Point r = this.context.textExtent(string);
 		if (!trans) {
 			this.context.fillRectangle(x, y, r.x, r.y);
 		}
@@ -382,12 +383,12 @@ public class NGC implements IGC {
 
 	@Override
 	public void drawTextTruncatedCentred(final String name, final int oldX, final int oldY, final int width, final int height, final boolean trans) {
-		Point tx = this.context.textExtent(name);
-		Rectangle rectangle = createIncorporatingRectangle(oldX, oldY, width, height);
+		final Point tx = this.context.textExtent(name);
+		final Rectangle rectangle = createIncorporatingRectangle(oldX, oldY, width, height);
 		if (tx.x <= rectangle.width) {
 			localDrawText(name, rectangle.x + 1 + (rectangle.width - tx.x) / 2, rectangle.y + 1 + (rectangle.height - tx.y) / 2, trans);
 		} else {
-			String nameToDisplay = getNameToDisplay(name, rectangle.width);
+			final String nameToDisplay = getNameToDisplay(name, rectangle.width);
 			localDrawText(nameToDisplay,
 					rectangle.x + 1 + (rectangle.width - this.context.textExtent(nameToDisplay).x) / 2,
 					rectangle.y + 1 + (rectangle.height - this.context.textExtent(nameToDisplay).y) / 2,
@@ -395,13 +396,13 @@ public class NGC implements IGC {
 		}
 	}
 
-	private Rectangle createIncorporatingRectangle(int oldX, int oldY, int width, int height) {
-		Rectangle rectangle = new Rectangle(0, 0, 0, 0);
-		int tempX = Math.round(oldX * this.view.getZoomFactor());
+	private Rectangle createIncorporatingRectangle(final int oldX, final int oldY, final int width, final int height) {
+		final Rectangle rectangle = new Rectangle(0, 0, 0, 0);
+		final int tempX = Math.round(oldX * this.view.getZoomFactor());
 		// Workaround to avoid round problems for some special cases (not very
 		// nice)
 		if (oldY != getContentsY()) {
-			int tempY = Math.round(oldY * this.view.getZoomFactor());
+			final int tempY = Math.round(oldY * this.view.getZoomFactor());
 			rectangle.y = this.view.contentsToViewY(tempY);
 		}
 		rectangle.width = Math.round(width * this.view.getZoomFactor());
@@ -412,13 +413,13 @@ public class NGC implements IGC {
 
 	@Override
 	public void drawTextTruncatedLeft(final String name, final int old_x, final int old_y, final int width, final int height, final boolean trans) {
-		Point tx = this.context.textExtent(name);
-		Rectangle rectangle = createIncorporatingRectangle(old_x, old_y, width, height);
+		final Point tx = this.context.textExtent(name);
+		final Rectangle rectangle = createIncorporatingRectangle(old_x, old_y, width, height);
 		if (tx.x <= rectangle.width) {
 			localDrawText(name, rectangle.x + 1, rectangle.y + 1 + (rectangle.height - tx.y) / 2, trans);
 
 		} else {
-			String nameToDisplay = getNameToDisplay(name, rectangle.width);
+			final String nameToDisplay = getNameToDisplay(name, rectangle.width);
 			localDrawText(nameToDisplay,
 					rectangle.x + 1,
 					rectangle.y + 1 + (rectangle.height - tx.y) / 2,
@@ -426,7 +427,7 @@ public class NGC implements IGC {
 		}
 	}
 
-	private String getNameToDisplay(String name, int tempWidth) {
+	private String getNameToDisplay(final String name, final int tempWidth) {
 		String nameToDisplay = name;
 		for (int i = name.length() - 1; (i >= 0)
 				&& (this.context.textExtent(nameToDisplay).x >= tempWidth); i--) {
@@ -441,24 +442,24 @@ public class NGC implements IGC {
 		return nameToDisplay;
 	}
 
-	private String addDots(String nameToDisplay, int dotCount) {
-		char[] chars = new char[dotCount];
+	private String addDots(final String nameToDisplay, final int dotCount) {
+		final char[] chars = new char[dotCount];
 		Arrays.fill(chars, '.');
 		return nameToDisplay + new String(chars);
 	}
 
 	@Override
 	public void drawTextTruncated(final String name, final int old_x, final int old_y, final int width, final int height, final boolean trans) {
-		int tempX = Math.round(old_x * this.view.getZoomFactor());
-		int tempY = Math.round(old_y * this.view.getZoomFactor());
-		int tempWidth = Math.round(width * this.view.getZoomFactor());
-		int tempHeight = Math.round(height * this.view.getZoomFactor());
-		int x = this.view.contentsToViewX(tempX);
-		int y = this.view.contentsToViewY(tempY);
+		final int tempX = Math.round(old_x * this.view.getZoomFactor());
+		final int tempY = Math.round(old_y * this.view.getZoomFactor());
+		final int tempWidth = Math.round(width * this.view.getZoomFactor());
+		final int tempHeight = Math.round(height * this.view.getZoomFactor());
+		final int x = this.view.contentsToViewX(tempX);
+		final int y = this.view.contentsToViewY(tempY);
 		if (this.context.textExtent(name).x <= tempWidth) {
 			localDrawText(name, x + 1, y + 1 + tempHeight, trans);
 		} else {
-			String nameToDisplay = getNameToDisplay(name, tempWidth);
+			final String nameToDisplay = getNameToDisplay(name, tempWidth);
 			localDrawText(nameToDisplay,x + 1, y + 1 + tempHeight, trans);
 		}
 	}
@@ -466,8 +467,8 @@ public class NGC implements IGC {
 	@Override
 	public void setFont(final Font font) {
 		if ((font != null) && (font.getFontData().length > 0)) {
-			FontData fontData = font.getFontData()[0];
-			int h = Math.round(fontData.getHeight() * this.view.getZoomFactor());
+			final FontData fontData = font.getFontData()[0];
+			final int h = Math.round(fontData.getHeight() * this.view.getZoomFactor());
 			if (h > 0) {
 				fontData.setHeight(h);
 			}
@@ -487,9 +488,9 @@ public class NGC implements IGC {
 	 */
 	public int getFontHeight(final Font font) {
 		if (font != null) {
-			Font toRestore = this.context.getFont();
+			final Font toRestore = this.context.getFont();
 			this.context.setFont(font);
-			int height = this.context.textExtent("lp").y; //$NON-NLS-1$
+			final int height = this.context.textExtent("lp").y; //$NON-NLS-1$
 			this.context.setFont(toRestore);
 			return height;
 		}
@@ -499,9 +500,9 @@ public class NGC implements IGC {
 	@Override
 	public int getFontWidth(final Font font) {
 		if (font != null) {
-			Font toRestore = this.context.getFont();
+			final Font toRestore = this.context.getFont();
 			this.context.setFont(font);
-			int width = this.context.getFontMetrics().getAverageCharWidth();
+			final int width = this.context.getFontMetrics().getAverageCharWidth();
 			this.context.setFont(toRestore);
 			return width;
 		}

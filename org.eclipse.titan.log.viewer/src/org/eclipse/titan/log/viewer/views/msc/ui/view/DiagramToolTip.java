@@ -52,9 +52,10 @@ public class DiagramToolTip implements PaintListener  {
 			this.toolTipShell.setVisible(false);
 			return;
 		}
+
 		this.text = value;
-		int w = this.toolTipShell.getBounds().width;
-		Point hr = Display.getDefault().getCursorLocation();
+		final int w = this.toolTipShell.getBounds().width;
+		final Point hr = Display.getDefault().getCursorLocation();
 		int cursorH = 32;
 		for (int i = 0; i < Display.getDefault().getCursorSizes().length; i++) {
 			if (Display.getDefault().getCursorSizes()[i].y < cursorH) {
@@ -62,7 +63,7 @@ public class DiagramToolTip implements PaintListener  {
 			}
 		}
 		if (hr.x + w > Display.getDefault().getBounds().width) {
-			int tempX = (hr.x + w) - Display.getDefault().getBounds().width;
+			final int tempX = (hr.x + w) - Display.getDefault().getBounds().width;
 			if (tempX > Display.getDefault().getBounds().width) {
 				hr.x = 0;
 			}
@@ -85,7 +86,7 @@ public class DiagramToolTip implements PaintListener  {
 	 */
 	@Override
 	public void paintControl(final PaintEvent event) {
-		Point size = event.gc.textExtent(this.text);
+		final Point size = event.gc.textExtent(this.text);
 		event.gc.drawText(this.text, 2, 0, true);
 		this.toolTipShell.setSize(size.x + 6, size.y + 2);
 	}
