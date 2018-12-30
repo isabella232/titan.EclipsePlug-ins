@@ -6186,7 +6186,7 @@ pr_CharStringValue returns[Value value]
 @init {
 	$value = null;
 }:
-(	string_value = pr_FreeText
+(	string_value = pr_CstringList
 		{	if(UniversalCharstring.isCharstring($string_value.string)) {
 				$value = new Charstring_Value($string_value.string);
 			} else {
@@ -6198,6 +6198,17 @@ pr_CharStringValue returns[Value value]
 )
 {
 	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+};
+
+pr_CstringList returns[String string]:
+(	cs = pr_CString
+)
+{
+	final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+	$string = cse.getExtractedString();
+	if ( cse.isErroneous() ) {
+		reportError( cse.getErrorMessage(), $cs.start, $cs.stop );
+	}
 };
 
 pr_Quadruple returns[UniversalCharstring string]
@@ -8523,10 +8534,9 @@ pr_Identifier returns [Identifier identifier]
 pr_CString returns[String string]:
 	cs = CSTRING
 {
-	final CharstringExtractor cse = new CharstringExtractor( $cs.text );
-	$string = cse.getExtractedString();
-	if ( cse.isErroneous() ) {
-		reportError( cse.getErrorMessage(), $cs, $cs );
+	if($cs.text != null) {
+		final String temp = $cs.text;
+		$string = temp.substring(1, temp.length() - 1);
 	}
 };
 
