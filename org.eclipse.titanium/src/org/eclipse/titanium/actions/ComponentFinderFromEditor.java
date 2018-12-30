@@ -54,11 +54,11 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {		
 		final Definition selection = findSelection();
 		if (selection instanceof Def_Testcase) {
-			Def_Testcase tc = (Def_Testcase)selection;
-			TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>());
+			final Def_Testcase tc = (Def_Testcase)selection;
+			final TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>());
 			tc.accept(vis);
 			System.out.println("Eredmeny: ---------------------------------------------------------");
-			for (Component_Type ct : vis.getComponents()) {
+			for (final Component_Type ct : vis.getComponents()) {
 				System.out.println(ct.getFullName());
 			}
 		}
@@ -84,7 +84,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		}
 
 		final IFile selectedFile = (IFile)selectedRes;
-		IProject sourceProj = selectedFile.getProject();
+		final IProject sourceProj = selectedFile.getProject();
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProj);
 		final Module selectedModule = projectSourceParser.containedModule(selectedFile);
 
@@ -161,7 +161,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		private List<Def_Function> checkedFunctions;
 		private int counter;
 		
-		TestcaseVisitor(List<Def_Function> checkedFunctions) {
+		TestcaseVisitor(final List<Def_Function> checkedFunctions) {
 			comps = new ArrayList<Component_Type>();
 			this.checkedFunctions = checkedFunctions;
 			counter = -1;
@@ -181,15 +181,15 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 			}
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
-				PortReference pr = ((PortReference)node);
+				final PortReference pr = ((PortReference)node);
 				
-				Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
-					Def_Port dp = (Def_Port)as;
-					ModuleVisitor mv = new ModuleVisitor(dp);
-					Module m = dp.getMyScope().getModuleScope();
+					final Def_Port dp = (Def_Port)as;
+					final ModuleVisitor mv = new ModuleVisitor(dp);
+					final Module m = dp.getMyScope().getModuleScope();
 					m.accept(mv);
-					for (Component_Type ct : mv.getComponents()) {
+					for (final Component_Type ct : mv.getComponents()) {
 						if (!comps.contains(ct)) {
 							comps.add(ct);
 						}
@@ -197,15 +197,15 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 				}
 			}
 			else if (node instanceof Function_Instance_Statement) {
-				Function_Instance_Statement fis = (Function_Instance_Statement)node;
-				Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				final Function_Instance_Statement fis = (Function_Instance_Statement)node;
+				final Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				if (as != null && as instanceof Def_Function) {
-					Def_Function df = (Def_Function)as;
+					final Def_Function df = (Def_Function)as;
 					if (!checkedFunctions.contains(df)) {
 						checkedFunctions.add(df);
-						TestcaseVisitor tv = new TestcaseVisitor(checkedFunctions);
+						final TestcaseVisitor tv = new TestcaseVisitor(checkedFunctions);
 						df.accept(tv);
-						for (Component_Type ct : tv.getComponents()) {
+						for (final Component_Type ct : tv.getComponents()) {
 							if (!comps.contains(ct)) {
 								comps.add(ct);
 							}
@@ -224,7 +224,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private Def_Port port;
 		
-		ModuleVisitor(Def_Port port) {
+		ModuleVisitor(final Def_Port port) {
 			comps = new ArrayList<Component_Type>();
 			this.port = port;
 		}
@@ -236,9 +236,9 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Component_Type) {
-				Component_Type ct = (Component_Type)node;
-				List<Definition> defs = ct.getComponentBody().getDefinitions();
-				for (Definition def : defs) {
+				final Component_Type ct = (Component_Type)node;
+				final List<Definition> defs = ct.getComponentBody().getDefinitions();
+				for (final Definition def : defs) {
 					if (def != null && def.equals(port)) {
 						comps.add(ct);
 						return V_ABORT;
