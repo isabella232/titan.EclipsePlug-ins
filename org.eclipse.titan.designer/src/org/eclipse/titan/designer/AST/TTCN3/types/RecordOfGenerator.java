@@ -748,9 +748,18 @@ public final class RecordOfGenerator {
 		source.append("\t\tpublic TitanInteger size_of() {\n");
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\t\treturn new TitanInteger(valueElements.size());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
+			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * n_elem in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the number of elements.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger n_elem() {\n");
 		source.append("\t\t\treturn size_of();\n");
 		source.append("\t\t}\n");
