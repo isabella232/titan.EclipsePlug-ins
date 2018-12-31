@@ -1274,7 +1274,17 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// static function
-
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param ucharValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound universal charstring value.");
 
@@ -1291,6 +1301,17 @@ public class TitanUniversalCharString extends Base_Type {
 		return ucharValue.operator_equals(otherValue.val_ptr.get(0));
 	}
 
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param ucharValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		return !operator_equals(ucharValue, otherValue);
 	}
@@ -1319,19 +1340,30 @@ public class TitanUniversalCharString extends Base_Type {
 		return ret_val;
 	}
 
-	public static boolean operator_equals(final String aOtherValue, final TitanUniversalCharString rightValue) {
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param otherValue
+	 *                the first value.
+	 * @param rightValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final String otherValue, final TitanUniversalCharString rightValue) {
 		rightValue.must_bound("The left operand of comparison is an unbound universal charstring value.");
 
 		if (rightValue.charstring) {
-			return rightValue.cstr.toString().equals(aOtherValue);
+			return rightValue.cstr.toString().equals(otherValue);
 		}
-		if (rightValue.val_ptr.size() != aOtherValue.length()) {
+		if (rightValue.val_ptr.size() != otherValue.length()) {
 			return false;
 		}
 		for (int i = 0; i < rightValue.val_ptr.size(); ++i) {
 			if (rightValue.val_ptr.get(i).getUc_group() != 0 || rightValue.val_ptr.get(i).getUc_plane() != 0
 					|| rightValue.val_ptr.get(i).getUc_row() != 0
-					|| rightValue.val_ptr.get(i).getUc_cell() != aOtherValue.charAt(i)) {
+					|| rightValue.val_ptr.get(i).getUc_cell() != otherValue.charAt(i)) {
 				return false;
 			}
 		}

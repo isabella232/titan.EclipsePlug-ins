@@ -216,14 +216,34 @@ public class TitanAsn_Null extends Base_Type {
 		boundFlag = true;
 	}
 
-	// static operator==
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param parValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound ASN.1 NULL value.");
 
 		return true;
 	}
 
-	// static operator!=
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param parValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
 		return !operator_equals(parValue, otherValue);
 	}

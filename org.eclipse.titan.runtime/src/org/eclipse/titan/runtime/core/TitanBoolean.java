@@ -373,14 +373,34 @@ public class TitanBoolean extends Base_Type {
 		return boolValue != otherValue.boolean_value;
 	}
 
-	// static equals
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param boolValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 
 		return boolValue == otherValue.boolean_value;
 	}
 
-	// static notEquals
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param boolValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound boolean value.");
 

@@ -616,7 +616,17 @@ public class TitanUniversalCharString_Element {
 	}
 
 	// static functions
-
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param ucharValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
 
@@ -646,6 +656,17 @@ public class TitanUniversalCharString_Element {
 		}
 	}
 
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param ucharValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		return !operator_equals(ucharValue, otherValue);
 	}
@@ -676,6 +697,17 @@ public class TitanUniversalCharString_Element {
 		return result;
 	}
 
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param otherValue
+	 *                the first value.
+	 * @param rightValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final String otherValue, final TitanUniversalCharString_Element rightValue) {
 		rightValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
 

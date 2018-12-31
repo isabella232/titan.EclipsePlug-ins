@@ -737,34 +737,76 @@ public class TitanCharString extends Base_Type {
 		return val_ptr.toString();
 	}
 
-	// static operator_equals
-	public static boolean operator_equals(final String StringValue, final TitanCharString aOtherValue) {
-		aOtherValue.must_bound("Unbound operand of charstring comparison.");
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param stringValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final String stringValue, final TitanCharString otherValue) {
+		otherValue.must_bound("Unbound operand of charstring comparison.");
 
-		if (StringValue == null) {
-			return aOtherValue.val_ptr.length() == 0;
+		if (stringValue == null) {
+			return otherValue.val_ptr.length() == 0;
 		}
 
-		return aOtherValue.val_ptr.toString().equals(StringValue);
+		return otherValue.val_ptr.toString().equals(stringValue);
 	}
 
-	public static boolean operator_equals(final String StringValue, final TitanCharString_Element aOtherValue) {
-		aOtherValue.must_bound("Unbound operand of charstring element comparison.");
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param stringValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final String stringValue, final TitanCharString_Element otherValue) {
+		otherValue.must_bound("Unbound operand of charstring element comparison.");
 
-		if (StringValue.length() != 1) {
+		if (stringValue.length() != 1) {
 			return false;
 		}
 
-		return StringValue.charAt(0) == aOtherValue.get_char();
+		return stringValue.charAt(0) == otherValue.get_char();
 	}
 
-	// static operator_not_equals
-	public static boolean operator_not_equals(final String StringValue, final TitanCharString aOtherValue) {
-		return !operator_equals(StringValue, aOtherValue);
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param stringValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_not_equals(final String stringValue, final TitanCharString otherValue) {
+		return !operator_equals(stringValue, otherValue);
 	}
 
-	public static boolean operator_not_equals(final String StringValue, final TitanCharString_Element aOtherValue) {
-		return !operator_equals(StringValue, aOtherValue);
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param stringValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_not_equals(final String stringValue, final TitanCharString_Element otherValue) {
+		return !operator_equals(stringValue, otherValue);
 	}
 
 	// static concatenate

@@ -293,7 +293,17 @@ public class TitanDefault extends Base_Type {
 		throw new TtcnError("Default references cannot be received from other test components.");
 	}
 
-	//originally static operator== with component parameter
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param defaultValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final int defaultValue, final TitanDefault otherValue) {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an invalid default reference.");
@@ -303,19 +313,49 @@ public class TitanDefault extends Base_Type {
 		return otherValue.default_ptr == null;
 	}
 
-	//originally static operator== with component parameter
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param defaultValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_equals(final Default_Base defaultValue, final TitanDefault otherValue) {
 		otherValue.must_bound("The right operand of comparison is an unbound default reference.");
 
 		return defaultValue == otherValue.default_ptr;
 	}
 
-	//originally static operator!= with component parameter
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param defaultValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final int defaultValue, final TitanDefault otherValue) {
 		return !operator_equals(defaultValue, otherValue);
 	}
 
-	//originally static operator!= with component parameter
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param defaultValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public static boolean operator_not_equals(final Default_Base defaultValue, final TitanDefault otherValue) {
 		return !operator_equals(defaultValue, otherValue);
 	}
