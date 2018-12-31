@@ -653,10 +653,7 @@ public class Parser {
 		} else if (this.messageAnalyser.isPortUnmapping()) {
 			// This branch handles port unmapping events.
 			final String unmappingSource = this.messageAnalyser.getPortUnMapping();
-			String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
-			//TODO check why overwrite?
-			compRef = this.messageAnalyser.getComponentRef(compRef);
-
+			final String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
 			final String target = this.messageAnalyser.getPortUnMappingTarget();
 			final String targetRef = this.messageAnalyser.getComponentRef(target);
 
@@ -1037,10 +1034,7 @@ public class Parser {
 		} else if (this.messageAnalyser.isPortUnmapping()) {
 			// This branch handles port unmapping events.
 			final String unmappingSource = this.messageAnalyser.getPortUnMapping();
-			String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
-			//TODO check why overwrite?
-			compRef = this.messageAnalyser.getComponentRef(compRef);
-
+			final String compRef = this.messageAnalyser.getComponentRef(unmappingSource);
 			final String target = this.messageAnalyser.getPortUnMappingTarget();
 			final String targetRef = this.messageAnalyser.getComponentRef(target);
 			final String sourcePort = this.messageAnalyser.getPort(unmappingSource);
