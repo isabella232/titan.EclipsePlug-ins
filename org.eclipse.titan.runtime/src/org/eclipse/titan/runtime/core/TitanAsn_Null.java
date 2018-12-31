@@ -19,12 +19,15 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * @author Kristof Szabados
  */
 public class TitanAsn_Null extends Base_Type {
+	/**
+	 * This enum is only used so that we can create a bound ASN.1 null.
+	 * Needed to differentiate between the constructors.
+	 * */
 	public enum Asn_Null_Type {
 		ASN_NULL_VALUE
 	};
 
 	private boolean boundFlag;
-
 
 	/**
 	 * Initializes to unbound value.
@@ -40,6 +43,7 @@ public class TitanAsn_Null extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanAsn_Null(final Asn_Null_Type otherValue) {
+		//the formal parameter is intentionally unused here.
 		boundFlag = true;
 	}
 
