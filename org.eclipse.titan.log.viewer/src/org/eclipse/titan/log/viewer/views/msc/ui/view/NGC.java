@@ -207,10 +207,11 @@ public class NGC implements IGC {
 	public void fillPolygon(final int[] points) {
 		final int len = (points.length / 2) * 2;
 		final int[] localPoint = new int[len];
+		final float zoomFactor = this.view.getZoomFactor();
 		for (int i = 0; i < len; i++) {
-			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * this.view.getZoomFactor()));
+			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * zoomFactor));
 			i++;//TODO check why like this.
-			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * this.view.getZoomFactor()));
+			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * zoomFactor));
 		}
 		this.context.fillPolygon(localPoint);
 	}
@@ -219,10 +220,11 @@ public class NGC implements IGC {
 	public void drawPolygon(final int[] points) {
 		final int len = (points.length / 2) * 2;
 		final int[] localPoint = new int[len];
+		final float zoomFactor = this.view.getZoomFactor();
 		for (int i = 0; i < len; i++) {
-			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * this.view.getZoomFactor()));
+			localPoint[i] = this.view.contentsToViewX(Math.round(points[i] * zoomFactor));
 			i++;//TODO check why.
-			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * this.view.getZoomFactor()));
+			localPoint[i] = this.view.contentsToViewY(Math.round(points[i] * zoomFactor));
 		}
 		this.context.drawPolygon(localPoint);
 	}
