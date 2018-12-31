@@ -90,24 +90,58 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 		return this;
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T get_at(final int index_value) {
 		return (T)array_elements[get_port_array_index(index_value, array_size, indexofset)];
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T get_at(final TitanInteger index_value) {
 		return (T)array_elements[get_port_array_index(index_value.get_int(), array_size, indexofset)];
 	}
 
-	// originally operator[]
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public final T constGet_at(final int index_value) {
 		return get_at(index_value);
 	}
 
-	//originally operator[]
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public final T constGet_at(final TitanInteger index_value) {
 		return get_at(index_value);
 	}

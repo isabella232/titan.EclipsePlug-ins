@@ -477,7 +477,18 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		return this;
 	}
 
-	// originally T& operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * Index underflow and overflow causes dynamic test case error. Also if
+	 * the template is not a specific value template it becomes one.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index
+	 *                the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public Ttemplate get_at(int index) {
 		if (index < indexOffset || index >= indexOffset + array_size) {
@@ -503,14 +514,36 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		return (Ttemplate)single_value[index];
 	}
 
-	//originally T& operator[](const INTEGER)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * Index underflow and overflow causes dynamic test case error. Also if
+	 * the template is not a specific value template it becomes one.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index
+	 *                the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Ttemplate get_at(final TitanInteger index) {
 		index.must_bound("Using an unbound integer value for indexing an array template.");
 
 		return get_at(index.get_int());
 	}
 
-	// originally const T& operator[](int)
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public Ttemplate constGet_at(int index) {
 		if (index < indexOffset) {
@@ -530,7 +563,18 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		return (Ttemplate)single_value[index];
 	}
 
-	// originally T& operator[](const INTEGER)
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Ttemplate constGet_at(final TitanInteger index) {
 		index.must_bound("Using an unbound integer value for indexing an array template.");
 

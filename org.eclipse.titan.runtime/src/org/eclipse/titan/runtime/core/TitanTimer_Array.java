@@ -100,25 +100,59 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 		indexOffset = offset;
 	}
 
-	// originally T& operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T get_at(final int index) {
 		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	//originally T& operator[](const INTEGER)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T get_at(final TitanInteger index) {
 		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	//const originally T& operator[](int)
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final int index) {
 		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	// const // originally T& operator[](const INTEGER)
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
 	public T constGet_at(final TitanInteger index) {
 		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
