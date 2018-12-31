@@ -135,7 +135,7 @@ public final class UnionGenerator {
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
 		generateValueoperator_assign(aData, source, genName, displayName, fieldInfos);
 		generateValueCleanup(source, fieldInfos);
-		generateValueIsChosen(source, displayName);
+		generateValueIsChosen(aData, source, displayName);
 		generateValueIsBound(source);
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
@@ -187,7 +187,7 @@ public final class UnionGenerator {
 		generateTemplateCleanup(source, fieldInfos);
 		generateTemplateoperator_assign(aData, source, genName);
 		generateTemplateMatch(aData, source, genName, displayName, fieldInfos);
-		generateTemplateIsChosen(source, genName, displayName);
+		generateTemplateIsChosen(aData, source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
 		generateTemplateValueOf(source, genName, displayName, fieldInfos);
 		generateTemplateSetType(source, genName, displayName);
@@ -363,12 +363,25 @@ public final class UnionGenerator {
 	/**
 	 * Generate the ischosen function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 * */
-	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
+	private static void generateValueIsChosen(final JavaGenData aData, final StringBuilder source, final String displayName) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks and reports whether the union has the provided alternative active or not.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * ischosen in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param checked_selection the selection to check for.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return {@code true} if the unions has the provided selection active.\n");
+			source.append("\t\t */\n");
+		}
 		source.append("\t\tpublic boolean ischosen(final union_selection_type checked_selection) {\n");
 		source.append("\t\t\tif(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
@@ -1427,6 +1440,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the ischosen function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1435,7 +1450,18 @@ public final class UnionGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 * */
-	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
+	private static void generateTemplateIsChosen(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks and reports whether the union has the provided alternative active or not.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * ischosen in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param checked_selection the selection to check for.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return {@code true} if the unions has the provided selection active.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic boolean ischosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
 		source.append(MessageFormat.format("\t\t\tif(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
