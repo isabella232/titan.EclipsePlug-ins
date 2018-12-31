@@ -56,7 +56,7 @@ public class TreeViewComposite extends Composite {
 
 		this.currentData = newInput;
 		String message = this.currentData.getLine();
-		if (message.contains("{") && message.indexOf("{") != 0) {
+		if (message.contains("{") && message.indexOf('{') != 0) {
 			oldMessage = message;
 			message = "{ " + message + " }";
 			this.currentData.setLine(message);
