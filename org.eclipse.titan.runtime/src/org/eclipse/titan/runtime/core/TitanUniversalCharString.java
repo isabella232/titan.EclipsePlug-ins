@@ -1859,10 +1859,9 @@ public class TitanUniversalCharString extends Base_Type {
 					buf.put_c((char) ((isBig ? r : c) & 0xFF) );
 					buf.put_c((char) ((isBig ? c : r) & 0xFF) );
 				} else if (g != 0 || p != 0) {
-					int univc = 0, temp = 0;
-					univc = g;
+					int univc = g;
 					univc <<= 24;
-					temp = p;
+					int temp = p;
 					temp <<= 16;
 					univc |= temp;
 					temp = r;
