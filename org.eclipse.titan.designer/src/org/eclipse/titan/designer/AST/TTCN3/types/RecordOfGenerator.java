@@ -1244,7 +1244,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("\t\t\tint encoded_length = 0;\n");
-			source.append("\t\t\tfinal int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
+			source.append("\t\t\tfinal int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);\n");
 			source.append("\t\t\tmyleaf.isleaf = false;\n");
 			source.append("\t\t\tmyleaf.rec_of = true;\n");
 			source.append("\t\t\tmyleaf.num_of_nodes = encoded_num_of_records;\n");
