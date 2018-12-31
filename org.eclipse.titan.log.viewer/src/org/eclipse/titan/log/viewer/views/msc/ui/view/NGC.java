@@ -25,6 +25,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  *
  */
 public class NGC implements IGC {
+	private static final boolean drawWithFocus = false;
 
 	private GC context;
 	private final MSCWidget view;
@@ -36,7 +37,6 @@ public class NGC implements IGC {
 	private int viewX;
 	private int yx;
 	private int xx;
-	private final boolean drawWithFocus = false;
 	private static int vscreenBounds = 0;
 
 	/**
