@@ -148,7 +148,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -1999,7 +1999,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -3932,7 +3932,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -5776,7 +5776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -7620,7 +7620,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -9464,7 +9464,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -11308,7 +11308,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -13152,7 +13152,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -14996,7 +14996,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -16840,7 +16840,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -18684,7 +18684,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -20535,7 +20535,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -22475,7 +22475,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -24415,7 +24415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -26355,7 +26355,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -28295,7 +28295,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -30228,7 +30228,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -32079,7 +32079,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -34019,7 +34019,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -35959,7 +35959,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -37899,7 +37899,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -39839,7 +39839,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -41779,7 +41779,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -43712,7 +43712,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -45556,7 +45556,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -47407,7 +47407,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -49347,7 +49347,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -51287,7 +51287,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -53220,7 +53220,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -55064,7 +55064,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -56915,7 +56915,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
@@ -58848,7 +58848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (srcElem.is_bound()) {
 					newElem.operator_assign( srcElem );
 				}
-				newList.add( ( newElem ) );
+				newList.add( newElem );
 			}
 			return newList;
 		}
