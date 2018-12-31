@@ -21,8 +21,6 @@ import org.eclipse.swt.widgets.Shell;
  *
  */
 public class DiagramToolTip implements PaintListener  {
-
-	private final Control parent;
 	private final Shell toolTipShell;
 	private String text = null;
 
@@ -32,8 +30,7 @@ public class DiagramToolTip implements PaintListener  {
 	 * @param parent the parent control
 	 */
 	public DiagramToolTip(final Control parent) {
-		this.parent = parent;
-		this.toolTipShell = new Shell(this.parent.getShell(), SWT.ON_TOP | SWT.NO_FOCUS);
+		this.toolTipShell = new Shell(parent.getShell(), SWT.ON_TOP | SWT.NO_FOCUS);
 		this.toolTipShell.setLayout(new RowLayout());
 		this.toolTipShell.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 		this.toolTipShell.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_INFO_FOREGROUND));
