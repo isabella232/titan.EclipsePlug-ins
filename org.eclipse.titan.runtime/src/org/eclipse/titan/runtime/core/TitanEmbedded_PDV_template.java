@@ -805,6 +805,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		}
 		default:
 			param.type_error("record template", "EMBEDDED PDV");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

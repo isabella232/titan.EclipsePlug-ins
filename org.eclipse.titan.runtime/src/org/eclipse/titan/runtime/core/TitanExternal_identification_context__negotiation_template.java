@@ -712,6 +712,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 		default:
 			param.type_error("record template", "EXTERNAL.identification.context-negotiation");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

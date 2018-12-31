@@ -712,6 +712,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		}
 		default:
 			param.type_error("record template", "CHARACTER STRING.identification.syntaxes");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

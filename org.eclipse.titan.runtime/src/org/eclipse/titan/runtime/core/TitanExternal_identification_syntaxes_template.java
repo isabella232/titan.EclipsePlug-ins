@@ -712,6 +712,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 		default:
 			param.type_error("record template", "EXTERNAL.identification.syntaxes");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

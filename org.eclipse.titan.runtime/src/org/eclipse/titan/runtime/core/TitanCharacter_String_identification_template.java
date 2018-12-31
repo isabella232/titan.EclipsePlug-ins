@@ -306,6 +306,15 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanCharacter_String_identification.");
 	}
 
+	/**
+	 * Checks and reports whether the union has the provided alternative active or not.
+	 *
+	 * ischosen in the core.
+	 *
+	 * @param checked_selection the selection to check for.
+	 *
+	 * @return {@code true} if the unions has the provided selection active.
+	 */
 	public boolean ischosen(final TitanCharacter_String_identification.union_selection_type checked_selection) {
 		if(checked_selection == TitanCharacter_String_identification.union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type CHARACTER STRING.identification.");
@@ -786,6 +795,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			default:
 				TTCN_Logger.print_logmatch_buffer();
 				TTCN_Logger.log_event_str("<invalid selector>");
+				break;
 			}
 		} else {
 			TTCN_Logger.print_logmatch_buffer();
@@ -861,6 +871,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value.decode_text(text_buf);
 				break;
 			}
+			break;
 		}
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {

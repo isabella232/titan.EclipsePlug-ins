@@ -104,6 +104,15 @@ public class TitanCharacter_String_identification extends Base_Type {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	}
 
+	/**
+	 * Checks and reports whether the union has the provided alternative active or not.
+	 *
+	 * ischosen in the core.
+	 *
+	 * @param checked_selection the selection to check for.
+	 *
+	 * @return {@code true} if the unions has the provided selection active.
+	 */
 	public boolean ischosen(final TitanCharacter_String_identification.union_selection_type checked_selection) {
 		if(checked_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type CHARACTER STRING.identification.");

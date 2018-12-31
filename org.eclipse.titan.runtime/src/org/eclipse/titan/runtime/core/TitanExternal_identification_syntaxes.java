@@ -251,6 +251,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		}
 		default:
 			param.type_error("set value", "EXTERNAL.identification.syntaxes");
+			break;
 		}
 	}
 

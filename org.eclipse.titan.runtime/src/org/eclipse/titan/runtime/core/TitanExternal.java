@@ -306,6 +306,7 @@ public class TitanExternal extends Base_Type {
 		}
 		default:
 			param.type_error("set value", "EXTERNAL");
+			break;
 		}
 	}
 

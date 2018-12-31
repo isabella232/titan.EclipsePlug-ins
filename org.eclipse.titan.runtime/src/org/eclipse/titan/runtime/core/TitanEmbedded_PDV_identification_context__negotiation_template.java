@@ -712,6 +712,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 		default:
 			param.type_error("record template", "EMBEDDED PDV.identification.context-negotiation");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

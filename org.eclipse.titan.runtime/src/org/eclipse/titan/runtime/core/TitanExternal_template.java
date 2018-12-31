@@ -805,6 +805,7 @@ public class TitanExternal_template extends Base_Template {
 		}
 		default:
 			param.type_error("record template", "EXTERNAL");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

@@ -712,6 +712,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		}
 		default:
 			param.type_error("record template", "CHARACTER STRING.identification.context-negotiation");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

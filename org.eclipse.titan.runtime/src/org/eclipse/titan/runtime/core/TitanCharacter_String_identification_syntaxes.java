@@ -251,6 +251,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		}
 		default:
 			param.type_error("set value", "CHARACTER STRING.identification.syntaxes");
+			break;
 		}
 	}
 

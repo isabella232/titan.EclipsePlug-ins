@@ -805,6 +805,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		default:
 			param.type_error("record template", "CHARACTER STRING");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

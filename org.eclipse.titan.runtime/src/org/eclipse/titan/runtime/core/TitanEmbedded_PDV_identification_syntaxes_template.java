@@ -712,6 +712,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		default:
 			param.type_error("record template", "EMBEDDED PDV.identification.syntaxes");
+			break;
 		}
 		is_ifPresent = param.get_ifpresent();
 	}

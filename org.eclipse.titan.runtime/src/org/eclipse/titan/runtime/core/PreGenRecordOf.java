@@ -440,6 +440,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -505,6 +513,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED","element");
@@ -1602,6 +1620,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2255,6 +2283,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -2320,6 +2356,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING","element");
@@ -3532,6 +3578,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -4168,6 +4224,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -4233,6 +4297,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED","element");
@@ -5330,6 +5404,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -5984,6 +6068,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -6049,6 +6141,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT","element");
@@ -7146,6 +7248,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -7800,6 +7912,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -7865,6 +7985,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING","element");
@@ -8962,6 +9092,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -9616,6 +9756,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -9681,6 +9829,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING","element");
@@ -10778,6 +10936,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -11432,6 +11600,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -11497,6 +11673,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED","element");
@@ -12594,6 +12780,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -13248,6 +13444,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -13313,6 +13517,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING","element");
@@ -14410,6 +14624,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -15064,6 +15288,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -15129,6 +15361,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN","element");
@@ -16226,6 +16468,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -16880,6 +17132,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -16945,6 +17205,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED","element");
@@ -18042,6 +18312,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -18696,6 +18976,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -18761,6 +19049,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER","element");
@@ -19858,6 +20156,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -20511,6 +20819,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -20576,6 +20892,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED","element");
@@ -21788,6 +22114,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -22423,6 +22759,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -22488,6 +22832,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN","element");
@@ -23700,6 +24054,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -24335,6 +24699,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -24400,6 +24772,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED","element");
@@ -25612,6 +25994,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -26247,6 +26639,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -26312,6 +26712,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_INTEGER","element");
@@ -27524,6 +27934,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -28159,6 +28579,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -28224,6 +28652,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING","element");
@@ -29436,6 +29874,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -30072,6 +30520,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -30137,6 +30593,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED","element");
@@ -31234,6 +31700,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -31887,6 +32363,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -31952,6 +32436,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING","element");
@@ -33164,6 +33658,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -33799,6 +34303,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -33864,6 +34376,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED","element");
@@ -35076,6 +35598,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -35711,6 +36243,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -35776,6 +36316,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING","element");
@@ -36988,6 +37538,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -37623,6 +38183,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -37688,6 +38256,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_FLOAT","element");
@@ -38900,6 +39478,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__FLOAT substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -39535,6 +40123,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -39600,6 +40196,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED","element");
@@ -40812,6 +41418,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -41447,6 +42063,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -41512,6 +42136,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED","element");
@@ -42724,6 +43358,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -43360,6 +44004,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -43425,6 +44077,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING","element");
@@ -44522,6 +45184,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -45176,6 +45848,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -45241,6 +45921,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING","element");
@@ -46338,6 +47028,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -46991,6 +47691,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -47056,6 +47764,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED","element");
@@ -48268,6 +48986,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -48903,6 +49631,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -48968,6 +49704,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING","element");
@@ -50180,6 +50926,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -50815,6 +51571,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -50880,6 +51644,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED","element");
@@ -52092,6 +52866,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -52728,6 +53512,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -52793,6 +53585,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED","element");
@@ -53890,6 +54692,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -54544,6 +55356,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -54609,6 +55429,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED","element");
@@ -55706,6 +56536,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -56359,6 +57199,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -56424,6 +57272,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED","element");
@@ -57636,6 +58494,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -58272,6 +59140,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			return size_of();
 		}
@@ -58337,6 +59213,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sb.toString();
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			must_bound("The first argument of substr() is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED","element");
@@ -59434,6 +60320,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
+		/**
+		 * Creates a new record/set of value from the current value,
+		 * with the elements from the provided index at the provided length.
+		 *
+		 * @param index
+		 *                the index to start at.
+		 * @param returncount
+		 *                the number of elements to copy.
+		 * @return the new value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED substr(final int index, final int returncount) {
 			if (!is_value()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -59809,6 +60705,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			union_selection = union_selection_type.UNBOUND_VALUE;
 		}
 
+		/**
+		 * Checks and reports whether the union has the provided alternative active or not.
+		 *
+		 * ischosen in the core.
+		 *
+		 * @param checked_selection the selection to check for.
+		 *
+		 * @return {@code true} if the unions has the provided selection active.
+		 */
 		public boolean ischosen(final union_selection_type checked_selection) {
 			if(checked_selection == union_selection_type.UNBOUND_VALUE) {
 				throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @PreGenRecordOf.anytype.");
@@ -60196,6 +61101,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type anytype.");
 		}
 
+		/**
+		 * Checks and reports whether the union has the provided alternative active or not.
+		 *
+		 * ischosen in the core.
+		 *
+		 * @param checked_selection the selection to check for.
+		 *
+		 * @return {@code true} if the unions has the provided selection active.
+		 */
 		public boolean ischosen(final anytype.union_selection_type checked_selection) {
 			if(checked_selection == anytype.union_selection_type.UNBOUND_VALUE) {
 				throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @PreGenRecordOf.anytype.");

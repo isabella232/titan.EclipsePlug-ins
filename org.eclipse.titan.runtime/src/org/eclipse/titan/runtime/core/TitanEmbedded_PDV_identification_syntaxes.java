@@ -251,6 +251,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		}
 		default:
 			param.type_error("set value", "EMBEDDED PDV.identification.syntaxes");
+			break;
 		}
 	}
 

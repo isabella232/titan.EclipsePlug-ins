@@ -251,6 +251,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		}
 		default:
 			param.type_error("set value", "CHARACTER STRING.identification.context-negotiation");
+			break;
 		}
 	}
 

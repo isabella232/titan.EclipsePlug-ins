@@ -871,6 +871,7 @@ public class TitanExternal_identification_template extends Base_Template {
 				single_value.decode_text(text_buf);
 				break;
 			}
+			break;
 		}
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {

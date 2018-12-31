@@ -306,6 +306,7 @@ public class TitanCharacter_String extends Base_Type {
 		}
 		default:
 			param.type_error("set value", "CHARACTER STRING");
+			break;
 		}
 	}
 
