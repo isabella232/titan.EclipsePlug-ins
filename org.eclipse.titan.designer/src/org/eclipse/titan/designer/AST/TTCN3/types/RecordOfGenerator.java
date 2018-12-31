@@ -295,7 +295,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tif (srcElem.is_bound()) {\n");
 		source.append("\t\t\t\t\tnewElem.operator_assign( srcElem );\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tnewList.add( ( newElem ) );\n");
+		source.append("\t\t\t\tnewList.add( newElem );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn newList;\n");
 		source.append("\t\t}\n");
