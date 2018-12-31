@@ -92,7 +92,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private Table amountTable = null;
 	private Table errorTestCasesTable = null;
 	private Table failTestCasesTable = null;
-	private Table testCases = null;
+	private Table testCasesTable = null;
 	private CachedLogReader reader = null;
 	private static final int DEFAULT_COLUMN_WIDTH = 55;
 	private static final int DEFAULT_AMOUNT_COLUMN_WIDTH = 75;
@@ -190,7 +190,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			this.amountTable.removeAll();
 			this.errorTestCasesTable.removeAll();
 			this.failTestCasesTable.removeAll();
-			this.testCases.removeAll();
+			this.testCasesTable.removeAll();
 			int noOfPass = 0;
 			int noOfFail = 0;
 			int noOfInconc = 0;
@@ -206,7 +206,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			final int noTotal = tmpTestCases.size();
 
 			for (final TestCase tc : tmpTestCases) {
-				final TableItem tcItem = new TableItem(this.testCases, SWT.BORDER);
+				final TableItem tcItem = new TableItem(this.testCasesTable, SWT.BORDER);
 
 				LogRecord record = getLogRecordAtRow(tc.getStartRecordNumber());
 				final String start = record.getTimestamp();
@@ -281,6 +281,12 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				ecFail.setExpanded(true);
 			}
 
+			if (this.testCasesTable.getItems().length < 1) {
+				this.testCasesTable.setLinesVisible(false);
+			} else {
+				this.testCasesTable.redraw();
+				ecTestCases.setExpanded(true);
+			}
 
 			// Create the statistical row
 			final TableItem item = new TableItem(this.amountTable, SWT.BORDER);
@@ -627,8 +633,8 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 		this.ecTestCases = toolkit.createExpandableComposite(sectionClient, ExpandableComposite.TREE_NODE | ExpandableComposite.CLIENT_INDENT);
 		ecTestCases.setText("Test cases"); //$NON-NLS-1$
-		this.testCases = createTestCaseTable(ecTestCases);
-		ecTestCases.setClient(this.testCases);
+		this.testCasesTable = createTestCaseTable(ecTestCases);
+		ecTestCases.setClient(this.testCasesTable);
 		ecTestCases.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
