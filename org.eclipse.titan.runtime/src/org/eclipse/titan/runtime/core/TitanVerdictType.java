@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 /**
@@ -258,8 +259,21 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//TODO: implement VERDICTTYPE::get_param()
-	//TODO: implement VERDICTTYPE::encode()
-	//TODO: implement VERDICTTYPE::decode()
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		//only xer and JSON will be supported
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		//only xer and JSON will be supported
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+	}
+
 	//TODO: implement VERDICTTYPE::XER_encode()
 
 	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
