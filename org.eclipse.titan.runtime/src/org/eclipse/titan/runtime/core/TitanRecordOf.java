@@ -295,6 +295,13 @@ public abstract class TitanRecordOf extends Base_Type {
 		return get_of_type_name(ofType);
 	}
 
+	/**
+	 * Returns the number of elements.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		if (valueElements == null) {
 			return 0;

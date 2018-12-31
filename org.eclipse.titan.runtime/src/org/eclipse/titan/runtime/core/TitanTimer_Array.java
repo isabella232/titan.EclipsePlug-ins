@@ -170,6 +170,13 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 		return (T)array_elements[index.get_int()];
 	}
 
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		return array_size;
 	}

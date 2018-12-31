@@ -146,6 +146,13 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 		return get_at(index_value);
 	}
 
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		return array_size;
 	}

@@ -581,6 +581,16 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		return constGet_at(index.get_int());
 	}
 
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * Results in dynamic testcase error if the template is not a specific
+	 * value or value list kind.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:

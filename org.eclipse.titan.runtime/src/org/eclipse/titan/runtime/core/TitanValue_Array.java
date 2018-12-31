@@ -395,7 +395,13 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return (T)array_elements[index.get_int()];
 	}
 
-	// originally n_elem()
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		return array_size;
 	}
