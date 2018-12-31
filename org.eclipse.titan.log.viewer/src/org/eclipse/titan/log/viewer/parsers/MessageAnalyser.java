@@ -655,11 +655,11 @@ public abstract class MessageAnalyser {
 	 */
 	protected String getComponentRef(final String compNameAndRef) {
 		if (compNameAndRef.startsWith(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) {
-			final int startRef = compNameAndRef.indexOf("(");
+			final int startRef = compNameAndRef.indexOf('(');
 			return compNameAndRef.substring(0, startRef);
 		} else if (compNameAndRef.contains("(") && compNameAndRef.contains(")")) {
-			final int startRef = compNameAndRef.indexOf("(");
-			final int stopRef = compNameAndRef.indexOf(")");
+			final int startRef = compNameAndRef.indexOf('(');
+			final int stopRef = compNameAndRef.indexOf(')');
 			return compNameAndRef.substring(startRef + 1, stopRef);
 		} else if (compNameAndRef.contains(":")) {
 			final String[] component = compNameAndRef.split(":");
