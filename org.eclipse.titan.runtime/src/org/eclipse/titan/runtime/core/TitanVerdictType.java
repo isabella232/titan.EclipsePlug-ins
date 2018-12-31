@@ -236,6 +236,27 @@ public class TitanVerdictType extends Base_Type {
 		verdict_value = VerdictTypeEnum.values()[received_value];
 	}
 
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param par_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+		if (!TitanVerdictType.is_valid(par_value)) {
+			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
+		}
+
+		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
+
+		return par_value == other_value.get_value();
+	}
+
 	//TODO: implement VERDICTTYPE::set_param()
 	//TODO: implement VERDICTTYPE::get_param()
 	//TODO: implement VERDICTTYPE::encode()

@@ -346,27 +346,6 @@ public class TitanVerdictType_template extends Base_Template {
 		return match(other_value.get_value(), legacy);
 	}
 
-	/**
-	 * Checks if the first value is equivalent to the second one.
-	 *
-	 * static operator== in the core
-	 *
-	 * @param par_value
-	 *                the first value.
-	 * @param other_value
-	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
-	 */
-	public static boolean operator_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
-		if (!TitanVerdictType.is_valid(par_value)) {
-			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
-		}
-
-		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
-
-		return par_value == other_value.get_value();
-	}
-
 	@Override
 	public TitanVerdictType valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
