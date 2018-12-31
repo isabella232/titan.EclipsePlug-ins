@@ -184,7 +184,17 @@ public abstract class TitanRecordOf extends Base_Type {
 		return newList;
 	}
 
-	//originally get_at(int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * get_at in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Base_Type get_at(final int index_value) {
 		if (index_value < 0) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", get_of_type_name(), index_value));
@@ -204,13 +214,32 @@ public abstract class TitanRecordOf extends Base_Type {
 		return valueElements.get(index_value);
 	}
 
-	//originally get_at(const INTEGER&)
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * get_at in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Base_Type get_at(final TitanInteger index_value) {
 		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 		return get_at(index_value.get_int());
 	}
 
-	//originally get_at(int) const
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const get_at const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Base_Type constGet_at(final int index_value) {
 		must_bound(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", get_of_type_name()));
 
@@ -227,7 +256,16 @@ public abstract class TitanRecordOf extends Base_Type {
 		return (elem != null) ? elem : get_unbound_elem();
 	}
 
-	//originally get_at(const INTEGER&) const
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const get_at const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public Base_Type constGet_at(final TitanInteger index_value) {
 		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 
