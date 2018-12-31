@@ -257,7 +257,6 @@ public class TitanVerdictType extends Base_Type {
 		return par_value == other_value.get_value();
 	}
 
-	//TODO: implement VERDICTTYPE::set_param()
 	//TODO: implement VERDICTTYPE::get_param()
 	//TODO: implement VERDICTTYPE::encode()
 	//TODO: implement VERDICTTYPE::decode()
