@@ -635,78 +635,120 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString((char)(val_ptr[0] ^ otherValue.get_nibble()));
 	}
 
-	//originally operator<<
-	public TitanOctetString shift_left(int shiftCount) {
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString shift_left(int shift_count) {
 		must_bound("Unbound octetstring operand of shift left operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
 				return this;
 			}
 
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
-			if (shiftCount > val_ptr.length) {
-				shiftCount = val_ptr.length;
+			if (shift_count > val_ptr.length) {
+				shift_count = val_ptr.length;
 			}
 
-			for (int i = 0; i < val_ptr.length - shiftCount; i++) {
-				result.val_ptr[i] = val_ptr[i + shiftCount];
+			for (int i = 0; i < val_ptr.length - shift_count; i++) {
+				result.val_ptr[i] = val_ptr[i + shift_count];
 			}
 
-			for (int i = val_ptr.length - shiftCount; i < val_ptr.length; i++) {
+			for (int i = val_ptr.length - shift_count; i < val_ptr.length; i++) {
 				result.val_ptr[i] = (char) 0;
 			}
 			return result;
 		} else {
-			if (shiftCount == 0) {
+			if (shift_count == 0) {
 				return this;
 			} else {
-				return this.shift_right(-shiftCount);
+				return this.shift_right(-shift_count);
 			}
 		}
 	}
 
-	public TitanOctetString shift_left(final TitanInteger otherValue) {
-		must_bound("Unbound right operand of octetstring shift left operator.");
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString shift_left(final TitanInteger shift_count) {
+		shift_count.must_bound("Unbound right operand of octetstring shift left operator.");
 
-		return shift_left(otherValue.get_int());
+		return shift_left(shift_count.get_int());
 	}
 
-	// originally operator>>
-	public TitanOctetString shift_right(int shiftCount) {
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString shift_right(int shift_count) {
 		must_bound("Unbound octetstring operand of shift right operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
 				return this;
 			}
 
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
-			if (shiftCount > val_ptr.length) {
-				shiftCount = val_ptr.length;
+			if (shift_count > val_ptr.length) {
+				shift_count = val_ptr.length;
 			}
-			for (int i = 0; i < shiftCount; i++) {
+			for (int i = 0; i < shift_count; i++) {
 				result.val_ptr[i] = (char) 0;
 			}
-			for (int i = shiftCount; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i - shiftCount];
+			for (int i = shift_count; i < val_ptr.length; i++) {
+				result.val_ptr[i] = val_ptr[i - shift_count];
 			}
 			return result;
 		} else {
-			if (shiftCount == 0) {
+			if (shift_count == 0) {
 				return this;
 			} else {
-				return this.shift_left(-shiftCount);
+				return this.shift_left(-shift_count);
 			}
 		}
 	}
 
-	public TitanOctetString shift_right(final TitanInteger otherValue){
-		must_bound("Unbound right operand of octetstring shift right operator.");
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString shift_right(final TitanInteger shift_count){
+		shift_count.must_bound("Unbound right operand of octetstring shift right operator.");
 
-		return shift_right(otherValue.get_int());
+		return shift_right(shift_count.get_int());
 	}
 
 	/**

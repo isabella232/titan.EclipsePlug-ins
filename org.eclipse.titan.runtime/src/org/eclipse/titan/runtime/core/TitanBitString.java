@@ -534,21 +534,31 @@ public class TitanBitString extends Base_Type {
 		return new TitanBitString(result, 1);
 	}
 
-	// originally operator<<
-	public TitanBitString shift_left(int shiftCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString shift_left(int shift_count) {
 		must_bound("Unbound bitstring operand of shift left operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (n_bits == 0) {
 				return this;
 			}
 			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
-			if (shiftCount > n_bits) {
-				shiftCount = n_bits;
+			if (shift_count > n_bits) {
+				shift_count = n_bits;
 			}
-			final int shift_bytes = shiftCount / 8;
-			final int shift_bits = shiftCount % 8;
+			final int shift_bytes = shift_count / 8;
+			final int shift_bits = shift_count % 8;
 			final int result[] = new int[n_bytes];
 			// result.addAll(bits_ptr);
 			if (shift_bits != 0) {
@@ -570,36 +580,56 @@ public class TitanBitString extends Base_Type {
 			final TitanBitString ret_val = new TitanBitString(result, n_bits);
 			ret_val.clear_unused_bits();
 			return ret_val;
-		} else if (shiftCount == 0) {
+		} else if (shift_count == 0) {
 			return this;
 		} else {
-			return this.shift_right(-shiftCount);
+			return this.shift_right(-shift_count);
 		}
 	}
 
-	// originally operator<<
-	public TitanBitString shift_left(final TitanInteger otherValue) {
-		must_bound("Unbound bitstring operand of shift left operator.");
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString shift_left(final TitanInteger shift_count) {
+		shift_count.must_bound("Unbound right operand of shift left operator.");
 
-		return shift_left(otherValue.get_int());
+		return shift_left(shift_count.get_int());
 	}
 
-	// originally operator>>
-	public TitanBitString shift_right(int shiftCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString shift_right(int shift_count) {
 		must_bound("Unbound bitstring operand of shift right operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (n_bits == 0) {
 				return this;
 			}
 			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
-			if (shiftCount > n_bits) {
-				shiftCount = n_bits;
+			if (shift_count > n_bits) {
+				shift_count = n_bits;
 			}
 
-			final int shift_bytes = shiftCount / 8;
-			final int shift_bits = shiftCount % 8;
+			final int shift_bytes = shift_count / 8;
+			final int shift_bits = shift_count % 8;
 			final int result[] = new int[n_bytes];
 			//result.addAll(bits_ptr);
 			for (int i = 0; i < shift_bytes; i++) {
@@ -620,17 +650,28 @@ public class TitanBitString extends Base_Type {
 			final TitanBitString ret_val = new TitanBitString(result, n_bits);
 			ret_val.clear_unused_bits();
 			return ret_val;
-		} else if (shiftCount == 0) {
+		} else if (shift_count == 0) {
 			return this;
 		} else {
-			return this.shift_left(-shiftCount);
+			return this.shift_left(-shift_count);
 		}
 	}
 
-	// originally operator>>
-	public TitanBitString shift_right(final TitanInteger otherValue) {
-		must_bound("Unbound bitstring operand of shift left operator.");
-		return shift_right(otherValue.get_int());
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString shift_right(final TitanInteger shift_count) {
+		shift_count.must_bound("Unbound bitstring operand of shift left operator.");
+
+		return shift_right(shift_count.get_int());
 	}
 
 	/**

@@ -698,76 +698,116 @@ public class TitanHexString extends Base_Type {
 		return new TitanHexString(result);
 	}
 
-	// originally operator<<
-	public TitanHexString shift_left(int shiftCount) {
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString shift_left(int shift_count) {
 		must_bound("Unbound hexstring operand of shift left operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
 				return this;
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
 			final byte result[] = new byte[nibbles_ptr.length];
-			if (shiftCount > n_nibbles) {
-				shiftCount = n_nibbles;
+			if (shift_count > n_nibbles) {
+				shift_count = n_nibbles;
 			}
-			for (int i = 0; i < n_nibbles - shiftCount; i++) {
-				result[i] = nibbles_ptr[i + shiftCount];
+			for (int i = 0; i < n_nibbles - shift_count; i++) {
+				result[i] = nibbles_ptr[i + shift_count];
 			}
-			for (int i = n_nibbles - shiftCount; i < n_nibbles; i++) {
+			for (int i = n_nibbles - shift_count; i < n_nibbles; i++) {
 				result[i] = (byte) 0;
 			}
 
 			return new TitanHexString(result);
-		} else if (shiftCount == 0) {
+		} else if (shift_count == 0) {
 			return this;
 		} else {
-			return this.shift_right(-shiftCount);
+			return this.shift_right(-shift_count);
 		}
 	}
 
-	// originally operator<<
-	public TitanHexString shift_left(final TitanInteger shiftCount) {
-		shiftCount.must_bound("Unbound right operand of hexstring shift left operator.");
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements shifted to the left with the provided
+	 * amount and zeros coming in from the right.
+	 *
+	 * operator<< in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift left.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString shift_left(final TitanInteger shift_count) {
+		shift_count.must_bound("Unbound right operand of hexstring shift left operator.");
 
-		return this.shift_left(shiftCount.get_int());
+		return this.shift_left(shift_count.get_int());
 	}
 
-	// originally operator>>
-	public TitanHexString shift_right(int shiftCount) {
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString shift_right(int shift_count) {
 		must_bound("Unbound operand of hexstring shift right operator.");
 
-		if (shiftCount > 0) {
+		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
 				return this;
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
 			final byte result[] = new byte[nibbles_ptr.length];
-			if (shiftCount > n_nibbles) {
-				shiftCount = n_nibbles;
+			if (shift_count > n_nibbles) {
+				shift_count = n_nibbles;
 			}
-			for (int i = 0; i < shiftCount; i++) {
+			for (int i = 0; i < shift_count; i++) {
 				result[i] = (byte) 0;
 			}
-			for (int i = 0; i < n_nibbles - shiftCount; i++) {
-				result[i + shiftCount] = nibbles_ptr[i];
+			for (int i = 0; i < n_nibbles - shift_count; i++) {
+				result[i + shift_count] = nibbles_ptr[i];
 			}
 
 			return new TitanHexString(result);
-		} else if (shiftCount == 0) {
+		} else if (shift_count == 0) {
 			return this;
 		} else {
-			return this.shift_left(-shiftCount);
+			return this.shift_left(-shift_count);
 		}
 	}
 
-	// originally operator>>
-	public TitanHexString shift_right(final TitanInteger shiftCount) {
-		shiftCount.must_bound("Unbound right operand of hexstring right left operator.");
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements shifted to the right with the provided
+	 * amount and zeros coming in from the left.
+	 *
+	 * operator>> in the core.
+	 *
+	 * @param shift_count
+	 *                the number of characters to shift right.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString shift_right(final TitanInteger shift_count) {
+		shift_count.must_bound("Unbound right operand of hexstring right left operator.");
 
-		return this.shift_right(shiftCount.get_int());
+		return this.shift_right(shift_count.get_int());
 	}
 
 	/**
