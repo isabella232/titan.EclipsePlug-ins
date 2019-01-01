@@ -660,13 +660,12 @@ public class TitanOctetString extends Base_Type {
 				shift_count = val_ptr.length;
 			}
 
-			for (int i = 0; i < val_ptr.length - shift_count; i++) {
-				result.val_ptr[i] = val_ptr[i + shift_count];
-			}
+			System.arraycopy(val_ptr, shift_count, result.val_ptr, 0, val_ptr.length - shift_count);
 
 			for (int i = val_ptr.length - shift_count; i < val_ptr.length; i++) {
 				result.val_ptr[i] = (char) 0;
 			}
+
 			return result;
 		} else {
 			if (shift_count == 0) {
@@ -721,9 +720,8 @@ public class TitanOctetString extends Base_Type {
 			for (int i = 0; i < shift_count; i++) {
 				result.val_ptr[i] = (char) 0;
 			}
-			for (int i = shift_count; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i - shift_count];
-			}
+			System.arraycopy(val_ptr, 0, result.val_ptr, shift_count, val_ptr.length - shift_count);
+
 			return result;
 		} else {
 			if (shift_count == 0) {
