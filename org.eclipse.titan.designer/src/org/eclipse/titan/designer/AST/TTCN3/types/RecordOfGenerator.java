@@ -787,9 +787,17 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn new TitanInteger(0);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the new size of the value.\n");
+			source.append("\t\t * If the new size is bigger than actual, unbound elements are added to the end.\n");
+			source.append("\t\t * If the new size is smaller than actual, excess elements are removed.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param newSize the new size to be used.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic void set_size(final int newSize) {\n");
 		source.append("\t\t\tif (newSize < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
@@ -2231,7 +2239,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t	break;\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		//TODO: implement void concat(int& pos, const Record_Of_Type& operand)
 		//TODO: implement void concat(int& pos)
@@ -2256,7 +2264,16 @@ public final class RecordOfGenerator {
 	 */
 	private static void generateTemplateSetSize(final JavaGenData aData, final StringBuilder source, final String genName,
 			final String ofTypeName, final String displayName, final boolean isSetOf) {
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the new size of the template.\n");
+			source.append("\t\t* Also makes turns it into a specific value template if not already.\n");
+			source.append("\t\t * If the new size is bigger than actual, unbound elements are added to the end.\n");
+			source.append("\t\t * If the new size is smaller than actual, excess elements are removed.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param newSize the new size to be used.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic void set_size(final int new_size) {\n");
 		source.append("\t\t\tif (new_size < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", displayName ) );
