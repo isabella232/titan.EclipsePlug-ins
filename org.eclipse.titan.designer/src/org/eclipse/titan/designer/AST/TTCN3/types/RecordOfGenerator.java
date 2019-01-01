@@ -2298,9 +2298,8 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t} else if (new_size < value_elements.size()) {\n");
-		source.append("\t\t\t\tfinal int oldSize = value_elements.size();\n");
-		source.append("\t\t\t\tfor (int elem_count = new_size; elem_count < oldSize; elem_count++) {\n");
-		source.append("\t\t\t\t\tvalue_elements.remove( new_size );\n");
+		source.append("\t\t\t\twhile(value_elements.size() > new_size) {\n");
+		source.append("\t\t\t\t\tvalue_elements.remove(value_elements.size()-1);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
