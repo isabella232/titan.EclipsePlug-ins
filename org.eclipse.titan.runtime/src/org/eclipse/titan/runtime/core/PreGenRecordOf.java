@@ -290,24 +290,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__INTEGER__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -2185,24 +2225,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__UNIVERSAL__CHARSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			final int size = valueElements.size();
@@ -4180,24 +4260,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -6076,24 +6196,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__FLOAT(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			final int size = valueElements.size();
@@ -7972,24 +8132,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			final int size = valueElements.size();
@@ -9868,24 +10068,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__BITSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			final int size = valueElements.size();
@@ -11764,24 +12004,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -13660,24 +13940,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__CHARSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			final int size = valueElements.size();
@@ -15556,24 +15876,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__BOOLEAN(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			final int size = valueElements.size();
@@ -17452,24 +17812,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -19348,24 +19748,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__INTEGER(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			final int size = valueElements.size();
@@ -21243,24 +21683,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -23237,24 +23717,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__BOOLEAN(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			final int size = valueElements.size();
@@ -25231,24 +25751,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__FLOAT__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -27225,24 +27785,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__INTEGER(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER.
+		 * */
 		public PREGEN__SET__OF__INTEGER rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER.
+		 * */
 		public PREGEN__SET__OF__INTEGER rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER.
+		 * */
 		public PREGEN__SET__OF__INTEGER rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER.
+		 * */
 		public PREGEN__SET__OF__INTEGER rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			final int size = valueElements.size();
@@ -29219,24 +29819,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__CHARSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			final int size = valueElements.size();
@@ -31214,24 +31854,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -33109,24 +33789,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__HEXSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			final int size = valueElements.size();
@@ -35103,24 +35823,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__HEXSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -37097,24 +37857,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__OCTETSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			final int size = valueElements.size();
@@ -39091,24 +39891,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__FLOAT(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT.
+		 * */
 		public PREGEN__SET__OF__FLOAT rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT.
+		 * */
 		public PREGEN__SET__OF__FLOAT rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT.
+		 * */
 		public PREGEN__SET__OF__FLOAT rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_FLOAT, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_FLOAT.
+		 * */
 		public PREGEN__SET__OF__FLOAT rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			final int size = valueElements.size();
@@ -41085,24 +41925,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__INTEGER__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -43079,24 +43959,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -45074,24 +45994,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__OCTETSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			final int size = valueElements.size();
@@ -46970,24 +47930,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__HEXSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			final int size = valueElements.size();
@@ -48865,24 +49865,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__CHARSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -50859,24 +51899,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__BITSTRING(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.
+		 * */
 		public PREGEN__SET__OF__BITSTRING rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.
+		 * */
 		public PREGEN__SET__OF__BITSTRING rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.
+		 * */
 		public PREGEN__SET__OF__BITSTRING rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.
+		 * */
 		public PREGEN__SET__OF__BITSTRING rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			final int size = valueElements.size();
@@ -52853,24 +53933,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__BOOLEAN__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -54848,24 +55968,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -56744,24 +57904,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__FLOAT__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -58639,24 +59839,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__SET__OF__BITSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
@@ -60634,24 +61874,64 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED(this);
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_left(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 			return rotate_left(rotate_count.get_int());
 		}
 
-		//originally operator<<=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the left with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate left.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_left(final int rotate_count) {
 			return rotate_right(-rotate_count);
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_right(final TitanInteger rotate_count) {
 			rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 			return rotate_right(rotate_count.get_int());
 		}
 
-		//originally operator>>=
+		/**
+		 * Creates a new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED, that is the equivalent of the
+		 * current one with its elements rotated to the right with the provided
+		 * amount.
+		 *
+		 * operator<<= in the core.
+		 *
+		 * @param rotate_count
+		 *                the number of characters to rotate right.
+		 * @return the new @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED rotate_right(final int rotate_count) {
 			must_bound("Performing rotation operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			final int size = valueElements.size();
