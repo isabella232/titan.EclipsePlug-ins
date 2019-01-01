@@ -1187,81 +1187,123 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	// originally operator<<=
-	public TitanUniversalCharString rotate_left(int rotateCount) {
+	/**
+	 * Creates a new universal charstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new universal charstring.
+	 * */
+	public TitanUniversalCharString rotate_left(int rotate_count) {
 		must_bound("The left operand of rotate left operator is an unbound universal charstring value.");
 
 		if (charstring) {
-			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_left(rotateCount));
+			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_left(rotate_count));
 		}
 		if (val_ptr.isEmpty()) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount = rotateCount % val_ptr.size();
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count = rotate_count % val_ptr.size();
+			if (rotate_count == 0) {
 				return this;
 			}
 
 			final TitanUniversalCharString result = new TitanUniversalCharString();
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
-			for (int i = 0; i < val_ptr.size() - rotateCount; i++) {
-				result.val_ptr.add(i, val_ptr.get(i + rotateCount));
+			for (int i = 0; i < val_ptr.size() - rotate_count; i++) {
+				result.val_ptr.add(i, val_ptr.get(i + rotate_count));
 			}
-			for (int i = val_ptr.size() - rotateCount; i < val_ptr.size(); i++) {
-				result.val_ptr.add(i, val_ptr.get(i + rotateCount - val_ptr.size()));
+			for (int i = val_ptr.size() - rotate_count; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, val_ptr.get(i + rotate_count - val_ptr.size()));
 			}
 
 			return result;
 		} else {
-			return rotate_right(-rotateCount);
+			return rotate_right(-rotate_count);
 		}
 	}
 
-	public TitanUniversalCharString rotate_left(final TitanInteger rotateCount) {
-		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
+	/**
+	 * Creates a new universal charstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new universal charstring.
+	 * */
+	public TitanUniversalCharString rotate_left(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_left(rotateCount.get_int());
+		return rotate_left(rotate_count.get_int());
 	}
 
-	// originally operator>>=
-	public TitanUniversalCharString rotate_right(int rotateCount) {
+	/**
+	 * Creates a new universal charstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new universal charstring.
+	 * */
+	public TitanUniversalCharString rotate_right(int rotate_count) {
 		must_bound("The left operand of rotate right operator is an unbound universal charstring value.");
 
 		if (charstring) {
-			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_right(rotateCount));
+			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_right(rotate_count));
 		}
 		if (val_ptr.isEmpty()) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount = rotateCount % val_ptr.size();
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count = rotate_count % val_ptr.size();
+			if (rotate_count == 0) {
 				return this;
 			}
 
 			final TitanUniversalCharString result = new TitanUniversalCharString();
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
-			if (rotateCount > val_ptr.size()) {
-				rotateCount = val_ptr.size();
+			if (rotate_count > val_ptr.size()) {
+				rotate_count = val_ptr.size();
 			}
-			for (int i = 0; i < rotateCount; i++) {
-				result.val_ptr.add(i, val_ptr.get(i - rotateCount + val_ptr.size()));
+			for (int i = 0; i < rotate_count; i++) {
+				result.val_ptr.add(i, val_ptr.get(i - rotate_count + val_ptr.size()));
 			}
-			for (int i = rotateCount; i < val_ptr.size(); i++) {
-				result.val_ptr.add(i, val_ptr.get(i - rotateCount));
+			for (int i = rotate_count; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, val_ptr.get(i - rotate_count));
 			}
 
 			return result;
 		} else {
-			return rotate_left(-rotateCount);
+			return rotate_left(-rotate_count);
 		}
 	}
 
-	public TitanUniversalCharString rotate_right(final TitanInteger rotateCount) {
-		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
+	/**
+	 * Creates a new universal charstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new universal charstring.
+	 * */
+	public TitanUniversalCharString rotate_right(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_right(rotateCount.get_int());
+		return rotate_right(rotate_count.get_int());
 	}
 
 	public void convert_cstr_to_uni() {

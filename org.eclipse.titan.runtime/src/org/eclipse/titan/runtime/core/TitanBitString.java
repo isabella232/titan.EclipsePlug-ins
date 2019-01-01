@@ -633,56 +633,96 @@ public class TitanBitString extends Base_Type {
 		return shift_right(otherValue.get_int());
 	}
 
-	// originally operator<<=
-	public TitanBitString rotate_left(int rotateCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString rotate_left(int rotate_count) {
 		must_bound("Unbound bistring operand of rotate left operator.");
 
 		if (n_bits == 0) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount %= n_bits;
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count %= n_bits;
+			if (rotate_count == 0) {
 				return this;
 			} else {
-				return this.shift_left(rotateCount).or4b(this.shift_right(n_bits - rotateCount));
+				return this.shift_left(rotate_count).or4b(this.shift_right(n_bits - rotate_count));
 			}
 		} else {
-			return this.rotate_right(-rotateCount);
+			return this.rotate_right(-rotate_count);
 		}
 	}
 
-	// originally operator<<=
-	public TitanBitString rotate_left(final TitanInteger rotateCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString rotate_left(final TitanInteger rotate_count) {
 		must_bound("Unbound bistring operand of rotate left operator.");
 
-		return this.rotate_left(rotateCount.get_int());
+		return this.rotate_left(rotate_count.get_int());
 	}
 
-	// originally operator>>=
-	public TitanBitString rotate_right(int rotateCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString rotate_right(int rotate_count) {
 		must_bound("Unbound bistring operand of rotate right operator.");
 
 		if (n_bits == 0) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount %= n_bits;
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count %= n_bits;
+			if (rotate_count == 0) {
 				return this;
 			} else {
-				return ((this.shift_right(rotateCount)).or4b(this.shift_left(n_bits - rotateCount)));
+				return ((this.shift_right(rotate_count)).or4b(this.shift_left(n_bits - rotate_count)));
 			}
 		} else {
-			return this.rotate_left(-rotateCount);
+			return this.rotate_left(-rotate_count);
 		}
 	}
 
-	// originally operator<<=
-	public TitanBitString rotate_right(final TitanInteger rotateCount) {
+	/**
+	 * Creates a new bitstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new bitstring.
+	 * */
+	public TitanBitString rotate_right(final TitanInteger rotate_count) {
 		must_bound("Unbound bistring operand of rotate left operator.");
 
-		return this.rotate_right(rotateCount.get_int());
+		return this.rotate_right(rotate_count.get_int());
 	}
 
 	//originally operator[](int)

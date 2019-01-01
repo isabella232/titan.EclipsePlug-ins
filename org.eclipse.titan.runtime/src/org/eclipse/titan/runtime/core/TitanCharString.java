@@ -596,69 +596,105 @@ public class TitanCharString extends Base_Type {
 		return this.val_ptr.toString().equals(otherValue);
 	}
 
-	// originally operator<<=
-	// rotateLeft for String
-	public TitanCharString rotate_left(int rotatecount) {
+	/**
+	 * Creates a new charstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new charstring.
+	 * */
+	public TitanCharString rotate_left(int rotate_count) {
 		must_bound("Unbound charstring operand of rotate left operator.");
 
 		if (val_ptr.length() == 0) {
 			return this;
 		}
-		if (rotatecount >= 0) {
-			rotatecount %= val_ptr.length();
-			if (rotatecount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count %= val_ptr.length();
+			if (rotate_count == 0) {
 				return this;
 			}
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 			for (int i = 0; i < val_ptr.length(); i++) {
-				rValue.append(val_ptr.charAt((i + rotatecount) % val_ptr.length()));
+				rValue.append(val_ptr.charAt((i + rotate_count) % val_ptr.length()));
 			}
 			return new TitanCharString(rValue);
 		}
 
-		return rotate_right(-rotatecount);
+		return rotate_right(-rotate_count);
 	}
 
-	// originally operator<<=
-	// rotateLeft for TitanInteger
-	public TitanCharString rotate_left(final TitanInteger rotatecount) {
-		rotatecount.must_bound("Unbound integer operand of rotate left operator.");
+	/**
+	 * Creates a new charstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new charstring.
+	 * */
+	public TitanCharString rotate_left(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotate_left(rotatecount.get_int());
+		return rotate_left(rotate_count.get_int());
 	}
 
-	// originally operator>>=
-	// rotateRight for String
-	public TitanCharString rotate_right(int rotatecount) {
+	/**
+	 * Creates a new charstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new charstring.
+	 * */
+	public TitanCharString rotate_right(int rotate_count) {
 		must_bound("Unbound charstring operand of rotate right operator.");
 
 		if (val_ptr.length() == 0) {
 			return this;
 		}
-		if (rotatecount >= 0) {
-			rotatecount %= val_ptr.length();
-			if (rotatecount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count %= val_ptr.length();
+			if (rotate_count == 0) {
 				return this;
 			}
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 
-			for (int i = 0; i < rotatecount; i++) {
-				rValue.append(val_ptr.charAt(i + val_ptr.length() - rotatecount));
+			for (int i = 0; i < rotate_count; i++) {
+				rValue.append(val_ptr.charAt(i + val_ptr.length() - rotate_count));
 			}
-			for (int i = rotatecount; i < val_ptr.length(); i++) {
-				rValue.append(val_ptr.charAt(i - rotatecount));
+			for (int i = rotate_count; i < val_ptr.length(); i++) {
+				rValue.append(val_ptr.charAt(i - rotate_count));
 			}
 			return new TitanCharString(rValue);
 		}
-		return rotate_left(-rotatecount);
+		return rotate_left(-rotate_count);
 	}
 
-	// originally operator>>=
-	// rotateRight for TitanInteger
-	public TitanCharString rotate_right(final TitanInteger rotatecount) {
-		rotatecount.must_bound("Unbound integer operand of rotate right operator.");
+	/**
+	 * Creates a new charstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new charstring.
+	 * */
+	public TitanCharString rotate_right(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotate_right(rotatecount.get_int());
+		return rotate_right(rotate_count.get_int());
 	}
 
 	//originally operator[](int)

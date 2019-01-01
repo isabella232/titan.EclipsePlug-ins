@@ -95,7 +95,7 @@ public final class RecordOfGenerator {
 		generateValueoperator_equals( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateValueoperator_assign(aData, source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
-		generateValueRotate( source, genName, ofTypeName, displayName );
+		generateValueRotate(aData, source, genName, ofTypeName, displayName );
 		generateValueCleanup( source );
 		generateValueGetterSetters( aData, source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
@@ -554,6 +554,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate rotate functions
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -564,29 +566,77 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueRotate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateValueRotate(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
-		source.append("\t\t//originally operator<<=\n");
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append( MessageFormat.format( "\t\t * Creates a new {0}, that is the equivalent of the\n", displayName ) );
+			source.append("\t\t * current one with its elements rotated to the left with the provided\n");
+			source.append("\t\t * amount.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<<= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param rotate_count\n");
+			source.append("\t\t *                the number of characters to rotate left.\n");
+			source.append( MessageFormat.format( "\t\t * @return the new {0}.\n", displayName ) );
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} rotate_left(final TitanInteger rotate_count) '{'\n", genName ) );
 		source.append("\t\t\trotate_count.must_bound(\"Unbound integer operand of rotate left operator.\");\n");
 		source.append("\t\t\treturn rotate_left(rotate_count.get_int());\n");
 		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append("\t\t//originally operator<<=\n");
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append( MessageFormat.format( "\t\t * Creates a new {0}, that is the equivalent of the\n", displayName ) );
+			source.append("\t\t * current one with its elements rotated to the left with the provided\n");
+			source.append("\t\t * amount.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<<= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param rotate_count\n");
+			source.append("\t\t *                the number of characters to rotate left.\n");
+			source.append( MessageFormat.format( "\t\t * @return the new {0}.\n", displayName ) );
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} rotate_left(final int rotate_count) '{'\n", genName ) );
 		source.append("\t\t\treturn rotate_right(-rotate_count);\n");
 		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append("\t\t//originally operator>>=\n");
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append( MessageFormat.format( "\t\t * Creates a new {0}, that is the equivalent of the\n", displayName ) );
+			source.append("\t\t * current one with its elements rotated to the right with the provided\n");
+			source.append("\t\t * amount.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<<= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param rotate_count\n");
+			source.append("\t\t *                the number of characters to rotate right.\n");
+			source.append( MessageFormat.format( "\t\t * @return the new {0}.\n", displayName ) );
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} rotate_right(final TitanInteger rotate_count) '{'\n", genName ) );
 		source.append("\t\t\trotate_count.must_bound(\"Unbound integer operand of rotate right operator.\");\n");
 		source.append("\t\t\treturn rotate_right(rotate_count.get_int());\n");
 		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append("\t\t//originally operator>>=\n");
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append( MessageFormat.format( "\t\t * Creates a new {0}, that is the equivalent of the\n", displayName ) );
+			source.append("\t\t * current one with its elements rotated to the right with the provided\n");
+			source.append("\t\t * amount.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator<<= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param rotate_count\n");
+			source.append("\t\t *                the number of characters to rotate right.\n");
+			source.append( MessageFormat.format( "\t\t * @return the new {0}.\n", displayName ) );
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} rotate_right(final int rotate_count) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"Performing rotation operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\t\tfinal int size = valueElements.size();\n");

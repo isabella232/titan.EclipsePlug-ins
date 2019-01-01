@@ -709,73 +709,115 @@ public class TitanOctetString extends Base_Type {
 		return shift_right(otherValue.get_int());
 	}
 
-	// originally operator<<=
-	public TitanOctetString rotate_left(int rotateCount) {
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString rotate_left(int rotate_count) {
 		must_bound("Unbound octetstring operand of rotate left operator.");
 
 		if (val_ptr.length == 0) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount = rotateCount % val_ptr.length;
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count = rotate_count % val_ptr.length;
+			if (rotate_count == 0) {
 				return this;
 			}
 
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
-			for (int i = 0; i < val_ptr.length - rotateCount; i++) {
-				result.val_ptr[i] = val_ptr[i + rotateCount];
+			for (int i = 0; i < val_ptr.length - rotate_count; i++) {
+				result.val_ptr[i] = val_ptr[i + rotate_count];
 			}
-			for (int i = val_ptr.length - rotateCount; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i + rotateCount - val_ptr.length];
+			for (int i = val_ptr.length - rotate_count; i < val_ptr.length; i++) {
+				result.val_ptr[i] = val_ptr[i + rotate_count - val_ptr.length];
 			}
 
 			return result;
 		} else {
-			return rotate_right(-rotateCount);
+			return rotate_right(-rotate_count);
 		}
 	}
 
-	public TitanOctetString rotate_left(final TitanInteger rotateCount) {
-		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString rotate_left(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_left(rotateCount.get_int());
+		return rotate_left(rotate_count.get_int());
 	}
 
-	// originally operator>>=
-	public TitanOctetString rotate_right(int rotateCount) {
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString rotate_right(int rotate_count) {
 		must_bound("Unbound octetstring operand of rotate right operator.");
 
 		if (val_ptr.length == 0) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount = rotateCount % val_ptr.length;
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count = rotate_count % val_ptr.length;
+			if (rotate_count == 0) {
 				return this;
 			}
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
-			if (rotateCount > val_ptr.length) {
-				rotateCount = val_ptr.length;
+			if (rotate_count > val_ptr.length) {
+				rotate_count = val_ptr.length;
 			}
-			for (int i = 0; i < rotateCount; i++) {
-				result.val_ptr[i] = val_ptr[i - rotateCount + val_ptr.length];
+			for (int i = 0; i < rotate_count; i++) {
+				result.val_ptr[i] = val_ptr[i - rotate_count + val_ptr.length];
 			}
-			for (int i = rotateCount; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i - rotateCount];
+			for (int i = rotate_count; i < val_ptr.length; i++) {
+				result.val_ptr[i] = val_ptr[i - rotate_count];
 			}
 			return result;
 		} else {
-			return rotate_left(-rotateCount);
+			return rotate_left(-rotate_count);
 		}
 	}
 
-	public TitanOctetString rotate_right(final TitanInteger rotateCount) {
-		rotateCount.must_bound("Unbound right operand of octetstring rotate left operator.");
+	/**
+	 * Creates a new octetstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new octetstring.
+	 * */
+	public TitanOctetString rotate_right(final TitanInteger rotate_count) {
+		rotate_count.must_bound("Unbound right operand of octetstring rotate left operator.");
 
-		return rotate_right(rotateCount.get_int());
+		return rotate_right(rotate_count.get_int());
 	}
 	
 	@Override

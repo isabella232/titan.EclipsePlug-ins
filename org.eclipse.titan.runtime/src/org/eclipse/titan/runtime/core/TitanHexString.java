@@ -770,32 +770,63 @@ public class TitanHexString extends Base_Type {
 		return this.shift_right(shiftCount.get_int());
 	}
 
-	//originally operator<<=
-	public TitanHexString rotate_left(int rotateCount){
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString rotate_left(int rotate_count){
 		must_bound("Unbound hexstring operand of rotate left operator.");
 
 		if (nibbles_ptr.length == 0) {
 			return this;
 		}
-		if (rotateCount >= 0) {
-			rotateCount %= nibbles_ptr.length;
-			if (rotateCount == 0) {
+		if (rotate_count >= 0) {
+			rotate_count %= nibbles_ptr.length;
+			if (rotate_count == 0) {
 				return this;
 			}
 
-			return this.shift_left(rotateCount).or4b(this.shift_right(nibbles_ptr.length - rotateCount));
+			return this.shift_left(rotate_count).or4b(this.shift_right(nibbles_ptr.length - rotate_count));
 		} else {
-			return this.rotate_right(-rotateCount);
+			return this.rotate_right(-rotate_count);
 		}
 	}
-	//originally operator<<=
-	public TitanHexString rotate_left(final TitanInteger rotateCount){
-		rotateCount.must_bound("Unbound right operand of hexstring rotate left operator.");
 
-		return this.rotate_left(rotateCount.get_int());
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new hexstring.
+	 * */
+	public TitanHexString rotate_left(final TitanInteger rotate_count){
+		rotate_count.must_bound("Unbound right operand of hexstring rotate left operator.");
+
+		return this.rotate_left(rotate_count.get_int());
 	}
 
-	//originally operator>>=
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotatecount
+	 *                the number of characters to rotate right.
+	 * @return the new hexstring.
+	 * */
 	public TitanHexString rotate_right(int rotateCount){
 		must_bound("Unbound hexstring operand of rotate right operator.");
 
@@ -814,7 +845,17 @@ public class TitanHexString extends Base_Type {
 		}
 	}
 
-	//originally operator>>=
+	/**
+	 * Creates a new hexstring, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotatecount
+	 *                the number of characters to rotate right.
+	 * @return the new hexstring.
+	 * */
 	public TitanHexString rotate_right(final TitanInteger rotateCount){
 		rotateCount.must_bound("Unbound right operand of hexstring rotate right operator.");
 
