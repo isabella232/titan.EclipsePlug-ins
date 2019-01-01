@@ -175,7 +175,7 @@ public final class RecordOfGenerator {
 		//generateTemplateMatchv( source, genName );
 
 		generateTemplateSetSize( aData, source, genName, ofTypeName, displayName, isSetOf );
-		generateTemplateNElem( source, genName );
+		generateTemplateNElem( aData, source, genName );
 		generateTemplateIsValue( source, genName );
 		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateListItem( source, genName, displayName );
@@ -2449,20 +2449,31 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on an uninitialized/unsupported template of type "+genName+".\", op_name ) );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, \"a template of type\", \""+ofTypeName+"\"));\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate n_elem function for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                "record of/set of" type.
 	 */
-	private static void generateTemplateNElem(final StringBuilder source, final String genName) {
-		source.append('\n');
+	private static void generateTemplateNElem(final JavaGenData aData,final StringBuilder source, final String genName) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
+			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * n_elem in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the number of elements.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger n_elem() {\n");
 		source.append("\t\t\tswitch (template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
