@@ -1033,6 +1033,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

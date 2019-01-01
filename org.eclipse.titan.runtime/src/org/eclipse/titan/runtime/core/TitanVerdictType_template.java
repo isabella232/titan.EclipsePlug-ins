@@ -474,6 +474,8 @@ public class TitanVerdictType_template extends Base_Template {
 		is_ifPresent = param.get_ifpresent();
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

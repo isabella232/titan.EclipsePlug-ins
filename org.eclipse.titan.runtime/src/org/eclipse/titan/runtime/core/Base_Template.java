@@ -401,6 +401,19 @@ public abstract class Base_Template {
 		return match_omit(false);
 	}
 
+	/**
+	 * Checks if the template can match omit.
+	 *
+	 * In non-legacy mode omit, any or omit templates and templates with
+	 * ifpresent return true. In legacy mode value list and complemented
+	 * list templates can also return true if any or none of their elements
+	 * can match omit.
+	 *
+	 * @param legacy
+	 *                {@code true} to use legacy mode, {@code false}
+	 *                otherwise.
+	 * @return whether the template can match omit.
+	 * */
 	public abstract boolean match_omit(final boolean legacy);
 
 	public abstract void encode_text(final Text_Buf text_buf);

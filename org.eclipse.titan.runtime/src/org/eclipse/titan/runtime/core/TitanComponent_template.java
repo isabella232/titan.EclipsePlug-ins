@@ -311,6 +311,8 @@ public class TitanComponent_template extends Base_Template {
 		return new TitanComponent(single_value);
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

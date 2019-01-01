@@ -957,6 +957,8 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

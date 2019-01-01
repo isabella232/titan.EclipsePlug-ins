@@ -487,6 +487,8 @@ public class TitanInteger_template extends Base_Template {
 		max_is_exclusive = maxExclusive;
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

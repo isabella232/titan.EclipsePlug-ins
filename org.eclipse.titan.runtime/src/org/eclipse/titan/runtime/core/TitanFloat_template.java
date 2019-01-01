@@ -569,6 +569,8 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;

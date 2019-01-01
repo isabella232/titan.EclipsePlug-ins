@@ -499,6 +499,8 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return value_list.get(list_index);
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
