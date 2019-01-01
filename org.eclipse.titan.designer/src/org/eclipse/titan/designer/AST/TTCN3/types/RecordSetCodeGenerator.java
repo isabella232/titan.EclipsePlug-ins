@@ -2834,13 +2834,35 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tbound_flag = true;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the current value to unbound.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param nullValue\n");
+			source.append("\t\t *                the null value.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0} operator_assign( final TitanNull_Type otherValue ) '{'\n", className));
 		source.append("\t\t\tbound_flag = true;\n");
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0} operator_assign( final {0} otherValue ) '{'\n", className));
 		source.append(MessageFormat.format("\t\t\totherValue.must_bound(\"Assignment of an unbound value of type {0}.\");\n", classDisplayname));
 		source.append("\t\t\tbound_flag = true;\n");
@@ -3186,7 +3208,18 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the kind of the template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final template_sel other_value) '{'\n", className));
 		source.append("\t\t\tcheck_single_selection(other_value);\n");
 		source.append("\t\t\tclean_up();\n");
@@ -3194,14 +3227,36 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the template to unbound.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the null value.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final TitanNull_Type other_value) '{'\n", className));
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0} other_value) '{'\n", className));
 		source.append(MessageFormat.format("\t\t\tother_value.must_bound(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
 		source.append("\t\t\tclean_up();\n");
@@ -3209,7 +3264,18 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t//originally operator=\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other template to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the other template to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0}_template other_value) '{'\n", className));
 		source.append("\t\t\tif (other_value != this) {\n");
 		source.append("\t\t\t\tclean_up();\n");
@@ -3234,6 +3300,18 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
 		source.append("\t\t}\n\n");
 
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Optional<{0}> other_value) '{'\n", className));
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tswitch (other_value.get_selection()) {\n");
