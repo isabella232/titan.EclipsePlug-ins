@@ -739,10 +739,13 @@ public final class RecordOfGenerator {
 
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
-			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
-			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t * Returns the number of elements.\n");
+			source.append("\t\t * The value to be returned is the maximum of the minimal length restriction value of the type,\n");
+			source.append("\t\t *  or 0 for types with no minimal length restriction,\n");
+			source.append("\t\t *  and the index of the last initialized element plus 1.\n");
 			source.append("\t\t *\n");
-			source.append("\t\t * size_of in the core\n");
+			source.append("\t\t * size_of in the core.\n");
+			source.append("\t\t * deprecated by the standard.\n");
 			source.append("\t\t *\n");
 			source.append("\t\t * @return the number of elements.\n");
 			source.append("\t\t * */\n");
@@ -754,19 +757,27 @@ public final class RecordOfGenerator {
 
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
-			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
-			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t * Returns the number of elements.\n");
 			source.append("\t\t *\n");
-			source.append("\t\t * n_elem in the core\n");
+			source.append("\t\t * n_elem in the core.\n");
 			source.append("\t\t *\n");
 			source.append("\t\t * @return the number of elements.\n");
 			source.append("\t\t * */\n");
 		}
 		source.append("\t\tpublic TitanInteger n_elem() {\n");
 		source.append("\t\t\treturn size_of();\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
+			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * size_of in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the number of elements.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger lengthof() {\n");
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\t\tfor ( int i = valueElements.size() - 1; i >= 0; i-- ) {\n");
