@@ -174,7 +174,7 @@ public final class RecordOfGenerator {
 		//generateTemplateConcat( source, genName, ofTypeName, displayName );
 		//generateTemplateMatchv( source, genName );
 
-		generateTemplateSetSize( source, genName, ofTypeName, displayName, isSetOf );
+		generateTemplateSetSize( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateNElem( source, genName );
 		generateTemplateIsValue( source, genName );
 		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
@@ -2240,6 +2240,8 @@ public final class RecordOfGenerator {
 	/**
 	 * Generate set_size and sizeof functions for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -2252,8 +2254,8 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateSetSize( final StringBuilder source, final String genName, final String ofTypeName,
-												 final String displayName, final boolean isSetOf ) {
+	private static void generateTemplateSetSize(final JavaGenData aData, final StringBuilder source, final String genName,
+			final String ofTypeName, final String displayName, final boolean isSetOf) {
 		source.append('\n');
 		source.append("\t\tpublic void set_size(final int new_size) {\n");
 		source.append("\t\t\tif (new_size < 0) {\n");
@@ -2286,24 +2288,49 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\t/**\n");
-		source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
-		source.append("\t\t * one and zero for the empty value.\n");
-		source.append("\t\t *\n");
-		source.append("\t\t * size_of in the core\n");
-		source.append("\t\t *\n");
-		source.append("\t\t * @return the number of elements.\n");
-		source.append("\t\t * */\n");
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the number of elements.\n");
+			source.append("\t\t * The value to be returned is the maximum of the minimal length restriction value of the type,\n");
+			source.append("\t\t *  or 0 for types with no minimal length restriction,\n");
+			source.append("\t\t *  and the index of the last initialized element plus 1.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * size_of in the core.\n");
+			source.append("\t\t * deprecated by the standard.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the number of elements.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger size_of() {\n");
 		source.append("\t\t\treturn sizeOf(true);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
+			source.append("\t\t * one and zero for the empty value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * lengthof in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the number of elements.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger lengthof() {\n");
 		source.append("\t\t\treturn sizeOf(false);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * A helper function to reduce code. Based on the parameter it\n");
+			source.append("\t\t * can operate as size_of or lengthof.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param is_size\n");
+			source.append("\t\t *                {@code true} to operate as size_of,\n");
+			source.append("\t\t *                {@code false} otherwise.\n");
+			source.append("\t\t * @return the appriopriate number based on the operation mode\n");
+			source.append("\t\t *         selected.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic TitanInteger sizeOf(final boolean is_size) {\n");
 		source.append("\t\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
 		source.append("\t\t\tif (is_ifPresent) {\n");
