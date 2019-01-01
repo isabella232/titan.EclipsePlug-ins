@@ -795,7 +795,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif ( valueElements == null ) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\t\tvalueElements = new ArrayList<{0}>(newSize);\n", ofTypeName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (newSize > valueElements.size()) {\n");
 		source.append("\t\t\t\tfor ( int i = valueElements.size(); i < newSize; i++ ) {\n");
@@ -2268,7 +2268,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tvalue_elements = null;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (value_elements == null) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements = new ArrayList<{0}>(new_size);\n", ofTypeName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (new_size > value_elements.size()) {\n");
 		source.append("\t\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
