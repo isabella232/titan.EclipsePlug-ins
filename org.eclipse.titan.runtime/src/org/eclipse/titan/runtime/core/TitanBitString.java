@@ -674,7 +674,7 @@ public class TitanBitString extends Base_Type {
 	 * @return the new bitstring.
 	 * */
 	public TitanBitString rotate_left(final TitanInteger rotate_count) {
-		must_bound("Unbound bitstring operand of rotate left operator.");
+		rotate_count.must_bound("Unbound right operand operand of rotate left operator.");
 
 		return this.rotate_left(rotate_count.get_int());
 	}
@@ -720,7 +720,7 @@ public class TitanBitString extends Base_Type {
 	 * @return the new bitstring.
 	 * */
 	public TitanBitString rotate_right(final TitanInteger rotate_count) {
-		must_bound("Unbound bitstring operand of rotate left operator.");
+		rotate_count.must_bound("Unbound right operand operand of rotate left operator.");
 
 		return this.rotate_right(rotate_count.get_int());
 	}
