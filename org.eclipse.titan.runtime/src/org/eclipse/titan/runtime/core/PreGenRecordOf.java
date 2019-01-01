@@ -428,10 +428,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -441,10 +444,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -452,6 +454,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -463,12 +473,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanInteger>();
+				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -1419,7 +1436,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -1431,7 +1455,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanInteger_template>();
+				value_elements = new ArrayList<TitanInteger_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -1452,10 +1476,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -1463,10 +1490,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -1530,6 +1575,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanInteger_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -2271,10 +2324,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -2284,10 +2340,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -2295,6 +2350,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -2306,12 +2369,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanUniversalCharString>();
+				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -3317,7 +3387,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -3329,7 +3406,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				value_elements = new ArrayList<TitanUniversalCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -3350,10 +3427,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -3361,10 +3441,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -3483,6 +3581,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanUniversalCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -4214,10 +4320,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -4227,10 +4336,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -4238,6 +4346,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -4249,12 +4365,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanOctetString>();
+				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -5205,7 +5328,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -5217,7 +5347,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanOctetString_template>();
+				value_elements = new ArrayList<TitanOctetString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -5238,10 +5368,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -5249,10 +5382,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -5316,6 +5467,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanOctetString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -6058,10 +6217,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -6071,10 +6233,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -6082,6 +6243,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -6093,12 +6262,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanFloat>();
+				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -7049,7 +7225,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -7061,7 +7244,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanFloat_template>();
+				value_elements = new ArrayList<TitanFloat_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -7082,10 +7265,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -7093,10 +7279,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -7160,6 +7364,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanFloat_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -7902,10 +8114,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -7915,10 +8130,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -7926,6 +8140,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -7937,12 +8159,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanUniversalCharString>();
+				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -8893,7 +9122,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -8905,7 +9141,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				value_elements = new ArrayList<TitanUniversalCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -8926,10 +9162,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -8937,10 +9176,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -9004,6 +9261,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanUniversalCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -9746,10 +10011,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -9759,10 +10027,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -9770,6 +10037,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -9781,12 +10056,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBitString>();
+				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -10737,7 +11019,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -10749,7 +11038,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBitString_template>();
+				value_elements = new ArrayList<TitanBitString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -10770,10 +11059,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -10781,10 +11073,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -10848,6 +11158,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBitString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -11590,10 +11908,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -11603,10 +11924,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -11614,6 +11934,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -11625,12 +11953,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBoolean>();
+				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -12581,7 +12916,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -12593,7 +12935,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBoolean_template>();
+				value_elements = new ArrayList<TitanBoolean_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -12614,10 +12956,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -12625,10 +12970,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -12692,6 +13055,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBoolean_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -13434,10 +13805,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -13447,10 +13821,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -13458,6 +13831,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -13469,12 +13850,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanCharString>();
+				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -14425,7 +14813,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -14437,7 +14832,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanCharString_template>();
+				value_elements = new ArrayList<TitanCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -14458,10 +14853,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -14469,10 +14867,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -14536,6 +14952,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -15278,10 +15702,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -15291,10 +15718,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -15302,6 +15728,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -15313,12 +15747,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBoolean>();
+				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -16269,7 +16710,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -16281,7 +16729,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBoolean_template>();
+				value_elements = new ArrayList<TitanBoolean_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -16302,10 +16750,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -16313,10 +16764,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -16380,6 +16849,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBoolean_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -17122,10 +17599,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -17135,10 +17615,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -17146,6 +17625,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -17157,12 +17644,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBitString>();
+				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -18113,7 +18607,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -18125,7 +18626,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBitString_template>();
+				value_elements = new ArrayList<TitanBitString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -18146,10 +18647,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -18157,10 +18661,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -18224,6 +18746,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBitString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -18966,10 +19496,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -18979,10 +19512,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -18990,6 +19522,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -19001,12 +19541,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanInteger>();
+				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -19957,7 +20504,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -19969,7 +20523,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanInteger_template>();
+				value_elements = new ArrayList<TitanInteger_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -19990,10 +20544,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -20001,10 +20558,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -20068,6 +20643,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanInteger_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -20809,10 +21392,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -20822,10 +21408,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -20833,6 +21418,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -20844,12 +21437,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanUniversalCharString>();
+				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -21855,7 +22455,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -21867,7 +22474,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				value_elements = new ArrayList<TitanUniversalCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -21888,10 +22495,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -21899,10 +22509,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -22021,6 +22649,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanUniversalCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -22751,10 +23387,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -22764,10 +23403,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -22775,6 +23413,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -22786,12 +23432,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBoolean>();
+				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -23797,7 +24450,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -23809,7 +24469,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBoolean_template>();
+				value_elements = new ArrayList<TitanBoolean_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -23830,10 +24490,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -23841,10 +24504,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -23963,6 +24644,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBoolean_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -24693,10 +25382,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -24706,10 +25398,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -24717,6 +25408,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -24728,12 +25427,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanFloat>();
+				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -25739,7 +26445,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -25751,7 +26464,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanFloat_template>();
+				value_elements = new ArrayList<TitanFloat_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -25772,10 +26485,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -25783,10 +26499,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -25905,6 +26639,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanFloat_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -26635,10 +27377,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -26648,10 +27393,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -26659,6 +27403,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -26670,12 +27422,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanInteger>();
+				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -27681,7 +28440,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -27693,7 +28459,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanInteger_template>();
+				value_elements = new ArrayList<TitanInteger_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -27714,10 +28480,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -27725,10 +28494,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -27847,6 +28634,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanInteger_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -28577,10 +29372,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -28590,10 +29388,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -28601,6 +29398,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -28612,12 +29417,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanCharString>();
+				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -29623,7 +30435,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -29635,7 +30454,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanCharString_template>();
+				value_elements = new ArrayList<TitanCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -29656,10 +30475,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -29667,10 +30489,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -29789,6 +30629,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -30520,10 +31368,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -30533,10 +31384,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -30544,6 +31394,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -30555,12 +31413,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanUniversalCharString>();
+				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -31511,7 +32376,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -31523,7 +32395,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				value_elements = new ArrayList<TitanUniversalCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -31544,10 +32416,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -31555,10 +32430,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -31622,6 +32515,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanUniversalCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -32363,10 +33264,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -32376,10 +33280,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -32387,6 +33290,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -32398,12 +33309,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanHexString>();
+				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -33409,7 +34327,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -33421,7 +34346,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanHexString_template>();
+				value_elements = new ArrayList<TitanHexString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -33442,10 +34367,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -33453,10 +34381,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -33575,6 +34521,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanHexString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -34305,10 +35259,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -34318,10 +35275,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -34329,6 +35285,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -34340,12 +35304,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanHexString>();
+				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -35351,7 +36322,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -35363,7 +36341,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanHexString_template>();
+				value_elements = new ArrayList<TitanHexString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -35384,10 +36362,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -35395,10 +36376,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -35517,6 +36516,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanHexString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -36247,10 +37254,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -36260,10 +37270,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -36271,6 +37280,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -36282,12 +37299,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanOctetString>();
+				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -37293,7 +38317,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -37305,7 +38336,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanOctetString_template>();
+				value_elements = new ArrayList<TitanOctetString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -37326,10 +38357,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -37337,10 +38371,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -37459,6 +38511,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanOctetString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -38189,10 +39249,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -38202,10 +39265,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -38213,6 +39275,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -38224,12 +39294,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanFloat>();
+				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -39235,7 +40312,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -39247,7 +40331,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanFloat_template>();
+				value_elements = new ArrayList<TitanFloat_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -39268,10 +40352,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -39279,10 +40366,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -39401,6 +40506,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanFloat_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -40131,10 +41244,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -40144,10 +41260,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -40155,6 +41270,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -40166,12 +41289,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanInteger>();
+				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -41177,7 +42307,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -41189,7 +42326,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanInteger_template>();
+				value_elements = new ArrayList<TitanInteger_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -41210,10 +42347,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -41221,10 +42361,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -41343,6 +42501,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanInteger_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -42073,10 +43239,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -42086,10 +43255,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -42097,6 +43265,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -42108,12 +43284,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanOctetString>();
+				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -43119,7 +44302,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -43131,7 +44321,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanOctetString_template>();
+				value_elements = new ArrayList<TitanOctetString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -43152,10 +44342,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -43163,10 +44356,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -43285,6 +44496,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanOctetString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -44016,10 +45235,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -44029,10 +45251,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -44040,6 +45261,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -44051,12 +45280,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanOctetString>();
+				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -45007,7 +46243,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -45019,7 +46262,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanOctetString_template>();
+				value_elements = new ArrayList<TitanOctetString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -45040,10 +46283,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -45051,10 +46297,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -45118,6 +46382,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanOctetString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -45860,10 +47132,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -45873,10 +47148,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -45884,6 +47158,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -45895,12 +47177,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanHexString>();
+				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -46851,7 +48140,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -46863,7 +48159,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanHexString_template>();
+				value_elements = new ArrayList<TitanHexString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -46884,10 +48180,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -46895,10 +48194,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -46962,6 +48279,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanHexString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -47703,10 +49028,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -47716,10 +49044,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -47727,6 +49054,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -47738,12 +49073,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanCharString>();
+				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -48749,7 +50091,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -48761,7 +50110,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanCharString_template>();
+				value_elements = new ArrayList<TitanCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -48782,10 +50131,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -48793,10 +50145,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -48915,6 +50285,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -49645,10 +51023,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -49658,10 +51039,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -49669,6 +51049,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -49680,12 +51068,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBitString>();
+				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -50691,7 +52086,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -50703,7 +52105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBitString_template>();
+				value_elements = new ArrayList<TitanBitString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -50724,10 +52126,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -50735,10 +52140,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -50857,6 +52280,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBitString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -51587,10 +53018,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -51600,10 +53034,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -51611,6 +53044,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -51622,12 +53063,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBoolean>();
+				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -52633,7 +54081,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -52645,7 +54100,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBoolean_template>();
+				value_elements = new ArrayList<TitanBoolean_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -52666,10 +54121,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -52677,10 +54135,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -52799,6 +54275,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBoolean_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -53530,10 +55014,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -53543,10 +55030,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -53554,6 +55040,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -53565,12 +55059,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanCharString>();
+				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -54521,7 +56022,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -54533,7 +56041,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanCharString_template>();
+				value_elements = new ArrayList<TitanCharString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -54554,10 +56062,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -54565,10 +56076,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -54632,6 +56161,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanCharString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -55374,10 +56911,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -55387,10 +56927,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -55398,6 +56937,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -55409,12 +56956,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanFloat>();
+				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -56365,7 +57919,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -56377,7 +57938,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanFloat_template>();
+				value_elements = new ArrayList<TitanFloat_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -56398,10 +57959,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -56409,10 +57973,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -56476,6 +58058,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanFloat_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -57217,10 +58807,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -57230,10 +58823,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -57241,6 +58833,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -57252,12 +58852,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanBitString>();
+				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -58263,7 +59870,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -58275,7 +59889,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanBitString_template>();
+				value_elements = new ArrayList<TitanBitString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -58296,10 +59910,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -58307,10 +59924,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -58429,6 +60064,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanBitString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
@@ -59160,10 +60803,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -59173,10 +60819,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
 		 *
-		 * n_elem in the core
+		 * n_elem in the core.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -59184,6 +60829,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return size_of();
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			must_bound("Performing lengthof operation on an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
@@ -59195,12 +60848,19 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(0);
 		}
 
+		/**
+		 * Sets the new size of the value.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int newSize) {
 			if (newSize < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
 			if ( valueElements == null ) {
-				valueElements = new ArrayList<TitanHexString>();
+				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
 			if (newSize > valueElements.size()) {
 				for ( int i = valueElements.size(); i < newSize; i++ ) {
@@ -60151,7 +61811,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
+		/**
+		 * Sets the new size of the template.
+		 * Also makes turns it into a specific value template if not already.
+		 * If the new size is bigger than actual, unbound elements are added to the end.
+		 * If the new size is smaller than actual, excess elements are removed.
+		 *
+		 * @param newSize the new size to be used.
+		 * */
 		public void set_size(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -60163,7 +61830,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				value_elements = null;
 			}
 			if (value_elements == null) {
-				value_elements = new ArrayList<TitanHexString_template>();
+				value_elements = new ArrayList<TitanHexString_template>(new_size);
 			}
 			if (new_size > value_elements.size()) {
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -60184,10 +61851,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		/**
-		 * Returns the number of elements, that is, the largest used index plus
-		 * one and zero for the empty value.
+		 * Returns the number of elements.
+		 * The value to be returned is the maximum of the minimal length restriction value of the type,
+		 *  or 0 for types with no minimal length restriction,
+		 *  and the index of the last initialized element plus 1.
 		 *
-		 * size_of in the core
+		 * size_of in the core.
+		 * deprecated by the standard.
 		 *
 		 * @return the number of elements.
 		 * */
@@ -60195,10 +61865,28 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return sizeOf(true);
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * lengthof in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger lengthof() {
 			return sizeOf(false);
 		}
 
+		/**
+		 * A helper function to reduce code. Based on the parameter it
+		 * can operate as size_of or lengthof.
+		 *
+		 * @param is_size
+		 *                {@code true} to operate as size_of,
+		 *                {@code false} otherwise.
+		 * @return the appriopriate number based on the operation mode
+		 *         selected.
+		 * */
 		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			if (is_ifPresent) {
@@ -60262,6 +61950,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, "a template of type", "TitanHexString_template"));
 		}
 
+		/**
+		 * Returns the number of elements, that is, the largest used index plus
+		 * one and zero for the empty value.
+		 *
+		 * n_elem in the core
+		 *
+		 * @return the number of elements.
+		 * */
 		public TitanInteger n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
