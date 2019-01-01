@@ -734,12 +734,8 @@ public class TitanOctetString extends Base_Type {
 
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
-			for (int i = 0; i < val_ptr.length - rotate_count; i++) {
-				result.val_ptr[i] = val_ptr[i + rotate_count];
-			}
-			for (int i = val_ptr.length - rotate_count; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i + rotate_count - val_ptr.length];
-			}
+			System.arraycopy(val_ptr, rotate_count, result.val_ptr, 0, val_ptr.length - rotate_count);
+			System.arraycopy(val_ptr, 0, result.val_ptr, val_ptr.length - rotate_count, rotate_count);
 
 			return result;
 		} else {
@@ -786,17 +782,16 @@ public class TitanOctetString extends Base_Type {
 			if (rotate_count == 0) {
 				return this;
 			}
+
 			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new char[val_ptr.length];
 			if (rotate_count > val_ptr.length) {
 				rotate_count = val_ptr.length;
 			}
-			for (int i = 0; i < rotate_count; i++) {
-				result.val_ptr[i] = val_ptr[i - rotate_count + val_ptr.length];
-			}
-			for (int i = rotate_count; i < val_ptr.length; i++) {
-				result.val_ptr[i] = val_ptr[i - rotate_count];
-			}
+
+			System.arraycopy(val_ptr, val_ptr.length - rotate_count, result.val_ptr, 0, rotate_count);
+			System.arraycopy(val_ptr, 0, result.val_ptr, rotate_count, val_ptr.length - rotate_count);
+
 			return result;
 		} else {
 			return rotate_left(-rotate_count);
