@@ -773,7 +773,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t * Returns the number of elements, that is, the largest used index plus\n");
 			source.append("\t\t * one and zero for the empty value.\n");
 			source.append("\t\t *\n");
-			source.append("\t\t * size_of in the core\n");
+			source.append("\t\t * lengthof in the core\n");
 			source.append("\t\t *\n");
 			source.append("\t\t * @return the number of elements.\n");
 			source.append("\t\t * */\n");
