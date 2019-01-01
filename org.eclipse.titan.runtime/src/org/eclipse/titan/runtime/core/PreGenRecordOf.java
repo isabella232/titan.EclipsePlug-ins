@@ -2781,12 +2781,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -21317,12 +21319,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -23257,12 +23261,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__BOOLEAN_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BOOLEAN)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__BOOLEAN_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__BOOLEAN)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__BOOLEAN_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__BOOLEAN_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BOOLEAN)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -25197,12 +25203,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__FLOAT__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__FLOAT__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__FLOAT__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__FLOAT__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__FLOAT__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__FLOAT__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__FLOAT__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -27137,12 +27145,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__INTEGER_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__INTEGER)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__INTEGER_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__INTEGER)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__INTEGER_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__INTEGER_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__INTEGER)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -29077,12 +29087,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__CHARSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__CHARSTRING)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__CHARSTRING_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__CHARSTRING)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__CHARSTRING_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__CHARSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__CHARSTRING)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -32861,12 +32873,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__HEXSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__HEXSTRING)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__HEXSTRING_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__HEXSTRING)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__HEXSTRING_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__HEXSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__HEXSTRING)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -34801,12 +34815,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -36741,12 +36757,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__OCTETSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__OCTETSTRING)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__OCTETSTRING_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__OCTETSTRING)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__OCTETSTRING_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__OCTETSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__OCTETSTRING)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -38681,12 +38699,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__FLOAT_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__FLOAT)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__FLOAT_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__FLOAT)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__FLOAT_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__FLOAT_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__FLOAT)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -40621,12 +40641,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__INTEGER__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__INTEGER__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__INTEGER__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__INTEGER__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__INTEGER__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__INTEGER__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__INTEGER__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -42561,12 +42583,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -48189,12 +48213,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -50129,12 +50155,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__BITSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BITSTRING)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__BITSTRING_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__BITSTRING)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__BITSTRING_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__BITSTRING_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BITSTRING)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -52069,12 +52097,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
@@ -57697,12 +57727,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private final log_function_t log_function = new log_function_t() {
 			@Override
 			public void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {
-				if (value_ptr != null && template_ptr != null) {
-					((PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BITSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
-				} else if (value_ptr != null) {
+				if (value_ptr == null) {
+					if (template_ptr != null) {
+						((PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+					}
+				} else if (template_ptr == null) {
 					((PREGEN__SET__OF__BITSTRING__OPTIMIZED)value_ptr).constGet_at(index_value).log();
-				} else if (template_ptr != null) {
-					((PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log();
+				} else {
+					((PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)template_ptr).value_elements.get(index_template).log_match(((PREGEN__SET__OF__BITSTRING__OPTIMIZED)value_ptr).constGet_at(index_value), legacy);
 				}
 			}
 		};
