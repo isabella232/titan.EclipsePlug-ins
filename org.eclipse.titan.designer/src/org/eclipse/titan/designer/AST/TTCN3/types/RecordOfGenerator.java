@@ -2690,7 +2690,9 @@ public final class RecordOfGenerator {
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		aSb.append("\t\t\t\tif (!value_elements.isEmpty()) {\n");
+		aSb.append("\t\t\t\tif (value_elements.isEmpty()) {\n");
+		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ }\");\n");
+		aSb.append("\t\t\t\t} else {\n");
 		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 		aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 		aSb.append("\t\t\t\t\t\tif (elem_count > 0) {\n");
@@ -2709,8 +2711,6 @@ public final class RecordOfGenerator {
 		}
 		aSb.append("\t\t\t\t\t}\n");
 		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
-		aSb.append("\t\t\t\t} else {\n");
-		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ }\");\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t\tbreak;\n");
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");

@@ -829,7 +829,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -1641,7 +1641,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -1656,8 +1658,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -2672,7 +2672,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -3599,7 +3599,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -3608,8 +3610,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -4613,7 +4613,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -5425,7 +5425,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -5440,8 +5442,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -6457,7 +6457,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -7269,7 +7269,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -7284,8 +7286,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -8301,7 +8301,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -9113,7 +9113,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -9128,8 +9130,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -10145,7 +10145,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -10957,7 +10957,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -10972,8 +10974,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -11989,7 +11989,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -12801,7 +12801,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -12816,8 +12818,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -13833,7 +13833,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -14645,7 +14645,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -14660,8 +14662,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -15677,7 +15677,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -16489,7 +16489,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -16504,8 +16506,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -17521,7 +17521,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -18333,7 +18333,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -18348,8 +18350,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -19365,7 +19365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -20177,7 +20177,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -20192,8 +20194,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -21208,7 +21208,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -22135,7 +22135,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -22144,8 +22146,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -23148,7 +23148,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -24075,7 +24075,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -24084,8 +24086,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -25088,7 +25088,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -26015,7 +26015,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -26024,8 +26026,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -27028,7 +27028,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -27955,7 +27955,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -27964,8 +27966,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -28968,7 +28968,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -29895,7 +29895,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -29904,8 +29906,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -30909,7 +30909,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -31721,7 +31721,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -31736,8 +31738,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -32752,7 +32752,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -33679,7 +33679,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -33688,8 +33690,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -34692,7 +34692,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -35619,7 +35619,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -35628,8 +35630,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -36632,7 +36632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -37559,7 +37559,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -37568,8 +37570,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -38572,7 +38572,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -39499,7 +39499,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -39508,8 +39510,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -40512,7 +40512,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -41439,7 +41439,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -41448,8 +41450,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -42452,7 +42452,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -43379,7 +43379,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -43388,8 +43390,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -44393,7 +44393,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -45205,7 +45205,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -45220,8 +45222,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -46237,7 +46237,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -47049,7 +47049,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -47064,8 +47066,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -48080,7 +48080,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -49007,7 +49007,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -49016,8 +49018,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -50020,7 +50020,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -50947,7 +50947,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -50956,8 +50958,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -51960,7 +51960,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -52887,7 +52887,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -52896,8 +52898,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -53901,7 +53901,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -54713,7 +54713,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -54728,8 +54730,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -55745,7 +55745,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -56557,7 +56557,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -56572,8 +56574,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -57588,7 +57588,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -58515,7 +58515,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -58524,8 +58526,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						value_elements.get(elem_count).log();
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
@@ -59529,7 +59529,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		/** {@inheritDoc} */
 		public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 			int encoded_length = 0;
-			final int encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();
+			final int encoded_num_of_records = p_td.raw.fieldlength == 0 ? valueElements.size() : Math.min(valueElements.size(), p_td.raw.fieldlength);
 			myleaf.isleaf = false;
 			myleaf.rec_of = true;
 			myleaf.num_of_nodes = encoded_num_of_records;
@@ -60341,7 +60341,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void log() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				if (!value_elements.isEmpty()) {
+				if (value_elements.isEmpty()) {
+					TTCN_Logger.log_event_str("{ }");
+				} else {
 					TTCN_Logger.log_event_str("{ ");
 					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 						if (elem_count > 0) {
@@ -60356,8 +60358,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 						}
 					}
 					TTCN_Logger.log_event_str(" }");
-				} else {
-					TTCN_Logger.log_event_str("{ }");
 				}
 				break;
 			case COMPLEMENTED_LIST:
