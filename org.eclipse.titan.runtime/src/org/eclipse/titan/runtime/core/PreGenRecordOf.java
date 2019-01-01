@@ -1468,9 +1468,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -3419,9 +3418,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -5360,9 +5358,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -7257,9 +7254,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -9154,9 +9150,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -11051,9 +11046,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -12948,9 +12942,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -14845,9 +14838,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -16742,9 +16734,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -18639,9 +18630,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -20536,9 +20526,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -22487,9 +22476,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -24482,9 +24470,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -26477,9 +26464,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -28472,9 +28458,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -30467,9 +30452,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -32408,9 +32392,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -34359,9 +34342,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -36354,9 +36336,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -38349,9 +38330,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -40344,9 +40324,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -42339,9 +42318,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -44334,9 +44312,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -46275,9 +46252,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -48172,9 +48148,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -50123,9 +50098,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -52118,9 +52092,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -54113,9 +54086,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -56054,9 +56026,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -57951,9 +57922,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -59902,9 +59872,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
@@ -61843,9 +61812,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 				}
 			} else if (new_size < value_elements.size()) {
-				final int oldSize = value_elements.size();
-				for (int elem_count = new_size; elem_count < oldSize; elem_count++) {
-					value_elements.remove( new_size );
+				while(value_elements.size() > new_size) {
+					value_elements.remove(value_elements.size()-1);
 				}
 			}
 		}
