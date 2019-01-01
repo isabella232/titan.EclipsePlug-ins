@@ -29,7 +29,7 @@ public final class Usage_Stats {
 	}
 
 	private static StringBuilder collectSystemData() {
-		final StringBuilder urlparameters = new StringBuilder();
+		final StringBuilder urlparameters = new StringBuilder(400);
 
 		urlparameters.append("plugin_id=").append("org.eclipse.titan.runtime");
 		//does not really know yet how to add the full qualifier, without depending on eclipse
