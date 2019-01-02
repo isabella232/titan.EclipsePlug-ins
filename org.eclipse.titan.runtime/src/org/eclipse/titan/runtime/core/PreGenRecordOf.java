@@ -3494,8 +3494,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanUniversalCharString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanUniversalCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
@@ -3504,6 +3511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -4040,7 +4048,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -23142,8 +23150,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanUniversalCharString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanUniversalCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
@@ -23152,6 +23167,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -23688,7 +23704,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -25195,8 +25211,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanBoolean_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanBoolean_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
@@ -25205,6 +25228,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -25741,7 +25765,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -27248,8 +27272,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanFloat_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanFloat_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
@@ -27258,6 +27289,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -27794,7 +27826,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -29301,8 +29333,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanInteger_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanInteger_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
@@ -29311,6 +29350,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -29847,7 +29887,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -31354,8 +31394,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanCharString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
@@ -31364,6 +31411,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -31900,7 +31948,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -35362,8 +35410,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanHexString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanHexString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
@@ -35372,6 +35427,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -35908,7 +35964,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -37415,8 +37471,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanHexString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanHexString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
@@ -37425,6 +37488,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -37961,7 +38025,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -39468,8 +39532,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanOctetString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanOctetString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
@@ -39478,6 +39549,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -40014,7 +40086,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -41521,8 +41593,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanFloat_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanFloat_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
@@ -41531,6 +41610,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -42067,7 +42147,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -43574,8 +43654,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanInteger_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanInteger_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
@@ -43584,6 +43671,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -44120,7 +44208,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -45627,8 +45715,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanOctetString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanOctetString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
@@ -45637,6 +45732,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -46173,7 +46269,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -51590,8 +51686,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanCharString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
@@ -51600,6 +51703,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -52136,7 +52240,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -53643,8 +53747,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanBitString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanBitString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
@@ -53653,6 +53764,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -54189,7 +54301,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -55696,8 +55808,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanBoolean_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanBoolean_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
@@ -55706,6 +55825,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -56242,7 +56362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:
@@ -61659,8 +61779,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
-
-		public TitanBitString_template setItem(final int set_index) {
+		/**
+		 * Internal function for setting an element of a superset of
+		 * subset template.
+		 *
+		 * @param set_index
+		 *                the index of the element to use.
+		 * @return the element at the specified position.
+		 * */
+		public TitanBitString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
@@ -61669,6 +61796,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.get(set_index);
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -62205,7 +62333,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case MP_Subset_Template:
 				set_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());
 				for (int i = 0; i < param.get_size(); i++) {
-					setItem(i).set_param(param.get_elem(i));
+					set_item(i).set_param(param.get_elem(i));
 				}
 				break;
 			default:

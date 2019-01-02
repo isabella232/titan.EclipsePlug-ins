@@ -165,7 +165,7 @@ public final class RecordOfGenerator {
 		generateTemplateReplace( aData, source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
 		if ( isSetOf ) {
-			generateTemplateGetterSettersSetOf( source, genName, ofTypeName, displayName );
+			generateTemplateGetterSettersSetOf( aData, source, genName, ofTypeName, displayName );
 		}
 
 		//TODO only need to be generated in runtime2 or to support template concatenation
@@ -2188,12 +2188,14 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		source.append("\t\t\treturn constGet_at(index_value.get_int());\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate getter and setter functions for template ONLY for set of
 	 *
+	 * @param aData
+	 *                only used to update imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -2204,9 +2206,18 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateGetterSettersSetOf(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
-		source.append('\n');
-		source.append( MessageFormat.format( "\t\tpublic {0} setItem(final int set_index) '{'\n", ofTypeName ) );
+	private static void generateTemplateGetterSettersSetOf(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function for setting an element of a superset of\n");
+			source.append("\t\t * subset template.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param set_index\n");
+			source.append("\t\t *                the index of the element to use.\n");
+			source.append("\t\t * @return the element at the specified position.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0} set_item(final int set_index) '{'\n", ofTypeName ) );
 		source.append("\t\t\tif (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
@@ -2214,7 +2225,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Index overflow in a set template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn set_items.get(set_index);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -3143,7 +3154,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\tcase MP_Subset_Template:\n");
 			aSb.append("\t\t\t\tset_type(param.get_type() == Module_Parameter.type_t.MP_Superset_Template ? template_sel.SUPERSET_MATCH : template_sel.SUBSET_MATCH, param.get_size());\n");
 			aSb.append("\t\t\t\tfor (int i = 0; i < param.get_size(); i++) {\n");
-			aSb.append("\t\t\t\t\tsetItem(i).set_param(param.get_elem(i));\n");
+			aSb.append("\t\t\t\t\tset_item(i).set_param(param.get_elem(i));\n");
 			aSb.append("\t\t\t\t}\n");
 			aSb.append("\t\t\t\tbreak;\n");
 		} else {
