@@ -265,7 +265,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED concatenation.");
@@ -286,7 +295,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__INTEGER__OPTIMIZED(this);
 		}
 
@@ -2200,7 +2219,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_concatenate(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING concatenation.");
@@ -2221,7 +2249,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__UNIVERSAL__CHARSTRING(this);
 		}
 
@@ -4235,7 +4273,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED concatenation.");
@@ -4256,7 +4303,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED(this);
 		}
 
@@ -6171,7 +6228,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT operator_concatenate(final PREGEN__RECORD__OF__FLOAT other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT concatenation.");
@@ -6192,7 +6258,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__FLOAT operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__FLOAT operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__FLOAT(this);
 		}
 
@@ -8107,7 +8183,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_concatenate(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING concatenation.");
@@ -8128,7 +8213,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING(this);
 		}
 
@@ -10043,7 +10138,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING operator_concatenate(final PREGEN__RECORD__OF__BITSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING concatenation.");
@@ -10064,7 +10168,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__BITSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__BITSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__BITSTRING(this);
 		}
 
@@ -11979,7 +12093,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED concatenation.");
@@ -12000,7 +12123,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED(this);
 		}
 
@@ -13915,7 +14048,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING operator_concatenate(final PREGEN__RECORD__OF__CHARSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING concatenation.");
@@ -13936,7 +14078,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__CHARSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__CHARSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__CHARSTRING(this);
 		}
 
@@ -15851,7 +16003,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN operator_concatenate(final PREGEN__RECORD__OF__BOOLEAN other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN concatenation.");
@@ -15872,7 +16033,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__BOOLEAN operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__BOOLEAN operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__BOOLEAN(this);
 		}
 
@@ -17787,7 +17958,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED concatenation.");
@@ -17808,7 +17988,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED(this);
 		}
 
@@ -19723,7 +19913,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER operator_concatenate(final PREGEN__RECORD__OF__INTEGER other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER concatenation.");
@@ -19744,7 +19943,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__INTEGER operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__INTEGER operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__INTEGER(this);
 		}
 
@@ -21658,7 +21867,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED concatenation.");
@@ -21679,7 +21897,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(this);
 		}
 
@@ -23692,7 +23920,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN operator_concatenate(final PREGEN__SET__OF__BOOLEAN other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN concatenation.");
@@ -23713,7 +23950,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__BOOLEAN operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__BOOLEAN operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__BOOLEAN(this);
 		}
 
@@ -25726,7 +25973,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED concatenation.");
@@ -25747,7 +26003,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__FLOAT__OPTIMIZED(this);
 		}
 
@@ -27760,7 +28026,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__INTEGER operator_concatenate(final PREGEN__SET__OF__INTEGER other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_INTEGER concatenation.");
@@ -27781,7 +28056,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__INTEGER operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__INTEGER operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__INTEGER(this);
 		}
 
@@ -29794,7 +30079,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING operator_concatenate(final PREGEN__SET__OF__CHARSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING concatenation.");
@@ -29815,7 +30109,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__CHARSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__CHARSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__CHARSTRING(this);
 		}
 
@@ -31829,7 +32133,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED concatenation.");
@@ -31850,7 +32163,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(this);
 		}
 
@@ -33764,7 +34087,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING operator_concatenate(final PREGEN__SET__OF__HEXSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING concatenation.");
@@ -33785,7 +34117,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__HEXSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__HEXSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__HEXSTRING(this);
 		}
 
@@ -35798,7 +36140,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED concatenation.");
@@ -35819,7 +36170,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__HEXSTRING__OPTIMIZED(this);
 		}
 
@@ -37832,7 +38193,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING operator_concatenate(final PREGEN__SET__OF__OCTETSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING concatenation.");
@@ -37853,7 +38223,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__OCTETSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__OCTETSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__OCTETSTRING(this);
 		}
 
@@ -39866,7 +40246,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__FLOAT operator_concatenate(final PREGEN__SET__OF__FLOAT other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_FLOAT concatenation.");
@@ -39887,7 +40276,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__FLOAT operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__FLOAT operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__FLOAT(this);
 		}
 
@@ -41900,7 +42299,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED concatenation.");
@@ -41921,7 +42329,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__INTEGER__OPTIMIZED(this);
 		}
 
@@ -43934,7 +44352,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED concatenation.");
@@ -43955,7 +44382,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED(this);
 		}
 
@@ -45969,7 +46406,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING operator_concatenate(final PREGEN__RECORD__OF__OCTETSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING concatenation.");
@@ -45990,7 +46436,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__OCTETSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__OCTETSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__OCTETSTRING(this);
 		}
 
@@ -47905,7 +48361,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING operator_concatenate(final PREGEN__RECORD__OF__HEXSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING concatenation.");
@@ -47926,7 +48391,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__HEXSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__HEXSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__HEXSTRING(this);
 		}
 
@@ -49840,7 +50315,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED concatenation.");
@@ -49861,7 +50345,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__CHARSTRING__OPTIMIZED(this);
 		}
 
@@ -51874,7 +52368,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING operator_concatenate(final PREGEN__SET__OF__BITSTRING other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BITSTRING concatenation.");
@@ -51895,7 +52398,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__BITSTRING operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__BITSTRING operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__BITSTRING(this);
 		}
 
@@ -53908,7 +54421,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED concatenation.");
@@ -53929,7 +54451,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__BOOLEAN__OPTIMIZED(this);
 		}
 
@@ -55943,7 +56475,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED concatenation.");
@@ -55964,7 +56505,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED(this);
 		}
 
@@ -57879,7 +58430,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED concatenation.");
@@ -57900,7 +58460,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__FLOAT__OPTIMIZED(this);
 		}
 
@@ -59814,7 +60384,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_concatenate(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED concatenation.");
@@ -59835,7 +60414,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__SET__OF__BITSTRING__OPTIMIZED(this);
 		}
 
@@ -61849,7 +62438,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
-		//originally operator+
+		/**
+		 * Concatenates the current record/set of with the other received as a
+		 * parameter.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param other_value
+		 *                the other value to concatenate with.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_concatenate(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value) {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED concatenation.");
@@ -61870,7 +62468,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ret_val;
 		}
 
-		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type nullValue) {
+		/**
+		 * Concatenates the current record/set of with a zero length list.
+		 * Effectively creates a copy of the actual record/set of value.
+		 *
+		 * operator+ in the core.
+		 *
+		 * @param null_value
+		 *                used only to indicate concatenation with an empty list.
+		 * @return the new record/set of representing the concatenated value.
+		 * */
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_concatenate(final TitanNull_Type null_value) {
 			return new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED(this);
 		}
 
