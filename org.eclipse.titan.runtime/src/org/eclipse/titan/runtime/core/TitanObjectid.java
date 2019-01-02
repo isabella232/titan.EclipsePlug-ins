@@ -148,7 +148,17 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr != null;
 	}
 
-	// originally operator[]
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
 	public final TitanInteger constGet_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
@@ -174,14 +184,33 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr.get(index_value);
 	}
 
-	// originally operator[]
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
 	public final TitanInteger constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
 		return constGet_at(index_value.get_int());
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the objectid.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
 	public TitanInteger get_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
@@ -207,7 +236,16 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr.get(index_value);
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the objectid.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
 	public TitanInteger get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 

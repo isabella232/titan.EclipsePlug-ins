@@ -535,7 +535,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	/**
 	 * Gives read-only access to the given element.
 	 *
-	 * Index overflow causes dynamic test case error.
+	 * Index underflow and overflow causes dynamic test case error.
 	 * Also if the template is not a specific value template
 	 *
 	 * const operator[] const in the core.
@@ -566,7 +566,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	/**
 	 * Gives read-only access to the given element.
 	 *
-	 * Index overflow causes dynamic test case error.
+	 * Index underflow and overflow causes dynamic test case error.
 	 * Also if the template is not a specific value template
 	 *
 	 * const operator[] const in the core.

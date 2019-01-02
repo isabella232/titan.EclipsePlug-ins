@@ -329,7 +329,17 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		set_selection(otherValue);
 	}
 
-	// originally operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the hexstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this hexstring
+	 * */
 	public TitanHexString_Element get_at(final int index_value) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
@@ -338,14 +348,35 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return single_value.get_at(index_value);
 	}
 
-	// originally operator[](const INTEGER&)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the hexstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this hexstring
+	 * */
 	public TitanHexString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 
 		return get_at(index_value.get_int());
 	}
 
-	// originally operator[](int) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this hexstring
+	 * */
 	public TitanHexString_Element constGet_at(final int index_value) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
@@ -354,7 +385,18 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return single_value.constGet_at(index_value);
 	}
 
-	// originally operator[](const INTEGER&) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this hexstring
+	 * */
 	public TitanHexString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a hexstring template with an unbound integer value.");
 

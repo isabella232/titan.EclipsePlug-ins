@@ -431,7 +431,17 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		set_selection(otherValue);
 	}
 
-	// originally operator[](int index_value)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the universal charstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this universal charstring
+	 * */
 	public TitanUniversalCharString_Element get_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
@@ -440,13 +450,35 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return single_value.get_at(index);
 	}
 
-	// originally operator[](const INTEGER& index_value)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the universal charstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this universal charstring
+	 * */
 	public TitanUniversalCharString_Element get_at(final TitanInteger index) {
 		index.must_bound("Indexing a universal charstring template with an unbound integer value.");
 
 		return get_at(index.get_int());
 	}
 
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this universal charstring
+	 * */
 	public TitanUniversalCharString_Element constGet_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
@@ -455,7 +487,18 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return single_value.constGet_at(index);
 	}
 
-	// originally operator[](const INTEGER& index_value)
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this universal charstring
+	 * */
 	public TitanUniversalCharString_Element constGet_at(final TitanInteger index) {
 		index.must_bound("Indexing a universal charstring template with an unbound integer value.");
 

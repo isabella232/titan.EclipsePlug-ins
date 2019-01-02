@@ -300,7 +300,17 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		set_selection(otherValue);
 	}
 
-	// originally operator[](int index_value)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the charstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element get_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a charstring element of a non-specific charstring template.");
@@ -309,19 +319,53 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return single_value.get_at(index);
 	}
 
-	// originally operator[](const INTEGER&) const
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the charstring.
+	 *
+	 * Causes dynamic testcase error if the template is not a specific value.
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring template with an unbound integer value.");
 
 		return get_at(index_value.get_int());
 	}
 
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring template with an unbound integer value.");
 
 		return constGet_at(index_value.get_int());
 	}
 
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element constGet_at(final int index) {
 		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a charstring element of a non-specific charstring template.");

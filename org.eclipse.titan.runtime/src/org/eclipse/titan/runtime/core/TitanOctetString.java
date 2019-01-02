@@ -294,7 +294,16 @@ public class TitanOctetString extends Base_Type {
 		val_ptr = null;
 	}
 
-	// originally operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the octetstring.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this octetstring
+	 * */
 	public TitanOctetString_Element get_at(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new char[1];
@@ -322,14 +331,33 @@ public class TitanOctetString extends Base_Type {
 		}
 	}
 
-	//originally operator[](const INTEGER&)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the octetstring.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this octetstring
+	 * */
 	public TitanOctetString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring value with an unbound integer value.");
 
 		return get_at(index_value.get_int());
 	}
 
-	// originally operator[](int) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this octetstring
+	 * */
 	public final TitanOctetString_Element constGet_at(final int index_value) {
 		must_bound("Accessing an element of an unbound octetstring value.");
 
@@ -345,7 +373,17 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString_Element(true, this, index_value);
 	}
 
-	// originally operator[](const INTEGER&) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this octetstring
+	 * */
 	public final TitanOctetString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a octetstring value with an unbound integer value.");
 

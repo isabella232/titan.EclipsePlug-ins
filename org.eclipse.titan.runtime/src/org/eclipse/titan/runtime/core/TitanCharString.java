@@ -697,7 +697,16 @@ public class TitanCharString extends Base_Type {
 		return rotate_right(rotate_count.get_int());
 	}
 
-	//originally operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the charstring.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this bitstring
+	 * */
 	public TitanCharString_Element get_at(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new StringBuilder();
@@ -723,14 +732,33 @@ public class TitanCharString extends Base_Type {
 		}
 	}
 
-	// originally operator[](const INTEGER&)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the charstring.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element get_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring value with an unbound integer value.");
 
 		return get_at(index_value.get_int());
 	}
 
-	// originally operator[](int) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element constGet_at(final int index_value) {
 		must_bound("Accessing an element of an unbound charstring value.");
 
@@ -747,7 +775,17 @@ public class TitanCharString extends Base_Type {
 		return new TitanCharString_Element(true, this, index_value);
 	}
 
-	// originally operator[](const INTEGER&) const
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this charstring
+	 * */
 	public TitanCharString_Element constGet_at(final TitanInteger index_value) {
 		index_value.must_bound("Indexing a charstring value with an unbound integer value.");
 
