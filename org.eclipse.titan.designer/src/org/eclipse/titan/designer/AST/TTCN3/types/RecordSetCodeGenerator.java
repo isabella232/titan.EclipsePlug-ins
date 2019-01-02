@@ -242,7 +242,7 @@ public final class RecordSetCodeGenerator {
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
 		generateTemplateConstructors( aData, source, className, classDisplayName );
 		generateTemplateoperator_assign( aData, source, className, classDisplayName );
-		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
+		generateTemplateCopyTemplate( aData, source, fieldInfos, className, classDisplayName );
 		generateTemplateSetType( source, className, classDisplayName );
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsPresent( source );
@@ -2070,12 +2070,14 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn this;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate the copyTemplate function for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param aNamesList
@@ -2086,8 +2088,16 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
-		source.append('\n');
+	private static void generateTemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided value into this template.\n");
+			source.append("\t\t * The template becomes a specific value template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\t\tif (other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
@@ -2105,9 +2115,16 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided template into this template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");

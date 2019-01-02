@@ -132,7 +132,7 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
-		generateValueCopyValue(source, genName, displayName, fieldInfos);
+		generateValueCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateValueoperator_assign(aData, source, genName, displayName, fieldInfos);
 		generateValueCleanup(source, fieldInfos);
 		generateValueIsChosen(aData, source, displayName);
@@ -268,6 +268,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate the copy_value function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -278,21 +280,30 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
-		source.append(MessageFormat.format("\t\tprivate void copy_value(final {0} otherValue) '{'\n", genName));
+	private static void generateValueCopyValue(final JavaGenData aData,final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided value into this template.\n");
+			source.append("\t\t * The template becomes a specific value template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append(MessageFormat.format("\t\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		if (!fieldInfos.isEmpty()) {
-			source.append("\t\t\tswitch (otherValue.union_selection){\n");
+			source.append("\t\t\tswitch (other_value.union_selection){\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("\t\t\t\tfield = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\tfield = new {0}(({0})other_value.field);\n", fieldInfo.mJavaTypeName));
 				source.append("\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\tdefault:\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assignment of an unbound union value of type {0}.\");\n", displayName));
 			source.append("\t\t\t}\n");
 		}
-		source.append("\t\t\tunion_selection = otherValue.union_selection;\n");
+		source.append("\t\t\tunion_selection = other_value.union_selection;\n");
 		source.append("\t\t}\n\n");
 	}
 
@@ -1179,6 +1190,15 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided value into this template.\n");
+			source.append("\t\t * The template becomes a specific value template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append(MessageFormat.format("\t\tprivate void copy_value(final {0} other_value) '{'\n", genName));
 		source.append("\t\t\tsingle_value_union_selection = other_value.get_selection();\n");
 		if (!fieldInfos.isEmpty()) {
@@ -1194,8 +1214,16 @@ public final class UnionGenerator {
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided template into this template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append(MessageFormat.format("\t\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");

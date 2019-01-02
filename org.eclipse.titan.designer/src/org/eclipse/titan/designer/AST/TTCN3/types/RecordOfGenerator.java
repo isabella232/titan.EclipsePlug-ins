@@ -157,7 +157,7 @@ public final class RecordOfGenerator {
 			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
 		}
 		generateTemplateConstructors( aData, source, genName, ofTypeName, displayName );
-		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
+		generateTemplateCopyTemplate( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
 		generateTemplateoperator_assign(aData, source, genName, displayName );
@@ -1600,12 +1600,14 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic {0}_template( final TitanNull_Type nullValue ) '{'\n", genName ) );
 		source.append("\t\t\tsuper( template_sel.SPECIFIC_VALUE );\n");
 		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate the copyTemplate function for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -1618,10 +1620,17 @@ public final class RecordOfGenerator {
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName,
+	private static void generateTemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName,
 													  final String displayName, final boolean isSetOf ) {
-
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided value into this template.\n");
+			source.append("\t\t * The template becomes a specific value template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tprotected void copy_value(final {0} other_value) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tother_value.must_bound(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
@@ -1634,9 +1643,16 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided template into this template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tprivate void copy_template(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\t\tswitch (other_value.template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
