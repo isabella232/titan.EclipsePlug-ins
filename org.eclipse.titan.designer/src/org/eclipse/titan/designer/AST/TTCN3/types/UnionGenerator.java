@@ -130,7 +130,7 @@ public final class UnionGenerator {
 		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", genName));
-		generateValueDeclaration(source, genName, fieldInfos);
+		generateValueDeclaration(aData, source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateValueoperator_assign(aData, source, genName, displayName, fieldInfos);
@@ -206,6 +206,8 @@ public final class UnionGenerator {
 	/**
 	 * Generate member variables
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -214,7 +216,15 @@ public final class UnionGenerator {
 	 * @param fieldInfos
 	 *                the list of information about the fields.
 	 * */
-	private static void generateValueDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueDeclaration(final JavaGenData aData, final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Indicates the state/selection of this union kind.\n");
+			source.append("\t\t * When union_selection is UNBOUND_VALUE, the union is unbound.\n");
+			source.append("\t\t * When union_selection is any other enumeration,\n");
+			source.append("\t\t * the appropriate field is selected.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic enum union_selection_type { UNBOUND_VALUE");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			source.append(", ");
