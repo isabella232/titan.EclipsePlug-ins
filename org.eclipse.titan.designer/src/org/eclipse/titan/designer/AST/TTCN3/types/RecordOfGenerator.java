@@ -179,7 +179,7 @@ public final class RecordOfGenerator {
 		generateTemplateIsValue( source, genName );
 		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateListItem( source, genName, displayName );
-		generateTemplateGetListItem( source, genName, displayName );
+		generateTemplateGetListItem( aData, source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateSubstr( aData, source, genName );
 		generateTemplateLog( aData, source, genName, displayName, isSetOf );
@@ -2747,12 +2747,14 @@ public final class RecordOfGenerator {
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn list_value.get(list_index);\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate get_list_item function for template
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -2761,8 +2763,20 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateGetListItem(final StringBuilder source, final String genName, final String displayName) {
-		source.append('\n');
+	private static void generateTemplateGetListItem(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Accessor for list items of value list and complemented list\n");
+			source.append("\t\t * templates.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * Underflow and overflow results in dynamic testcase\n");
+			source.append("\t\t * error. list_item in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param list_index\n");
+			source.append("\t\t *                the index of the list item.\n");
+			source.append("\t\t * @return the list item at the provided index.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0}_template get_list_item(final int list_index) '{'\n", genName ) );
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
