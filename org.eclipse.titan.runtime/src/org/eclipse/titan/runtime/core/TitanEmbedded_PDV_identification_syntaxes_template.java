@@ -172,6 +172,13 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		return this;
 	}
 
+	/**
+	 * Internal function to copy the provided value into this template.
+	 * The template becomes a specific value template.
+	 * The already existing content is overwritten.
+	 *
+	 * @param other_value the value to be copied.
+	 * */
 	private void copy_value(final TitanEmbedded_PDV_identification_syntaxes other_value) {
 		if (other_value.get_field_abstract_().is_bound()) {
 			get_field_abstract_().operator_assign(other_value.get_field_abstract_());
@@ -186,6 +193,12 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
+	/**
+	 * Internal function to copy the provided template into this template.
+	 * The already existing content is overwritten.
+	 *
+	 * @param other_value the value to be copied.
+	 * */
 	private void copy_template(final TitanEmbedded_PDV_identification_syntaxes_template other_value) {
 		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:

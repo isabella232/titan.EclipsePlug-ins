@@ -45,30 +45,37 @@ public class TitanCharacter_String_identification extends Base_Type {
 		copy_value(otherValue);
 	};
 
-	private void copy_value(final TitanCharacter_String_identification otherValue) {
-		switch (otherValue.union_selection){
+	/**
+	 * Internal function to copy the provided value into this template.
+	 * The template becomes a specific value template.
+	 * The already existing content is overwritten.
+	 *
+	 * @param other_value the value to be copied.
+	 * */
+	private void copy_value(final TitanCharacter_String_identification other_value) {
+		switch (other_value.union_selection){
 		case ALT_syntaxes:
-			field = new TitanCharacter_String_identification_syntaxes((TitanCharacter_String_identification_syntaxes)otherValue.field);
+			field = new TitanCharacter_String_identification_syntaxes((TitanCharacter_String_identification_syntaxes)other_value.field);
 			break;
 		case ALT_syntax:
-			field = new TitanObjectid((TitanObjectid)otherValue.field);
+			field = new TitanObjectid((TitanObjectid)other_value.field);
 			break;
 		case ALT_presentation__context__id:
-			field = new TitanInteger((TitanInteger)otherValue.field);
+			field = new TitanInteger((TitanInteger)other_value.field);
 			break;
 		case ALT_context__negotiation:
-			field = new TitanCharacter_String_identification_context__negotiation((TitanCharacter_String_identification_context__negotiation)otherValue.field);
+			field = new TitanCharacter_String_identification_context__negotiation((TitanCharacter_String_identification_context__negotiation)other_value.field);
 			break;
 		case ALT_transfer__syntax:
-			field = new TitanObjectid((TitanObjectid)otherValue.field);
+			field = new TitanObjectid((TitanObjectid)other_value.field);
 			break;
 		case ALT_fixed:
-			field = new TitanAsn_Null((TitanAsn_Null)otherValue.field);
+			field = new TitanAsn_Null((TitanAsn_Null)other_value.field);
 			break;
 		default:
 			throw new TtcnError("Assignment of an unbound union value of type CHARACTER STRING.identification.");
 		}
-		union_selection = otherValue.union_selection;
+		union_selection = other_value.union_selection;
 	}
 
 	/**

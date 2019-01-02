@@ -26,6 +26,13 @@ public class TitanExternal_identification_template extends Base_Template {
 	// value_list part
 	private ArrayList<TitanExternal_identification_template> value_list;
 
+	/**
+	 * Internal function to copy the provided value into this template.
+	 * The template becomes a specific value template.
+	 * The already existing content is overwritten.
+	 *
+	 * @param other_value the value to be copied.
+	 * */
 	private void copy_value(final TitanExternal_identification other_value) {
 		single_value_union_selection = other_value.get_selection();
 		switch (other_value.get_selection()) {
@@ -52,6 +59,13 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
+
+	/**
+	 * Internal function to copy the provided template into this template.
+	 * The already existing content is overwritten.
+	 *
+	 * @param other_value the value to be copied.
+	 * */
 	private void copy_template(final TitanExternal_identification_template other_value) {
 		switch (other_value.template_selection) {
 		case SPECIFIC_VALUE:

@@ -1073,6 +1073,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
@@ -1087,6 +1094,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -1495,6 +1508,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -1705,6 +1719,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -3053,6 +3078,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
@@ -3067,6 +3099,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -3494,6 +3532,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -3784,6 +3823,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -5089,6 +5139,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
@@ -5103,6 +5160,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -5511,6 +5574,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -5721,6 +5785,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -7044,6 +7119,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__FLOAT other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
@@ -7058,6 +7140,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__FLOAT_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -7466,6 +7554,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -7676,6 +7765,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -8999,6 +9099,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
@@ -9013,6 +9120,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -9421,6 +9534,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -9631,6 +9745,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -10954,6 +11079,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__BITSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
@@ -10968,6 +11100,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__BITSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -11376,6 +11514,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -11586,6 +11725,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -12909,6 +13059,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
@@ -12923,6 +13080,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -13331,6 +13494,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -13541,6 +13705,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -14864,6 +15039,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
@@ -14878,6 +15060,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__CHARSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -15286,6 +15474,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -15496,6 +15685,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -16819,6 +17019,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__BOOLEAN other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
@@ -16833,6 +17040,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__BOOLEAN_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -17241,6 +17454,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -17451,6 +17665,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__BOOLEAN_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -18774,6 +18999,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
@@ -18788,6 +19020,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -19196,6 +19434,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -19406,6 +19645,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -20729,6 +20979,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__INTEGER other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
@@ -20743,6 +21000,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__INTEGER_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -21151,6 +21414,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -21361,6 +21625,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__INTEGER_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -22709,6 +22984,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
@@ -22723,6 +23005,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -23150,6 +23438,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -23440,6 +23729,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -24770,6 +25070,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__BOOLEAN other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
@@ -24784,6 +25091,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__BOOLEAN_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -25211,6 +25524,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -25501,6 +25815,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -26831,6 +27156,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
@@ -26845,6 +27177,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__FLOAT__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -27272,6 +27610,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -27562,6 +27901,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -28892,6 +29242,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__INTEGER other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
@@ -28906,6 +29263,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__INTEGER_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -29333,6 +29696,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -29623,6 +29987,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__INTEGER_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -30953,6 +31328,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__CHARSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
@@ -30967,6 +31349,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__CHARSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -31394,6 +31782,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -31684,6 +32073,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -32989,6 +33389,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanUniversalCharString_template>();
@@ -33003,6 +33410,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -33411,6 +33824,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -33621,6 +34035,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -34969,6 +35394,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__HEXSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
@@ -34983,6 +35415,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__HEXSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -35410,6 +35848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -35700,6 +36139,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -37030,6 +37480,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
@@ -37044,6 +37501,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -37471,6 +37934,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -37761,6 +38225,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -39091,6 +39566,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__OCTETSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
@@ -39105,6 +39587,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__OCTETSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -39532,6 +40020,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -39822,6 +40311,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -41152,6 +41652,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__FLOAT other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
@@ -41166,6 +41673,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__FLOAT_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -41593,6 +42106,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -41883,6 +42397,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__FLOAT_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -43213,6 +43738,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanInteger_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanInteger_template>();
@@ -43227,6 +43759,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__INTEGER__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -43654,6 +44192,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -43944,6 +44483,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -45274,6 +45824,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
@@ -45288,6 +45845,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -45715,6 +46278,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -46005,6 +46569,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -47310,6 +47885,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanOctetString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__OCTETSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanOctetString_template>();
@@ -47324,6 +47906,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__OCTETSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -47732,6 +48320,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -47942,6 +48531,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__OCTETSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -49265,6 +49865,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__HEXSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
@@ -49279,6 +49886,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__HEXSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -49687,6 +50300,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -49897,6 +50511,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -51245,6 +51870,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
@@ -51259,6 +51891,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -51686,6 +52324,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -51976,6 +52615,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -53306,6 +53956,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__BITSTRING other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
@@ -53320,6 +53977,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__BITSTRING_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -53747,6 +54410,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -54037,6 +54701,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__BITSTRING_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -55367,6 +56042,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBoolean_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBoolean_template>();
@@ -55381,6 +56063,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -55808,6 +56496,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -56098,6 +56787,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -57403,6 +58103,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanCharString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanCharString_template>();
@@ -57417,6 +58124,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -57825,6 +58538,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -58035,6 +58749,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -59358,6 +60083,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanFloat_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanFloat_template>();
@@ -59372,6 +60104,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -59780,6 +60518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -59990,6 +60729,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -61338,6 +62088,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanBitString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanBitString_template>();
@@ -61352,6 +62109,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -61779,6 +62542,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -62069,6 +62833,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -63374,6 +64149,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			value_elements = new ArrayList<TitanHexString_template>();
 		}
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		protected void copy_value(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value) {
 			other_value.must_bound("Initialization of a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED with an unbound value.");
 			value_elements = new ArrayList<TitanHexString_template>();
@@ -63388,6 +64170,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
@@ -63796,6 +64584,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return constGet_at(index_value.get_int());
 		}
+
 		/**
 		 * Sets the new size of the template.
 		 * Also makes turns it into a specific value template if not already.
@@ -64006,6 +64795,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
+		/**
+		 * Accessor for list items of value list and complemented list
+		 * templates.
+		 *
+		 * Underflow and overflow results in dynamic testcase
+		 * error. list_item in the core.
+		 *
+		 * @param list_index
+		 *                the index of the list item.
+		 * @return the list item at the provided index.
+		 * */
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template get_list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -64381,8 +65181,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_value(otherValue);
 		};
 
-		private void copy_value(final anytype otherValue) {
-			union_selection = otherValue.union_selection;
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
+		private void copy_value(final anytype other_value) {
+			union_selection = other_value.union_selection;
 		}
 
 		/**
@@ -64612,10 +65419,24 @@ public final class PreGenRecordOf extends TTCN_Module {
 		// value_list part
 		private ArrayList<anytype_template> value_list;
 
+		/**
+		 * Internal function to copy the provided value into this template.
+		 * The template becomes a specific value template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_value(final anytype other_value) {
 			single_value_union_selection = other_value.get_selection();
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
+
+		/**
+		 * Internal function to copy the provided template into this template.
+		 * The already existing content is overwritten.
+		 *
+		 * @param other_value the value to be copied.
+		 * */
 		private void copy_template(final anytype_template other_value) {
 			switch (other_value.template_selection) {
 			case SPECIFIC_VALUE:
