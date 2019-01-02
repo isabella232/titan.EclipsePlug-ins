@@ -94,7 +94,7 @@ public final class RecordOfGenerator {
 		generateValueIsValue(source, ofTypeName);
 		generateValueoperator_equals( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateValueoperator_assign(aData, source, genName, ofTypeName, displayName);
-		generateValueConcatenate( source, genName, ofTypeName, displayName );
+		generateValueConcatenate(aData, source, genName, ofTypeName, displayName );
 		generateValueRotate(aData, source, genName, ofTypeName, displayName );
 		generateValueCleanup( source );
 		generateValueGetterSetters( aData, source, ofTypeName, displayName );
@@ -506,12 +506,14 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\t\treturn this;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
 	 * Generate concatenate function
 	 *
+	 * @param aData
+	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param genName
@@ -522,9 +524,19 @@ public final class RecordOfGenerator {
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateValueConcatenate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
-		source.append('\n');
-		source.append("\t\t//originally operator+\n");
+	private static void generateValueConcatenate(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Concatenates the current record/set of with the other received as a\n");
+			source.append("\t\t * parameter.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator+ in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the other value to concatenate with.\n");
+			source.append("\t\t * @return the new record/set of representing the concatenated value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0} operator_concatenate(final {0} other_value) '{'\n", genName ) );
 		source.append("\t\t\tif (valueElements == null || other_value.valueElements == null) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Unbound operand of {0} concatenation.\");\n", displayName ) );
@@ -543,10 +555,21 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn ret_val;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
-		source.append( MessageFormat.format( "\t\tpublic {0} operator_concatenate(final TitanNull_Type nullValue) '{'\n", genName ) );
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Concatenates the current record/set of with a zero length list.\n");
+			source.append("\t\t * Effectively creates a copy of the actual record/set of value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator+ in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param null_value\n");
+			source.append("\t\t *                used only to indicate concatenation with an empty list.\n");
+			source.append("\t\t * @return the new record/set of representing the concatenated value.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0} operator_concatenate(final TitanNull_Type null_value) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\treturn new {0}(this);\n", genName ) );
 		source.append("\t\t}\n");
 	}

@@ -140,7 +140,16 @@ public class TitanHexString_Element {
 		return str_val.get_nibble(nibble_pos) == otherValue.get_nibble(0);
 	}
 
-	// originally operator+
+	/**
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
 	public TitanHexString operator_concatenate(final TitanHexString other_value) {
 		must_bound("Unbound left operand of hexstring element concatenation.");
 		other_value.must_bound("Unbound right operand of hexstring concatenation.");
@@ -154,7 +163,16 @@ public class TitanHexString_Element {
 		return new TitanHexString(dest_ptr);
 	}
 
-	// originally operator+
+	/**
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
 	public TitanHexString operator_concatenate(final TitanHexString_Element other_value) {
 		must_bound("Unbound left operand of hexstring element concatenation.");
 		other_value.must_bound("Unbound right operand of hexstring element concatenation.");

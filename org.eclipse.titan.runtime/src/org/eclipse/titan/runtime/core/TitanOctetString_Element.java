@@ -166,7 +166,16 @@ public class TitanOctetString_Element {
 		return !operator_equals(otherValue);
 	}
 
-	// originally operator+
+	/**
+	 * Concatenates the current octetstring with the octetstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new octetstring representing the concatenated value.
+	 * */
 	public TitanOctetString operator_concatenate(final TitanOctetString other_value) {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring concatenation.");
@@ -181,7 +190,16 @@ public class TitanOctetString_Element {
 		return new TitanOctetString(dest_ptr);
 	}
 
-	// originally operator+
+	/**
+	 * Concatenates the current octetstring with the octetstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new octetstring representing the concatenated value.
+	 * */
 	public TitanOctetString operator_concatenate(final TitanOctetString_Element other_value) {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring element concatenation.");

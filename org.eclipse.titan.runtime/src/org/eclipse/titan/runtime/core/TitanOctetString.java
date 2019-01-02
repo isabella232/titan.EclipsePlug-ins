@@ -532,34 +532,50 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	/**
-	 * this + otherValue (concatenation)
-	 * originally operator+
-	 */
-	public TitanOctetString operator_concatenate(final TitanOctetString otherValue) {
+	 * Concatenates the current octetstring with the octetstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new octetstring representing the concatenated value.
+	 * */
+	public TitanOctetString operator_concatenate(final TitanOctetString other_value) {
 		must_bound("Unbound left operand of octetstring concatenation.");
-		otherValue.must_bound("Unbound right operand of octetstring concatenation.");
+		other_value.must_bound("Unbound right operand of octetstring concatenation.");
 
 		if (val_ptr.length == 0) {
-			return new TitanOctetString(otherValue);
+			return new TitanOctetString(other_value);
 		}
-		if (otherValue.val_ptr.length == 0) {
+		if (other_value.val_ptr.length == 0) {
 			return new TitanOctetString(this);
 		}
 
-		final char temp[] = new char[val_ptr.length + otherValue.val_ptr.length];
+		final char temp[] = new char[val_ptr.length + other_value.val_ptr.length];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
-		System.arraycopy(otherValue.val_ptr, 0, temp, val_ptr.length, otherValue.val_ptr.length);
+		System.arraycopy(other_value.val_ptr, 0, temp, val_ptr.length, other_value.val_ptr.length);
 
 		return new TitanOctetString(temp);
 	}
 
-	public TitanOctetString operator_concatenate(final TitanOctetString_Element otherValue) {
+	/**
+	 * Concatenates the current octetstring with the octetstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new octetstring representing the concatenated value.
+	 * */
+	public TitanOctetString operator_concatenate(final TitanOctetString_Element other_value) {
 		must_bound("Unbound left operand of octetstring concatenation.");
-		otherValue.must_bound("Unbound right operand of octetstring element concatenation.");
+		other_value.must_bound("Unbound right operand of octetstring element concatenation.");
 
 		final char temp[] = new char[val_ptr.length + 1];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
-		temp[val_ptr.length] = otherValue.get_nibble();
+		temp[val_ptr.length] = other_value.get_nibble();
 
 		return new TitanOctetString(temp);
 	}

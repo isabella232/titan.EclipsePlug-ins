@@ -421,19 +421,29 @@ public class TitanUniversalCharString_Element {
 		return !operator_equals(otherValue);
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanUniversalChar otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the universal
+	 * charstring received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalChar other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 
-		if (str_val.charstring && otherValue.is_char()) {
+		if (str_val.charstring && other_value.is_char()) {
 			final TitanUniversalCharString result = new TitanUniversalCharString();
 			result.cstr = new StringBuilder();
 			result.cstr.append(str_val.cstr.charAt(char_pos));
-			result.cstr.append(otherValue.getUc_cell());
+			result.cstr.append(other_value.getUc_cell());
 			result.charstring = true;
 			return result;
 		} else {
-			if (str_val.charstring ^ otherValue.is_char()) { // xor
+			if (str_val.charstring ^ other_value.is_char()) { // xor
 				final TitanUniversalCharString result = new TitanUniversalCharString();
 				result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 				result.charstring = false;
@@ -442,7 +452,7 @@ public class TitanUniversalCharString_Element {
 				} else {
 					result.val_ptr.add(str_val.val_ptr.get(char_pos));
 				}
-				result.val_ptr.add(otherValue);
+				result.val_ptr.add(other_value);
 				return result;
 			}
 		}
@@ -450,16 +460,26 @@ public class TitanUniversalCharString_Element {
 		final TitanUniversalCharString result = new TitanUniversalCharString();
 		result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 		result.val_ptr.add(str_val.val_ptr.get(char_pos));
-		result.val_ptr.add(otherValue);
+		result.val_ptr.add(other_value);
 		result.charstring = false;
 		return result;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final String otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the charstring
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final String other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
 
-		if (otherValue == null) {
+		if (other_value == null) {
 			return new TitanUniversalCharString(str_val.char_at(char_pos));
 		}
 
@@ -467,38 +487,48 @@ public class TitanUniversalCharString_Element {
 		if (str_val.charstring) {
 			result.cstr = new StringBuilder();
 			result.cstr.append(str_val.cstr.charAt(char_pos));
-			result.cstr.append(otherValue);
+			result.cstr.append(other_value);
 			result.charstring = true;
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.charstring = false;
 			result.val_ptr.add(this.get_char());
-			for (int i = 0; i < otherValue.length(); ++i) {
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.charAt(i)));
+			for (int i = 0; i < other_value.length(); ++i) {
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.charAt(i)));
 			}
 		}
 		return result;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanCharString otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the charstring
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanCharString other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
-		otherValue.must_bound("The right operand of concatenation is an unbound charstring value.");
+		other_value.must_bound("The right operand of concatenation is an unbound charstring value.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
 
 		if (str_val.charstring) {
 			result.cstr = new StringBuilder();
 			result.cstr.append(str_val.cstr.charAt(char_pos));
-			for (int i = 0; i < otherValue.lengthof().get_int(); ++i) {
-				result.cstr.append(otherValue.get_at(i).get_char());
+			for (int i = 0; i < other_value.lengthof().get_int(); ++i) {
+				result.cstr.append(other_value.get_at(i).get_char());
 			}
 			result.charstring = true;
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.val_ptr.add(0, str_val.val_ptr.get(char_pos));
-			for (int i = 0; i < otherValue.lengthof().get_int(); ++i) {
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.get_at(i).get_char()));
+			for (int i = 0; i < other_value.lengthof().get_int(); ++i) {
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.get_at(i).get_char()));
 			}
 			result.charstring = false;
 		}
@@ -506,10 +536,20 @@ public class TitanUniversalCharString_Element {
 		return result;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanCharString_Element otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the charstring
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanCharString_Element other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
-		otherValue.must_bound("The right operand of concatenation is an unbound charstring element.");
+		other_value.must_bound("The right operand of concatenation is an unbound charstring element.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
 
@@ -517,79 +557,99 @@ public class TitanUniversalCharString_Element {
 			result.cstr = new StringBuilder();
 			result.charstring = true;
 			result.cstr.append(str_val.cstr.charAt(char_pos));
-			result.cstr.append(otherValue.get_char());
+			result.cstr.append(other_value.get_char());
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 			result.charstring = false;
 			result.val_ptr.add(str_val.val_ptr.get(char_pos));
-			result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.get_char()));
+			result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.get_char()));
 		}
 
 		return result;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the universal
+	 * charstring received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
-		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring value.");
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring value.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
 
 		if (str_val.charstring) {
-			if (otherValue.charstring) {
+			if (other_value.charstring) {
 				result.charstring = true;
 				result.cstr = new StringBuilder();
 				result.cstr.append(str_val.cstr.charAt(char_pos));
-				result.cstr.append(otherValue.cstr);
+				result.cstr.append(other_value.cstr);
 			} else {
 				result.charstring = false;
 				result.val_ptr = new ArrayList<TitanUniversalChar>();
 				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, str_val.cstr.charAt(char_pos)));
-				result.val_ptr.addAll(otherValue.val_ptr);
+				result.val_ptr.addAll(other_value.val_ptr);
 			}
 		} else {
 			result.charstring = false;
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.val_ptr.add(str_val.val_ptr.get(char_pos));
-			if (otherValue.charstring) {
-				for (int i = 0; i < otherValue.val_ptr.size(); ++i) {
-					result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.cstr.charAt(i)));
+			if (other_value.charstring) {
+				for (int i = 0; i < other_value.val_ptr.size(); ++i) {
+					result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.cstr.charAt(i)));
 				}
 			} else {
-				result.val_ptr.addAll(otherValue.val_ptr);
+				result.val_ptr.addAll(other_value.val_ptr);
 			}
 		}
 
 		return result;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element otherValue) {
+	/**
+	 * Concatenates the current universal charstring with the universal
+	 * charstring received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element other_value) {
 		must_bound("The left operand of concatenation is an unbound universal charstring element.");
-		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
 
 		if (str_val.charstring) {
-			if (otherValue.str_val.charstring) {
+			if (other_value.str_val.charstring) {
 				result.charstring = true;
 				result.cstr = new StringBuilder();
 				result.cstr.append(str_val.cstr.charAt(char_pos));
-				result.cstr.append(otherValue.str_val.cstr.charAt(otherValue.char_pos));
+				result.cstr.append(other_value.str_val.cstr.charAt(other_value.char_pos));
 			} else {
 				result.charstring = false;
 				result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, str_val.cstr.charAt(char_pos)));
-				result.val_ptr.add(otherValue.str_val.val_ptr.get(otherValue.char_pos));
+				result.val_ptr.add(other_value.str_val.val_ptr.get(other_value.char_pos));
 			}
 		} else {
 			result.charstring = false;
 			result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 			result.val_ptr.add(str_val.val_ptr.get(char_pos));
-			if (otherValue.str_val.charstring) {
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.str_val.cstr.charAt(otherValue.char_pos)));
+			if (other_value.str_val.charstring) {
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.str_val.cstr.charAt(other_value.char_pos)));
 			} else {
-				result.val_ptr.add(otherValue.str_val.val_ptr.get(otherValue.char_pos));
+				result.val_ptr.add(other_value.str_val.val_ptr.get(other_value.char_pos));
 			}
 		}
 
@@ -671,27 +731,39 @@ public class TitanUniversalCharString_Element {
 		return !operator_equals(ucharValue, otherValue);
 	}
 
-	public static TitanUniversalCharString operator_concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
-		otherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
+	/**
+	 * Concatenates the first universal charstring with the second universal
+	 * charstring received as a parameter.
+	 *
+	 * static operator+ in the core.
+	 *
+	 * @param ucharValue the first universal charstring to concatenate.
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public static TitanUniversalCharString operator_concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element other_value) {
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
-		if (otherValue.str_val.charstring) {
+		if (other_value.str_val.charstring) {
 			if (ucharValue.is_char()) {
 				result.cstr = new StringBuilder();
 				result.cstr.append(ucharValue.getUc_cell());
-				result.cstr.append(otherValue.str_val.cstr.charAt(otherValue.char_pos));
+				result.cstr.append(other_value.str_val.cstr.charAt(other_value.char_pos));
 				result.charstring = true;
 			} else {
 				result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 				result.charstring = false;
 				result.val_ptr.add(ucharValue);
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.str_val.cstr.charAt(otherValue.char_pos)));
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.str_val.cstr.charAt(other_value.char_pos)));
 			}
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 			result.charstring = false;
 			result.val_ptr.add(ucharValue);
-			result.val_ptr.add(otherValue.get_char());
+			result.val_ptr.add(other_value.get_char());
 		}
 
 		return result;
@@ -722,26 +794,38 @@ public class TitanUniversalCharString_Element {
 				&& uc.getUc_cell() == otherValue.charAt(0);
 	}
 
-	public static TitanUniversalCharString operator_concatenate(final String otherValue, final TitanUniversalCharString_Element rightValue) {
-		rightValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
+	/**
+	 * Concatenates the first universal charstring with the second universal
+	 * charstring received as a parameter.
+	 *
+	 * static operator+ in the core.
+	 *
+	 * @param stringValue the first universal charstring to concatenate.
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public static TitanUniversalCharString operator_concatenate(final String stringValue, final TitanUniversalCharString_Element other_value) {
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
-		if (otherValue == null) {
-			return new TitanUniversalCharString(rightValue);
+		if (stringValue == null) {
+			return new TitanUniversalCharString(other_value);
 		}
 
 		final TitanUniversalCharString result = new TitanUniversalCharString();
-		if (rightValue.str_val.charstring) {
+		if (other_value.str_val.charstring) {
 			result.cstr = new StringBuilder();
-			result.cstr.append(otherValue);
-			result.cstr.append(rightValue.str_val.cstr.charAt(rightValue.char_pos));
+			result.cstr.append(stringValue);
+			result.cstr.append(other_value.str_val.cstr.charAt(other_value.char_pos));
 			result.charstring = true;
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			result.charstring = false;
-			for (int i = 0; i < otherValue.length(); ++i) {
-				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.charAt(i)));
+			for (int i = 0; i < stringValue.length(); ++i) {
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, stringValue.charAt(i)));
 			}
-			result.val_ptr.add(rightValue.get_char());
+			result.val_ptr.add(other_value.get_char());
 		}
 		return result;
 	}

@@ -142,15 +142,24 @@ public class TitanBitString_Element {
 		return !operator_equals(otherValue);
 	}
 
-	//originally operator+
-	public TitanBitString operator_concatenate(final TitanBitString otherValue) {
+	/**
+	 * Concatenates the current bitstring element with the bitstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new bitstring representing the concatenated value.
+	 * */
+	public TitanBitString operator_concatenate(final TitanBitString other_value) {
 		must_bound("Unbound left operand of bitstring element concatenation.");
-		otherValue.must_bound("Unbound right operand of bitstring concatenation.");
+		other_value.must_bound("Unbound right operand of bitstring concatenation.");
 
-		final int n_bits = otherValue.lengthof().get_int();
+		final int n_bits = other_value.lengthof().get_int();
 		final int n_bytes = (n_bits + 7) / 8;
 		final int result[] = new int[n_bytes];
-		final int temp[] = otherValue.get_value();
+		final int temp[] = other_value.get_value();
 
 		result[0] = get_bit() ? 1 : 0;
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
@@ -163,13 +172,22 @@ public class TitanBitString_Element {
 		return new TitanBitString(result, n_bits + 1);
 	}
 
-	// originally operator+
-	public TitanBitString operator_concatenate(final TitanBitString_Element otherValue) {
+	/**
+	 * Concatenates the current bitstring element with the bitstring element
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new bitstring representing the concatenated value.
+	 * */
+	public TitanBitString operator_concatenate(final TitanBitString_Element other_value) {
 		must_bound("Unbound left operand of bitstring element concatenation.");
-		otherValue.must_bound("Unbound right operand of bitstring element concatenation.");
+		other_value.must_bound("Unbound right operand of bitstring element concatenation.");
 
 		int result = str_val.get_bit(bit_pos) ? 1 : 2;
-		if (otherValue.get_bit()) {
+		if (other_value.get_bit()) {
 			result = result | 2;
 		}
 		final int temp_ptr[] = new int[1];

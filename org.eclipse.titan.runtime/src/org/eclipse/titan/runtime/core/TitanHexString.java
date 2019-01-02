@@ -576,35 +576,50 @@ public class TitanHexString extends Base_Type {
 	}
 
 	/**
-	 * this + otherValue (concatenation)
-	 * originally operator+
-	 */
-	public TitanHexString operator_concatenate(final TitanHexString otherValue) {
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
+	public TitanHexString operator_concatenate(final TitanHexString other_value) {
 		must_bound("Unbound left operand of hexstring concatenation.");
-		otherValue.must_bound("Unbound right operand of hexstring concatenation.");
+		other_value.must_bound("Unbound right operand of hexstring concatenation.");
 
 		if (nibbles_ptr.length == 0) {
-			return new TitanHexString(otherValue);
+			return new TitanHexString(other_value);
 		}
-		if (otherValue.nibbles_ptr.length == 0) {
+		if (other_value.nibbles_ptr.length == 0) {
 			return new TitanHexString(this);
 		}
 
-		final byte temp[] = new byte[nibbles_ptr.length + otherValue.nibbles_ptr.length];
+		final byte temp[] = new byte[nibbles_ptr.length + other_value.nibbles_ptr.length];
 		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
-		System.arraycopy(otherValue.nibbles_ptr, 0, temp, nibbles_ptr.length, otherValue.nibbles_ptr.length);
+		System.arraycopy(other_value.nibbles_ptr, 0, temp, nibbles_ptr.length, other_value.nibbles_ptr.length);
 
 		return new TitanHexString(temp);
 	}
 
-	// originally operator+
-	public TitanHexString operator_concatenate(final TitanHexString_Element otherValue) {
+	/**
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
+	public TitanHexString operator_concatenate(final TitanHexString_Element other_value) {
 		must_bound("Unbound left operand of hexstring concatenation.");
-		otherValue.must_bound("Unbound right operand of hexstring element concatenation.");
+		other_value.must_bound("Unbound right operand of hexstring element concatenation.");
 
 		final byte temp[] = new byte[nibbles_ptr.length + 1];
 		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
-		temp[ nibbles_ptr.length ] = (byte) otherValue.get_nibble();
+		temp[ nibbles_ptr.length ] = (byte) other_value.get_nibble();
 
 		return new TitanHexString(temp);
 	}

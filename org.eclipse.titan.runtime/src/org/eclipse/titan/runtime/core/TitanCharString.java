@@ -330,27 +330,41 @@ public class TitanCharString extends Base_Type {
 	}
 
 	/**
-	 * this + aOtherValue
-	 * originally operator&
-	 */
-	public TitanCharString operator_concatenate(final TitanCharString aOtherValue) {
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final TitanCharString other_value) {
 		must_bound("Unbound left operand of charstring addition.");
-		aOtherValue.must_bound("Unbound right operand of charstring addition.");
+		other_value.must_bound("Unbound right operand of charstring addition.");
 
 		final TitanCharString result = new TitanCharString(val_ptr);
-		result.val_ptr.append(aOtherValue.val_ptr);
+		result.val_ptr.append(other_value.val_ptr);
 
 		return result;
 	}
 
-	// originally operator+
-	// concatenate for String
-	public TitanCharString operator_concatenate(final String aOtherValue) {
+	/**
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final String other_value) {
 		must_bound("Unbound operand of charstring concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(val_ptr);
-		if (aOtherValue != null && aOtherValue.length() > 0) {
-			ret_val.val_ptr.append(aOtherValue);
+		if (other_value != null && other_value.length() > 0) {
+			ret_val.val_ptr.append(other_value);
 		}
 
 		return ret_val;
@@ -379,29 +393,47 @@ public class TitanCharString extends Base_Type {
 		return this;
 	}
 
-	// originally operator+
-	// concatenate for charstring_element
-	public TitanCharString operator_concatenate(final TitanCharString_Element aOtherValue) {
+	/**
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final TitanCharString_Element other_value) {
 		must_bound("Unbound operand of charstring concatenation.");
-		aOtherValue.must_bound("Unbound operand of charstring element concatenation.");
+		other_value.must_bound("Unbound operand of charstring element concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(this);
-		ret_val.val_ptr.append(aOtherValue.get_char());
+		ret_val.val_ptr.append(other_value.get_char());
 
 		return ret_val;
 	}
 
-	// originally operator+
-	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString aOtherValue) {
+	/**
+	 * Concatenates the current charstring with the universal charstring
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString other_value) {
 		must_bound("The left operand of concatenation is an unbound charstring value.");
-		aOtherValue.must_bound("The right operand of concatenation is an unbound universal charstring value.");
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring value.");
 
 		if (val_ptr.length() == 0) {
-			return new TitanUniversalCharString(aOtherValue);
+			return new TitanUniversalCharString(other_value);
 		}
-		if (aOtherValue.charstring) {
+		if (other_value.charstring) {
 			final StringBuilder ret_val = new StringBuilder(get_value());
-			ret_val.append(aOtherValue.cstr.toString());
+			ret_val.append(other_value.cstr.toString());
 
 			return new TitanUniversalCharString(ret_val);
 		} else {
@@ -409,19 +441,12 @@ public class TitanCharString extends Base_Type {
 			for (int i = 0; i < val_ptr.length(); i++) {
 				ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, val_ptr.charAt(i)));
 			}
-			ret_val.addAll(aOtherValue.get_value());
+			ret_val.addAll(other_value.get_value());
 
 			return new TitanUniversalCharString(ret_val);
 		}
 
 	}
-
-	/*public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element aOtherValue)
-	{
-		must_bound("The left operand of concatenation is an unbound charstring value.");
-		aOtherValue.must_bound("The right operand of concatenation is an unbound universal charstring element.");
-
-	}*/
 
 	/**
 	 * Checks if the current value is equivalent to the provided one.
@@ -883,19 +908,42 @@ public class TitanCharString extends Base_Type {
 		return !operator_equals(stringValue, otherValue);
 	}
 
-	// static concatenate
-	public static TitanCharString operator_concatenate(final String StringValue, final TitanCharString aOtherValue) {
-		aOtherValue.must_bound("Unbound operand of charstring concatenation.");
+	/**
+	 * Concatenates the first charstring parameter with the second
+	 * charstring received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param stringValue
+	 *                the first parameter.
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public static TitanCharString operator_concatenate(final String stringValue, final TitanCharString other_value) {
+		other_value.must_bound("Unbound operand of charstring concatenation.");
 
-		final TitanCharString ret_val = new TitanCharString(StringValue);
-		return ret_val.operator_concatenate(aOtherValue);
+		final TitanCharString ret_val = new TitanCharString(stringValue);
+		return ret_val.operator_concatenate(other_value);
 	}
 
-	public static TitanCharString operator_concatenate(final String StringValue, final TitanCharString_Element aOtherValue) {
-		aOtherValue.must_bound("Unbound operand of charstring element concatenation.");
+	/**
+	 * Concatenates the first charstring parameter with the second
+	 * charstring received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param stringValue
+	 *                the first parameter.
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public static TitanCharString operator_concatenate(final String stringValue, final TitanCharString_Element other_value) {
+		other_value.must_bound("Unbound operand of charstring element concatenation.");
 
-		final TitanCharString ret_val = new TitanCharString(StringValue);
-		return ret_val.operator_concatenate(aOtherValue);
+		final TitanCharString ret_val = new TitanCharString(stringValue);
+		return ret_val.operator_concatenate(other_value);
 	}
 
 	@Override

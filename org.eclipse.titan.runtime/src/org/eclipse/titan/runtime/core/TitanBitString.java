@@ -334,24 +334,33 @@ public class TitanBitString extends Base_Type {
 		bits_ptr = null;
 	}
 
-	//originally operator+
-	public TitanBitString operator_concatenate(final TitanBitString aOtherValue) {
+	/**
+	 * Concatenates the current bitstring with the bitstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new bitstring representing the concatenated value.
+	 * */
+	public TitanBitString operator_concatenate(final TitanBitString other_value) {
 		must_bound("Unbound left operand of bitstring concatenation.");
-		aOtherValue.must_bound("Unbound right operand of bitstring element concatenation.");
+		other_value.must_bound("Unbound right operand of bitstring element concatenation.");
 
 		if (n_bits == 0) {
-			return new TitanBitString(aOtherValue);
+			return new TitanBitString(other_value);
 		}
-		if (aOtherValue.n_bits == 0) {
+		if (other_value.n_bits == 0) {
 			return new TitanBitString(this);
 		}
 
 		// the length of result
-		final int resultBits = n_bits + aOtherValue.n_bits;
+		final int resultBits = n_bits + other_value.n_bits;
 
 		// the number of bytes used
 		final int left_n_bytes = (n_bits + 7) / 8;
-		final int right_n_bytes = (aOtherValue.n_bits + 7) / 8;
+		final int right_n_bytes = (other_value.n_bits + 7) / 8;
 
 		// the number of bits used in the last incomplete octet of the left operand
 		final int last_octet_bits = n_bits % 8;
@@ -366,7 +375,7 @@ public class TitanBitString extends Base_Type {
 			// placing the bytes from the right fragment until the
 			// result is filled
 			for (int i = left_n_bytes; i < n_bytes; i++) {
-				final Integer right_byte = aOtherValue.bits_ptr[i - left_n_bytes];
+				final Integer right_byte = other_value.bits_ptr[i - left_n_bytes];
 				// finish filling the previous byte
 				int temp = dest_ptr[i - 1] | right_byte << last_octet_bits;
 				dest_ptr[i - 1] = temp & 0xFF;
@@ -377,23 +386,32 @@ public class TitanBitString extends Base_Type {
 			if (left_n_bytes + right_n_bytes > n_bytes) {
 				// if the result data area is shorter than the two operands together
 				// the last bits of right fragment were not placed into the result in the previous for loop
-				final int temp = dest_ptr[n_bytes - 1] | aOtherValue.bits_ptr[right_n_bytes - 1] << last_octet_bits;
+				final int temp = dest_ptr[n_bytes - 1] | other_value.bits_ptr[right_n_bytes - 1] << last_octet_bits;
 				dest_ptr[n_bytes - 1] = temp & 0xFF;
 			}
 		} else {
-			System.arraycopy(aOtherValue.bits_ptr, 0, dest_ptr, bits_ptr.length, aOtherValue.bits_ptr.length);
+			System.arraycopy(other_value.bits_ptr, 0, dest_ptr, bits_ptr.length, other_value.bits_ptr.length);
 		}
 
 		return new TitanBitString(dest_ptr, resultBits);
 	}
 
-	//originally operator+
-	public TitanBitString operator_concatenate(final TitanBitString_Element otherValue) {
+	/**
+	 * Concatenates the current bitstring with the bitstring element
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new bitstring representing the concatenated value.
+	 * */
+	public TitanBitString operator_concatenate(final TitanBitString_Element other_value) {
 		must_bound("Unbound left operand of bitstring concatenation.");
-		otherValue.must_bound("Unbound right operand of bitstring element");
+		other_value.must_bound("Unbound right operand of bitstring element");
 
 		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits + 1);
-		ret_val.set_bit(n_bits, otherValue.get_bit());
+		ret_val.set_bit(n_bits, other_value.get_bit());
 
 		return ret_val;
 	}
