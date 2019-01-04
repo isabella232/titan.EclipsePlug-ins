@@ -624,7 +624,13 @@ public class TitanHexString extends Base_Type {
 		return new TitanHexString(temp);
 	}
 
-	// originally operator~
+	/**
+	 * Creates a new hexstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new hexstring with the inverted bits.
+	 * */
 	public TitanHexString not4b() {
 		must_bound("Unbound hexstring operand of operator not4b.");
 

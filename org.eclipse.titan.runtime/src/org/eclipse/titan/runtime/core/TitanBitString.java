@@ -416,7 +416,13 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 
-	//originally operator~
+	/**
+	 * Creates a new bitstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new bitstring with the inverted bits.
+	 * */
 	public TitanBitString not4b() {
 		must_bound("Unbound bitstring operand of operator not4b.");
 

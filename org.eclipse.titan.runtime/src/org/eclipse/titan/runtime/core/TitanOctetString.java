@@ -580,7 +580,13 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString(temp);
 	}
 
-	// originally operator~
+	/**
+	 * Creates a new hexstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new hexstring with the inverted bits.
+	 * */
 	public TitanOctetString not4b() {
 		must_bound("Unbound octetstring operand of operator not4b.");
 

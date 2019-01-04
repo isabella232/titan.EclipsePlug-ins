@@ -180,7 +180,13 @@ public class TitanHexString_Element {
 		return new TitanHexString(other_value.str_val);
 	}
 
-	// originally operator~
+	/**
+	 * Creates a new hexstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new hexstring with the inverted bits.
+	 * */
 	public TitanHexString not4b() {
 		must_bound("Unbound hexstring element operand of operator not4b.");
 

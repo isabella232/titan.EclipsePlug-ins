@@ -195,7 +195,13 @@ public class TitanBitString_Element {
 		return new TitanBitString(temp_ptr, 2);
 	}
 
-	// originally operator~
+	/**
+	 * Creates a new bitstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new bitstring with the inverted bits.
+	 * */
 	public TitanBitString not4b() {
 		must_bound("Unbound bitstring element operand of operator not4b.");
 
