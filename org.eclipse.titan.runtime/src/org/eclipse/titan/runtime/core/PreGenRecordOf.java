@@ -65161,6 +65161,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class anytype extends Base_Type {
+		/**
+		 * Indicates the state/selection of this union kind.
+		 * When union_selection is UNBOUND_VALUE, the union is unbound.
+		 * When union_selection is any other enumeration,
+		 * the appropriate field is selected.
+		 * */
 		public enum union_selection_type { UNBOUND_VALUE };
 		private union_selection_type union_selection;
 

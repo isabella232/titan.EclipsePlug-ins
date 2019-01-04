@@ -23,6 +23,12 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_identification extends Base_Type {
+	/**
+	 * Indicates the state/selection of this union kind.
+	 * When union_selection is UNBOUND_VALUE, the union is unbound.
+	 * When union_selection is any other enumeration,
+	 * the appropriate field is selected.
+	 * */
 	public enum union_selection_type { UNBOUND_VALUE,  ALT_syntaxes,  ALT_syntax,  ALT_presentation__context__id,  ALT_context__negotiation,  ALT_transfer__syntax,  ALT_fixed };
 	private TitanEmbedded_PDV_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
