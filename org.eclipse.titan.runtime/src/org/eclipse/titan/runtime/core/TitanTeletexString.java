@@ -16,6 +16,13 @@ import java.util.List;
  * @author Kristof Szabados
  */
 public class TitanTeletexString extends TitanUniversalCharString {
+	/**
+	 * Factory function to create a teletexstring from an octetstring
+	 * containing iso2022 format content.
+	 *
+	 * @param p_os
+	 *                the source octetstring.
+	 * */
 	public static TitanTeletexString TTCN_ISO2022_2_TeletexString(final TitanOctetString p_os) {
 		final char osstr[] = p_os.get_value();
 		final int len = osstr.length;
