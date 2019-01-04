@@ -1156,6 +1156,7 @@ public final class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateIsBound(final StringBuilder source) {
+		source.append("\t\t@Override\n");
 		source.append("\t\tpublic boolean is_bound() {\n");
 		source.append("\t\t\treturn template_selection != template_sel.UNINITIALIZED_TEMPLATE || is_ifPresent;\n");
 		source.append("\t\t}\n\n");
