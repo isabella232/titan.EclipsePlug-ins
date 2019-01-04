@@ -65302,7 +65302,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @param otherValue
 		 *                the other value to check against.
-		 * @return {@code true} if either the selections or the field values are not equivalent.
+		 * @return {@code true} if either the selections or the field
+		 *         values are not equivalent.
 		 */
 		public boolean operator_not_equals( final anytype otherValue ) {
 			return !operator_equals(otherValue);

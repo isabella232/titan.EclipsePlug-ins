@@ -62,7 +62,7 @@ public class TitanCharacter_String extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String( final TitanCharacter_String otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.");
+			otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.");
 		identification = new TitanCharacter_String_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		string__value = new TitanOctetString();

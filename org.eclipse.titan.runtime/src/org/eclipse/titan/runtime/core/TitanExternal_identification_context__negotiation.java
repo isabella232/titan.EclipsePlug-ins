@@ -54,7 +54,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
+			otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
 		operator_assign( otherValue );

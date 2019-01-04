@@ -54,7 +54,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal_identification_syntaxes( final TitanExternal_identification_syntaxes otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");
+			otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
 		operator_assign( otherValue );

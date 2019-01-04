@@ -54,7 +54,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
+			otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
 		operator_assign( otherValue );

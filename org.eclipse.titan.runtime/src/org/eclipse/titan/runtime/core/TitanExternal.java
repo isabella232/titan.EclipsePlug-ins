@@ -62,7 +62,7 @@ public class TitanExternal extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanExternal( final TitanExternal otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EXTERNAL.");
+			otherValue.must_bound("Copying of an unbound value of type EXTERNAL.");
 		identification = new TitanExternal_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();

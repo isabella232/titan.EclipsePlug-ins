@@ -62,7 +62,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanEmbedded_PDV( final TitanEmbedded_PDV otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.");
+			otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.");
 		identification = new TitanEmbedded_PDV_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();

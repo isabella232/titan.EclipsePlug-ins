@@ -54,7 +54,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	 *                the value to initialize to.
 	 * */
 	public TitanEmbedded_PDV_identification_syntaxes( final TitanEmbedded_PDV_identification_syntaxes otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.identification.syntaxes.");
+			otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
 		operator_assign( otherValue );

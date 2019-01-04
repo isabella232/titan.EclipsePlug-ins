@@ -54,7 +54,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 *                the value to initialize to.
 	 * */
 	public TitanEmbedded_PDV_identification_context__negotiation( final TitanEmbedded_PDV_identification_context__negotiation otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.identification.context-negotiation.");
+			otherValue.must_bound("Copying of an unbound value of type EMBEDDED PDV.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
 		operator_assign( otherValue );

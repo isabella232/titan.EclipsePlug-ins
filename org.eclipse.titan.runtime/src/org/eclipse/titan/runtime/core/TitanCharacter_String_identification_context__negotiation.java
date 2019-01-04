@@ -54,7 +54,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_context__negotiation( final TitanCharacter_String_identification_context__negotiation otherValue) {
-		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.context-negotiation.");
+			otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
 		operator_assign( otherValue );
