@@ -212,7 +212,7 @@ public class TitanBitString_Element {
 	}
 
 	/**
-	 * Performs a bitwise or operation on this and the provided bitstring.
+	 * Performs a bitwise and operation on this and the provided bitstring.
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
@@ -239,7 +239,7 @@ public class TitanBitString_Element {
 	}
 
 	/**
-	 * Performs a bitwise or operation on this and the provided bitstring.
+	 * Performs a bitwise and operation on this and the provided bitstring.
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
