@@ -132,6 +132,14 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return true;
 	}
 
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger lengthof() {
 		for (int i = array_size - 1; i >= 0; --i) {
 			if (array_elements[i].is_bound()) {

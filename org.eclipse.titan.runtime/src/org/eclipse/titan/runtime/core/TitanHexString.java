@@ -226,7 +226,14 @@ public class TitanHexString extends Base_Type {
 		return nibbles_ptr != null;
 	}
 
-	// originally lengthof
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger lengthof() {
 		must_bound("Performing lengthof operation on an unbound charstring value.");
 

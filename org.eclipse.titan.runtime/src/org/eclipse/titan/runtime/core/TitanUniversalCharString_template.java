@@ -619,6 +619,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 	}
 
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger lengthof() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a universal charstring template which has an ifpresent attribute.");

@@ -570,7 +570,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// originally lengthOf
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger lengthof() {
 		int min_length = 0;
 		boolean has_any_or_none = false;

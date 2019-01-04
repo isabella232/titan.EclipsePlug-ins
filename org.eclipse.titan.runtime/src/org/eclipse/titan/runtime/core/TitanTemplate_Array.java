@@ -602,6 +602,14 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		}
 	}
 
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public TitanInteger lengthof() {
 		return size_of(false);
 	}
