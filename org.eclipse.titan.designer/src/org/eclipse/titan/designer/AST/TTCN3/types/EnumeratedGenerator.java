@@ -160,13 +160,13 @@ public final class EnumeratedGenerator {
 		generateValueIsBound(source);
 		generateValueIsValue(source);
 		generateValueCleanUp(source);
-		generateValueIsValidEnum(source, e_defs.name);
-		generateValueIntToEnum(source);
+		generateValueIsValidEnum(aData, source, e_defs.name);
+		generateValueIntToEnum(aData, source);
 		generateValueEnumToInt(source, e_defs.name);
-		generateValueStrToEnum(source, e_defs);
-		generateValueEnumToStr(source);
-		generateValueAsInt(source);
-		generateValueFromInt(source);
+		generateValueStrToEnum(aData, source, e_defs);
+		generateValueEnumToStr(aData, source);
+		generateValueAsInt(aData, source);
+		generateValueFromInt(aData, source);
 		generateValueToString(source);
 		generateLog(source);
 		generateValueSetParam(source, e_defs.displayName);
@@ -290,18 +290,49 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueIsValidEnum(final StringBuilder source, final String name) {
-		source.append("\t\tpublic static boolean is_valid_enum(final int otherValue) {\n");
-		source.append("\t\t\tfinal enum_type helper =  enum_type.getValue(otherValue);\n");
+	private static void generateValueIsValidEnum(final JavaGenData aData, final StringBuilder source, final String name) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the provided int can be a valid value of this\n");
+			source.append("\t\t * enumeration.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to check.\n");
+			source.append("\t\t * @return {@code true} if it can be a valid enumeration,\n");
+			source.append("\t\t *         {@code false} otherwise.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append("\t\tpublic static boolean is_valid_enum(final int other_value) {\n");
+		source.append("\t\t\tfinal enum_type helper =  enum_type.getValue(other_value);\n");
 		source.append("\t\t\treturn helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\tpublic static boolean is_valid_enum(final enum_type otherValue) {\n");
-		source.append("\t\t\treturn otherValue != enum_type.UNKNOWN_VALUE && otherValue != enum_type.UNBOUND_VALUE ;\n");
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the provided value can be a valid value of this\n");
+			source.append("\t\t * enumeration.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value\n");
+			source.append("\t\t *                the value to check.\n");
+			source.append("\t\t * @return {@code true} if it can be a valid enumeration,\n");
+			source.append("\t\t *         {@code false} otherwise.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append("\t\tpublic static boolean is_valid_enum(final enum_type other_value) {\n");
+		source.append("\t\t\treturn other_value != enum_type.UNKNOWN_VALUE && other_value != enum_type.UNBOUND_VALUE ;\n");
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueEnumToStr(final StringBuilder source) {
+	private static void generateValueEnumToStr(final JavaGenData aData,final StringBuilder source) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the name of the enumeration type provided.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param enumPar\n");
+			source.append("\t\t *                the enumeration type.\n");
+			source.append("\t\t * @return the name of the provided enumeration.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic static String enum_to_str(final enum_type enumPar) {\n");
 		source.append("\t\t\treturn enumPar.name();\n");
 		source.append("\t\t}\n\n");
@@ -462,7 +493,18 @@ public final class EnumeratedGenerator {
 		}
 	}
 
-	private static void generateValueStrToEnum(final StringBuilder source, final Enum_Defs e_defs) {
+	private static void generateValueStrToEnum(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the enumeration type of the name provided in the\n");
+			source.append("\t\t * parameter. Invalid enumeration name results in dynamic\n");
+			source.append("\t\t * testcase error.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param strPar\n");
+			source.append("\t\t *                the name of the enumeration type to return.\n");
+			source.append("\t\t * @return the enumeration type of the provided name.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic static enum_type str_to_enum(final String strPar) {\n");
 		for (int i = 0; i < e_defs.items.size(); i++) {
 			final Enum_field field = e_defs.items.get(i);
@@ -489,20 +531,45 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueAsInt(final StringBuilder source) {
+	private static void generateValueAsInt(final JavaGenData aData, final StringBuilder source) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the numerical value of the enumeration.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @return the numerical value of the enumeration.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic int as_int() {\n");
 		source.append("\t\t\treturn enum2int(enum_value);\n");
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueFromInt(final StringBuilder source) {
-		source.append("\t\tpublic void from_int(final int otherValue) {\n");
-		source.append("\t\t\tenum_value = enum_type.getValue(otherValue);\n");
+	private static void generateValueFromInt(final JavaGenData aData, final StringBuilder source) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the enumeration to the value provided in the parameter.\n");
+			source.append("\t\t * Invalid value results in dynamic testcase error.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param intValue\n");
+			source.append("\t\t *                the value to set.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append("\t\tpublic void from_int(final int intValue) {\n");
+		source.append("\t\t\tenum_value = enum_type.getValue(intValue);\n");
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueIntToEnum(final StringBuilder source) {
+	private static void generateValueIntToEnum(final JavaGenData aData, final StringBuilder source) {
 		//arg: int
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the enumeration to the value provided in the parameter.\n");
+			source.append("\t\t * Invalid value results in dynamic testcase error.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param intValue\n");
+			source.append("\t\t *                the value to set.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic void int2enum(final int intValue) {\n");
 		source.append("\t\t\tif (!is_valid_enum(intValue)) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
@@ -511,6 +578,15 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 
 		//arg: TitanInteger
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the enumeration to the value provided in the parameter.\n");
+			source.append("\t\t * Invalid value results in dynamic testcase error.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param intValue\n");
+			source.append("\t\t *                the value to set.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic void int2enum(final TitanInteger intValue) {\n");
 		source.append("\t\t\tif (!is_valid_enum(intValue.get_int())) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Assigning invalid numeric value \"+intValue.get_int()+\" to a variable of enumerated type {}.\");\n");
