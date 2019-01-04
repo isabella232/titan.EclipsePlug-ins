@@ -23,10 +23,20 @@ public class TitanOctetString_Element {
 		nibble_pos = par_nibble_pos;
 	}
 
+	/**
+	 * Whether the value is bound.
+	 * 
+	 * @return {@code true} if the value is bound.
+	 */
 	public boolean is_bound() {
 		return bound_flag;
 	}
 
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * @return {@code true} if the value is a actual value.
+	 */
 	public boolean is_value() {
 		return bound_flag;
 	}
