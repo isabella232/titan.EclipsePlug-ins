@@ -650,7 +650,18 @@ public class TitanHexString extends Base_Type {
 		return ret_val;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString and4b(final TitanHexString otherValue) {
 		must_bound("Left operand of operator and4b is an unbound hexstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound hexstring value.");
@@ -673,7 +684,18 @@ public class TitanHexString extends Base_Type {
 		return ret_val;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString and4b(final TitanHexString_Element otherValue) {
 		must_bound("Left operand of operator and4b is an unbound hexstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound hexstring element.");

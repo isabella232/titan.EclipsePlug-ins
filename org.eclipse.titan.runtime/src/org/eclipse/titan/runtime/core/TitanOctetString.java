@@ -603,7 +603,18 @@ public class TitanOctetString extends Base_Type {
 		return result;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided octetstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting octetstring.
+	 * */
 	public TitanOctetString and4b(final TitanOctetString otherValue) {
 		must_bound("Left operand of operator and4b is an unbound octetstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound octetstring value.");
@@ -622,7 +633,18 @@ public class TitanOctetString extends Base_Type {
 		return result;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided octetstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting octetstring.
+	 * */
 	public TitanOctetString and4b(final TitanOctetString_Element otherValue) {
 		must_bound("Left operand of operator and4b is an unbound octetstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound octetstring value.");

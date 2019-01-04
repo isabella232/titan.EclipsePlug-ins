@@ -442,7 +442,18 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided bitstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting bitstring.
+	 * */
 	public TitanBitString and4b(final TitanBitString otherValue) {
 		must_bound("Left operand of operator and4b is an unbound bitstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound bitstring value.");
@@ -466,7 +477,18 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise or operation on this and the provided bitstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting bitstring.
+	 * */
 	public TitanBitString and4b(final TitanBitString_Element otherValue) {
 		must_bound("Left operand of operator and4b is an unbound bitstring value.");
 		otherValue.must_bound("Right operand of operator and4b is an unbound bitstring element.");
