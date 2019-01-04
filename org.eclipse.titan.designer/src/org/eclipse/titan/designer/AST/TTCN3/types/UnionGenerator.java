@@ -540,7 +540,8 @@ public final class UnionGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t * @return {@code true} if either the selections or the field values are not equivalent.\n");
+			source.append("\t\t* @return {@code true} if either the selections or the field\n");
+			source.append("\t\t *         values are not equivalent.\n");
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic boolean operator_not_equals( final {0} otherValue ) '{'\n", genName));

@@ -2978,7 +2978,8 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
+			source.append("\t\t* @return {@code true} if not all fields are equivalent,\n");
+			source.append("\t\t *         {@code false} otherwise.\n");
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic boolean operator_not_equals( final {0} otherValue ) '{'\n", className));
@@ -2993,7 +2994,8 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t * @return {@code true} if not all fields are equivalent, {@code false} otherwise.\n");
+			source.append("\t\t* @return {@code true} if not all fields are equivalent,\n");
+			source.append("\t\t *         {@code false} otherwise.\n");
 			source.append("\t\t */\n");
 		}
 		source.append("\t\tpublic boolean operator_not_equals( final Base_Type otherValue ) {\n");
