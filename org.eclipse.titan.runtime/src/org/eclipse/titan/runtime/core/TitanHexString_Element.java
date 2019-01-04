@@ -216,7 +216,18 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString or4b(final TitanHexString other_value) {
 		must_bound("Left operand of operator or4b is an unbound hexstring element.");
 		other_value.must_bound("Right operand of operator or4b is an unbound hexstring value.");
@@ -229,7 +240,18 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString or4b(final TitanHexString_Element other_value) {
 		must_bound("Left operand of operator or4b is an unbound hexstring element.");
 		other_value.must_bound("Right operand of operator or4b is an unbound hexstring element.");

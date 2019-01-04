@@ -634,7 +634,18 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString((char)(val_ptr[0] & otherValue.get_nibble()));
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided octetstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting octetstring.
+	 * */
 	public TitanOctetString or4b(final TitanOctetString otherValue) {
 		must_bound("Left operand of operator or4b is an unbound octetstring value.");
 		otherValue.must_bound("Right operand of operator or4b is an unbound octetstring value.");
@@ -653,7 +664,18 @@ public class TitanOctetString extends Base_Type {
 
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided octetstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting octetstring.
+	 * */
 	public TitanOctetString or4b(final TitanOctetString_Element otherValue) {
 		must_bound("Left operand of operator or4b is an unbound octetstring value.");
 		otherValue.must_bound("Right operand of operator or4b is an unbound octetstring value.");
