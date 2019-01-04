@@ -311,7 +311,18 @@ public class TitanBitString_Element {
 		return new TitanBitString(dest_ptr, 1);
 	}
 
-	//originally operator^
+	/**
+	 * Performs a bitwise xor operation on this and the provided bitstring.
+	 * The resulting value is 0 if both bits are the same,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting bitstring.
+	 * */
 	public TitanBitString xor4b(final TitanBitString otherValue) {
 		must_bound("Left operand of operator xor4b is an unbound bitstring element.");
 		otherValue.must_bound("Right operand of operator xor4b is an unbound bitstring value.");
@@ -327,7 +338,18 @@ public class TitanBitString_Element {
 		return new TitanBitString(dest_ptr, 1);
 	}
 
-	//originally operator^
+	/**
+	 * Performs a bitwise xor operation on this and the provided bitstring.
+	 * The resulting value is 0 if both bits are the same,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting bitstring.
+	 * */
 	public TitanBitString xor4b(final TitanBitString_Element otherValue) {
 		must_bound("Left operand of operator xor4b is an unbound bitstring element.");
 		otherValue.must_bound("Right operand of operator xor4b is an unbound bitstring element.");
