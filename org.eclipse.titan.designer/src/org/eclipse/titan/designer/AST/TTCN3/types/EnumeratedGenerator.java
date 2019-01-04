@@ -162,7 +162,7 @@ public final class EnumeratedGenerator {
 		generateValueCleanUp(source);
 		generateValueIsValidEnum(aData, source, e_defs.name);
 		generateValueIntToEnum(aData, source);
-		generateValueEnumToInt(source, e_defs.name);
+		generateValueEnumToInt(aData, source, e_defs.name);
 		generateValueStrToEnum(aData, source, e_defs);
 		generateValueEnumToStr(aData, source);
 		generateValueAsInt(aData, source);
@@ -188,7 +188,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
 
 		generateTemplateDeclaration(source, e_defs.name);
-		generatetemplateCopyTemplate(source, e_defs.name);
+		generatetemplateCopyTemplate(aData, source, e_defs.name);
 		generateTemplateConstructors(aData, source, e_defs.name);
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
@@ -595,8 +595,17 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueEnumToInt(final StringBuilder source, final String name) {
+	private static void generateValueEnumToInt(final JavaGenData aData, final StringBuilder source, final String name) {
 		// arg: enum_type
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the numerical value of the provided enumeration type.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param enumPar\n");
+			source.append("\t\t *            the enumeration to use.\n");
+			source.append("\t\t * @return the numerical value of the enumeration.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic static int enum2int(final {0}.enum_type enumPar) '{'\n", name));
 		source.append("\t\t\tif (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
@@ -605,6 +614,15 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 
 		// own type
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the numerical value of the provided enumeration type.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param enumPar\n");
+			source.append("\t\t *            the enumeration to use.\n");
+			source.append("\t\t * @return the numerical value of the enumeration.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic static int enum2int(final {0} enumPar) '{'\n", name));
 		source.append("\t\t\tif (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
@@ -1061,7 +1079,16 @@ public final class EnumeratedGenerator {
 		//FIXME implement optional parameter version
 	}
 
-	private static void generatetemplateCopyTemplate(final StringBuilder source, final String name) {
+	private static void generatetemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes to a given template.\n");
+			source.append("\t\t * The elements of the provided template are copied.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the value to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append(MessageFormat.format("\t\tprivate void copy_template(final {0}_template otherValue) '{'\n", name));
 		source.append("\t\t\tset_selection(otherValue);\n");
 		source.append("\t\t\tswitch (otherValue.template_selection) {\n");
@@ -1161,16 +1188,18 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 
 		// arg: name type
-		/**
-		 * Assigns the other value to this template.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new template object.
-		 */
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this template.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0} otherValue)'{'\n", name));
 		source.append("\t\t\totherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
 		source.append("\t\t\tclean_up();\n");
@@ -1420,7 +1449,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tlog_ifpresent();\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	private static void generateTemplateLogMatch(final JavaGenData aData, final StringBuilder source, final String name, final String displayName ){
@@ -1431,7 +1460,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\treturn;\n");
 		source.append("\t\t\t}\n\n");
 		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
