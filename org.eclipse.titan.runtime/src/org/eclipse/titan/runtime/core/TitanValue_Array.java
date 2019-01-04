@@ -252,7 +252,17 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return !operator_equals(otherValue);
 	}
 
-	// originally  operator<<=
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new value array.
+	 * */
 	public TitanValue_Array<T> rotate_left(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
 		if (array_size == 0) {
@@ -282,14 +292,34 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally  operator<<=
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new value array.
+	 * */
 	public TitanValue_Array<T> rotate_left(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate left operator.");
 
 		return rotate_left(rotateCount.get_int());
 	}
 
-	//originally  operator>>=
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new value array.
+	 * */
 	public TitanValue_Array<T> rotate_right(int rotateCount) {
 		if (array_size == 0) {
 			return this;
@@ -318,7 +348,17 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally  operator>>=
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new value array.
+	 * */
 	public TitanValue_Array<T> rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound integer operand of rotate right operator.");
 
