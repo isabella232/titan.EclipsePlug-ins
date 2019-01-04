@@ -131,72 +131,105 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	/**
-	 * this or aOtherValue
-	 * originally operator or
-	 */
-	public boolean or(final boolean aOtherValue) {
+	 * Performs a bitwise or operation on this and the provided boolean.
+	 * 
+	 * operator|| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean or(final boolean other_value) {
 		must_bound("The left operand of or operator is an unbound boolean value.");
 
-		return boolean_value || aOtherValue;
+		return boolean_value || other_value;
 	}
 
 	/**
-	 * this or aOtherValue
-	 * originally operator or
-	 */
-	public boolean or(final TitanBoolean aOtherValue) {
+	 * Performs a bitwise or operation on this and the provided boolean.
+	 * 
+	 * operator|| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean or(final TitanBoolean other_value) {
 		must_bound("The left operand of or operator is an unbound boolean value.");
-		aOtherValue.must_bound("The right operand of or operator is an unbound boolean value.");
+		other_value.must_bound("The right operand of or operator is an unbound boolean value.");
 
-		return boolean_value || aOtherValue.boolean_value;
+		return boolean_value || other_value.boolean_value;
 	}
 
 	/**
-	 * this and aOtherValue
-	 * originally operator and
-	 */
-	public boolean and(final boolean aOtherValue) {
+	 * Performs a bitwise and operation on this and the provided boolean.
+	 * 
+	 * operator&& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean and(final boolean other_value) {
 		must_bound("The left operand of and operator is an unbound boolean value.");
 
-		return boolean_value && aOtherValue;
+		return boolean_value && other_value;
 	}
 
 	/**
-	 * this and aOtherValue
-	 * originally operator and
-	 */
-	public boolean and(final TitanBoolean aOtherValue) {
+	 * Performs a bitwise and operation on this and the provided boolean.
+	 * 
+	 * operator&& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean and(final TitanBoolean other_value) {
 		must_bound("The left operand of and operator is an unbound boolean value.");
-		aOtherValue.must_bound("The right operand of and operator is an unbound boolean value.");
+		other_value.must_bound("The right operand of and operator is an unbound boolean value.");
 
-		return boolean_value && aOtherValue.boolean_value;
+		return boolean_value && other_value.boolean_value;
 	}
 
 	/**
-	 * this xor aOtherValue
-	 * originally operator ^
-	 */
-	public boolean xor(final boolean aOtherValue) {
+	 * Performs a bitwise xor operation on this and the provided boolean.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean xor(final boolean other_value) {
 		must_bound("The left operand of xor operator is an unbound boolean value.");
 
-		return boolean_value.booleanValue() != aOtherValue;
+		return boolean_value.booleanValue() != other_value;
 	}
 
 	/**
-	 * this xor aOtherValue
-	 * originally operator ^
-	 */
-	public boolean xor(final TitanBoolean aOtherValue) {
+	 * Performs a bitwise xor operation on this and the provided boolean.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean xor(final TitanBoolean other_value) {
 		must_bound("The left operand of xor operator is an unbound boolean value.");
-		aOtherValue.must_bound("The right operand of xor operator is an unbound boolean value.");
+		other_value.must_bound("The right operand of xor operator is an unbound boolean value.");
 
-		return boolean_value.booleanValue() != aOtherValue.boolean_value.booleanValue();
+		return boolean_value.booleanValue() != other_value.boolean_value.booleanValue();
 	}
 
 	/**
-	 * not this
-	 * originally operator not
-	 */
+	 * Performs a bitwise negation.
+	 * 
+	 * operator! in the core.
+	 *
+	 * @return the resulting boolean.
+	 * */
 	public boolean not() {
 		must_bound("The operand of not operator is an unbound boolean value.");
 
@@ -346,31 +379,61 @@ public class TitanBoolean extends Base_Type {
 		return otherValue.get_value();
 	}
 
-	// static and
-	public static boolean and(final boolean boolValue, final TitanBoolean otherValue) {
-		if (!boolValue) {
+	/**
+	 * Performs a bitwise and operation on the provided booleans.
+	 * 
+	 * static operator&& in the core.
+	 *
+	 * @param bool_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public static boolean and(final boolean bool_value, final TitanBoolean other_value) {
+		if (!bool_value) {
 			return false;
 		}
-		otherValue.must_bound("The right operand of and operator is an unbound boolean value.");
+		other_value.must_bound("The right operand of and operator is an unbound boolean value.");
 
-		return otherValue.boolean_value;
+		return other_value.boolean_value;
 	}
 
-	// static or
-	public static boolean or(final boolean boolValue, final TitanBoolean otherValue) {
-		if (boolValue) {
+	/**
+	 * Performs a bitwise or operation on the provided booleans.
+	 * 
+	 * static operator|| in the core.
+	 *
+	 * @param bool_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public static boolean or(final boolean bool_value, final TitanBoolean other_value) {
+		if (bool_value) {
 			return true;
 		}
-		otherValue.must_bound("The right operand of or operator is an unbound boolean value.");
+		other_value.must_bound("The right operand of or operator is an unbound boolean value.");
 
-		return otherValue.boolean_value;
+		return other_value.boolean_value;
 	}
 
-	// static xor
-	public static boolean xor(final boolean boolValue, final TitanBoolean otherValue) {
-		otherValue.must_bound("The right operand of xor operator is an unbound boolean value.");
+	/**
+	 * Performs a bitwise xor operation on the provided booleans.
+	 * 
+	 * static operator^ in the core.
+	 *
+	 * @param bool_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public static boolean xor(final boolean bool_value, final TitanBoolean other_value) {
+		other_value.must_bound("The right operand of xor operator is an unbound boolean value.");
 
-		return boolValue != otherValue.boolean_value;
+		return bool_value != other_value.boolean_value;
 	}
 
 	/**
