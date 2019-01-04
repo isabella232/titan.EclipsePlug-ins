@@ -169,7 +169,13 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 		return array_size;
 	}
 
-	//originally lengthof
+	/**
+	 * Returns the number of elements.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
 	public int lengthof() {
 		return array_size;
 	}
