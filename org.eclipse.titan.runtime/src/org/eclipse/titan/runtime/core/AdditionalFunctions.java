@@ -19,10 +19,13 @@ import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 /**
  * Additional (predefined) functions
  *
+ * References like C.1 mark the chapter in the TTCN-3 standard declaring the
+ * predefined function.
+ *
  * @author Kristof Szabados
  * @author Gergo Ujhelyi
  *
- * originally in Addfunc.{hh,cc}
+ * In the core in Addfunc.{hh,cc}
  *
  * FIXME implement rest
  */
@@ -191,6 +194,16 @@ public final class AdditionalFunctions {
 	}
 
 	// C.1 - int2char
+
+	/**
+	 * Converts an integer to a character.
+	 * <p>
+	 * For more details see chapter C.1.1
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString int2char(final int value) {
 		if (value < 0 || value > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function int2char() is {0}, which is outside the allowed range 0 .. 127.", value));
@@ -199,6 +212,15 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(Character.toChars(value)[0]));
 	}
 
+	/**
+	 * Converts an integer to a character.
+	 * <p>
+	 * For more details see chapter C.1.1
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString int2char(final TitanInteger value) {
 		value.must_bound("The argument of function int2char() is an unbound integer value.");
 
@@ -212,6 +234,15 @@ public final class AdditionalFunctions {
 
 	// C.2 - int2unichar
 
+	/**
+	 * Converts an integer to a universal character.
+	 * <p>
+	 * For more details see chapter C.1.2
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted universal charstring.
+	 * */
 	public static TitanUniversalCharString int2unichar(final int value) {
 		if (value < 0 || value > Integer.MAX_VALUE) {
 			throw new TtcnError(MessageFormat.format("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.", value));
@@ -220,6 +251,15 @@ public final class AdditionalFunctions {
 		return new TitanUniversalCharString(Character.toChars(value >> 24)[0],Character.toChars((value >> 16) & 0xFF)[0],Character.toChars((value >> 8) & 0xFF)[0],Character.toChars(value & 0xFF)[0]);
 	}
 
+	/**
+	 * Converts an integer to a universal character.
+	 * <p>
+	 * For more details see chapter C.1.2
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted universal charstring.
+	 * */
 	public static TitanUniversalCharString int2unichar(final TitanInteger value) {
 		value.must_bound("The argument of function int2unichar() is an unbound integer value.");
 
@@ -232,16 +272,56 @@ public final class AdditionalFunctions {
 	}
 
 	// C.3 - int2bit
+
+	/**
+	 * Converts an integer to a bitstring of given length. If the length
+	 * parameter is more than needed, the resulting bitstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.3
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting bitstring.
+	 * @return the converted bitstrng.
+	 * */
 	public static TitanBitString int2bit(final int value, final int length) {
 		return int2bit(new TitanInteger(value), length);
 	}
 
+	/**
+	 * Converts an integer to a bitstring of given length. If the length
+	 * parameter is more than needed, the resulting bitstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.3
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting bitstring.
+	 * @return the converted bitstrng.
+	 * */
 	public static TitanBitString int2bit(final int value, final TitanInteger length) {
 		length.must_bound("The second argument (length) of function int2bit() is an unbound integer value.");
 
 		return int2bit(value, length.get_int());
 	}
 
+	/**
+	 * Converts an integer to a bitstring of given length. If the length
+	 * parameter is more than needed, the resulting bitstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.3
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting bitstring.
+	 * @return the converted bitstrng.
+	 * */
 	public static TitanBitString int2bit(final TitanInteger value, final int length) {
 		value.must_bound("The first argument (value) of function int2bit() is an unbound integer value.");
 
@@ -301,6 +381,19 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Converts an integer to a bitstring of given length. If the length
+	 * parameter is more than needed, the resulting bitstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.3
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting bitstring.
+	 * @return the converted bitstrng.
+	 * */
 	public static TitanBitString int2bit(final TitanInteger value, final TitanInteger length) {
 		value.must_bound("The first argument (value) of function int2bit() is an unbound integer value.");
 		length.must_bound("The second argument (length) of function int2bit() is an unbound integer value.");
@@ -309,16 +402,56 @@ public final class AdditionalFunctions {
 	}
 
 	// C.4 - int2hex
+
+	/**
+	 * Converts an integer to a hexstring of given length. If the length
+	 * parameter is more than needed, the resulting hexstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.5
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting hexstring.
+	 * @return the converted hexstrng.
+	 * */
 	public static TitanHexString int2hex(final int value, final int length) {
 		return int2hex(new TitanInteger(value), length);
 	}
 
+	/**
+	 * Converts an integer to a hexstring of given length. If the length
+	 * parameter is more than needed, the resulting hexstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.5
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting hexstring.
+	 * @return the converted hexstrng.
+	 * */
 	public static TitanHexString int2hex(final int value, final TitanInteger length) {
 		length.must_bound("The second argument (length) of function int2hex() is an unbound integer value.");
 
 		return int2hex(value, length.get_int());
 	}
 
+	/**
+	 * Converts an integer to a hexstring of given length. If the length
+	 * parameter is more than needed, the resulting hexstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.5
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting hexstring.
+	 * @return the converted hexstrng.
+	 * */
 	public static TitanHexString int2hex(final TitanInteger value, final int length) {
 		value.must_bound("The first argument (value) of function int2hex() is an unbound integer value.");
 
@@ -366,6 +499,19 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Converts an integer to a hexstring of given length. If the length
+	 * parameter is more than needed, the resulting hexstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.5
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting hexstring.
+	 * @return the converted hexstrng.
+	 * */
 	public static TitanHexString int2hex(final TitanInteger value, final TitanInteger length) {
 		value.must_bound("The first argument (value) of function int2hex() is an unbound integer value.");
 		length.must_bound("The second argument (length) of function int2hex() is an unbound integer value.");
@@ -374,6 +520,20 @@ public final class AdditionalFunctions {
 	}
 
 	// C.5 - int2oct
+
+	/**
+	 * Converts an integer to a octetstring of given length. If the length
+	 * parameter is more than needed, the resulting octetstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.6
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting octetstring.
+	 * @return the converted octetstrng.
+	 * */
 	public static TitanOctetString int2oct(final int value, final int length) {
 		if (value < 0) {
 			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value:", value));
@@ -394,12 +554,38 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(octets_ptr);
 	}
 
+	/**
+	 * Converts an integer to a octetstring of given length. If the length
+	 * parameter is more than needed, the resulting octetstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.6
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting octetstring.
+	 * @return the converted octetstrng.
+	 * */
 	public static TitanOctetString int2oct(final int value, final TitanInteger length) {
 		length.must_bound("The second argument (length) of function int2oct() is an unbound integer value.");
 
 		return int2oct(value, length.get_int());
 	}
 
+	/**
+	 * Converts an integer to a octetstring of given length. If the length
+	 * parameter is more than needed, the resulting octetstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.6
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting octetstring.
+	 * @return the converted octetstrng.
+	 * */
 	public static TitanOctetString int2oct(final TitanInteger value, final int length) {
 		value.must_bound("The first argument (value) of function int2oct() is an unbound integer value.");
 
@@ -433,6 +619,19 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Converts an integer to a octetstring of given length. If the length
+	 * parameter is more than needed, the resulting octetstring will be padded
+	 * with zeroes from the left.
+	 * <p>
+	 * For more details see chapter C.1.6
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @param length
+	 *                the expected length of the resulting octetstring.
+	 * @return the converted octetstrng.
+	 * */
 	public static TitanOctetString int2oct(final TitanInteger value, final TitanInteger length) {
 		value.must_bound("The first argument (value) of function int2oct() is an unbound integer value.");
 		length.must_bound("The second argument (length) of function int2oct() is an unbound integer value.");
@@ -444,10 +643,29 @@ public final class AdditionalFunctions {
 	}
 
 	// C.6 - int2str
+
+	/**
+	 * Converts an integer to its charstring equivalent.
+	 * <p>
+	 * For more details see chapter C.1.7
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString int2str(final int value) {
 		return new TitanCharString(Integer.toString(value));
 	}
 
+	/**
+	 * Converts an integer to its charstring equivalent.
+	 * <p>
+	 * For more details see chapter C.1.7
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString int2str(final TitanInteger value) {
 		value.must_bound("The argument of function int2str() is an unbound integer value.");
 
@@ -458,10 +676,29 @@ public final class AdditionalFunctions {
 	}
 
 	// C.7 - int2float
+
+	/**
+	 * Converts an integer to a float value.
+	 * <p>
+	 * For more details see chapter C.1.9
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted float.
+	 * */
 	public static TitanFloat int2float(final int value) {
 		return new TitanFloat((double) value);
 	}
 
+	/**
+	 * Converts an integer to a float value.
+	 * <p>
+	 * For more details see chapter C.1.9
+	 *
+	 * @param value
+	 *                the integer to convert.
+	 * @return the converted float.
+	 * */
 	public static TitanFloat int2float(final TitanInteger value) {
 		value.must_bound("The argument of function int2float() is an unbound integer value.");
 
@@ -473,6 +710,18 @@ public final class AdditionalFunctions {
 	}
 
 	// C.8 - float2int
+
+	/**
+	 * Converts a float value to an integer value,
+	 *  by removing the fractional part.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.9
+	 *
+	 * @param value
+	 *                the float to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger float2int(final double value) {
 		if (value > Integer.MIN_VALUE && value < Integer.MAX_VALUE) {
 			return new TitanInteger((int) value);
@@ -480,10 +729,32 @@ public final class AdditionalFunctions {
 		return new TitanInteger(new BigDecimal(value).toBigInteger());
 	}
 
+	/**
+	 * Converts a float value to an integer value,
+	 *  by removing the fractional part.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.9
+	 *
+	 * @param value
+	 *                the float to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger float2int(final Ttcn3Float value) {
 		return float2int(value.getValue());
 	}
 
+	/**
+	 * Converts a float value to an integer value,
+	 *  by removing the fractional part.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.9
+	 *
+	 * @param value
+	 *                the float to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger float2int(final TitanFloat value) {
 		value.must_bound("The argument of function float2int() is an unbound float value.");
 
@@ -491,6 +762,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.9 - char2int
+	/**
+	 * Converts a single character into an integer
+	 *  value  in the 0.. 127 range.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.10
+	 *
+	 * @param value
+	 *                the character to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger char2int(final char value) {
 		if (value > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.", value));
@@ -498,6 +780,17 @@ public final class AdditionalFunctions {
 		return new TitanInteger((int) value);
 	}
 
+	/**
+	 * Converts a single character long charstring into an integer
+	 *  value  in the 0.. 127 range.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.10
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger char2int(final String value) {
 		if (value == null) {
 			throw new TtcnError("The length of the argument in function char2int() must be exactly 1 instead of 0.");
@@ -509,6 +802,17 @@ public final class AdditionalFunctions {
 		return char2int(value.charAt(0));
 	}
 
+	/**
+	 * Converts a single character long charstring into an integer
+	 *  value  in the 0.. 127 range.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.10
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger char2int(final TitanCharString value) {
 		value.must_bound("The argument of function char2int() is an unbound charstring value.");
 
@@ -518,6 +822,17 @@ public final class AdditionalFunctions {
 		return char2int(value.constGet_at(0).get_char());
 	}
 
+	/**
+	 * Converts a single character long charstring into an integer
+	 *  value  in the 0.. 127 range.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.10
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger char2int(final TitanCharString_Element value) {
 		value.must_bound("The argument of function char2int() is an unbound charstring element.");
 
@@ -525,6 +840,16 @@ public final class AdditionalFunctions {
 	}
 
 	// C.10 - char2oct
+	/**
+	 * Converts a charstring into an octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.11
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString char2oct(final String value) {
 		if (value == null || value.length() <= 0) {
 			return new TitanOctetString("");
@@ -538,12 +863,32 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(octets_ptr);
 	}
 
+	/**
+	 * Converts a charstring into an octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.11
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString char2oct(final TitanCharString value){
 		value.must_bound("The argument of function char2oct() is an unbound charstring value.");
 
 		return char2oct(value.get_value().toString());
 	}
 
+	/**
+	 * Converts a charstring into an octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.11
+	 *
+	 * @param value
+	 *                the charstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString char2oct(final TitanCharString_Element value){
 		value.must_bound("The argument of function char2oct() is an unbound charstring element.");
 
@@ -551,6 +896,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.11 - unichar2int
+
+	/**
+	 * Converts an universal charstring into an integer.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.12
+	 *
+	 * @param value
+	 *                the universal charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger unichar2int(final TitanUniversalChar value) {
 		if (value.getUc_group() > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function unichar2int() is the invalid quadruple char {0},"
@@ -561,6 +917,16 @@ public final class AdditionalFunctions {
 		return new TitanInteger(result);
 	}
 
+	/**
+	 * Converts an universal charstring into an integer.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.12
+	 *
+	 * @param value
+	 *                the universal charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger unichar2int(final TitanUniversalCharString value) {
 		value.must_bound("The argument of function unichar2int() is an unbound universal charstring value.");
 
@@ -571,259 +937,36 @@ public final class AdditionalFunctions {
 		return unichar2int(value.get_value().get(0));
 	}
 
+	/**
+	 * Converts an universal charstring into an integer.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.12
+	 *
+	 * @param value
+	 *                the universal charstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger unichar2int(final TitanUniversalCharString_Element value) {
 		value.must_bound("The argument of function unichar2int() is an unbound universal charstring element.");
 
 		return unichar2int(value.get_char());
 	}
 
-	public static TitanOctetString unichar2oct(final TitanUniversalCharString value) {
-		// no encoding parameter is default UTF-8
-		value.must_bound("The argument of function unichar2oct() is an unbound universal charstring value.");
-
-		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
-		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
-
-		final TTCN_Buffer buf = new TTCN_Buffer();
-		value.encode_utf8(buf, false);
-
-		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
-
-		return new TitanOctetString(buf.get_data());
-	}
-
-	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
-		value.must_bound("The argument of function unichar2oct() is an unbound universal charstring value.");
-
-		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
-		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
-
-		final TTCN_Buffer buf = new TTCN_Buffer();
-
-		if (stringEncoding.operator_equals("UTF-8")) {
-			value.encode_utf8(buf, false);
-		} else if (stringEncoding.operator_equals("UTF-8 BOM")) {
-			value.encode_utf8(buf, true);
-		} else if (stringEncoding.operator_equals("UTF-16")) {
-			value.encode_utf16(buf, CharCoding.UTF16);
-		} else if (stringEncoding.operator_equals("UTF-16BE")) {
-			value.encode_utf16(buf, CharCoding.UTF16BE);
-		} else if (stringEncoding.operator_equals("UTF-16LE")) {
-			value.encode_utf16(buf, CharCoding.UTF16LE);
-		} else if (stringEncoding.operator_equals("UTF-32")) {
-			value.encode_utf32(buf, CharCoding.UTF32);
-		} else if (stringEncoding.operator_equals("UTF-32BE")) {
-			value.encode_utf32(buf, CharCoding.UTF32BE);
-		} else if (stringEncoding.operator_equals("UTF-32LE")) {
-			value.encode_utf32(buf, CharCoding.UTF32LE);
-		}
-		else {
-			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
-		}
-
-		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
-
-		return new TitanOctetString(buf.get_data());
-	}
-
-	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final String stringEncoding) {
-		return unichar2oct(value, new TitanCharString(stringEncoding));
-	}
-
-	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
-		if (encoded_value.lengthof().operator_equals(0)) {
-			return new TitanCharString("<unknown>");
-		}
-
-		int i = 0;
-		final int length = encoded_value.lengthof().get_int();
-		final char[] strptr = encoded_value.get_value();
-
-		if(length >= 2) {
-			switch (strptr[0] & 0xFF) {
-			case 0xef:
-				for (i = 1; i < UTF8_BOM.length && i < strptr.length && UTF8_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
-					return new TitanCharString("UTF-8");
-				}
-				break;
-			case 0xfe:
-				for (i = 1; i < UTF16BE_BOM.length && i < strptr.length && UTF16BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
-					return new TitanCharString("UTF-16BE");
-				}
-				break;
-			case 0xff:
-				for (i = 1; i < UTF32LE_BOM.length && i < strptr.length && UTF32LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
-					return new TitanCharString("UTF-32LE");
-				}
-
-				for (i = 1; i < UTF16LE_BOM.length && i < strptr.length && UTF16LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
-					return new TitanCharString("UTF-16LE");
-				}
-				break;
-			case 0x00:
-				for (i = 1; i < UTF32BE_BOM.length && i < strptr.length && UTF32BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
-					return new TitanCharString("UTF-32BE");
-				}
-				break;
-			default:
-				break;
-			}
-		}
-
-		if (is_ascii(encoded_value) == CharCoding.ASCII) {
-			return new TitanCharString("ASCII");
-		} else if (is_utf8(encoded_value) == CharCoding.UTF_8) {
-			return new TitanCharString("UTF-8");
-		} else {
-			return new TitanCharString("<unknown>");
-		}
-	}
-
-	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
-		final char str[] = encoded_value.get_value();
-		int length_of_BOM = 0;
-		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
-			length_of_BOM = 4;
-		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
-			length_of_BOM = 4;
-		} else if (0xFE == (str[0] & 0xFF) && 0xFF == (str[1] & 0xFF)) { // UTF-16BE
-			length_of_BOM = 2;
-		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF)) { // UTF-16LE
-			length_of_BOM = 2;
-		} else if (0xEF == (str[0] & 0xFF) && 0xBB == (str[1] & 0xFF) && 0xBF == (str[2] & 0xFF)) { // UTF-8
-			length_of_BOM = 3;
-		} else {
-			return new TitanOctetString(encoded_value);
-		}
-
-		final char tmp_str[] = new char[str.length - length_of_BOM];
-		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
-
-		return new TitanOctetString(tmp_str);
-	}
-
-	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
-		final char pad = '=';
-		final char[] p_msg = msg.get_value();
-		int msgPos = 0;
-		int octets_left = msg.lengthof().get_int();
-		char[] output = new char[((octets_left*22) >> 4) + 7];
-		int outpotPos = 0;
-		int n_4chars = 0;
-		final boolean linebreaks = use_linebreaks.get_value();
-		while (octets_left >= 3) {
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
-			n_4chars++;
-			if (linebreaks && n_4chars >= 19 && octets_left != 3) {
-				output[outpotPos++] = '\r';
-				output[outpotPos++] = '\n';
-				n_4chars = 0;
-			}
-			msgPos += 3;
-			octets_left -= 3;
-		}
-		switch (octets_left) {
-		case 1:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
-			output[outpotPos++] = pad;
-			output[outpotPos++] = pad;
-			break;
-		case 2:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
-			output[outpotPos++] = pad;
-			break;
-		default:
-			break;
-		}
-
-		return new TitanCharString(new String(output, 0, outpotPos));
-	}
-
-	public static TitanCharString encode_base64(final TitanOctetString msg) {
-		final char pad = '=';
-		final char[] p_msg = msg.get_value();
-		int msgPos = 0;
-		int octets_left = msg.lengthof().get_int();
-		char[] output = new char[((octets_left*22) >> 4) + 7];
-		int outpotPos = 0;
-		while (octets_left >= 3) {
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
-			msgPos += 3;
-			octets_left -= 3;
-		}
-		switch (octets_left) {
-		case 1:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
-			output[outpotPos++] = pad;
-			output[outpotPos++] = pad;
-			break;
-		case 2:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
-			output[outpotPos++] = pad;
-			break;
-		default:
-			break;
-		}
-
-		return new TitanCharString(new String(output, 0, outpotPos));
-	}
-
-	public static TitanOctetString decode_base64(final TitanCharString b64) {
-		final byte[] p_b64 = b64.get_value().toString().getBytes();
-		int b64Pos = 0;
-		int chars_left = b64.lengthof().get_int();
-		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
-		int outpotPos = 0;
-		int bits = 0;
-		int n_bits = 0;
-
-		while (chars_left > 0) {
-			chars_left--;
-			if (p_b64[b64Pos] > 0 && decode_table[p_b64[b64Pos]] < 64) {
-				bits <<= 6;
-				bits |= decode_table[p_b64[b64Pos]];
-				n_bits += 6;
-				if (n_bits >= 8) {
-					output[outpotPos++] = (char)(( bits >> (n_bits - 8)) & 0xff);
-					n_bits -= 8;
-				}
-			} else if (p_b64[b64Pos] == '=') {
-				break;
-			} else {
-				if (p_b64[b64Pos] == '\r' && p_b64[b64Pos + 1] == '\n') {
-					b64Pos++; // skip \n too
-				} else {
-					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64[b64Pos]));
-				}
-			}
-
-			b64Pos++;
-		}
-
-		final char[] result = new char[outpotPos];
-		System.arraycopy(output, 0, result, 0, outpotPos);
-
-		return new TitanOctetString(result);
-	}
-
 	// C.12 - bit2int
+
+	/**
+	 * Converts a bitstring into an integer.
+	 * The rightmost bit is least significant,
+	 *  the leftmost bit is the most significant.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.13
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.must_bound("The argument of function bit2int() is an unbound bitstring value.");
 
@@ -871,6 +1014,18 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Converts a bitstring into an integer.
+	 * The rightmost bit is least significant,
+	 *  the leftmost bit is the most significant.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.13
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger bit2int(final TitanBitString_Element value) {
 		value.must_bound("The argument of function bit2int() is an unbound bitstring element.");
 
@@ -878,6 +1033,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.13 - bit2hex
+
+	/**
+	 * Converts a bitstring into a hexstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.14
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted hexstring.
+	 * */
 	public static TitanHexString bit2hex(final TitanBitString value) {
 		value.must_bound("The argument of function bit2hex() is an unbound bitstring value.");
 
@@ -895,6 +1061,16 @@ public final class AdditionalFunctions {
 		return new TitanHexString(nibbles_ptr);
 	}
 
+	/**
+	 * Converts a bitstring into a hexstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.14
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted hexstring.
+	 * */
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
 		value.must_bound("The argument of function bit2hex() is an unbound bitstring element.");
 
@@ -902,6 +1078,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.14 - bit2oct
+
+	/**
+	 * Converts a bitstring into a octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.15
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString bit2oct(final TitanBitString value) {
 		value.must_bound("The argument of function bit2oct() is an unbound bitstring value.");
 
@@ -927,6 +1114,16 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(ret_val);
 	}
 
+	/**
+	 * Converts a bitstring into a octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.15
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString bit2oct(final TitanBitString_Element value) {
 		value.must_bound("The argument of function bit2oct() is an unbound bitstring element.");
 
@@ -934,6 +1131,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.15 - bit2str
+
+	/**
+	 * Converts a bitstring into a charstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.16
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString bit2str(final TitanBitString value) {
 		value.must_bound("The argument of function bit2str() is an unbound bitstring value.");
 
@@ -951,6 +1159,16 @@ public final class AdditionalFunctions {
 		return new TitanCharString(ret_val);
 	}
 
+	/**
+	 * Converts a bitstring into a charstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.16
+	 *
+	 * @param value
+	 *                the bitstring to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString bit2str(final TitanBitString_Element value) {
 		value.must_bound("The argument of function bit2str() is an unbound bitstring element.");
 
@@ -962,6 +1180,19 @@ public final class AdditionalFunctions {
 	}
 
 	// C.16 - hex2int
+
+	/**
+	 * Converts a hexstring into an integer.
+	 * The rightmost hexadecimal digit is least significant,
+	 *  the leftmost hexadecimal digit is the most significant
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.17
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger hex2int(final TitanHexString value) {
 		value.must_bound("The argument of function hex2int() is an unbound hexstring value.");
 
@@ -1002,6 +1233,18 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Converts a hexstring into an integer.
+	 * The rightmost hexadecimal digit is least significant,
+	 *  the leftmost hexadecimal digit is the most significant
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.17
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted integer.
+	 * */
 	public static TitanInteger hex2int(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2int() is an unbound hexstring element.");
 
@@ -1009,6 +1252,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.17 - hex2bit
+
+	/**
+	 * Converts a hexstring into a bitstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.18
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted bitstring.
+	 * */
 	public static TitanBitString hex2bit(final TitanHexString value) {
 		value.must_bound("The argument of function hex2bit() is an unbound hexstring value.");
 
@@ -1038,6 +1292,16 @@ public final class AdditionalFunctions {
 		return new TitanBitString(bits_ptr, 4 * n_nibbles);
 	}
 
+	/**
+	 * Converts a hexstring into a bitstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.18
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted bitstring.
+	 * */
 	public static TitanBitString hex2bit(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2bit() is an unbound hexstring element.");
 
@@ -1047,6 +1311,17 @@ public final class AdditionalFunctions {
 	}
 
 	// C.18 - hex2oct
+
+	/**
+	 * Converts a hexstring into a octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.19
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString hex2oct(final TitanHexString value) {
 		value.must_bound("The argument of function hex2oct() is an unbound hexstring value.");
 
@@ -1067,6 +1342,16 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(octet_ptr);
 	}
 
+	/**
+	 * Converts a hexstring into a octetstring.
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.19
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted octetstring.
+	 * */
 	public static TitanOctetString hex2oct(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2oct() is an unbound hexstring element.");
 
@@ -1075,6 +1360,19 @@ public final class AdditionalFunctions {
 	}
 
 	// C.19 - hex2str
+
+	/**
+	 * Converts a hexstring into a charstring.
+	 * The resulting charstring has the same length as the hexstring
+	 *  and contains only the characters '0' to '9'and 'A' to 'F'
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.20
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString hex2str(final TitanHexString value) {
 		value.must_bound("The argument of function hex2str() is an unbound hexstring value.");
 
@@ -1088,6 +1386,18 @@ public final class AdditionalFunctions {
 		return new TitanCharString(ret_val);
 	}
 
+	/**
+	 * Converts a hexstring into a charstring.
+	 * The resulting charstring has the same length as the hexstring
+	 *  and contains only the characters '0' to '9'and 'A' to 'F'
+	 * 
+	 * <p>
+	 * For more details see chapter C.1.20
+	 *
+	 * @param value
+	 *                the hexstring to convert.
+	 * @return the converted charstring.
+	 * */
 	public static TitanCharString hex2str(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2str() is an unbound hexstring element.");
 
@@ -2877,5 +3187,251 @@ public final class AdditionalFunctions {
 		array_index.must_bound("Using an unbound integer value for indexing an array of ports.");
 
 		return get_port_name(port_name.get_value().toString(), array_index.get_int());
+	}
+
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value) {
+		// no encoding parameter is default UTF-8
+		value.must_bound("The argument of function unichar2oct() is an unbound universal charstring value.");
+
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
+
+		final TTCN_Buffer buf = new TTCN_Buffer();
+		value.encode_utf8(buf, false);
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
+		return new TitanOctetString(buf.get_data());
+	}
+
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
+		value.must_bound("The argument of function unichar2oct() is an unbound universal charstring value.");
+
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
+
+		final TTCN_Buffer buf = new TTCN_Buffer();
+
+		if (stringEncoding.operator_equals("UTF-8")) {
+			value.encode_utf8(buf, false);
+		} else if (stringEncoding.operator_equals("UTF-8 BOM")) {
+			value.encode_utf8(buf, true);
+		} else if (stringEncoding.operator_equals("UTF-16")) {
+			value.encode_utf16(buf, CharCoding.UTF16);
+		} else if (stringEncoding.operator_equals("UTF-16BE")) {
+			value.encode_utf16(buf, CharCoding.UTF16BE);
+		} else if (stringEncoding.operator_equals("UTF-16LE")) {
+			value.encode_utf16(buf, CharCoding.UTF16LE);
+		} else if (stringEncoding.operator_equals("UTF-32")) {
+			value.encode_utf32(buf, CharCoding.UTF32);
+		} else if (stringEncoding.operator_equals("UTF-32BE")) {
+			value.encode_utf32(buf, CharCoding.UTF32BE);
+		} else if (stringEncoding.operator_equals("UTF-32LE")) {
+			value.encode_utf32(buf, CharCoding.UTF32LE);
+		}
+		else {
+			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
+		}
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
+		return new TitanOctetString(buf.get_data());
+	}
+
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final String stringEncoding) {
+		return unichar2oct(value, new TitanCharString(stringEncoding));
+	}
+
+	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
+		if (encoded_value.lengthof().operator_equals(0)) {
+			return new TitanCharString("<unknown>");
+		}
+
+		int i = 0;
+		final int length = encoded_value.lengthof().get_int();
+		final char[] strptr = encoded_value.get_value();
+
+		if(length >= 2) {
+			switch (strptr[0] & 0xFF) {
+			case 0xef:
+				for (i = 1; i < UTF8_BOM.length && i < strptr.length && UTF8_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
+					return new TitanCharString("UTF-8");
+				}
+				break;
+			case 0xfe:
+				for (i = 1; i < UTF16BE_BOM.length && i < strptr.length && UTF16BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
+					return new TitanCharString("UTF-16BE");
+				}
+				break;
+			case 0xff:
+				for (i = 1; i < UTF32LE_BOM.length && i < strptr.length && UTF32LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
+					return new TitanCharString("UTF-32LE");
+				}
+
+				for (i = 1; i < UTF16LE_BOM.length && i < strptr.length && UTF16LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
+					return new TitanCharString("UTF-16LE");
+				}
+				break;
+			case 0x00:
+				for (i = 1; i < UTF32BE_BOM.length && i < strptr.length && UTF32BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
+					return new TitanCharString("UTF-32BE");
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (is_ascii(encoded_value) == CharCoding.ASCII) {
+			return new TitanCharString("ASCII");
+		} else if (is_utf8(encoded_value) == CharCoding.UTF_8) {
+			return new TitanCharString("UTF-8");
+		} else {
+			return new TitanCharString("<unknown>");
+		}
+	}
+
+	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
+		final char str[] = encoded_value.get_value();
+		int length_of_BOM = 0;
+		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
+			length_of_BOM = 4;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
+			length_of_BOM = 4;
+		} else if (0xFE == (str[0] & 0xFF) && 0xFF == (str[1] & 0xFF)) { // UTF-16BE
+			length_of_BOM = 2;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF)) { // UTF-16LE
+			length_of_BOM = 2;
+		} else if (0xEF == (str[0] & 0xFF) && 0xBB == (str[1] & 0xFF) && 0xBF == (str[2] & 0xFF)) { // UTF-8
+			length_of_BOM = 3;
+		} else {
+			return new TitanOctetString(encoded_value);
+		}
+
+		final char tmp_str[] = new char[str.length - length_of_BOM];
+		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
+
+		return new TitanOctetString(tmp_str);
+	}
+
+	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
+		final char pad = '=';
+		final char[] p_msg = msg.get_value();
+		int msgPos = 0;
+		int octets_left = msg.lengthof().get_int();
+		char[] output = new char[((octets_left*22) >> 4) + 7];
+		int outpotPos = 0;
+		int n_4chars = 0;
+		final boolean linebreaks = use_linebreaks.get_value();
+		while (octets_left >= 3) {
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			n_4chars++;
+			if (linebreaks && n_4chars >= 19 && octets_left != 3) {
+				output[outpotPos++] = '\r';
+				output[outpotPos++] = '\n';
+				n_4chars = 0;
+			}
+			msgPos += 3;
+			octets_left -= 3;
+		}
+		switch (octets_left) {
+		case 1:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = pad;
+			output[outpotPos++] = pad;
+			break;
+		case 2:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = pad;
+			break;
+		default:
+			break;
+		}
+
+		return new TitanCharString(new String(output, 0, outpotPos));
+	}
+
+	public static TitanCharString encode_base64(final TitanOctetString msg) {
+		final char pad = '=';
+		final char[] p_msg = msg.get_value();
+		int msgPos = 0;
+		int octets_left = msg.lengthof().get_int();
+		char[] output = new char[((octets_left*22) >> 4) + 7];
+		int outpotPos = 0;
+		while (octets_left >= 3) {
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			msgPos += 3;
+			octets_left -= 3;
+		}
+		switch (octets_left) {
+		case 1:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = pad;
+			output[outpotPos++] = pad;
+			break;
+		case 2:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = pad;
+			break;
+		default:
+			break;
+		}
+
+		return new TitanCharString(new String(output, 0, outpotPos));
+	}
+
+	public static TitanOctetString decode_base64(final TitanCharString b64) {
+		final byte[] p_b64 = b64.get_value().toString().getBytes();
+		int b64Pos = 0;
+		int chars_left = b64.lengthof().get_int();
+		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
+		int outpotPos = 0;
+		int bits = 0;
+		int n_bits = 0;
+
+		while (chars_left > 0) {
+			chars_left--;
+			if (p_b64[b64Pos] > 0 && decode_table[p_b64[b64Pos]] < 64) {
+				bits <<= 6;
+				bits |= decode_table[p_b64[b64Pos]];
+				n_bits += 6;
+				if (n_bits >= 8) {
+					output[outpotPos++] = (char)(( bits >> (n_bits - 8)) & 0xff);
+					n_bits -= 8;
+				}
+			} else if (p_b64[b64Pos] == '=') {
+				break;
+			} else {
+				if (p_b64[b64Pos] == '\r' && p_b64[b64Pos + 1] == '\n') {
+					b64Pos++; // skip \n too
+				} else {
+					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64[b64Pos]));
+				}
+			}
+
+			b64Pos++;
+		}
+
+		final char[] result = new char[outpotPos];
+		System.arraycopy(output, 0, result, 0, outpotPos);
+
+		return new TitanOctetString(result);
 	}
 }
