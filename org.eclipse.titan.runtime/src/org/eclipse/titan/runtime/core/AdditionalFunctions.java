@@ -2368,6 +2368,25 @@ public final class AdditionalFunctions {
 	}
 
 	// C.34 - substr
+	/**
+	 * Check the arguments of the substring functions.
+	 * <p>
+	 * The index must not be negative or larger then the length.
+	 * Return count must not be negative.
+	 * The index and return count must not be larger then the length.
+	 *
+	 * @param value_length
+	 *                the current value length.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the length to be returned.
+	 * @param string_type
+	 *                the type of the string to be used in error messages.
+	 * @param element_name
+	 *                the name of the string element to be used in error
+	 *                messages.
+	 * */
 	public static void check_substr_arguments(final int value_length, final int idx, final int returncount, final String string_type, final String element_name) {
 		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
@@ -2384,6 +2403,25 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Check the arguments of the substring functions.
+	 * <p>
+	 * The index must be 0 or 1.
+	 * Return count must not be negative.
+	 * The index and return count must be more than 1.
+	 *
+	 * @param value_length
+	 *                the current value length.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the length to be returned.
+	 * @param string_type
+	 *                the type of the string to be used in error messages.
+	 * @param element_name
+	 *                the name of the string element to be used in error
+	 *                messages.
+	 * */
 	public static void check_substr_arguments(final int idx, final int returncount, final String string_type, final String element_name) {
 		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
@@ -2400,12 +2438,25 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound bitstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "bitstring", "bit");
 		if (idx % 8 != 0) {
-			final StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();//TODO we know the size.
 			for (int i = 0; i < returncount; i++) {
 				sb.append(value.get_bit(idx + i) ? '1' : '0');
 			}
@@ -2418,18 +2469,57 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2437,6 +2527,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound bitstring element.");
 
@@ -2448,18 +2551,57 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2467,6 +2609,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound hexstring value.");
 
@@ -2478,18 +2633,57 @@ public final class AdditionalFunctions {
 		return new TitanHexString(ret_val);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2497,6 +2691,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound hexstring element.");
 
@@ -2508,18 +2715,57 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2527,6 +2773,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound octetstring value.");
 
@@ -2538,18 +2797,57 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(ret_val);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2557,6 +2855,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound octetstring element.");
 
@@ -2568,18 +2879,57 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2587,6 +2937,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound charstring value.");
 
@@ -2595,18 +2958,57 @@ public final class AdditionalFunctions {
 		return new TitanCharString(value.get_value().substring(idx, idx + returncount));
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2614,6 +3016,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound charstring element.");
 
@@ -2622,18 +3037,57 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(value.get_char()));
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2641,6 +3095,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound universal charstring value.");
 
@@ -2648,28 +3115,67 @@ public final class AdditionalFunctions {
 		if (value.charstring) {
 			return new TitanUniversalCharString(value.cstr.substring(idx, idx + returncount));
 		} else {
-			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size.
 			final List<TitanUniversalChar> src_ptr = value.get_value();
 			for (int i = 0; i < returncount; i++) {
-				ret_val.add(src_ptr.get(i + idx));
+				ret_val.add(src_ptr.get(i + idx));//TODO check if copy is needed.
 			}
 
 			return new TitanUniversalCharString(ret_val);
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2677,6 +3183,19 @@ public final class AdditionalFunctions {
 		return substr(value, idx.get_int(), returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final int idx, final int returncount) {
 		value.must_bound("The first argument (value) of function substr() is an unbound universal charstring element.");
 
@@ -2688,18 +3207,57 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final int idx, final TitanInteger returncount) {
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
 
 		return substr(value, idx, returncount.get_int());
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final TitanInteger idx, final int returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return substr(value, idx.get_int(), returncount);
 	}
 
+	/**
+	 * Return a substring of the provided string.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_Element value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.must_bound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.must_bound("The third argument (returncount) of function substr() is an unbound integer value.");
@@ -2708,6 +3266,20 @@ public final class AdditionalFunctions {
 	}
 
 	//substr() on templates
+
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2716,6 +3288,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2724,6 +3309,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2732,6 +3330,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString substr(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2740,6 +3351,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2748,6 +3372,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2756,6 +3393,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2764,6 +3414,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString substr(final TitanHexString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if(!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2772,6 +3435,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2780,6 +3456,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2788,6 +3477,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2796,6 +3498,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString substr(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2804,6 +3519,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2812,6 +3540,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2820,6 +3561,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2828,6 +3582,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString substr(final TitanCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2836,6 +3603,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final int idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2844,6 +3624,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final int idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2852,6 +3645,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final TitanInteger idx, final int returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2860,6 +3666,19 @@ public final class AdditionalFunctions {
 		return substr(value.valueof(), idx, returncount);
 	}
 
+	/**
+	 * Return a substring value of the provided string template.
+	 * <p>
+	 * For more details see chapter C.4.2
+	 *
+	 * @param value
+	 *                the input string template.
+	 * @param idx
+	 *                the starting index.
+	 * @param returncount
+	 *                the number of characters to return.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString substr(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
@@ -2870,6 +3689,25 @@ public final class AdditionalFunctions {
 
 	// C.35 - replace
 
+	/**
+	 * Check the arguments of the replace functions.
+	 * <p>
+	 * The index must not be negative or larger then the length.
+	 * Length count must not be negative or larger then the length.
+	 * The index and length must not be larger then the length.
+	 *
+	 * @param value_length
+	 *                the current value length.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the length to be returned.
+	 * @param string_type
+	 *                the type of the string to be used in error messages.
+	 * @param element_name
+	 *                the name of the string element to be used in error
+	 *                messages.
+	 * */
 	public static void check_replace_arguments(final int value_length, final int idx, final int len, final String string_type, final String element_name) {
 		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace() is a negative integer value: {0}.", idx));
@@ -2890,6 +3728,22 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString value, final int idx, final int len, final TitanBitString repl) {
 		value.must_bound("The first argument (value) of function replace() is an unbound bitstring value.");
 		repl.must_bound("The fourth argument (repl) of function replace() is an unbound bitstring value.");
@@ -2913,18 +3767,66 @@ public final class AdditionalFunctions {
 		return new TitanBitString(temp_sb.toString());
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString value, final int idx, final TitanInteger len, final TitanBitString repl) {
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
 
 		return replace(value, idx, len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString value, final TitanInteger idx, final int len, final TitanBitString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 
 		return replace(value, idx.get_int(), len, repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString value, final TitanInteger idx, final TitanInteger len, final TitanBitString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
@@ -2932,6 +3834,22 @@ public final class AdditionalFunctions {
 		return replace(value, idx.get_int(), len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString value, final int idx, final int len, final TitanHexString repl) {
 		value.must_bound("The first argument (value) of function replace() is an unbound hexstring value.");
 		repl.must_bound("The fourth argument (repl) of function replace() is an unbound hexstring value.");
@@ -2952,18 +3870,66 @@ public final class AdditionalFunctions {
 		return new TitanHexString(ret_val);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString value, final int idx, final TitanInteger len, final TitanHexString repl) {
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
 
 		return replace(value, idx, len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString value, final TitanInteger idx, final int len, final TitanHexString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 
 		return replace(value, idx.get_int(), len, repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString value, final TitanInteger idx, final TitanInteger len, final TitanHexString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
@@ -2971,6 +3937,22 @@ public final class AdditionalFunctions {
 		return replace(value, idx.get_int(), len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString value, final int idx, final int len, final TitanOctetString repl) {
 		value.must_bound("The first argument (value) of function replace() is an unbound octetstring value.");
 		repl.must_bound("The fourth argument (repl) of function replace() is an unbound octetstring value.");
@@ -2991,18 +3973,66 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(ret_val);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString value, final int idx, final TitanInteger len, final TitanOctetString repl) {
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
 
 		return replace(value, idx, len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString value, final TitanInteger idx, final int len, final TitanOctetString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 
 		return replace(value, idx.get_int(), len, repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString value, final TitanInteger idx, final TitanInteger len, final TitanOctetString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
@@ -3010,6 +4040,22 @@ public final class AdditionalFunctions {
 		return replace(value, idx.get_int(), len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString value, final int idx, final int len, final TitanCharString repl) {
 		value.must_bound("The first argument (value) of function replace() is an unbound charstring value.");
 		repl.must_bound("The fourth argument (repl) of function replace() is an unbound charstring value.");
@@ -3026,18 +4072,66 @@ public final class AdditionalFunctions {
 		return new TitanCharString(ret_val);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString value, final int idx, final TitanInteger len, final TitanCharString repl) {
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
 
 		return replace(value, idx, len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString value, final TitanInteger idx, final int len, final TitanCharString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 
 		return replace(value, idx.get_int(), len, repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString value, final TitanInteger idx, final TitanInteger len, final TitanCharString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
@@ -3045,6 +4139,22 @@ public final class AdditionalFunctions {
 		return replace(value, idx.get_int(), len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString value, final int idx, final int len, final TitanUniversalCharString repl) {
 		value.must_bound("The first argument (value) of function replace() is an unbound universal charstring value.");
 		repl.must_bound("The fourth argument (repl) of function replace() is an unbound universal charstring value.");
@@ -3062,7 +4172,7 @@ public final class AdditionalFunctions {
 				ret_val.replace(idx, idx + len, repl.cstr.toString());
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt(i)));
 				}
@@ -3077,7 +4187,7 @@ public final class AdditionalFunctions {
 			}
 		} else {
 			if (repl.charstring) {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(idx + i, value.val_ptr.get(i));
 				}
@@ -3089,7 +4199,7 @@ public final class AdditionalFunctions {
 				}
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size.
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, value.val_ptr.get(i));
 				}
@@ -3104,18 +4214,66 @@ public final class AdditionalFunctions {
 		}
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString value, final int idx, final TitanInteger len, final TitanUniversalCharString repl) {
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
 
 		return replace(value, idx, len.get_int(), repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString value, final TitanInteger idx, final int len, final TitanUniversalCharString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 
 		return replace(value, idx.get_int(), len, repl);
 	}
 
+	/**
+	 * Replaces the substring of value, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString value, final TitanInteger idx, final TitanInteger len, final TitanUniversalCharString repl) {
 		idx.must_bound("The second argument (index) of function replace() is an unbound integer value.");
 		len.must_bound("The third argument (len) of function replace() is an unbound integer value.");
@@ -3125,6 +4283,22 @@ public final class AdditionalFunctions {
 
 	// replace on templates
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString_template value, final int idx, final int len, final TitanBitString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3136,6 +4310,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString_template value, final int idx, final TitanInteger len, final TitanBitString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3147,6 +4337,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString_template value, final TitanInteger idx, final int len, final TitanBitString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3158,6 +4364,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanBitString replace(final TitanBitString_template value, final TitanInteger idx, final TitanInteger len, final TitanBitString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3169,6 +4391,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString_template value, final int idx, final int len, final TitanHexString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3180,6 +4418,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString_template value, final int idx, final TitanInteger len, final TitanHexString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3191,6 +4445,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString_template value, final TitanInteger idx, final int len, final TitanHexString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3202,6 +4472,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanHexString replace(final TitanHexString_template value, final TitanInteger idx, final TitanInteger len,
 			final TitanHexString_template repl) {
 		if (!value.is_value()) {
@@ -3214,6 +4500,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString_template value, final int idx, final int len, final TitanOctetString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3225,6 +4527,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString_template value, final int idx, final TitanInteger len, final TitanOctetString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3236,6 +4554,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString_template value, final TitanInteger idx, final int len, final TitanOctetString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3247,6 +4581,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanOctetString replace(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger len, final TitanOctetString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3258,6 +4608,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString_template value, final int idx, final int len, final TitanCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3269,6 +4635,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString_template value, final int idx, final TitanInteger len, final TitanCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3280,6 +4662,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString_template value, final TitanInteger idx, final int len, final TitanCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3291,6 +4689,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanCharString replace(final TitanCharString_template value, final TitanInteger idx, final TitanInteger len, final TitanCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3302,6 +4716,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final int idx, final int len, final TitanUniversalCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3313,6 +4743,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final int idx, final TitanInteger len, final TitanUniversalCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3324,6 +4770,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final TitanInteger idx, final int len, final TitanUniversalCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3335,6 +4797,22 @@ public final class AdditionalFunctions {
 		return replace(value.valueof(), idx, len, repl.valueof());
 	}
 
+	/**
+	 * Replaces the substring of value template, starting at idx of length len, with
+	 * the string provided in repl and returns the resulting string.
+	 * <p>
+	 * For more details see chapter C.4.3
+	 *
+	 * @param value
+	 *                the input string.
+	 * @param idx
+	 *                the starting index.
+	 * @param len
+	 *                the number of characters to replace.
+	 * @param repl
+	 *                the string to replace with.
+	 * @return the resulting string.
+	 * */
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger len, final TitanUniversalCharString_template repl) {
 		if (!value.is_value()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
@@ -3344,6 +4822,174 @@ public final class AdditionalFunctions {
 		}
 
 		return replace(value.valueof(), idx, len, repl.valueof());
+	}
+
+	/**
+	 * Detects and returns the UCS encoding scheme
+	 *  according to clause 10 of ISO/IEC 10646 or
+	 *  or {@code "<unknown>"} if not found.
+	 * <p>
+	 * For more details see chapter C.5.7
+	 *
+	 * @param encoded_value
+	 *                the input string.
+	 * @return the detected encoding or {@code "<unknown>"}.
+	 * */
+	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
+		if (encoded_value.lengthof().operator_equals(0)) {
+			return new TitanCharString("<unknown>");
+		}
+
+		int i = 0;
+		final int length = encoded_value.lengthof().get_int();
+		final char[] strptr = encoded_value.get_value();
+
+		if(length >= 2) {
+			switch (strptr[0] & 0xFF) {
+			case 0xef:
+				for (i = 1; i < UTF8_BOM.length && i < strptr.length && UTF8_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
+					return new TitanCharString("UTF-8");
+				}
+				break;
+			case 0xfe:
+				for (i = 1; i < UTF16BE_BOM.length && i < strptr.length && UTF16BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
+					return new TitanCharString("UTF-16BE");
+				}
+				break;
+			case 0xff:
+				for (i = 1; i < UTF32LE_BOM.length && i < strptr.length && UTF32LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
+					return new TitanCharString("UTF-32LE");
+				}
+
+				for (i = 1; i < UTF16LE_BOM.length && i < strptr.length && UTF16LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
+					return new TitanCharString("UTF-16LE");
+				}
+				break;
+			case 0x00:
+				for (i = 1; i < UTF32BE_BOM.length && i < strptr.length && UTF32BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
+				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
+					return new TitanCharString("UTF-32BE");
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (is_ascii(encoded_value) == CharCoding.ASCII) {
+			return new TitanCharString("ASCII");
+		} else if (is_utf8(encoded_value) == CharCoding.UTF_8) {
+			return new TitanCharString("UTF-8");
+		} else {
+			return new TitanCharString("<unknown>");
+		}
+	}
+
+	/**
+	 * Removes the optional sequence of characters that might be present at
+	 * the beginning of a stream of encoded universal charstring to indicate
+	 * the order of octets in the encoded form.
+	 * <p>
+	 * For more details see chapter C.5.8
+	 *
+	 * @param encoded_value
+	 *                the input string.
+	 * @return the resulting octetstring without the optional starting
+	 *         sequence.
+	 * */
+	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
+		final char str[] = encoded_value.get_value();
+		int length_of_BOM = 0;
+		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
+			length_of_BOM = 4;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
+			length_of_BOM = 4;
+		} else if (0xFE == (str[0] & 0xFF) && 0xFF == (str[1] & 0xFF)) { // UTF-16BE
+			length_of_BOM = 2;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF)) { // UTF-16LE
+			length_of_BOM = 2;
+		} else if (0xEF == (str[0] & 0xFF) && 0xBB == (str[1] & 0xFF) && 0xBF == (str[2] & 0xFF)) { // UTF-8
+			length_of_BOM = 3;
+		} else {
+			return new TitanOctetString(encoded_value);
+		}
+
+		final char tmp_str[] = new char[str.length - length_of_BOM];
+		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
+
+		return new TitanOctetString(tmp_str);
+	}
+
+	//C.36 - rnd
+
+	//TODO update with Java 1.7 to ThreadLocalRandom
+	private static boolean rndSeedSet = false;
+	private final static Random random = new Random();
+
+	public static void set_rnd_seed(final double floatSeed) {
+		TitanFloat.check_numeric(floatSeed,"The seed value of function rnd()");
+		random.setSeed((long)floatSeed);
+		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
+		rndSeedSet = true;
+	}
+
+	public static TitanFloat rnd_generate() {
+		final double returnValue = random.nextDouble();
+		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
+
+		return new TitanFloat(returnValue);
+	}
+
+	/**
+	 * Returns a random number less than 1, but greater or equal to 0.
+	 * <p>
+	 * For more details see chapter C.6.1
+	 *
+	 * @return the new random number.
+	 * */
+	public static TitanFloat rnd() {
+		if (!rndSeedSet) {
+			set_rnd_seed(TTCN_Snapshot.time_now());
+		}
+
+		return rnd_generate();
+	}
+
+	/**
+	 * Returns a random number less than 1, but greater or equal to 0.
+	 * <p>
+	 * For more details see chapter C.6.1
+	 *
+	 * @param seed
+	 *                the seed value to initialize the random number
+	 *                generation.
+	 * @return the new random number.
+	 * */
+	public static TitanFloat rnd(final double seed) {
+		set_rnd_seed(seed);
+
+		return rnd_generate();
+	}
+
+	/**
+	 * Returns a random number less than 1, but greater or equal to 0.
+	 * <p>
+	 * For more details see chapter C.6.1
+	 *
+	 * @param seed
+	 *                the seed value to initialize the random number
+	 *                generation.
+	 * @return the new random number.
+	 * */
+	public static TitanFloat rnd(final TitanFloat seed) {
+		seed.must_bound("Initializing the random number generator with an unbound float value as seed.");
+
+		set_rnd_seed(seed.get_value());
+		return rnd_generate();
 	}
 
 	// Additional predefined functions defined in Annex B of ES 101 873-7
@@ -3479,46 +5125,7 @@ public final class AdditionalFunctions {
 
 	//TODO: C.33 - regexp
 
-	//C.36 - rnd
 
-	//TODO update with Java 1.7 to ThreadLocalRandom
-	private static boolean rndSeedSet = false;
-	private final static Random random = new Random();
-
-	public static void set_rnd_seed(final double floatSeed) {
-		TitanFloat.check_numeric(floatSeed,"The seed value of function rnd()");
-		random.setSeed((long)floatSeed);
-		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
-		rndSeedSet = true;
-	}
-
-	public static TitanFloat rnd_generate() {
-		final double returnValue = random.nextDouble();
-		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
-
-		return new TitanFloat(returnValue);
-	}
-
-	public static TitanFloat rnd() {
-		if (!rndSeedSet) {
-			set_rnd_seed(TTCN_Snapshot.time_now());
-		}
-
-		return rnd_generate();
-	}
-
-	public static TitanFloat rnd(final double seed) {
-		set_rnd_seed(seed);
-
-		return rnd_generate();
-	}
-
-	public static TitanFloat rnd(final TitanFloat seed) {
-		seed.must_bound("Initializing the random number generator with an unbound float value as seed.");
-
-		set_rnd_seed(seed.get_value());
-		return rnd_generate();
-	}
 
 	// for internal purposes
 	public static String get_port_name(final String port_name, final int array_index) {
@@ -3542,83 +5149,6 @@ public final class AdditionalFunctions {
 		array_index.must_bound("Using an unbound integer value for indexing an array of ports.");
 
 		return get_port_name(port_name.get_value().toString(), array_index.get_int());
-	}
-
-	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
-		if (encoded_value.lengthof().operator_equals(0)) {
-			return new TitanCharString("<unknown>");
-		}
-
-		int i = 0;
-		final int length = encoded_value.lengthof().get_int();
-		final char[] strptr = encoded_value.get_value();
-
-		if(length >= 2) {
-			switch (strptr[0] & 0xFF) {
-			case 0xef:
-				for (i = 1; i < UTF8_BOM.length && i < strptr.length && UTF8_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
-					return new TitanCharString("UTF-8");
-				}
-				break;
-			case 0xfe:
-				for (i = 1; i < UTF16BE_BOM.length && i < strptr.length && UTF16BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
-					return new TitanCharString("UTF-16BE");
-				}
-				break;
-			case 0xff:
-				for (i = 1; i < UTF32LE_BOM.length && i < strptr.length && UTF32LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
-					return new TitanCharString("UTF-32LE");
-				}
-
-				for (i = 1; i < UTF16LE_BOM.length && i < strptr.length && UTF16LE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
-					return new TitanCharString("UTF-16LE");
-				}
-				break;
-			case 0x00:
-				for (i = 1; i < UTF32BE_BOM.length && i < strptr.length && UTF32BE_BOM[i] == (strptr[i] & 0xFF); i++) {}
-				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
-					return new TitanCharString("UTF-32BE");
-				}
-				break;
-			default:
-				break;
-			}
-		}
-
-		if (is_ascii(encoded_value) == CharCoding.ASCII) {
-			return new TitanCharString("ASCII");
-		} else if (is_utf8(encoded_value) == CharCoding.UTF_8) {
-			return new TitanCharString("UTF-8");
-		} else {
-			return new TitanCharString("<unknown>");
-		}
-	}
-
-	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
-		final char str[] = encoded_value.get_value();
-		int length_of_BOM = 0;
-		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
-			length_of_BOM = 4;
-		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
-			length_of_BOM = 4;
-		} else if (0xFE == (str[0] & 0xFF) && 0xFF == (str[1] & 0xFF)) { // UTF-16BE
-			length_of_BOM = 2;
-		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF)) { // UTF-16LE
-			length_of_BOM = 2;
-		} else if (0xEF == (str[0] & 0xFF) && 0xBB == (str[1] & 0xFF) && 0xBF == (str[2] & 0xFF)) { // UTF-8
-			length_of_BOM = 3;
-		} else {
-			return new TitanOctetString(encoded_value);
-		}
-
-		final char tmp_str[] = new char[str.length - length_of_BOM];
-		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
-
-		return new TitanOctetString(tmp_str);
 	}
 
 	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
