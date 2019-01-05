@@ -22,6 +22,18 @@ public class TitanUniversalChar {
 	private char uc_row;
 	private char uc_cell;
 
+	/**
+	 * Initializes to the provided value.
+	 *
+	 * @param uc_group
+	 *                the group value.
+	 * @param uc_plane
+	 *                the plane value.
+	 * @param uc_row
+	 *                the row value.
+	 * @param uc_cell
+	 *                the cell value.
+	 * */
 	public TitanUniversalChar(final char uc_group, final char uc_plane, final char uc_row, final char uc_cell) {
 		this.uc_group = uc_group;
 		this.uc_plane = uc_plane;
@@ -29,6 +41,13 @@ public class TitanUniversalChar {
 		this.uc_cell = uc_cell;
 	}
 
+	/**
+	 * Initializes to the provided value.
+	 *
+	 * @param uc
+	 *                the other universal character string character to
+	 *                copy.
+	 * */
 	public TitanUniversalChar(final TitanUniversalChar uc) {
 		this.uc_group = uc.uc_group;
 		this.uc_plane = uc.uc_plane;
@@ -36,10 +55,19 @@ public class TitanUniversalChar {
 		this.uc_cell = uc.uc_cell;
 	}
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanUniversalChar() {
 		//intentionally left empty
 	}
 
+	/**
+	 * Checks if this universal charstring character is an ASCII character.
+	 *
+	 * @return {@code true} if it is an ASCII character, {@code false}
+	 *         otherwise
+	 * */
 	public boolean is_char() {
 		return getUc_group() == 0 && getUc_plane() == 0 && getUc_row() == 0 && getUc_cell() < 128;
 	}
