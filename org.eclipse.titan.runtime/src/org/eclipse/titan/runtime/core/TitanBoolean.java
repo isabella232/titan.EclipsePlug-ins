@@ -371,12 +371,29 @@ public class TitanBoolean extends Base_Type {
 		}
 	}
 
+	/**
+	 * Returns the native version of the boolean.
+	 * <p>
+	 * This version is used when the code generator could not be sure if the
+	 * expression will result in native or non-native boolean.
+	 *
+	 * @param value
+	 *                the boolean value.
+	 * @return the value itself.
+	 * */
 	public static boolean get_native(final boolean value) {
 		return value;
 	}
 
-	public static boolean get_native(final TitanBoolean otherValue) {
-		return otherValue.get_value();
+	/**
+	 * Returns the native version of the boolean.
+	 *
+	 * @param value
+	 *                the boolean value.
+	 * @return the native value of the provided boolean.
+	 * */
+	public static boolean get_native(final TitanBoolean value) {
+		return value.get_value();
 	}
 
 	/**
