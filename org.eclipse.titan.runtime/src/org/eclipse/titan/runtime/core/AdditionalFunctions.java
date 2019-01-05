@@ -2456,7 +2456,7 @@ public final class AdditionalFunctions {
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "bitstring", "bit");
 		if (idx % 8 != 0) {
-			final StringBuilder sb = new StringBuilder();//TODO we know the size.
+			final StringBuilder sb = new StringBuilder(returncount);
 			for (int i = 0; i < returncount; i++) {
 				sb.append(value.get_bit(idx + i) ? '1' : '0');
 			}
@@ -3115,7 +3115,7 @@ public final class AdditionalFunctions {
 		if (value.charstring) {
 			return new TitanUniversalCharString(value.cstr.substring(idx, idx + returncount));
 		} else {
-			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size.
+			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>(returncount);
 			final List<TitanUniversalChar> src_ptr = value.get_value();
 			for (int i = 0; i < returncount; i++) {
 				ret_val.add(src_ptr.get(i + idx));//TODO check if copy is needed.
@@ -4172,7 +4172,8 @@ public final class AdditionalFunctions {
 				ret_val.replace(idx, idx + len, repl.cstr.toString());
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size
+				final int newSize = repl_len + value_len - len;
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>(newSize);
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt(i)));
 				}
@@ -4183,11 +4184,13 @@ public final class AdditionalFunctions {
 					ret_val.add(idx + i + repl_len,
 							new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt((idx + i + len))));
 				}
+
 				return new TitanUniversalCharString(ret_val);
 			}
 		} else {
 			if (repl.charstring) {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size
+				final int newSize = repl_len + value_len - len;
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>(newSize);
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(idx + i, value.val_ptr.get(i));
 				}
@@ -4197,9 +4200,11 @@ public final class AdditionalFunctions {
 				for (int i = 0; i < value_len - idx - len; i++) {
 					ret_val.add(idx + i + repl_len, value.val_ptr.get(idx + i + len));
 				}
+
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();//TODO we know the size.
+				final int newSize = repl_len + value_len - len;
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>(newSize);
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, value.val_ptr.get(i));
 				}
@@ -4209,6 +4214,7 @@ public final class AdditionalFunctions {
 				for (int i = 0; i < value_len - idx - len; i++) {
 					ret_val.add(idx + i + repl_len, value.val_ptr.get(idx + i + len));
 				}
+
 				return new TitanUniversalCharString(ret_val);
 			}
 		}
