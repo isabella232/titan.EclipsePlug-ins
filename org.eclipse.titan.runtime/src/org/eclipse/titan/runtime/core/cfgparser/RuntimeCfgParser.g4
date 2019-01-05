@@ -2150,7 +2150,7 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 	}
 	RPAREN
 {
-	if (upper.less_than(lower).get_value()) {
+	if (upper.is_less_than(lower)) {
 		config_process_error("Lower bound is larger than upper bound in the char range");
 		lower = upper;
 	}

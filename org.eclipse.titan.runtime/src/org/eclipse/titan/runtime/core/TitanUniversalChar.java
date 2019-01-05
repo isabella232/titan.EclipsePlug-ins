@@ -101,29 +101,29 @@ public class TitanUniversalChar {
 	 *                the second value to check against.
 	 * @return {@code true} if the first value is less than the second.
 	 */
-	public static TitanBoolean is_less_than(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+	public static boolean is_less_than(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		if (left_value.getUc_group() < right_value.getUc_group()) {
-			return new TitanBoolean(true);
+			return true;
 		} else if (left_value.getUc_group() == right_value.getUc_group()) {
 			if (left_value.getUc_plane() < right_value.getUc_plane()) {
-				return new TitanBoolean(true);
+				return true;
 			} else if (left_value.getUc_plane() == right_value.getUc_plane()) {
 				if (left_value.getUc_row() < right_value.getUc_row()) {
-					return new TitanBoolean(true);
+					return true;
 				} else if (left_value.getUc_row() == right_value.getUc_row()) {
 					if (left_value.getUc_cell() < right_value.getUc_cell()) {
-						return new TitanBoolean(true);
+						return true;
 					} else {
-						return new TitanBoolean(false);
+						return false;
 					}
 				} else {
-					return new TitanBoolean(false);
+					return false;
 				}
 			} else {
-				return new TitanBoolean(false);
+				return false;
 			}
 		} else {
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 
@@ -136,7 +136,7 @@ public class TitanUniversalChar {
 	 *                the other value to check against.
 	 * @return {@code true} if the value is less than the provided.
 	 */
-	public TitanBoolean is_less_than(final TitanUniversalChar right_value) {
+	public boolean is_less_than(final TitanUniversalChar right_value) {
 		return is_less_than(this, right_value);
 	}
 
