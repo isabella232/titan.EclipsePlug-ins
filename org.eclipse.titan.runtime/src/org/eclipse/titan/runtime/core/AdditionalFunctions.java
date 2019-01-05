@@ -3118,7 +3118,7 @@ public final class AdditionalFunctions {
 			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>(returncount);
 			final List<TitanUniversalChar> src_ptr = value.get_value();
 			for (int i = 0; i < returncount; i++) {
-				ret_val.add(src_ptr.get(i + idx));//TODO check if copy is needed.
+				ret_val.add(src_ptr.get(i + idx));
 			}
 
 			return new TitanUniversalCharString(ret_val);
