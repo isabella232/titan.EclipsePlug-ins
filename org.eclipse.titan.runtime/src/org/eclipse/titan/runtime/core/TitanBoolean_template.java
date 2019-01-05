@@ -230,20 +230,38 @@ public class TitanBoolean_template extends Base_Template {
 		set_selection(otherValue);
 	}
 
-	public boolean and(final TitanBoolean otherValue) {
+	/**
+	 * Performs a bitwise and operation on this and the provided boolean.
+	 * 
+	 * operator&& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting boolean.
+	 * */
+	public boolean and(final TitanBoolean other_value) {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("And operation of a non specific value template");
 		}
 
-		return single_value.and(otherValue);
+		return single_value.and(other_value);
 	}
 
-	public boolean and(final TitanBoolean_template otherTemplate) {
-		if (otherTemplate.template_selection != template_sel.SPECIFIC_VALUE) {
+	/**
+	 * Performs a bitwise and operation on this and the provided boolean.
+	 * 
+	 * operator&& in the core.
+	 *
+	 * @param other_template
+	 *                the other template.
+	 * @return the resulting boolean.
+	 * */
+	public boolean and(final TitanBoolean_template other_template) {
+		if (other_template.template_selection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("And operation of a non specific value template argument");
 		}
 
-		return and(otherTemplate.single_value);
+		return and(other_template.single_value);
 	}
 
 	/**
