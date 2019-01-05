@@ -93,7 +93,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public TitanUniversalCharString(final TitanUniversalChar[] otherValue) {
-		val_ptr = new ArrayList<TitanUniversalChar>();
+		val_ptr = new ArrayList<TitanUniversalChar>(otherValue.length);
 		for (int i = 0; i < otherValue.length; i++) {
 			val_ptr.add(otherValue[i]);
 		}
