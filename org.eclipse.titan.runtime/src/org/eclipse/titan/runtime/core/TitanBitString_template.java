@@ -67,9 +67,20 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		check_single_selection(otherValue);
 	}
 
-	public TitanBitString_template(final int otherValue[], final int aNoBits) {
+	/**
+	 * Initializes to a give value.
+	 * The template becomes a specific template.
+	 * Optimized, so that only a copy needs to be done.
+	 *
+	 * @param other_value
+	 *                stores the values already in the internal
+	 *                representation.
+	 * @param nof_bits
+	 *                the the number of bits in the otheer_value array.
+	 * */
+	public TitanBitString_template(final int other_value[], final int nof_bits) {
 		super(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString(otherValue, aNoBits);
+		single_value = new TitanBitString(other_value, nof_bits);
 	}
 
 	/**
@@ -218,11 +229,24 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	// originally operator=
-	public TitanBitString_template operator_assign(final int otherValue[], final int aNoBits) {
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 * The template becomes a specific template.
+	 * Optimized, so that only a copy needs to be done.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param other_value
+	 *                stores the values already in the internal
+	 *                representation.
+	 * @param nof_bits
+	 *                the the number of bits in the otheer_value array.
+	 * */
+	public TitanBitString_template operator_assign(final int other_value[], final int nof_bits) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString(otherValue, aNoBits);
+		single_value = new TitanBitString(other_value, nof_bits);
 
 		return this;
 	}

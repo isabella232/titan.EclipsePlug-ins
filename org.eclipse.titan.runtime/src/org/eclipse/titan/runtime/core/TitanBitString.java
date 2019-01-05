@@ -48,9 +48,19 @@ public class TitanBitString extends Base_Type {
 		n_bits = 0;
 	}
 
-	public TitanBitString(final int aOtherValue[], final int aNoBits) {
-		bits_ptr = TitanString_Utils.copy_integer_list(aOtherValue);
-		n_bits = aNoBits;
+	/**
+	 * Initializes to a give value.
+	 * Optimized, so that only a copy needs to be done.
+	 *
+	 * @param other_value
+	 *                stores the values already in the internal
+	 *                representation.
+	 * @param nof_bits
+	 *                the the number of bits in the otheer_value array.
+	 * */
+	public TitanBitString(final int other_value[], final int nof_bits) {
+		bits_ptr = TitanString_Utils.copy_integer_list(other_value);
+		n_bits = nof_bits;
 		clear_unused_bits();
 	}
 
