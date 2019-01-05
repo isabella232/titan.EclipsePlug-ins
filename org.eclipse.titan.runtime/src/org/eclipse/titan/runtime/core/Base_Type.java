@@ -42,6 +42,20 @@ public abstract class Base_Type {
 		 * */
 		public TTCN_Typedescriptor oftype_descr;
 
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * @param raw
+		 *                the RAW descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * @param oftype_descr
+		 *                in case of record of ans set of types, the
+		 *                type descriptor of the of type, {@code false}
+		 *                otherwise.
+		 * */
 		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
 			this.raw = raw;
