@@ -503,17 +503,6 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 	}
 
-	public void check_restriction(final template_res t_res, final String t_name) {
-		check_restriction(t_res, t_name, false);
-	}
-
-	/**
-	 * originally
-	 * #ifndef TITAN_RUNTIME_2
-	 * void VERDICTTYPE_template::check_restriction(template_res t_res, const char* t_name, boolean legacy = FALSE ) const
-	 */
-
-
 	@Override
 	public void check_restriction(final template_res restriction, final String name, final boolean legacy) {
 		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
