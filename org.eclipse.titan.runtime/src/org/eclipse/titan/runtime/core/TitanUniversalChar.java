@@ -90,7 +90,17 @@ public class TitanUniversalChar {
 		return !operator_equals(left_value, right_value);
 	}
 
-	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
+	/**
+	 * Checks if the first value is less than the second one.
+	 *
+	 * static operator< in the core
+	 *
+	 * @param left_value
+	 *                the first value.
+	 * @param right_value
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than the second.
+	 */
 	public static TitanBoolean is_less_than(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		if (left_value.getUc_group() < right_value.getUc_group()) {
 			return new TitanBoolean(true);
@@ -117,6 +127,15 @@ public class TitanUniversalChar {
 		}
 	}
 
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param right_value
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
 	public TitanBoolean is_less_than(final TitanUniversalChar right_value) {
 		return is_less_than(this, right_value);
 	}
