@@ -138,7 +138,15 @@ public class Ttcn3Float {
 		}
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	boolean operator_equals( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
