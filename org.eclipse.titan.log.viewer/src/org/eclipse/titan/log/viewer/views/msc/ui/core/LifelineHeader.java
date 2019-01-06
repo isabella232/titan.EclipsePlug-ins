@@ -19,8 +19,8 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class LifelineHeader extends MSCNode {
 
-	private Lifeline lifeline;
-	private Frame frame;
+	private final Lifeline lifeline;
+	private final Frame frame;
 	private boolean dragAndDrop;
 
 	/**

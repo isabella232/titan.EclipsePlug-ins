@@ -120,7 +120,7 @@ class ChangeCreator {
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
-		for (Location l: locations) {
+		for (final Location l: locations) {
 			final int len = l.getEndOffset()-l.getOffset();
 			if (len == 0) {
 				rootEdit.addChild(new InsertEdit(l.getOffset(), "private "));
@@ -140,7 +140,7 @@ class ChangeCreator {
 				final int BUF_LEN = 8;
 				try {
 					InputStream is = file.getContents();
-					InputStreamReader isr = new InputStreamReader(is);
+					InputStreamReader isr = new InputStreamReader(is, file.getCharset());
 					int currOffset = 0;
 					char[] content = new char[BUF_LEN];
 					for (ILocateableNode node : nodes) {

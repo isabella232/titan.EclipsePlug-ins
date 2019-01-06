@@ -43,33 +43,29 @@ import org.eclipse.ui.PlatformUI;
 public class ResourceListener implements IResourceChangeListener {
 
 	private void closeMSCWindows(final IResource resource) {
-
-		Display display = Display.getDefault();
+		final Display display = Display.getDefault();
 
 		// most join the UI thread to be find activeWorkbench pages
 		display.asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
-
-				IWorkbench workbench = PlatformUI.getWorkbench();
+				final IWorkbench workbench = PlatformUI.getWorkbench();
 				if (workbench == null) {
 					return;
 				}
 
-				IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
+				final IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
 				if (activeWorkbenchWindow == null) {
 					return;
 				}
 
-				IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
+				final IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
 				if (activePage != null) {
-					IViewReference[] viewReferences = activePage.getViewReferences();
+					final IViewReference[] viewReferences = activePage.getViewReferences();
 					ActionUtils.closeAssociatedViews(activePage, viewReferences, resource);
 				}
-
 			}
-
 		});
 	}
 
@@ -85,25 +81,21 @@ public class ResourceListener implements IResourceChangeListener {
 	 */
 	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
-
-
-
 		// note: these are the only events that we subscribe upon
 		switch (event.getType()) {
 		case IResourceChangeEvent.POST_CHANGE: // handles the delete of files and folder
 			handlePostChange(event);
 			break;
-
-		case IResourceChangeEvent.PRE_DELETE: // only called *before* delete projects!
-			IResource delResource = event.getResource();
+		case IResourceChangeEvent.PRE_DELETE:{ // only called *before* delete projects!
+			final IResource delResource = event.getResource();
 			handlePreDeleteProject(delResource);
 			break;
-
-		case IResourceChangeEvent.PRE_CLOSE: // only called *before* close project
-			IResource closeResource = event.getResource();
+		}
+		case IResourceChangeEvent.PRE_CLOSE: { // only called *before* close project
+			final IResource closeResource = event.getResource();
 			handlePreCloseProject(closeResource);
 			break;
-
+		}
 		default:
 			break;
 
@@ -129,12 +121,11 @@ public class ResourceListener implements IResourceChangeListener {
 	}
 
 	private void handlePreDeleteProject(final IResource resource) {
-
 		if (!changeInLogViewerProject(resource)) {
 			return;
 		}
 
-		IProject project = resource.getProject();
+		final IProject project = resource.getProject();
 
 		if (Constants.DEBUG) {
 			TITANDebugConsole.getConsole().newMessageStream().println("Project delete " + project.getName()); //$NON-NLS-1$
@@ -148,7 +139,7 @@ public class ResourceListener implements IResourceChangeListener {
 			return;
 		}
 
-		IProject project = resource.getProject();
+		final IProject project = resource.getProject();
 
 		if (Constants.DEBUG) {
 			TITANDebugConsole.getConsole().newMessageStream().println("Project close " + project.getName()); //$NON-NLS-1$
@@ -167,32 +158,26 @@ public class ResourceListener implements IResourceChangeListener {
 	 * @param event The change event to handle
 	 */
 	private void handlePostChange(final IResourceChangeEvent event) {
-
-
-
-		IResourceDelta rootDelta = event.getDelta();
-
+		final IResourceDelta rootDelta = event.getDelta();
 		if (rootDelta == null) {
 			return;
 		}
 
-		IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
+		final IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
 
 			@Override
 			public boolean visit(final IResourceDelta delta) {
-
 				if (delta.getKind() != IResourceDelta.REMOVED) {
 					return true;
 				}
 
 				IResource resource = delta.getResource();
-
 				if (!changeInLogViewerProject(resource)) {
 					return true;
 				}
 
 				switch (resource.getType()) {
-				case IResource.FILE:
+				case IResource.FILE: {
 					IFile file = (IFile) resource;
 					if (Constants.DEBUG) {
 						TITANDebugConsole.getConsole().newMessageStream().println("File delete " + file.getName()); //$NON-NLS-1$
@@ -202,7 +187,8 @@ public class ResourceListener implements IResourceChangeListener {
 						closeMSCWindows(file);
 					}
 					return false;
-				case IResource.FOLDER:
+				}
+				case IResource.FOLDER: {
 					IFolder folder = (IFolder) resource;
 
 					if (Constants.DEBUG) {
@@ -211,21 +197,19 @@ public class ResourceListener implements IResourceChangeListener {
 
 					closeMSCWindows(folder);
 					return false;
+				}
 				default:
 					return true;
 				}
 			}
-
 		};
 
 		try {
 			rootDelta.accept(visitor);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
-			String messageText = Messages.getString("ResourceListener.0") + ' ' + e.getMessage();  //$NON-NLS-1$
+			final String messageText = Messages.getString("ResourceListener.0") + ' ' + e.getMessage();  //$NON-NLS-1$
 			TitanLogExceptionHandler.handleException(new TechnicalException(messageText));
 		}
-
 	}
-
 }

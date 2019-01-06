@@ -189,7 +189,9 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		}
 
 		final ObjectSetElementVisitor_checker checker = new ObjectSetElementVisitor_checker(timestamp, location, myGovernor);
-		for (final IObjectSet_Element element : objectSetElements) {
+		for (int i = 0; i < objectSetElements.size(); i++) {
+			final IObjectSet_Element element = objectSetElements.get(i);
+			element.setGenNameOse(getGenNameOwn(), Integer.valueOf(i + 1).toString());
 			element.accept(checker);
 		}
 

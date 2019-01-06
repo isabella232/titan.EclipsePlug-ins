@@ -119,7 +119,7 @@ public final class FilterPattern {
 		this.containsSilentEvents = containsSilentEvents;
 		if (eventsToFilter != null) {
 			this.eventsToFilter = new TreeMap<String, Boolean>();
-			for (Map.Entry<String, Boolean> entry : eventsToFilter.entrySet()) {
+			for (final Map.Entry<String, Boolean> entry : eventsToFilter.entrySet()) {
 				this.eventsToFilter.put(entry.getKey(), entry.getValue());
 			}
 			return;
@@ -142,7 +142,7 @@ public final class FilterPattern {
 			this.caseSensitive = isCaseSensitive;
 			this.regularExpression = isRegularExpression;
 			this.fieldsToFilter = new HashMap<Field, Boolean>(fieldsToFilter.size());
-			for (Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
+			for (final Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
 				this.fieldsToFilter.put(entry.getKey(), entry.getValue());
 			}
 
@@ -154,7 +154,7 @@ public final class FilterPattern {
 	}
 
 	public void compileFilterExpression() {
-		String regexp = isRegularExpression() ? filterExpression : convertToRegex(filterExpression);
+		final String regexp = isRegularExpression() ? filterExpression : convertToRegex(filterExpression);
 
 		if (caseSensitive) {
 			this.filterExpressionCompiled = Pattern.compile(regexp, Pattern.DOTALL);
@@ -168,14 +168,14 @@ public final class FilterPattern {
 			return ".*";
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		int i = 0;
 		if (pattern.charAt(0) == '*') {
 			++i;
 		}
 		builder.append(".*");
 		for ( ; i < pattern.length(); i++) {
-			char c = pattern.charAt(i);
+			final char c = pattern.charAt(i);
 			switch(c) {
 			case '*':
 				builder.append(".*");
@@ -223,7 +223,7 @@ public final class FilterPattern {
 
 		if (filterExpression.length() > 0 && fieldsToFilter != null && !fieldsToFilter.isEmpty()) {
 			boolean b = false;
-			for (Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
+			for (final Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
 				if (entry.getValue()) {
 					switch(entry.getKey()) {
 					case MESSAGE:
@@ -258,7 +258,7 @@ public final class FilterPattern {
 			return false;
 		}
 
-		FilterPattern rhs = (FilterPattern) o;
+		final FilterPattern rhs = (FilterPattern) o;
 		return ObjectUtils.equals(timeInterval, rhs.timeInterval)
 				&& ObjectUtils.equals(eventsToFilter, rhs.eventsToFilter)
 				&& ObjectUtils.equals(filterExpression, rhs.filterExpression)

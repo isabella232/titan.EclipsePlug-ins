@@ -39,8 +39,8 @@ public final class ProposalCollector {
 
 		@Override
 		public int compare(final ICompletionProposal o1, final ICompletionProposal o2) {
-			String s1 = o1.getDisplayString();
-			String s2 = o2.getDisplayString();
+			final String s1 = o1.getDisplayString();
+			final String s2 = o2.getDisplayString();
 			return s1.compareToIgnoreCase(s2);
 		}
 
@@ -151,10 +151,10 @@ public final class ProposalCollector {
 		this.contextId = contextId;
 		reference = ref;
 
-		List<ISubReference> subreferences = ref.getSubreferences();
+		final List<ISubReference> subreferences = ref.getSubreferences();
 		if (!subreferences.isEmpty()) {
 			replacementOffset = offset + ref.getLocation().getEndOffset();
-			Location location = subreferences.get(subreferences.size() - 1).getLocation();
+			final Location location = subreferences.get(subreferences.size() - 1).getLocation();
 			replacementOffset -= location.getEndOffset() - location.getOffset();
 
 			lastPrefix = subreferences.get(subreferences.size() - 1).getId().getDisplayName().toLowerCase();
@@ -247,7 +247,7 @@ public final class ProposalCollector {
 	 * */
 	public void sortTillMarked() {
 		if (lastMarkedPosition < proposalList.size() - 1) {
-			List<ICompletionProposal> orderable = proposalList.subList(lastMarkedPosition, proposalList.size() - 1);
+			final List<ICompletionProposal> orderable = proposalList.subList(lastMarkedPosition, proposalList.size() - 1);
 			Collections.sort(orderable, new ProposalComperator());
 		}
 	}
@@ -287,7 +287,7 @@ public final class ProposalCollector {
 			return -1;
 		}
 
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.isEmpty()) {
 			if (reference.getModuleIdentifier() != null && string.toLowerCase().startsWith(lastPrefix)) {
 				return lastPrefix.length();
@@ -332,9 +332,9 @@ public final class ProposalCollector {
 	 *                information about the completion candidate
 	 * */
 	public void addProposal(final String candidate, final String visibleString, final Image image, final String info) {
-		int prefixLength = prefixLength(candidate);
+		final int prefixLength = prefixLength(candidate);
 		if (prefixLength != -1) {
-			CompletionProposal proposal = new CompletionProposal(candidate, replacementOffset, prefixLength, candidate.length(), image,
+			final CompletionProposal proposal = new CompletionProposal(candidate, replacementOffset, prefixLength, candidate.length(), image,
 					visibleString, null, info);
 			proposalList.add(proposal);
 		}
@@ -387,9 +387,9 @@ public final class ProposalCollector {
 			candidate = identifier.getTtcnName();
 			break;
 		}
-		int prefixLength = prefixLength(candidate);
+		final int prefixLength = prefixLength(candidate);
 		if (prefixLength != -1) {
-			CompletionProposal proposal = new CompletionProposal(candidate, replacementOffset, prefixLength, candidate.length(), image,
+			final CompletionProposal proposal = new CompletionProposal(candidate, replacementOffset, prefixLength, candidate.length(), image,
 					candidate + postfix, null, info);
 			proposalList.add(proposal);
 		}
@@ -408,10 +408,10 @@ public final class ProposalCollector {
 	 * */
 	public void addProposal(final String[] candidates, final Image image, final String info) {
 		int prefixLength;
-		for (String element : candidates) {
+		for (final String element : candidates) {
 			prefixLength = prefixLength(element);
 			if (prefixLength != -1) {
-				CompletionProposal proposal = new CompletionProposal(element, replacementOffset, prefixLength, element.length(),
+				final CompletionProposal proposal = new CompletionProposal(element, replacementOffset, prefixLength, element.length(),
 						image, element, null, info);
 				proposalList.add(proposal);
 			}
@@ -442,9 +442,9 @@ public final class ProposalCollector {
 	 */
 	public void addProposal(final String prefixString, final String replacementString, final int cursorPosition, final Image image,
 			final String displayString, final IContextInformation contextInformation, final String additionalProposalInfo) {
-		int prefixLength = prefixLength(prefixString);
+		final int prefixLength = prefixLength(prefixString);
 		if (prefixLength != -1) {
-			CompletionProposal proposal = new CompletionProposal(replacementString, replacementOffset, prefixLength, cursorPosition,
+			final CompletionProposal proposal = new CompletionProposal(replacementString, replacementOffset, prefixLength, cursorPosition,
 					image, displayString, contextInformation, additionalProposalInfo);
 			proposalList.add(proposal);
 		}
@@ -463,9 +463,9 @@ public final class ProposalCollector {
 	 *                popup
 	 * */
 	public void addTemplateProposal(final String prefixString, final Template candidate, final Image image) {
-		int prefixLength = prefixLength(prefixString);
+		final int prefixLength = prefixLength(prefixString);
 		if (prefixLength != -1) {
-			Region region = new Region(replacementOffset, 0);
+			final Region region = new Region(replacementOffset, 0);
 			proposalList.add(new TemplateProposal(candidate, templatecontext, region, image));
 		}
 	}

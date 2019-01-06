@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -96,6 +97,17 @@ public final class Activate_Referenced_Statement extends Statement {
 		}
 		if (actualParameterList != null) {
 			actualParameterList.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (dereferredValue != null) {
+			dereferredValue.setCodeSection(codeSection);
+		}
+		if (actualParameterList != null) {
+			actualParameterList.setCodeSection(codeSection);
 		}
 	}
 

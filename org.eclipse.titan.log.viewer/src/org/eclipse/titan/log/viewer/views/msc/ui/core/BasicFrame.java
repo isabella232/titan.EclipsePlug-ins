@@ -126,7 +126,7 @@ public abstract class BasicFrame {
 			return null;
 		}
 		for (int i = fromIndex; i < list.size(); i++) {
-			MSCNode node = list.get(i);
+			final MSCNode node = list.get(i);
 			// Only lifeline list is x ordered
 			// Stop browsing the list if the node is outside the visible area
 			// All others nodes will not be visible
@@ -160,7 +160,7 @@ public abstract class BasicFrame {
 			return null;
 		}
 		for (int i = fromIndex; i < list.size(); i++) {
-			LifelineHeader node = list.get(i);
+			final LifelineHeader node = list.get(i);
 			if (node.getHeight() < 0
 					&& node.getY() + node.getHeight() > this.visibleAreaY + this.visibleAreaHeight) {
 				break;

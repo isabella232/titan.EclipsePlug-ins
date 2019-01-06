@@ -57,10 +57,10 @@ public final class ClosingBracketIndentationAutoEditStrategy extends GeneralTITA
 		}
 
 		try {
-			int p = (command.offset == document.getLength() ? command.offset - 1 : command.offset);
-			int line = document.getLineOfOffset(p);
-			int start = document.getLineOffset(line);
-			int whiteend = findEndOfWhiteSpace(document, start, command.offset);
+			final int p = (command.offset == document.getLength() ? command.offset - 1 : command.offset);
+			final int line = document.getLineOfOffset(p);
+			final int start = document.getLineOffset(line);
+			final int whiteend = findEndOfWhiteSpace(document, start, command.offset);
 
 			// shift only when line does not contain any text up to
 			// the closing
@@ -69,10 +69,10 @@ public final class ClosingBracketIndentationAutoEditStrategy extends GeneralTITA
 				// evaluate the line with the opening bracket
 				// that matches out
 				// closing bracket
-				int indLine = findMatchingOpenBracket(document, command.offset);
+				final int indLine = findMatchingOpenBracket(document, command.offset);
 				if (indLine != -1 && indLine != line) {
 					// take the indent of the found line
-					StringBuffer replaceText = new StringBuffer(getIndentOfLine(document, indLine, command));
+					final StringBuffer replaceText = new StringBuffer(getIndentOfLine(document, indLine, command));
 					// add the rest of the current line
 					// including the just added
 					// close bracket

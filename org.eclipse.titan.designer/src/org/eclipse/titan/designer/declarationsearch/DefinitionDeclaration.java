@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
  * */
 class DefinitionDeclaration extends Declaration {
 
-	private Assignment ass;
+	private final Assignment ass;
 
 	public DefinitionDeclaration(final Assignment ass) {
 		this.ass = ass;

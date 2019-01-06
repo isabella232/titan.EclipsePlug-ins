@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -71,6 +72,14 @@ public final class Stop_Timer_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (timerReference != null) {
+			timerReference.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -117,7 +126,7 @@ public final class Stop_Timer_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (timerReference == null) {
-			source.append("TitanTimer.allStop();\n");
+			source.append("TitanTimer.all_stop();\n");
 		} else {
 			final ExpressionStruct expression = new ExpressionStruct();
 			timerReference.generateCode(aData, expression);

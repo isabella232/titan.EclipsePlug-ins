@@ -397,6 +397,9 @@ public final class Sequence_Value extends Value {
 		if (values != null) {
 			values.setCodeSection(codeSection);
 		}
+		if (convertedValue != null) {
+			convertedValue.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -817,6 +820,32 @@ public final class Sequence_Value extends Value {
 	}
 
 	@Override
+	public boolean needsTemporaryReference() {
+		if (convertedValue != null) {
+			return convertedValue.needsTemporaryReference();
+		}
+
+		if (isAsn()) {
+			// it depends on the type since fields with omit or default value
+			// may not be present
+			final IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+			return ((ASN1_Sequence_Type)lastType).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) > 1;
+		} else {
+			// incomplete values are allowed in TTCN-3
+			// we should check the number of value components that would be generated
+			for (int i = 0; i < values.getSize(); i++) {
+				final IValue value = values.getNamedValueByIndex(i).getValue();
+				if (value.getValuetype() != Value_type.NOTUSED_VALUE && value.needsTemporaryReference()) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		if (convertedValue != null) {
@@ -876,7 +905,11 @@ public final class Sequence_Value extends Value {
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (convertedValue != null) {
-			return convertedValue.generateCodeInit(aData, source, name);
+			convertedValue.generateCodeInit(aData, source, name);
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
+			return source;
 		}
 
 		IType governor = myGovernor;
@@ -903,7 +936,10 @@ public final class Sequence_Value extends Value {
 		if (nofComps == 0) {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
-			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
 			return source;
 		}
 
@@ -929,30 +965,55 @@ public final class Sequence_Value extends Value {
 				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
 					fieldValue = null;
 				}
-			}// TODO add support for asn default values when needed
-			else {
+			} else if (isAsn()) {
+				if (compField.hasDefault()) {
+					// handle like a referenced value
+					final Value defaultValue = compField.getDefault();
+					if (needsInitPrecede(aData, defaultValue)) {
+						defaultValue.generateCodeInit(aData, source, defaultValue.get_lhs_name());
+					}
+					source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
+					continue;
+				} else {
+					fieldValue = null;
+				}
+			} else {
 				continue;
 			}
 
 			final String javaGetterName = FieldSubReference.getJavaGetterName(fieldName.getName());
 			if (fieldValue != null) {
-				// TODO handle the case when temporary reference is needed
-				final StringBuilder embeddedName = new StringBuilder();
-				embeddedName.append(name);
-				embeddedName.append(".get");
-				embeddedName.append(javaGetterName);
-				embeddedName.append("()");
-				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
-					embeddedName.append(".get()");
-				}
+				// the value is not omit
+				if (fieldValue.needsTemporaryReference()) {
+					final String tempId = aData.getTemporaryVariableName();
+					source.append("{\n");
+					final String embeddedTypeName = compField.getType().getGenNameValue(aData, source, myScope);
+					source.append(MessageFormat.format("{0} {1} = {2}.get_field_{3}()", embeddedTypeName, tempId, name, javaGetterName));
+					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+						source.append(".get()");
+					}
+					source.append(";\n");
 
-				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
+					fieldValue.generateCodeInit(aData, source, tempId);
+					source.append("}\n");
+				} else {
+					final StringBuilder embeddedName = new StringBuilder();
+					embeddedName.append(MessageFormat.format("{0}.get_field_{1}()", name, javaGetterName));
+					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+						embeddedName.append(".get()");
+					}
+	
+					fieldValue.generateCodeInit(aData, source, embeddedName.toString());
+				}
 			} else {
+				// the value is omit
 				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
-				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
+				source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

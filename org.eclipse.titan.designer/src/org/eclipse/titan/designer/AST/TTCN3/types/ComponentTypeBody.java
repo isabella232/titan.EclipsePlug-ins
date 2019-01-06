@@ -962,13 +962,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						hasBaseComponents = true;
 					}
 
-					if(getModuleScope().equals(cb.getModuleScope())) {
+					if(getModuleScopeGen().equals(cb.getModuleScopeGen())) {
 						init_comp.append("init_comp_type(\"");
 						init_comp.append(cb.getIdentifier().getDisplayName());
 						init_comp.append("\", false);\n");
 					} else {
 						init_comp.append("Module_List.initialize_component(\"");
-						init_comp.append(cb.getModuleScope().getIdentifier().getDisplayName());
+						init_comp.append(cb.getModuleScopeGen().getIdentifier().getDisplayName());
 						init_comp.append("\", \"");
 						init_comp.append(cb.getIdentifier().getDisplayName());
 						init_comp.append("\", false);\n");
@@ -1068,6 +1068,6 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return;
 		}
 
-		expression.expression.append(MessageFormat.format("\"{0}\", \"{1}\"", parentScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+		expression.expression.append(MessageFormat.format("\"{0}\", \"{1}\"", parentScope.getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 	}
 }

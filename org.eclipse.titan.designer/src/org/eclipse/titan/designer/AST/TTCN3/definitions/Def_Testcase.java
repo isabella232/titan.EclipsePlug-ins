@@ -591,11 +591,11 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		}
 
 		source.append("try{\n");
-		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		if (systemType == null) {
-			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		} else {
-			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", systemType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), systemType.getComponentBody().getIdentifier().getDisplayName()));
+			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", systemType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), systemType.getComponentBody().getIdentifier().getDisplayName()));
 		}
 		source.append("has_timer, timer_value);\n");
 		block.generateCode(aData, source);
@@ -608,5 +608,23 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );
 		sb.append(source);
+
+		if (formalParList == null || formalParList.getNofParameters() == 0) {
+			aData.addBuiltinTypeImport( "Ttcn3Float" );
+
+			final StringBuilder executeAllTestcases = aData.getExecuteAllTestcase();
+			executeAllTestcases.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+		}
+
+		final StringBuilder executeTestcase = aData.getExecuteTestcase();
+		executeTestcase.append("if(\"").append(identifier.getDisplayName()).append("\".equals(tescase_name)) {\n");
+		if (formalParList == null || formalParList.getNofParameters() == 0) {
+			aData.addBuiltinTypeImport( "Ttcn3Float" );
+
+			executeTestcase.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+		} else {
+			executeTestcase.append("throw new TtcnError(MessageFormat.format(\"Test case {0} in module {1} cannot be executed individually (without control part) because it has parameters.\", tescase_name, module_name));\n");
+		}
+		executeTestcase.append("} else ");
 	}
 }

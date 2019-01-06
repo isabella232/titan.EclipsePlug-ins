@@ -510,7 +510,7 @@ public final class Def_Var_Template extends Definition {
 					TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName + ".get()", templateRestriction);
 				}
 			} else if (cleanUp) {
-				initComp.append(MessageFormat.format("{0}.get().cleanUp();\n", genName));
+				initComp.append(MessageFormat.format("{0}.get().clean_up();\n", genName));
 			}
 		} else {
 			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -522,7 +522,7 @@ public final class Def_Var_Template extends Definition {
 					TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
 				}
 			} else if (cleanUp) {
-				initComp.append(MessageFormat.format("{0}.cleanUp();\n", genName));
+				initComp.append(MessageFormat.format("{0}.clean_up();\n", genName));
 			}
 		}
 	}

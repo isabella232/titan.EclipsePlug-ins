@@ -60,7 +60,7 @@ public final class ExecuteSubPage {
 
 	private static final String[] COLUMN_NAMES = new String[] { "moduleName", "testcaseName" };
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ExecuteSectionHandler executeSectionHandler;
 
 	public ExecuteSubPage(final ConfigEditor editor) {
@@ -68,7 +68,7 @@ public final class ExecuteSubPage {
 	}
 
 	void createExecuteSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
@@ -86,9 +86,9 @@ public final class ExecuteSubPage {
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		section.setLayoutData(gd);
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
 		section.setClient(client);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 		gd = new GridData(GridData.FILL_BOTH);
@@ -125,7 +125,7 @@ public final class ExecuteSubPage {
 		gd.verticalAlignment = SWT.FILL;
 		executeElementsTable.setLayoutData(gd);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -148,7 +148,7 @@ public final class ExecuteSubPage {
 					createNewExecuteSection();
 				}
 
-				ExecuteItem newItem = createNewExecuteItem();
+				final ExecuteItem newItem = createNewExecuteItem();
 				if (newItem == null) {
 					return;
 				}
@@ -218,16 +218,16 @@ public final class ExecuteSubPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-				ExecuteDataLabelProvider labelProvider = (ExecuteDataLabelProvider) executeElementsTableViewer.getLabelProvider();
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final ExecuteDataLabelProvider labelProvider = (ExecuteDataLabelProvider) executeElementsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, columnIndex);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					ExecuteItem executeItem = (ExecuteItem) ((TableItem) element).getData();
+					final ExecuteItem executeItem = (ExecuteItem) ((TableItem) element).getData();
 
 					switch (columnIndex) {
 					case 0:
@@ -282,12 +282,12 @@ public final class ExecuteSubPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		executeSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[EXECUTE]");
+		final ParseTree header = new AddedParseTree("\n[EXECUTE]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -329,10 +329,10 @@ public final class ExecuteSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) executeElementsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) executeElementsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			ExecuteItem item = (ExecuteItem) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final ExecuteItem item = (ExecuteItem) iterator.next();
 			if (item != null) {
 				ConfigTreeNodeUtilities.removeChild(executeSectionHandler.getLastSectionRoot(), item.getRoot());
 				executeSectionHandler.getExecuteitems().remove(item);

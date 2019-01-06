@@ -53,7 +53,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	@Override
 	protected String getComponentTerminationReference() {
 		String componentReference = ""; //$NON-NLS-1$
-		String tmp = getTokenAfterString(COMPONENT_DONE_VERDICT, " "); //$NON-NLS-1$
+		final String tmp = getTokenAfterString(COMPONENT_DONE_VERDICT, " "); //$NON-NLS-1$
 		if ("with".equals(tmp)) { //$NON-NLS-1$
 			componentReference = getTokenAfterString(COMPONENT_REFERENCE, " :"); //$NON-NLS-1$
 		} else {
@@ -65,7 +65,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	@Override
 	protected String getComponentTerminationVerdict() {
 		String componentVerdict = ""; //$NON-NLS-1$
-		String tmp = getTokenAfterString(COMPONENT_DONE_VERDICT, " "); //$NON-NLS-1$
+		final String tmp = getTokenAfterString(COMPONENT_DONE_VERDICT, " "); //$NON-NLS-1$
 		if ("with".equals(tmp)) { //$NON-NLS-1$
 			componentVerdict = getTokenAfterString(COMPONENT_TERMINATION_VERDICT);
 		} else {
@@ -113,7 +113,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	protected String getComponentDoneReference() {
-		String compRef = getReference(COMPONENT_DONE_REFERENCE, IS_DONE);
+		final String compRef = getReference(COMPONENT_DONE_REFERENCE, IS_DONE);
 		return getComponentRef(compRef);
 	}
 
@@ -139,7 +139,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	public String getPortConnectionTarget() {
-		int startIndex = this.message.indexOf(AND) + AND.length();
+		final int startIndex = this.message.indexOf(AND) + AND.length();
 		if ((startIndex < 0) || (startIndex >= this.message.length())) {
 			return "";  //$NON-NLS-1$
 		}
@@ -153,8 +153,8 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	public String getStartFunctionReference() {
-		int i = this.message.indexOf(ON_COMPONENT);
-		String compNameAndRef = this.message.substring(i + ON_COMPONENT.length() + 1, this.message.length() - 1);
+		final int i = this.message.indexOf(ON_COMPONENT);
+		final String compNameAndRef = this.message.substring(i + ON_COMPONENT.length() + 1, this.message.length() - 1);
 		return getComponentRef(compNameAndRef);
 	}
 
@@ -165,7 +165,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	public String getPortMappingTarget() {
-		int startIndex = this.message.indexOf(TO) + TO.length();
+		final int startIndex = this.message.indexOf(TO) + TO.length();
 		if ((startIndex < 0) || (startIndex >= this.message.length())) {
 			return "";  //$NON-NLS-1$
 		}
@@ -174,7 +174,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	public String getPortUnMappingTarget() {
-		int startIndex = this.message.indexOf(FROM) + FROM.length();
+		final int startIndex = this.message.indexOf(FROM) + FROM.length();
 		if ((startIndex < 0) || (startIndex >= this.message.length())) {
 			return "";  //$NON-NLS-1$
 		}
@@ -183,7 +183,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	public String getPortMappingSource() {
-		String compRef = getReference(MAPPING_PORT, TO);
+		final String compRef = getReference(MAPPING_PORT, TO);
 		return compRef;
 	}
 
@@ -193,8 +193,8 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	}
 
 	private String getReference(final String startMessage, final String stopMessage) {
-		int startIndex = this.message.indexOf(startMessage);
-		int stopIndex = this.message.indexOf(stopMessage);
+		final int startIndex = this.message.indexOf(startMessage);
+		final int stopIndex = this.message.indexOf(stopMessage);
 
 		//return "" if the messages do not occurs in the message string
 		if ((startIndex < 0) || (stopIndex < 0)) {

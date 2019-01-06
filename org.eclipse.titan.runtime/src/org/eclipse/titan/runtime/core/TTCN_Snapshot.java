@@ -47,7 +47,7 @@ public final class TTCN_Snapshot {
 	private static ThreadLocal<Double> alt_begin = new ThreadLocal<Double>() {
 		@Override
 		protected Double initialValue() {
-			return timeNow();
+			return time_now();
 		}
 	};
 
@@ -82,11 +82,11 @@ public final class TTCN_Snapshot {
 		}
 
 		else_branch_found.set(false);
-		alt_begin.set(timeNow());
+		alt_begin.set(time_now());
 	}
 
 	// originially reopenEpollFd and in a bit different location
-	public static void reOpen() {
+	public static void re_open() {
 		try {
 			selector.set(Selector.open());
 		} catch (IOException exception) {
@@ -102,7 +102,7 @@ public final class TTCN_Snapshot {
 	 * Execution reached an else branch of an alt.
 	 * If this is the first time we must warn the user.
 	 * */
-	public static void elseBranchReached() {
+	public static void else_branch_reached() {
 		if (!else_branch_found.get()) {
 			else_branch_found.set(true);
 			TtcnError.TtcnWarning("An [else] branch of an alt construct has been reached."
@@ -117,7 +117,7 @@ public final class TTCN_Snapshot {
 	 * @return the current time as a double, in seconds.miliseconds form
 	 *
 	 * */
-	public static double timeNow() {
+	public static double time_now() {
 		return System.currentTimeMillis() / 1000.0;
 	}
 
@@ -128,7 +128,7 @@ public final class TTCN_Snapshot {
 	 * @return the current time as a double, in seconds.miliseconds form
 	 *
 	 * */
-	public static double getAltBegin() {
+	public static double get_alt_begin() {
 		return alt_begin.get();
 	}
 
@@ -143,7 +143,7 @@ public final class TTCN_Snapshot {
 	 *
 	 * originally take_new
 	 * */
-	public static void takeNew(final boolean blockExecution) {
+	public static void take_new(final boolean blockExecution) {
 		if (blockExecution || else_branch_found.get()) {
 			again: for (;;) {
 				//FIXME implement
@@ -152,11 +152,11 @@ public final class TTCN_Snapshot {
 				boolean handleTimer = false;
 				if (blockExecution) {
 					final Changeable_Double timerTimeout = new Changeable_Double(0.0);
-					final boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+					final boolean isTimerTimeout = TitanTimer.get_min_expiration(timerTimeout);
 					//FIXME timeout handle still needed
 					if (isTimerTimeout) {
 						timeout = timerTimeout.getValue();
-						final double currentTime = timeNow();
+						final double currentTime = time_now();
 						final double blockTime = timeout - currentTime;
 						if (blockTime > 0.0) {
 							if (blockTime < MAX_BLOCK_TIME) {
@@ -178,16 +178,13 @@ public final class TTCN_Snapshot {
 					}
 				}
 
-				if (selector.get().keys().isEmpty() && pollTimeout < 0) {
-					throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
-				}
-
+				final Selector localSelector = selector.get();
 				int selectReturn = 0;
-				if (selector.get().keys().isEmpty()) {
+				if (localSelector.keys().isEmpty()) {
 					//no channels to wait for
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.get().select(pollTimeout);
+							selectReturn = localSelector.select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -197,19 +194,19 @@ public final class TTCN_Snapshot {
 				} else {
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.get().select(pollTimeout);
+							selectReturn = localSelector.select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
 					} else if (pollTimeout < 0) {
 						try {
-							selectReturn = selector.get().select(0);
+							selectReturn = localSelector.select(0);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
 					} else {
 						try {
-							selectReturn = selector.get().selectNow();
+							selectReturn = localSelector.selectNow();
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -217,7 +214,7 @@ public final class TTCN_Snapshot {
 				}
 
 				if (selectReturn > 0) {
-					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
+					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
 						for (final SelectionKey key : selectedKeys) {
@@ -233,13 +230,13 @@ public final class TTCN_Snapshot {
 					// do an other round if it has to wait much,
 					// or do a busy wait if only a few cycles are needed
 					if (pollTimeout > 0) {
-						final double difference = timeNow() - timeout;
+						final double difference = time_now() - timeout;
 						if (difference < 0) {
 							continue again;
 						}
 					}
 
-					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
+					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
 						for (final SelectionKey key : selectedKeys) {
@@ -257,7 +254,7 @@ public final class TTCN_Snapshot {
 		}
 		// just update the time and check the testcase guard timer if blocking was
 		// not requested and there is no [else] branch in the test suite
-		alt_begin.set(timeNow());
+		alt_begin.set(time_now());
 
 		if (TitanAlt_Status.ALT_YES == TitanTimer.testcaseTimer.timeout()) {
 			throw new TtcnError("Guard timer has expired. Execution of current test case will be interrupted.");
@@ -279,7 +276,7 @@ public final class TTCN_Snapshot {
 			}
 
 			handler.callIntervall = call_interval;
-			handler.last_called = timeNow();
+			handler.last_called = time_now();
 			handler.isTimeout = is_timeout;
 			handler.callAnyway = call_anyway;
 			handler.isPeriodic = is_periodic;

@@ -10,12 +10,14 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
 /**
  * TTCN-3 boolean
  * @author Kristof Szabados
  */
-public class Optional<TYPE extends Base_Type> extends Base_Type {
+public final class Optional<TYPE extends Base_Type> extends Base_Type {
 	public enum optional_sel { OPTIONAL_UNBOUND, OPTIONAL_OMIT, OPTIONAL_PRESENT };
 
 	private TYPE optionalValue;
@@ -51,50 +53,68 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 			}
 
-			optionalValue.assign(otherValue.optionalValue);
+			optionalValue.operator_assign(otherValue.optionalValue);
 		}
 	}
 
-	//originally clean_up
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;
 		}
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 	}
 
-	//originally operator=
-	public Optional<TYPE> assign(final template_sel otherValue) {
+	/**
+	 * Sets the current selection to be omit.
+	 * Any other parameter causes dynamic testcase error.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public Optional<TYPE> operator_assign(final template_sel otherValue) {
 		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
 			throw new TtcnError("Internal error: Setting an optional field to an invalid value.");
 		}
-		setToOmit();
+		set_to_omit();
 		return this;
 	}
 
-	//originally operator=
-	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public Optional<TYPE> operator_assign(final Optional<TYPE> otherValue) {
 		switch (otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(otherValue.optionalValue);
+				optionalValue.operator_assign(otherValue.optionalValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(otherValue.optionalValue);
+				optionalValue.operator_assign(otherValue.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
 		case OPTIONAL_OMIT:
 			if (otherValue != this) {
-				setToOmit();
+				set_to_omit();
 			}
 			break;
 		default:
-			cleanUp();
+			clean_up();
 			break;
 		}
 
@@ -102,17 +122,17 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public Optional<TYPE> assign(final Base_Type otherValue) {
+	public Optional<TYPE> operator_assign(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(otherValue);
+				optionalValue.operator_assign(otherValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(otherValue);
+				optionalValue.operator_assign(otherValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			return this;
@@ -122,31 +142,31 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		switch (optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-				optionalValue.assign(optionalOther.optionalValue);
+				optionalValue.operator_assign(optionalOther.optionalValue);
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
-				optionalValue.assign(optionalOther.optionalValue);
+				optionalValue.operator_assign(optionalOther.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
 		case OPTIONAL_OMIT:
 			if (optionalOther != this) {
-				setToOmit();
+				set_to_omit();
 			}
 			break;
 		default:
-			cleanUp();
+			clean_up();
 			break;
 		}
 
 		return this;
 	}
 
-	public void setToPresent() {
+	public void set_to_present() {
 		if (!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			try {
@@ -157,7 +177,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public void setToOmit() {
+	public void set_to_omit() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;
 		}
@@ -168,6 +188,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optionalSelection;
 	}
 
+	@Override
 	public void log() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
@@ -179,6 +200,26 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		case OPTIONAL_UNBOUND:
 			TTCN_Logger.log_event_unbound();
 			break;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void set_param(final Module_Parameter param) {
+		if (param.get_type() == type_t.MP_Omit) {
+			if (param.get_ifpresent()) {
+				param.error("An optional field of a record value cannot have an 'ifpresent' attribute");
+			}
+			if (param.get_length_restriction() != null) {
+				param.error("An optional field of a record value cannot have a length restriction");
+			}
+			set_to_omit();
+			return;
+		}
+		set_to_present();
+		optionalValue.set_param(param);
+		if (!optionalValue.is_bound()) {
+			clean_up();
 		}
 	}
 
@@ -201,43 +242,50 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
-		final int temp = text_buf.pull_int().getInt();
+		final int temp = text_buf.pull_int().get_int();
 		if (temp == 1) {
-			setToPresent();
+			set_to_present();
 			optionalValue.decode_text(text_buf);
 		} else {
-			setToOmit();
+			set_to_omit();
 		}
 	}
 
-	public boolean isBound() {
+	@Override
+	public boolean is_bound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 		case OPTIONAL_OMIT:
 			return true;
 		default:
 			if (null != optionalValue) {
-				return optionalValue.isBound();
+				return optionalValue.is_bound();
 			}
 			return false;
 		}
 	}
 
-	//originally is_present
-	public boolean isPresent() {
+	@Override
+	public boolean is_present() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection);
 	}
 
 	/**
-	 * Note: this is not the TTCN-3 ispresent(), kept for backward compatibility
-	 *       with the runtime and existing testports which use this version where
-	 *       unbound errors are caught before causing more trouble
+	 * Checks if this optional value contains a value. Please note the
+	 * optional value itself can be present (checked with is_present), while
+	 * its value is set to omit (checked with ispresent).
+	 * <p>
+	 * Note: this is not the TTCN-3 ispresent(), kept for backward
+	 * compatibility with the runtime and existing testports which use this
+	 * version where unbound errors are caught before causing more trouble.
 	 *
-	 * originally ispresent
+	 * @return {@code true} if the value in this optional value is present
+	 *         (optionalSelection == OPTIONAL_PRESENT), {@code false}
+	 *         otherwise.
 	 * */
-	public boolean isPresentOld() {
+	public boolean ispresent() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 			return true;
@@ -248,18 +296,20 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public boolean isValue() {
+	@Override
+	public boolean is_value() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
-				&& optionalValue.isValue();
+				&& optionalValue.is_value();
 	}
 
-	public boolean isOptional() {
+	@Override
+	public boolean is_optional() {
 		return true;
 	}
 
 	//originally operator()
 	public TYPE get() {
-		setToPresent();
+		set_to_present();
 		return optionalValue;
 	}
 
@@ -275,8 +325,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final template_sel otherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final template_sel otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (template_sel.UNINITIALIZED_TEMPLATE.equals(otherValue)) {
 				return true;
@@ -291,8 +349,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optional_sel.OPTIONAL_OMIT.equals(optionalSelection);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final Optional<TYPE> otherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final Optional<TYPE> otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
 				return true;
@@ -306,7 +372,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				if (optionalSelection != otherValue.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-					return optionalValue.operatorEquals(otherValue.optionalValue);
+					return optionalValue.operator_equals(otherValue.optionalValue);
 				} else {
 					return true;
 				}
@@ -315,20 +381,20 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-				if (!otherValue.isBound()) {
+				if (!otherValue.is_bound()) {
 					return true;
 				} else {
 					throw new TtcnError("The left operand of comparison is an unbound optional value.");
 				}
 			} else {
-				if (!otherValue.isBound()) {
+				if (!otherValue.is_bound()) {
 					throw new TtcnError("The right operand of comparison is an unbound optional value.");
 				} else {
 					if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-						return optionalValue.operatorEquals(otherValue);
+						return optionalValue.operator_equals(otherValue);
 					} else {
 						return false;
 					}
@@ -350,7 +416,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				if (optionalSelection != optionalOther.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
-					return optionalValue.operatorEquals(optionalOther.optionalValue);
+					return optionalValue.operator_equals(optionalOther.optionalValue);
 				} else {
 					return true;
 				}
@@ -358,13 +424,29 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final template_sel otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final template_sel otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final Optional<TYPE> otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final Optional<TYPE> otherValue) {
+		return !operator_equals(otherValue);
 	}
 }

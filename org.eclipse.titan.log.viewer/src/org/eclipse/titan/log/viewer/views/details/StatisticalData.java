@@ -27,7 +27,7 @@ public class StatisticalData {
 	public StatisticalData(final LogFileMetaData logFileMetaData, final List<TestCase> testCaseVector, final CachedLogReader cachedLogFileReader) {
 		this.logFileMetaData = logFileMetaData;
 		this.testCaseVector = new ArrayList<TestCase>();
-		for (TestCase tc : testCaseVector) {
+		for (final TestCase tc : testCaseVector) {
 			if (!tc.isControlPart()) {
 				this.testCaseVector.add(tc);
 			}
@@ -52,7 +52,7 @@ public class StatisticalData {
 	}
 	public void setTestCaseVector(final List<TestCase> testCaseVector) {
 		this.testCaseVector = new ArrayList<TestCase>();
-		for (TestCase tc : testCaseVector) {
+		for (final TestCase tc : testCaseVector) {
 			if (!tc.isControlPart()) {
 				this.testCaseVector.add(tc);
 			}

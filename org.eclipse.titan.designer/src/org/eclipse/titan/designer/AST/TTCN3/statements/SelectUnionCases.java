@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -96,6 +97,17 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	public void setMyScope(final Scope scope) {
 		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
 			selectUnionCases.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statements in these select union cases to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).setCodeSection(codeSection);
 		}
 	}
 

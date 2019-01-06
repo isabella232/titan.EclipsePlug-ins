@@ -67,13 +67,13 @@ public class ConfigurationManagerControl {
 	private final IProject project;
 	private String actualConfiguration;
 
-	private Combo configurations;
-	private Button manageButton;
+	private final Combo configurations;
+	private final Button manageButton;
 
 	class ConfigurationListDialog extends Dialog {
 		private TableViewer hostViewer;
 		private final String[] hostTableColumnHeaders = { "Configuration", "Status" };
-		private ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(60), new ColumnWeightData(40), };
+		private final ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(60), new ColumnWeightData(40), };
 		private Text errorText;
 
 		class ConfigurationContentProvider implements IStructuredContentProvider {
@@ -323,7 +323,7 @@ public class ConfigurationManagerControl {
 		private String name;
 		private Text nameText;
 
-		private String windowHeader;
+		private final String windowHeader;
 
 		public ConfigurationDialog(final Shell shell, final String name, final String windowHeader) {
 			super(shell);

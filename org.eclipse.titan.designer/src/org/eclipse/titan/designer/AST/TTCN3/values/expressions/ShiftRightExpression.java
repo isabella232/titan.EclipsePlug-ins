@@ -442,7 +442,7 @@ public final class ShiftRightExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append(".shiftRight( ");
+		expression.expression.append(".shift_right( ");
 		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(" )");
 	}

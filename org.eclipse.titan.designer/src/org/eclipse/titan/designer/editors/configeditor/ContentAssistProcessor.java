@@ -43,11 +43,9 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(final ITextViewer viewer, final int offset) {
-		IDocument doc = viewer.getDocument();
-
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
-
-		int ofs = findWordStart(offset, doc);
+		final IDocument doc = viewer.getDocument();
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final int ofs = findWordStart(offset, doc);
 		String incompleteString = "";
 
 		try {
@@ -58,8 +56,8 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		String[] reference = incompleteString.trim().split(REFERENCE_SPLITTER, -1);
-		Reference ref = new Reference(null);
+		final String[] reference = incompleteString.trim().split(REFERENCE_SPLITTER, -1);
+		final Reference ref = new Reference(null);
 		ref.setLocation(new Location(file, 0, 0, offset - ofs));
 		FieldSubReference subref = new FieldSubReference(new Identifier(Identifier_type.ID_TTCN, reference[0]));
 		subref.setLocation(new Location(file, 0, 0, reference[0].length()));
@@ -69,7 +67,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 			subref.setLocation(new Location(file, 0, reference[0].length() + 1, offset - ofs));
 			ref.addSubReference(subref);
 		}
-		ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_TTCN, doc, ref, ofs);
+		final ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_TTCN, doc, ref, ofs);
 
 		propCollector.addProposal(CodeScanner.SECTION_TITLES, null, KEYWORD);
 		propCollector.addProposal(CodeScanner.KEYWORDS, null, KEYWORD);
@@ -77,7 +75,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 		propCollector.addProposal(CodeScanner.EXTERNAL_COMMAND_TYPES, null, KEYWORD);
 		propCollector.addProposal(CodeScanner.OPTIONS, null, KEYWORD);
 
-		String sortingpolicy = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING);
+		final String sortingpolicy = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING);
 		if (PreferenceConstantValues.SORT_ALPHABETICALLY.equals(sortingpolicy)) {
 			propCollector.sortAll();
 		}

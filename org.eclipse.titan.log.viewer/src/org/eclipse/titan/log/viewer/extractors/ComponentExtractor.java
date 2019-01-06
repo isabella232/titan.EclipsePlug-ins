@@ -25,7 +25,7 @@ public class ComponentExtractor extends Extractor {
 	private int currentProgress;
 	private int currentCompRef;
 	private String currentCompName;
-	private Map<Integer, String> components;
+	private final Map<Integer, String> components;
 
 	// Constants for ComponentExtractor
 	private static final char[] PTC_CREATION = "PTC was created. Component reference: ".toCharArray(); //$NON-NLS-1$
@@ -64,13 +64,13 @@ public class ComponentExtractor extends Extractor {
 	 * @return an array list with the name of all (no duplicates) the found components
 	 */
 	public List<String> getComponents() {
-		List<String> componentsArray = new ArrayList<String>();
-		Set<Integer> keys = this.components.keySet();
-		List<Integer> sortedKeys = new ArrayList<Integer>(keys);
+		final List<String> componentsArray = new ArrayList<String>();
+		final Set<Integer> keys = this.components.keySet();
+		final List<Integer> sortedKeys = new ArrayList<Integer>(keys);
 		Collections.sort(sortedKeys);
 
-		for (Integer sortedKey : sortedKeys) {
-			String compName = this.components.get(sortedKey);
+		for (final Integer sortedKey : sortedKeys) {
+			final String compName = this.components.get(sortedKey);
 			if ((compName != null) && !componentsArray.contains(compName)) {
 				componentsArray.add(compName);
 			}
@@ -88,13 +88,13 @@ public class ComponentExtractor extends Extractor {
 		int pos = findPos(PTC_CREATION, offsetStart, offsetEnd);
 		if (pos > 0) {
 			// Component creation found, calculate start position for component reference
-			int compRefStartPos = pos + PTC_CREATION_LENGTH + 1;
+			final int compRefStartPos = pos + PTC_CREATION_LENGTH + 1;
 
 			// Check if component name is defined
-			int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
+			final int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
 			if (compName > 0) {
 				// Component name found, calculate start position and length
-				int compNameStartPos = compName + COMP_NAME_START_LENGTH + 1;
+				final int compNameStartPos = compName + COMP_NAME_START_LENGTH + 1;
 				int compNameLength = findPos(TESTCASE_NAME, offsetStart, offsetEnd) + 1 - compNameStartPos;
 				if (compNameLength < 0) {
 					compNameLength = findPos(COMP_NAME_END, offsetStart, offsetEnd) + 1 - compNameStartPos;
@@ -104,7 +104,7 @@ public class ComponentExtractor extends Extractor {
 				}
 				this.currentCompName = new String(this.buffer, compNameStartPos, compNameLength);
 				// Calculate component reference length
-				int compRefLength = findPos(COMP_REF_END, offsetStart, offsetEnd) + 1 - compRefStartPos;
+				final int compRefLength = findPos(COMP_REF_END, offsetStart, offsetEnd) + 1 - compRefStartPos;
 				if (compRefLength < 0) {
 					return;
 				}
@@ -147,13 +147,13 @@ public class ComponentExtractor extends Extractor {
 		pos = findPos(TTCN_3_PARALLEL_TEST_COMPONENT_STARTED_ON, offsetStart, offsetEnd);
 		if (pos > 0) {
 			// TTCN-3 Component creation found, calculate start position for component reference
-			int compRef = findPos(COMP_REF, offsetStart, offsetEnd);
+			final int compRef = findPos(COMP_REF, offsetStart, offsetEnd);
 
 			if (compRef > 0) {
 
 				//Calculate component reference length
-				int compRefStartPos = compRef + COMP_REF_LENGTH + 2;
-				int compRefLength = findPos(COMP_TYPE, offsetStart, offsetEnd) + 1 - compRefStartPos;
+				final int compRefStartPos = compRef + COMP_REF_LENGTH + 2;
+				final int compRefLength = findPos(COMP_TYPE, offsetStart, offsetEnd) + 1 - compRefStartPos;
 				if (compRefLength < 0) {
 					return;
 				}
@@ -165,11 +165,11 @@ public class ComponentExtractor extends Extractor {
 				}
 
 				// Check if component name is defined
-				int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
+				final int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
 				if (compName > 0) {
 					// Component name found, calculate start position and length
-					int compNameStartPos = compName + COMP_NAME_START_LENGTH + 1;
-					int compNameLength = findPos(TTCN_3_COMP_NAME_END, offsetStart, offsetEnd) + 1 - compNameStartPos;
+					final int compNameStartPos = compName + COMP_NAME_START_LENGTH + 1;
+					final int compNameLength = findPos(TTCN_3_COMP_NAME_END, offsetStart, offsetEnd) + 1 - compNameStartPos;
 					if (compNameLength < 0) {
 						// Length Error
 						return;

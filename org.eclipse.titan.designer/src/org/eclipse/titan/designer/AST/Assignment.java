@@ -339,12 +339,12 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
 		if(myScope == null || scope == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final StringBuilder returnValue = new StringBuilder();
-		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
-		if(!myModule.equals(scope.getModuleScope()) && !SpecialASN1Module.isSpecAsss(myModule)) {
+		final Module myModule = myScope.getModuleScopeGen();//get_scope_mod_gen
+		if(!myModule.equals(scope.getModuleScopeGen()) && !SpecialASN1Module.isSpecAsss(myModule)) {
 			//when the definition is referred from another module
 			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');
@@ -385,6 +385,8 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );
 		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented!\n" );
+		sb.append( ".generateCode() is not implemented! (" );
+		sb.append(getFullName());
+		sb.append( ")\n" );
 	}
 }

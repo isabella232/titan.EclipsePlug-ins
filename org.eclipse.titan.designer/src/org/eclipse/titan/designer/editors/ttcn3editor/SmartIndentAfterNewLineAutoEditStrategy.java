@@ -62,14 +62,14 @@ public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANA
 	 */
 	protected void smartIndentAfterNewLine(final IDocument document, final DocumentCommand command) {
 
-		int docLength = document.getLength();
+		final int docLength = document.getLength();
 		if (command.offset == -1 || docLength == 0) {
 			return;
 		}
 
 		try {
-			int p = command.offset == docLength ? command.offset - 1 : command.offset;
-			int line = document.getLineOfOffset(p);
+			final int p = command.offset == docLength ? command.offset - 1 : command.offset;
+			final int line = document.getLineOfOffset(p);
 
 			final StringBuilder builder = new StringBuilder(command.text);
 			String lineDelimeter = document.getLineDelimiter(line);
@@ -80,18 +80,18 @@ public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANA
 			// calculate with the new line originally in the buffer
 			int carretShiftSize = lineDelimeter.length();
 
-			String lineIndent = getIndentOfLine(document, line, command);
+			final String lineIndent = getIndentOfLine(document, line, command);
 			builder.append(lineIndent);
 			carretShiftSize += lineIndent.length();
 
-			int start = document.getLineOffset(line);
-			int end = start + document.getLineLength(line) - command.text.length();
+			final int start = document.getLineOffset(line);
+			final int end = start + document.getLineLength(line) - command.text.length();
 
 			// If there is an opening bracket in the line then the
 			// new line might
 			// will be tabulated.
 			if (containsUnclosedInterval(start, command.offset)) {
-				Interval endInterval = rootInterval.getSmallestEnclosingInterval(command.offset);
+				final Interval endInterval = rootInterval.getSmallestEnclosingInterval(command.offset);
 				// no indentation is done on the first 2 levels
 				// and if we found an interval just beginning
 				if (endInterval.getDepth() <= 1 || endInterval.getStartOffset() == command.offset) {
@@ -102,7 +102,7 @@ public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANA
 				carretShiftSize += indentString.length();
 			}
 
-			boolean willInsertClosingBracket = preferenceStore.getBoolean(PreferenceConstants.CLOSE_BRACES)
+			final boolean willInsertClosingBracket = preferenceStore.getBoolean(PreferenceConstants.CLOSE_BRACES)
 					&& canStatementBlockBeOpen(document, command.offset);
 
 			// if we have to move the closing brackets further and

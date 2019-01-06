@@ -42,22 +42,23 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	private static final String RUNSONMISSMATCH2 = "Runs on clause mismatch: A definition that runs on component type `{0}'' cannot {1}"
 			+ " a value of {2} type `{3}'', which runs on `{4}''";
 
-	private static final String GENERAL_SCOPE_NAME = "general scope";
 	protected Scope parentScope;
 	protected List<Location> subScopeLocations;
 	protected List<Scope> subScopes;
 
-	protected String scopeName;
+	/** Some special kind of parent. Used only in conjunction with ASN.1 parameterized references. */
+	protected Scope parentScopeGen;
+
+	protected String scopeName = "";
 
 	/** The name of the scope as returned by the __SCOPE__ macro */
-	private String scopeMacroName;
+	private String scopeMacroName = "";
 
 	/** the naming parent of the scope. */
 	private WeakReference<INamedNode> nameParent;
 
 	public Scope() {
 		parentScope = null;
-		scopeName = GENERAL_SCOPE_NAME;
 	}
 
 	public Location getCommentLocation() {
@@ -79,7 +80,21 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	public String getScopeName() {
-		return scopeName;
+		StringBuilder builder = new StringBuilder();
+		if (parentScope != null) {
+			builder.append(parentScope.getScopeName());
+		}
+
+		if (scopeName != null && !scopeName.isEmpty()) {
+			if (builder.length() == 0) {
+				builder.append(scopeName);
+			} else {
+				builder.append('.');
+				builder.append(scopeName);
+			}
+		}
+
+		return builder.toString();
 	}
 
 	/**
@@ -100,7 +115,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	 * @return the __SCOPE__ macro name fo this scope.
 	 * */
 	public final String getScopeMacroName() {
-		if (scopeMacroName != null) {
+		if (scopeMacroName != null && !scopeMacroName.isEmpty()) {
 			return scopeMacroName;
 		}
 
@@ -157,6 +172,10 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		return parentScope;
 	}
 
+	public final void setParentScopeGen(final Scope parentScope) {
+		this.parentScopeGen = parentScope;
+	}
+
 	/**
 	 * Search in the scope hierarchy for the innermost enclosing
 	 * statementblock scope unit.
@@ -183,6 +202,22 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		return parentScope.getModuleScope();
+	}
+
+	/**
+	 * Return the module this scope is contained in for code generation. Can return
+	 * <code>null</code>, it indicates a FATAL ERROR.
+	 *
+	 * @return the module of the scope, or null in case of error.
+	 * */
+	public Module getModuleScopeGen() {
+		if (parentScopeGen != null) {
+			return parentScopeGen.getModuleScopeGen();
+		} else if (parentScope != null) {
+			return parentScope.getModuleScopeGen();
+		}
+
+		return null;
 	}
 
 	/**

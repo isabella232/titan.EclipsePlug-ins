@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.AST.Identifier;
  * */
 public class ReferenceSearchMatch extends Match {
 
-	private Identifier id;
+	private final Identifier id;
 
 	public ReferenceSearchMatch(final Identifier id) {
 		super(id.getLocation().getFile(), id.getLocation().getOffset(), id.getLocation().getEndOffset() - id.getLocation().getOffset());

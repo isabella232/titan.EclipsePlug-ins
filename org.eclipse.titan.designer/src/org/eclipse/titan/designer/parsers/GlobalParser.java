@@ -165,25 +165,25 @@ public final class GlobalParser {
 	 * Re-analyzes every already known projects, with all of their contents.
 	 **/
 	public static void reAnalyzeSemantically() {
-		for (ProjectSourceParser parser : TTCN3_PARSERS.values()) {
-			WorkspaceJob job = parser.analyzeAll(false);
+		for (final ProjectSourceParser parser : TTCN3_PARSERS.values()) {
+			final WorkspaceJob job = parser.analyzeAll(false);
 
 			if (job != null) {
 				try {
 					job.join();
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
 			}
 		}
 
-		for (ProjectConfigurationParser parser : CFG_PARSERS.values()) {
-			WorkspaceJob job = parser.doSyntaticalAnalyze();
+		for (final ProjectConfigurationParser parser : CFG_PARSERS.values()) {
+			final WorkspaceJob job = parser.doSyntaticalAnalyze();
 
 			if (job != null) {
 				try {
 					job.join();
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
 			}
@@ -194,7 +194,7 @@ public final class GlobalParser {
 	 * Force the next semantic analyzation to reanalyze everything.
 	 * */
 	public static void clearSemanticInformation() {
-		for (ProjectSourceParser parser : TTCN3_PARSERS.values()) {
+		for (final ProjectSourceParser parser : TTCN3_PARSERS.values()) {
 			parser.clearSemanticInformation();
 		}
 	}

@@ -9,8 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
-
 /**
  * Base_Template in core
  *
@@ -50,53 +48,85 @@ public abstract class Base_Template {
 		TR_PRESENT
 	};
 
-	protected template_sel templateSelection;
+	protected template_sel template_selection;
 	protected boolean is_ifPresent;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	protected Base_Template() {
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
 		is_ifPresent = false;
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param other_value
+	 *                the template kind to initialize to.
+	 * */
 	protected Base_Template(final template_sel otherValue) {
-		templateSelection = otherValue;
+		template_selection = otherValue;
 		is_ifPresent = false;
 	}
 
 	protected void set_selection(final template_sel otherValue) {
-		templateSelection = otherValue;
+		template_selection = otherValue;
 		is_ifPresent = false;
 	}
 
 	protected void set_selection(final Base_Template otherValue) {
-		templateSelection = otherValue.templateSelection;
+		template_selection = otherValue.template_selection;
 		is_ifPresent = otherValue.is_ifPresent;
 	}
 
 	public template_sel get_selection() {
-		return templateSelection;
+		return template_selection;
 	}
 
 	public void set_ifPresent() {
 		is_ifPresent = true;
 	}
 
-	//originally isBound
-	public boolean isBound() {
-		return templateSelection != template_sel.UNINITIALIZED_TEMPLATE;
-	}
-	//originally is_value
-	public boolean isValue() {
-		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
-	}
-
-	//originally clean_up
-	public void cleanUp() {
-		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	/**
+	 * Whether the value is bound.
+	 * 
+	 * is_bound() in the core.
+	 * 
+	 * @return {@code true} if the value is bound.
+	 */
+	public boolean is_bound() {
+		return template_selection != template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	//originally check_single_selection
-	protected static void checkSingleSelection(final template_sel otherValue) {
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * is_value in the core.
+	 *
+	 * @return {@code true} if the value is a actual value.
+	 */
+	public boolean is_value() {
+		return !is_ifPresent && template_selection == template_sel.SPECIFIC_VALUE;
+	}
+
+	/**
+	 * Deletes the template, setting it to unbound.
+	 *
+	 * clean_up() in the core
+	 * */
+	public void clean_up() {
+		template_selection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	/**
+	 * Checks that the provided template selection is ?, * or omit. Any
+	 * other selection type causes a dynamic testcase error.
+	 *
+	 * @param otherValue
+	 *                the template selection to check.
+	 * */
+	protected static void check_single_selection(final template_sel otherValue) {
 		switch (otherValue) {
 		case ANY_VALUE:
 		case OMIT_VALUE:
@@ -107,7 +137,14 @@ public abstract class Base_Template {
 		}
 	}
 
-	protected static String getResName(final template_res tr) {
+	/**
+	 * returns the name of template restriction.
+	 *
+	 * @param tr
+	 *                the template restriction.
+	 * @return the name of the provided template restriction.
+	 * */
+	protected static String get_res_name(final template_res tr) {
 		switch (tr) {
 		case TR_VALUE: return "value";
 		case TR_OMIT: return "omit";
@@ -118,7 +155,7 @@ public abstract class Base_Template {
 	}
 
 	protected void log_generic() {
-		switch (templateSelection) {
+		switch (template_selection) {
 		case UNINITIALIZED_TEMPLATE:
 			TTCN_Logger.log_event_uninitialized();
 			break;
@@ -144,41 +181,41 @@ public abstract class Base_Template {
 	}
 
 	protected void encode_text_base(final Text_Buf text_buf) {
-		text_buf.push_int(templateSelection.getValue());
+		text_buf.push_int(template_selection.getValue());
 		text_buf.push_int(is_ifPresent ? 1 : 0);
 	}
 
 	protected void decode_text_base(final Text_Buf text_buf) {
-		templateSelection = template_sel.getWithValue(text_buf.pull_int().getInt());
-		is_ifPresent = text_buf.pull_int().getInt() == 1;
+		template_selection = template_sel.getWithValue(text_buf.pull_int().get_int());
+		is_ifPresent = text_buf.pull_int().get_int() == 1;
 	}
 
 	public boolean get_istemplate_kind(final String type) {
 		if ("value".equals(type)) {
-			return isValue();
+			return is_value();
 		} else if ("list".equals(type)) {
-			return templateSelection == template_sel.VALUE_LIST;
+			return template_selection == template_sel.VALUE_LIST;
 		} else if ("complement".equals(type)) {
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return template_selection == template_sel.COMPLEMENTED_LIST;
 		} else if ("?".equals(type) || "AnyValue".equals(type)) {
-			return templateSelection == template_sel.ANY_VALUE;
+			return template_selection == template_sel.ANY_VALUE;
 		} else if ("*".equals(type) || "AnyValueOrNone".equals(type)) {
-			return templateSelection == template_sel.ANY_OR_OMIT;
+			return template_selection == template_sel.ANY_OR_OMIT;
 		} else if ("range".equals(type)) {
-			return templateSelection == template_sel.VALUE_RANGE;
+			return template_selection == template_sel.VALUE_RANGE;
 		} else if ("superset".equals(type)) {
-			return templateSelection == template_sel.SUPERSET_MATCH;
+			return template_selection == template_sel.SUPERSET_MATCH;
 		} else if ("subset".equals(type)) {
-			return templateSelection == template_sel.SUBSET_MATCH;
+			return template_selection == template_sel.SUBSET_MATCH;
 		} else if ("omit".equals(type)) {
-			return templateSelection == template_sel.OMIT_VALUE;
+			return template_selection == template_sel.OMIT_VALUE;
 		} else if ("decmatch".equals(type)) {
-			return templateSelection == template_sel.DECODE_MATCH;
+			return template_selection == template_sel.DECODE_MATCH;
 		} else if ("ifpresent".equals(type)) {
 			return is_ifPresent;
 		} else if ("pattern".equals(type)) {
 			throw new TtcnError("Pattenr support is not yet implement!");
-//			return templateSelection == template_sel.STRING_PATTERN;
+//			return template_selection == template_sel.STRING_PATTERN;
 		} else if ("AnyElement".equals(type) || "AnyElementsOrNone".equals(type) ||
 				"permutation".equals(type) || "length".equals(type)) {
 			return false;
@@ -187,35 +224,206 @@ public abstract class Base_Template {
 	}
 
 	protected boolean get_istemplate_kind(final TitanCharString type) {
-		return get_istemplate_kind(type.getValue().toString());
+		return get_istemplate_kind(type.get_value().toString());
 	}
 
-	public boolean isOmit() {
-		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent;
+	public boolean is_omit() {
+		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent;
 	}
 
 	public boolean is_any_or_omit() {
-		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
+		return template_selection == template_sel.ANY_OR_OMIT && !is_ifPresent;
 	}
 
-	public abstract Base_Template assign(final Base_Type otherValue);
-	public abstract Base_Template assign(final Base_Template otherValue);
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public abstract Base_Template operator_assign(final Base_Type otherValue);
+
+	/**
+	 * Assigns the other template to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other template to assign.
+	 * @return the new template object.
+	 */
+	public abstract Base_Template operator_assign(final Base_Template otherValue);
+
+	/**
+	 * Sets the current selection to the provided value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public abstract Base_Template operator_assign(final template_sel otherValue);
+
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public abstract boolean match(final Base_Type otherValue, final boolean legacy);
-	public abstract Base_Type valueOf();
+
+	/**
+	 * Returns the value of a specific value template, causes dynamic
+	 * testcase error otherwise.
+	 *
+	 * @return the value of the specific value template.
+	 * */
+	public abstract Base_Type valueof();
+
+	/**
+	 * Sets the type of the template to the provided value list or
+	 * complemented list kind, initializing the list to be empty.
+	 * <p>
+	 * Using any other template kind than value list or complemented list
+	 * causes dynamic testcase error.
+	 * <p>
+	 * set_type in the core (with default parameter).
+	 *
+	 * @param template_type
+	 *                the template kind to set (value list or complemented
+	 *                list).
+	 * */
+	public void set_type(final template_sel template_type) {
+		set_type(template_type, 0);
+	}
+
+	/**
+	 * Sets the type of the template to the provided value list or
+	 * complemented list kind, also setting its expected size.
+	 * <p>
+	 * Using any other template kind than value list or complemented list
+	 * causes dynamic testcase error.
+	 * <p>
+	 * set_type in the core.
+	 *
+	 * @param template_type
+	 *                the template kind to set (value list or complemented
+	 *                list).
+	 * @param list_length
+	 *                the length the list should be initialized to.
+	 * */
+	public abstract void set_type(final template_sel template_type, final int list_length);
+
+	/**
+	 * Returns the template at the specified position in a value list or
+	 * complemented list template.
+	 * <p>
+	 * Under and over indexing causes dynamic testcase error, also if the
+	 * template is not a value list or complemented list template.
+	 * <p>
+	 * list_item in the core.
+	 * 
+	 * @param list_index
+	 *                index of the element to return
+	 * @return the template at the specified position in this list
+	 */
+	public abstract Base_Template list_item(final int list_index);
+
+	/**
+	 * Logs this template.
+	 */
 	public abstract void log();
 
+	/**
+	 * Logs the matching of the provided value to this template, to help
+	 * identify the reason for mismatch. In legacy mode omitted value fields
+	 * are not matched against the template field.
+	 *
+	 * @param match_value
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
-	public void set_param (final Param_Types.Module_Parameter param) {
-		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TTCN_Logger.log_event_str( "//TODO: " );
-		TTCN_Logger.log_event_str( getClass().getSimpleName() );
-		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TTCN_Logger.end_event();
+	public abstract void set_param(final Param_Types.Module_Parameter param);
+
+	/**
+	 * Checks whether the template is present. A template is_present if it
+	 * is not uninitialized and does not match omit.
+	 * 
+	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
+	 * only if the field is OPTIONAL<>
+	 *
+	 * is_present() in the core (with default parameter).
+	 *
+	 * @return {@code true} if the template is present.
+	 */
+	public boolean is_present() {
+		return is_present(false);
 	}
+
+	/**
+	 * Checks whether the template is present. A template is_present if it
+	 * is not uninitialized and does not match omit.
+	 * 
+	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
+	 * only if the field is OPTIONAL<>
+	 *
+	 * is_present() in the core.
+	 *
+	 * @param legacy
+	 *                in this mode if any of the list restriction of the
+	 *                template matching omit, the template is recognized as
+	 *                matching omit.
+	 * @return {@code true} if the template is present.
+	 */
+	public boolean is_present(final boolean legacy) {
+		if (template_selection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return false;
+		}
+
+		return !match_omit(legacy);
+	}
+
+	// originally match_omit (with default parameter)
+	public boolean match_omit() {
+		return match_omit(false);
+	}
+
+	/**
+	 * Checks if the template can match omit.
+	 *
+	 * In non-legacy mode omit, any or omit templates and templates with
+	 * ifpresent return true. In legacy mode value list and complemented
+	 * list templates can also return true if any or none of their elements
+	 * can match omit.
+	 *
+	 * @param legacy
+	 *                {@code true} to use legacy mode, {@code false}
+	 *                otherwise.
+	 * @return whether the template can match omit.
+	 * */
+	public abstract boolean match_omit(final boolean legacy);
 
 	public abstract void encode_text(final Text_Buf text_buf);
 
 	public abstract void decode_text(final Text_Buf text_buf);
+
+	public void check_restriction(final template_res restriction, final String name) {
+		check_restriction(restriction, name, false);
+	}
+
+	//TODO investigate how to extract the common implementations here
+	public abstract void check_restriction(final template_res restriction, final String name, final boolean legacy);
 }

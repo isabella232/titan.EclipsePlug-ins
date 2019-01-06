@@ -62,8 +62,8 @@ public final class ProjectStructureDataCollector {
 	public void evaulateMissingModules() {
 		missingModules.clear();
 
-		for (List<String> importation : importations.values()) {
-			for (String name : importation) {
+		for (final List<String> importation : importations.values()) {
+			for (final String name : importation) {
 				if (!knownModules.containsKey(name)) {
 					missingModules.put(name, new Identifier(Identifier_type.ID_NAME, name));
 				}

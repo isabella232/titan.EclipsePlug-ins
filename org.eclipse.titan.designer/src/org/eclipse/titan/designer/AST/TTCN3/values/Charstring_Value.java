@@ -300,7 +300,7 @@ public final class Charstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("\"{0}\"", value));
+		result.append(MessageFormat.format("\"{0}\"", get_stringRepr()));
 
 		return result;
 	}
@@ -308,7 +308,9 @@ public final class Charstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign(\"{1}\");\n", name, get_stringRepr()));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
@@ -318,18 +320,94 @@ public final class Charstring_Value extends Value {
 	 * The result will be a valid java string literal, which can be inserted to the generated java code.
 	 * It is typically used for charstring patterns.
 	 * 
-	 * @param s
-	 *                source string to convert
 	 * @return escaped java string
 	 */
-	public static String getEscapedValue(final String s) {
-		if (s == null) {
-			return null;
-		}
-		return s.replace("\\", "\\\\").replace("\"", "\\\"");
+	private String get_stringRepr() {
+		return get_stringRepr(value);
 	}
 
-	private String getEscapedValue() {
-		return getEscapedValue(value);
+	private static boolean is_printable(final char c) {
+		// originally if (isprint(c))
+		if (!Character.isISOControl(c)) {
+			return true;
+		} else {
+			switch (c) {
+			case 0x07: //'\a' Audible bell
+			case '\b':
+			case '\t':
+			case '\n':
+			case 0x0b: // '\v' Vertical tab
+			case '\f':
+			case '\r':
+				return true;
+			default:
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Converts character to escaped string in the format, which is used in generated java code.
+	 * Originally string::append_stringRepr(),
+	 * but changed to create escaped string for generated java code
+	 * @param str output converted (escaped) string
+	 * @param c input character to convert
+	 */
+	private static void append_stringRepr(final StringBuilder str, final char c) {
+		switch (c) {
+		case 0x07: //'\a' Audible bell
+			str.append("\\u0007");
+			break;
+		case '\b':
+			str.append("\\b");
+			break;
+		case '\t':
+			str.append("\\t");
+			break;
+		case '\n':
+			str.append("\\n");
+			break;
+		case 0x0b: // '\v' Vertical tab
+			str.append("\\u000b");
+			break;
+		case '\f':
+			str.append("\\f");
+			break;
+		case '\r':
+			str.append("\\r");
+			break;
+		case '\\':
+			str.append("\\\\");
+			break;
+		case '"':
+			str.append("\\\"");
+			break;
+		default:
+			//NOTE: c is printable, it was checked in get_stringRepr()
+			str.append(c);
+			break;
+		}
+	}
+
+	/**
+	 * Converts string to escaped string in the format, which is used in generated java code.
+	 * Originally string::get_stringRepr(),
+	 * but changed to create escaped string for generated java code
+	 * NOTE: beginning and closing quotes are not added
+	 * @param src unescaped string to convert
+	 * @return converted (escaped) string in java format
+	 */
+	public static String get_stringRepr(final String src)	{
+		final StringBuilder ret_val = new StringBuilder();
+		for (int i = 0; i < src.length(); i++) {
+			final char c = src.charAt(i);
+			if (is_printable(c)) {
+				// the actual character is printable
+				append_stringRepr(ret_val, c);
+			} else {
+				ret_val.append(String.format("\\u%04x", (int)c));
+			}
+		}
+		return ret_val.toString();
 	}
 }

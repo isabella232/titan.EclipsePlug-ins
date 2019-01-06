@@ -70,7 +70,7 @@ public class TestCaseExtractor extends Extractor {
 	 */
 	public void extractTestCasesFromIndexedLogFile(final IFile logFile) throws IOException, ClassNotFoundException {
 		this.logFile = logFile;
-		File indexFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
+		final File indexFile = LogFileCacheHandler.getIndexFileForLogFile(logFile);
 		if (indexFile.length() == 0) {
 			throw new IOException();
 		}
@@ -78,12 +78,12 @@ public class TestCaseExtractor extends Extractor {
 		ObjectInputStream indexFileInputStream = null;
 		try {
 			indexFileInputStream = new ObjectInputStream(new FileInputStream(indexFile));
-			Object o = indexFileInputStream.readObject();
+			final Object o = indexFileInputStream.readObject();
 			if (o instanceof List) {
-				List<?> testCases = (List<?>) o;
-				double sizeFactor = 100.0 / testCases.size();
+				final List<?> testCases = (List<?>) o;
+				final double sizeFactor = 100.0 / testCases.size();
 				int i = 0;
-				for (Object testCase : testCases) {
+				for (final Object testCase : testCases) {
 					i++;
 					if (testCase instanceof TestCase) {
 						this.currentTestCase = (TestCase) testCase;
@@ -115,18 +115,17 @@ public class TestCaseExtractor extends Extractor {
 		ObjectInputStream indexFileInputStream = null;
 		try {
 			indexFileInputStream = new ObjectInputStream(new FileInputStream(indexFile));
-
-			Object o = indexFileInputStream.readObject();
+			final Object o = indexFileInputStream.readObject();
 			if (o instanceof List) {
-				List<?> testCases = (List<?>) o;
+				final List<?> testCases = (List<?>) o;
 
 				// the vector is zero based but the testCase number starts numbering on 1
 				// so there must be an alignment
-				int testCasePosition = testCaseNumber - 1;
-
+				final int testCasePosition = testCaseNumber - 1;
 				if (testCases.size() < testCasePosition) {
 					throw new TechnicalException(Messages.getString("TestCaseExtractor.4")); //$NON-NLS-1$
 				}
+
 				return (TestCase) testCases.get(testCasePosition);
 			}
 		} finally {
@@ -141,7 +140,7 @@ public class TestCaseExtractor extends Extractor {
 	 * @throws IOException if log file not found or error while extracting
 	 */
 	public void extractTestCasesFromLogFile(final LogFileMetaData logFileMetaData, final IProgressMonitor pMonitor) throws IOException {
-		IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
+		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
 		this.logFile = logFileMetaData.getLogfile();
 		if (logFile == null) {
 			throw new IOException("Log file not found.");
@@ -208,7 +207,7 @@ public class TestCaseExtractor extends Extractor {
 		if (!this.optionSet && contains(Constants.LOG_FORMAT, offsetStart, offsetEnd)) {
 			int startPos = findPos(Constants.LOG_FORMAT_OPTION, offsetStart, offsetEnd);
 			startPos = startPos + Constants.LOG_FORMAT_OPTION.length + 1;
-			String option = new String(this.buffer, startPos, offsetEnd - startPos);
+			final String option = new String(this.buffer, startPos, offsetEnd - startPos);
 			this.logFileMetaData.setOption(option);
 			this.logFileMetaData.setFileFormat(Constants.FILEFORMAT_2);
 			this.optionSet = true;
@@ -222,7 +221,7 @@ public class TestCaseExtractor extends Extractor {
 		}
 
 		if (this.crashed) {
-			int newProgress =  (int) (this.filePointer * (100.0 / this.fileSize));
+			final int newProgress =  (int) (this.filePointer * (100.0 / this.fileSize));
 			if (newProgress > this.currentProgress) {
 				this.currentProgress = newProgress;
 				setChanged();
@@ -245,7 +244,7 @@ public class TestCaseExtractor extends Extractor {
 			}
 
 			// Search for test case finished position
-			int testCaseEndPos = findPos(Constants.TEST_CASE_FINISHED, offsetStart, offsetEnd);
+			final int testCaseEndPos = findPos(Constants.TEST_CASE_FINISHED, offsetStart, offsetEnd);
 			if ((this.currentTestCase == null) || !this.currentTestCase.getTestCaseName().contentEquals(
 					new String(this.buffer, tcPos + Constants.TEST_CASE.length + 2,
 							testCaseEndPos - tcPos - Constants.TEST_CASE.length - 2))) {
@@ -254,11 +253,10 @@ public class TestCaseExtractor extends Extractor {
 			}
 
 			this.withinTestCase = false;
-			int verdictPos = findPos(Constants.VERDICT, offsetStart, offsetEnd);
-			String verdict;
+			final int verdictPos = findPos(Constants.VERDICT, offsetStart, offsetEnd);
 			if (verdictPos != -1) {
-				int off = verdictPos + Constants.VERDICT.length + 2;
-				verdict = new String(this.buffer, off, offsetEnd - off);
+				final int off = verdictPos + Constants.VERDICT.length + 2;
+				String verdict = new String(this.buffer, off, offsetEnd - off);
 				final int spacePos = verdict.indexOf(' '); // In case there is a verdict reason e.g.: "Verdict: inconc reason: SUT Response guard timer timed out"
 				if (spacePos > 0) {
 					verdict = verdict.substring(0, spacePos);
@@ -275,7 +273,7 @@ public class TestCaseExtractor extends Extractor {
 		}
 
 		// Search for test case started position
-		int tcPosEnd = findPos(Constants.TEST_CASE_STARTED, offsetStart, offsetEnd);
+		final int tcPosEnd = findPos(Constants.TEST_CASE_STARTED, offsetStart, offsetEnd);
 		if (tcPosEnd != -1) {
 
 			// If end has not been found
@@ -345,16 +343,14 @@ public class TestCaseExtractor extends Extractor {
 	private void addCrashedTestCase() {
 		if (!this.crashed) {
 			this.crashed = true;
-			this.testCaseVector.add(
-					new TestCase(logFile, -1,
-							Messages.getString("TestCaseExtractor.3"),
-							this.filePointer, Constants.VERDICT_CRASHED,
-							this.recordNumber, this.recordNumber));
+			final TestCase temp = new TestCase(logFile, -1, Messages.getString("TestCaseExtractor.3"), this.filePointer,
+					Constants.VERDICT_CRASHED, this.recordNumber, this.recordNumber);
+			this.testCaseVector.add(temp);
 		}
 	}
 
 	private void addLogRecordIndex(final long filePointer, final int offsetStart, final int offsetEnd, final int recordNumber) {
-		int recordLength = offsetEnd - offsetStart + 1;
+		final int recordLength = offsetEnd - offsetStart + 1;
 		this.endRecordNumber = recordNumber;
 
 		// Check if current line contains a valid time-stamp, if not the record continues...
@@ -368,7 +364,7 @@ public class TestCaseExtractor extends Extractor {
 				}
 			}
 			// Time-stamp found, create new log record index
-			LogRecordIndex currentLogRecordIndex = new LogRecordIndex(filePointer, recordLength, recordNumber);
+			final LogRecordIndex currentLogRecordIndex = new LogRecordIndex(filePointer, recordLength, recordNumber);
 			this.logRecordIndexVector.add(currentLogRecordIndex);
 			this.lastRecordIndex = currentLogRecordIndex; // keep the last found record
 		} else {
@@ -380,7 +376,7 @@ public class TestCaseExtractor extends Extractor {
 	}
 
 	private int getVerdict(final String verdict) {
-		Integer verdictConstant = Constants.TEST_CASE_VERDICTS.get(verdict.trim());
+		final Integer verdictConstant = Constants.TEST_CASE_VERDICTS.get(verdict.trim());
 		if (verdictConstant != null) {
 			return verdictConstant;
 		}

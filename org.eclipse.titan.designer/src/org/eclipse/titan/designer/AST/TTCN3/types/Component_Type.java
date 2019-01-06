@@ -907,6 +907,12 @@ public final class Component_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		generateCodeTypedescriptor(aData, source);
 
 		if(needsAlias()) {
@@ -950,7 +956,7 @@ public final class Component_Type extends Type {
 			return;
 		}
 
-		final String globalVariable = MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, internalGetGenNameTypeDescriptor(aData, source, myScope));
+		final String globalVariable = MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, internalGetGenNameTypeDescriptor(aData, source, myScope));
 		aData.addGlobalVariable(descriptorName, globalVariable);
 	}
 

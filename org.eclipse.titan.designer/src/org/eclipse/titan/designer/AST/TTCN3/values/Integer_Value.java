@@ -257,6 +257,11 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
+	public boolean needsTemporaryReference() {
+		return !isNative();
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		return true;
@@ -288,7 +293,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(name);
-		source.append(".assign( ");
+		source.append(".operator_assign( ");
 		if (isNative()) {
 			source.append(value);
 		} else {
@@ -297,6 +302,8 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 			source.append(MessageFormat.format("new BigInteger(\"{0}\")", value.toString()));
 		}
 		source.append(" );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

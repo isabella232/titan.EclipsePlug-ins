@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -58,19 +59,22 @@ public final class Raise_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".signature";
 	private static final String FULLNAMEPART3 = ".sendparameter";
 	private static final String FULLNAMEPART4 = ".to";
+	private static final String FULLNAMEPART5 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "raise";
 
 	private final Reference portReference;
 	private final Reference signatureReference;
 	private final TemplateInstance parameter;
 	private final IValue toClause;
+	private final Reference redirectTimestamp;
 
 	public Raise_Statement(final Reference portReference, final Reference signatureReference, final TemplateInstance parameter,
-			final IValue toClause) {
+			final IValue toClause, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.signatureReference = signatureReference;
 		this.parameter = parameter;
 		this.toClause = toClause;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -83,6 +87,9 @@ public final class Raise_Statement extends Statement {
 		}
 		if (toClause != null) {
 			toClause.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -111,6 +118,8 @@ public final class Raise_Statement extends Statement {
 			return builder.append(FULLNAMEPART3);
 		} else if (toClause == child) {
 			return builder.append(FULLNAMEPART4);
+		} else if (toClause == child) {
+			return builder.append(FULLNAMEPART5);
 		}
 
 		return builder;
@@ -131,6 +140,29 @@ public final class Raise_Statement extends Statement {
 		}
 		if (toClause != null) {
 			toClause.setMyScope(scope);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (signatureReference != null) {
+			signatureReference.setCodeSection(codeSection);
+		}
+		if (parameter != null) {
+			parameter.setCodeSection(codeSection);;
+		}
+		if (toClause != null) {
+			toClause.setCodeSection(codeSection);;
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);;
 		}
 	}
 
@@ -227,6 +259,8 @@ public final class Raise_Statement extends Statement {
 
 		Port_Utility.checkToClause(timestamp, this, portType, toClause);
 
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
+
 		lastTimeChecked = timestamp;
 	}
 
@@ -271,6 +305,11 @@ public final class Raise_Statement extends Statement {
 		} else if (toClause != null) {
 			throw new ReParseException();
 		}
+
+		if( redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -288,6 +327,9 @@ public final class Raise_Statement extends Statement {
 		if (toClause != null) {
 			toClause.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -303,6 +345,9 @@ public final class Raise_Statement extends Statement {
 			return false;
 		}
 		if (toClause != null && !toClause.accept(v)) {
+			return false;
+		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
 			return false;
 		}
 		return true;
@@ -333,6 +378,14 @@ public final class Raise_Statement extends Statement {
 			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression, true);
 		}
+
+		expression.expression.append(", ");
+		if (redirectTimestamp == null) {
+			expression.expression.append("null");
+		}else {
+			redirectTimestamp.generateCode(aData, expression);
+		}
+
 		expression.expression.append(" )");
 
 		expression.mergeExpression(source);

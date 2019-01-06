@@ -34,10 +34,19 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 	List<Pair_of_elements> permutation_intervals;
 
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
 	public Record_Of_Template() {
 		permutation_intervals = null;
 	}
 
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param other_value
+	 *                the template kind to initialize to.
+	 * */
 	public Record_Of_Template(final template_sel other_value) {
 		super(other_value);
 		permutation_intervals = null;
@@ -56,12 +65,12 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	void set_selection(final Record_Of_Template other_value) {
 		super.set_selection(other_value);
 		clean_up_intervals();
-		if (other_value.templateSelection == template_sel.SPECIFIC_VALUE) {
-			permutation_intervals = copyPermutations(other_value.permutation_intervals);
+		if (other_value.template_selection == template_sel.SPECIFIC_VALUE) {
+			permutation_intervals = copy_permutations(other_value.permutation_intervals);
 		}
 	}
 
-	public final List<Pair_of_elements> copyPermutations(final List<Pair_of_elements> srcList) {
+	public final List<Pair_of_elements> copy_permutations(final List<Pair_of_elements> srcList) {
 		if (srcList == null) {
 			return null;
 		}
@@ -89,12 +98,12 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	protected void decode_text_permutation(final Text_Buf text_buf) {
 		decode_text_restricted(text_buf);
 
-		final int number_of_permutations = text_buf.pull_int().getInt();
+		final int number_of_permutations = text_buf.pull_int().get_int();
 		permutation_intervals = new ArrayList<Pair_of_elements>(number_of_permutations);
 
 		for (int i = 0; i < number_of_permutations; i++) {
-			final int start_index = text_buf.pull_int().getInt();
-			final int end_index = text_buf.pull_int().getInt();
+			final int start_index = text_buf.pull_int().get_int();
+			final int end_index = text_buf.pull_int().get_int();
 			permutation_intervals.add(new Pair_of_elements(start_index, end_index));
 		}
 	}
@@ -122,7 +131,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	/**
 	 * Removes all permutations set on this template, used when template variables are given new values.
 	 * */
-	public void removeAllPermutations() {
+	public void remove_all_permutations() {
 		clean_up_intervals();
 	}
 
@@ -132,7 +141,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	 * @param n integer number
 	 * @return st, nd, rd or th
 	 */
-	private static String getOrdinalIndicator(final int n) {
+	private static String get_ordinal_indicator(final int n) {
 		if (11 <= n % 100 && n % 100 <= 13) {
 			// exception case
 			return "th";

@@ -45,7 +45,7 @@ In Eclipse the fundamental difference to all previous systems is that in this ca
 
 On one side this is a limitation, on the other side this means, that anyone can extend his projects with additional capabilities, either by developing his Eclipse extensions (for example a builder that converts some 3rd party file format into TTCN-3 files), or by using existing 3rd party tools (for example CDT for working with C/{cpp} and Makefiles, JDT for Java, documentation supporting tools, supporting writing command line scripts easier … and the list goes on).
 
-The following ways of structuring are provided by Eclipse footnote:[There is one more dimension of structuring in Eclipse when several plug-ins are used on the same project /_by default all plug-ins are active on all projects _/.If there are several plug-ins active in/on a given project, this can create several ``layers'' of responsibilities. This is an important feature, as this makes it possible to mix plug-ins that each provide some separate functionality into a working environment that best supports the user’s daily work routine. For example on a parallel cooperation the Designer supports editing TTCN-3, ASN.1 and configuration files, while CDT support editing C/{cpp} and Makefiles practically covering all aspects of working with TITAN by default. For an example of sequential cooperation we can say, that the working directory we use to output the final product of TITAN (the executable test system), can be viewed by CDT as the source of information for debugging/profiling the generated executable.]:
+The following ways of structuring are provided by Eclipse: footnote:[There is one more dimension of structuring in Eclipse when several plug-ins are used on the same project /_by default all plug-ins are active on all projects _/.If there are several plug-ins active in/on a given project, this can create several ``layers'' of responsibilities. This is an important feature, as this makes it possible to mix plug-ins that each provide some separate functionality into a working environment that best supports the user’s daily work routine. For example on a parallel cooperation the Designer supports editing TTCN-3, ASN.1 and configuration files, while CDT support editing C/{cpp} and Makefiles practically covering all aspects of working with TITAN by default. For an example of sequential cooperation we can say, that the working directory we use to output the final product of TITAN (the executable test system), can be viewed by CDT as the source of information for debugging/profiling the generated executable.]:
 
 * Each file and folder below the project’s folder is part of the project, and by default should be used to operate the project. However, plug-ins working on the project can choose to ignore some of them on their own. For folders this is very much like file groups in mctr_gui, but in this case all files/folders in a given folder are part of that project by default.
 
@@ -57,7 +57,7 @@ The following ways of structuring are provided by Eclipse footnote:[There is one
 
 * Referenced projects:
 +
-the projects in Eclipse can reference any other project inside the same workspace (Figure 81).Similar to included projects in the mctr_gui this feature also maps the working directories of the referenced projects as central storages. However there is difference between the two features: If a setting or file is changed in the mctr_gui project, the projects including it will only notice the change when they are being loaded / built the next time. As in Eclipse most of the time all projects are available and interactively worked with, if something changes in a project, all accessible projects referring to that one will automatically (and supposedly instantly) react. For example if a function is removed from the source code in one project, all of its call sites will notice and report the error, even if they are located in different projects. Also the internal Makefile generator is able to make use of settings of the referenced projects, to make its own job better: for example if a library is set to be used at linking time for a project, all projects referencing that one (either directly or indirectly), will also include that library in the Makefiles they generate.
+the projects in Eclipse can reference any other project inside the same workspace (see <<4-managing_projects.adoc#using-project-references,Chapter Using Project references>> ). Similar to included projects in the mctr_gui this feature also maps the working directories of the referenced projects as central storages. However there is difference between the two features: If a setting or file is changed in the mctr_gui project, the projects including it will only notice the change when they are being loaded / built the next time. As in Eclipse most of the time all projects are available and interactively worked with, if something changes in a project, all accessible projects referring to that one will automatically (and supposedly instantly) react. For example if a function is removed from the source code in one project, all of its call sites will notice and report the error, even if they are located in different projects. Also the internal Makefile generator is able to make use of settings of the referenced projects, to make its own job better: for example if a library is set to be used at linking time for a project, all projects referencing that one (either directly or indirectly), will also include that library in the Makefiles they generate.
 +
 NOTE: Referenced projects are represented with their name only. As long as there is a project in the workspace with the same name it will be ok to use, without regard to where it might be located, how it is version controlled, or if it really exists or is just emulated by a 3rd party plug-in.
 
@@ -77,7 +77,8 @@ Referring outside, the project should be discouraged in case of files and folder
 
 If the project is so small that all of its files are located in one place (in or below one folder) it can be converted easily.
 
-If done from Eclipse one just has to create a new project, setting the location of the project to be linked to the folder where the sources are located infootnote:[In case the original project has some kind of structure like src, doc folders the new project should also be created in this base directory instead of using the src folder directly.]. This will create the project in Eclipse, and all of the files needed to store the settings of the project (which are set to default values at this time). For more information, please refer to section <<4-managing_projects.adoc#creating-a-new-project>>.
+If done from Eclipse one just has to create a new project, setting the location of the project to be linked to the folder where the sources are located in.
+footnote:[In case the original project has some kind of structure like src, doc folders the new project should also be created in this base directory instead of using the src folder directly.]. This will create the project in Eclipse, and all of the files needed to store the settings of the project (which are set to default values at this time). For more information, please refer to chapter <<4-managing_projects.adoc#_creating_a_new_project,Managing Projects/Creating a New Project>>.
 
 If it is needed to perform this step from the command line, one needs to place a default ".project" and ".TITAN_properties" file in the base folder of this project.
 
@@ -85,7 +86,7 @@ In the "project" the name of the project has to be set. Eclipse should be able t
 
 === Large Project Sets Consisting of Several Included Projects or Logically Separate Parts
 
-This can be easily mapped to referenced projects inside Eclipse. For each separate project or logically separate part there should be one project created, and the proper referring relation between each one should be set. It is recommended to set this attribute in Eclipse, so that all needed modifications are done in the internal representation. For more information, please refer <<4-managing_projects.adoc#using-project-references, here>>.
+This can be easily mapped to referenced projects inside Eclipse. For each separate project or logically separate part there should be one project created, and the proper referring relation between each one should be set. It is recommended to set this attribute in Eclipse, so that all needed modifications are done in the internal representation. For more information, please refer <<4-managing_projects.adoc#using-project-references, Using Project References>>.
 
 If we have to do the changes externally the ".project" file has to be extended with the following code:
 
@@ -98,8 +99,9 @@ If we have to do the changes externally the ".project" file has to be extended w
 
 As Eclipse will use the name of the project as reference, this will be a transportable solution, as neither local file system paths, nor the relation between the actual and the referenced project is fixed (with symbolic links we would be forced to build the same project structure which is not possible in Eclipse, as all projects have to be on the same level).
 
-Figure 81 gives an example on how it might look if 2 large projects are separated into smaller referring project.
+<<two-large-projects,Next figure>> gives an example on how it might look if 2 large projects are separated into smaller referring projects.
 
+[[two-large-projects]]
 image::images/5_F82.png[title="Two large projects"]
 
 === Large Projects Using Central Storage Folders

@@ -44,23 +44,21 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 			return;
 		}
 
-		FormEditor tempEditor = (FormEditor) targetEditor;
-
-		IEditorPart editorPart = tempEditor.getActiveEditor();
+		final FormEditor tempEditor = (FormEditor) targetEditor;
+		final IEditorPart editorPart = tempEditor.getActiveEditor();
 		if (!(editorPart instanceof ITextEditor)) {
 			return;
 		}
 
-		ITextEditor realEditor = (ITextEditor) editorPart;
-
+		final ITextEditor realEditor = (ITextEditor) editorPart;
 		realEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
-		int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
+		final IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
+		final int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
 
 		try {
-			IRegion lineRegion = doc.getLineInformationOfOffset(offset);
-			int lastVisibleCharLocation = lastVisibleCharLocation(doc, lineRegion);
+			final IRegion lineRegion = doc.getLineInformationOfOffset(offset);
+			final int lastVisibleCharLocation = lastVisibleCharLocation(doc, lineRegion);
 			if (lastVisibleCharLocation != -1 && lastVisibleCharLocation + 1 != offset) {
 				// if the line contains characters and we are
 				// not right behind the last one, jump there
@@ -116,11 +114,11 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 	 *                    if the offset is invalid in this document
 	 * */
 	protected int lastVisibleCharLocation(final IDocument doc, final IRegion lineRegion) throws BadLocationException {
-		int endOffset = lineRegion.getOffset();
+		final int endOffset = lineRegion.getOffset();
 		int startOffset = Math.min(endOffset + lineRegion.getLength(), doc.getLength() - 1);
 
 		while (startOffset >= endOffset) {
-			char ch = doc.getChar(startOffset);
+			final char ch = doc.getChar(startOffset);
 			if (!Character.isWhitespace(ch)) {
 				return startOffset;
 			}
@@ -138,23 +136,21 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 			return null;
 		}
 
-		FormEditor tempEditor = (FormEditor) targetEditor;
-
-		IEditorPart editorPart = tempEditor.getActiveEditor();
+		final FormEditor tempEditor = (FormEditor) targetEditor;
+		final IEditorPart editorPart = tempEditor.getActiveEditor();
 		if (!(editorPart instanceof ITextEditor)) {
 			return null;
 		}
 
-		ITextEditor realEditor = (ITextEditor) editorPart;
-
+		final ITextEditor realEditor = (ITextEditor) editorPart;
 		realEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
-		int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
+		final IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
+		final int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
 
 		try {
-			IRegion lineRegion = doc.getLineInformationOfOffset(offset);
-			int lastVisibleCharLocation = lastVisibleCharLocation(doc, lineRegion);
+			final IRegion lineRegion = doc.getLineInformationOfOffset(offset);
+			final int lastVisibleCharLocation = lastVisibleCharLocation(doc, lineRegion);
 			if (lastVisibleCharLocation != -1 && lastVisibleCharLocation + 1 != offset) {
 				// if the line contains characters and we are
 				// not right behind the last one, jump there

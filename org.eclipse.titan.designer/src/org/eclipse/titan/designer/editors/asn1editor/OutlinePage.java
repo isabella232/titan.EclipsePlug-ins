@@ -34,7 +34,7 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  * @author Kristof Szabados
  * */
 public final class OutlinePage extends ContentOutlinePage {
-	private ASN1Editor editor;
+	private final ASN1Editor editor;
 	private TreeViewer viewer;
 
 	public OutlinePage(final ASN1Editor editor) {
@@ -51,7 +51,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		viewer.setContentProvider(new OutlineContentProvider());
 		viewer.setLabelProvider(new OutlineLabelProvider());
 
-		OutlineViewSorter comperator = new OutlineViewSorter();
+		final OutlineViewSorter comperator = new OutlineViewSorter();
 		comperator.setSortByName(store.getBoolean(PreferenceConstants.OUTLINE_SORTED));
 		viewer.setComparator(comperator);
 
@@ -59,8 +59,8 @@ public final class OutlinePage extends ContentOutlinePage {
 		viewer.setInput(getModule());
 		viewer.addSelectionChangedListener(this);
 
-		IActionBars bars = getSite().getActionBars();
-		Action sortToggler = new Action("Sort") {
+		final IActionBars bars = getSite().getActionBars();
+		final Action sortToggler = new Action("Sort") {
 			@Override
 			public void run() {
 				ViewerComparator comperator = viewer.getComparator();
@@ -83,7 +83,7 @@ public final class OutlinePage extends ContentOutlinePage {
 	}
 
 	public void update() {
-		Control control = getControl();
+		final Control control = getControl();
 		if (!control.isDisposed()) {
 			control.setRedraw(false);
 			getTreeViewer().setInput(getModule());
@@ -92,13 +92,13 @@ public final class OutlinePage extends ContentOutlinePage {
 	}
 
 	public void refresh() {
-		Control control = getControl();
+		final Control control = getControl();
 		if (control.isDisposed()) {
 			return;
 		}
 
 		control.setRedraw(false);
-		Module module = getModule();
+		final Module module = getModule();
 		if (getTreeViewer().getInput() == module) {
 			getTreeViewer().refresh();
 			getTreeViewer().expandToLevel(2);
@@ -112,12 +112,12 @@ public final class OutlinePage extends ContentOutlinePage {
 	public void selectionChanged(final SelectionChangedEvent event) {
 		super.selectionChanged(event);
 
-		ISelection selection = event.getSelection();
+		final ISelection selection = event.getSelection();
 		if (selection.isEmpty()) {
 			return;
 		}
 
-		Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
+		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
 		Identifier identifier = null;
 		if (selectedElement instanceof IOutlineElement) {
 			identifier = ((IOutlineElement) selectedElement).getIdentifier();
@@ -127,7 +127,7 @@ public final class OutlinePage extends ContentOutlinePage {
 			return;
 		}
 
-		Location location = identifier.getLocation();
+		final Location location = identifier.getLocation();
 
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
 	}
@@ -139,7 +139,7 @@ public final class OutlinePage extends ContentOutlinePage {
 			return null;
 		}
 
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 
 		return sourceParser.containedModule(file);
 	}

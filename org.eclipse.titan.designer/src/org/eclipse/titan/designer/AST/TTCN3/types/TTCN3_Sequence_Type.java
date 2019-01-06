@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -476,10 +477,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		switch (last.getValuetype()) {
 		case SEQUENCE_VALUE:
 			if (last.isAsn()) {
-				selfReference = checkThisValueSeq(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+				selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
-				selfReference = checkThisValueSeq(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSeq_T(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit,
 						valueCheckingOptions.str_elem);
 			}
@@ -493,10 +494,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			} else {
 				last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
 				if (last.isAsn()) {
-					selfReference = checkThisValueSeq(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+					selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 							valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 				} else {
-					selfReference = checkThisValueSeq(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
+					selfReference = checkThisValueSeq_T(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 							valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit,
 							valueCheckingOptions.str_elem);
 				}
@@ -504,7 +505,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			break;
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
-			selfReference = checkThisValueSeq(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value, false,
+			selfReference = checkThisValueSeq_A(timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -529,7 +530,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	/**
-	 * Checks the Sequence_Value kind value against this type.
+	 * Checks the TTCN-3 Sequence_Value kind value against this type.
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of sequence type.
@@ -539,14 +540,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param value
 	 *                the value to be checked
 	 * @param expectedValue
-	 *                the kind of value expected here.
+	 *                the expected kind of the value.
 	 * @param incompleteAllowed
-	 *                wheather incomplete value is allowed or not.
+	 *                whether incomplete value is allowed or not.
 	 * @param implicitOmit
 	 *                true if the implicit omit optional attribute was set
 	 *                for the value, false otherwise
 	 * */
-	private boolean checkThisValueSeq(final CompilationTimeStamp timestamp, final Sequence_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
+	private boolean checkThisValueSeq_T(final CompilationTimeStamp timestamp, final Sequence_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
 		boolean selfReference = false;
 		check(timestamp);
@@ -558,7 +559,6 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 		final Map<String, CompField> realComponents = compFieldMap.getComponentFieldMap(timestamp);
 
-		final boolean isAsn = value.isAsn();
 		boolean inSnyc = true;
 		final int nofTypeComponents = realComponents.size();
 		final int nofValueComponents = value.getNofComponents();
@@ -571,16 +571,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 			if (!realComponents.containsKey(valueId.getName())) {
 				namedValue.getLocation().reportSemanticError(
-						MessageFormat.format(isAsn ? NONEXISTENTFIELDERRORASN1 : NONEXISTENTFIELDERRORTTCN3, namedValue
+						MessageFormat.format(NONEXISTENTFIELDERRORTTCN3, namedValue
 								.getName().getDisplayName(), getTypename()));
 				inSnyc = false;
 			} else {
 				if (componentMap.containsKey(valueId.getName())) {
-					final String duplicateAgain = MessageFormat.format(isAsn ? DUPLICATEDFIELDAGAINASN1
-							: DUPLICATEDFIELDAGAINTTCN3, valueId.getDisplayName());
+					final String duplicateAgain = MessageFormat.format(DUPLICATEDFIELDAGAINTTCN3, valueId.getDisplayName());
 					namedValue.getLocation().reportSemanticError(duplicateAgain);
-					final String duplicateFirst = MessageFormat.format(isAsn ? DUPLICATEDFIELDFIRSTASN1
-							: DUPLICATEDFIELDFIRSTTTCN3, valueId.getDisplayName());
+					final String duplicateFirst = MessageFormat.format(DUPLICATEDFIELDFIRSTTTCN3, valueId.getDisplayName());
 					componentMap.get(valueId.getName()).getLocation().reportSingularSemanticError(duplicateFirst);
 					inSnyc = false;
 				} else {
@@ -603,9 +601,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 						if (lastCompField != null && !found) {
 							namedValue.getLocation().reportSemanticError(
-									MessageFormat.format(isAsn ? WRONGFIELDORDERASN1 : WRONGFIELDORDERTTCN3,
-											valueId.getDisplayName(), lastCompField.getIdentifier()
-											.getDisplayName()));
+									MessageFormat.format(WRONGFIELDORDERTTCN3, valueId.getDisplayName(),
+											lastCompField.getIdentifier().getDisplayName()));
 							inSnyc = false;
 						}
 					} else {
@@ -617,9 +614,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						}
 						if (sequenceIndex >= getNofComponents() || componentField != field2) {
 							namedValue.getLocation().reportSemanticError(
-									MessageFormat.format(isAsn ? UNEXPECTEDFIELDASN1 : UNEXPECTEDFIELDTTCN3,
-											valueId.getDisplayName(), field2Original.getIdentifier()
-											.getDisplayName()));
+									MessageFormat.format(UNEXPECTEDFIELDTTCN3, valueId.getDisplayName(),
+											field2Original.getIdentifier().getDisplayName()));
 						}
 					}
 				}
@@ -650,10 +646,115 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
 								new Omit_Value(), false));
 					} else {
-						value.getLocation().reportSemanticError(
-								MessageFormat.format(isAsn ? MISSINGFIELDASN1 : MISSINGFIELDTTCN3,
-										id.getDisplayName()));
+						value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDTTCN3, id.getDisplayName()));
 					}
+				}
+			}
+		}
+
+		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
+	}
+
+	/**
+	 * Checks the ASN.1 Sequence_Value kind value against this type.
+	 * <p>
+	 * Please note, that this function can only be called once we know for
+	 * sure that the value is of sequence type.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param value
+	 *                the value to be checked
+	 * @param expectedValue
+	 *                the expected kind of the value.
+	 * @param implicitOmit
+	 *                true if the implicit omit optional attribute was set
+	 *                for the value, false otherwise
+	 * */
+	private boolean checkThisValueSeq_A(final CompilationTimeStamp timestamp, final Sequence_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
+			final boolean implicitOmit, final boolean strElem) {
+		boolean selfReference = false;
+
+		final CompilationTimeStamp valueTimeStamp = value.getLastTimeChecked();
+		if (valueTimeStamp == null || valueTimeStamp.isLess(timestamp)) {
+			value.removeGeneratedValues();
+		}
+
+		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
+		final Map<String, CompField> realComponents = compFieldMap.getComponentFieldMap(timestamp);
+
+		final int nofTypeComponents = realComponents.size();
+		final int nofValueComponents = value.getNofComponents();
+		boolean inSnyc = true;
+		int sequenceIndex = 0;
+		for (int i = 0; i < nofValueComponents; i++) {
+			final NamedValue namedValue = value.getSeqValueByIndex(i);
+			final Identifier valueId = namedValue.getName();
+
+			if (!realComponents.containsKey(valueId.getName())) {
+				namedValue.getLocation().reportSemanticError(
+						MessageFormat.format(NONEXISTENTFIELDERRORASN1, namedValue
+								.getName().getDisplayName(), getTypename()));
+				inSnyc = false;
+			} else {
+				if (componentMap.containsKey(valueId.getName())) {
+					namedValue.getLocation().reportSemanticError(
+							MessageFormat.format(DUPLICATEDFIELDAGAINASN1, valueId.getDisplayName()));
+					final Location tempLocation = componentMap.get(valueId.getName()).getLocation();
+					tempLocation.reportSingularSemanticError(MessageFormat.format(DUPLICATEDFIELDFIRSTASN1, valueId.getDisplayName()));
+					inSnyc = false;
+				} else {
+					componentMap.put(valueId.getName(), namedValue);
+				}
+
+				final CompField componentField = realComponents.get(valueId.getName());
+				if (inSnyc) {
+					CompField field2 = null;
+					for ( ; sequenceIndex < nofTypeComponents; sequenceIndex++) {
+						field2 = getComponentByIndex(sequenceIndex);
+						if (field2 == componentField || (!field2.isOptional() && !field2.hasDefault() && !implicitOmit)) {
+							break;
+						}
+					}
+					if (field2 == componentField) {
+						sequenceIndex++;
+					} else {
+						if (sequenceIndex >= realComponents.size()) {
+							namedValue.getLocation().reportSemanticError(
+									MessageFormat.format(UNEXPECTEDFIELDASN1, valueId.getDisplayName(), field2
+											.getIdentifier().getDisplayName()));
+						} else {
+							namedValue.getLocation().reportSemanticError(
+									MessageFormat.format("Unexpected component `{0}'' in SEQUENCE value", valueId.getDisplayName()));
+						}
+						inSnyc = false;
+					}
+				}
+
+				final Type type = componentField.getType();
+				final IValue componentValue = namedValue.getValue();
+
+				if (componentValue != null) {
+					componentValue.setMyGovernor(type);
+
+					final IValue temporalValue = type.checkThisValueRef(timestamp, componentValue);
+					selfReference |= type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(expectedValue, false,
+							false, true, implicitOmit, strElem));
+				}
+			}
+		}
+
+		for (int i = 0; i < nofTypeComponents; i++) {
+			final CompField componentField = getComponentByIndex(i);
+			final Identifier id = componentField.getIdentifier();
+			if (!componentMap.containsKey(id.getName())) {
+				if (!componentField.isOptional() && !componentField.hasDefault()) {
+					value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDASN1, id.getDisplayName()));
+				} else if (componentField.isOptional() && implicitOmit) {
+					value.insertNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
+							new Omit_Value(), false), i);
 				}
 			}
 		}
@@ -894,6 +995,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 
@@ -957,7 +1064,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return true;
 		}
 

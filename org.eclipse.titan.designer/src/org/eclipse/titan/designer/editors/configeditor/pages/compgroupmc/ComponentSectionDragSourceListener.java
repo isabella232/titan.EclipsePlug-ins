@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.ComponentSectionHandler.Comp
  * */
 public final class ComponentSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private ComponentsSubPage componentsSubPage;
+	private final TableViewer viewer;
+	private final ComponentsSubPage componentsSubPage;
 
 	public ComponentSectionDragSourceListener(final ComponentsSubPage componentsSubPage, final TableViewer viewer) {
 		this.componentsSubPage = componentsSubPage;
@@ -33,8 +33,7 @@ public final class ComponentSectionDragSourceListener implements DragSourceListe
 
 	@Override
 	public void dragFinished(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		if (!selection.isEmpty()) {
 			viewer.getTable().setRedraw(false);
 			if (event.detail == DND.DROP_MOVE) {
@@ -48,11 +47,11 @@ public final class ComponentSectionDragSourceListener implements DragSourceListe
 	@Override
 	public void dragSetData(final DragSourceEvent event) {
 		if (ComponentItemTransfer.getInstance().isSupportedType(event.dataType)) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			List<Component> items = new ArrayList<Component>();
+			final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			final List<Component> items = new ArrayList<Component>();
 			if (!selection.isEmpty()) {
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
-					Object element = it.next();
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
+					final Object element = it.next();
 					if (element instanceof Component) {
 						items.add((Component) element);
 					}
@@ -64,7 +63,7 @@ public final class ComponentSectionDragSourceListener implements DragSourceListe
 
 	@Override
 	public void dragStart(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		event.doit = !selection.isEmpty() && (selection.getFirstElement() instanceof Component);
 	}
 

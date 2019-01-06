@@ -23,8 +23,8 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class ExternalCommandBrowser implements SelectionListener {
 
-	private Text field;
-	private IFile actualFile;
+	private final Text field;
+	private final IFile actualFile;
 
 	public ExternalCommandBrowser(final Text field, final IFile actualFile) {
 		this.field = field;
@@ -38,22 +38,22 @@ public final class ExternalCommandBrowser implements SelectionListener {
 
 	@Override
 	public void widgetSelected(final SelectionEvent e) {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		FileDialog dialog = new FileDialog(field.getShell());
+		final FileDialog dialog = new FileDialog(field.getShell());
 		String file = field.getText();
 		if (file != null && !"".equals(file)) {
 			file = file.substring(1, file.length() - 1);
 
-			String filename = PathConverter.getAbsolutePath(actualFile.getLocation().toOSString(), file);
+			final String filename = PathConverter.getAbsolutePath(actualFile.getLocation().toOSString(), file);
 			dialog.setFilterPath(filename);
 			dialog.setFileName(filename);
 		}
 
 		file = dialog.open();
 		if (file != null) {
-			String filename = PathConverter.convert(file, reportDebugInformation, TITANDebugConsole.getConsole());
+			final String filename = PathConverter.convert(file, reportDebugInformation, TITANDebugConsole.getConsole());
 			field.setText("\"" + filename + "\"");
 		}
 	}

@@ -213,7 +213,9 @@ public final class Octetstring_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport("TitanOctetString");
 
-		source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign(new TitanOctetString(\"{1}\"));\n", name, value));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

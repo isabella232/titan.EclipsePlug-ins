@@ -30,7 +30,7 @@ public abstract class Signal extends BaseMessage {
 	@Override
 	public void drawSymbol(final IGC context, final int x, final int y, final int direction) {
 		// Draw the arrow
-		int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+		final int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
 				x, y,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2};
 

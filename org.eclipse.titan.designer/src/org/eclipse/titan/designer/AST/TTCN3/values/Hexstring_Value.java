@@ -198,14 +198,21 @@ public final class Hexstring_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (myGovernor != null) {
-			switch (myGovernor.getTypetype()) {
+			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
 				aData.addBuiltinTypeImport("TitanBitString");
-				source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
+				source.append(MessageFormat.format("{0}.operator_assign(new TitanBitString(\"{1}\"));\n", name, value));
+
+				lastTimeGenerated = aData.getBuildTimstamp();
+
 				return source;
 			case TYPE_OCTETSTRING:
 				aData.addBuiltinTypeImport("TitanOctetString");
-				source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
+				source.append(MessageFormat.format("{0}.operator_assign(new TitanOctetString(\"{1}\"));\n", name, value));
+
+				lastTimeGenerated = aData.getBuildTimstamp();
+
 				return source;
 			default:
 				break;
@@ -214,7 +221,10 @@ public final class Hexstring_Value extends Value {
 
 		aData.addBuiltinTypeImport("TitanHexString");
 
-		source.append(MessageFormat.format("{0}.assign(new TitanHexString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign(new TitanHexString(\"{1}\"));\n", name, value));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		return source;
 	}
 
@@ -230,7 +240,8 @@ public final class Hexstring_Value extends Value {
 		final StringBuilder result = new StringBuilder();
 
 		if (myGovernor != null) {
-			switch (myGovernor.getTypetype()) {
+			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
 				aData.addBuiltinTypeImport("TitanBitString");
 				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));

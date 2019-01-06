@@ -25,7 +25,7 @@ public final class GroupDataLabelProvider extends LabelProvider implements ITabl
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof Group) {
-			Group parameter = (Group) element;
+			final Group parameter = (Group) element;
 			switch (columnIndex) {
 			case 0:
 				if (parameter.getGroupName() == null) {

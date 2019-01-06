@@ -23,9 +23,9 @@ import org.eclipse.titan.log.viewer.utils.ResourcePropertyHandler;
  *
  */
 public class PropertyStore extends PreferenceStore {
-	private IResource resource;
-	private IPreferenceStore workbenchStore;
-	private String pageId;
+	private final IResource resource;
+	private final IPreferenceStore workbenchStore;
+	private final String pageId;
 	private boolean inserting = false;
 
 	/**
@@ -55,9 +55,9 @@ public class PropertyStore extends PreferenceStore {
 	 * Writes modified preferences into resource properties.
 	 */
 	private void writeProperties() throws IOException {
-		String[] preferences = super.preferenceNames();
+		final String[] preferences = super.preferenceNames();
 		for (int i = 0; i < preferences.length; i++) {
-			String propertyKey = preferences[i];
+			final String propertyKey = preferences[i];
 			try {
 				ResourcePropertyHandler.setProperty(this.resource, this.pageId, propertyKey, getString(propertyKey));
 			} catch (CoreException e) {
@@ -166,10 +166,11 @@ public class PropertyStore extends PreferenceStore {
 
 	@Override
 	public boolean isDefault(final String name) {
-		String defaultValue = getDefaultString(name);
+		final String defaultValue = getDefaultString(name);
 		if (defaultValue == null) {
 			return false;
 		}
+
 		return defaultValue.equals(getString(name));
 	}
 }

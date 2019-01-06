@@ -49,11 +49,11 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 
 	private static final String NAME = Messages.getString("OpenValueViewMenuAction.0"); //$NON-NLS-1$
 	private EventSelection eventSelection;
-	private ISelectionProvider view;
-	private boolean forceEditorOpening = false;
+	private final ISelectionProvider view;
+	private final boolean forceEditorOpening;
 
 	private ISelection delayedSelection = null;
-	private InternalRunnable runnable = new InternalRunnable();
+	private final InternalRunnable runnable = new InternalRunnable();
 
 	class InternalRunnable implements Runnable {
 		private boolean running = false;
@@ -107,7 +107,7 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 			return;
 		}
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		LogFileMetaData logFileMetaData;
 		if (this.view instanceof MSCView) {
 			logFileMetaData = ((MSCView) this.view).getLogFileMetaData();
@@ -116,12 +116,13 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 		} else {
 			return;
 		}
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(logFileMetaData.getProjectName());
-		IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
+
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(logFileMetaData.getProjectName());
+		final IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			if (this.view instanceof TextTableView) {
 				TitanLogExceptionHandler.handleException(new UserException("The log file could not be found.\n Please perform the Open Text Table action again.")); //$NON-NLS-1$
@@ -154,8 +155,8 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 		// pass log file meta data
 		detailsview.setLogFileMetaData(logFileMetaData);
 
-		EventObject eventObject = this.eventSelection.getEventObject();
-		String testCase = this.eventSelection.getTestCaseName();
+		final EventObject eventObject = this.eventSelection.getEventObject();
+		final String testCase = this.eventSelection.getTestCaseName();
 		if ((eventObject == null) || (testCase == null)) {
 			return;
 		}
@@ -176,8 +177,9 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 			TitanLogExceptionHandler.handleException(new TechnicalException(Messages.getString("MSCView.8"))); //$NON-NLS-1$
 			return;
 		}
-		String message = logrecord.getMessage();
-		DetailData detailData = new DetailData(eventObject.getName(),
+
+		final String message = logrecord.getMessage();
+		final DetailData detailData = new DetailData(eventObject.getName(),
 				eventObject.getPort(),
 				message,
 				testCase,

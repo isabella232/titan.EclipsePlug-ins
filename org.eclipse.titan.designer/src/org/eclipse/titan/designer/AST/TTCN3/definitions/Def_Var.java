@@ -73,7 +73,7 @@ public final class Def_Var extends Definition {
 	/**
 	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final parameterEvaluationType evaluationType ) {
 		super(identifier);
@@ -497,7 +497,7 @@ public final class Def_Var extends Definition {
 				initialValue.generateCodeInit(aData, initComp, genName + ".get()" );
 			} else if (cleanUp) {
 				initComp.append(genName);
-				initComp.append(".get().cleanUp();\n");
+				initComp.append(".get().clean_up();\n");
 			}
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -506,7 +506,7 @@ public final class Def_Var extends Definition {
 				initialValue.generateCodeInit(aData, initComp, genName );
 			} else if (cleanUp) {
 				initComp.append(genName);
-				initComp.append(".cleanUp();\n");
+				initComp.append(".clean_up();\n");
 			}
 		}
 	}

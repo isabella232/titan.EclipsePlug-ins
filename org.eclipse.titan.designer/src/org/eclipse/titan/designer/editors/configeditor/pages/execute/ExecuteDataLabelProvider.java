@@ -25,7 +25,7 @@ public final class ExecuteDataLabelProvider extends LabelProvider implements ITa
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof ExecuteItem) {
-			ExecuteItem item = (ExecuteItem) element;
+			final ExecuteItem item = (ExecuteItem) element;
 			switch (columnIndex) {
 			case 0:
 				return item.getModuleName().getText();

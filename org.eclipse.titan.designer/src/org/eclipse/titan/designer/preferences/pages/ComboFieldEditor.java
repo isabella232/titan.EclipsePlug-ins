@@ -41,7 +41,7 @@ public final class ComboFieldEditor extends FieldEditor {
 	 * widget. These should be arranged as: { {name1, value1}, {name2,
 	 * value2}, ...}
 	 */
-	private String[][] fEntryNamesAndValues;
+	private final String[][] fEntryNamesAndValues;
 
 	/**
 	 * Create the combo box field editor.

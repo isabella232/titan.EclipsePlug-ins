@@ -10,7 +10,7 @@
 <feature
       id="Titanium"
       label="Titanium_Feature"
-      version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
+      version="6.5.0.CRL_113_200_6_R5A_20181218-1100"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
@@ -186,28 +186,28 @@ You may add additional accurate notices of copyright ownership.
          id="org.eclipse.titanium"
          download-size="3841"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.designer"
          download-size="5894"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20181218-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="10546"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20181218-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="532"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20181218-1100"
          unpack="false"/>
 
 </feature>

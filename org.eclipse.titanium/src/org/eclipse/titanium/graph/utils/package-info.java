@@ -5,7 +5,6 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titanium.graph.utils;
 
 //This file is only for javadoc generation, do not place here source code!
 
@@ -16,3 +15,4 @@ package org.eclipse.titanium.graph.utils;
  * conversion among inside graph representations. All the algorithms connected with
  * the inner representation of the graph should be implemented here. </p>
  */
+package org.eclipse.titanium.graph.utils;

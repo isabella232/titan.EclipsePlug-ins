@@ -95,6 +95,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.GOTO,
 				"In almost all cases the usage of goto should be forbidden as it can very easily breaks the principles of"
 						+ " structured/well designed source code.");
+		m.put(ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS,
+				"The access of a private component variable from an another module is not recommended.");
 		m.put(ProblemTypePreference.DUPLICATE_NAME,
 				"In almost all cases the usage of same name is discouraged as it can introduce confusion"
 						+ " in structured/well designed source code.");
@@ -225,6 +227,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.GOTO);
+			createField(comp, ProblemTypePreference.PRIVATE_COMPONENT_VARIABLE_ACCESS);
 			createField(comp, ProblemTypePreference.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES);
 			createField(comp, ProblemTypePreference.CIRCULAR_IMPORTATION);
 			createField(comp, ProblemTypePreference.LANGUAGE_MIXING);
@@ -406,9 +409,9 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Settings of the code smell analyzer have changed," +
 				   " the known projects have to be re-analyzed completly.\nThis might take some time.");
 
-			final IProject[] projs = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 			final Analyzer analyzer = AnalyzerCache.withPreference();
-			for (final IProject project : projs) {
+			for (final IProject project : projects) {
 				if (TITANNature.hasTITANNature(project)) {
 					final WorkspaceJob op = new WorkspaceJob("Code smells") {
 						@Override

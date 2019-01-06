@@ -257,6 +257,11 @@ public final class Value_Assignment extends ASN1Assignment {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
+		if (null != assPard || dontGenerate) {
+			// don't generate code for assignments that still have a parameter at this point.
+			return;
+		}
+
 		final String genName = getGenName();
 
 		if (value != null) {

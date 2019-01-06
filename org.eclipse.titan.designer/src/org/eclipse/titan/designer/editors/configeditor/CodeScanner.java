@@ -79,19 +79,19 @@ public final class CodeScanner extends RuleBasedScanner {
 	static final String[] COMMENT_PIECES = new String[] { "//", "#", "/*", "*/" };
 
 	public CodeScanner(final ColorManager colorManager) {
-		IToken singleLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
-		IToken multiLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
-		IToken sectionTitle = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_SECTION_TITLE);
-		IToken keywords = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
-		IToken maskOptions = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_FILE_AND_CONTROL_MASK_OPTIONS);
-		IToken externalCommandTypes = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_EXTERNAL_COMMAND_TYPES);
-		IToken options = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
-		IToken assignment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
+		final IToken singleLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
+		final IToken multiLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
+		final IToken sectionTitle = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_SECTION_TITLE);
+		final IToken keywords = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
+		final IToken maskOptions = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_FILE_AND_CONTROL_MASK_OPTIONS);
+		final IToken externalCommandTypes = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_EXTERNAL_COMMAND_TYPES);
+		final IToken options = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
+		final IToken assignment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_KEYWORDS);
 
-		IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
+		final IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
 
-		IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
-		List<IRule> rules = new ArrayList<IRule>();
+		final IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
+		final List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new EndOfLineRule(COMMENT_PIECES[0], singleLineComment));
 		rules.add(new EndOfLineRule(COMMENT_PIECES[1], singleLineComment));
@@ -101,23 +101,23 @@ public final class CodeScanner extends RuleBasedScanner {
 		rules.add(new SingleLineRule(STRING_PIECES[0], STRING_PIECES[0], string, '\\'));
 		rules.add(new StringDetectionPatternRule(STRING_PIECES[2], new char[][] { { '\'', 'B' }, { '\'', 'H' }, { '\'', 'O' } }, string));
 
-		WordRule wordRule = new WordRule(new WordDetector(), other);
-		for (String element : CodeScanner.SECTION_TITLES) {
+		final WordRule wordRule = new WordRule(new WordDetector(), other);
+		for (final String element : CodeScanner.SECTION_TITLES) {
 			wordRule.addWord(element, sectionTitle);
 		}
-		for (String element : CodeScanner.KEYWORDS) {
+		for (final String element : CodeScanner.KEYWORDS) {
 			wordRule.addWord(element, keywords);
 		}
-		for (String element : CodeScanner.MASK_OPTIONS) {
+		for (final String element : CodeScanner.MASK_OPTIONS) {
 			wordRule.addWord(element, maskOptions);
 		}
-		for (String element : CodeScanner.EXTERNAL_COMMAND_TYPES) {
+		for (final String element : CodeScanner.EXTERNAL_COMMAND_TYPES) {
 			wordRule.addWord(element, externalCommandTypes);
 		}
-		for (String element : CodeScanner.OPTIONS) {
+		for (final String element : CodeScanner.OPTIONS) {
 			wordRule.addWord(element, options);
 		}
-		for (String element : CodeScanner.ASSIGNMENT) {
+		for (final String element : CodeScanner.ASSIGNMENT) {
 			wordRule.addWord(element, assignment);
 		}
 

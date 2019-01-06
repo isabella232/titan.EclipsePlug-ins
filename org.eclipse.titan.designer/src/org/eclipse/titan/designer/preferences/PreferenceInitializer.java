@@ -44,6 +44,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.USEINCREMENTALPARSING, false);
 		preferenceStore.setDefault(PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE, true);
 		preferenceStore.setDefault(PreferenceConstants.RECONCILERTIMEOUT, 1);
+		preferenceStore.setDefault(PreferenceConstants.ENABLEREALTIMEEXTENSION, false);
 		preferenceStore.setDefault(PreferenceConstants.PROCESSINGUNITSTOUSE, PreferenceConstantValues.AVAILABLEPROCESSORS);
 		preferenceStore.setDefault(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD, PreferenceConstantValues.BEFORE_BUILD_PRINT_CONSOLE_DELIMITERS);
 

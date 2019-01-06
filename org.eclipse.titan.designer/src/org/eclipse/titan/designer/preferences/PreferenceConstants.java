@@ -25,6 +25,7 @@ public final class PreferenceConstants {
 	public static final String USEINCREMENTALPARSING = ProductConstants.PRODUCT_ID_DESIGNER + ".useIncrementalParsing";
 	public static final String DELAYSEMANTICCHECKINGTILLSAVE = ProductConstants.PRODUCT_ID_DESIGNER + ".delaySemantiCheckingTillSave";
 	public static final String RECONCILERTIMEOUT = ProductConstants.PRODUCT_ID_DESIGNER + ".reconcilerTimeout";
+	public static final String ENABLEREALTIMEEXTENSION = ProductConstants.PRODUCT_ID_DESIGNER + ".enableRealtimeExtension";
 	public static final String PROCESSINGUNITSTOUSE = ProductConstants.PRODUCT_ID_DESIGNER + ".processingUnitsToUse";
 	//Actions on console before build
 	public static final String CONSOLE_ACTION_BEFORE_BUILD = ProductConstants.PRODUCT_ID_DESIGNER + ".consoleActionBeforeBuild";

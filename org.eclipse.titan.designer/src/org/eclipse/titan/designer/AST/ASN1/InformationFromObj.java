@@ -134,6 +134,7 @@ public final class InformationFromObj extends Reference {
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
 		setIsErroneous(false);
 		ISetting temporalSetting = reference.getRefdSetting(timestamp);
+		//TODO setting cache
 
 		if (null == temporalSetting) {
 			setIsErroneous(true);

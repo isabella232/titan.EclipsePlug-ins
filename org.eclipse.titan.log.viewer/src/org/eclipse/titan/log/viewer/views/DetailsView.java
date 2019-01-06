@@ -121,8 +121,8 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		}
 
 		try {
-			IMemento childMemento = memento.createChild("selection"); //$NON-NLS-1$
-			IMemento mementoEventObject = childMemento.createChild("eventObject"); //$NON-NLS-1$
+			final IMemento childMemento = memento.createChild("selection"); //$NON-NLS-1$
+			final IMemento mementoEventObject = childMemento.createChild("eventObject"); //$NON-NLS-1$
 			mementoEventObject.putString("name", currentEventObject.getName()); //$NON-NLS-1$
 			mementoEventObject.putString("port", currentEventObject.getPort()); //$NON-NLS-1$
 			mementoEventObject.putString("line", currentEventObject.getLine()); //$NON-NLS-1$
@@ -135,10 +135,10 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 			mementoEventObject.putInteger("isSilentEvent", useFormatting ? 1 : 0);
 
 			// save state about log file
-			Path filePath = new Path(logFileMetaData.getProjectRelativePath());
-			IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+			final Path filePath = new Path(logFileMetaData.getProjectRelativePath());
+			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 			if (logFile != null && logFile.exists()) {
-				File aLogFile = logFile.getLocation().toFile();
+				final File aLogFile = logFile.getLocation().toFile();
 
 				// add property file to the memento
 				mementoEventObject.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
@@ -277,7 +277,7 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		setTextModeAction.setImageDescriptor(imgTextView);
 		setTextModeAction.setEnabled(treeVisible);
 
-		IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
+		final IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
 		mgr.add(setTreeModeAction);
 		mgr.add(setTextModeAction);
 	}
@@ -328,16 +328,16 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 	private void updateHeader() {
 		if (this.currentEventObject != null) { // tree
 			String header = this.logFileMetaData.getProjectRelativePath();
-			String testCaseName = this.currentEventObject.getTestCaseName();
+			final String testCaseName = this.currentEventObject.getTestCaseName();
 			if (testCaseName.length() > 0) {
 				header = header + "  -  " + testCaseName; //$NON-NLS-1$
 			}
-			String name = this.currentEventObject.getName();
-			if (name != null && name.trim().length() > 0) {
+			final String name = this.currentEventObject.getName();
+			if (name != null && !name.trim().isEmpty()) {
 				header = header + " - " + name; //$NON-NLS-1$
 			}
-			String eventType = this.currentEventObject.getEventType();
-			if (eventType != null && eventType.trim().length() > 0) {
+			final String eventType = this.currentEventObject.getEventType();
+			if (eventType != null && !eventType.trim().isEmpty()) {
 				header = header + " - " + eventType; //$NON-NLS-1$
 			}
 			this.setContentDescription(header);
@@ -363,9 +363,9 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 
 		memento = memento.getChild("selection"); //$NON-NLS-1$
 		if (memento != null) {
-			DetailData detailObject = new DetailData();
+			final DetailData detailObject = new DetailData();
 			try {
-				IMemento mementoEventObject = memento.getChild("eventObject"); //$NON-NLS-1$
+				final IMemento mementoEventObject = memento.getChild("eventObject"); //$NON-NLS-1$
 				detailObject.setName(mementoEventObject.getString("name")); //$NON-NLS-1$
 				detailObject.setPort(mementoEventObject.getString("port")); //$NON-NLS-1$
 				detailObject.setLine(mementoEventObject.getString("line")); //$NON-NLS-1$
@@ -373,29 +373,28 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 				detailObject.setEventType(mementoEventObject.getString("eventType")); //$NON-NLS-1$
 				detailObject.setSourceInfo(mementoEventObject.getString("sourceInfo")); //$NON-NLS-1$
 
-				long fileSize = Long.parseLong(mementoEventObject.getString("fileSize")); //$NON-NLS-1$
-				long fileModification = Long.parseLong(mementoEventObject.getString("fileModification")); //$NON-NLS-1$
-
 				//retrieve logfilemetaData
-				String propertyFilePath = mementoEventObject.getString("propertyFile"); //$NON-NLS-1$
+				final String propertyFilePath = mementoEventObject.getString("propertyFile"); //$NON-NLS-1$
 				if (propertyFilePath != null) {
-					File propertyFile = new File(propertyFilePath);
+					final File propertyFile = new File(propertyFilePath);
 					if (!propertyFile.exists()) {
 						return;
 					}
 					logFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 				}
 
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(logFileMetaData.getProjectName());
+				final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(logFileMetaData.getProjectName());
 				if (project != null
 						&& project.exists() && project.isOpen()) {
-					Path path = new Path(logFileMetaData.getProjectRelativePath());
-					IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+					final Path path = new Path(logFileMetaData.getProjectRelativePath());
+					final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 					if (logFile != null && logFile.getProject().getName().equals(project.getName()) && logFile.exists()) {
-						File file = logFile.getLocation().toFile();
+						final long fileSize = Long.parseLong(mementoEventObject.getString("fileSize")); //$NON-NLS-1$
+						final long fileModification = Long.parseLong(mementoEventObject.getString("fileModification")); //$NON-NLS-1$
+						final File file = logFile.getLocation().toFile();
 						if (file.lastModified() == fileModification && file.length() == fileSize) {
 
-							Integer silentEvent = mementoEventObject.getInteger("isSilentEvent"); //$NON-NLS-1$
+							final Integer silentEvent = mementoEventObject.getInteger("isSilentEvent"); //$NON-NLS-1$
 
 							this.textView = getTextView();
 							if (silentEvent == 1) {
@@ -435,7 +434,7 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 	private boolean isTreeViewPreferred() {
 		String selectedView = null;
 		if (this.logFileMetaData != null) {
-			String currProjName = logFileMetaData.getProjectName();
+			final String currProjName = logFileMetaData.getProjectName();
 			selectedView = PreferencesHandler.getInstance().getPreferences(currProjName).getSelectedValueContentType();
 		}
 		if (selectedView == null) {

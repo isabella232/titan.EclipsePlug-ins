@@ -137,19 +137,21 @@ public final class TemplateRestriction {
 		String restrictionName;
 		switch(templateRestriction) {
 		case TR_OMIT:
-			restrictionName = "TR_OMIT";
+			restrictionName = "template_res.TR_OMIT";
 			break;
 		case TR_VALUE:
-			restrictionName = "TR_VALUE";
+			restrictionName = "template_res.TR_VALUE";
 			break;
 		case TR_PRESENT:
-			restrictionName = "TR_PRESENT";
+			restrictionName = "template_res.TR_PRESENT";
 			break;
 		default:
 			return;
 		}
 
+		aData.addBuiltinTypeImport("Base_Template.template_res");
+
 		final boolean omitInValueList = TTCN3Template.allowOmitInValueList(location, true);
-		source.append(MessageFormat.format("{0}.check_restriction({1}{2})", name, restrictionName, omitInValueList? ", null, true": ""));
+		source.append(MessageFormat.format("{0}.check_restriction({1}{2});\n", name, restrictionName, omitInValueList? ", null, true": ""));
 	}
 }

@@ -18,10 +18,28 @@ public class Lazy_Fuzzy_TemplateExpr<E extends Base_Template> {
 	protected boolean expressionEvaluated;
 	protected boolean oldExpressionEvaluated;
 
+	/**
+	 * Initializes the template returning expression to an un-evaluated
+	 * state.
+	 *
+	 * @param fuzzy
+	 *                {@code true} for fuzzy evaluation, {@code false} for
+	 *                lazy evaluation.
+	 * */
 	public Lazy_Fuzzy_TemplateExpr(final boolean fuzzy) {
 		this.fuzzy = fuzzy;
 	}
 
+	/**
+	 * Initializes the template returning expression to an evaluated state.
+	 *
+	 * @param fuzzy
+	 *                {@code true} for fuzzy evaluation, {@code false} for
+	 *                lazy evaluation.
+	 * @param cache
+	 *                the value to use as the evaluated value of the
+	 *                expression.
+	 * */
 	public Lazy_Fuzzy_TemplateExpr(final boolean fuzzy, final E cache) {
 		this.fuzzy = fuzzy;
 		this.expressionEvaluated = true;
@@ -51,6 +69,9 @@ public class Lazy_Fuzzy_TemplateExpr<E extends Base_Template> {
 		return expr_cache;
 	}
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		if (!expressionEvaluated) {
 			TTCN_Logger.log_event_str("<not evaluated>");

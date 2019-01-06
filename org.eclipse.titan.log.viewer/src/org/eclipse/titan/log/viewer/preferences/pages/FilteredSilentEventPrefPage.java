@@ -75,7 +75,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences() {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
 		currentPrefs.put(this.checkBoxTreeEditor.getPreferenceName(),
 				ImportExportUtils.arrayToString(this.checkBoxTreeEditor.getElements(), PreferenceConstants.PREFERENCE_DELIMITER));
 		return currentPrefs;
@@ -86,7 +86,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 		currentPrefs.put(this.checkBoxTreeEditor.getPreferenceName(), this.checkBoxTreeEditor.getElements());
 		return currentPrefs;
 	}
@@ -98,14 +98,14 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(getPageId());
+		final Map<String, String> prop = ImportExportUtils.importSettings(getPageId());
 		//if cancel
 		if (prop == null) {
 			return;
 		}
 		setOldPreferences(getCurrentPreferences());
 		// Check if new or old
-		String prefValue = prop.get(this.checkBoxTreeEditor.getPreferenceName());
+		final String prefValue = prop.get(this.checkBoxTreeEditor.getPreferenceName());
 		if (prefValue == null) { // Old
 			convertOldSilentEventsToNew(prop);
 		}
@@ -121,21 +121,21 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 
 	private void convertOldSilentEventsToNew(final Map<String, String> prop) {
 		// Get default values
-		String defaultPrefValue = getPreferenceStore().getDefaultString(this.checkBoxTreeEditor.getPreferenceName());
-		String[] defaultValues = defaultPrefValue.split(PreferenceConstants.PREFERENCE_DELIMITER);
+		final String defaultPrefValue = getPreferenceStore().getDefaultString(this.checkBoxTreeEditor.getPreferenceName());
+		final String[] defaultValues = defaultPrefValue.split(PreferenceConstants.PREFERENCE_DELIMITER);
 		// Add default values
-		Map<String, String> prefValues = new HashMap<String, String>();
-		for (String defaultValue : defaultValues) {
-			String[] current = defaultValue.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
+		final Map<String, String> prefValues = new HashMap<String, String>();
+		for (final String defaultValue : defaultValues) {
+			final String[] current = defaultValue.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
 			if (current.length == 2) {
 				prefValues.put(current[0], current[1]);
 			}
 		}
 		addImportedValues(prop, prefValues);
 		// Create string with all values
-		Set<String> keySet = prefValues.keySet();
-		StringBuilder builder = new StringBuilder();
-		for (String currKey : keySet) {
+		final Set<String> keySet = prefValues.keySet();
+		final StringBuilder builder = new StringBuilder();
+		for (final String currKey : keySet) {
 			if (builder.length() == 0) {
 				builder.setLength(0);
 				builder.append(currKey).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(prefValues.get(currKey));
@@ -149,7 +149,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 		prop.put(this.checkBoxTreeEditor.getPreferenceName(), builder.toString());
 	}
 
-	private void addImportedValues(Map<String, String> prop, Map<String, String> prefValues) {
+	private void addImportedValues(final Map<String, String> prop, final Map<String, String> prefValues) {
 		String value;
 		value = prop.get(PreferenceConstants.PREF_FILTER_SILENTEVENT_2);
 		if (value != null) {
@@ -241,9 +241,9 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 	 * @param value the value to set
 	 */
 	private void updateSubCategories(final Map<String, String> prefs, final String category, final String value) {
-		SortedMap<String, String[]> eventCategories = Constants.EVENT_CATEGORIES;
-		String[] subCategories = eventCategories.get(category);
-		for (String subCategory : subCategories) {
+		final SortedMap<String, String[]> eventCategories = Constants.EVENT_CATEGORIES;
+		final String[] subCategories = eventCategories.get(category);
+		for (final String subCategory : subCategories) {
 			prefs.put(category.concat(PreferenceConstants.SILENT_EVENTS_UNDERSCORE.concat(subCategory)), value);
 		}
 	}

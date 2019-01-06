@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -175,5 +176,18 @@ public final class FieldSpecifications extends ASTNode {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Generate Java code for field specifications.
+	 *
+	 * generate_code in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 */
+	public void generateCode( final JavaGenData aData) {
+		for (final FieldSpecification fs : fieldSpecifications) {
+			fs.generateCode(aData);
+		}
 	}
 }

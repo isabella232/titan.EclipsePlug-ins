@@ -7,16 +7,21 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -102,6 +107,9 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 				final IValue tempValue = fixedType.checkThisValueRef(timestamp, defaultValue);
 				fixedType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
 						false, false, true, false, false));
+
+				defaultValue.setGenNamePrefix("const_");
+				defaultValue.setGenNameRecursive(fixedType.getGenNameOwn() + "_defval_");
 				defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 			}
 		}
@@ -138,5 +146,34 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		if (fixedType == null) {
+			return;
+		}
+
+		final String typeGenName = fixedType.getGenNameOwn();
+		final StringBuilder sb = aData.getCodeForType(typeGenName);
+		final StringBuilder typeSource = new StringBuilder();
+		fixedType.generateCode( aData, typeSource );
+		sb.append(typeSource);
+
+		if (defaultValue != null) {
+			final StringBuilder valueSource = new StringBuilder();
+			final String defValueGenName = defaultValue.getGenNameOwn();
+			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, getMyScope() );
+			valueSource.append(MessageFormat.format("\tstatic final {0} {1} = new {0}();\n", typeGeneratedName, defValueGenName));
+			getLocation().update_location_object(aData, aData.getPreInit());
+
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = defaultValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+			last.generateCodeInit( aData, aData.getPreInit(), defValueGenName );
+
+			aData.addGlobalVariable(typeGeneratedName, valueSource.toString());
+		}
 	}
 }

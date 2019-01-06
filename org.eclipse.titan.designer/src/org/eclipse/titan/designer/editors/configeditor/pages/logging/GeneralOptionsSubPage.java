@@ -65,8 +65,8 @@ public final class GeneralOptionsSubPage {
 	private Button removePluginParameter;
 	private Button editPluginParameter;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 	private LoggingSectionHandler loggingSectionHandler;
 	private LogParamEntry selectedLogEntry;
 	private boolean valueChanged = false;
@@ -77,8 +77,7 @@ public final class GeneralOptionsSubPage {
 	}
 
 	void createSectionGeneral(final FormToolkit toolkit, final Composite parent) {
-
-		Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
 		section.setText("Logging options for the selected component/plugin");
 		// TODO the description should mention the selected
@@ -87,18 +86,18 @@ public final class GeneralOptionsSubPage {
 		section.marginWidth = 10;
 		section.marginHeight = 0;
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
 		section.setClient(client);
 
-		Composite generalOptions = toolkit.createComposite(client);
+		final Composite generalOptions = toolkit.createComposite(client);
 
 		generalOptions.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
-		GridLayout layoutGeneral = new GridLayout(2, false);
+		final GridLayout layoutGeneral = new GridLayout(2, false);
 		generalOptions.setLayout(layoutGeneral);
 		toolkit.paintBordersFor(generalOptions);
 
@@ -117,7 +116,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = logFileText.getText();
+				final String temp = logFileText.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getLogFileRoot() != null) {
@@ -137,7 +136,7 @@ public final class GeneralOptionsSubPage {
 		});
 		if (selectedLogEntry != null && selectedLogEntry.getLogFile() != null) {
 			if (selectedLogEntry.getLogFile().getText().length() == 0) {
-				String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getLogFile());
+				final String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getLogFile());
 				ConfigTreeNodeUtilities.setText( selectedLogEntry.getLogFile(), temp );
 			}
 			logFileText.setText(ConfigTreeNodeUtilities.toString(selectedLogEntry.getLogFile()));
@@ -159,7 +158,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = timeStampFormat.getText();
+				final String temp = timeStampFormat.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getTimestampFormatRoot() != null) {
@@ -180,7 +179,7 @@ public final class GeneralOptionsSubPage {
 			}
 		});
 		if (selectedLogEntry != null && selectedLogEntry.getTimestampFormat() != null) {
-			String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getTimestampFormat()).trim();
+			final String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getTimestampFormat()).trim();
 			timeStampFormat.setText(temp);
 		}
 
@@ -200,7 +199,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = consoleTimeStampFormat.getText();
+				final String temp = consoleTimeStampFormat.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getConsoleTimestampFormatRoot() != null) {
@@ -221,7 +220,7 @@ public final class GeneralOptionsSubPage {
 			}
 		});
 		if (selectedLogEntry != null && selectedLogEntry.getConsoleTimestampFormat() != null) {
-			String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getConsoleTimestampFormat()).trim();
+			final String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getConsoleTimestampFormat()).trim();
 			consoleTimeStampFormat.setText(temp);
 		}
 
@@ -241,7 +240,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = sourceInfoFormat.getText();
+				final String temp = sourceInfoFormat.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getSourceInfoFormatRoot() != null) {
@@ -280,7 +279,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = appendFile.getText();
+				final String temp = appendFile.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getAppendFileRoot() != null) {
@@ -321,7 +320,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = logEventTypes.getText();
+				final String temp = logEventTypes.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getLogeventTypesRoot() != null) {
@@ -360,7 +359,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = logEntityName.getText();
+				final String temp = logEntityName.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getLogEntityNameRoot() != null) {
@@ -399,7 +398,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = matchingHints.getText();
+				final String temp = matchingHints.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getMatchingHintsRoot() != null) {
@@ -436,7 +435,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = actualLogFileSizeText.getText();
+				final String temp = actualLogFileSizeText.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getLogfileSize() != null) {
@@ -472,7 +471,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = actualLogFileNumberText.getText();
+				final String temp = actualLogFileNumberText.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getLogfileNumber() != null) {
@@ -512,7 +511,7 @@ public final class GeneralOptionsSubPage {
 
 				editor.setDirty();
 
-				String temp = actualDiskFullAction.getText();
+				final String temp = actualDiskFullAction.getText();
 				if (temp == null || temp.length() == 0) {
 					// remove the node
 					if (selectedLogEntry.getDiskFullAction() != null) {
@@ -537,8 +536,8 @@ public final class GeneralOptionsSubPage {
 
 		// FIXME should not be here
 		toolkit.createLabel(generalOptions, "Plugin specific:");
-		Composite components = toolkit.createComposite(generalOptions, SWT.WRAP);
-		GridLayout tablelayout = new GridLayout();
+		final Composite components = toolkit.createComposite(generalOptions, SWT.WRAP);
+		final GridLayout tablelayout = new GridLayout();
 		tablelayout.numColumns = 2;
 		components.setLayout(tablelayout);
 		components.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
@@ -546,7 +545,7 @@ public final class GeneralOptionsSubPage {
 		toolkit.paintBordersFor(components);
 
 		paramTable = toolkit.createTable(components, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true);
+		final GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true);
 		paramTable.setLayoutData(gd);
 		paramTable.setEnabled(loggingSectionHandler != null);
 		paramViewer = new TableViewer(paramTable);
@@ -557,11 +556,11 @@ public final class GeneralOptionsSubPage {
 			}
 		});
 
-		TableColumn column = new TableColumn(paramTable, SWT.LEFT, 0);
+		final TableColumn column = new TableColumn(paramTable, SWT.LEFT, 0);
 		column.setText("Parameter");
 		column.setMoveable(false);
 		column.setWidth(80);
-		TableColumn column2 = new TableColumn(paramTable, SWT.LEFT, 0);
+		final TableColumn column2 = new TableColumn(paramTable, SWT.LEFT, 0);
 		column2.setText("Value");
 		column2.setMoveable(false);
 		column2.setWidth(90);
@@ -573,7 +572,7 @@ public final class GeneralOptionsSubPage {
 		paramViewer.setContentProvider(new ParamDataContentProvider());
 		paramViewer.setLabelProvider(new ParamDataLabelProvider());
 
-		Composite buttons = toolkit.createComposite(components);
+		final Composite buttons = toolkit.createComposite(components);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		addPluginParameter = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -591,12 +590,12 @@ public final class GeneralOptionsSubPage {
 					loggingPage.createLoggingSection();
 				}
 
-				ParamDialog d = new ParamDialog(null, selectedLogEntry, null);
+				final ParamDialog d = new ParamDialog(null, selectedLogEntry, null);
 				if (d.open() == Window.OK) {
-					PluginSpecificParam psp = createPluginSpecificParamNode(d.getName(), d.getValue());
+					final PluginSpecificParam psp = createPluginSpecificParamNode(d.getName(), d.getValue());
 					paramViewer.setInput(selectedLogEntry);
-					TableItem[] items = paramTable.getItems();
-					for (TableItem item : items) {
+					final TableItem[] items = paramTable.getItems();
+					for (final TableItem item : items) {
 						if (item.getData().equals(psp)) {
 							paramTable.setSelection(item);
 							paramTable.showSelection();
@@ -626,10 +625,10 @@ public final class GeneralOptionsSubPage {
 					loggingPage.createLoggingSection();
 				}
 
-				StructuredSelection selection = (StructuredSelection) paramViewer.getSelection();
+				final StructuredSelection selection = (StructuredSelection) paramViewer.getSelection();
 				PluginSpecificParam psp = (PluginSpecificParam) selection.getFirstElement();
 
-				ParamDialog d = new ParamDialog(null, selectedLogEntry, psp);
+				final ParamDialog d = new ParamDialog(null, selectedLogEntry, psp);
 				if (d.open() == Window.OK) {
 					if (psp.getParam() != null) {
 						ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), psp.getParam());
@@ -637,8 +636,8 @@ public final class GeneralOptionsSubPage {
 					selectedLogEntry.getPluginSpecificParam().remove(psp);
 					psp = createPluginSpecificParamNode(d.getName(), d.getValue());
 
-					TableItem[] items = paramTable.getItems();
-					for (TableItem item : items) {
+					final TableItem[] items = paramTable.getItems();
+					for (final TableItem item : items) {
 						if (item.getData().equals(psp)) {
 							paramTable.setSelection(item);
 							paramTable.showSelection();
@@ -662,8 +661,8 @@ public final class GeneralOptionsSubPage {
 					return;
 				}
 
-				StructuredSelection selection = (StructuredSelection) paramViewer.getSelection();
-				PluginSpecificParam psp = (PluginSpecificParam) selection.getFirstElement();
+				final StructuredSelection selection = (StructuredSelection) paramViewer.getSelection();
+				final PluginSpecificParam psp = (PluginSpecificParam) selection.getFirstElement();
 
 				if (psp.getParam() != null) {
 					ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), psp.getParam());
@@ -762,7 +761,7 @@ public final class GeneralOptionsSubPage {
 	}
 
 	private PluginSpecificParam createPluginSpecificParamNode(final String param, final String value) {
-		StringBuilder name = new StringBuilder();
+		final StringBuilder name = new StringBuilder();
 		loggingPage.getSelectedTreeElement().writeNamePrefix(name);
 		name.append(param);
 		name.append(" := ");
@@ -776,7 +775,7 @@ public final class GeneralOptionsSubPage {
 		ConfigTreeNodeUtilities.addChild( root, keyAST );
 		ConfigTreeNodeUtilities.addChild( root, valueAST );
 
-		PluginSpecificParam psp = new PluginSpecificParam(root, keyAST, valueAST, param);
+		final PluginSpecificParam psp = new PluginSpecificParam(root, keyAST, valueAST, param);
 		selectedLogEntry.getPluginSpecificParam().add(psp);
 		return psp;
 	}
@@ -937,7 +936,7 @@ public final class GeneralOptionsSubPage {
 	}
 
 	public void pluginRenamed() {
-		LoggingSectionHandler.LoggerTreeElement lte = loggingPage.getSelectedTreeElement();
+		final LoggingSectionHandler.LoggerTreeElement lte = loggingPage.getSelectedTreeElement();
 		if (selectedLogEntry.getLogFileRoot() != null) {
 			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getLogFileRoot());
 			createLogFileNode(lte, selectedLogEntry, logFileText.getText().trim());
@@ -979,12 +978,12 @@ public final class GeneralOptionsSubPage {
 			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getDiskFullActionRoot());
 			createDiskFullActionNode(lte, selectedLogEntry, actualDiskFullAction.getText().trim());
 		}
-		List<PluginSpecificParam> list = new ArrayList<PluginSpecificParam>(selectedLogEntry.getPluginSpecificParam());
-		for (PluginSpecificParam param : list) {
+		final List<PluginSpecificParam> list = new ArrayList<PluginSpecificParam>(selectedLogEntry.getPluginSpecificParam());
+		for (final PluginSpecificParam param : list) {
 			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), param.getParam());
 		}
 		selectedLogEntry.getPluginSpecificParam().clear();
-		for (PluginSpecificParam param : list) {
+		for (final PluginSpecificParam param : list) {
 			createPluginSpecificParamNode(param.getParamName(), param.getValue().getText());
 		}
 		paramViewer.setInput(selectedLogEntry);

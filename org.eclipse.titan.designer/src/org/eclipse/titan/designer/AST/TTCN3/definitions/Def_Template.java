@@ -128,7 +128,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/**
 	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	public Def_Template( final TemplateRestriction.Restriction_type templateRestriction,
 			final Identifier identifier,
@@ -391,6 +391,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		if (formalParList != null) {
 			formalParList.reset();
+			checkDefault(timestamp);
 			formalParList.check(timestamp, getAssignmentType());
 			if (isLocal()) {
 				location.reportSemanticError(MessageFormat.format(PARAMETRIZED_LOCAL_TEMPLATE, getIdentifier()));
@@ -398,8 +399,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		final ITTCN3Template tempBody = type.checkThisTemplateRef(timestamp, realBody);
-
-		checkDefault(timestamp);
 
 		checkModified(timestamp);
 		checkRecursiveDerivation(timestamp);
@@ -480,10 +479,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		baseTemplate = (Def_Template) assignment;
-		baseTemplate.check(timestamp);
+		final Def_Template base = (Def_Template) assignment;
+		base.check(timestamp);
 
-		final FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
+		final FormalParameterList baseParameters = base.getFormalParameterList(timestamp);
 		final int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
 		final int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
 		int minFps;
@@ -521,9 +520,23 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	 *                the timestamp of the actual semantic check cycle
 	 * */
 	private void checkModified(final CompilationTimeStamp timestamp) {
-		if (baseTemplate == null) {
+		if (derivedReference == null) {
 			return;
 		}
+
+		final Assignment assignment = derivedReference.getRefdAssignment(timestamp, false, null);
+		if (assignment == null) {
+			return;
+		}
+
+		if (Assignment_type.A_TEMPLATE != assignment.getAssignmentType()) {
+			derivedReference.getLocation().reportSemanticError(
+					MessageFormat.format(TEMPLATEREFERENCEEXPECTEDINMODIFIES, assignment.getDescription()));
+			return;
+		}
+
+		baseTemplate = (Def_Template) assignment;
+		baseTemplate.check(timestamp);
 
 		final IType baseType = baseTemplate.getType(timestamp);
 		if (!type.isCompatible(timestamp, baseType, null, null, null)) {
@@ -888,9 +901,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "private" );
+				source.append( "\tprivate" );
 			} else {
-				source.append( "public" );
+				source.append( "\tpublic" );
 			}
 			source.append( " static " );
 		}
@@ -907,7 +920,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 			if (baseTemplate != null) {
 				//modified template
-				if (baseTemplate.myScope.getModuleScope() == myScope.getModuleScope()) {
+				if (baseTemplate.myScope.getModuleScopeGen() == myScope.getModuleScopeGen()) {
 					// if the base template is in the same module its body has to be
 					// initialized first
 					getLocation().update_location_object(aData, aData.getPostInit());
@@ -920,7 +933,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				body.generateCodeInit( aData, aData.getPostInit(), body.get_lhs_name() );
 
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
-					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+					TemplateRestriction.generateRestrictionCheckCode(aData, aData.getPostInit(), location, genName, templateRestriction);
 				}
 			}
 
@@ -985,11 +998,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					arrayType.generateCodeValue(aData, sb);
 					arrayType.generateCodeTemplate(aData, sb);
 				}
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
-				if ( body != null ) {
-					//TODO can optimize for single expressions;
-					body.generateCodeInit( aData, source, genName );
+				if (body != null && body.hasSingleExpression()) {
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, body.getSingleExpression(aData, false)));
+				} else {
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+					if ( body != null ) {
+						body.generateCodeInit( aData, source, genName );
+					}
 				}
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));

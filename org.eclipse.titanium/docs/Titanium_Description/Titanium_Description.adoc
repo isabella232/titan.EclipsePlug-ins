@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 1551-CRL 113 200/6, Rev. PE1
-Date: 2018-06-19
+Version: 1551-CRL 113 200/6, Rev. E
+Date: 2018-12-03
 
 ---
 = Titanium Description
 :author: Kristóf Szabados
-:revnumber: 1551-CRL 113 200/6, Rev. PE1
-:revdate: 2018-06-19
+:revnumber: 1551-CRL 113 200/6, Rev. E
+:revdate: 2018-12-03
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -171,6 +171,10 @@ The code smells are categorized in 5 categories based on what kind of issue they
 The code smells here might indicate some kind of architectural issue in the code.
 
 * *Report the usage of label and goto statements*: go to statements and labels usually indicate incorrect programing practices. Developers are encouraged to used elements of structured programming practices.
++
+* *Report private component access from other module*: report instances when a private component variable is accessed from a function located in a different module, but running on that component.
++
+* *Report operations which are not safe in blocking statements*: reports the usage of operations, that are not safe to be used in blocking statements.
 +
 * *Report circular module dependencies*: Report the case when module imports form a circle. This situation slows down the parallel build, and might disable compilation in some cases.
 +

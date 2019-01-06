@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
-import java.util.Collection;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -39,7 +39,7 @@ public class ProjectSourceCompiler {
 	 * Generates java code for a module
 	 * @param timestamp the timestamp of this build
 	 * @param aModule module to compile
-	 * @param aDebug true: debug info is added to the source code 
+	 * @param aDebug true: debug info is added to the source code
 	 * @throws CoreException
 	 */
 	public static void compile(final BuildTimestamp timestamp, final Module aModule, final boolean aDebug ) throws CoreException {
@@ -111,9 +111,10 @@ public class ProjectSourceCompiler {
 	 *
 	 * @throws CoreException if file operations can not be performed.
 	 * */
-	public static void generateSingleMain(final IProject project, final Collection<Module> modules) throws CoreException {
+	public static void generateSingleMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
+		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( "Single_main.java");
+		final IFile file = folder.getFile( projectName + "_Single_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -139,19 +140,23 @@ public class ProjectSourceCompiler {
 		contentBuilder.append( ";\n\n" );
 
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.PreGenRecordOf;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Single_main;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
 		}
 
-		contentBuilder.append( "public class Single_main {\n\n" );
+		contentBuilder.append(MessageFormat.format("public class {0}_Single_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
+		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
+		contentBuilder.append("Module_List.add_module(new TitanLoggerApi());\n");
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
-		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain();\n");
+		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain( args );\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
 		contentBuilder.append( "System.exit(returnValue);\n" );
 		contentBuilder.append( "}\n" );
@@ -177,9 +182,10 @@ public class ProjectSourceCompiler {
 	 *
 	 * @throws CoreException if file operations can not be performed.
 	 * */
-	public static void generateParallelMain(final IProject project, final Collection<Module> modules) throws CoreException {
+	public static void generateParallelMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
+		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 		final IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
-		final IFile file = folder.getFile( "Parallel_main.java");
+		final IFile file = folder.getFile( projectName + "_Parallel_main.java");
 		createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
@@ -205,17 +211,21 @@ public class ProjectSourceCompiler {
 		contentBuilder.append( ";\n\n" );
 
 		contentBuilder.append(MessageFormat.format("import {0}.Module_List;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.PreGenRecordOf;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.Runtime_Parallel_main;\n", PACKAGE_RUNTIME_ROOT));
+		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, moduleName));
 		}
 
-		contentBuilder.append( "public class Parallel_main {\n\n" );
+		contentBuilder.append(MessageFormat.format("public class {0}_Parallel_main '{'\n\n", projectName));
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
-		for ( final Module module : modules ) {
-			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
+		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
+		contentBuilder.append("Module_List.add_module(new TitanLoggerApi());\n");
+		for ( final String moduleName : knownModuleNames ) {
+			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n", moduleName));
 		}
 		contentBuilder.append("int returnValue = Runtime_Parallel_main.parallelMain(args);\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
@@ -238,7 +248,7 @@ public class ProjectSourceCompiler {
 	/**
 	 * Compares the content of the file and the provided string content,
 	 *  to determine if the file content needs to be updated or not.
-	 * 
+	 *
 	 * @param file the file to check
 	 * @param content the string to be generated if not already present in the file
 	 * @return true if the file does not contain the provided string parameter
@@ -268,13 +278,14 @@ public class ProjectSourceCompiler {
 	}
 
 
+	//TODO: move it into titan.common
 	/**
 	 * RECURSIVE
 	 * Creates full directory path
 	 * @param aFolder directory to create
 	 * @throws CoreException
 	 */
-	private static void createDir( final IFolder aFolder ) throws CoreException {
+	public static void createDir( final IFolder aFolder ) throws CoreException {
 		if (!aFolder.exists()) {
 			final IContainer parent = aFolder.getParent();
 			if (parent instanceof IFolder) {
@@ -342,7 +353,7 @@ public class ProjectSourceCompiler {
 	 *   <li> pre init function: to initialize constants before module parameters are processed
 	 *   <li> post init function: to initialize local "constants" after module parameters were processed.
 	 * </ul>
-	 * 
+	 *
 	 * @param aData data collected during code generation, we need the include files form it
 	 * @param sourceFile the source of the code.
 	 * @param aModule module to compile
@@ -350,78 +361,100 @@ public class ProjectSourceCompiler {
 	private static void writeFooter( final JavaGenData aData, final StringBuilder aSb, final IResource sourceFile, final Module aModule) {
 //		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
-			aSb.append("public boolean set_module_param(final Param_Types.Module_Parameter param)\n");
-			aSb.append("{\n");
-			aSb.append("final String par_name = param.get_id().get_current_name();\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean set_module_param(final Param_Types.Module_Parameter param)\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tfinal String par_name = param.get_id().get_current_name();\n");
 			aSb.append(aData.getSetModuleParameters());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
+
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean has_set_module_param() {\n");
+			aSb.append("\t\treturn true;\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getPreInit().length() > 0) {
-			aSb.append("public void pre_init_module()\n");
-			aSb.append("{\n");
-			aSb.append("if (pre_init_called) {\n");
-			aSb.append("return;\n");
-			aSb.append("}\n");
-			aSb.append("pre_init_called = true;\n");
+			aSb.append("\tpublic void pre_init_module()\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tif (pre_init_called) {\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tpre_init_called = true;\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("\t\tfinal TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPreInit());
 			if (aData.getAddSourceInfo()) {
-				aSb.append("current_location.leave();\n");
+				aSb.append("\t\tcurrent_location.leave();\n");
 			}
-			aSb.append("}\n\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getPostInit().length() > 0) {
-			aSb.append("public void post_init_module()\n");
-			aSb.append("{\n");
-			aSb.append("if (post_init_called) {\n");
-			aSb.append("return;\n");
-			aSb.append("}\n");
-			aSb.append("post_init_called = true;\n");
-			aSb.append("TTCN_Logger.log_module_init(name, false);\n");
+			aSb.append("\tpublic void post_init_module()\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tif (post_init_called) {\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tpost_init_called = true;\n");
+			aSb.append("\t\tTTCN_Logger.log_module_init(module_name, false);\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("\t\tfinal TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPostInit());
 			if (aData.getAddSourceInfo()) {
-				aSb.append("current_location.leave();\n");
+				aSb.append("\t\tcurrent_location.leave();\n");
 			}
-			aSb.append("TTCN_Logger.log_module_init(name, true);\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\tTTCN_Logger.log_module_init(module_name, true);\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getStartPTCFunction().length() > 0) {
 			aSb.append("@Override\n");
 			aSb.append("public boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {\n");
 			aSb.append(aData.getStartPTCFunction());
-			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, name));\n");
+			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, module_name));\n");
 			aSb.append("}\n\n");
+		}
+
+		if (aData.getExecuteTestcase().length() > 0) {
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic void execute_testcase(final String tescase_name) {\n");
+			aSb.append(aData.getExecuteTestcase());
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, module_name));\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
+		}
+
+		if (aData.getExecuteAllTestcase().length() > 0) {
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic void execute_all_testcases() {\n");
+			aSb.append(aData.getExecuteAllTestcase());
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getInitComp().length() > 0) {
-			aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
-			aSb.append("{\n");
+			aSb.append("\tpublic boolean init_comp_type(final String component_type, final boolean init_base_comps) {\n");
 			aSb.append(aData.getInitComp());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getInitSystemPort().length() > 0) {
-			aSb.append("public boolean init_system_port(final String component_type, final String port_name)\n");
-			aSb.append("{\n");
+			aSb.append("\tpublic boolean init_system_port(final String component_type, final String port_name)\n");
+			aSb.append("\t{\n");
 			aSb.append(aData.getInitSystemPort());
-			aSb.append("{\n");
-			aSb.append("return false;\n");
-			aSb.append("}\n");
-			aSb.append("}\n\n");
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn false;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		aSb.append( "}\n" );

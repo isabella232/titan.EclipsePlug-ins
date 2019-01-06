@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Timer;
@@ -99,6 +100,17 @@ public final class Timeout_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (timerReference != null) {
+			timerReference.setCodeSection(codeSection);
+		}
+		if (indexRedirection != null) {
+			indexRedirection.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean hasReceivingStatement() {
 		return true;
 	}
@@ -173,7 +185,7 @@ public final class Timeout_Statement extends Statement {
 		aData.addBuiltinTypeImport("TitanTimer");
 
 		if (timerReference == null) {
-			expression.expression.append("TitanTimer.anyTimeout()");
+			expression.expression.append("TitanTimer.any_timeout()");
 		} else {
 			timerReference.generateCode(aData, expression);
 			expression.expression.append(".timeout(");

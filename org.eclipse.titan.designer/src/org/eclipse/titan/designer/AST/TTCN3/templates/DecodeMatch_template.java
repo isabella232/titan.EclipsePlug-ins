@@ -168,7 +168,10 @@ public class DecodeMatch_template extends TTCN3Template {
 	 * @return true if the value contains a reference to lhs
 	 * */
 	public boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final IType type, final boolean implicitOmit, final Assignment lhs) {
-		target.getTemplateBody().setLoweridToReference(timestamp);
+		final TTCN3Template targetBody = target.getTemplateBody();
+		targetBody.setMyGovernor(type);
+
+		targetBody.setLoweridToReference(timestamp);
 		IType targetType = target.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (targetType == null) {
 			target.getLocation().reportSemanticError("Type of template instance cannot be determined");
@@ -180,7 +183,7 @@ public class DecodeMatch_template extends TTCN3Template {
 			targetType = targetType.getTypeRefdLast(timestamp);
 		}
 
-		boolean selfReference = target.getTemplateBody().checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
+		boolean selfReference = targetBody.checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
 		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false);
 
 		if (stringEncoding != null) {
@@ -209,10 +212,6 @@ public class DecodeMatch_template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
-
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport("IDecode_Match");
@@ -242,11 +241,11 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append("boolean ret_val;\n");
 		source.append("TitanOctetString os = new TitanOctetString();\n");
 		source.append("buffer.get_string(os);\n");
-		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {0}_default_coding).operatorNotEquals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope)));
+		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {0}_default_coding).operator_not_equals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope)));
 		source.append("TtcnError.TtcnWarning(\"Decoded content matching failed, because the data could not be decoded.\");\n");
 		source.append("ret_val = false;\n");
-		source.append("} else if (os.lengthOf().operatorNotEquals(0)) {\n");
-		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthOf().getInt()));\n");
+		source.append("} else if (os.lengthof().operator_not_equals(0)) {\n");
+		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthof().get_int()));\n");
 		source.append("ret_val = false;\n");
 		source.append("} else {\n");
 		source.append("ret_val = target.match(dec_val, true);\n");
@@ -274,7 +273,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append("}\n");
 		source.append( "};\n" );
 
-		source.append(MessageFormat.format("{0}.setType(template_sel.DECODE_MATCH, 0);\n", name));
+		source.append(MessageFormat.format("{0}.set_type(template_sel.DECODE_MATCH, 0);\n", name));
 		source.append("{\n");
 		// generate the decoding target into a temporary
 		final String target_tempID = aData.getTemporaryVariableName();

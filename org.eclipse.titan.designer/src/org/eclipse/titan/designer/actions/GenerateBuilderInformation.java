@@ -300,7 +300,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 
 			if (propertiesFile.isAccessible() && file.exists() && file.canRead()) {
 				final InputStream is = propertiesFile.getContents(true);
-				final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				final BufferedReader br = new BufferedReader(new InputStreamReader(is, propertiesFile.getCharset()));
 				final StringBuilder sb = new StringBuilder();
 				boolean firstLine = true;
 				String line = br.readLine();

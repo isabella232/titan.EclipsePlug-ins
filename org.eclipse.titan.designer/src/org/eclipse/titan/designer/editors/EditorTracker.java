@@ -70,10 +70,9 @@ public final class EditorTracker {
 	 * @return the list of all known editors
 	 * */
 	public static List<ISemanticTITANEditor> getEditors() {
-		ArrayList<ISemanticTITANEditor> result = new ArrayList<ISemanticTITANEditor>();
-
-		for(List<ISemanticTITANEditor> list: FILE_EDITOR_MAP.values()) {
-			for(ISemanticTITANEditor editor: list) {
+		final ArrayList<ISemanticTITANEditor> result = new ArrayList<ISemanticTITANEditor>();
+		for(final List<ISemanticTITANEditor> list: FILE_EDITOR_MAP.values()) {
+			for(final ISemanticTITANEditor editor: list) {
 				if(!result.contains(editor)) {
 					result.add(editor);
 				}
@@ -117,7 +116,7 @@ public final class EditorTracker {
 			return;
 		}
 
-		List<ISemanticTITANEditor> editors = FILE_EDITOR_MAP.get(file);
+		final List<ISemanticTITANEditor> editors = FILE_EDITOR_MAP.get(file);
 		editors.remove(editor);
 
 		if (editors.isEmpty()) {
@@ -131,8 +130,8 @@ public final class EditorTracker {
 	 * @param editor the editor to be removed.
 	 * */
 	public static void remove(final ISemanticTITANEditor editor) {
-		for(IFile file: FILE_EDITOR_MAP.keySet()) {
-			List<ISemanticTITANEditor> editors = FILE_EDITOR_MAP.get(file);
+		for(final IFile file: FILE_EDITOR_MAP.keySet()) {
+			final List<ISemanticTITANEditor> editors = FILE_EDITOR_MAP.get(file);
 			editors.remove(editor);
 		}
 	}

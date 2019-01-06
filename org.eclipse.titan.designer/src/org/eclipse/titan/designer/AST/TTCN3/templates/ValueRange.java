@@ -309,7 +309,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		final ExpressionStruct expression = new ExpressionStruct();
 		final StringBuilder initStatement = new StringBuilder();
 		initStatement.append(name);
-		initStatement.append(".setType( template_sel.VALUE_RANGE );\n");
+		initStatement.append(".set_type( template_sel.VALUE_RANGE );\n");
 		if(min != null) {
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IValue last = min.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
@@ -318,7 +318,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			if (!last.getValuetype().equals(Value_type.REAL_VALUE) || ((Real_Value) last).getValue() != Double.NEGATIVE_INFINITY) {
 				last.generateCodeExpression(aData, expression, false);
 				initStatement.append(name);
-				initStatement.append(".setMin( ");
+				initStatement.append(".set_min( ");
 				initStatement.append(expression.expression);
 				initStatement.append(" );\n");
 			}
@@ -330,7 +330,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
 				initStatement.append(name);
-				initStatement.append(".setMinExclusive(true);\n");
+				initStatement.append(".set_min_exclusive(true);\n");
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing lower bound `" + getFullName() + "''");
@@ -346,7 +346,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 				expression.expression = new StringBuilder();
 				last.generateCodeExpression(aData, expression, false);
 				initStatement.append(name);
-				initStatement.append(".setMax( ");
+				initStatement.append(".set_max( ");
 				initStatement.append(expression.expression);
 				initStatement.append(" );\n");
 			}
@@ -358,7 +358,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
 				initStatement.append(name);
-				initStatement.append(".setMaxExclusive(true);\n");
+				initStatement.append(".set_max_exclusive(true);\n");
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing upper bound `" + getFullName() + "''");

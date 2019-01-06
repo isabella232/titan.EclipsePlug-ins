@@ -23,7 +23,7 @@ NOTE:
  Do NOT use CSTRING in any rule, use this instead.
 
 --------------------------
-Precedence of Operators with precedence levels (higher number is higher precedence)
+Precedence of TTCN-3 operators with precedence levels (higher number is higher precedence)
 
 15 ( ... )
 14 +, - (unary)
@@ -86,6 +86,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.CharstringExtractor;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
@@ -1300,9 +1301,10 @@ pr_SubTypeDef returns[Def_Type def_type]
 		$t.type.setParsedRestrictions(parsedSubTypes);
 	}
 	if (dimensions != null) {
+		final Location location = getLocation( $a.start, $a.stop);
 		for (int i = dimensions.size() - 1; i >= 0; i--) {
 			$t.type = new Array_Type($t.type, dimensions.get(i), true);
-			$t.type.setLocation(getLocation( $a.start, $a.stop));
+			$t.type.setLocation(location);
 		}
 	}
 	if(identifier != null && $t.type != null) {
@@ -1479,8 +1481,10 @@ pr_MessageAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
-(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); 
+(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message);
 			    $portType = new Port_Type($body);}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	(	opt = pr_PortMap
 		{	final List<Reference> outerPortTypeRefs = $opt.outerPortTypeRefs;
 			$body.addUserAttribute(outerPortTypeRefs, false);
@@ -1605,6 +1609,10 @@ pr_MessageListToAttribute returns[TypeMappingTarget mappingTarget]:
 	$mappingTarget.setLocation(getLocation($start, getStopToken()));
 };
 
+pr_RealtimeKeyword:
+	REALTIME
+;
+
 pr_MessageKeyword:
 	MESSAGE
 ;
@@ -1639,6 +1647,8 @@ pr_ProcedureAttribs returns[Port_Type portType, PortTypeBody body]
 }:
 (	pr_ProcedureKeyword { $body = new PortTypeBody(OperationModes.OP_Procedure);
 				$portType = new Port_Type($body);}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	pr_BeginChar
 	(	pr_ProcedureList[$body]
 		pr_SemiColon?
@@ -1666,6 +1676,8 @@ pr_MixedAttribs returns[Port_Type portType, PortTypeBody body]
 			$portType = new Port_Type($body);
 			reportWarning( "Mixed ports are deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $col.start, $col.stop );
 		}
+	(	pr_RealtimeKeyword {$body.setRealtime();}
+	)?
 	pr_BeginChar
 	(	pr_MixedList[$body]
 		pr_SemiColon?
@@ -2354,44 +2366,50 @@ pr_ExtraMatchingAttributes [TTCN3Template template]:
 
 pr_BitString returns[String string]:
 	BSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'B$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'B$|\\s+", "");
+	}
 };
 
 pr_HexString returns[String string]:
 	HSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'H$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'H$|\\s+", "");
+	}
 };
 
 pr_OctetString returns[String string]:
 	OSTRING
-{
-	$string = $start.getText().replaceAll("^\'|\'O$", "");
-	$string = $string.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$string = s.replaceAll("^\'|\'O$|\\s+", "");
+	}
 };
 
 pr_BitStringMatch returns[String pattern]:
 	BSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'B$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'B$|\\s+", "");
+	}
 };
 
 pr_HexStringMatch returns[String pattern]:
 	HSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'H$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'H$|\\s+", "");
+	}
 };
 
 pr_OctetStringMatch returns[String pattern]:
 	OSTRINGMATCH
-{
-	$pattern = $start.getText().replaceAll("^\'|\'O$", "");
-	$pattern = $pattern.replaceAll("\\s+","");
+{	final String s = $start.getText();
+	if ( s != null ) {
+		$pattern = s.replaceAll("^\'|\'O$|\\s+", "");
+	}
 };
 
 pr_SubsetMatch returns[ListOfTemplates templates]
@@ -2477,7 +2495,15 @@ pr_PatternKeyword:
 
 pr_PatternChunk[StringBuilder builder, boolean[] uni, boolean noCase]:
 //TODO: use noCase
-(	a = pr_CString { $builder.append($a.string); }
+(	a = pr_CString
+	// pr_CString.text is used instead of pr_CString.string,
+	// so the original text is used instead of the unescaped return value.
+	// This is done this way, because pattern string escape handling is done differently.
+	// But beginning and ending quotes must be removed.
+	{	if ( $a.text != null ) {
+			$builder.append($a.text.replaceAll("^\"|\"$", ""));
+		}
+	}
 |	v = pr_ReferencedValue
 		{	$builder.append('{');
 			$builder.append($v.text);
@@ -5090,15 +5116,17 @@ pr_PortSendOp [Reference reference, boolean translate]
 	$statement = null;
 	TemplateInstance parameter = null;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	col = pr_SendOpKeyword
 	pr_LParen
 	p = pr_SendParameter { parameter = $p.templateInstance; }
 	a = pr_RParen
 	( t = pr_ToClause { toClause = $t.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Send_Statement($reference, parameter, toClause, translate);
+	$statement = new Send_Statement($reference, parameter, toClause, timestamp, translate);
 };
 
 pr_SendOpKeyword:
@@ -5110,6 +5138,16 @@ pr_SendParameter returns[TemplateInstance templateInstance]
 	$templateInstance = null;
 }:
 	t = pr_TemplateInstance { $templateInstance = $t.templateInstance; }
+;
+
+pr_PortRedirectOutgoing returns[Reference reference]:
+(
+	pr_PortRedirectSymbol
+	ts = pr_TimestampSpec
+)
+{
+	$reference = $ts.reference;
+}
 ;
 
 pr_ToClause returns[IValue value]
@@ -5154,6 +5192,7 @@ pr_PortCallOp [Reference reference]
 	Value timerValue = null;
 	boolean noWait = false;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	col = pr_CallOpKeyword
 	pr_LParen
@@ -5165,13 +5204,14 @@ pr_PortCallOp [Reference reference]
 	)? // pr_CallParameters
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 	(	pr_BeginChar
 		a = pr_CallBodyStatementList { altGuards = $a.altGuards; }
 		pr_EndChar
 	)? // pr_PortCallBody
 )
 {
-	$statement = new Call_Statement($reference, $t.templateInstance, timerValue, noWait, toClause, altGuards);
+	$statement = new Call_Statement($reference, $t.templateInstance, timerValue, noWait, toClause, altGuards, timestamp);
 };
 
 pr_CallOpKeyword:
@@ -5224,6 +5264,7 @@ pr_PortReplyOp [Reference reference]
 	$statement = null;
 	IValue toClause = null;
 	Value replyValue = null;
+	Reference timestamp = null;
 }:
 (	pr_ReplyKeyword
 	pr_LParen
@@ -5231,9 +5272,10 @@ pr_PortReplyOp [Reference reference]
 	( rv = pr_ReplyValue { replyValue = $rv.value; } )?
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Reply_Statement($reference, $parameter.templateInstance, replyValue, toClause);
+	$statement = new Reply_Statement($reference, $parameter.templateInstance, replyValue, toClause, timestamp);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
@@ -5255,6 +5297,7 @@ pr_PortRaiseOp [Reference reference]
 @init {
 	$statement = null;
 	IValue toClause = null;
+	Reference timestamp = null;
 }:
 (	pr_RaiseKeyword
 	pr_LParen
@@ -5263,9 +5306,10 @@ pr_PortRaiseOp [Reference reference]
 	parameter = pr_TemplateInstance
 	pr_RParen
 	( tc = pr_ToClause { toClause = $tc.value; } )?
+	( r = pr_PortRedirectOutgoing { timestamp = $r.reference; })?
 )
 {
-	$statement = new Raise_Statement($reference, $signature.reference, $parameter.templateInstance, toClause);
+	$statement = new Raise_Statement($reference, $signature.reference, $parameter.templateInstance, toClause, timestamp);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
@@ -5301,15 +5345,15 @@ pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from, bo
 {
 	if( helper == null ) {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, null, translate );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, null, translate );
 		}
 	} else {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp, translate );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp, translate );
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5338,20 +5382,23 @@ pr_PortRedirect [boolean is_any_from]
 	Reference value = null;
 	Reference sender = null;
 	Reference index = null;
+	Reference timestamp = null;
 }:
 (	pr_PortRedirectSymbol
-	(	(	vs = pr_ValueSpec { value = $vs.reference; }
-			( ss = pr_SenderSpec { sender = $ss.reference; } )?
-		|	ss2 = pr_SenderSpec { sender = $ss2.reference; }
-		)
-		( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-		|
-		)
-	|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
+	(	vs = pr_ValueSpec { value = $vs.reference; }
+		(	ss = pr_SenderSpec { sender = $ss.reference; } )?
+		(	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; } )?
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	ss = pr_SenderSpec { sender = $ss.reference; }
+		(	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; } )?
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
+		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
+	|	ts = pr_TimestampSpec { timestamp = $ts.reference; }
 	)
 )
 {
-	$helper = new PortRedirect_Helper(value, sender, index);
+	$helper = new PortRedirect_Helper(value, sender, index, timestamp);
 };
 
 pr_PortRedirectSymbol:
@@ -5454,9 +5501,9 @@ pr_PortTriggerOp [Reference reference, boolean is_any_from]
 )
 {
 	if(helper == null) {
-		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, null, null, null);
+		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, null, null, null, null);
 	} else {
-		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex);
+		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp);
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
@@ -5480,15 +5527,15 @@ pr_PortGetCallOp [Reference reference, boolean is_check, boolean is_any_from]
 {
 	if(helper == null) {
 		if($is_check) {
-			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, null, null, null);
+			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, null, null, null, null);
 		} else {
-			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, null, null, null);
+			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, null, null, null, null);
 		}
 	} else {
 		if($is_check) {
-			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Check_Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		} else {
-			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5501,24 +5548,28 @@ pr_PortRedirectWithParam [boolean is_any_from] returns[Redirection_Helper helper
 
 pr_RedirectWithParamSpec [boolean is_any_from] returns[Redirection_Helper helper]
 @init {
-	$helper = new Redirection_Helper(null, null, null, null);
+	$helper = new Redirection_Helper(null, null, null, null, null);
 	Parameter_Redirect redirectParameters = null;
-	Reference sender_reference = null;
-	Reference index = null;
+	Reference senderReference = null;
+	Reference indexReference = null;
+	Reference timestampReference = null;
 }:
-(	(	r = pr_ParamSpec { redirectParameters = $r.redirect; }
-		( s = pr_SenderSpec { sender_reference = $s.reference; } )?
-	|	s = pr_SenderSpec { sender_reference = $s.reference; }
-	)
-	( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-	|
-	)
-|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
+(	r = pr_ParamSpec { redirectParameters = $r.redirect; }
+	(	s = pr_SenderSpec { senderReference = $s.reference; } )?
+	(	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; } )?
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	s = pr_SenderSpec { senderReference = $s.reference; }
+	(	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; } )?
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	{$is_any_from}? is = pr_IndexSpec { indexReference = $is.reference; }
+	(	ts = pr_TimestampSpec { timestampReference = $ts.reference; } )?
+|	ts = pr_TimestampSpec { timestampReference = $ts.reference; }
 )
 {
 	$helper.redirectParameters = redirectParameters;
-	$helper.senderReference = sender_reference;
-	$helper.indexReference = index;
+	$helper.senderReference = senderReference;
+	$helper.indexReference = indexReference;
+	$helper.timestampReference = timestampReference;
 };
 
 pr_ParamSpec returns[Parameter_Redirect redirect]
@@ -5598,17 +5649,15 @@ pr_RedirectWithValueAndParamSpec [boolean is_any_from] returns[Redirection_Helpe
 	Parameter_Redirect redirect = null;
 	Reference sender = null;
 	Reference index = null;
+	Reference timestamp = null;
 }:
 (	(	vs = pr_ValueSpec
-		( r = pr_ParamSpec { redirect = $r.redirect; } )?
-		( s = pr_SenderSpec { sender = $s.reference; } )?
-			{ $helper = new Redirection_Helper($vs.reference, redirect, sender, null); }
+		( h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;} )?
+		{	if ($helper == null) {$helper = new Redirection_Helper($vs.reference, null, null, null, null);}
+			else {$helper.redirectValue = $vs.reference;}
+		}
 	|	h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;}
 	)
-	( {$is_any_from}? is = pr_IndexSpec { index = $is.reference; }
-	|
-	)
-|	{$is_any_from}? is2 = pr_IndexSpec { index = $is2.reference; }
 );
 
 pr_VariableList returns[Variable_Entries entries]
@@ -5655,15 +5704,15 @@ pr_PortGetReplyOp [Reference reference, boolean is_check, boolean is_any_from]
 {
 	if(helper == null) {
 		if($is_check) {
-			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null);
+			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null, null);
 		} else {
-			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null);
+			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, null, null, null, null, null);
 		}
 	} else {
 		if($is_check) {
-			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Check_Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		} else {
-			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference);
+			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5691,7 +5740,7 @@ pr_PortCheckOp [Reference reference, boolean is_any_from]
 		s = pr_CheckParameter[reference, is_any_from] { $statement = $s.statement; }
 		pr_RParen
 	|	{
-			$statement = new Check_Port_Statement(reference, is_any_from, null, null, null);
+			$statement = new Check_Port_Statement(reference, is_any_from, null, null, null, null);
 			$statement.setLocation(getLocation( $col.start, $col.stop)); }
 	)
 );
@@ -5717,19 +5766,21 @@ pr_FromClausePresent [Reference reference, boolean is_any_from]
 	TemplateInstance fromClause = null;
 	Reference redirectSender = null;
 	Reference redirectIndex = null;
+	Reference redirectTimestamp = null;
 }:
 (	f = pr_FromClause { fromClause = $f.templateInstance; }
 	(	pr_PortRedirectSymbol
 		(	r = pr_SenderSpec { redirectSender = $r.reference; }
-			(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
-			|
-			)
-		|	{$is_any_from}? is2 = pr_IndexSpec { redirectIndex = $is2.reference; }
+			(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; } )?
+			(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+		|	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
+			(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+		|	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; }
 		)
 	)?
 )
 {
-	$statement = new Check_Port_Statement(reference, is_any_from, fromClause, redirectSender, redirectIndex);
+	$statement = new Check_Port_Statement(reference, is_any_from, fromClause, redirectSender, redirectIndex, redirectTimestamp);
 	$statement.setLocation(getLocation( $f.start, getStopToken()));
 };
 
@@ -5755,17 +5806,19 @@ pr_RedirectPresent [Reference reference, boolean is_any_from]
 	$statement = null;
 	Reference redirectSender = null;
 	Reference redirectIndex = null;
+	Reference redirectTimestamp = null;
 }:
 (	pr_PortRedirectSymbol
 	(	r = pr_SenderSpec { redirectSender = $r.reference; }
-		(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
-			|
-			)
-		|	{$is_any_from}? is2 = pr_IndexSpec { redirectIndex = $is2.reference; }
+		(	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; } )?
+		(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+	|	{$is_any_from}? is = pr_IndexSpec { redirectIndex = $is.reference; }
+		(	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; } )?
+	|	ts = pr_TimestampSpec { redirectTimestamp = $ts.reference; }
 	)
 )
 {
-	$statement = new Check_Port_Statement( $reference, is_any_from, null, redirectSender, redirectIndex);
+	$statement = new Check_Port_Statement( $reference, is_any_from, null, redirectSender, redirectIndex, redirectTimestamp);
 	$statement.setLocation( getLocation( $start, getStopToken() ) );
 };
 
@@ -5790,14 +5843,14 @@ pr_PortCatchOp [Reference reference, boolean is_check, boolean is_any_from]
 		catchopHelper = new CatchOp_Helper(null, null, false);
 	}
 	if(redirectHelper == null) {
-		redirectHelper = new PortRedirect_Helper(null, null, null);
+		redirectHelper = new PortRedirect_Helper(null, null, null, null);
 	}
 	if(is_check) {
 		$statement = new Check_Catch_Statement(reference, is_any_from, catchopHelper.signatureReference, catchopHelper.parameter, catchopHelper.timeout,
-		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex);
+		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex, redirectHelper.redirectTimestamp);
 	} else {
 		$statement = new Catch_Statement(reference, is_any_from, catchopHelper.signatureReference, catchopHelper.parameter, catchopHelper.timeout,
-		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex);
+		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex, redirectHelper.redirectTimestamp);
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
@@ -5918,7 +5971,6 @@ pr_TimerOps returns[Expression_Value value]
 	)
 )
 {
-	
 	$value.setLocation(getLocation( $col.start, getStopToken()));
 };
 
@@ -6134,7 +6186,7 @@ pr_CharStringValue returns[Value value]
 @init {
 	$value = null;
 }:
-(	string_value = pr_FreeText
+(	string_value = pr_CstringList
 		{	if(UniversalCharstring.isCharstring($string_value.string)) {
 				$value = new Charstring_Value($string_value.string);
 			} else {
@@ -6142,9 +6194,21 @@ pr_CharStringValue returns[Value value]
 			}
 		}
 |	ustring_value = pr_Quadruple { $value = new UniversalCharstring_Value($ustring_value.string); }
+|	usi_value = pr_USI	{ $value = new UniversalCharstring_Value(new UniversalCharstring($usi_value.uid_elements, getLocation( $usi_value.start, $usi_value.stop))); }
 )
 {
 	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+};
+
+pr_CstringList returns[String string]:
+(	cs = pr_CString
+)
+{
+	final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+	$string = cse.getExtractedString();
+	if ( cse.isErroneous() ) {
+		reportError( cse.getErrorMessage(), $cs.start, $cs.stop );
+	}
 };
 
 pr_Quadruple returns[UniversalCharstring string]
@@ -6172,6 +6236,30 @@ pr_Quadruple returns[UniversalCharstring string]
 		// do nothing
 	}
 };
+
+// the optional + sign is handled with an identifier
+pr_USI_element returns[String string]:
+(	UID	{$string = $UID.text;}
+|	IDENTIFIER	{final String temp = $IDENTIFIER.text;
+			if (temp.startsWith("u") || temp.startsWith("U")) {
+				$string = temp;
+			} else {
+				reportError( "The USI notation requires the format to be [uU][+]?[0-9A-Fa-f]{1,8}", $IDENTIFIER, $IDENTIFIER );
+			}}
+);
+
+pr_USI returns[List<String> uid_elements]
+@init {
+	$uid_elements = new ArrayList<String>();
+}:
+(	CHARKEYWORD
+	pr_LParen
+	a = pr_USI_element	{if ($a.string != null) {$uid_elements.add($a.string);}}
+	(	pr_Comma
+		b = pr_USI_element	{if ($b.string != null) {$uid_elements.add($b.string);}}
+	)*
+	pr_RParen
+);
 
 pr_ReferencedValue returns[Value value]
 @init {
@@ -7404,11 +7492,11 @@ pr_UnaryExpression returns [Value value]
 	v2 = pr_BitNotExpression {	$value = new Not4bExpression($v2.value);
 								$value.setLocation(getLocation( $NOT4B, $v2.stop ));	}
 |	PLUS
-	v3 = pr_Primary	{	$value = new UnaryPlusExpression($v3.value);
-						$value.setLocation(getLocation( $PLUS, $v3.stop));	}
+	v3 = pr_UnaryExpression	{	$value = new UnaryPlusExpression($v3.value);
+								$value.setLocation(getLocation( $PLUS, $v3.stop));	}
 |	MINUS
-	v4 = pr_Primary	{	$value = new UnaryMinusExpression($v4.value);
-						$value.setLocation(getLocation( $MINUS, $v4.stop));	}
+	v4 = pr_UnaryExpression	{	$value = new UnaryMinusExpression($v4.value);
+								$value.setLocation(getLocation( $MINUS, $v4.stop));	}
 |	pr_LParen	v5 = pr_SingleExpression	pr_RParen	{ $value = $v5.value; }
 |	v6 = pr_Primary	{	$value = $v6.value; }
 );
@@ -7622,7 +7710,6 @@ pr_Primary returns[Value value]
 						{	$value = new ComponentAliveExpression($value, index_reference, true);
 							$value.setLocation(getLocation( $t.start, $a25));	}
 				)
-				
 			)?
 		)
 	)
@@ -7695,6 +7782,7 @@ pr_OpCall returns[Value value]
 |	v6 = pr_ReferOp				{ $value = $v6.value; }
 |	v7 = pr_CheckStateOp		{ $value = $v7.value; }
 |	v8 = pr_GetRefOp		{ $value = $v8.value; }
+|	v9 = pr_nowOp			{ $value = $v9.value; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -7746,6 +7834,18 @@ pr_GetRefOp returns[Value value]:
 
 pr_GetrefKeyword:
 	GETREF
+;
+
+pr_nowOp returns[Value value]:
+(	pr_NowKeyword
+)
+{
+	$value = new NowExpression();
+	$value.setLocation(getLocation( $start, getStopToken()));
+};
+
+pr_NowKeyword:
+	NOW
 ;
 
 pr_PredefinedOps returns[Value value]
@@ -8432,11 +8532,11 @@ pr_Identifier returns [Identifier identifier]
 };
 
 pr_CString returns[String string]:
-	CSTRING
+	cs = CSTRING
 {
-	$string = $CSTRING.text;
-	if($string != null) {
-		$string = $string.replaceAll("^\"|\"$", "");
+	if($cs.text != null) {
+		final String temp = $cs.text;
+		$string = temp.substring(1, temp.length() - 1);
 	}
 };
 
@@ -8496,6 +8596,15 @@ pr_IndexSpec returns[Reference reference]:
 {
 	$reference = $vss.reference;
 };
+
+pr_TimestampSpec returns[Reference reference]:
+	i = pr_TimestampKeyword
+	vss = pr_VariableRef
+{
+	$reference = $vss.reference;
+};
+
+pr_TimestampKeyword: TIMESTAMP;
 
 //------------------------------------------------------
 // Miscellaneous productions  1.6.9

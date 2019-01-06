@@ -728,6 +728,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
-		aData.getSrc().append("FATAL_ERROR encountered");
+		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }

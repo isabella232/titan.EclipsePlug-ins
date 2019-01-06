@@ -53,12 +53,12 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class MSCModel {
 
-	private ExecutionModel model;
-	private Map<String, Lifeline> lifelines;
+	private final ExecutionModel model;
+	private final Map<String, Lifeline> lifelines;
 	private Lifeline sutLifeline;
 	private Frame frame;
-	private URI logFilePath;
-	private String sutName;
+	private final URI logFilePath;
+	private final String sutName;
 	private static final int MAX_CHARS = 100;
 
 	/**
@@ -87,13 +87,13 @@ public class MSCModel {
 		this.frame = new Frame(this);
 		this.frame.setName(this.model.getTestCase().getTestCaseName());
 
-		List<EventObject> events = this.model.getLifelineInformation();
+		final List<EventObject> events = this.model.getLifelineInformation();
 		if (sutLifeline == null) {
 			this.sutLifeline = new Lifeline();
 		}
 
-		for (EventObject event : events) {
-			int eventNumber = event.getEventNumber();
+		for (final EventObject event : events) {
+			final int eventNumber = event.getEventNumber();
 			sutLifeline.setCurrentEventOccurrence(eventNumber);
 			extractLifeLineAndHeaderNodes(event, eventNumber);
 		}
@@ -116,19 +116,19 @@ public class MSCModel {
 			this.sutLifeline = new Lifeline();
 		}
 
-		List<IEventObject> events = this.model.getEvents(startIndex, endIndex);
-		List<MSCNode> result = new ArrayList<MSCNode>();
+		final List<IEventObject> events = this.model.getEvents(startIndex, endIndex);
+		final List<MSCNode> result = new ArrayList<MSCNode>();
 		for (int i = 0; i < 3; i++) {
-			MSCNode[] nodes = extractNodes(events.get(i), i);
-			for (MSCNode node : nodes) {
+			final MSCNode[] nodes = extractNodes(events.get(i), i);
+			for (final MSCNode node : nodes) {
 				if (!(node instanceof Lifeline) && !(node instanceof LifelineHeader)) {
 					result.add(node);
 				}
 			}
 		}
 		for (int i = 3; i < events.size(); i++) {
-			MSCNode[] nodes = extractNodes(events.get(i), startIndex + i);
-			for (MSCNode node : nodes) {
+			final MSCNode[] nodes = extractNodes(events.get(i), startIndex + i);
+			for (final MSCNode node : nodes) {
 				if (!(node instanceof Lifeline) && !(node instanceof LifelineHeader)) {
 					result.add(node);
 				}
@@ -150,9 +150,9 @@ public class MSCModel {
 			return;
 		}
 
-		EventObject event = (EventObject) ievent;
+		final EventObject event = (EventObject) ievent;
 		String ref = event.getReference();
-		String time = event.getTime();
+		final String time = event.getTime();
 		switch (event.getType()) {
 		// Creation of System Component
 		case SYSTEM_CREATE:
@@ -215,7 +215,7 @@ public class MSCModel {
 		this.frame.addLifeLine(lifeline);
 
 		// Create and add Header
-		LifelineHeader lifeLineHeader = new LifelineHeader(lifeline, this.frame);
+		final LifelineHeader lifeLineHeader = new LifelineHeader(lifeline, this.frame);
 		if (!name.contentEquals(this.sutName)
 				&& !name.contentEquals(MSCConstants.MTC_NAME)
 				&& !name.contentEquals(ref)) {
@@ -226,14 +226,14 @@ public class MSCModel {
 
 		// Create and add Start
 		lifeline.setCurrentEventOccurrence(occurrence);
-		ComponentCreation start = new ComponentCreation(occurrence, lifeline);
+		final ComponentCreation start = new ComponentCreation(occurrence, lifeline);
 		start.setName(name);
 		lifeline.setStart(start);
 	}
 
 	private void terminateLifeLineComponent(final String ref, final String time, final int occurrence) {
 		// Get life line
-		Lifeline tmpLifeline = this.lifelines.get(ref);
+		final Lifeline tmpLifeline = this.lifelines.get(ref);
 		if (tmpLifeline == null) {
 			return;
 		}
@@ -248,8 +248,8 @@ public class MSCModel {
 		}
 
 		// Create and add stop
-		String verdict = getComponentVerdictFromReference(ref);
-		ComponentTermination stop = new ComponentTermination(occurrence, tmpLifeline, verdict);
+		final String verdict = getComponentVerdictFromReference(ref);
+		final ComponentTermination stop = new ComponentTermination(occurrence, tmpLifeline, verdict);
 		stop.setName(name);
 		tmpLifeline.setStop(stop);
 	}
@@ -267,14 +267,14 @@ public class MSCModel {
 			return new MSCNode[] {};
 		}
 
-		EventObject event = (EventObject) ievent;
+		final EventObject event = (EventObject) ievent;
 		String ref = event.getReference();
-		String target = event.getTarget();
-		String name = event.getName();
-		String time = event.getTime();
-		String type = event.getEventType();
-		String sourcePort = event.getPort();
-		String targetPort = event.getTargetPort();
+		final String target = event.getTarget();
+		final String name = event.getName();
+		final String time = event.getTime();
+		final String type = event.getEventType();
+		final String sourcePort = event.getPort();
+		final String targetPort = event.getTargetPort();
 		switch (event.getType()) {
 
 		// TC start
@@ -297,7 +297,7 @@ public class MSCModel {
 			// Creation of Main Test Component (MTC)
 		case MTC_CREATE: {
 			ref = Constants.MTC_REFERENCE;
-			Lifeline lifeLine = this.lifelines.get(ref);
+			final Lifeline lifeLine = this.lifelines.get(ref);
 			return createComponent(ref, time, lifeLine, occurrence);
 		}
 		// Creation of Parallel Test Component (PTC)
@@ -344,7 +344,7 @@ public class MSCModel {
 				return addSilentEvent(ref, "", type, time, occurrence);
 			}
 
-			String messageText = getMessageTextFromRecord(logrecord);
+			final String messageText = getMessageTextFromRecord(logrecord);
 
 			return addSilentEvent(ref, messageText, type, time, occurrence);
 
@@ -384,7 +384,7 @@ public class MSCModel {
 		}
 	}
 
-	private String getMessageTextFromRecord(LogRecord logrecord) {
+	private String getMessageTextFromRecord(final LogRecord logrecord) {
 		String messageText = "";
 		if (logrecord != null) {
 			messageText = logrecord.getMessage();
@@ -400,7 +400,7 @@ public class MSCModel {
 
 	private MSCNode[] testCaseStart(final String name, final String time, final int width, final int occurrence) {
 		// Create Test Case Start
-		TestCaseStart testCaseStart = new TestCaseStart(occurrence, width);
+		final TestCaseStart testCaseStart = new TestCaseStart(occurrence, width);
 		testCaseStart.setName(name);
 
 		// Create and add Time Stamp
@@ -409,7 +409,7 @@ public class MSCModel {
 
 	private MSCNode[] testCaseEnd(final String name, final String time, final int width, final int occurrence) {
 		// Create Test Case End
-		TestCaseEnd testCaseEnd = new TestCaseEnd(occurrence, name, width);
+		final TestCaseEnd testCaseEnd = new TestCaseEnd(occurrence, name, width);
 		testCaseEnd.setName(name);
 
 		// Create and add Time Stamp
@@ -423,14 +423,14 @@ public class MSCModel {
 				&& !name.contentEquals(ref)) {
 			name = name + " (" + ref + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		ComponentCreation start = new ComponentCreation(occurrence, lifeline);
+		final ComponentCreation start = new ComponentCreation(occurrence, lifeline);
 		start.setName(name);
 		return new MSCNode[] {start, new TimeStampNode(occurrence, time)};
 	}
 
 	private MSCNode[] terminateComponent(final String ref, final String time, final int occurrence) {
 		// Get life line
-		Lifeline tmpLifeline = this.lifelines.get(ref);
+		final Lifeline tmpLifeline = this.lifelines.get(ref);
 		if (tmpLifeline == null) {
 			return new MSCNode[] {};
 		}
@@ -445,8 +445,8 @@ public class MSCModel {
 		}
 
 		// Create and add stop
-		String verdict = getComponentVerdictFromReference(ref);
-		ComponentTermination stop = new ComponentTermination(occurrence, tmpLifeline, verdict);
+		final String verdict = getComponentVerdictFromReference(ref);
+		final ComponentTermination stop = new ComponentTermination(occurrence, tmpLifeline, verdict);
 		stop.setName(name);
 		tmpLifeline.setStop(stop);
 
@@ -455,9 +455,9 @@ public class MSCModel {
 	}
 
 	private MSCNode[] addSignal(final Signal signal, final String ref, final String target, final String name, final String time, final int occurrence) {
-		Lifeline source = this.lifelines.get(ref);
-		Lifeline dest = this.lifelines.get(target);
-		if ((source == null) || (dest == null)) {
+		final Lifeline source = this.lifelines.get(ref);
+		final Lifeline dest = this.lifelines.get(target);
+		if (source == null || dest == null) {
 			return new MSCNode[] {};
 		}
 
@@ -472,10 +472,10 @@ public class MSCModel {
 	}
 
 	private MSCNode[] addEnqueued(final String ref, final String target, final String name, final String time, final int occurrence) {
-		Enqueued message = new Enqueued();
-		Lifeline source = this.lifelines.get(ref);
-		Lifeline dest = this.lifelines.get(target);
-		if ((source == null) || (dest == null)) {
+		final Enqueued message = new Enqueued();
+		final Lifeline source = this.lifelines.get(ref);
+		final Lifeline dest = this.lifelines.get(target);
+		if (source == null || dest == null) {
 			return new MSCNode[] {};
 		}
 
@@ -492,8 +492,8 @@ public class MSCModel {
 
 	private MSCNode[] addSilentEvent(final String ref, final String name, final String type, final String time, final int occurrence) {
 		String silentEventType = null;
-		Set<String> types = Constants.EVENT_CATEGORIES.keySet();
-		for (String currType : types) {
+		final Set<String> types = Constants.EVENT_CATEGORIES.keySet();
+		for (final String currType : types) {
 			if (type.startsWith(currType)) {
 				silentEventType = currType;
 				break;
@@ -504,23 +504,23 @@ public class MSCModel {
 		}
 
 		// Get life line
-		Lifeline tmpLifeline = this.lifelines.get(ref);
+		final Lifeline tmpLifeline = this.lifelines.get(ref);
 		if (tmpLifeline == null) {
 			return new MSCNode[] {};
 		}
 
 		// Create and add silent event
-		SilentEvent silentEvent = new SilentEvent(occurrence, tmpLifeline, type);
+		final SilentEvent silentEvent = new SilentEvent(occurrence, tmpLifeline, type);
 		silentEvent.setName(type + "\n" + name); //$NON-NLS-1$
 
 		// Create and add Time Stamp
 		return new MSCNode[] {silentEvent, new TimeStampNode(occurrence, time)};
 	}
 
-	private MSCNode[] addFunctionNode(FunctionNode function, String ref, String target, String name, String time, int occurrence) {
-		Lifeline source = this.lifelines.get(ref);
-		Lifeline destination = this.lifelines.get(target);
-		if ((source == null) || (destination == null)) {
+	private MSCNode[] addFunctionNode(final FunctionNode function, final String ref, final String target, final String name, final String time, final int occurrence) {
+		final Lifeline source = this.lifelines.get(ref);
+		final Lifeline destination = this.lifelines.get(target);
+		if (source == null || destination == null) {
 			return new MSCNode[] {};
 		}
 
@@ -534,10 +534,10 @@ public class MSCModel {
 		return new MSCNode[] {function, new TimeStampNode(occurrence, time)};
 	}
 
-	private MSCNode[] addPortEventNode(PortEventNode portEventNode, String ref, String target, String time, int occurrence) {
-		Lifeline source = this.lifelines.get(ref);
-		Lifeline destination = this.lifelines.get(target);
-		if ((source == null) || (destination == null)) {
+	private MSCNode[] addPortEventNode(final PortEventNode portEventNode, final String ref, final String target, final String time, final int occurrence) {
+		final Lifeline source = this.lifelines.get(ref);
+		final Lifeline destination = this.lifelines.get(target);
+		if (source == null || destination == null) {
 			return new MSCNode[] {};
 		}
 
@@ -551,18 +551,18 @@ public class MSCModel {
 	}
 
 	private MSCNode[] addSetVerdict(final String ref, final String name, final String time, final int occurrence) {
-		MSCNode[] temp = new MSCNode[2];
-		if ((ref == null) || (ref.length() == 0)) {
-			SetverdictUnknown setverdictUnknown = new SetverdictUnknown(occurrence, name);
+		final MSCNode[] temp = new MSCNode[2];
+		if (ref == null || ref.length() == 0) {
+			final SetverdictUnknown setverdictUnknown = new SetverdictUnknown(occurrence, name);
 			setverdictUnknown.setName(name);
 			temp[0] = setverdictUnknown;
 		} else {
 			// Get life line
-			Lifeline tmpLifeline = this.lifelines.get(ref);
+			final Lifeline tmpLifeline = this.lifelines.get(ref);
 			if (tmpLifeline == null) {
 				return new MSCNode[] {};
 			}
-			SetverdictComp setverdictComp = new SetverdictComp(occurrence, tmpLifeline, name);
+			final SetverdictComp setverdictComp = new SetverdictComp(occurrence, tmpLifeline, name);
 			setverdictComp.setName(name);
 			temp[0] = setverdictComp;
 		}
@@ -583,9 +583,10 @@ public class MSCModel {
 		} else if (ref.contentEquals(Constants.SUT_REFERENCE)) {
 			return this.sutName;
 		}
-		Map<String, TestComponent> components = this.model.getComponents();
+
+		final Map<String, TestComponent> components = this.model.getComponents();
 		if (components != null) {
-			TestComponent component = components.get(ref);
+			final TestComponent component = components.get(ref);
 			if (component != null) {
 				if (component.getName().trim().length() > 0) {
 					return component.getName();
@@ -602,13 +603,14 @@ public class MSCModel {
 	 * component once the component reference is known.
 	 */
 	private String getComponentVerdictFromReference(final String ref) {
-		Map<String, TestComponent> components = this.model.getComponents();
+		final Map<String, TestComponent> components = this.model.getComponents();
 		if (components != null) {
-			TestComponent component = components.get(ref);
+			final TestComponent component = components.get(ref);
 			if (component != null) {
 				return component.getVerdict();
 			}
 		}
+
 		return Constants.TEST_CASE_VERDICT_NONE;
 	}
 }

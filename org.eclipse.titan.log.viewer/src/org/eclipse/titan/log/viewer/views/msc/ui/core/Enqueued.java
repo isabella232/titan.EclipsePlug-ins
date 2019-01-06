@@ -49,7 +49,7 @@ public class Enqueued extends BaseMessage {
 
 	@Override
 	public void draw(final IGC context) {
-		Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		final Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		context.setLineStyle(context.getLineSolidStyle());
 
 		drawShadow(context, rectangle,

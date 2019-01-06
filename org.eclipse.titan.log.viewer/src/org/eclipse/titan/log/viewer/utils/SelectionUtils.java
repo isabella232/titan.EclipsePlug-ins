@@ -33,7 +33,7 @@ public final class SelectionUtils {
 	 * @return
 	 */
 	public static boolean isSelectionALogFile(final ISelection selection) {
-		IFile logFile = selectionToIFile(selection);
+		final IFile logFile = selectionToIFile(selection);
 		return logFile != null && hasLogFileExtension(logFile);
 	}
 
@@ -43,7 +43,7 @@ public final class SelectionUtils {
 	 * @return an IFile or null if the selection is not an IFile
 	 */
 	public static IFile selectionToIFile(final ISelection selection) {
-		List<IFile> iFiles = filterSelection(selection, IFile.class);
+		final List<IFile> iFiles = filterSelection(selection, IFile.class);
 		if (iFiles.size() != 1) {
 			return null;
 		}
@@ -55,12 +55,12 @@ public final class SelectionUtils {
 	 * @return true is only one project is selected and the project is a Log Viewer project, otherwise false
 	 */
 	public static boolean isSelectionALogViewerProject(final ISelection selection) {
-		List<IProject> iProjects = filterSelection(selection, IProject.class);
+		final List<IProject> iProjects = filterSelection(selection, IProject.class);
 		if (iProjects.size() != 1) {
 			return false;
 		}
 
-		IProject project = iProjects.get(0);
+		final IProject project = iProjects.get(0);
 		try {
 			if (project.getNature(Constants.NATURE_ID) == null) {
 				return false;
@@ -77,12 +77,12 @@ public final class SelectionUtils {
 	 * @return true is only one project is selected and the project is a Log Viewer project, otherwise false
 	 */
 	public static boolean isSelectionAnUnlinkedFolder(final ISelection selection) {
-		List<IFolder> iFolders = filterSelection(selection, IFolder.class);
-
+		final List<IFolder> iFolders = filterSelection(selection, IFolder.class);
 		if (iFolders.size() != 1) {
 			return false;
 		}
-		IFolder folder = iFolders.get(0);
+
+		final IFolder folder = iFolders.get(0);
 		if (folder.isLinked()) {
 			return false;
 		}
@@ -90,7 +90,7 @@ public final class SelectionUtils {
 		IContainer parentResource = folder.getParent();
 		while (parentResource.getType() != IResource.PROJECT) {
 			if (parentResource instanceof IFolder) {
-				IFolder parentFolder = (IFolder) parentResource;
+				final IFolder parentFolder = (IFolder) parentResource;
 				if (parentFolder.isLinked()) {
 					return false;
 				}
@@ -107,9 +107,9 @@ public final class SelectionUtils {
 	 * @return true is there are one or more projects that are closed in the selection, otherwise false
 	 */
 	public static boolean hasSelectionClosedProjects(final ISelection selection) {
-		IStructuredSelection ss = (IStructuredSelection) selection;
-		for (Iterator<?> iterator = ss.iterator(); iterator.hasNext();) {
-			IProject project = (IProject) iterator.next();
+		final IStructuredSelection ss = (IStructuredSelection) selection;
+		for (final Iterator<?> iterator = ss.iterator(); iterator.hasNext();) {
+			final IProject project = (IProject) iterator.next();
 			if (!project.isOpen()) {
 				return true;
 			}
@@ -122,9 +122,9 @@ public final class SelectionUtils {
 	 * @return true is there are one or more projects that are opened in the selection, otherwise false
 	 */
 	public static boolean hasSelectionOpenedProjects(final ISelection selection) {
-		IStructuredSelection ss = (IStructuredSelection) selection;
-		for (Iterator<?> iterator = ss.iterator(); iterator.hasNext();) {
-			IProject project = (IProject) iterator.next();
+		final IStructuredSelection ss = (IStructuredSelection) selection;
+		for (final Iterator<?> iterator = ss.iterator(); iterator.hasNext();) {
+			final IProject project = (IProject) iterator.next();
 			if (project.isOpen()) {
 				return true;
 			}
@@ -132,8 +132,8 @@ public final class SelectionUtils {
 		return false;
 	}
 
-	public static boolean hasLogFileExtension(IFile logFile) {
-		String fileExtension = logFile.getFileExtension();
+	public static boolean hasLogFileExtension(final IFile logFile) {
+		final String fileExtension = logFile.getFileExtension();
 		return Constants.LOG_EXTENSION.equals(fileExtension);
 	}
 }

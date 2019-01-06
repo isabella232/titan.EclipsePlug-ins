@@ -25,7 +25,7 @@ public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
 
 	@Override
 	public final void doubleClicked(final ITextViewer part) {
-		int pos = part.getSelectedRange().x;
+		final int pos = part.getSelectedRange().x;
 		fText = part;
 
 		if (fText.getDocument().getLength() < pos) {
@@ -36,9 +36,8 @@ public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
 			return;
 		}
 
-		GeneralPairMatcher pairMatcher = new PairMatcher();
-
-		IRegion region = pairMatcher.match(fText.getDocument(), pos);
+		final GeneralPairMatcher pairMatcher = new PairMatcher();
+		final IRegion region = pairMatcher.match(fText.getDocument(), pos);
 		if (region != null) {
 			fText.setSelectedRange(region.getOffset() + 1, region.getLength() - 2);
 			return;
@@ -68,7 +67,7 @@ public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
 				}
 			}
 
-			int length = doc.getLength();
+			final int length = doc.getLength();
 			for (endPos = caretPos; endPos < length; endPos++) {
 				c = doc.getChar(endPos);
 				if (c != '_' && c != '-' && !Character.isLetterOrDigit(c)) {

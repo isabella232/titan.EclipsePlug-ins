@@ -65,7 +65,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__l
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
-import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
@@ -77,7 +76,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
  *
  * @author Kristof Szabados
  */
-public class LoggerPluginManager {
+public final class LoggerPluginManager {
 	private final LinkedBlockingQueue<TitanLogEvent> ring_buffer = new LinkedBlockingQueue<TitanLoggerApi.TitanLogEvent>();
 
 	private enum event_destination_t {
@@ -125,6 +124,19 @@ public class LoggerPluginManager {
 		plugins_.add(new LegacyLogger());
 	}
 
+	public void destructor() {
+		if (entry_list_ != null) {
+			for (final LogEntry entry : entry_list_) {
+				for (int i = 0; i < plugins_.size(); i++) {
+					//TODO only if the plugin is configured
+					plugins_.get(i).log(entry.event_, true, false, false);
+				}
+			}
+
+			entry_list_.clear();
+		}
+	}
+
 	public void ring_buffer_dump(final boolean do_close_file) {
 		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			TitanLoggerApi.TitanLogEvent ringEvent;
@@ -162,9 +174,9 @@ public class LoggerPluginManager {
 			return;
 		} else {
 			for (final LogEntry entry : entry_list_) {
-				if (entry.event_.getSeverity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+				if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 					String new_log_message = TTCN_Logger.get_logger_settings_str();
-					entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
+					entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
 					new_log_message = null;
 				}
 
@@ -201,7 +213,7 @@ public class LoggerPluginManager {
 	}
 
 	public void set_parameters(final TitanComponent component_reference, final String component_name) {
-		if (logparams.size() == 0) {
+		if (logparams.isEmpty()) {
 			return;
 		}
 
@@ -213,7 +225,7 @@ public class LoggerPluginManager {
 				}
 				break;
 			case COMPONENT_ID_COMPREF:
-				if (par.component.id_compref == component_reference.getComponent()) {
+				if (par.component.id_compref == component_reference.get_component()) {
 					apply_parameter(par);
 				}
 				break;
@@ -365,7 +377,7 @@ public class LoggerPluginManager {
 			return;
 		}
 
-		final int severityIndex = event.getSeverity().getInt();
+		final int severityIndex = event.get_field_severity().get_int();
 		final Severity severity = Severity.values()[severityIndex];
 
 		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
@@ -389,7 +401,7 @@ public class LoggerPluginManager {
 		if (severity == Severity.ERROR_UNQUALIFIED || 
 				(TTCN_Logger.get_emergency_logging_for_fail_verdict() &&
 						severity == Severity.VERDICTOP_SETVERDICT &&
-						event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict().getNewVerdict().operatorEquals(TitanLoggerApi.Verdict.enum_type.v3fail)) 
+						event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_setVerdict().get_field_newVerdict().operator_equals(TitanLoggerApi.Verdict.enum_type.v3fail)) 
 				) {
 			TitanLoggerApi.TitanLogEvent ring_event;
 			while (!ring_buffer.isEmpty()) {
@@ -431,7 +443,8 @@ public class LoggerPluginManager {
 		}
 	}
 
-	public boolean set_file_size(final component_id_t comp, final int p_size) {
+	public boolean set_file_size(final int p_size) {
+		//NOTE: component not used
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_size(p_size)) {
@@ -442,7 +455,8 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_file_number(final component_id_t cmpt, final int p_number) {
+	public boolean set_file_number(final int p_number) {
+		//NOTE: component not used
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_number(p_number)) {
@@ -453,7 +467,7 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_disk_full_action(final component_id_t comp, final TTCN_Logger.disk_full_action_t p_disk_full_action) {
+	public boolean set_disk_full_action(final TTCN_Logger.disk_full_action_t p_disk_full_action) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_disk_full_action(p_disk_full_action)) {
@@ -476,9 +490,9 @@ public class LoggerPluginManager {
 			if (plugins_.get(i).is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
-					if (entry.event_.getSeverity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+					if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 						String new_log_message = TTCN_Logger.get_logger_settings_str();
-						entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
+						entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
 						new_log_message = "";
 					}
 					plugins_.get(i).log(entry.event_, true, false, false);
@@ -498,6 +512,14 @@ public class LoggerPluginManager {
 		}
 
 		ring_buffer_dump(true);
+	}
+
+	public String get_current_event_str() {
+		if (current_event == null) {
+			return null;
+		}
+
+		return current_event.get().buffer.toString();
 	}
 
 	public void begin_event(final Severity msg_severity) {
@@ -634,7 +656,7 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		event.getLogEvent().getChoice().getUnhandledEvent().assign(message);
+		event.get_field_logEvent().get_field_choice().get_field_unhandledEvent().operator_assign(message);
 
 		log(event);
 	}
@@ -647,7 +669,7 @@ public class LoggerPluginManager {
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.EXECUTOR_LOGOPTIONS);
 
-		event.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(message);
+		event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(message);
 
 		log(event);
 	}
@@ -659,9 +681,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_READ);
-		final TimerType timer = event.getLogEvent().getChoice().getTimerEvent().getChoice().getReadTimer();
-		timer.getName().assign(timer_name);
-		timer.getValue__().assign(timeout_val);
+		final TimerType timer = event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_readTimer();
+		timer.get_field_name().operator_assign(timer_name);
+		timer.get_field_value__().operator_assign(timeout_val);
 
 		log(event);
 	}
@@ -673,9 +695,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_START);
-		final TimerType timer = event.getLogEvent().getChoice().getTimerEvent().getChoice().getStartTimer();
-		timer.getName().assign(timer_name);
-		timer.getValue__().assign(start_val);
+		final TimerType timer = event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_startTimer();
+		timer.get_field_name().operator_assign(timer_name);
+		timer.get_field_value__().operator_assign(start_val);
 
 		log(event);
 	}
@@ -687,8 +709,8 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_GUARD);
-		final TimerGuardType timer = event.getLogEvent().getChoice().getTimerEvent().getChoice().getGuardTimer();
-		timer.getValue__().assign(start_val);
+		final TimerGuardType timer = event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_guardTimer();
+		timer.get_field_value__().operator_assign(start_val);
 
 		log(event);
 	}
@@ -700,9 +722,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_STOP);
-		final TimerType timer = event.getLogEvent().getChoice().getTimerEvent().getChoice().getStopTimer();
-		timer.getName().assign(timer_name);
-		timer.getValue__().assign(stop_val);
+		final TimerType timer = event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_stopTimer();
+		timer.get_field_name().operator_assign(timer_name);
+		timer.get_field_value__().operator_assign(stop_val);
 
 		log(event);
 	}
@@ -714,9 +736,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_TIMEOUT);
-		final TimerType timer = event.getLogEvent().getChoice().getTimerEvent().getChoice().getTimeoutTimer();
-		timer.getName().assign(timer_name);
-		timer.getValue__().assign(timeout_val);
+		final TimerType timer = event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_timeoutTimer();
+		timer.get_field_name().operator_assign(timer_name);
+		timer.get_field_value__().operator_assign(timeout_val);
 
 		log(event);
 	}
@@ -728,7 +750,7 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_TIMEOUT);
-		event.getLogEvent().getChoice().getTimerEvent().getChoice().getTimeoutAnyTimer().assign(TitanNull_Type.NULL_VALUE);
+		event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_timeoutAnyTimer().operator_assign(TitanNull_Type.NULL_VALUE);
 
 		log(event);
 	}
@@ -740,7 +762,7 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TIMEROP_UNQUALIFIED);
-		event.getLogEvent().getChoice().getTimerEvent().getChoice().getUnqualifiedTimer().assign(message);
+		event.get_field_logEvent().get_field_choice().get_field_timerEvent().get_field_choice().get_field_unqualifiedTimer().operator_assign(message);
 
 		log(event);
 	}
@@ -752,11 +774,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.MATCHING_PROBLEM);
-		final MatchingTimeout mt = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingTimeout();
+		final MatchingTimeout mt = event.get_field_logEvent().get_field_choice().get_field_matchingEvent().get_field_choice().get_field_matchingTimeout();
 		if (timer_name != null) {
-			mt.getTimer__name().get().assign(timer_name);
+			mt.get_field_timer__name().get().operator_assign(timer_name);
 		} else {
-			mt.getTimer__name().assign(template_sel.OMIT_VALUE);
+			mt.get_field_timer__name().operator_assign(template_sel.OMIT_VALUE);
 		}
 
 		log(event);
@@ -785,13 +807,13 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, sev);
-		final Port__Queue portQueue = event.getLogEvent().getChoice().getPortEvent().getChoice().getPortQueue();
-		portQueue.getOperation().assign(operation.ordinal());
-		portQueue.getPort__name().assign(port_name);
-		portQueue.getCompref().assign(adjust_compref(componentReference));
-		portQueue.getMsgid().assign(id);
-		portQueue.getAddress__().assign(address);
-		portQueue.getParam__().assign(parameter);
+		final Port__Queue portQueue = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_portQueue();
+		portQueue.get_field_operation().operator_assign(operation.ordinal());
+		portQueue.get_field_port__name().operator_assign(port_name);
+		portQueue.get_field_compref().operator_assign(adjust_compref(componentReference));
+		portQueue.get_field_msgid().operator_assign(id);
+		portQueue.get_field_address__().operator_assign(address);
+		portQueue.get_field_param__().operator_assign(parameter);
 
 		log(event);
 	}
@@ -817,9 +839,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.PORTEVENT_STATE);
-		final Port__State ps = event.getLogEvent().getChoice().getPortEvent().getChoice().getPortState();
-		ps.getOperation().assign(operation);
-		ps.getPort__name().assign(portname);
+		final Port__State ps = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_portState();
+		ps.get_field_operation().operator_assign(operation);
+		ps.get_field_port__name().operator_assign(portname);
 
 		log(event);
 	}
@@ -832,14 +854,14 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Proc__port__out pt = event.getLogEvent().getChoice().getPortEvent().getChoice().getProcPortSend();
-		pt.getOperation().assign(operation);
-		pt.getPort__name().assign(portname);
-		pt.getCompref().assign(componentReference);
+		final Proc__port__out pt = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_procPortSend();
+		pt.get_field_operation().operator_assign(operation);
+		pt.get_field_port__name().operator_assign(portname);
+		pt.get_field_compref().operator_assign(componentReference);
 		if (componentReference == TitanComponent.SYSTEM_COMPREF) {
-			pt.getSys__name().assign(system);
+			pt.get_field_sys__name().operator_assign(system);
 		}
-		pt.getParameter().assign(parameter);
+		pt.get_field_parameter().operator_assign(parameter);
 
 		log(event);
 	}
@@ -852,13 +874,13 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Proc__port__in pt = event.getLogEvent().getChoice().getPortEvent().getChoice().getProcPortRecv();
-		pt.getOperation().assign(operation);
-		pt.getPort__name().assign(portname);
-		pt.getCompref().assign(componentReference);
-		pt.getCheck__().assign(check);
-		pt.getParameter().assign(parameter);
-		pt.getMsgid().assign(id);
+		final Proc__port__in pt = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_procPortRecv();
+		pt.get_field_operation().operator_assign(operation);
+		pt.get_field_port__name().operator_assign(portname);
+		pt.get_field_compref().operator_assign(componentReference);
+		pt.get_field_check__().operator_assign(check);
+		pt.get_field_parameter().operator_assign(parameter);
+		pt.get_field_msgid().operator_assign(id);
 
 		log(event);
 	}
@@ -871,10 +893,10 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Msg__port__send ms = event.getLogEvent().getChoice().getPortEvent().getChoice().getMsgPortSend();
-		ms.getPort__name().assign(portname);
-		ms.getCompref().assign(componentReference);
-		ms.getParameter().assign(parameter);
+		final Msg__port__send ms = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_msgPortSend();
+		ms.get_field_port__name().operator_assign(portname);
+		ms.get_field_compref().operator_assign(componentReference);
+		ms.get_field_parameter().operator_assign(parameter);
 
 		log(event);
 	}
@@ -887,15 +909,15 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Msg__port__recv ms = event.getLogEvent().getChoice().getPortEvent().getChoice().getMsgPortRecv();
-		ms.getPort__name().assign(portname);
-		ms.getCompref().assign(componentReference);
+		final Msg__port__recv ms = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_msgPortRecv();
+		ms.get_field_port__name().operator_assign(portname);
+		ms.get_field_compref().operator_assign(componentReference);
 		if (componentReference == TitanComponent.SYSTEM_COMPREF) {
-			ms.getSys__name().assign(system);
+			ms.get_field_sys__name().operator_assign(system);
 		}
-		ms.getOperation().assign(operation);
-		ms.getMsgid().assign(id);
-		ms.getParameter().assign(parameter);
+		ms.get_field_operation().operator_assign(operation);
+		ms.get_field_msgid().operator_assign(id);
+		ms.get_field_parameter().operator_assign(parameter);
 
 		log(event);
 	}
@@ -908,11 +930,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Dualface__mapped dual = event.getLogEvent().getChoice().getPortEvent().getChoice().getDualMapped();
-		dual.getIncoming().assign(incoming);
-		dual.getTarget__type().assign(target_type);
-		dual.getValue__().assign(value);
-		dual.getMsgid().assign(id);
+		final Dualface__mapped dual = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_dualMapped();
+		dual.get_field_incoming().operator_assign(incoming);
+		dual.get_field_target__type().operator_assign(target_type);
+		dual.get_field_value__().operator_assign(value);
+		dual.get_field_msgid().operator_assign(id);
 
 		log(event);
 	}
@@ -925,11 +947,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Dualface__discard dual = event.getLogEvent().getChoice().getPortEvent().getChoice().getDualDiscard();
-		dual.getIncoming().assign(incoming);
-		dual.getTarget__type().assign(target_type);
-		dual.getPort__name().assign(port_name);
-		dual.getUnhandled().assign(unhandled);
+		final Dualface__discard dual = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_dualDiscard();
+		dual.get_field_incoming().operator_assign(incoming);
+		dual.get_field_target__type().operator_assign(target_type);
+		dual.get_field_port__name().operator_assign(port_name);
+		dual.get_field_unhandled().operator_assign(unhandled);
 
 		log(event);
 	}
@@ -942,11 +964,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
-		final Dualface__discard dual = event.getLogEvent().getChoice().getPortEvent().getChoice().getDualDiscard();
-		dual.getIncoming().assign(incoming);
-		dual.getTarget__type().assign(target_type);
-		dual.getPort__name().assign(port_name);
-		dual.getUnhandled().assign(unhandled);
+		final Dualface__discard dual = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_dualDiscard();
+		dual.get_field_incoming().operator_assign(incoming);
+		dual.get_field_target__type().operator_assign(target_type);
+		dual.get_field_port__name().operator_assign(port_name);
+		dual.get_field_unhandled().operator_assign(unhandled);
 
 		log(event);
 	}
@@ -959,27 +981,27 @@ public class LoggerPluginManager {
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.PORTEVENT_SETSTATE);
 
-		final Setstate setstate = event.getLogEvent().getChoice().getPortEvent().getChoice().getSetState();
-		setstate.getPort__name().assign(port_name);
-		setstate.getInfo().assign(info);
+		final Setstate setstate = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_setState();
+		setstate.get_field_port__name().operator_assign(port_name);
+		setstate.get_field_info().operator_assign(info);
 		switch (state) {
 		case UNSET:
-			setstate.getState().assign("unset");
+			setstate.get_field_state().operator_assign("unset");
 			break;
 		case TRANSLATED:
-			setstate.getState().assign("translated");
+			setstate.get_field_state().operator_assign("translated");
 			break;
 		case NOT_TRANSLATED:
-			setstate.getState().assign("not translated");
+			setstate.get_field_state().operator_assign("not translated");
 			break;
 		case FRAGMENTED:
-			setstate.getState().assign("fragemnted");
+			setstate.get_field_state().operator_assign("fragemnted");
 			break;
 		case PARTIALLY_TRANSLATED:
-			setstate.getState().assign("partially translated");
+			setstate.get_field_state().operator_assign("partially translated");
 			break;
 		case DISCARDED:
-			setstate.getState().assign("discarded");
+			setstate.get_field_state().operator_assign("discarded");
 			break;
 		default:
 			break;
@@ -996,19 +1018,19 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.VERDICTOP_SETVERDICT);
-		final SetVerdictType set = event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict();
-		set.getNewVerdict().assign(newVerdict.ordinal());
-		set.getOldVerdict().assign(oldVerdict.ordinal());
-		set.getLocalVerdict().assign(localVerdict.ordinal());
+		final SetVerdictType set = event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_setVerdict();
+		set.get_field_newVerdict().operator_assign(newVerdict.ordinal());
+		set.get_field_oldVerdict().operator_assign(oldVerdict.ordinal());
+		set.get_field_localVerdict().operator_assign(localVerdict.ordinal());
 		if (oldReason != null) {
-			set.getOldReason().get().assign(oldReason);
+			set.get_field_oldReason().get().operator_assign(oldReason);
 		} else {
-			set.getOldReason().assign(template_sel.OMIT_VALUE);
+			set.get_field_oldReason().operator_assign(template_sel.OMIT_VALUE);
 		}
 		if (newReason != null) {
-			set.getNewReason().get().assign(newReason);
+			set.get_field_newReason().get().operator_assign(newReason);
 		} else {
-			set.getNewReason().assign(template_sel.OMIT_VALUE);
+			set.get_field_newReason().operator_assign(template_sel.OMIT_VALUE);
 		}
 
 		log(event);
@@ -1021,33 +1043,33 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.VERDICTOP_GETVERDICT);
-		event.getLogEvent().getChoice().getVerdictOp().getChoice().getGetVerdict().assign(verdict.ordinal());
+		event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_getVerdict().operator_assign(verdict.ordinal());
 
 		log(event);
 	}
 
 	private void fill_common_fields(final TitanLogEvent event, final Severity severity) {
 		final long timestamp = System.currentTimeMillis();
-		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
+		event.get_field_timestamp__().operator_assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
 
-		final TitanLogEvent_sourceInfo__list srcinfo = event.getSourceInfo__list();
+		final TitanLogEvent_sourceInfo__list srcinfo = event.get_field_sourceInfo__list();
 		if (TTCN_Location.actualSize.get() == 0) {
-			srcinfo.assign(TitanNull_Type.NULL_VALUE);
+			srcinfo.operator_assign(TitanNull_Type.NULL_VALUE);
 		} else {
 			final int localSize = TTCN_Location.actualSize.get();
 			final ArrayList<TTCN_Location> localLocations = TTCN_Location.locations.get();
 			for (int i = 0; i < localSize; i++) {
-				final LocationInfo loc = srcinfo.getAt(i);
+				final LocationInfo loc = srcinfo.get_at(i);
 				final TTCN_Location temp = localLocations.get(i);
 
-				loc.getFilename().assign(temp.file_name);
-				loc.getLine().assign(temp.line_number);
-				loc.getEnt__type().assign(temp.entity_type.ordinal());
-				loc.getEnt__name().assign(temp.entity_name);
+				loc.get_field_filename().operator_assign(temp.file_name);
+				loc.get_field_line().operator_assign(temp.line_number);
+				loc.get_field_ent__type().operator_assign(temp.entity_type.ordinal());
+				loc.get_field_ent__name().operator_assign(temp.entity_name);
 			}
 		}
 
-		event.getSeverity().assign(severity.ordinal());
+		event.get_field_severity().operator_assign(severity.ordinal());
 	}
 
 	public void log_testcase_started(final String module_name, final String definition_name) {
@@ -1057,9 +1079,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TESTCASE_START);
-		final QualifiedName qname = event.getLogEvent().getChoice().getTestcaseOp().getChoice().getTestcaseStarted();
-		qname.getModule__name().assign(module_name);
-		qname.getTestcase__name().assign(definition_name);
+		final QualifiedName qname = event.get_field_logEvent().get_field_choice().get_field_testcaseOp().get_field_choice().get_field_testcaseStarted();
+		qname.get_field_module__name().operator_assign(module_name);
+		qname.get_field_testcase__name().operator_assign(definition_name);
 
 		log(event);
 	}
@@ -1071,12 +1093,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.TESTCASE_FINISH);
-		final TestcaseType testcase = event.getLogEvent().getChoice().getTestcaseOp().getChoice().getTestcaseFinished();
-		final QualifiedName qname = testcase.getName();
-		qname.getModule__name().assign(module_name);
-		qname.getTestcase__name().assign(definition_name);
-		testcase.getVerdict().assign(verdict.ordinal());
-		testcase.getReason().assign(reason);
+		final TestcaseType testcase = event.get_field_logEvent().get_field_choice().get_field_testcaseOp().get_field_choice().get_field_testcaseFinished();
+		final QualifiedName qname = testcase.get_field_name();
+		qname.get_field_module__name().operator_assign(module_name);
+		qname.get_field_testcase__name().operator_assign(definition_name);
+		testcase.get_field_verdict().operator_assign(verdict.ordinal());
+		testcase.get_field_reason().operator_assign(reason);
 
 		log(event);
 	}
@@ -1088,26 +1110,26 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.VERDICTOP_FINAL);
-		final FinalVerdictType finalVerdict = event.getLogEvent().getChoice().getVerdictOp().getChoice().getFinalVerdict();
+		final FinalVerdictType finalVerdict = event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_finalVerdict();
 		if (notification >= 0) {
-			finalVerdict.getChoice().getNotification().assign(notification);
+			finalVerdict.get_field_choice().get_field_notification().operator_assign(notification);
 		} else {
-			final FinalVerdictInfo info = finalVerdict.getChoice().getInfo();
+			final FinalVerdictInfo info = finalVerdict.get_field_choice().get_field_info();
 
-			info.getIs__ptc().assign(is_ptc);
-			info.getPtc__verdict().assign(ptc_verdict.ordinal());
-			info.getLocal__verdict().assign(local_verdict.ordinal());
-			info.getNew__verdict().assign(new_verdict.ordinal());
-			info.getPtc__compref().get().assign(ptc_compref);
+			info.get_field_is__ptc().operator_assign(is_ptc);
+			info.get_field_ptc__verdict().operator_assign(ptc_verdict.ordinal());
+			info.get_field_local__verdict().operator_assign(local_verdict.ordinal());
+			info.get_field_new__verdict().operator_assign(new_verdict.ordinal());
+			info.get_field_ptc__compref().get().operator_assign(ptc_compref);
 			if (verdict_reason == null) {
-				info.getVerdict__reason().assign(template_sel.OMIT_VALUE);
+				info.get_field_verdict__reason().operator_assign(template_sel.OMIT_VALUE);
 			} else {
-				info.getVerdict__reason().get().assign(verdict_reason);
+				info.get_field_verdict__reason().get().operator_assign(verdict_reason);
 			}
 			if (ptc_name == null) {
-				info.getPtc__name().assign(template_sel.OMIT_VALUE);
+				info.get_field_ptc__name().operator_assign(template_sel.OMIT_VALUE);
 			} else {
-				info.getPtc__name().get().assign(ptc_name);
+				info.get_field_ptc__name().get().operator_assign(ptc_name);
 			}
 		}
 
@@ -1121,11 +1143,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.STATISTICS_UNQUALIFIED);
-		final StatisticsType stats = event.getLogEvent().getChoice().getStatistics();
+		final StatisticsType stats = event.get_field_logEvent().get_field_choice().get_field_statistics();
 		if (finished) {
-			stats.getChoice().getControlpartFinish().assign(moduleName);
+			stats.get_field_choice().get_field_controlpartFinish().operator_assign(moduleName);
 		} else {
-			stats.getChoice().getControlpartStart().assign(moduleName);
+			stats.get_field_choice().get_field_controlpartStart().operator_assign(moduleName);
 		}
 
 		log(event);
@@ -1138,8 +1160,8 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.STATISTICS_UNQUALIFIED);
-		final StatisticsType stats = event.getLogEvent().getChoice().getStatistics();
-		stats.getChoice().getControlpartErrors().assign(error_count);
+		final StatisticsType stats = event.get_field_logEvent().get_field_choice().get_field_statistics();
+		stats.get_field_choice().get_field_controlpartErrors().operator_assign(error_count);
 
 		log(event);
 	}
@@ -1155,18 +1177,18 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.STATISTICS_VERDICT);
-		final StatisticsType stats = event.getLogEvent().getChoice().getStatistics();
-		final StatisticsType_choice_verdictStatistics verdictStats = stats.getChoice().getVerdictStatistics();
-		verdictStats.getNone__().assign(none_count);
-		verdictStats.getNonePercent().assign(none_percent);
-		verdictStats.getPass__().assign(pass_count);
-		verdictStats.getPassPercent().assign(pass_percent);
-		verdictStats.getInconc__().assign(inconc_count);
-		verdictStats.getInconcPercent().assign(inconc_percent);
-		verdictStats.getFail__().assign(fail_count);
-		verdictStats.getFailPercent().assign(fail_percent);
-		verdictStats.getError__().assign(error_count);
-		verdictStats.getErrorPercent().assign(error_percent);
+		final StatisticsType stats = event.get_field_logEvent().get_field_choice().get_field_statistics();
+		final StatisticsType_choice_verdictStatistics verdictStats = stats.get_field_choice().get_field_verdictStatistics();
+		verdictStats.get_field_none__().operator_assign(none_count);
+		verdictStats.get_field_nonePercent().operator_assign(none_percent);
+		verdictStats.get_field_pass__().operator_assign(pass_count);
+		verdictStats.get_field_passPercent().operator_assign(pass_percent);
+		verdictStats.get_field_inconc__().operator_assign(inconc_count);
+		verdictStats.get_field_inconcPercent().operator_assign(inconc_percent);
+		verdictStats.get_field_fail__().operator_assign(fail_count);
+		verdictStats.get_field_failPercent().operator_assign(fail_percent);
+		verdictStats.get_field_error__().operator_assign(error_count);
+		verdictStats.get_field_errorPercent().operator_assign(error_percent);
 
 		log(event);
 	}
@@ -1178,10 +1200,10 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_ACTIVATE);
-		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopActivate();
-		defaultop.getName().assign(name);
-		defaultop.getId().assign(id);
-		defaultop.getEnd().assign(DefaultEnd.enum_type.UNKNOWN_VALUE);
+		final DefaultOp defaultop = event.get_field_logEvent().get_field_choice().get_field_defaultEvent().get_field_choice().get_field_defaultopActivate();
+		defaultop.get_field_name().operator_assign(name);
+		defaultop.get_field_id().operator_assign(id);
+		defaultop.get_field_end().operator_assign(DefaultEnd.enum_type.UNKNOWN_VALUE);
 
 		log(event);
 	}
@@ -1193,10 +1215,10 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_DEACTIVATE);
-		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopDeactivate();
-		defaultop.getName().assign(name);
-		defaultop.getId().assign(id);
-		defaultop.getEnd().assign(DefaultEnd.enum_type.UNKNOWN_VALUE);
+		final DefaultOp defaultop = event.get_field_logEvent().get_field_choice().get_field_defaultEvent().get_field_choice().get_field_defaultopDeactivate();
+		defaultop.get_field_name().operator_assign(name);
+		defaultop.get_field_id().operator_assign(id);
+		defaultop.get_field_end().operator_assign(DefaultEnd.enum_type.UNKNOWN_VALUE);
 
 		log(event);
 	}
@@ -1208,10 +1230,10 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_EXIT);
-		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopExit();
-		defaultop.getName().assign(name);
-		defaultop.getId().assign(id);
-		defaultop.getEnd().assign(x);
+		final DefaultOp defaultop = event.get_field_logEvent().get_field_choice().get_field_defaultEvent().get_field_choice().get_field_defaultopExit();
+		defaultop.get_field_name().operator_assign(name);
+		defaultop.get_field_id().operator_assign(id);
+		defaultop.get_field_end().operator_assign(x);
 
 		log(event);
 	}
@@ -1223,12 +1245,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
-		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
-		exec.getReason().assign(reason);
-		exec.getModule__name().assign(template_sel.OMIT_VALUE);
-		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
-		exec.getPid().assign(template_sel.OMIT_VALUE);
-		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+		final ExecutorRuntime exec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorRuntime();
+		exec.get_field_reason().operator_assign(reason);
+		exec.get_field_module__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_testcase__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_pid().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_fd__setsize().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1240,12 +1262,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
-		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
-		exec.getReason().assign(ExecutorRuntime_reason.enum_type.host__controller__started);
-		exec.getModule__name().get().assign(host);
-		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
-		exec.getPid().assign(template_sel.OMIT_VALUE);
-		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+		final ExecutorRuntime exec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorRuntime();
+		exec.get_field_reason().operator_assign(ExecutorRuntime_reason.enum_type.host__controller__started);
+		exec.get_field_module__name().get().operator_assign(host);
+		exec.get_field_testcase__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_pid().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_fd__setsize().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1257,12 +1279,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
-		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
-		exec.getReason().assign(ExecutorRuntime_reason.enum_type.executing__testcase__in__module);
-		exec.getModule__name().get().assign(module);
-		exec.getTestcase__name().get().assign(testcase);
-		exec.getPid().assign(template_sel.OMIT_VALUE);
-		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+		final ExecutorRuntime exec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorRuntime();
+		exec.get_field_reason().operator_assign(ExecutorRuntime_reason.enum_type.executing__testcase__in__module);
+		exec.get_field_module__name().get().operator_assign(module);
+		exec.get_field_testcase__name().get().operator_assign(testcase);
+		exec.get_field_pid().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_fd__setsize().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1274,17 +1296,17 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
-		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		final ExecutorRuntime exec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorRuntime();
 		if (finish) {
-			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initialization__of__module__finished);
+			exec.get_field_reason().operator_assign(ExecutorRuntime_reason.enum_type.initialization__of__module__finished);
 		} else {
-			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initializing__module);
+			exec.get_field_reason().operator_assign(ExecutorRuntime_reason.enum_type.initializing__module);
 		}
 
-		exec.getModule__name().get().assign(module);
-		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
-		exec.getPid().assign(template_sel.OMIT_VALUE);
-		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+		exec.get_field_module__name().get().operator_assign(module);
+		exec.get_field_testcase__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_pid().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_fd__setsize().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1296,12 +1318,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
-		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
-		exec.getReason().assign(ExecutorRuntime_reason.enum_type.mtc__created);
-		exec.getModule__name().assign(template_sel.OMIT_VALUE);
-		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
-		exec.getPid().get().assign((int)pid);
-		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+		final ExecutorRuntime exec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorRuntime();
+		exec.get_field_reason().operator_assign(ExecutorRuntime_reason.enum_type.mtc__created);
+		exec.get_field_module__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_testcase__name().operator_assign(template_sel.OMIT_VALUE);
+		exec.get_field_pid().get().operator_assign((int)pid);
+		exec.get_field_fd__setsize().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1313,12 +1335,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_CONFIGDATA);
-		final ExecutorConfigdata cfg = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorConfigdata();
-		cfg.getReason().assign(reason);
+		final ExecutorConfigdata cfg = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorConfigdata();
+		cfg.get_field_reason().operator_assign(reason);
 		if (str != null) {
-			cfg.getParam__().get().assign(str);
+			cfg.get_field_param__().get().operator_assign(str);
 		} else {
-			cfg.getParam__().assign(template_sel.OMIT_VALUE);
+			cfg.get_field_param__().operator_assign(template_sel.OMIT_VALUE);
 		}
 
 		log(event);
@@ -1331,9 +1353,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_COMPONENT);
-		final ExecutorComponent ec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorComponent();
-		ec.getReason().assign(reason);
-		ec.getCompref().assign(template_sel.OMIT_VALUE);
+		final ExecutorComponent ec = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorComponent();
+		ec.get_field_reason().operator_assign(reason);
+		ec.get_field_compref().operator_assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
@@ -1345,11 +1367,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED);
-		final ExecutorUnqualified ex = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorMisc();
-		ex.getReason().assign(reason);
-		ex.getName().assign(name);
-		ex.getAddr().assign(address);
-		ex.getPort__().assign(port);
+		final ExecutorUnqualified ex = event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_executorMisc();
+		ex.get_field_reason().operator_assign(reason);
+		ex.get_field_name().operator_assign(name);
+		ex.get_field_addr().operator_assign(address);
+		ex.get_field_port__().operator_assign(port);
 
 		log(event);
 	}
@@ -1362,9 +1384,9 @@ public class LoggerPluginManager {
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_EXTCOMMAND);
 		if (action == extcommand_t.EXTCOMMAND_START) {
-			event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExtcommandStart().assign(cmd);
+			event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_extcommandStart().operator_assign(cmd);
 		} else {
-			event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExtcommandSuccess().assign(cmd);
+			event.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_extcommandSuccess().operator_assign(cmd);
 		}
 
 		log(event);
@@ -1377,11 +1399,11 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.MATCHING_DONE);
-		final MatchingDoneType mp = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingDone();
-		mp.getReason().assign(reason);
-		mp.getType__().assign(type);
-		mp.getPtc().assign(ptc);
-		mp.getReturn__type().assign(return_type);
+		final MatchingDoneType mp = event.get_field_logEvent().get_field_choice().get_field_matchingEvent().get_field_choice().get_field_matchingDone();
+		mp.get_field_reason().operator_assign(reason);
+		mp.get_field_type__().operator_assign(type);
+		mp.get_field_ptc().operator_assign(ptc);
+		mp.get_field_return__type().operator_assign(return_type);
 
 		log(event);
 	}
@@ -1393,12 +1415,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, TTCN_Logger.Severity.MATCHING_PROBLEM);
-		final MatchingProblemType mp = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingProblem();
-		mp.getReason().assign(reason);
-		mp.getAny__port().assign(anyport);
-		mp.getCheck__().assign(check);
-		mp.getOperation().assign(operation);
-		mp.getPort__name().assign(port_name);
+		final MatchingProblemType mp = event.get_field_logEvent().get_field_choice().get_field_matchingEvent().get_field_choice().get_field_matchingProblem();
+		mp.get_field_reason().operator_assign(reason);
+		mp.get_field_any__port().operator_assign(anyport);
+		mp.get_field_check__().operator_assign(check);
+		mp.get_field_operation().operator_assign(operation);
+		mp.get_field_port__name().operator_assign(port_name);
 
 		log(event);
 	}
@@ -1410,10 +1432,10 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.FUNCTION_RND);
-		final FunctionEvent_choice_random r = event.getLogEvent().getChoice().getFunctionEvent().getChoice().getRandom();
-		r.getOperation().assign(rndAction);
-		r.getRetval().assign(value);
-		r.getIntseed().assign((int)seed);
+		final FunctionEvent_choice_random r = event.get_field_logEvent().get_field_choice().get_field_functionEvent().get_field_choice().get_field_random();
+		r.get_field_operation().operator_assign(rndAction);
+		r.get_field_retval().operator_assign(value);
+		r.get_field_intseed().operator_assign((int)seed);
 
 		log(event);
 	}
@@ -1431,18 +1453,18 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, sev);
-		final MatchingFailureType mf = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingFailure();
-		mf.getPort__type().assign(port_type);
-		mf.getPort__name().assign(port_name);
-		mf.getReason().assign(reason);
+		final MatchingFailureType mf = event.get_field_logEvent().get_field_choice().get_field_matchingEvent().get_field_choice().get_field_matchingFailure();
+		mf.get_field_port__type().operator_assign(port_type);
+		mf.get_field_port__name().operator_assign(port_name);
+		mf.get_field_reason().operator_assign(reason);
 
 		if (compref == TitanComponent.SYSTEM_COMPREF) {
-			mf.getChoice().getSystem__();
+			mf.get_field_choice().get_field_system__();
 		} else {
-			mf.getChoice().getCompref().assign(compref);
+			mf.get_field_choice().get_field_compref().operator_assign(compref);
 		}
 
-		mf.getInfo().assign(info);
+		mf.get_field_info().operator_assign(info);
 
 		log(event);
 	}
@@ -1461,9 +1483,9 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, sev);
-		final MatchingSuccessType ms = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingSuccess();
-		ms.getPort__type().assign(port_type);
-		ms.getPort__name().assign(port_name);
+		final MatchingSuccessType ms = event.get_field_logEvent().get_field_choice().get_field_matchingEvent().get_field_choice().get_field_matchingSuccess();
+		ms.get_field_port__type().operator_assign(port_type);
+		ms.get_field_port__name().operator_assign(port_name);
 
 		log(event);
 	}
@@ -1489,12 +1511,12 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, event_severity);
-		final ParPort pp = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPort();
-		pp.getOperation().assign(operation);
-		pp.getSrcCompref().assign(adjust_compref(src_compref));
-		pp.getSrcPort().assign(src_port);
-		pp.getDstCompref().assign(adjust_compref(dst_compref));
-		pp.getDstPort().assign(dst_port);
+		final ParPort pp = event.get_field_logEvent().get_field_choice().get_field_parallelEvent().get_field_choice().get_field_parallelPort();
+		pp.get_field_operation().operator_assign(operation);
+		pp.get_field_srcCompref().operator_assign(adjust_compref(src_compref));
+		pp.get_field_srcPort().operator_assign(src_port);
+		pp.get_field_dstCompref().operator_assign(adjust_compref(dst_compref));
+		pp.get_field_dstPort().operator_assign(dst_port);
 
 		log(event);
 	}
@@ -1513,15 +1535,15 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, event_severity);
-		final ParallelPTC ptc = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPTC();
-		ptc.getReason().assign(reason);
-		ptc.getModule__().assign(module);
-		ptc.getName().assign(name);
-		ptc.getCompref().assign(compref);
-		ptc.getTc__loc().assign(tc_loc);
-		ptc.getCompname().assign(compname);
-		ptc.getAlive__pid().assign(alive_pid);
-		ptc.getStatus().assign(status);
+		final ParallelPTC ptc = event.get_field_logEvent().get_field_choice().get_field_parallelEvent().get_field_choice().get_field_parallelPTC();
+		ptc.get_field_reason().operator_assign(reason);
+		ptc.get_field_module__().operator_assign(module);
+		ptc.get_field_name().operator_assign(name);
+		ptc.get_field_compref().operator_assign(compref);
+		ptc.get_field_tc__loc().operator_assign(tc_loc);
+		ptc.get_field_compname().operator_assign(compname);
+		ptc.get_field_alive__pid().operator_assign(alive_pid);
+		ptc.get_field_status().operator_assign(status);
 
 		log(event);
 	}
@@ -1533,14 +1555,14 @@ public class LoggerPluginManager {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.PORTEVENT_UNQUALIFIED);
-		final Port__Misc portMisc = event.getLogEvent().getChoice().getPortEvent().getChoice().getPortMisc();
-		portMisc.getReason().assign(reason.ordinal());
-		portMisc.getPort__name().assign(port_name);
-		portMisc.getRemote__component().assign(remote_component);
-		portMisc.getRemote__port().assign(remote_port);
-		portMisc.getIp__address().assign(ip_address);
-		portMisc.getTcp__port().assign(tcp_port);
-		portMisc.getNew__size().assign(new_size);
+		final Port__Misc portMisc = event.get_field_logEvent().get_field_choice().get_field_portEvent().get_field_choice().get_field_portMisc();
+		portMisc.get_field_reason().operator_assign(reason.ordinal());
+		portMisc.get_field_port__name().operator_assign(port_name);
+		portMisc.get_field_remote__component().operator_assign(remote_component);
+		portMisc.get_field_remote__port().operator_assign(remote_port);
+		portMisc.get_field_ip__address().operator_assign(ip_address);
+		portMisc.get_field_tcp__port().operator_assign(tcp_port);
+		portMisc.get_field_new__size().operator_assign(new_size);
 
 		log(event);
 	}

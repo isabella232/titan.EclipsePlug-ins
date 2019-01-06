@@ -332,6 +332,6 @@ public final class LengthofExpression extends Expression_Value {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(".lengthOf()");
+		expression.expression.append(".lengthof()");
 	}
 }

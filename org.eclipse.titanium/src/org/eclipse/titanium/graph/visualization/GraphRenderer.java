@@ -50,7 +50,7 @@ class NodeShape<V> implements Function<V, Shape> {
 			this.labeller = labeller;
 		} else {
 			this.labeller = new Function<V, String>() {
-				public String apply(V o) {
+				public String apply(final V o) {
 					return o.toString();
 				}
 			};

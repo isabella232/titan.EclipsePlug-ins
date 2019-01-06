@@ -1228,7 +1228,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -1251,18 +1251,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Returns whether the template can be represented by an in-line
 	 *  Java expression.
 	 * */
-	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
-			return false;
-		}
-		//TODO fatal error
-		return false;
-	}
+	public abstract boolean hasSingleExpression();
 
 	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
 		source.append("{\n");
 
-		final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
+		final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, index);
 		generateCodeInit(aData, source, embeddedName);
 		source.append("}\n");
 	}
@@ -1278,7 +1272,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
 
-		return new StringBuilder("FATAL_ERROR encountered");
+		return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 
 	/**

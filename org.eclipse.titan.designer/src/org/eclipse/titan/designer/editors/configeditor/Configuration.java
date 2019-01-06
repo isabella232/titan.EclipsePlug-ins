@@ -73,10 +73,10 @@ public final class Configuration extends TextSourceViewerConfiguration {
 
 	@Override
 	public IPresentationReconciler getPresentationReconciler(final ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
+		final PresentationReconciler reconciler = new PresentationReconciler();
 		reconciler.setDocumentPartitioning(PartitionScanner.CONFIG_PARTITIONING);
 
-		IntervallBasedDamagerRepairer dr = new IntervallBasedDamagerRepairer(new CodeScanner(colorManager));
+		final IntervallBasedDamagerRepairer dr = new IntervallBasedDamagerRepairer(new CodeScanner(colorManager));
 
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
@@ -86,8 +86,8 @@ public final class Configuration extends TextSourceViewerConfiguration {
 
 	@Override
 	public IContentAssistant getContentAssistant(final ISourceViewer sourceViewer) {
-		ContentAssitant assistant = new ContentAssitant();
-		IContentAssistProcessor pr = new ContentAssistProcessor(editor);
+		final ContentAssitant assistant = new ContentAssitant();
+		final IContentAssistProcessor pr = new ContentAssistProcessor(editor);
 
 		assistant.setContentAssistProcessor(pr, IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.setDocumentPartitioning(PartitionScanner.CONFIG_PARTITIONING);
@@ -111,15 +111,15 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	@Override
 	public IReconciler getReconciler(final ISourceViewer sourceViewer) {
 		if (reconciler == null) {
-			ReconcilingStrategy strategy = new ReconcilingStrategy();
+			final ReconcilingStrategy strategy = new ReconcilingStrategy();
 			strategy.setEditor(editor);
 			strategy.analyze();
 
 			reconciler = new MonoReconciler(strategy, false);
 			reconciler.setProgressMonitor(new NullProgressMonitor());
 
-			IPreferencesService prefs = Platform.getPreferencesService();
-			int timeout = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.RECONCILERTIMEOUT, 1, null);
+			final IPreferencesService prefs = Platform.getPreferencesService();
+			final int timeout = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.RECONCILERTIMEOUT, 1, null);
 			reconciler.setDelay(timeout * 1000);
 		}
 
@@ -128,10 +128,10 @@ public final class Configuration extends TextSourceViewerConfiguration {
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(final ISourceViewer sourceViewer, final String contentType) {
-		HeuristicalIntervalDetector detector = new HeuristicalIntervalDetector();
-		GeneralTITANAutoEditStrategy strategy2 = new ClosingBracketIndentationAutoEditStrategy();
+		final HeuristicalIntervalDetector detector = new HeuristicalIntervalDetector();
+		final GeneralTITANAutoEditStrategy strategy2 = new ClosingBracketIndentationAutoEditStrategy();
 		strategy2.setHeuristicIntervalDetector(detector);
-		GeneralTITANAutoEditStrategy strategy3 = new SmartIndentAfterNewLineAutoEditStrategy();
+		final GeneralTITANAutoEditStrategy strategy3 = new SmartIndentAfterNewLineAutoEditStrategy();
 		strategy3.setHeuristicIntervalDetector(detector);
 
 		return new IAutoEditStrategy[] { new BracketCompletionAutoEditStrategy(), strategy2, strategy3 };

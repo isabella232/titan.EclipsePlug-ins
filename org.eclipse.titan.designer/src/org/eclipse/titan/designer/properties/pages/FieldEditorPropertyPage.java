@@ -33,7 +33,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	// Overlay preference store for property pages
 	private IPreferenceStore overlayStore;
 	// Stores all created field editors
-	private List<FieldEditor> editors = new ArrayList<FieldEditor>();
+	private final List<FieldEditor> editors = new ArrayList<FieldEditor>();
 
 	protected FieldEditorPropertyPage(final int style) {
 		super(style);

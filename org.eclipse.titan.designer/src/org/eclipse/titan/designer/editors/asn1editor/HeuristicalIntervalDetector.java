@@ -144,7 +144,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 	// FIXME needs correction
 	@Override
 	public boolean isWithinString(final StringBuilder document, final int offset, final Interval enclosingInterval) throws BadLocationException {
-		Interval interval = enclosingInterval.getSmallestEnclosingInterval(offset);
+		final Interval interval = enclosingInterval.getSmallestEnclosingInterval(offset);
 		if (interval_type.MULTILINE_COMMENT.equals(interval.getType()) || interval_type.SINGLELINE_COMMENT.equals(interval.getType())) {
 			return false;
 		}
@@ -152,7 +152,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 		int start = interval.getStartOffset();
 		int counter = 0;
 		while (start < offset) {
-			char curr = document.charAt(start);
+			final char curr = document.charAt(start);
 			if (curr == '"') {
 				counter++;
 			}

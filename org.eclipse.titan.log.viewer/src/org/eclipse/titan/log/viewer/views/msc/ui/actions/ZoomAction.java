@@ -28,11 +28,11 @@ import org.eclipse.ui.IViewPart;
  */
 public class ZoomAction extends Action {
 
-	private MSCWidget viewer = null;
-	private MSCView view = null;
+	private final MSCWidget viewer;
+	private final MSCView view;
 	private boolean lastZoomIn = false;
-	private Cursor zoomIn = null;
-	private Cursor zoomOut = null;
+	private final Cursor zoomIn;
+	private final Cursor zoomOut;
 
 	public ZoomAction(final IViewPart view) {
 		super("", AS_RADIO_BUTTON); //$NON-NLS-1$
@@ -89,17 +89,19 @@ public class ZoomAction extends Action {
 	}
 
 	public void setActionChecked(final String id, final boolean checked)	{
-		IActionBars bar = this.view.getViewSite().getActionBars();
+		final IActionBars bar = this.view.getViewSite().getActionBars();
 		if (bar == null) {
 			return;
 		}
-		IToolBarManager barManager = bar.getToolBarManager();
+
+		final IToolBarManager barManager = bar.getToolBarManager();
 		if (barManager == null) {
 			return;
 		}
-		IContributionItem nextPage = barManager.find(id);
+
+		final IContributionItem nextPage = barManager.find(id);
 		if ((nextPage != null) && (nextPage instanceof ActionContributionItem)) {
-			IAction action = ((ActionContributionItem) nextPage).getAction();
+			final IAction action = ((ActionContributionItem) nextPage).getAction();
 			if (action != null) {
 				action.setChecked(checked);
 			}

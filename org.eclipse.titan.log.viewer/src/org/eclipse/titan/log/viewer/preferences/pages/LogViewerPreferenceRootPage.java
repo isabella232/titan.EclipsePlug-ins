@@ -47,7 +47,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	public static final String TRUE = "true"; //$NON-NLS-1$
 	public static final String USEPROJECTSETTINGS = "useProjectSettings"; //$NON-NLS-1$
 
-	private List<FieldEditor> editors = new ArrayList<FieldEditor>();
+	private final List<FieldEditor> editors = new ArrayList<FieldEditor>();
 	private IAdaptable element;
 	private IPreferenceStore overlayStore;
 	private String pageId;
@@ -59,7 +59,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	private Button selectAll;
 	private Button deselectAll;
 	private Map<String, String> oldPreferences;
-	private boolean enableSelectDeselectButtons;
+	private final boolean enableSelectDeselectButtons;
 
 	/**
 	 * Constructor
@@ -172,11 +172,12 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 		if (result && isPropertyPage()) {
 			// Save state of radio buttons in project properties
 			writeProperty();
 		}
+
 		return result;
 	}
 
@@ -186,6 +187,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			setProperties(this.oldPreferences);
 			this.oldPreferences.clear();
 		}
+
 		return super.performCancel();
 	}
 
@@ -224,6 +226,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		if (event.getSource() instanceof FieldEditor) {
 			getApplyButton().setEnabled(true);
 		}
+
 		super.propertyChange(event);
 	}
 
@@ -232,6 +235,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		if (isPropertyPage()) {
 			return this.overlayStore;
 		}
+
 		return super.getPreferenceStore();
 	}
 
@@ -250,6 +254,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 				updateFieldEditors();
 			}
 		});
+
 		return button;
 	}
 
@@ -258,21 +263,20 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	 * @param parent the parent composite
 	 */
 	private void createSelectionGroup(final Composite parent) {
-		Composite comp = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		final Composite comp = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		comp.setLayout(layout);
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Composite radioGroup = new Composite(comp, SWT.NONE);
+		final Composite radioGroup = new Composite(comp, SWT.NONE);
 		radioGroup.setLayout(new GridLayout());
 		radioGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		this.useWorkspaceSettingsButton = createRadioButton(radioGroup, Messages.getString("FieldEditorOverlayPage.0")); //$NON-NLS-1$
 		this.useProjectSettingsButton = createRadioButton(radioGroup, Messages.getString("FieldEditorOverlayPage.1")); //$NON-NLS-1$
 		// Set workspace/project radio buttons
 		try {
-			String use =
-					((IResource) getElement()).getPersistentProperty(
+			final String use = ((IResource) getElement()).getPersistentProperty(
 							new QualifiedName(this.pageId, USEPROJECTSETTINGS));
 			if (TRUE.equals(use)) {
 				this.useProjectSettingsButton.setSelection(true);
@@ -339,18 +343,18 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	 * @param prop, key / values to be set
 	 */
 	protected void setProperties(final Map<String, String> prop) {
-		Set<String> set = prop.keySet();
+		final Set<String> set = prop.keySet();
 		IPreferenceStore preferenceStore;
 		if (isPropertyPage()) {
 			preferenceStore = getPreferenceStore();
 			//project scope
-			for (String key : set) {
+			for (final String key : set) {
 				preferenceStore.setValue(key, prop.get(key));
 			}
 		} else {
 			preferenceStore = Activator.getDefault().getPreferenceStore();
 			//Workspace scope
-			for (String key : set) {
+			for (final String key : set) {
 				preferenceStore.setValue(key, prop.get(key));
 			}
 		}
@@ -361,7 +365,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	 */
 	private void updateFieldEditors() {
 		// We iterate through all field editors
-		boolean enabled = this.useProjectSettingsButton.getSelection();
+		final boolean enabled = this.useProjectSettingsButton.getSelection();
 		updateFieldEditors(enabled);
 		getApplyButton().setEnabled(true);
 		this.importButton.setEnabled(enabled);
@@ -378,8 +382,8 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	 * @param enabled true if enabled
 	 */
 	protected void updateFieldEditors(final boolean enabled) {
-		Composite parent = getFieldEditorParent();
-		for (FieldEditor editor : this.editors) {
+		final Composite parent = getFieldEditorParent();
+		for (final FieldEditor editor : this.editors) {
 			editor.setEnabled(enabled, parent);
 		}
 	}
@@ -400,8 +404,8 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	}
 
 	private void writeProperty() {
-		IResource resource = (IResource) getElement();
-		String value = (this.useProjectSettingsButton.getSelection()) ? TRUE : FALSE;
+		final IResource resource = (IResource) getElement();
+		final String value = (this.useProjectSettingsButton.getSelection()) ? TRUE : FALSE;
 		try {
 			ResourcePropertyHandler.setProperty(resource, this.pageId, USEPROJECTSETTINGS, value);
 		} catch (CoreException e) {

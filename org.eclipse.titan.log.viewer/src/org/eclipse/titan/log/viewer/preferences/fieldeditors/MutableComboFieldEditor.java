@@ -115,6 +115,7 @@ public class MutableComboFieldEditor extends FieldEditor {
 		if (index < 0 || index >= comboBox.getItemCount()) {
 			return;
 		}
+
 		final String[] oldvalue = new String[comboBox.getItems().length];
 		System.arraycopy(comboBox.getItems(), 0, oldvalue, 0, comboBox.getItems().length);
 		final String removedItem = comboBox.getItem(index);
@@ -130,7 +131,7 @@ public class MutableComboFieldEditor extends FieldEditor {
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-		Control control = getLabelControl();
+		final Control control = getLabelControl();
 		((GridData) control.getLayoutData()).horizontalSpan = numColumns;
 		((GridData) this.comboBox.getLayoutData()).horizontalSpan = numColumns;
 		((GridData) this.addButton.getLayoutData()).horizontalSpan = 1;
@@ -139,9 +140,8 @@ public class MutableComboFieldEditor extends FieldEditor {
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-
-		Control control = getLabelControl(parent);
-		GridData gd = new GridData();
+		final Control control = getLabelControl(parent);
+		final GridData gd = new GridData();
 		gd.horizontalSpan = numColumns;
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.FILL;
@@ -149,21 +149,20 @@ public class MutableComboFieldEditor extends FieldEditor {
 
 		comboBox = new Combo(parent, SWT.READ_ONLY);
 		comboBox.setFont(parent.getFont());
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = numColumns;
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
 		comboBox.setLayoutData(data);
 
-		Composite buttons = new Composite(parent, SWT.NONE);
-		GridData buttonsData = new GridData();
+		final Composite buttons = new Composite(parent, SWT.NONE);
+		final GridData buttonsData = new GridData();
 		buttonsData.horizontalSpan = numColumns;
 		buttonsData.grabExcessHorizontalSpace = true;
 		buttonsData.horizontalAlignment = SWT.FILL;
 		buttons.setLayoutData(buttonsData);
-		GridLayout gridLayout = new GridLayout(2, false);
+		final GridLayout gridLayout = new GridLayout(2, false);
 		buttons.setLayout(gridLayout);
-
 
 		addButton = new Button(buttons, SWT.PUSH);
 		addButton.setText("Add");
@@ -172,7 +171,7 @@ public class MutableComboFieldEditor extends FieldEditor {
 
 			@Override
 			public void handleEvent(final Event event) {
-				InputDialog dialog = new InputDialog(new Shell(),
+				final InputDialog dialog = new InputDialog(new Shell(),
 						"New Item",
 						"",
 						"",
@@ -198,13 +197,13 @@ public class MutableComboFieldEditor extends FieldEditor {
 	}
 
 	private void fireItemAddedListeners(final String item) {
-		for (IItemListener listener : itemListeners) {
+		for (final IItemListener listener : itemListeners) {
 			listener.itemAdded(item);
 		}
 	}
 
 	private void fireItemRemovedListeners(final String item) {
-		for (IItemListener listener : itemListeners) {
+		for (final IItemListener listener : itemListeners) {
 			listener.itemRemoved(item);
 		}
 	}

@@ -73,7 +73,7 @@ public class ExportImagePreferencesDialog extends Dialog {
 		shlExportGraph.setLayout(new GridLayout(1, false));
 		shlExportGraph.setText("Export Preferences");
 
-		Composite selectWhatToSave = new Composite(shlExportGraph, SWT.NONE);
+		final Composite selectWhatToSave = new Composite(shlExportGraph, SWT.NONE);
 		selectWhatToSave.setLayout(new FillLayout());
 		final Label lblPartToExport = new Label(selectWhatToSave, SWT.NONE);
 		lblPartToExport.setText("Part to export:");

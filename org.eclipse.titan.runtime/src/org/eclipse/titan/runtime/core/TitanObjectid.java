@@ -9,7 +9,12 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
 /**
  * Runtime class for object identifiers (objid)
@@ -24,8 +29,11 @@ public class TitanObjectid extends Base_Type {
 	private int overflow_idx; // index of the first overflow, or -1
 	private List<TitanInteger> components_ptr;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanObjectid() {
-
+		super();
 	}
 
 	public TitanObjectid(final int init_n_components, final TitanInteger... values) {
@@ -41,10 +49,14 @@ public class TitanObjectid extends Base_Type {
 		}
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanObjectid(final TitanObjectid otherValue) {
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("Copying an unbound objid value.");
-		}
+		otherValue.must_bound("Copying an unbound objid value.");
 
 		components_ptr = new ArrayList<TitanInteger>();
 		components_ptr.addAll(otherValue.components_ptr);
@@ -52,17 +64,25 @@ public class TitanObjectid extends Base_Type {
 		overflow_idx = otherValue.overflow_idx;
 	}
 
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		components_ptr = null;
 	}
 
-	// originally operator=
-	public TitanObjectid assign(final TitanObjectid otherValue) {
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("Assignment of an unbound objid value.");
-		}
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanObjectid operator_assign(final TitanObjectid otherValue) {
+		otherValue.must_bound("Assignment of an unbound objid value.");
 
-		cleanUp();
+		clean_up();
 		components_ptr = new ArrayList<TitanInteger>();
 		components_ptr.addAll(otherValue.components_ptr);
 		n_components = otherValue.n_components;
@@ -73,22 +93,26 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator=
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
+	public Base_Type operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
-			return assign((TitanObjectid) otherValue);
+			return operator_assign((TitanObjectid) otherValue);
 		} else {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objectid", otherValue));
 		}
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanObjectid otherValue) {
-		if (components_ptr == null) {
-			throw new TtcnError("The left operand of comparison is an unbound objid value.");
-		}
-		if (otherValue.components_ptr == null) {
-			throw new TtcnError("The right operand of comparison is an unbound objid value.");
-		}
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanObjectid otherValue) {
+		must_bound("The left operand of comparison is an unbound objid value.");
+		otherValue.must_bound("The right operand of comparison is an unbound objid value.");
 
 		if (n_components != otherValue.n_components) {
 			return false;
@@ -98,35 +122,44 @@ public class TitanObjectid extends Base_Type {
 		}
 
 		for (int i = 0; i < components_ptr.size(); i++) {
-			if (!components_ptr.get(i).operatorEquals(otherValue.components_ptr.get(i))) {
+			if (!components_ptr.get(i).operator_equals(otherValue.components_ptr.get(i))) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	// originally operator==
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
-			return operatorEquals((TitanObjectid) otherValue);
+			return operator_equals((TitanObjectid) otherValue);
 		} else {
 			return false;
 		}
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return components_ptr != null;
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return components_ptr != null;
 	}
 
-	// originally operator[]
-	public final TitanInteger constGetAt(final int index_value) {
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
+	public final TitanInteger constGet_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
 				throw new TtcnError("Accessing a component of an unbound objid value.");
@@ -151,15 +184,34 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr.get(index_value);
 	}
 
-	// originally operator[]
-	public final TitanInteger constGetAt(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a objid component with an unbound integer value.");
+	/**
+	 * Gives read-only access to the given element.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
+	public final TitanInteger constGet_at(final TitanInteger index_value) {
+		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
-	// originally operator[]
-	public TitanInteger getAt(final int index_value) {
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the objectid.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
+	public TitanInteger get_at(final int index_value) {
 		if (components_ptr == null) {
 			if (index_value != 0) {
 				throw new TtcnError("Accessing a component of an unbound objid value.");
@@ -184,29 +236,45 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr.get(index_value);
 	}
 
-	// originally operator[]
-	public TitanInteger getAt(final TitanInteger index_value) {
-		index_value.mustBound("Indexing a objid component with an unbound integer value.");
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 * Over-indexing by 1 extends the objectid.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this objectid
+	 * */
+	public TitanInteger get_at(final TitanInteger index_value) {
+		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
-		return getAt(index_value.getInt());
+		return get_at(index_value.get_int());
 	}
 
-	public TitanInteger sizeOf() {
-		if (components_ptr == null) {
-			throw new TtcnError("Getting the size of an unbound objid value.");
-		}
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public TitanInteger size_of() {
+		must_bound("Getting the size of an unbound objid value.");
 
 		return new TitanInteger(n_components);
 	}
 
 	public static TitanInteger from_integer(final TitanInteger p_int) {
-		if (p_int.isLessThan(0)) {
+		if (p_int.is_less_than(0)) {
 			throw new TtcnError("An OBJECT IDENTIFIER component cannot be negative");
 		}
 
 		return new TitanInteger(p_int);
 	}
 
+	@Override
 	public void log() {
 		if (components_ptr != null) {
 			TTCN_Logger.log_event_str("objid { ");
@@ -226,10 +294,21 @@ public class TitanObjectid extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void encode_text(final Text_Buf text_buf) {
-		if (components_ptr == null) {
-			throw new TtcnError("Text encoder: Encoding an unbound objid value.");
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "objid value");
+		if (param.get_type() != type_t.MP_Objid) {
+			param.type_error("objid value");
 		}
+		clean_up();
+		n_components = param.get_string_size();
+		components_ptr = new ArrayList<TitanInteger>(Arrays.asList((TitanInteger[]) param.get_string_data()));
+		overflow_idx = -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		must_bound("Text encoder: Encoding an unbound objid value.");
 
 		text_buf.push_int(n_components);
 		for (int i = 0; i < n_components; i++) {
@@ -240,9 +319,9 @@ public class TitanObjectid extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		cleanUp();
+		clean_up();
 
-		n_components = text_buf.pull_int().getInt();
+		n_components = text_buf.pull_int().get_int();
 		if (n_components < 0) {
 			throw new TtcnError("Text decoder: Negative number of components was received for an objid value.");
 		}

@@ -16,20 +16,20 @@ class IconHandler {
 
 	private static final String SET_VERDICT = "setverdict(";
 
-	public Image getIcon(LogRecord logRecord, SetVerdictFilter setVerdictFilter) {
+	public Image getIcon(final LogRecord logRecord, final SetVerdictFilter setVerdictFilter) {
 		final String message = logRecord.getMessage();
 		if (!message.startsWith(SET_VERDICT)) {
 			return null;
 		}
 
-		final int startPos = message.indexOf("(");
-		final int stopPos = message.indexOf(")");
+		final int startPos = message.indexOf('(');
+		final int stopPos = message.indexOf(')');
 		final String type = message.substring(startPos + 1, stopPos);
 
 		return filter(setVerdictFilter, type);
 	}
 
-	private Image filter(SetVerdictFilter setVerdictFilter, String type) {
+	private Image filter(final SetVerdictFilter setVerdictFilter, final String type) {
 		if (type.equals(Constants.TEST_CASE_VERDICT_ERROR)) {
 			if (setVerdictFilter.isSetverdictError()) {
 				return Activator.getDefault().getIcon(Constants.ICONS_ERROR);

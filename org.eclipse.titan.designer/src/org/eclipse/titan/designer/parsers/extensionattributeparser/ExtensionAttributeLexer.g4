@@ -69,9 +69,8 @@ import org.eclipse.titan.designer.core.LoadBalancingUtilities;
   NOT: 'not';                       NOT4B: 'not4b';                   NOWAIT: 'nowait';
   NOT_A_NUMBER: 'not_a_number';     NULL1: 'null';                    NULL2: 'NULL';
 
-  OBJECTIDENTIFIERKEYWORD: 'objid'; OF: 'of';
-  OMIT: 'omit';                     ON: 'on';                         OPTIONAL: 'optional';
-  OR: 'or';                         OR4B: 'or4b';
+  OF: 'of';                         OMIT: 'omit';                     ON: 'on';
+  OPTIONAL: 'optional';             OR: 'or';                         OR4B: 'or4b';
   OVERRIDEKEYWORD: 'override';
 
   PARAM: 'param';                   PASS: 'pass';                     PATTERNKEYWORD: 'pattern';

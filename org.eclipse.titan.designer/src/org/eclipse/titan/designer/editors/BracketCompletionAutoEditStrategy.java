@@ -27,8 +27,8 @@ public final class BracketCompletionAutoEditStrategy implements IAutoEditStrateg
 		if (command.text.length() != 1) {
 			return;
 		}
-		char trigChar = command.text.charAt(0);
 
+		final char trigChar = command.text.charAt(0);
 		try {
 			switch (trigChar) {
 			case '[':
@@ -91,7 +91,7 @@ public final class BracketCompletionAutoEditStrategy implements IAutoEditStrateg
 	private void handleClosingBracket(final IDocument doc, final char bracket, final DocumentCommand docCommand) {
 		try {
 			if (docCommand.offset + docCommand.length < doc.getLength()) {
-				char nextChar = doc.getChar(docCommand.offset + docCommand.length);
+				final char nextChar = doc.getChar(docCommand.offset + docCommand.length);
 
 				if (nextChar == bracket) {
 					stepThrough(docCommand, 1);

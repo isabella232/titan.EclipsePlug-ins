@@ -438,7 +438,7 @@ public final class ParserLogger {
 		printIndent( sb.toString(), aLevel );
 		println();
 		if ( aRootInterval.getSubIntervals() != null ) {
-			for ( Interval interval : aRootInterval.getSubIntervals() ) {
+			for ( final Interval interval : aRootInterval.getSubIntervals() ) {
 				logInterval( interval, aLevel + 1 );
 			}
 		}

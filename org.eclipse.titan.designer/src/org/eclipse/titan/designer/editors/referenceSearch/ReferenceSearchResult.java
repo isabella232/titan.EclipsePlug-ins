@@ -24,7 +24,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	private static final String ICON_SEARCH = "search.gif";
 
-	private ReferenceSearchQuery query;
+	private final ReferenceSearchQuery query;
 
 	public ReferenceSearchResult(final ReferenceSearchQuery query) {
 		super();
@@ -63,10 +63,11 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 	 */
 	@Override
 	public boolean isShownInEditor(final Match match, final IEditorPart editor) {
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 		if (match.getElement().equals(file)) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -80,7 +81,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 	 */
 	@Override
 	public Match[] computeContainedMatches(final AbstractTextSearchResult result, final IEditorPart editor) {
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 		return computeContainedMatches(result, file);
 	}
 
@@ -145,9 +146,10 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 	@Override
 	public Match[] getMatches(final Object element) {
 		if (element instanceof Match) {
-			Match[] result = { (Match) element };
+			final Match[] result = { (Match) element };
 			return result;
 		}
+
 		return super.getMatches(element);
 	}
 

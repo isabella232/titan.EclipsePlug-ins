@@ -16,8 +16,15 @@ import java.util.List;
  * @author Kristof Szabados
  */
 public class TitanGraphicString extends TitanUniversalCharString {
+	/**
+	 * Factory function to create a graphicstring from an octetstring
+	 * containing iso2022 format content.
+	 *
+	 * @param p_os
+	 *                the source octetstring.
+	 * */
 	public static TitanGraphicString TTCN_ISO2022_2_GraphicString(final TitanOctetString p_os) {
-		final char osstr[] = p_os.getValue();
+		final char osstr[] = p_os.get_value();
 		final int len = osstr.length;
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 
@@ -28,7 +35,40 @@ public class TitanGraphicString extends TitanUniversalCharString {
 		return new TitanGraphicString(ucstr);
 	}
 
-	public TitanGraphicString(final List<TitanUniversalChar> aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to unbound value.
+	 * */
+	public TitanGraphicString() {
+		//intentionally empty
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final TitanUniversalCharString otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final List<TitanUniversalChar> otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanGraphicString(final TitanGraphicString otherValue) {
+		super(otherValue);
 	}
 }

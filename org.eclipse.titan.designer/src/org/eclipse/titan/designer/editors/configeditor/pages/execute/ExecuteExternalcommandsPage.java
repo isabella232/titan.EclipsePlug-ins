@@ -27,11 +27,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * */
 public final class ExecuteExternalcommandsPage extends FormPage {
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ScrolledForm form;
 
-	private ExternalCommandsSubPage externalCommandsSubPage;
-	private ExecuteSubPage executeSubPage;
+	private final ExternalCommandsSubPage externalCommandsSubPage;
+	private final ExecuteSubPage executeSubPage;
 
 	public ExecuteExternalcommandsPage(final ConfigEditor editor) {
 		super(editor, "Execute_Externalcommands_section_page", "Execute and External commands");
@@ -43,7 +43,7 @@ public final class ExecuteExternalcommandsPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Execute and External commands sections");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
@@ -51,12 +51,12 @@ public final class ExecuteExternalcommandsPage extends FormPage {
 		layout.numColumns = 1;
 		form.getBody().setLayout(layout);
 
-		Composite componentsMC = toolkit.createComposite(form.getBody());
+		final Composite componentsMC = toolkit.createComposite(form.getBody());
 		layout = new GridLayout();
 		layout.numColumns = 1;
 		componentsMC.setLayout(layout);
 
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		final GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
 		gd.horizontalAlignment = SWT.FILL;
 		componentsMC.setLayoutData(gd);

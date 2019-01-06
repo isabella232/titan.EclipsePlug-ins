@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
@@ -21,42 +22,66 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
-	final TitanObjectid abstract_; //ObjectID_Type
-	final TitanObjectid transfer; //ObjectID_Type
+	private final TitanObjectid abstract_; //ObjectID_Type
+	private final TitanObjectid transfer; //ObjectID_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanCharacter_String_identification_syntaxes() {
+		this.abstract_ = new TitanObjectid();
+		this.transfer = new TitanObjectid();
+	}
+
+	/**
+	 * Initializes from given field values. The number of arguments equals
+	 * to the number of fields.
+	 *
+	 * @param abstract_
+	 *                the value of field abstract
+	 * @param transfer
+	 *                the value of field transfer
+	 * */
+	public TitanCharacter_String_identification_syntaxes(final TitanObjectid abstract_, final TitanObjectid transfer ) {
+		this.abstract_ = new TitanObjectid( abstract_ );
+		this.transfer = new TitanObjectid( transfer );
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes otherValue) {
+			otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
+		operator_assign( otherValue );
 	}
 
-	public TitanCharacter_String_identification_syntaxes( final TitanObjectid aAbstract_, final TitanObjectid aTransfer ) {
-		abstract_ = new TitanObjectid( aAbstract_ );
-		transfer = new TitanObjectid( aTransfer );
-	}
-
-	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
-		}
-		abstract_ = new TitanObjectid();
-		transfer = new TitanObjectid();
-		assign( aOtherValue );
-	}
-	public TitanCharacter_String_identification_syntaxes assign(final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
-		}
-
-		if (aOtherValue != this) {
-			if ( aOtherValue.getAbstract_().isBound() ) {
-				this.abstract_.assign( aOtherValue.getAbstract_() );
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharacter_String_identification_syntaxes operator_assign(final TitanCharacter_String_identification_syntaxes otherValue ) {
+		otherValue.must_bound( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
+		if (otherValue != this) {
+			if ( otherValue.get_field_abstract_().is_bound() ) {
+				this.abstract_.operator_assign( otherValue.get_field_abstract_() );
 			} else {
-				this.abstract_.cleanUp();
+				this.abstract_.clean_up();
 			}
-			if ( aOtherValue.getTransfer().isBound() ) {
-				this.transfer.assign( aOtherValue.getTransfer() );
+			if ( otherValue.get_field_transfer().is_bound() ) {
+				this.transfer.operator_assign( otherValue.get_field_transfer() );
 			} else {
-				this.transfer.cleanUp();
+				this.transfer.clean_up();
 			}
 		}
 
@@ -64,75 +89,110 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
-	public TitanCharacter_String_identification_syntaxes assign(final Base_Type otherValue) {
+	public TitanCharacter_String_identification_syntaxes operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharacter_String_identification_syntaxes ) {
-			return assign((TitanCharacter_String_identification_syntaxes) otherValue);
+			return operator_assign((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", otherValue));
 	}
 
-	public void cleanUp() {
-		abstract_.cleanUp();
-		transfer.cleanUp();
+	@Override
+	public void clean_up() {
+		abstract_.clean_up();
+		transfer.clean_up();
 	}
 
 	@Override
-	public boolean isBound() {
-		if ( abstract_.isBound() ) { return true; }
-		if ( transfer.isBound() ) { return true; }
-		return false;
+	public boolean is_bound() {
+		return abstract_.is_bound()
+				|| transfer.is_bound();
 	}
 
 	@Override
-	public boolean isPresent() {
-		return isBound();
+	public boolean is_present() {
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
-		if ( !abstract_.isValue() ) { return false; }
-		if ( !transfer.isValue() ) { return false; }
-		return true;
+	public boolean is_value() {
+		return abstract_.is_value()
+				&& transfer.is_value();
 	}
 
-	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !this.abstract_.operatorEquals( aOtherValue.abstract_ ) ) { return false; }
-		if ( !this.transfer.operatorEquals( aOtherValue.transfer ) ) { return false; }
-		return true;
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
+	 */
+	public boolean operator_equals( final TitanCharacter_String_identification_syntaxes other_value) {
+		return abstract_.operator_equals( other_value.abstract_ )
+				&& transfer.operator_equals( other_value.transfer );
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanCharacter_String_identification_syntaxes ) {
-			return operatorEquals((TitanCharacter_String_identification_syntaxes) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanCharacter_String_identification_syntaxes ) {
+			return operator_equals((TitanCharacter_String_identification_syntaxes) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", other_value));
 	}
 
-	public TitanObjectid getAbstract_() {
+	/**
+	 * Gives access to the field abstract.
+	 *
+	 * @return the field abstract.
+	 * */
+	public TitanObjectid get_field_abstract_() {
 		return abstract_;
 	}
 
-	public TitanObjectid constGetAbstract_() {
+	/**
+	 * Gives read-only access to the field abstract.
+	 *
+	 * @return the field abstract.
+	 * */
+	public TitanObjectid constGet_field_abstract_() {
 		return abstract_;
 	}
 
-	public TitanObjectid getTransfer() {
+	/**
+	 * Gives access to the field transfer.
+	 *
+	 * @return the field transfer.
+	 * */
+	public TitanObjectid get_field_transfer() {
 		return transfer;
 	}
 
-	public TitanObjectid constGetTransfer() {
+	/**
+	 * Gives read-only access to the field transfer.
+	 *
+	 * @return the field transfer.
+	 * */
+	public TitanObjectid constGet_field_transfer() {
 		return transfer;
 	}
 
-	public TitanInteger sizeOf() {
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
+	public TitanInteger size_of() {
 		return new TitanInteger(2);
 	}
 
+	@Override
 	public void log() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_Logger.log_event_unbound();
 			return;
 		}
@@ -146,11 +206,61 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
+		switch (param.get_type()) {
+		case MP_Value_List:
+			if (param.get_size() > 2) {
+				param.error(MessageFormat.format("set value of type CHARACTER STRING.identification.syntaxes has 2 fields but list value has {0} fields.", param.get_size()));
+			}
+			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				get_field_abstract_().set_param(param.get_elem(0));
+			}
+			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				get_field_transfer().set_param(param.get_elem(1));
+			}
+			break;
+		case MP_Assignment_List: {
+			final boolean value_used[] = new boolean[param.get_size()];
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				final Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("abstract".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						get_field_abstract_().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				final Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("transfer".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						get_field_transfer().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				if (!value_used[val_idx]) {
+					final Module_Parameter curr_param = param.get_elem(val_idx);
+					curr_param.error(MessageFormat.format("Non existent field name in type CHARACTER STRING.identification.syntaxes: {0}", curr_param.get_id().get_name()));
+					break;
+				}
+			}
+			break;
+		}
+		default:
+			param.type_error("set value", "CHARACTER STRING.identification.syntaxes");
+			break;
+		}
+	}
+
+	@Override
 	public void set_implicit_omit() {
-		if (abstract_.isBound()) {
+		if (abstract_.is_bound()) {
 			abstract_.set_implicit_omit();
 		}
-		if (transfer.isBound()) {
+		if (transfer.is_bound()) {
 			transfer.set_implicit_omit();
 		}
 	}
@@ -175,11 +285,11 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
-			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
+			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -219,7 +329,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 					break;
 				}
 			}
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:

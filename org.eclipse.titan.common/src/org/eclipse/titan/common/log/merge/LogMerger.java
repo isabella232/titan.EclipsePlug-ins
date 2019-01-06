@@ -38,10 +38,15 @@ public class LogMerger {
 
 	/**
 	 * Returns false if error occurred
-	 * @param files the list of files to be merged.
-	 * @param outputFile the output file
-	 * @param monitor the progress monitor
-	 * @return {@code true} if the operation completed successfully, {@code false} otherwise
+	 * 
+	 * @param files
+	 *                the list of files to be merged.
+	 * @param outputFile
+	 *                the output file
+	 * @param monitor
+	 *                the progress monitor
+	 * @return {@code true} if the operation completed successfully,
+	 *         {@code false} otherwise
 	 */
 	public boolean merge(final List<IFile> files, final File outputFile, final IProgressMonitor monitor) {
 		isErroneous = false;

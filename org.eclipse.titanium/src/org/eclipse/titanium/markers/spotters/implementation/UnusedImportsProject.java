@@ -17,13 +17,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ModuleImportation;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -56,26 +56,28 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			setOfImportedModules.clear();
 			setOfImportedModules.addAll( module.getImportedModules());
 
-			ImportsCheck check = new ImportsCheck();
+			final ImportsCheck check = new ImportsCheck();
 			module.accept(check);
 
 			setOfImportedModules.removeAll(check.getModules());
 
 			if (module instanceof TTCN3Module) {
 				for (ImportModule mod : ((TTCN3Module)module).getImports()){
+					final Identifier importIdentifier = mod.getIdentifier();
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(mod.getIdentifier())) {
-							problems.report(mod.getIdentifier().getLocation(), "Possibly unused importation");
+						if(m.getIdentifier().equals(importIdentifier)) {
+							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
 					}
 				}
 			} else {
-				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
+				final ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
 				for (ModuleImportation im : importsCheck.getImports()) {
+					final Identifier importIdentifier = im.getIdentifier();
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(im.getIdentifier())) {
-							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation");
+						if(m.getIdentifier().equals(importIdentifier)) {
+							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
 					}
 				}
@@ -85,7 +87,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
 	class ImportsCheck extends ASTVisitor {
 
-		private Set<Module> setOfModules = new HashSet<Module>();
+		private final Set<Module> setOfModules = new HashSet<Module>();
 
 		public ImportsCheck() {
 			setOfModules.clear();
@@ -116,7 +118,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 	}
 
 	class ModuleImportsCheck extends ASTVisitor {
-		private Set<ModuleImportation> setOfModules = new HashSet<ModuleImportation>();
+		private final Set<ModuleImportation> setOfModules = new HashSet<ModuleImportation>();
 
 		public ModuleImportsCheck() {
 			setOfModules.clear();

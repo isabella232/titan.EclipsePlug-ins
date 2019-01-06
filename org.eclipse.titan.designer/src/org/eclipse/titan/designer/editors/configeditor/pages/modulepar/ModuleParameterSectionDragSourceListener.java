@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.ModuleParameterSectionHandle
  * */
 public final class ModuleParameterSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private ModuleParameterSectionPage moduleParSubPage;
+	private final TableViewer viewer;
+	private final ModuleParameterSectionPage moduleParSubPage;
 
 	public ModuleParameterSectionDragSourceListener(final ModuleParameterSectionPage moduleParSubPage, final TableViewer viewer) {
 		this.moduleParSubPage = moduleParSubPage;
@@ -33,8 +33,7 @@ public final class ModuleParameterSectionDragSourceListener implements DragSourc
 
 	@Override
 	public void dragFinished(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		if (!selection.isEmpty()) {
 			viewer.getTable().setRedraw(false);
 			if (event.detail == DND.DROP_MOVE) {
@@ -48,11 +47,11 @@ public final class ModuleParameterSectionDragSourceListener implements DragSourc
 	@Override
 	public void dragSetData(final DragSourceEvent event) {
 		if (ModuleParameterTransfer.getInstance().isSupportedType(event.dataType)) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			List<ModuleParameter> items = new ArrayList<ModuleParameter>();
+			final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			final List<ModuleParameter> items = new ArrayList<ModuleParameter>();
 			if (!selection.isEmpty()) {
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
-					Object element = it.next();
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
+					final Object element = it.next();
 					if (element instanceof ModuleParameter) {
 						items.add((ModuleParameter) element);
 					}
@@ -64,7 +63,7 @@ public final class ModuleParameterSectionDragSourceListener implements DragSourc
 
 	@Override
 	public void dragStart(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		event.doit = !selection.isEmpty() && (selection.getFirstElement() instanceof ModuleParameter);
 	}
 

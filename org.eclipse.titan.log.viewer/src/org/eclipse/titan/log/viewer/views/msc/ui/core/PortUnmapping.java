@@ -106,7 +106,7 @@ public class PortUnmapping extends PortEventNode {
 		//   P3 \\// P2           P3 \\// P2
 		//       \/                   \/
 		//       P4                    P4
-		int[] pointsB = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
+		final int[] pointsB = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
 				x - direction * (MSCConstants.MESSAGE_SYMBOL_SIZE - 2), y,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2 - 2,
 				x - direction * 2, y};
@@ -129,7 +129,7 @@ public class PortUnmapping extends PortEventNode {
 		//   P3 \   / P2           P3 \   / P2
 		//       \ /                   \ /
 		//       P4                    P4
-		int[] pointsA = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+		final int[] pointsA = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
 				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
 				x, y};

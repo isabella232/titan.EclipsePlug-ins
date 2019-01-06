@@ -132,7 +132,7 @@ public class TtcnError extends Error {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
 			final TitanCharString error_str = TTCN_Logger.end_event_log2str();
 
-			throw new TtcnError(error_str.getValue().toString());
+			throw new TtcnError(error_str.get_value().toString());
 		} else {
 			TTCN_Logger.end_event();
 			TTCN_Runtime.set_error_verdict();

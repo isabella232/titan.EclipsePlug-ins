@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -60,6 +61,7 @@ public final class Receive_Port_Statement extends Statement {
 	private static final String FULLNAMEPART4 = ".redirectvalue";
 	private static final String FULLNAMEPART5 = ".redirectsender";
 	private static final String FULLNAMEPART6 = ".redirectIndex";
+	private static final String FULLNAMEPART7 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "receive";
 
 	private final Reference portReference;
@@ -70,9 +72,11 @@ public final class Receive_Port_Statement extends Statement {
 	private final Reference redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
+	private final Reference redirectTimestamp;
 
-	public Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
-			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final boolean translate) {
+	public Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter,
+			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender,
+			final Reference redirectIndex, final Reference redirectTimestamp, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.translate = translate;
@@ -81,6 +85,7 @@ public final class Receive_Port_Statement extends Statement {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -99,6 +104,9 @@ public final class Receive_Port_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -152,6 +160,8 @@ public final class Receive_Port_Statement extends Statement {
 			return builder.append(FULLNAMEPART5);
 		} else if (redirectIndex == child) {
 			return builder.append(FULLNAMEPART6);
+		} else if (redirectTimestamp == child) {
+			return builder.append(FULLNAMEPART7);
 		}
 
 		return builder;
@@ -179,6 +189,35 @@ public final class Receive_Port_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null && !translate) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (receiveParameter != null) {
+			receiveParameter.setCodeSection(codeSection);
+		}
+		if (fromClause != null) {
+			fromClause.setCodeSection(codeSection);
+		}
+		if (redirectValue != null) {
+			redirectValue.setCodeSection(codeSection);
+		}
+		if (redirectSender != null) {
+			redirectSender.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -200,7 +239,8 @@ public final class Receive_Port_Statement extends Statement {
 			return;
 		}
 
-		checkReceivingStatement(timestamp, this, "receive", portReference, anyFrom, translate, receiveParameter, fromClause, redirectValue, redirectSender, redirectIndex);
+		checkReceivingStatement(timestamp, this, "receive", portReference, anyFrom, translate, receiveParameter, fromClause, redirectValue,
+				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -210,6 +250,9 @@ public final class Receive_Port_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setUsedOnLeftHandSide();
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setUsedOnLeftHandSide();
 		}
 
 		lastTimeChecked = timestamp;
@@ -236,10 +279,14 @@ public final class Receive_Port_Statement extends Statement {
 	 *                the redirection value of the statement.
 	 * @param redirectSender
 	 *                the sender redirection of the statement.
+	 * @param redirectIndex
+	 *                the index redirection of the statement.
+	 * @param redirectTimestamp
+	 *                the timestamp redirection of the statement.
 	 * */
 	public static void checkReceivingStatement(final CompilationTimeStamp timestamp, final Statement origin, final String statementName,
 			final Reference portReference, final boolean anyFrom, final boolean translate, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
-			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		Port_Type portType;
 		if (translate) {
 			final PortScope ps = origin.getMyStatementBlock().getScopePort();
@@ -338,6 +385,8 @@ public final class Receive_Port_Statement extends Statement {
 			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
 			checkIndexRedirection(timestamp, redirectIndex, assignment == null ? null : ((Def_Port)assignment).getDimensions(), anyFrom, "port");
 		}
+
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 	}
 
 	@Override
@@ -407,6 +456,11 @@ public final class Receive_Port_Statement extends Statement {
 			redirectIndex.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectIndex.getLocation());
 		}
+
+		if (redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -430,6 +484,9 @@ public final class Receive_Port_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -451,6 +508,9 @@ public final class Receive_Port_Statement extends Statement {
 			return false;
 		}
 		if (redirectIndex != null && !redirectIndex.accept(v)) {
+			return false;
+		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
 			return false;
 		}
 		return true;
@@ -513,6 +573,13 @@ public final class Receive_Port_Statement extends Statement {
 			expression.expression.append("null");
 		}else {
 			redirectSender.generateCode(aData, expression);
+		}
+
+		expression.expression.append(", ");
+		if (redirectTimestamp == null) {
+			expression.expression.append("null");
+		}else {
+			redirectTimestamp.generateCode(aData, expression);
 		}
 
 		if (portReference != null || translate) {

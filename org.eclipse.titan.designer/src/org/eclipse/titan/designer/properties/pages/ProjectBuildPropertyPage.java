@@ -52,7 +52,7 @@ public final class ProjectBuildPropertyPage extends PropertyPage {
 	private InternalMakefileCreationTab internalMakefileCreationTab;
 	private MakeAttributesTab makeAttributesTab;
 
-	private PreferenceStore tempStorage;
+	private final PreferenceStore tempStorage;
 	private IProject projectResource;
 
 	private ConfigurationManagerControl configurationManager;

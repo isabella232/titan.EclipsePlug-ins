@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
@@ -21,43 +22,66 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanExternal_identification_context__negotiation extends Base_Type {
-	final TitanInteger presentation__context__id; //ASN1_Integer_Type
-	final TitanObjectid transfer__syntax; //ObjectID_Type
+	private final TitanInteger presentation__context__id; //ASN1_Integer_Type
+	private final TitanObjectid transfer__syntax; //ObjectID_Type
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanExternal_identification_context__negotiation() {
+		this.presentation__context__id = new TitanInteger();
+		this.transfer__syntax = new TitanObjectid();
+	}
+
+	/**
+	 * Initializes from given field values. The number of arguments equals
+	 * to the number of fields.
+	 *
+	 * @param presentation__context__id
+	 *                the value of field presentation-context-id
+	 * @param transfer__syntax
+	 *                the value of field transfer-syntax
+	 * */
+	public TitanExternal_identification_context__negotiation(final TitanInteger presentation__context__id, final TitanObjectid transfer__syntax ) {
+		this.presentation__context__id = new TitanInteger( presentation__context__id );
+		this.transfer__syntax = new TitanObjectid( transfer__syntax );
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation otherValue) {
+			otherValue.must_bound("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
+		operator_assign( otherValue );
 	}
 
-	public TitanExternal_identification_context__negotiation( final TitanInteger aPresentation__context__id, final TitanObjectid aTransfer__syntax ) {
-		presentation__context__id = new TitanInteger( aPresentation__context__id );
-		transfer__syntax = new TitanObjectid( aTransfer__syntax );
-	}
-
-	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
-		}
-		presentation__context__id = new TitanInteger();
-		transfer__syntax = new TitanObjectid();
-		assign( aOtherValue );
-	}
-
-	public TitanExternal_identification_context__negotiation assign(final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
-			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
-		}
-
-		if (aOtherValue != this) {
-			if ( aOtherValue.getPresentation__context__id().isBound() ) {
-				this.presentation__context__id.assign( aOtherValue.getPresentation__context__id() );
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanExternal_identification_context__negotiation operator_assign(final TitanExternal_identification_context__negotiation otherValue ) {
+		otherValue.must_bound( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
+		if (otherValue != this) {
+			if ( otherValue.get_field_presentation__context__id().is_bound() ) {
+				this.presentation__context__id.operator_assign( otherValue.get_field_presentation__context__id() );
 			} else {
-				this.presentation__context__id.cleanUp();
+				this.presentation__context__id.clean_up();
 			}
-			if ( aOtherValue.getTransfer__syntax().isBound() ) {
-				this.transfer__syntax.assign( aOtherValue.getTransfer__syntax() );
+			if ( otherValue.get_field_transfer__syntax().is_bound() ) {
+				this.transfer__syntax.operator_assign( otherValue.get_field_transfer__syntax() );
 			} else {
-				this.transfer__syntax.cleanUp();
+				this.transfer__syntax.clean_up();
 			}
 		}
 
@@ -65,75 +89,110 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	}
 
 	@Override
-	public TitanExternal_identification_context__negotiation assign(final Base_Type otherValue) {
+	public TitanExternal_identification_context__negotiation operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanExternal_identification_context__negotiation ) {
-			return assign((TitanExternal_identification_context__negotiation) otherValue);
+			return operator_assign((TitanExternal_identification_context__negotiation) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.context-negotiation", otherValue));
 	}
 
-	public void cleanUp() {
-		presentation__context__id.cleanUp();
-		transfer__syntax.cleanUp();
+	@Override
+	public void clean_up() {
+		presentation__context__id.clean_up();
+		transfer__syntax.clean_up();
 	}
 
 	@Override
-	public boolean isBound() {
-		if ( presentation__context__id.isBound() ) { return true; }
-		if ( transfer__syntax.isBound() ) { return true; }
-		return false;
+	public boolean is_bound() {
+		return presentation__context__id.is_bound()
+				|| transfer__syntax.is_bound();
 	}
 
 	@Override
-	public boolean isPresent() {
-		return isBound();
+	public boolean is_present() {
+		return is_bound();
 	}
 
 	@Override
-	public boolean isValue() {
-		if ( !presentation__context__id.isValue() ) { return false; }
-		if ( !transfer__syntax.isValue() ) { return false; }
-		return true;
+	public boolean is_value() {
+		return presentation__context__id.is_value()
+				&& transfer__syntax.is_value();
 	}
 
-	public boolean operatorEquals( final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if ( !this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id ) ) { return false; }
-		if ( !this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax ) ) { return false; }
-		return true;
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if all fields are equivalent, {@code false} otherwise.
+	 */
+	public boolean operator_equals( final TitanExternal_identification_context__negotiation other_value) {
+		return presentation__context__id.operator_equals( other_value.presentation__context__id )
+				&& transfer__syntax.operator_equals( other_value.transfer__syntax );
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanExternal_identification_context__negotiation ) {
-			return operatorEquals((TitanExternal_identification_context__negotiation) otherValue);
+	public boolean operator_equals(final Base_Type other_value) {
+		if (other_value instanceof TitanExternal_identification_context__negotiation ) {
+			return operator_equals((TitanExternal_identification_context__negotiation) other_value);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.context-negotiation", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.context-negotiation", other_value));
 	}
 
-	public TitanInteger getPresentation__context__id() {
+	/**
+	 * Gives access to the field presentation-context-id.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
+	public TitanInteger get_field_presentation__context__id() {
 		return presentation__context__id;
 	}
 
-	public TitanInteger constGetPresentation__context__id() {
+	/**
+	 * Gives read-only access to the field presentation-context-id.
+	 *
+	 * @return the field presentation-context-id.
+	 * */
+	public TitanInteger constGet_field_presentation__context__id() {
 		return presentation__context__id;
 	}
 
-	public TitanObjectid getTransfer__syntax() {
+	/**
+	 * Gives access to the field transfer-syntax.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
+	public TitanObjectid get_field_transfer__syntax() {
 		return transfer__syntax;
 	}
 
-	public TitanObjectid constGetTransfer__syntax() {
+	/**
+	 * Gives read-only access to the field transfer-syntax.
+	 *
+	 * @return the field transfer-syntax.
+	 * */
+	public TitanObjectid constGet_field_transfer__syntax() {
 		return transfer__syntax;
 	}
 
-	public TitanInteger sizeOf() {
+	/**
+	 * Returns the size (number of fields).
+	 *
+	 * size_of in the core
+	 *
+	 * @return the size of the structure.
+	 * */
+	public TitanInteger size_of() {
 		return new TitanInteger(2);
 	}
 
+	@Override
 	public void log() {
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_Logger.log_event_unbound();
 			return;
 		}
@@ -147,11 +206,61 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	}
 
 	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
+		switch (param.get_type()) {
+		case MP_Value_List:
+			if (param.get_size() > 2) {
+				param.error(MessageFormat.format("set value of type EXTERNAL.identification.context-negotiation has 2 fields but list value has {0} fields.", param.get_size()));
+			}
+			if (param.get_size() > 0 && param.get_elem(0).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				get_field_presentation__context__id().set_param(param.get_elem(0));
+			}
+			if (param.get_size() > 1 && param.get_elem(1).get_type() != Module_Parameter.type_t.MP_NotUsed) {
+				get_field_transfer__syntax().set_param(param.get_elem(1));
+			}
+			break;
+		case MP_Assignment_List: {
+			final boolean value_used[] = new boolean[param.get_size()];
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				final Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("presentation-context-id".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						get_field_presentation__context__id().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				final Module_Parameter curr_param = param.get_elem(val_idx);
+				if ("transfer-syntax".equals(curr_param.get_id().get_name())) {
+					if (curr_param.get_type() != Module_Parameter.type_t.MP_NotUsed) {
+						get_field_transfer__syntax().set_param(curr_param);
+					}
+					value_used[val_idx] = true;
+				}
+			}
+			for (int val_idx = 0; val_idx < param.get_size(); val_idx++) {
+				if (!value_used[val_idx]) {
+					final Module_Parameter curr_param = param.get_elem(val_idx);
+					curr_param.error(MessageFormat.format("Non existent field name in type EXTERNAL.identification.context-negotiation: {0}", curr_param.get_id().get_name()));
+					break;
+				}
+			}
+			break;
+		}
+		default:
+			param.type_error("set value", "EXTERNAL.identification.context-negotiation");
+			break;
+		}
+	}
+
+	@Override
 	public void set_implicit_omit() {
-		if (presentation__context__id.isBound()) {
+		if (presentation__context__id.is_bound()) {
 			presentation__context__id.set_implicit_omit();
 		}
-		if (transfer__syntax.isBound()) {
+		if (transfer__syntax.is_bound()) {
 			transfer__syntax.set_implicit_omit();
 		}
 	}
@@ -176,11 +285,11 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
-			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
+			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -220,7 +329,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 					break;
 				}
 			}
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:

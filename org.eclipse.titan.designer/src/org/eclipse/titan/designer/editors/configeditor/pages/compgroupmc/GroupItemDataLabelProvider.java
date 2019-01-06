@@ -25,7 +25,7 @@ public final class GroupItemDataLabelProvider extends LabelProvider implements I
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof GroupItem) {
-			GroupItem parameter = (GroupItem) element;
+			final GroupItem parameter = (GroupItem) element;
 			switch (columnIndex) {
 			case 0:
 				if (parameter.getItem() == null) {

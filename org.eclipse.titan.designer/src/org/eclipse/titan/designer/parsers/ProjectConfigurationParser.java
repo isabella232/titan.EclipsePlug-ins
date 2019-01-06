@@ -73,18 +73,18 @@ import org.eclipse.ui.progress.IProgressConstants;
 public final class ProjectConfigurationParser {
 	private static final String SOURCE_ANALYSING = "Analysing the config file";
 	private static final String PARSING = "parsing";
-	private IProject project;
-	private Map<IFile, String> uptodateFiles;
-	private Set<IFile> highlySyntaxErroneousFiles;
-	private Map<IFile, String> fileMap;
-	private Map<String, CfgDefinitionInformation> definitions;
+	private final IProject project;
+	private final Map<IFile, String> uptodateFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
+	private final Map<IFile, String> fileMap;
+	private final Map<String, CfgDefinitionInformation> definitions;
 
 	/**
 	 * Counts how many parallel analyzer threads are running. Should not be
 	 * more than 2. It can be 2 if there were changes while the existing
 	 * analyzes run, which have to be checked by a subsequent check.
 	 * */
-	private AtomicInteger analyzersRunning = new AtomicInteger();
+	private final AtomicInteger analyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastAnalyzes = null;
@@ -143,7 +143,7 @@ public final class ProjectConfigurationParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final IFile outdatedFile) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				if (uptodateFiles.containsKey(outdatedFile)) {
@@ -177,7 +177,7 @@ public final class ProjectConfigurationParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final List<IFile> outdatedFiles) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for " + outdatedFiles.size() + " files") {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for " + outdatedFiles.size() + " files") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				for (IFile file : outdatedFiles) {
@@ -202,15 +202,15 @@ public final class ProjectConfigurationParser {
 	 * Removes data related to modules, that were deleted or moved.
 	 **/
 	private void removedReferencestoRemovedFiles() {
-		List<IFile> filesToRemove = new ArrayList<IFile>();
-		for (IFile file : fileMap.keySet()) {
+		final List<IFile> filesToRemove = new ArrayList<IFile>();
+		for (final IFile file : fileMap.keySet()) {
 			if (!file.isAccessible()) {
 				uptodateFiles.remove(file);
 				filesToRemove.add(file);
 			}
 		}
 
-		for (IFile file : filesToRemove) {
+		for (final IFile file : filesToRemove) {
 			fileMap.remove(file);
 		}
 	}
@@ -220,15 +220,15 @@ public final class ProjectConfigurationParser {
 
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
 
-		OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
+		final OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
 		try {
 			project.accept(visitor);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		List<IFile> filesToCheck = visitor.getCFGFilesToCheck();
+		final List<IFile> filesToCheck = visitor.getCFGFilesToCheck();
 
-		for (IFile file : uptodateFiles.keySet()) {
+		for (final IFile file : uptodateFiles.keySet()) {
 			MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 			MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 		}
@@ -278,11 +278,11 @@ public final class ProjectConfigurationParser {
 
 		monitor.done();
 
-		for (IFile file : uptodateFiles.keySet()) {
+		for (final IFile file : uptodateFiles.keySet()) {
 			MarkerHandler.removeAllOnTheFlyMarkedMarkers(file);
 		}
 
-		for (IFile file : filesToCheck) {
+		for (final IFile file : filesToCheck) {
 			if (!uptodateFiles.containsKey(file)) {
 				MarkerHandler.removeAllOnTheFlyMarkedMarkers(file);
 			}
@@ -391,12 +391,12 @@ public final class ProjectConfigurationParser {
 			editor = (ConfigTextEditor) tempEditor;
 		}
 
-		String oldConfigFilePath = fileMap.get(file);
+		final String oldConfigFilePath = fileMap.get(file);
 		if (oldConfigFilePath != null) {
 			fileMap.remove(file);
 		}
 
-		CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 		cfgAnalyzer.parse(file, document == null ? null : document.get());
 		errorsStored = cfgAnalyzer.getErrorStorage();
 		final CfgParseResult cfgParseResult = cfgAnalyzer.getCfgParseResult();
@@ -427,7 +427,7 @@ public final class ProjectConfigurationParser {
 			}
 
 			if (editor != null && editor.getDocument() != null) {
-				ConfigEditor parentEditor = editor.getParentEditor();
+				final ConfigEditor parentEditor = editor.getParentEditor();
 				if ( errorsStored == null || errorsStored.isEmpty() ) {
 					parentEditor.setParseTreeRoot(cfgParseResult.getParseTreeRoot());
 					parentEditor.setTokens(cfgParseResult.getTokens());
@@ -451,9 +451,9 @@ public final class ProjectConfigurationParser {
 		}
 
 		if (warningsAndErrors != null) {
-			for (TITANMarker marker : warningsAndErrors) {
+			for (final TITANMarker marker : warningsAndErrors) {
 				if (file.isAccessible()) {
-					Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+					final Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					location.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
 							GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				}
@@ -461,7 +461,7 @@ public final class ProjectConfigurationParser {
 		}
 
 		if (errorsStored != null && !errorsStored.isEmpty()) {
-			String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+			final String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, GeneralConstants.WARNING, null);
 			int errorLevel;
 			if (GeneralConstants.ERROR.equals(reportLevel)) {
@@ -477,14 +477,14 @@ public final class ProjectConfigurationParser {
 		}
 
 		if (document != null && editors != null) {
-			ConfigFoldingSupport foldingSupport = new ConfigFoldingSupport();
+			final ConfigFoldingSupport foldingSupport = new ConfigFoldingSupport();
 			final IDocument tempDocument = document;
 			final List<ISemanticTITANEditor> editors2 = editors;
 			final List<Position> positions = foldingSupport.calculatePositions(tempDocument);
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					for (ISemanticTITANEditor editor : editors2) {
+					for (final ISemanticTITANEditor editor : editors2) {
 						editor.updateFoldingStructure(positions);
 						editor.invalidateTextPresentation();
 					}

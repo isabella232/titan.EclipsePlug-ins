@@ -50,7 +50,7 @@ public final class TTCN_Logger {
 			default_console_mask.bits[Severity.STATISTICS_UNQUALIFIED.ordinal()] = true;
 			default_console_mask.bits[Severity.STATISTICS_VERDICT.ordinal()] = true;
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
-			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
+			//FIXME user unqualified should only be part of the default console log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
@@ -104,6 +104,7 @@ public final class TTCN_Logger {
 			log_all.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 			log_all.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 
+			// the for loop starts intentionally from 1, because 0 means NOTHING_TO_LOG
 			for (int i = 1; i < Severity.NUMBER_OF_LOGSEVERITIES.ordinal(); i++) {
 				log_everything.bits[i] = true;
 			}
@@ -115,6 +116,138 @@ public final class TTCN_Logger {
 
 		public Logging_Bits(final Logging_Bits other) {
 			System.arraycopy(other.bits, 0, bits, 0, other.bits.length);
+		}
+
+		/**
+		 * Adds one logging bit to the bitmask
+		 * @param loggingBit bit to add
+		 */
+		private void addBit(final Severity loggingBit) {
+			bits[loggingBit.ordinal()] = true;
+		}
+
+		/**
+		 * Adds a bitmask to the bitmask
+		 * @param loggingBit bitmask to add
+		 */
+		public void addBitmask(final Logging_Bits loggingBitmask) {
+			for (int i = 0; i < Severity.NUMBER_OF_LOGSEVERITIES.ordinal(); i++) {
+				if (loggingBitmask.bits[i]) {
+					bits[i] = true;
+				}
+			}
+		}
+
+		/**
+		 * Adds a logging bit or a logging category to the bitmap
+		 * @param loggingBit a logging bit to add. If it is a category, the all the bits in that category will be added
+		 */
+		public void add(final Severity loggingBit) {
+			addBit(loggingBit);
+			switch(loggingBit) {
+			case ACTION_UNQUALIFIED:
+				addBit(Severity.ACTION_UNQUALIFIED);
+				break;
+			case DEFAULTOP_UNQUALIFIED:
+				addBit(Severity.DEFAULTOP_ACTIVATE);
+				addBit(Severity.DEFAULTOP_DEACTIVATE);
+				addBit(Severity.DEFAULTOP_EXIT);
+				addBit(Severity.DEFAULTOP_UNQUALIFIED);
+				break;
+			case ERROR_UNQUALIFIED:
+				addBit(Severity.ERROR_UNQUALIFIED);
+				break;
+			case EXECUTOR_UNQUALIFIED:
+				addBit(Severity.EXECUTOR_RUNTIME);
+				addBit(Severity.EXECUTOR_CONFIGDATA);
+				addBit(Severity.EXECUTOR_EXTCOMMAND);
+				addBit(Severity.EXECUTOR_COMPONENT);
+				addBit(Severity.EXECUTOR_LOGOPTIONS);
+				addBit(Severity.EXECUTOR_UNQUALIFIED);
+				break;
+			case FUNCTION_UNQUALIFIED:
+				addBit(Severity.FUNCTION_RND);
+				addBit(Severity.FUNCTION_UNQUALIFIED);
+				break;
+			case PARALLEL_UNQUALIFIED:
+				addBit(Severity.PARALLEL_PTC);
+				addBit(Severity.PARALLEL_PORTCONN);
+				addBit(Severity.PARALLEL_PORTMAP);
+				addBit(Severity.PARALLEL_UNQUALIFIED);
+				break;
+			case PORTEVENT_UNQUALIFIED:
+				addBit(Severity.PORTEVENT_PQUEUE);
+				addBit(Severity.PORTEVENT_MQUEUE);
+				addBit(Severity.PORTEVENT_STATE);
+				addBit(Severity.PORTEVENT_PMIN);
+				addBit(Severity.PORTEVENT_PMOUT);
+				addBit(Severity.PORTEVENT_PCIN);
+				addBit(Severity.PORTEVENT_PCOUT);
+				addBit(Severity.PORTEVENT_MMRECV);
+				addBit(Severity.PORTEVENT_MMSEND);
+				addBit(Severity.PORTEVENT_MCRECV);
+				addBit(Severity.PORTEVENT_MCSEND);
+				addBit(Severity.PORTEVENT_DUALRECV);
+				addBit(Severity.PORTEVENT_DUALSEND);
+				addBit(Severity.PORTEVENT_UNQUALIFIED);
+				addBit(Severity.PORTEVENT_SETSTATE);
+				break;
+			case TESTCASE_UNQUALIFIED:
+				addBit(Severity.TESTCASE_START);
+				addBit(Severity.TESTCASE_FINISH);
+				addBit(Severity.TESTCASE_UNQUALIFIED);
+				break;
+			case TIMEROP_UNQUALIFIED:
+				addBit(Severity.TIMEROP_READ);
+				addBit(Severity.TIMEROP_START);
+				addBit(Severity.TIMEROP_GUARD);
+				addBit(Severity.TIMEROP_STOP);
+				addBit(Severity.TIMEROP_TIMEOUT);
+				addBit(Severity.TIMEROP_UNQUALIFIED);
+				break;
+			case USER_UNQUALIFIED:
+				addBit(Severity.USER_UNQUALIFIED);
+				break;
+			case STATISTICS_UNQUALIFIED:
+				addBit(Severity.STATISTICS_VERDICT);
+				addBit(Severity.STATISTICS_UNQUALIFIED);
+				break;
+			case VERDICTOP_UNQUALIFIED:
+				addBit(Severity.VERDICTOP_GETVERDICT);
+				addBit(Severity.VERDICTOP_SETVERDICT);
+				addBit(Severity.VERDICTOP_FINAL);
+				addBit(Severity.VERDICTOP_UNQUALIFIED);
+				break;
+			case WARNING_UNQUALIFIED:
+				addBit(Severity.WARNING_UNQUALIFIED);
+				break;
+			case MATCHING_UNQUALIFIED:
+				addBit(Severity.MATCHING_DONE);
+				addBit(Severity.MATCHING_TIMEOUT);
+				addBit(Severity.MATCHING_PCSUCCESS);
+				addBit(Severity.MATCHING_PCUNSUCC);
+				addBit(Severity.MATCHING_PMSUCCESS);
+				addBit(Severity.MATCHING_PMUNSUCC);
+				addBit(Severity.MATCHING_MCSUCCESS);
+				addBit(Severity.MATCHING_MCUNSUCC);
+				addBit(Severity.MATCHING_MMSUCCESS);
+				addBit(Severity.MATCHING_MMUNSUCC);
+				addBit(Severity.MATCHING_PROBLEM);
+				addBit(Severity.MATCHING_UNQUALIFIED);
+				break;
+			case DEBUG_UNQUALIFIED:
+				addBit(Severity.DEBUG_ENCDEC);
+				addBit(Severity.DEBUG_TESTPORT);
+				addBit(Severity.DEBUG_USER);
+				addBit(Severity.DEBUG_FRAMEWORK);
+				addBit(Severity.DEBUG_UNQUALIFIED);
+				break;
+			case LOG_ALL_IMPORTANT:
+				addBitmask(Logging_Bits.log_all);
+				break;
+			default:
+				break;
+			}
 		}
 
 		public String describe() {
@@ -184,13 +317,13 @@ public final class TTCN_Logger {
 
 	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
-			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+		"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	private static long start_time;
-	
+
 	private static String executable_name;
 
 	private static log_event_types_t log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
-	
+
 	/// The default log format is the legacy (original) format.
 	private static data_log_format_t data_log_format = data_log_format_t.LF_LEGACY;
 
@@ -224,7 +357,7 @@ public final class TTCN_Logger {
 	public static class disk_full_action_t {
 		disk_full_action_type_t type;
 		int retry_interval;
-		
+
 		public disk_full_action_t(final disk_full_action_type_t disk_type, final int retry) {
 			type = disk_type;
 			retry_interval = retry;
@@ -321,8 +454,7 @@ public final class TTCN_Logger {
 		LOG_ALL_IMPORTANT
 	};
 
-	public static final Severity sev_categories[]=
-	{
+	public static final Severity sev_categories[]= {
 		Severity.NOTHING_TO_LOG,//=0
 		Severity.ACTION_UNQUALIFIED,
 		Severity.DEFAULTOP_UNQUALIFIED,
@@ -361,91 +493,91 @@ public final class TTCN_Logger {
 	};
 
 	/** Sub-category names for all Severity enum values,
-	* used when TTCN_Logger::log_event_types is set to log sub-categories */
+	 * used when TTCN_Logger::log_event_types is set to log sub-categories */
 	public static String severity_subcategory_names[] = {
-		  "",
-		  // ACTION:
-		  "UNQUALIFIED",
-		  // DEFAULTOP:
-		  "ACTIVATE",
-		  "DEACTIVATE",
-		  "EXIT",
-		  "UNQUALIFIED",
-		  // ERROR:
-		  "UNQUALIFIED",
-		  // EXECUTOR:
-		  "RUNTIME",
-		  "CONFIGDATA",
-		  "EXTCOMMAND",
-		  "COMPONENT",
-		  "LOGOPTIONS",
-		  "UNQUALIFIED",
-		  // FUNCTION:
-		  "RND",
-		  "UNQUALIFIED",
-		  // PARALLEL:
-		  "PTC",
-		  "PORTCONN",
-		  "PORTMAP",
-		  "UNQUALIFIED",
-		  // TESTCASE:
-		  "START",
-		  "FINISH",
-		  "UNQUALIFIED",
-		  // PORTEVENT:
-		  "PQUEUE",
-		  "MQUEUE",
-		  "STATE",
-		  "PMIN",
-		  "PMOUT",
-		  "PCIN",
-		  "PCOUT",
-		  "MMRECV",
-		  "MMSEND",
-		  "MCRECV",
-		  "MCSEND",
-		  "DUALRECV",
-		  "DUALSEND",
-		  "UNQUALIFIED",
-		  "SETSTATE",
-		  // STATISTICS:
-		  "VERDICT",
-		  "UNQUALIFIED",
-		  // TIMEROP:
-		  "READ",
-		  "START",
-		  "GUARD",
-		  "STOP",
-		  "TIMEOUT",
-		  "UNQUALIFIED",
-		  // USER:
-		  "UNQUALIFIED",
-		  // VERDICTOP:
-		  "GETVERDICT",
-		  "SETVERDICT",
-		  "FINAL",
-		  "UNQUALIFIED",
-		  // WARNING:
-		  "UNQUALIFIED",
-		  // MATCHING:
-		  "DONE",
-		  "TIMEOUT",
-		  "PCSUCCESS",
-		  "PCUNSUCC",
-		  "PMSUCCESS",
-		  "PMUNSUCC",
-		  "MCSUCCESS",
-		  "MCUNSUCC",
-		  "MMSUCCESS",
-		  "MMUNSUCC",
-		  "PROBLEM",
-		  "UNQUALIFIED",
-		  // DEBUG:
-		  "ENCDEC",
-		  "TESTPORT",
-		  "USER",
-		  "FRAMEWORK",
-		  "UNQUALIFIED"
+		"",
+		// ACTION:
+		"UNQUALIFIED",
+		// DEFAULTOP:
+		"ACTIVATE",
+		"DEACTIVATE",
+		"EXIT",
+		"UNQUALIFIED",
+		// ERROR:
+		"UNQUALIFIED",
+		// EXECUTOR:
+		"RUNTIME",
+		"CONFIGDATA",
+		"EXTCOMMAND",
+		"COMPONENT",
+		"LOGOPTIONS",
+		"UNQUALIFIED",
+		// FUNCTION:
+		"RND",
+		"UNQUALIFIED",
+		// PARALLEL:
+		"PTC",
+		"PORTCONN",
+		"PORTMAP",
+		"UNQUALIFIED",
+		// TESTCASE:
+		"START",
+		"FINISH",
+		"UNQUALIFIED",
+		// PORTEVENT:
+		"PQUEUE",
+		"MQUEUE",
+		"STATE",
+		"PMIN",
+		"PMOUT",
+		"PCIN",
+		"PCOUT",
+		"MMRECV",
+		"MMSEND",
+		"MCRECV",
+		"MCSEND",
+		"DUALRECV",
+		"DUALSEND",
+		"UNQUALIFIED",
+		"SETSTATE",
+		// STATISTICS:
+		"VERDICT",
+		"UNQUALIFIED",
+		// TIMEROP:
+		"READ",
+		"START",
+		"GUARD",
+		"STOP",
+		"TIMEOUT",
+		"UNQUALIFIED",
+		// USER:
+		"UNQUALIFIED",
+		// VERDICTOP:
+		"GETVERDICT",
+		"SETVERDICT",
+		"FINAL",
+		"UNQUALIFIED",
+		// WARNING:
+		"UNQUALIFIED",
+		// MATCHING:
+		"DONE",
+		"TIMEOUT",
+		"PCSUCCESS",
+		"PCUNSUCC",
+		"PMSUCCESS",
+		"PMUNSUCC",
+		"MCSUCCESS",
+		"MCUNSUCC",
+		"MMSUCCESS",
+		"MMUNSUCC",
+		"PROBLEM",
+		"UNQUALIFIED",
+		// DEBUG:
+		"ENCDEC",
+		"TESTPORT",
+		"USER",
+		"FRAMEWORK",
+		"UNQUALIFIED"
 	};
 
 	/**
@@ -781,10 +913,26 @@ public final class TTCN_Logger {
 
 	public static void terminate_logger() {
 		//empty for now
+		if (plugins_ != null) {
+			plugins_.destructor();
+		}
 	}
 
 	public static void log(final Severity msg_severity, final String formatString, final Object... args ) {
 		log_va_list(msg_severity, formatString, args);
+	}
+
+	public static void send_event_as_error() {
+		final String error_msg = get_logger_plugin_manager().get_current_event_str();
+		if (error_msg == null) {
+			return;
+		}
+
+		if (TTCN_Communication.is_mc_connected()) {
+			TTCN_Communication.send_error(error_msg);
+		} else {
+			System.err.println(error_msg);
+		}
 	}
 
 	public static void log_str(final Severity msg_severity, final String string ) {
@@ -859,6 +1007,7 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
@@ -872,10 +1021,11 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
-	public static boolean isPrintable(final char c) {
+	public static boolean is_printable(final char c) {
 		if (c >= 32 && c <= 126) {
 			// it includes all the printable characters in the ascii code table
 			return true;
@@ -893,7 +1043,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void logCharEscaped(final char c, final StringBuilder p_buffer) {
+	public static void log_char_escaped(final char c, final StringBuilder p_buffer) {
 		switch (c) {
 		case '\n':
 			p_buffer.append("\\n");
@@ -917,7 +1067,7 @@ public final class TTCN_Logger {
 			p_buffer.append("\\\"");
 			break;
 		default:
-			if (isPrintable(c)) {
+			if (is_printable(c)) {
 				p_buffer.append(c);
 			} else {
 				log_event("\\%03o", c);
@@ -926,7 +1076,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void logCharEscaped(final char c) {
+	public static void log_char_escaped(final char c) {
 		switch (c) {
 		case '\n':
 			log_event_str("\\n");
@@ -950,7 +1100,7 @@ public final class TTCN_Logger {
 			log_event_str("\\\"");
 			break;
 		default:
-			if (isPrintable(c)) {
+			if (is_printable(c)) {
 				log_char(c);
 			} else {
 				log_event("\\%03o", c);
@@ -978,6 +1128,7 @@ public final class TTCN_Logger {
 			break;
 		default:
 			log_event_str("<unknown>");
+			break;
 		}
 	}
 
@@ -1082,11 +1233,11 @@ public final class TTCN_Logger {
 	public static log_event_types_t get_log_entity_name() {
 		return log_entity_name;
 	}
-	
+
 	public static data_log_format_t get_log_format() {
 		return data_log_format;
 	}
-	
+
 	public static void set_log_format(final data_log_format_t p_data_log_format) {
 		data_log_format = p_data_log_format;
 	}
@@ -1223,18 +1374,25 @@ public final class TTCN_Logger {
 		get_logger_plugin_manager().set_append_file(new_append_file);
 	}
 
-	public static boolean set_file_size(final component_id_t comp, final int p_size) {
-		return get_logger_plugin_manager().set_file_size(comp, p_size);
+	public static boolean set_file_size(final int p_size) {
+		return get_logger_plugin_manager().set_file_size(p_size);
 	}
 
-	public static boolean set_file_number(final component_id_t comp, final int p_number) {
-		return get_logger_plugin_manager().set_file_number(comp, p_number);
+	public static boolean set_file_number(final int p_number) {
+		return get_logger_plugin_manager().set_file_number(p_number);
 	}
 
-	public static boolean set_disk_full_action(final component_id_t comp, final disk_full_action_t p_disk_full_action) {
-		return get_logger_plugin_manager().set_disk_full_action(comp, p_disk_full_action);
+	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type) {
+		return set_disk_full_action(p_disk_full_action_type, 0);
 	}
-	
+
+	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type,
+			final int p_retry_interval) {
+		final disk_full_action_t disk_full_action = new disk_full_action_t(p_disk_full_action_type, p_retry_interval);
+
+		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
+	}
+
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";
@@ -1252,11 +1410,11 @@ public final class TTCN_Logger {
 	public static String get_executable_name() {
 		return executable_name;
 	}
-	
+
 	public static void open_file() {
 		get_logger_plugin_manager().open_file();
 	}
-	
+
 	public static void close_file() {
 		get_logger_plugin_manager().close_file();
 	}

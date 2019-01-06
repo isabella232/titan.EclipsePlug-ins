@@ -21,7 +21,7 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 public class OpenTextTableAction extends SelectionProviderAction {
 
 	private static final String NAME = Messages.getString("OpenTextTableAction.0"); //$NON-NLS-1$
-	private MSCView mscView;
+	private final MSCView mscView;
 
 	/**
 	 * Constructor
@@ -34,7 +34,7 @@ public class OpenTextTableAction extends SelectionProviderAction {
 
 	@Override
 	public void run() {
-		LogFileMetaData logFileMetadata = mscView.getLogFileMetaData();
+		final LogFileMetaData logFileMetadata = mscView.getLogFileMetaData();
 		TextTableViewHelper.open(logFileMetadata.getProjectName(), logFileMetadata.getProjectRelativePath(), mscView.getSelectedRecordNumber());
 	}
 

@@ -11,6 +11,7 @@ import org.eclipse.titan.designer.AST.Governed;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -55,6 +56,12 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	 * */
 	public final void setMyGovernor(final ObjectClass governor) {
 		myGovernor = governor;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameOse(String prefix, String suffix) {
+		setGenName(prefix, suffix);
 	}
 
 	/**
@@ -104,4 +111,13 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	 *                point us a step forward to the declaration.
 	 * */
 	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
+
+	/**
+	 * Generate Java code for this object.
+	 *
+	 * generate_code in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 */
+	public abstract void generateCode( final JavaGenData aData);
 }

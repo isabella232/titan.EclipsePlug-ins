@@ -538,6 +538,12 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		if (components == null) {
 			return;
 		}
@@ -628,13 +634,13 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append("}\n");
 
 		final CompField compField = getComponentByName(fieldId);
@@ -646,17 +652,17 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final String temporalId = aData.getTemporaryVariableName();
 		final String temporalId2 = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("final {0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
-		expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_field_{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+				expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId2, field));
 				expression.expression.append("}\n");
 			}
 		}

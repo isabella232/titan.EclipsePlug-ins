@@ -113,7 +113,7 @@ public class LazyFuzzyParamData {
 	}
 
 	private static void generateCodeForValue(final JavaGenData aData, final ExpressionStruct valueExpression, final IValue value, final Scope scope) {
-		value.generateCodeExpression(aData, valueExpression, false);
+		value.generateCodeExpression(aData, valueExpression, true);
 	}
 
 	private static void generateCodeForTemplate(JavaGenData aData, ExpressionStruct templateExpression, TemplateInstance template,

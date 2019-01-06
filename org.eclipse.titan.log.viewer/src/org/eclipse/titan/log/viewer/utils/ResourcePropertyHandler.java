@@ -32,7 +32,7 @@ public final class ResourcePropertyHandler {
 	 */
 	public static String getProperty(final IResource resource, final String pageId, final String propertyKey) {
 		try {
-			String numSubValues = getSubValues(resource, pageId, propertyKey);
+			final String numSubValues = getSubValues(resource, pageId, propertyKey);
 			if (numSubValues != null) { // Sub values used
 				int numberOfSubValues = 0;
 				try {
@@ -40,7 +40,8 @@ public final class ResourcePropertyHandler {
 				} catch (NumberFormatException nfe) {
 					return null;
 				}
-				StringBuilder value = new StringBuilder();
+
+				final StringBuilder value = new StringBuilder();
 				for (int i = 0; i < numberOfSubValues; i++) {
 					value.append(resource.getPersistentProperty(new QualifiedName(pageId, propertyKey + i)));
 				}
@@ -48,7 +49,7 @@ public final class ResourcePropertyHandler {
 			} else { // No sub values
 				String value = resource.getPersistentProperty(new QualifiedName(pageId, propertyKey));
 				// Upgrade Protection 1.0 -> 1.1 (Silent Events)
-				if (propertyKey.contentEquals(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES) && (value == null)) {
+				if (propertyKey.contentEquals(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES) && value == null) {
 					// Value not set, look for old values
 					if (FilteredSilentEventUtils.hasPropertiesOldFilteredSilentEvents(resource, pageId)) {
 						// Old values found
@@ -75,7 +76,7 @@ public final class ResourcePropertyHandler {
 	 * @throws CoreException if an error occurs while setting the property
 	 */
 	public static void setProperty(final IResource resource, final String pageId, final String propertyKey, final String propertyValue) throws CoreException {
-		int propertySize = getPropertySize(propertyValue);
+		final int propertySize = getPropertySize(propertyValue);
 		if (propertySize > 1) { // sub values needed
 			// create number of sub values key
 			resource.setPersistentProperty(new QualifiedName(pageId, propertyKey + PROPERTY_SIZE_KEY), String.valueOf(propertySize));
@@ -106,7 +107,7 @@ public final class ResourcePropertyHandler {
 	 */
 	public static void removeProperty(final IResource resource, final String pageId, final String propertyKey) {
 		try {
-			String numSubValues = getSubValues(resource, pageId, propertyKey);
+			final String numSubValues = getSubValues(resource, pageId, propertyKey);
 			if (numSubValues != null) { // Sub values used
 				int numberOfSubValues = 0;
 				try {
@@ -125,7 +126,7 @@ public final class ResourcePropertyHandler {
 		}
 	}
 
-	private static String getSubValues(IResource resource, String pageId, String propertyKey) throws CoreException {
+	private static String getSubValues(final IResource resource, final String pageId, final String propertyKey) throws CoreException {
 		return resource.getPersistentProperty(new QualifiedName(pageId, propertyKey + PROPERTY_SIZE_KEY));
 	}
 

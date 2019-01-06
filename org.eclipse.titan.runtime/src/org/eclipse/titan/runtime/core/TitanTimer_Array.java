@@ -13,7 +13,7 @@ import java.text.MessageFormat;
  *
  * TODO check if we need to extend TitanTimer
  * */
-public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
+public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 
 	TitanTimer[] array_elements;
 	String[] names;
@@ -24,7 +24,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	int indexOffset;
 
 	/// Copy constructor
-	public TitanTimerArray(final TitanTimerArray<T> otherValue) {
+	public TitanTimer_Array(final TitanTimer_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -33,7 +33,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_elements[i]);
+				helper.operator_assign(otherValue.array_elements[i]);
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -43,16 +43,24 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		}
 	}
 
-	/// Assignment disallowed.
-	// originally operator=
-	TitanTimerArray<T> assign(final TitanTimerArray<T> otherValue){
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	TitanTimer_Array<T> operator_assign(final TitanTimer_Array<T> otherValue){
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new TitanTimer[array_size];
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_element(i));
+				helper.operator_assign(otherValue.array_element(i));
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -63,18 +71,18 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return this;
 	}
 
-	public TitanTimerArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanTimer_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 
 		array_elements = new TitanTimer[size];
 		//TODO check strange usage
-		setSize(size);
+		set_size(size);
 
 		names = new String[size];
 	}
 
-	public void setSize(final int length) {
+	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T empty = clazz.newInstance();
@@ -88,32 +96,66 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		array_size = length;
 	}
 
-	public void setOffset(final int offset) {
+	public void set_offset(final int offset) {
 		indexOffset = offset;
 	}
 
-	// originally T& operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final int index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+	public T get_at(final int index) {
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	//originally T& operator[](const INTEGER)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final TitanInteger index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+	public T get_at(final TitanInteger index) {
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	//const originally T& operator[](int)
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T constGetAt(final int index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+	public T constGet_at(final int index) {
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
-	// const // originally T& operator[](const INTEGER)
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T constGetAt(final TitanInteger index) {
-		return (T)array_elements[getTimerArrayIndex(index, array_size, indexOffset)];
+	public T constGet_at(final TitanInteger index) {
+		return (T)array_elements[get_timer_array_index(index, array_size, indexOffset)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,33 +165,48 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
-		if (!index.isBound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return (T)array_elements[index.getInt()];
+		return (T)array_elements[index.get_int()];
 	}
 
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		return array_size;
 	}
-	public int sizeOf() {
+
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public int size_of() {
 		return array_size;
 	}
-	public int lengthOf() {
+	public int lengthof() {
 		return array_size;
 	}
 
-	public void setName(final String name_string)
+	public void set_name(final String name_string)
 	{
 		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
 			names[i] = name_string + '[' + (indexOffset + i) + ']';
-			array_elements[i].setName(names[i]);
+			array_elements[i].set_name(names[i]);
 		}
 	}
 
+	@Override
 	public void log() {
 		TTCN_Logger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
@@ -163,7 +220,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	// static functions
 
-	public static int getTimerArrayIndex(final int indexValue, final int arraySize, final int indexOffset) {
+	public static int get_timer_array_index(final int indexValue, final int arraySize, final int indexOffset) {
 		if (arraySize < 0) {
 			throw new TtcnError("Invalid array size");
 		}
@@ -181,12 +238,10 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		return result;
 	}
-	public static int getTimerArrayIndex(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
-		if (! indexValue.isBound()) {
-			throw new TtcnError("Accessing an element of a timer array using an unbound index.");
-		}
+	public static int get_timer_array_index(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
+		indexValue.must_bound("Accessing an element of a timer array using an unbound index.");
 
-		return getTimerArrayIndex(indexValue.getInt(), arraySize, indexOffset);
+		return get_timer_array_index(indexValue.get_int(), arraySize, indexOffset);
 	}
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
@@ -194,7 +249,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	// originally alt_status timeout(Index_Redirect* index_redirect)
 	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -202,7 +257,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 			final TitanAlt_Status ret_val = array_elements[i].timeout(index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				result = ret_val;
 				break;
@@ -219,20 +274,20 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	// originally boolean running(Index_Redirect* index_redirect) const
 	public boolean running(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 		boolean ret_val = false;
 		for (int i = 0; i < array_size; ++i) {
 			ret_val = array_elements[i].running(index_redirect);
 			if (ret_val) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 		return ret_val;
 	}

@@ -874,7 +874,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+			returnValue.append(myScope.getModuleScopeGen().getIdentifier().getName());
 			returnValue.append("_externalfunctions.");
 		}
 
@@ -891,7 +891,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
 			final StringBuilder moduleName = new StringBuilder();
 
-			moduleName.append(myScope.getModuleScope().getIdentifier().getName());
+			moduleName.append(myScope.getModuleScopeGen().getIdentifier().getName());
 			moduleName.append("_externalfunctions");
 			aData.addImport("org.eclipse.titan.user_provided." + moduleName.toString());
 
@@ -916,7 +916,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
+			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScopeGen().getIdentifier().getName() + "_externalfunctions");
 			// external functions are implemented elsewhere
 			return;
 		}
@@ -1021,7 +1021,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
 			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-			source.append( MessageFormat.format("{0}.assign(AdditionalFunctions.oct2bit(tmp_os));\n", resultName));
+			source.append( MessageFormat.format("{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", resultName));
 		} else {
 			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
 		}
@@ -1118,22 +1118,19 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (prototype != EncodingPrototype_type.SLIDING) {
 			// checking for remaining data in the buffer if decoding was successful
 			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
-			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() && TTCN_Logger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
+			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len()) {\n" );
 			source.append( "ttcn_buffer.cut();\n" );
-			
-			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
-				source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
-				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-				source.append( MessageFormat.format( "final {0} remaining_stream = AdditionalFunctions.oct2bit(tmp_os);\n", inputType.getGenNameValue(aData, source, myScope)) );
-			} else {
-				source.append( MessageFormat.format( "final {0} remaining_stream = new {0}();\n", inputType.getGenNameValue(aData, source, myScope)) );
-				source.append( "ttcn_buffer.get_string(remaining_stream);\n" );
-			}
 
-			source.append( "TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);\n" );
-			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Warning: Data remained at the end of the stream after successful decoding: \");\n", identifier.getDisplayName()));
-			source.append( "remaining_stream.log();\n" );
-			source.append( "TTCN_Logger.end_event();\n" );
+			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
+			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
+			source.append( "TTCN_Logger.begin_event_log2str();\n" );
+			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+				source.append( "AdditionalFunctions.oct2bit(tmp_os).log();\n");
+			} else {
+				source.append( "tmp_os.log();\n");
+			}
+			source.append( "final TitanCharString remaining_stream = TTCN_Logger.end_event_log2str();\n" );
+			source.append( MessageFormat.format( "TTCN_EncDec_ErrorContext.error(error_type.ET_EXTRA_DATA, \"{0}(): Warning: Data remained at the end of the stream after successful decoding: %s\", remaining_stream.get_value());\n", identifier.getDisplayName()));
 			source.append( "}\n" );
 
 			// closing the block and returning the appropriate result or status code
@@ -1156,7 +1153,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
 				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-				source.append(MessageFormat.format( "{0}.assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
+				source.append(MessageFormat.format( "{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
 			} else {
 				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
 			}

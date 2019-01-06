@@ -151,7 +151,7 @@ class DependencyCollector {
 								is.close();
 							}
 							is = ((IFile)currFile).getContents();
-							isr = new InputStreamReader(is);
+							isr = new InputStreamReader(is, ((IFile)currFile).getCharset());
 							currOffset = 0;
 							Module m = projectSourceParser.containedModule((IFile)currFile);
 							String moduleName = m.getIdentifier().getTtcnName();

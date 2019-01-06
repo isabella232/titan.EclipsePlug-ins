@@ -644,10 +644,10 @@ public final class Assignment_Statement extends Statement {
 					}
 
 					if (rhsCopied) {
-						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, temp));
-						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
+						source.append(MessageFormat.format("{0}.operator_assign({1});\n", rhsCopy, temp));
+						expression.expression.append(MessageFormat.format(".operator_assign({0});\n", rhsCopy));
 					} else {
-						expression.expression.append(MessageFormat.format(".assign({0});\n", temp));
+						expression.expression.append(MessageFormat.format(".operator_assign({0});\n", temp));
 					}
 
 					source.append(expression.expression);
@@ -676,7 +676,7 @@ public final class Assignment_Statement extends Statement {
 					}
 					source.append(leftExpression.postamble);
 					if (rhsCopied) {
-						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
+						source.append(MessageFormat.format("{0}.operator_assign({1});\n", tempID, rhsCopy));
 					} else {
 						//TODO handle the needs conversion case
 						value.generateCodeInit(aData, source, tempID);
@@ -710,7 +710,7 @@ public final class Assignment_Statement extends Statement {
 					value.generateCodeInit(aData, source, rhsCopied ? rhsCopy : name);
 				}
 				if (rhsCopied) {
-					source.append(MessageFormat.format("{0}.assign({1});\n", name, rhsCopy));
+					source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, rhsCopy));
 				}
 			}
 			if(rhsCopied) {
@@ -729,10 +729,10 @@ public final class Assignment_Statement extends Statement {
 					reference.generateCode(aData, expression);
 					source.append(expression.preamble);
 					if (rhsCopied) {
-						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, template.getSingleExpression(aData, false)));
-						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
+						source.append(MessageFormat.format("{0}.operator_assign({1});\n", rhsCopy, template.getSingleExpression(aData, false)));
+						expression.expression.append(MessageFormat.format(".operator_assign({0});\n", rhsCopy));
 					} else {
-						expression.expression.append(MessageFormat.format(".assign({0});\n", template.getSingleExpression(aData, false)));
+						expression.expression.append(MessageFormat.format(".operator_assign({0});\n", template.getSingleExpression(aData, false)));
 					}
 
 					expression.mergeExpression(source);
@@ -752,11 +752,11 @@ public final class Assignment_Statement extends Statement {
 					source.append(MessageFormat.format("final {0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
 					source.append(expression.postamble);
 					if (rhsCopied) {
-						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
+						source.append(MessageFormat.format("{0}.operator_assign({1});\n", tempID, rhsCopy));
 					} else {
 						//TODO handle the needs conversion case
 						if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
-							source.append(MessageFormat.format("{0}.removeAllPermutations();\n", tempID));
+							source.append(MessageFormat.format("{0}.remove_all_permutations();\n", tempID));
 						}
 						template.generateCodeInit(aData, source, tempID);
 					}
@@ -783,11 +783,11 @@ public final class Assignment_Statement extends Statement {
 				}
 				final IType governor = template.getMyGovernor();
 				if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
-					source.append(MessageFormat.format("{0}.removeAllPermutations();\n", rhsCopied?rhsCopy:rhsName));
+					source.append(MessageFormat.format("{0}.remove_all_permutations();\n", rhsCopied?rhsCopy:rhsName));
 				}
 				template.generateCodeInit(aData, source, rhsCopied?rhsCopy:rhsName);
 				if (rhsCopied) {
-					source.append(MessageFormat.format("{0}.assign({1});\n", rhsName, rhsCopy));
+					source.append(MessageFormat.format("{0}.operator_assign({1});\n", rhsName, rhsCopy));
 				}
 
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {

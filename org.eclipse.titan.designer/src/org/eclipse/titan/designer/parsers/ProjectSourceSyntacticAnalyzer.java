@@ -76,14 +76,14 @@ public final class ProjectSourceSyntacticAnalyzer {
 	private final ProjectSourceParser sourceParser;
 
 	// file, module name
-	private Map<IFile, String> uptodateFiles;
+	private final Map<IFile, String> uptodateFiles;
 	// file : these are parsed, but contain such errors that we can not
 	// determine even the module.
-	private Set<IFile> highlySyntaxErroneousFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
 	// file, module name might be outdated
-	private Map<IFile, String> fileMap;
+	private final Map<IFile, String> fileMap;
 	// include files
-	private Map<String, IFile> includeFileMap;
+	private final Map<String, IFile> includeFileMap;
 	Map<IFile, List<TITANMarker>> unsupportedConstructMap;
 
 	private volatile boolean syntacticallyOutdated = true;
@@ -96,11 +96,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 	 * order.
 	 * */
 	static final class TemporalParseData {
-		private Module module;
-		private IFile file;
-		private List<TITANMarker> unsupportedConstructs;
-		private boolean hadParseErrors;
-		private IDocument document;
+		private final Module module;
+		private final IFile file;
+		private final List<TITANMarker> unsupportedConstructs;
+		private final boolean hadParseErrors;
+		private final IDocument document;
 
 		public TemporalParseData(final Module module, final IFile file, final List<TITANMarker> unsupportedConstructs,
 				final boolean hadParseErrors, final IDocument document) {
@@ -230,18 +230,18 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 		synchronized (this) {
 			syntacticallyOutdated = true;
-			for (Iterator<IFile> iterator = uptodateFiles.keySet().iterator(); iterator.hasNext();) {
-				IFile tempFile = iterator.next();
-				IPath filepath = tempFile.getProjectRelativePath();
+			for (final Iterator<IFile> iterator = uptodateFiles.keySet().iterator(); iterator.hasNext();) {
+				final IFile tempFile = iterator.next();
+				final IPath filepath = tempFile.getProjectRelativePath();
 				if (folderPath.isPrefixOf(filepath)) {
 					sourceParser.getSemanticAnalyzer().reportOutdating(tempFile, useOnTheFlyParsing);
 					iterator.remove();
 					unsupportedConstructMap.remove(tempFile);
 				}
 			}
-			for (Iterator<IFile> iterator = highlySyntaxErroneousFiles.iterator(); iterator.hasNext();) {
-				IFile tempFile = iterator.next();
-				IPath filepath = tempFile.getProjectRelativePath();
+			for (final Iterator<IFile> iterator = highlySyntaxErroneousFiles.iterator(); iterator.hasNext();) {
+				final IFile tempFile = iterator.next();
+				final IPath filepath = tempFile.getProjectRelativePath();
 				if (folderPath.isPrefixOf(filepath)) {
 					iterator.remove();
 				}
@@ -253,19 +253,19 @@ public final class ProjectSourceSyntacticAnalyzer {
 	 * Removes data related to modules, that were deleted or moved.
 	 **/
 	private void removedReferencestoRemovedFiles() {
-		List<IFile> filesToRemove = new ArrayList<IFile>();
-		for (IFile file : fileMap.keySet()) {
+		final List<IFile> filesToRemove = new ArrayList<IFile>();
+		for (final IFile file : fileMap.keySet()) {
 			if (!file.isAccessible()) {
 				uptodateFiles.remove(file);
 				highlySyntaxErroneousFiles.remove(file);
-				String moduleName = fileMap.get(file);
+				final String moduleName = fileMap.get(file);
 				filesToRemove.add(file);
 
 				sourceParser.getSemanticAnalyzer().removedReferencestoRemovedFiles(file, moduleName);
 			}
 		}
 
-		for (IFile file : filesToRemove) {
+		for (final IFile file : filesToRemove) {
 			fileMap.remove(file);
 			unsupportedConstructMap.remove(file);
 
@@ -288,7 +288,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 	 * */
 	public void updateSyntax(final IFile file, final TTCN3ReparseUpdater reparser) {
 		if (uptodateFiles.containsKey(file)) {
-			Module module = sourceParser.getSemanticAnalyzer().getModulebyFile(file);
+			final Module module = sourceParser.getSemanticAnalyzer().getModulebyFile(file);
 			sourceParser.getSemanticAnalyzer().reportSemanticOutdating(file);
 
 			if (module != null && module_type.TTCN3_MODULE.equals(module.getModuletype())) {
@@ -302,7 +302,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 						uptodateFiles.remove(file);
 						sourceParser.getSemanticAnalyzer().reportSemanticOutdating(file);
-						String oldModuleName = fileMap.get(file);
+						final String oldModuleName = fileMap.get(file);
 						if (oldModuleName != null) {
 							sourceParser.getSemanticAnalyzer().removeModule(oldModuleName);
 							fileMap.remove(file);
@@ -311,7 +311,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 						reparser.maxDamage();
 
-						ITtcn3FileReparser r = new Ttcn3FileReparser( reparser, file, sourceParser, fileMap, uptodateFiles, highlySyntaxErroneousFiles );
+						final ITtcn3FileReparser r = new Ttcn3FileReparser( reparser, file, sourceParser, fileMap, uptodateFiles, highlySyntaxErroneousFiles );
 						syntacticallyOutdated = r.parse();
 
 					}
@@ -333,7 +333,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			reportOutdating(file);
 		} else {
 			MarkerHandler.markAllMarkersForRemoval(file);
-			TemporalParseData temp = fileBasedTTCN3Analysis(file);
+			final TemporalParseData temp = fileBasedTTCN3Analysis(file);
 			postFileBasedGeneralAnalysis(temp);
 		}
 
@@ -355,25 +355,26 @@ public final class ProjectSourceSyntacticAnalyzer {
 		if (!project.isAccessible() || !TITANNature.hasTITANNature(project)) {
 			return Status.CANCEL_STATUS;
 		}
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-		SubMonitor progress = SubMonitor.convert(monitor, 1);
+
+		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+		final SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly syntactic checking of project: " + project.getName());
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
-		boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		final boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 
 		if (syntacticallyOutdated) {
 			syntacticallyOutdated = false;
 
-			long absoluteStart = System.nanoTime();
+			final long absoluteStart = System.nanoTime();
 
 			removedReferencestoRemovedFiles();
 
 			final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(
 					false);
 
-			OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
+			final OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
 			try {
 				project.accept(visitor);
 			} catch (CoreException e) {
@@ -382,19 +383,19 @@ public final class ProjectSourceSyntacticAnalyzer {
 			final List<IFile> ttcn3FilesToCheck = visitor.getTTCN3FilesToCheck();
 			final List<IFile> asn1FilesToCheck = visitor.getASN1FilesToCheck();
 
-			List<IFile> allCheckedFiles = new ArrayList<IFile>();
+			final List<IFile> allCheckedFiles = new ArrayList<IFile>();
 
 			allCheckedFiles.addAll(uptodateFiles.keySet());
 
 			// remove all markers from the files that need to be
 			// parsed
-			for (IFile file : ttcn3FilesToCheck) {
+			for (final IFile file : ttcn3FilesToCheck) {
 				MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				MarkerHandler.markAllTaskMarkersForRemoval(file);
 			}
 			allCheckedFiles.addAll(ttcn3FilesToCheck);
 
-			for (IFile file : asn1FilesToCheck) {
+			for (final IFile file : asn1FilesToCheck) {
 				MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				MarkerHandler.markAllTaskMarkersForRemoval(file);
 			}
@@ -413,7 +414,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			executor.setThreadFactory(new ThreadFactory() {
 				@Override
 				public Thread newThread(final Runnable r) {
-					Thread t = new Thread(r);
+					final Thread t = new Thread(r);
 					t.setPriority(LoadBalancingUtilities.getThreadPriority());
 					return t;
 				}
@@ -422,7 +423,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			int nofFilesProcessed = 0;
 
 			final CountDownLatch latch = new CountDownLatch(ttcn3FilesToCheck.size() + asn1FilesToCheck.size());
-			for (IFile file : ttcn3FilesToCheck) {
+			for (final IFile file : ttcn3FilesToCheck) {
 				// parse a file only if the operation was not
 				// canceled and the file is not yet up-to-date
 				if (parseProgress.isCanceled()) {
@@ -448,7 +449,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 								return;
 							}
 
-							TemporalParseData temp = fileBasedTTCN3Analysis(tempFile);
+							final TemporalParseData temp = fileBasedTTCN3Analysis(tempFile);
 							tempResults[index] = temp;
 							latch.countDown();
 							parseProgress.worked(1);
@@ -461,7 +462,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 			ttcn3FilesToCheck.clear();
 
-			for (IFile file : asn1FilesToCheck) {
+			for (final IFile file : asn1FilesToCheck) {
 				// parse a file only if the operation was not
 				// canceled and the file is not yet up-to-date
 				if (parseProgress.isCanceled()) {
@@ -487,7 +488,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 								return;
 							}
 
-							TemporalParseData temp = fileBasedASN1Analysis(tempFile);
+							final TemporalParseData temp = fileBasedASN1Analysis(tempFile);
 							tempResults[index] = temp;
 							latch.countDown();
 							parseProgress.worked(1);
@@ -533,20 +534,21 @@ public final class ProjectSourceSyntacticAnalyzer {
 	}
 
 	void removeTTCNPPFilesIndirectlyModifiedByTTCNINFiles() {
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-		Set<String> moduleNames = projectSourceParser.getKnownModuleNames();
-		for (String moduleName : moduleNames) {
-			Module module = projectSourceParser.getModuleByName(moduleName);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		final Set<String> moduleNames = projectSourceParser.getKnownModuleNames();
+		for (final String moduleName : moduleNames) {
+			final Module module = projectSourceParser.getModuleByName(moduleName);
 			if (module == null || !(module instanceof TTCN3Module)) {
 				continue;
 			}
-			TTCN3Module ttcnppModule = (TTCN3Module) module;
-			Set<IFile> includedFiles = ttcnppModule.getIncludedFiles();
+
+			final TTCN3Module ttcnppModule = (TTCN3Module) module;
+			final Set<IFile> includedFiles = ttcnppModule.getIncludedFiles();
 			if (includedFiles == null || includedFiles.isEmpty()) {
 				continue;
 			}
 			boolean isTTCNPPupToDate = true;
-			for (IFile f : includedFiles) {
+			for (final IFile f : includedFiles) {
 				if (!uptodateFiles.containsKey(f)) {
 					isTTCNPPupToDate = false;
 					break;
@@ -572,18 +574,18 @@ public final class ProjectSourceSyntacticAnalyzer {
 			return Status.CANCEL_STATUS;
 		}
 
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-		SubMonitor progress = SubMonitor.convert(monitor, 1);
+		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+		final SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly syntactic checking of project: " + project.getName());
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
-		boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		final boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 
 		if (syntacticallyOutdated) {
 			syntacticallyOutdated = false;
 
-			long absoluteStart = System.nanoTime();
+			final long absoluteStart = System.nanoTime();
 
 			removedReferencestoRemovedFiles();
 
@@ -592,7 +594,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(
 					false);
 
-			OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
+			final OutdatedFileCollector visitor = new OutdatedFileCollector(workingDirectories, uptodateFiles, highlySyntaxErroneousFiles);
 			try {
 				project.accept(visitor);
 			} catch (CoreException e) {
@@ -603,21 +605,21 @@ public final class ProjectSourceSyntacticAnalyzer {
 			final List<IFile> ttcninFilesModified = visitor.getTtcninFilesModified();
 
 			// nothing to do with these files
-			for (IFile f : ttcninFilesModified) {
+			for (final IFile f : ttcninFilesModified) {
 				uptodateFiles.put(f, f.getName());
 				includeFileMap.put(f.getName(), f);
 			}
 
-			List<IFile> allCheckedFiles = new ArrayList<IFile>();
+			final List<IFile> allCheckedFiles = new ArrayList<IFile>();
 
 			allCheckedFiles.addAll(uptodateFiles.keySet());
 
 			// remove all markers from the files that need to be
 			// parsed
-			boolean useIncrementalParsing = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+			final boolean useIncrementalParsing = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.USEINCREMENTALPARSING, false, null);
 
-			for (IFile file : ttcn3FilesToCheck) {
+			for (final IFile file : ttcn3FilesToCheck) {
 				//if not incremental parsing applied then all the markers should be marked for removal
 				//later these markings can be removed if they can be skipped
 				if(useIncrementalParsing) {
@@ -632,7 +634,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			}
 			allCheckedFiles.addAll(ttcn3FilesToCheck);
 
-			for (IFile file : asn1FilesToCheck) {
+			for (final IFile file : asn1FilesToCheck) {
 				if(useIncrementalParsing) {
 					MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				} else {
@@ -659,7 +661,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			executor.setThreadFactory(new ThreadFactory() {
 				@Override
 				public Thread newThread(final Runnable r) {
-					Thread t = new Thread(r);
+					final Thread t = new Thread(r);
 					t.setPriority(LoadBalancingUtilities.getThreadPriority());
 					return t;
 				}
@@ -668,7 +670,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			int nofFilesProcessed = 0;
 
 			final CountDownLatch latch = new CountDownLatch(ttcn3FilesToCheck.size() + asn1FilesToCheck.size());
-			for (IFile file : ttcn3FilesToCheck) {
+			for (final IFile file : ttcn3FilesToCheck) {
 				// parse a file only if the operation was not
 				// canceled and the file is not yet up-to-date
 				if (parseProgress.isCanceled()) {
@@ -689,7 +691,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 					// Checked whether the linked file
 					// exists at all, if no continue
 					if (file.isLinked()) {
-						File f = new File(file.getLocation().toOSString());
+						final File f = new File(file.getLocation().toOSString());
 						if (!f.exists()) {
 							if (reportDebugInformation) {
 								//MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
@@ -716,7 +718,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 							}
 
 							try {
-								TemporalParseData temp = fileBasedTTCN3Analysis(tempFile);
+								final TemporalParseData temp = fileBasedTTCN3Analysis(tempFile);
 								tempResults[index] = temp;
 							} finally {
 								latch.countDown();
@@ -731,7 +733,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 			ttcn3FilesToCheck.clear();
 
-			for (IFile file : asn1FilesToCheck) {
+			for (final IFile file : asn1FilesToCheck) {
 				// parse a file only if the operation was not
 				// canceled and the file is not yet up-to-date
 				if (parseProgress.isCanceled()) {
@@ -764,7 +766,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 							}
 
 							try {
-								TemporalParseData temp = fileBasedASN1Analysis(tempFile);
+								final TemporalParseData temp = fileBasedASN1Analysis(tempFile);
 								tempResults[index] = temp;
 							} finally {
 								latch.countDown();
@@ -791,7 +793,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			}
 			executor.shutdownNow();
 
-			for (TemporalParseData temp : tempResults) {
+			for (final TemporalParseData temp : tempResults) {
 				if (temp != null) {
 					postFileBasedGeneralAnalysis(temp);
 				}
@@ -859,7 +861,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			return null;
 		}
 
-		IDocument document = DocumentTracker.get(file);
+		final IDocument document = DocumentTracker.get(file);
 
 		unsupportedConstructMap.remove(file);
 
@@ -871,14 +873,14 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 		final boolean hadParseErrors = processParserErrors(file, analyzer);
 
-		List<TITANMarker> warnings = analyzer.getWarnings();
-		List<TITANMarker> unsupportedConstructs = analyzer.getUnsupportedConstructs();
-		Module module = analyzer.getModule();
+		final List<TITANMarker> warnings = analyzer.getWarnings();
+		final List<TITANMarker> unsupportedConstructs = analyzer.getUnsupportedConstructs();
+		final Module module = analyzer.getModule();
 
 		if (warnings != null) {
-			for (TITANMarker marker : warnings) {
+			for (final TITANMarker marker : warnings) {
 				if (file.isAccessible()) {
-					Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+					final Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					location.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
 							GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				}

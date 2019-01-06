@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -46,8 +47,8 @@ public final class ObjectSet_FieldSpecification extends FieldSpecification {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
-		super.setMyObjectClass(objectClass);
+	public void setMyObjectClass(final ObjectClass_Definition paramObjectClass) {
+		super.setMyObjectClass(paramObjectClass);
 		final Scope scope = myObjectClass.getMyScope();
 		objectClass.setMyScope(scope);
 		if (null != defaultObjectSet) {
@@ -78,9 +79,11 @@ public final class ObjectSet_FieldSpecification extends FieldSpecification {
 			return;
 		}
 
+		objectClass.setGenName(myObjectClass.getGenNameOwn(), identifier.getName());
 		objectClass.check(timestamp);
 		if (null != defaultObjectSet) {
 			defaultObjectSet.setMyGovernor(objectClass);
+			defaultObjectSet.setGenName(objectClass.getGenNameOwn(), "_defobj_");
 			defaultObjectSet.check(timestamp);
 		}
 
@@ -116,5 +119,15 @@ public final class ObjectSet_FieldSpecification extends FieldSpecification {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		objectClass.generateCode(aData);
+
+		if (defaultObjectSet != null) {
+			defaultObjectSet.generateCode(aData);
+		}
 	}
 }

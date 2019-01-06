@@ -36,12 +36,13 @@ public class OpenTextTableStatisticalViewMenuAction extends SelectionProviderAct
 
 	@Override
 	public void run() {
-		Object element = this.selection.getFirstElement();
+		final Object element = this.selection.getFirstElement();
 		if (!(element instanceof TestCase)) {
 			return;
 		}
-		TestCase tc = (TestCase) element;
-		LogFileMetaData logFileMetaData = this.statisticalView.getLogFileMetaData();
+
+		final TestCase tc = (TestCase) element;
+		final LogFileMetaData logFileMetaData = this.statisticalView.getLogFileMetaData();
 		TextTableViewHelper.open(logFileMetaData.getProjectName(), logFileMetaData.getProjectRelativePath(), tc.getStartRecordNumber());
 	}
 

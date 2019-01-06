@@ -622,7 +622,7 @@ public final class TTCN3CodeSkeletons {
 	 *                the ProposalCollector which collects the skeletons
 	 * */
 	public static void addPredefinedSkeletonProposals(final IDocument doc, final int offset, final ProposalCollector collector) {
-		for (SkeletonTemplateProposal templateProposal : PREDEFINED_FUNCTIONS) {
+		for (final SkeletonTemplateProposal templateProposal : PREDEFINED_FUNCTIONS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
 	}
@@ -639,25 +639,25 @@ public final class TTCN3CodeSkeletons {
 	 *                the ProposalCollector which collects the skeletons
 	 * */
 	public static void addSkeletonProposals(final IDocument doc, final int offset, final ProposalCollector collector) {
-		for (SkeletonTemplateProposal templateProposal : FORMAL_VALUE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : FORMAL_VALUE_PARAMETER_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
-		for (SkeletonTemplateProposal templateProposal : FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
-		for (SkeletonTemplateProposal templateProposal : FORMAL_TIMER_PARAMETER_PROPOSALS) {
-			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
-		}
-
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : FORMAL_TIMER_PARAMETER_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
 
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.STATEMENT_LEVEL_SKELETON_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
 
-		for (SkeletonTemplateProposal templateProposal : COMPONENT_INTERNAL_SKELETON_TEMPLATE_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.STATEMENT_LEVEL_SKELETON_PROPOSALS) {
+			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
+		}
+
+		for (final SkeletonTemplateProposal templateProposal : COMPONENT_INTERNAL_SKELETON_TEMPLATE_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), SKELETON_IMAGE);
 		}
 	}
@@ -671,7 +671,7 @@ public final class TTCN3CodeSkeletons {
 	 * @return the TTCN3 module content
 	 * */
 	public static String getTTCN3ModuleWithEmptyBody(final String moduleName) {
-		StringBuilder buffer = new StringBuilder(MODULE_KEYWORD);
+		final StringBuilder buffer = new StringBuilder(MODULE_KEYWORD);
 		buffer.append(moduleName).append(" {\n\n}\n");
 		return buffer.toString();
 	}
@@ -686,7 +686,7 @@ public final class TTCN3CodeSkeletons {
 	 * @return the TTCN3 module skeleton
 	 * */
 	public static String getTTCN3ModuleSkeleton(final String moduleName) {
-		StringBuilder buffer = new StringBuilder(TTCN3_MODULE_HEADER_SKELETON);
+		final StringBuilder buffer = new StringBuilder(TTCN3_MODULE_HEADER_SKELETON);
 		buffer.append(MODULE_KEYWORD).append(moduleName).append(NEWLINE).append(TTCN3_MODULE_BODY_SKELETON);
 		return buffer.toString();
 	}

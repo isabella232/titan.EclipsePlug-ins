@@ -21,7 +21,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
@@ -160,17 +159,10 @@ public final class Unichar2IntExpression extends Expression_Value {
 					break;
 				}
 				case CHARSTRING_VALUE: {
-					final String originalString = ((Charstring_Value) last).getValue();
-					final CharstringExtractor cs = new CharstringExtractor( originalString );
-					if ( cs.isErrorneous() ) {
-						value.getLocation().reportSemanticError( cs.getErrorMessage() );
+					final String string = ((Charstring_Value) last).getValue();
+					if (string != null && string.length() != 1) {
+						value.getLocation().reportSemanticError(OPERANDERROR2);
 						setIsErroneous(true);
-					} else {
-						final String string = cs.getExtractedString();
-						if (string != null && string.length() != 1) {
-							value.getLocation().reportSemanticError(OPERANDERROR2);
-							setIsErroneous(true);
-						}
 					}
 				}
 				default:

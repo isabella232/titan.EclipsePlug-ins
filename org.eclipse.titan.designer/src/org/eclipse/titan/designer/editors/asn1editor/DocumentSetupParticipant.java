@@ -50,9 +50,9 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 		EditorTracker.put((IFile) editor.getEditorInput().getAdapter(IFile.class), editor);
 		DocumentTracker.put((IFile) editor.getEditorInput().getAdapter(IFile.class), document);
 
-		IDocumentPartitioner partitioner = new FastPartitioner(new PartitionScanner(), PartitionScanner.PARTITION_TYPES);
+		final IDocumentPartitioner partitioner = new FastPartitioner(new PartitionScanner(), PartitionScanner.PARTITION_TYPES);
 		if (document instanceof IDocumentExtension3) {
-			IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+			final IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 			extension3.setDocumentPartitioner(PartitionScanner.ASN1_PARTITIONING, partitioner);
 		} else {
 			document.setDocumentPartitioner(partitioner);
@@ -68,7 +68,7 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 
 			@Override
 			public void documentChanged(final DocumentEvent event) {
-				IPreferencesService prefs = Platform.getPreferencesService();
+				final IPreferencesService prefs = Platform.getPreferencesService();
 				if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 					analyze(document, false);
 				}
@@ -85,12 +85,12 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 			return;
 		}
 
-		IProject project = editedFile.getProject();
+		final IProject project = editedFile.getProject();
 		if (project == null) {
 			return;
 		}
 
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		projectSourceParser.reportOutdating(editedFile);
 
 		if (isInitial || !editor.isSemanticCheckingDelayed()) {

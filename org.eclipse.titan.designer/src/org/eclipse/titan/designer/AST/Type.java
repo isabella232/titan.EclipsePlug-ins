@@ -128,6 +128,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	protected TypeOwner_type ownerType = TypeOwner_type.OT_UNKNOWN;
 	protected INamedNode owner = null;//TODO needs to check if this is the tightest interface once structure is ready to reveal all usage.
 
+	/** the time when code for this type was generated. */
+	protected BuildTimestamp lastTimeGenerated = null;
+
 	/**
 	 * The actual value of the severity level to report type compatibility
 	 * on.
@@ -2461,7 +2464,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		final StringBuilder globalVariable = new StringBuilder();
-		globalVariable.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
+		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 		if (generate_raw) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
 		} else {
@@ -2508,8 +2511,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return;
 		}
 
-		final StringBuilder str = new StringBuilder();
-		str.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
+		final StringBuilder globalVariable = new StringBuilder();
+		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
 
 		boolean dummyRaw = rawAttribute == null;
 		if (dummyRaw) {
@@ -2518,106 +2521,106 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (rawAttribute.intX) {
 			aData.addBuiltinTypeImport("RAW");
 
-			str.append("RAW.RAW_INTX,");
+			globalVariable.append("RAW.RAW_INTX,");
 		} else {
-			str.append(rawAttribute.fieldlength).append(',');
+			globalVariable.append(rawAttribute.fieldlength).append(',');
 		}
 		if (rawAttribute.comp == RawAST.XDEFCOMPL) {
-			str.append("raw_sign_t.SG_2COMPL,");
+			globalVariable.append("raw_sign_t.SG_2COMPL,");
 		} else if (rawAttribute.comp == RawAST.XDEFSIGNBIT) {
-			str.append("raw_sign_t.SG_SG_BIT,");
+			globalVariable.append("raw_sign_t.SG_SG_BIT,");
 		} else {
-			str.append("raw_sign_t.SG_NO,");
+			globalVariable.append("raw_sign_t.SG_NO,");
 		}
 		if (rawAttribute.byteorder == RawAST.XDEFLAST) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.align == RawAST.XDEFLEFT) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.bitorderinfield == RawAST.XDEFMSB) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.bitorderinoctet == RawAST.XDEFMSB) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.extension_bit == RawAST.XDEFYES) {
-			str.append("ext_bit_t.EXT_BIT_YES,");
+			globalVariable.append("ext_bit_t.EXT_BIT_YES,");
 		} else if (rawAttribute.extension_bit == RawAST.XDEFREVERSE) {
-			str.append("ext_bit_t.EXT_BIT_REVERSE,");
+			globalVariable.append("ext_bit_t.EXT_BIT_REVERSE,");
 		} else {
-			str.append("ext_bit_t.EXT_BIT_NO,");
+			globalVariable.append("ext_bit_t.EXT_BIT_NO,");
 		}
 		if (rawAttribute.hexorder == RawAST.XDEFHIGH) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.fieldorder == RawAST.XDEFMSB) {
-			str.append("raw_order_t.ORDER_MSB,");
+			globalVariable.append("raw_order_t.ORDER_MSB,");
 		} else {
-			str.append("raw_order_t.ORDER_LSB,");
+			globalVariable.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.toplevelind > 0) {
 			if (rawAttribute.toplevel.bitorder == RawAST.XDEFLSB) {
-				str.append("top_bit_order_t.TOP_BIT_LEFT,");
+				globalVariable.append("top_bit_order_t.TOP_BIT_LEFT,");
 			} else {
-				str.append("top_bit_order_t.TOP_BIT_RIGHT,");
+				globalVariable.append("top_bit_order_t.TOP_BIT_RIGHT,");
 			}
 		} else {
-			str.append("top_bit_order_t.TOP_BIT_INHERITED,");
+			globalVariable.append("top_bit_order_t.TOP_BIT_INHERITED,");
 		}
-		str.append(rawAttribute.padding).append(',');
-		str.append(rawAttribute.prepadding).append(',');
-		str.append(rawAttribute.ptroffset).append(',');
-		str.append(rawAttribute.unit).append(',');
-		str.append(rawAttribute.padding_pattern_length).append(',');
+		globalVariable.append(rawAttribute.padding).append(',');
+		globalVariable.append(rawAttribute.prepadding).append(',');
+		globalVariable.append(rawAttribute.ptroffset).append(',');
+		globalVariable.append(rawAttribute.unit).append(',');
+		globalVariable.append(rawAttribute.padding_pattern_length).append(',');
 		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
-			str.append("new char[] {");
+			globalVariable.append("new char[] {");
 			final String temp = Bit2OctExpression.bit2oct(rawAttribute.padding_pattern);
 			boolean first = true;
 			for (int i = temp.length() - 1; i > 0; i-=2) {
 				if (first) {
 					first = false;
 				} else {
-					str.append(", ");
+					globalVariable.append(", ");
 				}
-				str.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
+				globalVariable.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
 			}
-			str.append("},");
+			globalVariable.append("},");
 		} else {
-			str.append("null,");
+			globalVariable.append("null,");
 		}
-		str.append(rawAttribute.length_restriction).append(',');
+		globalVariable.append(rawAttribute.length_restriction).append(',');
 		if (rawAttribute.stringformat == CharCoding.UTF_8) {
-			str.append("CharCoding.UTF_8");
+			globalVariable.append("CharCoding.UTF_8");
 		} else if (rawAttribute.stringformat == CharCoding.UTF16) {
-			str.append("CharCoding.UTF16");
+			globalVariable.append("CharCoding.UTF16");
 		} else {
-			str.append("CharCoding.UNKNOWN");
+			globalVariable.append("CharCoding.UNKNOWN");
 		}
 
-		str.append(',');
+		globalVariable.append(',');
 		if (rawAttribute.forceOmit.lists.size() == 0) {
-			str.append(" null");
+			globalVariable.append(" null");
 		} else {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 
 			String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
-			StringBuilder force_omit_string = new StringBuilder();
+			StringBuilder globalVariables = new StringBuilder();
 
-			force_omit_string.append(MessageFormat.format("static final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
-			force_omit_string.append(MessageFormat.format("static final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
+			globalVariables.append(MessageFormat.format("\tstatic final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
+			globalVariables.append(MessageFormat.format("\tstatic final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
 
-			aData.addGlobalVariable(force_omit_name, force_omit_string.toString());
+			aData.addGlobalVariable(force_omit_name, globalVariables.toString());
 
 			StringBuilder preInit = aData.getPreInit();
 			for (int i = 0; i < rawAttribute.forceOmit.lists.size(); i++) {
@@ -2656,11 +2659,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				preInit.append(");\n");
 			}
 
-			str.append(force_omit_name);
+			globalVariable.append(force_omit_name);
 		}
-		str.append(");\n");
+		globalVariable.append(");\n");
 
-		aData.addGlobalVariable(descriptorName, str.toString());
+		aData.addGlobalVariable(descriptorName, globalVariable.toString());
 
 		if (dummyRaw) {
 			rawAttribute = null;
@@ -2698,7 +2701,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
-		final String globalVariable = MessageFormat.format("public static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
+		final String globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
 		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", getGenNameOwn()), globalVariable);
 
 		if (!getGenNameCoder(aData, source, myScope).equals(getGenNameOwn()) ) {
@@ -2713,49 +2716,75 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.text.MessageFormat");
 		final StringBuilder encoderString = new StringBuilder();
-		encoderString.append(MessageFormat.format("public static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		encoderString.append("\t/**\n");
+		encoderString.append(MessageFormat.format("\t * The encoder function for type {0}.\n", getTypename()));
+		encoderString.append("\t *\n");
+		encoderString.append("\t * @param input_value\n");
+		encoderString.append("\t *                the input value to encode.\n");
+		encoderString.append("\t * @param output_stream\n");
+		encoderString.append("\t *                the octetstring to be extend with the result of the\n");
+		encoderString.append("\t *                encoding.\n");
+		encoderString.append("\t * @param coding_name\n");
+		encoderString.append("\t *                the name of the coding to use.\n");
+		encoderString.append("\t * */\n");
+		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+
 		final StringBuilder decoderString = new StringBuilder();
-		decoderString.append(MessageFormat.format("public static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		decoderString.append("\t/**\n");
+		decoderString.append(MessageFormat.format("\t * The decoder function for type {0}. In case\n", getTypename()));
+		decoderString.append("\t * of successful decoding the bits used for decoding are removed from\n");
+		decoderString.append("\t * the beginning of the input_stream.\n");
+		decoderString.append("\t *\n");
+		decoderString.append("\t * @param input_stream\n");
+		decoderString.append("\t *                the octetstring starting with the value to be decoded.\n");
+		decoderString.append("\t * @param output_value\n");
+		decoderString.append("\t *                the decoded value if the decoding was successful.\n");
+		decoderString.append("\t * @param coding_name\n");
+		decoderString.append("\t *                the name of the coding to use.\n");
+		decoderString.append("\t * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
+		decoderString.append("\t *         case of error (incomplete message or length)\n");
+		decoderString.append("\t * */\n");
+		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 
 		// user defined codecs
 		for (int i = 0; i < tempCodingTable.size(); i++) {
 			final Coding_Type tempCodingType = tempCodingTable.get(i);
 			if (!tempCodingType.builtIn) {
 				//encoder
-				encoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				encoderString.append(MessageFormat.format("\t\tif (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
 				if (encoderFunction == null) {
-					encoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					encoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
 					if (encoderFunction.conflict) {
-						encoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+						encoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 
-						encoderString.append(MessageFormat.format("output_stream.assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						encoderString.append(MessageFormat.format("\t\t\toutput_stream.operator_assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
 					}
 				}
-				encoderString.append("}\n");
+				encoderString.append("\t\t}\n");
 
 				// decoder
-				decoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				decoderString.append(MessageFormat.format("\t\tif (coding_name.operator_equals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
 				final CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
 				if (decoderFunction == null) {
-					decoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					decoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
 					if (decoderFunction.conflict) {
-						decoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+						decoderString.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 						aData.addBuiltinTypeImport("TitanBitString");
 
-						decoderString.append("final TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
-						decoderString.append(MessageFormat.format("final TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
-						decoderString.append("input_stream.assign(AdditionalFunctions.bit2oct(bit_stream));\n");
-						decoderString.append("return ret_val;\n");
+						decoderString.append("\t\t\tfinal TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
+						decoderString.append(MessageFormat.format("\t\t\tfinal TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						decoderString.append("\t\t\tinput_stream.operator_assign(AdditionalFunctions.bit2oct(bit_stream));\n");
+						decoderString.append("\t\t\treturn ret_val;\n");
 					}
 				}
-				decoderString.append("}\n");
+				decoderString.append("\t\t}\n");
 			}
 		}
 
@@ -2775,48 +2804,48 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			aData.addCommonLibraryImport("TTCN_EncDec");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
-			encoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
-			encoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
-			encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+			encoderString.append("\t\tfinal AtomicInteger extra_options = new AtomicInteger(0);\n");
+			encoderString.append("\t\tfinal TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
+			encoderString.append(MessageFormat.format("\t\tif ({0}) '{'\n", checkString));
 		}
-		encoderString.append("TTCN_Logger.begin_event_log2str();\n");
-		encoderString.append("coding_name.log();\n");
-		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
+		encoderString.append("\t\tTTCN_Logger.begin_event_log2str();\n");
+		encoderString.append("\t\tcoding_name.log();\n");
+		encoderString.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
 			aData.addCommonLibraryImport("TTCN_Buffer");
 
-			encoderString.append("}\n");
-			encoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
-			encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-			encoderString.append("ttcnBuffer.get_string(output_stream);\n");
+			encoderString.append("\t\t}\n");
+			encoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
+			encoderString.append(MessageFormat.format("\t\tinput_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			encoderString.append("\t\tttcnBuffer.get_string(output_stream);\n");
 		}
-		encoderString.append("}\n\n");
+		encoderString.append("\t}\n\n");
 
 		if (checkString.length() > 0) {
-			decoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
-			decoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
-			decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+			decoderString.append("\t\tfinal AtomicInteger extra_options = new AtomicInteger(0);\n");
+			decoderString.append("\t\tfinal TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
+			decoderString.append(MessageFormat.format("\t\tif ({0}) '{'\n", checkString));
 		}
-		decoderString.append("TTCN_Logger.begin_event_log2str();\n");
-		decoderString.append("coding_name.log();\n");
-		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
+		decoderString.append("\t\tTTCN_Logger.begin_event_log2str();\n");
+		decoderString.append("\t\tcoding_name.log();\n");
+		decoderString.append(MessageFormat.format("\t\tthrow new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
-			decoderString.append("}\n");
-			decoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
-			decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-			decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
-			decoderString.append("case ET_NONE:\n");
-			decoderString.append("ttcnBuffer.cut();\n");
-			decoderString.append("ttcnBuffer.get_string(input_stream);\n");
-			decoderString.append("return new TitanInteger(0);\n");
-			decoderString.append("case ET_INCOMPL_MSG:\n");
-			decoderString.append("case ET_LEN_ERR:\n");
-			decoderString.append("return new TitanInteger(2);\n");
-			decoderString.append("default:\n");
-			decoderString.append("return new TitanInteger(1);\n");
-			decoderString.append("}\n");
+			decoderString.append("\t\t}\n");
+			decoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
+			decoderString.append(MessageFormat.format("\t\toutput_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			decoderString.append("\t\tswitch (TTCN_EncDec.get_last_error_type()) {\n");
+			decoderString.append("\t\tcase ET_NONE:\n");
+			decoderString.append("\t\t\tttcnBuffer.cut();\n");
+			decoderString.append("\t\t\tttcnBuffer.get_string(input_stream);\n");
+			decoderString.append("\t\t\treturn new TitanInteger(0);\n");
+			decoderString.append("\t\tcase ET_INCOMPL_MSG:\n");
+			decoderString.append("\t\tcase ET_LEN_ERR:\n");
+			decoderString.append("\t\t\treturn new TitanInteger(2);\n");
+			decoderString.append("\t\tdefault:\n");
+			decoderString.append("\t\t\treturn new TitanInteger(1);\n");
+			decoderString.append("\t\t}\n");
 		}
-		decoderString.append("}\n\n");
+		decoderString.append("\t}\n\n");
 
 		source.append(encoderString);
 		source.append(decoderString);
@@ -3003,7 +3032,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
 
-		return "FATAL_ERROR encountered";
+		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 	}
 
 	/**
@@ -3038,12 +3067,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+		aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addCommonLibraryImport("Index_Redirect");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
-		source.append("if (!component_reference.isBound()) {\n");
+		source.append("if (!component_reference.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
 		source.append("}\n");
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
@@ -3052,13 +3083,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		source.append("Text_Buf text_buf = new Text_Buf();\n");
 		source.append("AtomicReference<Text_Buf> text_buf_ref = new AtomicReference<Text_Buf>(text_buf);\n");
-		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.getComponent(), \"{0}\", text_buf_ref);\n", displayName));
+		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.get_component(), \"{0}\", text_buf_ref);\n", displayName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append(MessageFormat.format("{0} return_value = new {0}();\n", genName));
 		source.append("return_value.decode_text(text_buf_ref.get());\n");
 		source.append("if (value_template.match(return_value)) {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append("value_redirect.assign(return_value);\n");
+		source.append("value_redirect.operator_assign(return_value);\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
 		source.append("TTCN_Logger.log_event_str(\"PTC with component reference \");\n");
@@ -3084,17 +3115,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("}\n");
 
 		if (needs_any_from_done) {
-			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValueArray<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
+			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValue_Array<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.incrPos();\n");
+			source.append("index_redirect.incr_pos();\n");
 			source.append("}\n");
 
 			source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 			source.append("for (int i = 0; i < component_array.n_elem(); i++) {\n");
-			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.getAt(i), value_template, value_redirect, index_redirect);\n");
+			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.get_at(i), value_template, value_redirect, index_redirect);\n");
 			source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.addIndex(i + component_array.getOffset());\n");
+			source.append("index_redirect.add_index(i + component_array.getOffset());\n");
 			source.append("}\n");
 			source.append("result = ret_val;\n");
 			source.append("break;\n");
@@ -3103,7 +3134,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			source.append("}\n");
 			source.append("}\n");
 			source.append("if (index_redirect != null) {\n");
-			source.append("index_redirect.decrPos();\n");
+			source.append("index_redirect.decr_pos();\n");
 			source.append("}\n");
 
 			source.append("return result;\n");
@@ -3187,7 +3218,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
@@ -3201,7 +3232,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.lengthOf());\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.is_greater_than_or_equal(0) && {1}.is_less_than({2}.lengthof());\n",
 				globalId, temporalIndexId, externalId));
 
 		final String temporalId = aData.getTemporaryVariableName();
@@ -3209,11 +3240,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).isBound();\n",
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGet_at({2}).is_bound();\n",
 					globalId, externalId, temporalIndexId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
-					globalId, externalId, temporalIndexId, (!isLast)?"isBound":"isPresent", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGet_at({2}).{3}({4});\n",
+					globalId, externalId, temporalIndexId, (!isLast)?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		}
 
 		generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);

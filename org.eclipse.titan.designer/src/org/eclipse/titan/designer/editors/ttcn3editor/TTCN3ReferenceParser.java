@@ -50,12 +50,12 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 		}
 
 		try {
-			char currentChar = document.getChar(ofs);
+			final char currentChar = document.getChar(ofs);
 			if (')' == currentChar || '}' == currentChar) {
 				return reference;
 			}
-			GeneralPairMatcher pairMatcher = new TTCN3ReferencePairMatcher();
 
+			final GeneralPairMatcher pairMatcher = new TTCN3ReferencePairMatcher();
 			int tempOfs = referenceStartOffset(ofs, document, pairMatcher);
 
 			if (-1 == tempOfs) {
@@ -73,8 +73,8 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 			// the last character where the loop stopped is not part
 			// of the reference
 			ofs++;
-			String toBeParsed = document.get(ofs, offset - ofs);
-			TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
+			final String toBeParsed = document.get(ofs, offset - ofs);
+			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
 			reference = refAnalyzer.parseForCompletion(file, toBeParsed);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
@@ -92,8 +92,7 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 		}
 
 		try {
-			GeneralPairMatcher pairMatcher = new TTCN3ReferencePairMatcher();
-
+			final GeneralPairMatcher pairMatcher = new TTCN3ReferencePairMatcher();
 			ofs = referenceStartOffset(ofs, document, pairMatcher);
 
 			if (-1 == ofs) {
@@ -121,12 +120,12 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 				currentChar = document.getChar(endoffset);
 			}
 
-			String toBeParsed = document.get(ofs, endoffset - ofs);
+			final String toBeParsed = document.get(ofs, endoffset - ofs);
 			if (toBeParsed.trim().length() == 0) {
 				return reference;
 			}
 
-			TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
+			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
 			reference = refAnalyzer.parse(file, toBeParsed, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
@@ -160,8 +159,9 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 				if (!foundDot) {
 					break;
 				}
+
 				foundWhiteSpaces = false;
-				IRegion pair = pairMatcher.match(document, temporalOffset + 1);
+				final IRegion pair = pairMatcher.match(document, temporalOffset + 1);
 				if (pair == null) {
 					return -1;
 				}

@@ -34,14 +34,33 @@ public class Ttcn3Float {
 		return value;
 	}
 
-	//originally operator=
-	Ttcn3Float assign(final double d){
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param d
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	Ttcn3Float operator_assign(final double d){
 		value = d;
+
 		return this;
 	}
 
-	//originally operator=
-	Ttcn3Float assign(final Ttcn3Float d){
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param d
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	Ttcn3Float operator_assign(final Ttcn3Float d){
 		this.value = d.value;
 		return this;
 	}
@@ -68,54 +87,70 @@ public class Ttcn3Float {
 		return new Ttcn3Float( value / d );
 	}
 
-	// originally operator<
-	boolean isLessThan( final double d ) {
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	boolean is_less_than( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return false; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
 			return true; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( value == 0.0 && d == 0.0 ) { // does not distinguish -0.0
-			return isNegativeZero(value) && !isNegativeZero(d); // value negative, d non-negative
+			return is_negative_zero(value) && !is_negative_zero(d); // value negative, d non-negative
 		} else { // finally, the sensible behavior
 			return value < d;
 		}
 	}
 
-	// originally operator>
-	boolean isGreaterThan( final double d ) {
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	boolean is_greater_than( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return !Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
 			return false; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( value == 0.0 && d == 0.0 ) { // does not distinguish -0.0
-			return !isNegativeZero(value) && isNegativeZero(d); // value non-negative, d negative
+			return !is_negative_zero(value) && is_negative_zero(d); // value non-negative, d negative
 		} else { // finally, the sensible behavior
 			return value > d;
 		}
 	}
 
 	// originally operator==
-	boolean operatorEquals( final double d ) {
+	boolean operator_equals( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
 			return false;
 		} else if ( value == 0.0 && d == 0.0 ) { // does not distinguish -0.0
-			return isNegativeZero( value ) == isNegativeZero( d );
+			return is_negative_zero( value ) == is_negative_zero( d );
 		} else { // finally, the sensible behavior
 			return value == d;
 		}
 	}
 
 	// originally signbit
-	private boolean isNegativeZero( final double d ) {
+	private boolean is_negative_zero( final double d ) {
 		// the original double signbit( double ) on the titan.core side
 		// returns the sign bit of the floating point number, which is 1 if negative, 0 if positive or exactly 0
 		// TTCN-3 handles 0.0 and 1.0 as one case, the only thing that matters is if the signum is negative or not.
 		return Double.doubleToLongBits( d ) == NEGATIVE_ZERO;
 	}
 
-	public String createJavaStringRepresentation() {
+	public String create_java_string_representation() {
 		if (Double.isNaN(value)){
 			return "Double.NaN";
 		} else if (Double.isInfinite(value)) {
@@ -133,7 +168,7 @@ public class Ttcn3Float {
 	 * It is useful in the logging, for example
 	 * @return the converted string
 	 */
-	public String createTtcn3StringRepresentation() {
+	public String create_ttcn3_string_representation() {
 		if (Double.isNaN(value)){
 			return "not_a_number";
 		} else if (Double.isInfinite(value)) {
@@ -159,6 +194,6 @@ public class Ttcn3Float {
 	 *  */
 	@Override
 	public String toString() {
-		return createTtcn3StringRepresentation();
+		return create_ttcn3_string_representation();
 	}
 }

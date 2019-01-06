@@ -32,11 +32,11 @@ import org.eclipse.titan.log.viewer.preferences.PreferencesHolder;
  */
 public class TextViewComposite extends Composite {
 
-	private StyledText styledText;
+	private final StyledText styledText;
 	private String currentText;
 	private String currentName;
 	private boolean useFormatting;
-	private Font font;
+	private final Font font;
 	private LogFileMetaData logFileMetaData;
 
 	/**
@@ -82,20 +82,19 @@ public class TextViewComposite extends Composite {
 		}
 		// If message is null or empty
 		String newText = newInput.getLine();
-		String newName = newInput.getName();
-
 		if (isNullOrEmpty(newText)) {
 			currentText = null;
 			styledText.setText(""); //$NON-NLS-1$
 			return;
 		}
 
+		final String newName = newInput.getName();
 		if (isNullOrEmpty(newName)) {
 			currentName = null;
 		}
 
 		// If message has not changed
-		if ((currentText != null && currentText.contentEquals(newText))
+		if (currentText != null && currentText.contentEquals(newText)
 				&& currentName != null && currentName.equals(newName)) {
 			return;
 		}
@@ -104,32 +103,32 @@ public class TextViewComposite extends Composite {
 
 		currentText = newText;
 		currentName = newName;
-		int newLineIndex = currentText.indexOf("\n"); //$NON-NLS-1$
+		final int newLineIndex = currentText.indexOf('\n'); //$NON-NLS-1$
 		// index should be greater or equal than zero (if not found indexOf returns -1
 		// index should not be length -1 (last char), which is often \n
-		boolean hasNewLine = (newLineIndex >= 0) && (newLineIndex != (currentText.length() - 1));
-		String text = formatText(newInput, hasNewLine);
+		final boolean hasNewLine = (newLineIndex >= 0) && (newLineIndex != (currentText.length() - 1));
+		final String text = formatText(newInput, hasNewLine);
 
 
 		//So that the sourceInfo is included in the scrollbar
-		String messageText = newInput.getSourceInfo().trim() + "\n" + (text);
+		final String messageText = newInput.getSourceInfo().trim() + "\n" + (text);
 		styledText.setText(messageText);
 		colorKeywords(text, messageText);
 	}
 
-	private void colorKeywords(String text, String messageText) {
-		PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName());
-		boolean useKeywordColoring = preferences.getUseColoringKeywords();
+	private void colorKeywords(final String text, final String messageText) {
+		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName());
+		final boolean useKeywordColoring = preferences.getUseColoringKeywords();
 
 		if (useKeywordColoring) {
-			Map<String, RGB> coloringKeywords = preferences.getColoringKeywords();
-			for (Map.Entry<String, RGB> entry : coloringKeywords.entrySet()) {
-				String currentKeyword = entry.getKey();
-				int messagePosition = messageText.indexOf(text);
+			final Map<String, RGB> coloringKeywords = preferences.getColoringKeywords();
+			for (final Map.Entry<String, RGB> entry : coloringKeywords.entrySet()) {
+				final String currentKeyword = entry.getKey();
+				final int messagePosition = messageText.indexOf(text);
 				int startPosition = messageText.indexOf(currentKeyword, messagePosition);
 				while (startPosition > -1) {
-					Color textColor = (Color) Activator.getDefault().getCachedResource(entry.getValue());
-					StyleRange styleRange = new StyleRange();
+					final Color textColor = (Color) Activator.getDefault().getCachedResource(entry.getValue());
+					final StyleRange styleRange = new StyleRange();
 					styleRange.start = startPosition;
 					styleRange.length = currentKeyword.length();
 					styleRange.foreground = textColor;
@@ -143,16 +142,16 @@ public class TextViewComposite extends Composite {
 		}
 	}
 
-	private String formatText(DetailData newInput, boolean hasNewLine) {
+	private String formatText(final DetailData newInput, final boolean hasNewLine) {
 		// Formatting is set to be used and the text does not contain new line char
 		if (!useFormatting || hasNewLine) {
 			// formatting not used
 			return currentText;
 		}
 
-		StringBuilder text = new StringBuilder();
-		String port = newInput.getPort();
-		if (port != null && port.trim().length() > 0) {
+		final StringBuilder text = new StringBuilder();
+		final String port = newInput.getPort();
+		if (port != null && !port.trim().isEmpty()) {
 			text.append(newInput.getName());
 			text.append('(');
 			text.append(newInput.getPort());
@@ -173,7 +172,7 @@ public class TextViewComposite extends Composite {
 			final String newLine = "\n"; //$NON-NLS-1$
 			final String spaces = "  "; //$NON-NLS-1$
 			String indent = ""; //$NON-NLS-1$
-			StringCharacterIterator ci = new StringCharacterIterator(currentText);
+			final StringCharacterIterator ci = new StringCharacterIterator(currentText);
 			for (char currentChar = ci.first(); currentChar != CharacterIterator.DONE; currentChar = ci.next()) {
 				switch (currentChar) {
 				case startBracket:
@@ -208,7 +207,7 @@ public class TextViewComposite extends Composite {
 		return text.toString();
 	}
 
-	private String removeEndingColon(String newText) {
+	private String removeEndingColon(final String newText) {
 		// If message starts with ": "
 		if ((newText.length() >= 2) && newText.startsWith(": ")) { //$NON-NLS-1$
 			return newText.substring(2);

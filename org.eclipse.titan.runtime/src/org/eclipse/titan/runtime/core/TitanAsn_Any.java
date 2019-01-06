@@ -13,5 +13,32 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public class TitanAsn_Any extends TitanOctetString {
+	/**
+	 * Initializes to unbound value.
+	 * */
+	public TitanAsn_Any() {
+		//intentionally empty
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanAsn_Any(final TitanOctetString otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanAsn_Any(final TitanAsn_Any otherValue) {
+		super(otherValue);
+	}
+
   // TODO encoding/decoding support needed later
 }

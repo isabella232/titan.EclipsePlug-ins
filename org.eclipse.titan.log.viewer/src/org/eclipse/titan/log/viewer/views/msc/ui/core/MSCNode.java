@@ -61,7 +61,7 @@ public abstract class MSCNode {
 
 	protected int eventOccurrence;
 
-	protected MSCNode(int eventOccurrence) {
+	protected MSCNode(final int eventOccurrence) {
 		this.eventOccurrence = eventOccurrence;
 	}
 
@@ -89,7 +89,7 @@ public abstract class MSCNode {
 	 * 			y  the y coordinate of the point to test containment
 	 * @return true if contained, false otherwise
 	 */
-	public boolean contains(int x, int y) {
+	public boolean contains(final int x, final int y) {
 		return new Rectangle(getX(), getY(), getWidth(), getHeight()).contains(x, y);
 	}
 
@@ -132,7 +132,7 @@ public abstract class MSCNode {
 	 * @param vheight
 	 * @return true if visible false otherwise
 	 */
-	boolean isVisible(int x, int y, int width, int height) {
+	boolean isVisible(final int x, final int y, final int width, final int height) {
 		return isVisibleRectange(this, x, y, width, height);
 	}
 
@@ -197,17 +197,14 @@ public abstract class MSCNode {
 		return (px >= locX) && (py >= locY) && ((px - locX) <= locWidth) && ((py - locY) <= locHeight);
 	}
 
-	protected static boolean isVisibleRectange(MSCNode node, int vx, int vy, int vwidth, int vheight) {
-		int x = node.getX();
-		int y = node.getY();
-		int width = node.getWidth();
-		int height = node.getHeight();
-		if (((x + width) < vx) || // To the left
+	protected static boolean isVisibleRectange(final MSCNode node, final int vx, final int vy, final int vwidth, final int vheight) {
+		final int x = node.getX();
+		final int y = node.getY();
+		final int width = node.getWidth();
+		final int height = node.getHeight();
+		return !(((x + width) < vx) || // To the left
 				(x > (vx + vwidth)) || // To the right
 				((y + height) < vy) || // Above
-				(y > (vy + vheight))) { // Below
-			return false;
-		}
-		return true;
+				(y > (vy + vheight))); // Below
 	}
 }

@@ -16,7 +16,7 @@ import java.util.List;
  * Originally Basetype.hh/Record_Of_Type, Basetype2.cc/Record_Of_Type
  * @author Arpad Lovassy
  */
-public class TitanRecordOf extends Base_Type {
+public abstract class TitanRecordOf extends Base_Type {
 
 	/**
 	 * Indexed sequence of elements of the same type
@@ -32,32 +32,27 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	public TitanRecordOf(final TitanRecordOf other_value) {
-		other_value.mustBound("Copying an unbound record of/set of value.");
+		other_value.must_bound("Copying an unbound record of/set of value.");
 		ofType = other_value.ofType;
-		valueElements = copyList(other_value.valueElements);
+		valueElements = copy_list(other_value.valueElements);
 	}
 
 	@Override
-	public boolean isPresent() {
-		return isBound();
+	public boolean is_present() {
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return valueElements != null;
 	}
 
-	public void mustBound(final String aErrorMessage) {
-		if (!isBound()) {
-			throw new TtcnError(aErrorMessage);
-		}
-	}
-
-	//originally clean_up
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		valueElements = null;
 	}
 
+	@Override
 	public void log() {
 		if (valueElements == null) {
 			TTCN_Logger.log_event_unbound();
@@ -90,39 +85,47 @@ public class TitanRecordOf extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		final int new_size = text_buf.pull_int().getInt();
+		final int new_size = text_buf.pull_int().get_int();
 		if (new_size < 0) {
 			throw new TtcnError("Text decoder: Negative size was received for a value of type record of.");
 		}
 		valueElements = new ArrayList<Base_Type>(new_size);
 		for (int i = 0; i < new_size; i++) {
-			final Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = get_unbound_elem();
 			newElem.decode_text(text_buf);
 			valueElements.add(newElem);
 		}
 	}
 
 	/**
-	 * @return true if and only if otherValue is the same record of type as this
+	 * @return {@code true} if and only if otherValue is the same record of type as this
 	 */
-	private boolean isSameType(final Base_Type otherValue) {
+	private boolean is_same_type(final Base_Type otherValue) {
 		return otherValue instanceof TitanRecordOf && ofType == ((TitanRecordOf)otherValue).ofType;
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
-		if (!isSameType(otherValue)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
+	public boolean operator_equals(final Base_Type otherValue) {
+		if (!is_same_type(otherValue)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, get_of_type_name()));
 		}
 
 		//compiler warning is incorrect, it is not unchecked
-		return operatorEquals((TitanRecordOf) otherValue);
+		return operator_equals((TitanRecordOf) otherValue);
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final TitanRecordOf otherValue) {
-		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
-		otherValue.mustBound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanRecordOf otherValue) {
+		must_bound("The left operand of comparison is an unbound value of type record of " + get_of_type_name() + ".");
+		otherValue.must_bound("The right operand of comparison is an unbound value of type" + otherValue.get_of_type_name() + ".");
 
 		final int size = valueElements.size();
 		if (size != otherValue.valueElements.size()) {
@@ -132,7 +135,7 @@ public class TitanRecordOf extends Base_Type {
 		for (int i = 0; i < size; i++) {
 			final Base_Type leftElem = valueElements.get(i);
 			final Base_Type rightElem = otherValue.valueElements.get(i);
-			if (!leftElem.operatorEquals(rightElem)) {
+			if (!leftElem.operator_equals(rightElem)) {
 				return false;
 			}
 		}
@@ -141,41 +144,60 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
-		if (!isSameType(otherValue)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName()));
+	public Base_Type operator_assign(final Base_Type otherValue) {
+		if (!is_same_type(otherValue)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, get_of_type_name()));
 		}
 
 		// compiler warning is incorrect, it is not unchecked
-		return assign((TitanRecordOf) otherValue);
+		return operator_assign((TitanRecordOf) otherValue);
 	}
 
-	//originally operator=
-	public TitanRecordOf assign(final TitanRecordOf aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound record of value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanRecordOf operator_assign(final TitanRecordOf otherValue) {
+		otherValue.must_bound("Assignment of an unbound record of value.");
 
-		valueElements = aOtherValue.valueElements;
+		valueElements = otherValue.valueElements;
 		return this;
 	}
 
-	public final List<Base_Type> copyList(final List<Base_Type> srcList) {
+	public final List<Base_Type> copy_list(final List<Base_Type> srcList) {
 		if (srcList == null) {
 			return null;
 		}
 
 		final List<Base_Type> newList = new ArrayList<Base_Type>(srcList.size());
 		for (final Base_Type srcElem : srcList) {
-			final Base_Type newElem = getUnboundElem();
-			newElem.assign(srcElem);
-			newList.add((newElem));
+			final Base_Type newElem = get_unbound_elem();
+			newElem.operator_assign(srcElem);
+			newList.add(newElem);
 		}
 		return newList;
 	}
 
-	//originally get_at(int)
-	public Base_Type getAt(final int index_value) {
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * get_at in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public Base_Type get_at(final int index_value) {
 		if (index_value < 0) {
-			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
+			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", get_of_type_name(), index_value));
 		}
 
 		if (index_value >= valueElements.size()) {
@@ -186,52 +208,79 @@ public class TitanRecordOf extends Base_Type {
 		}
 
 		if (valueElements.get(index_value) == null) {
-			final Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = get_unbound_elem();
 			valueElements.set(index_value, newElem);
 		}
 		return valueElements.get(index_value);
 	}
 
-	//originally get_at(const INTEGER&)
-	public Base_Type getAt(final TitanInteger index_value) {
-		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
-		return getAt(index_value.getInt());
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * get_at in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public Base_Type get_at(final TitanInteger index_value) {
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
+		return get_at(index_value.get_int());
 	}
 
-	//originally get_at(int) const
-	public Base_Type constGetAt(final int index_value) {
-		if (!isBound()) {
-			throw new TtcnError(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
-		}
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const get_at const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public Base_Type constGet_at(final int index_value) {
+		must_bound(MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", get_of_type_name()));
+
 		if (index_value < 0) {
-			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
+			throw new TtcnError(MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", get_of_type_name(), index_value));
 		}
 		final int nofElements = n_elem();
 		if (index_value >= nofElements) {
 			throw new TtcnError(MessageFormat.format("Index overflow in a value of type record of {0}: The index is {1}, but the value has only {2} elements.",
-					getOfTypeName(), index_value, nofElements));
+					get_of_type_name(), index_value, nofElements));
 		}
 
 		final Base_Type elem = valueElements.get(index_value);
-		return (elem != null) ? elem : getUnboundElem();
+		return (elem != null) ? elem : get_unbound_elem();
 	}
 
-	//originally get_at(const INTEGER&) const
-	public Base_Type constGetAt(final TitanInteger index_value) {
-		index_value.mustBound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", getOfTypeName()));
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const get_at const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public Base_Type constGet_at(final TitanInteger index_value) {
+		index_value.must_bound(MessageFormat.format("Using an unbound integer value for indexing a value of type {0}.", get_of_type_name()));
 
-		return constGetAt(index_value.getInt());
+		return constGet_at(index_value.get_int());
 	}
 
-	private Base_Type getUnboundElem() {
+	private Base_Type get_unbound_elem() {
 		try {
 			return ofType.newInstance();
 		} catch (Exception e) {
-			throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), getOfTypeName()));
+			throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), get_of_type_name()));
 		}
 	}
 
-	private static String getOfTypeName(final Class<? extends Base_Type> aOfType) {
+	private static String get_of_type_name(final Class<? extends Base_Type> aOfType) {
 		// FIXME: this is surely not good like this
 		if (aOfType == TitanBoolean.class) {
 			return "boolean";
@@ -242,10 +291,17 @@ public class TitanRecordOf extends Base_Type {
 		}
 	}
 
-	private String getOfTypeName() {
-		return getOfTypeName(ofType);
+	private String get_of_type_name() {
+		return get_of_type_name(ofType);
 	}
 
+	/**
+	 * Returns the number of elements.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		if (valueElements == null) {
 			return 0;
@@ -255,7 +311,7 @@ public class TitanRecordOf extends Base_Type {
 
 	public void add(final Base_Type aElement) {
 		if (aElement.getClass() != ofType) {
-			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", getOfTypeName(aElement.getClass()), getOfTypeName()));
+			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", get_of_type_name(aElement.getClass()), get_of_type_name()));
 		}
 		if (valueElements == null) {
 			valueElements = new ArrayList<Base_Type>();

@@ -43,7 +43,7 @@ public class LanguageMixing extends BaseProjectCodeSmellSpotter {
 	}
 
 	@Override
-	protected void process(IProject project, Problems problems) {
+	protected void process(final IProject project, final Problems problems) {
 		TITANDebugConsole.println("Language mixing called");
 
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);

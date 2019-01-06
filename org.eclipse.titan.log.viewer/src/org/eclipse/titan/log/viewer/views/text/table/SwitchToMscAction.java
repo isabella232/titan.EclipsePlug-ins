@@ -32,9 +32,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 class SwitchToMscAction extends Action {
-	private TextTableView textTableView;
+	private final TextTableView textTableView;
 
-	public SwitchToMscAction(TextTableView textTableView) {
+	public SwitchToMscAction(final TextTableView textTableView) {
 		super("", ImageDescriptor.createFromImage(Activator.getDefault().getIcon(Constants.ICONS_MSC_VIEW)));
 		this.textTableView = textTableView;
 		setId("switchToMSC");
@@ -43,11 +43,11 @@ class SwitchToMscAction extends Action {
 
 	@Override
 	public void run() {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		LogFileMetaData logFileMetaData = textTableView.getLogFileMetaData();
-		IProject project = root.getProject(logFileMetaData.getProjectName());
-		IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final LogFileMetaData logFileMetaData = textTableView.getLogFileMetaData();
+		final IProject project = root.getProject(logFileMetaData.getProjectName());
+		final IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 
 		if (LogFileCacheHandler.hasLogFileChanged(logFile)) {
 			LogFileCacheHandler.handleLogFileChange(logFile);
@@ -55,36 +55,36 @@ class SwitchToMscAction extends Action {
 		}
 
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		TestCaseExtractor extractor = new TestCaseExtractor();
+		final TestCaseExtractor extractor = new TestCaseExtractor();
 		try {
 			extractor.extractTestCasesFromIndexedLogFile(logFile);
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);
-			MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
+			final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
 			mb.setText("Test case extraction failed.");
 			mb.setMessage("Error while extracting the test cases.");
 			return;
 		} catch (ClassNotFoundException e) {
 			ErrorReporter.logExceptionStackTrace(e);
-			MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
+			final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
 			mb.setText("Test case extraction failed.");
 			mb.setMessage("Error while extracting the test cases.");
 			return;
 		}
 
-		List<TestCase> testCases = extractor.getTestCases();
 		if (textTableView.getSelectedRecord() == null) {
-			MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
+			final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
 			mb.setText("Invalid selection.");
 			mb.setMessage("Please select a record to open the MSC view.");
 			return;
 		}
 
-		int recordNumber = textTableView.getSelectedRecord().getRecordNumber();
-		int testCaseNumber = findContainingTestCase(testCases, recordNumber);
+		final int recordNumber = textTableView.getSelectedRecord().getRecordNumber();
+		final List<TestCase> testCases = extractor.getTestCases();
+		final int testCaseNumber = findContainingTestCase(testCases, recordNumber);
 
 		if (testCaseNumber == -1) {
-			MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
+			final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK);
 			mb.setText("Testcase can not be found.");
 			mb.setMessage("The testcase containing the selected log record can not be found.");
 			return;
@@ -96,7 +96,7 @@ class SwitchToMscAction extends Action {
 		openMSCAction.run();
 	}
 
-	private int findContainingTestCase(List<TestCase> testCases, int recordNumber) {
+	private int findContainingTestCase(final List<TestCase> testCases, final int recordNumber) {
 		int testCaseNumber = -1;
 		for (int min = 0, max = testCases.size() - 1, mid = (min + max) / 2;
 				min <= max;

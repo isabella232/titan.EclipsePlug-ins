@@ -27,7 +27,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 public abstract class TestCaseEventNode extends MSCNode {
 	protected int lifelines;
 
-	public TestCaseEventNode(int eventOccurrence, final int lifelines) {
+	public TestCaseEventNode(final int eventOccurrence, final int lifelines) {
 		super(eventOccurrence);
 		this.lifelines = lifelines;
 	}
@@ -44,7 +44,7 @@ public abstract class TestCaseEventNode extends MSCNode {
 
 	@Override
 	protected void draw(final IGC context) {
-		Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		final Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
 		drawShadow(context, rectangle, getColor(MSCConstants.TESTCASEEND_SHADOW_COLOR), MSCConstants.TESTCASEEND_SHADOW_SIZE);
 		drawBox(context, rectangle, getBackgroundColor(), getColor(MSCConstants.DEFAULT_BACKGROUND_COLOR), MSCConstants.TESTCASEEND_SHADOW_SIZE);

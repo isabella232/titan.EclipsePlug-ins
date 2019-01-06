@@ -1,18 +1,18 @@
 ---
 Author: Jenő Balaskó
-Version: 4/198 17-CRL 113 200/6, Rev. PE1
-Date: 2018-06-19
+Version: 4/198 17-CRL 113 200/6, Rev. E
+Date: 2018-12-03
 
 ---
 = User Guide for the TITAN Designer for the Eclipse IDE
 :author: Jenő Balaskó
-:revnumber: 4/198 17-CRL 113 200/6, Rev. PE1
-:revdate: 2018-06-19
+:revnumber: 4/198 17-CRL 113 200/6, Rev. E
+:revdate: 2018-12-03
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
 :toc:
-:toclevels: 3
+:toclevels: 4
 
 ifdef::env-github,backend-html5[]
 image::images/titan_logo.png[alt]

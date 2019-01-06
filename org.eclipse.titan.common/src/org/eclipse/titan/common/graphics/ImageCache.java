@@ -24,9 +24,12 @@ public final class ImageCache {
 	}
 
 	/**
-	 * Creates an ImageDescriptor from the image's name, whose root is the icons directory.
+	 * Creates an ImageDescriptor from the image's name, whose root is the
+	 * icons directory.
 	 *
-	 * @param name the name of the image starting from the icons directory
+	 * @param name
+	 *                the name of the image starting from the icons
+	 *                directory
 	 * @return the created ImageDescriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(final String name) {

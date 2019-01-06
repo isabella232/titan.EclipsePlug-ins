@@ -140,9 +140,11 @@ public final class Altstep_Reference_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(name);
-		source.append(".assign( ");
+		source.append(".operator_assign( ");
 		source.append(generateSingleExpression(aData));
 		source.append(" );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
@@ -171,7 +173,7 @@ public final class Altstep_Reference_Value extends Value {
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getModuleName() {\n");
-		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getMyScope().getModuleScope().getIdentifier().getName()));
+		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getMyScope().getModuleScopeGen().getIdentifier().getName()));
 		result.append("}\n");
 		result.append("@Override\n");
 		result.append("public String getDefinitionName() {\n");
@@ -179,7 +181,7 @@ public final class Altstep_Reference_Value extends Value {
 		result.append("}\n");
 
 		final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
-		final String moduleName = referredAltstep.getMyScope().getModuleScope().getName();
+		final String moduleName = referredAltstep.getMyScope().getModuleScopeGen().getName();
 		final String altstepName = referredAltstep.getIdentifier().getName();
 		final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 

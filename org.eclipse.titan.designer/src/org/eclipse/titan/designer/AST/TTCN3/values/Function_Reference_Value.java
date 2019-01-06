@@ -147,9 +147,11 @@ public final class Function_Reference_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(name);
-		source.append(".assign( ");
+		source.append(".operator_assign( ");
 		source.append(generateSingleExpression(aData));
 		source.append(" );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}
@@ -174,7 +176,7 @@ public final class Function_Reference_Value extends Value {
 		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		final Function_Type functionType = (Function_Type) lastGovernor;
 		final Type returnType = functionType.getReturnType();
-		final String moduleName = referredFunction.getMyScope().getModuleScope().getName();
+		final String moduleName = referredFunction.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredFunction.getIdentifier().getName();
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");

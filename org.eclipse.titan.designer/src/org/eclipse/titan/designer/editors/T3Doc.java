@@ -173,17 +173,17 @@ public final class T3Doc {
 		// Fill content
 		t3DocFillContentFromCommentLocation(commentLocation);
 
-		List<String> membersArraylist = T3Doc.getCommentStrings(commentLocation, "@member");
+		final List<String> membersArraylist = T3Doc.getCommentStrings(commentLocation, "@member");
 		if (!membersArraylist.isEmpty()) {
 			members = new HashMap<String, String>();
 		}
 		// ToDo what about spaces
-		for (String stringItem : membersArraylist) {
+		for (final String stringItem : membersArraylist) {
 			final String stringItemTrim = stringItem.trim();
 			final String strWithoutMember = stringItemTrim.substring("@member".length()).trim();
 			final String key;
 			final String value;
-			int cnt = strWithoutMember.indexOf(" ");
+			final int cnt = strWithoutMember.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutMember;
 				value = "";
@@ -194,18 +194,18 @@ public final class T3Doc {
 			members.put(key, value);
 		}
 
-		List<String> paramsArraylistTemp = T3Doc.getCommentStrings(commentLocation, "@param");
+		final List<String> paramsArraylistTemp = T3Doc.getCommentStrings(commentLocation, "@param");
 		if (!paramsArraylistTemp.isEmpty()) {
 			params = new HashMap<String, String>();
 			paramsArraylist = new ArrayList<String>();
 		}
 		// ToDo what about spaces
-		for (String stringItem : paramsArraylistTemp) {
+		for (final String stringItem : paramsArraylistTemp) {
 			final String stringItemTrim = stringItem.trim();
 			final String strWithoutParam = stringItemTrim.substring("@param".length()).trim();
 			final String key;
 			final String value;
-			int cnt = strWithoutParam.indexOf(" ");
+			final int cnt = strWithoutParam.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutParam;
 				value = "";
@@ -222,12 +222,12 @@ public final class T3Doc {
 		// Fill content
 		t3DocFillContentFromCommentLocation(commentLocation);
 
-		List<String> membersArraylist = T3Doc.getCommentStrings(commentLocation, "@member");
+		final List<String> membersArraylist = T3Doc.getCommentStrings(commentLocation, "@member");
 		if (!membersArraylist.isEmpty()) {
 			members = new HashMap<String, String>();
 		}
 		// ToDo what about spaces
-		for (String stringItem : membersArraylist) {
+		for (final String stringItem : membersArraylist) {
 			final String strWithoutMember = stringItem.substring("@member".length()).trim();
 			if (strWithoutMember.indexOf(str) == -1) {
 				continue;
@@ -235,7 +235,7 @@ public final class T3Doc {
 
 			final String key;
 			final String value;
-			int cnt = strWithoutMember.indexOf(" ");
+			final int cnt = strWithoutMember.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutMember;
 				value = "";
@@ -251,11 +251,11 @@ public final class T3Doc {
 			params = new HashMap<String, String>();
 		}
 		// ToDo what about spaces
-		for (String stringItem : paramsArraylist) {
+		for (final String stringItem : paramsArraylist) {
 			final String strWithoutParam = stringItem.substring("@param".length()).trim();
 			final String key;
 			final String value;
-			int cnt = strWithoutParam.indexOf(" ");
+			final int cnt = strWithoutParam.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutParam;
 				value = "";
@@ -297,7 +297,7 @@ public final class T3Doc {
 		}
 
 		// Convert to readable format
-		for (String[] item : PARAGRAPHS) {
+		for (final String[] item : PARAGRAPHS) {
 			localStr = localStr.replaceAll(item[0], item[1]);
 		}
 
@@ -337,7 +337,7 @@ public final class T3Doc {
 					// and choice
 					boolean memberCapable = false;
 					if (typeType != null) {
-						for (String string : TTCN3_MEMBER_CAPABLE) {
+						for (final String string : TTCN3_MEMBER_CAPABLE) {
 							if (typeType.toString().equals(string)) {
 								memberCapable = true;
 							}
@@ -374,9 +374,8 @@ public final class T3Doc {
 					temp = null;
 				}
 
-				File realFile = file.getLocation().toFile();
-
-				BufferedReader in = new BufferedReader(new FileReader(realFile));
+				final File realFile = file.getLocation().toFile();
+				final BufferedReader in = new BufferedReader(new FileReader(realFile));
 				in.skip(commentLocation.getOffset());
 				String str;
 
@@ -390,7 +389,7 @@ public final class T3Doc {
 
 					int loc = -1;
 					if (temp != null) {
-						for (String item : temp) {
+						for (final String item : temp) {
 							loc = str.indexOf(item);
 							if (loc != -1) {
 								location = new Location(commentLocation.getFile(), commentLocation.getLine()
@@ -412,16 +411,16 @@ public final class T3Doc {
 	}
 
 	public static String getCommentStrings(final List<String> arraylistIn) {
-		StringBuilder strb = new StringBuilder();
+		final StringBuilder strb = new StringBuilder();
 
 		int i = 0;
-		for (String str : arraylistIn) {
+		for (final String str : arraylistIn) {
 			// check if we are still in the comment, do not collect
 			// all the members
 			if (str.indexOf("//*") == -1) {
 				break;
 			}
-			int loc = str.indexOf("//*");
+			final int loc = str.indexOf("//*");
 
 			if (-1 != loc) {
 				if (i > 0) {
@@ -435,21 +434,19 @@ public final class T3Doc {
 	}
 
 	private static List<String> getAllCommentStrings(final Location commentLocation) {
-		List<String> arraylist = new ArrayList<String>();
+		final List<String> arraylist = new ArrayList<String>();
 
 		if (commentLocation != null) {
 			final IFile file = (IFile) commentLocation.getFile();
-
-			List<String> arraylistMemory = getArrayListFromEditorTracker(file, commentLocation);
+			final List<String> arraylistMemory = getArrayListFromEditorTracker(file, commentLocation);
 
 			if (arraylistMemory != null) {
 				return arraylistMemory;
 			}
 
 			try {
-				File realFile = file.getLocation().toFile();
-
-				BufferedReader in = new BufferedReader(new FileReader(realFile));
+				final File realFile = file.getLocation().toFile();
+				final BufferedReader in = new BufferedReader(new FileReader(realFile));
 
 				in.skip(commentLocation.getOffset());
 				String str;
@@ -461,7 +458,7 @@ public final class T3Doc {
 						break;
 					}
 
-					String strTrim = str.trim();
+					final String strTrim = str.trim();
 					arraylist.add(strTrim);
 				}
 				in.close();
@@ -475,11 +472,11 @@ public final class T3Doc {
 	}
 
 	public static List<String> getCommentStrings(final List<String> arraylistIn, final String toSearch) {
-		List<String> arraylist = new ArrayList<String>();
+		final List<String> arraylist = new ArrayList<String>();
 
 		String member = null;
 		boolean memberFound = false;
-		for (String str : arraylistIn) {
+		for (final String str : arraylistIn) {
 
 			// check if we are still in the comment, do not collect
 			// all the members
@@ -488,10 +485,9 @@ public final class T3Doc {
 				continue;
 			}
 
-			String strOld = str;
-			int loc = str.indexOf(toSearch);
-
-			int loc2 = str.indexOf("@");
+			final String strOld = str;
+			final int loc = str.indexOf(toSearch);
+			final int loc2 = str.indexOf("@");
 
 			if (loc2 != -1) {
 				memberFound = false;
@@ -543,29 +539,28 @@ public final class T3Doc {
 			return new ArrayList<String>();
 		}
 
-		List<String> arraylist = new ArrayList<String>();
-
+		final List<String> arraylist = new ArrayList<String>();
 		final IFile file = (IFile) commentLocation.getFile();
 
 		// try to get comments from EditorTracker
-		List<String> arraylistMemory = getArrayListFromEditorTracker(file, commentLocation);
-		String toSearchExact = " " + toSearch/* + " " */;
+		final List<String> arraylistMemory = getArrayListFromEditorTracker(file, commentLocation);
+		final String toSearchExact = " " + toSearch/* + " " */;
 
 		if (arraylistMemory != null) {
 
 			String member = null;
 			boolean memberFound = false;
-			for (String str : arraylistMemory) {
+			for (final String str : arraylistMemory) {
 				// check if we are still in the comment, do not
 				// collect all the members
 				if (str.indexOf("//") == -1) {
 					break;
 				}
 
-				String strOld = str;
-				int loc = str.indexOf(toSearchExact);
+				final String strOld = str;
+				final int loc = str.indexOf(toSearchExact);
 
-				int loc2 = str.indexOf("@");
+				final int loc2 = str.indexOf("@");
 
 				if (loc2 != -1) {
 					memberFound = false;
@@ -608,9 +603,8 @@ public final class T3Doc {
 		}
 
 		try {
-			File realFile = file.getLocation().toFile();
-
-			BufferedReader in = new BufferedReader(new FileReader(realFile));
+			final File realFile = file.getLocation().toFile();
+			final BufferedReader in = new BufferedReader(new FileReader(realFile));
 
 			in.skip(commentLocation.getOffset());
 			String str;
@@ -625,10 +619,9 @@ public final class T3Doc {
 					break;
 				}
 
-				String strOld = str;
-				int loc = str.indexOf(toSearch);
-
-				int loc2 = str.indexOf("@");
+				final String strOld = str;
+				final int loc = str.indexOf(toSearch);
+				final int loc2 = str.indexOf("@");
 
 				if (loc2 != -1) {
 					memberFound = false;
@@ -671,50 +664,50 @@ public final class T3Doc {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder();
+		final StringBuilder str = new StringBuilder();
 
 		if (signature != null) {
 			str.append(signature);
 		}
 
 		if (author != null && !author.isEmpty()) {
-			for (String item : author) {
+			for (final String item : author) {
 				str.append(item);
 				str.append(LINE_BREAK);
 			}
 		}
 
 		if (config != null && !config.isEmpty()) {
-			for (String item : config) {
+			for (final String item : config) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (desc != null && !desc.isEmpty()) {
-			for (String item : desc) {
+			for (final String item : desc) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (exception != null && !exception.isEmpty()) {
-			for (String item : exception) {
+			for (final String item : exception) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (members != null && !members.isEmpty()) {
-			Set<Entry<String, String>> set = members.entrySet();
+			final Set<Entry<String, String>> set = members.entrySet();
 			// Get an iterator
-			Iterator<Entry<String, String>> i = set.iterator();
+			final Iterator<Entry<String, String>> i = set.iterator();
 			if (members.size() > 1) {
 				str.append("Members: " + LINE_BREAK);
 			}
 			// Display elements
 			while (i.hasNext()) {
-				Entry<String, String> me = i.next();
+				final Entry<String, String> me = i.next();
 				str.append(me.getKey() + " ");
 				str.append(me.getValue());
 				str.append(LINE_BREAK);
@@ -730,84 +723,84 @@ public final class T3Doc {
 		}
 
 		if (purpose != null && !purpose.isEmpty()) {
-			for (String item : purpose) {
+			for (final String item : purpose) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (remark != null && !remark.isEmpty()) {
-			for (String item : remark) {
+			for (final String item : remark) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (creturn != null && !creturn.isEmpty()) {
-			for (String item : creturn) {
+			for (final String item : creturn) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (see != null && !see.isEmpty()) {
-			for (String item : see) {
+			for (final String item : see) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (since != null && !since.isEmpty()) {
-			for (String item : since) {
+			for (final String item : since) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (status != null && !status.isEmpty()) {
-			for (String item : status) {
+			for (final String item : status) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (url != null && !url.isEmpty()) {
-			for (String item : url) {
+			for (final String item : url) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (verdict != null && !verdict.isEmpty()) {
-			for (String item : verdict) {
+			for (final String item : verdict) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (version != null && !version.isEmpty()) {
-			for (String item : version) {
+			for (final String item : version) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (priority != null && !priority.isEmpty()) {
-			for (String item : priority) {
+			for (final String item : priority) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (requirement != null && !requirement.isEmpty()) {
-			for (String item : requirement) {
+			for (final String item : requirement) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
 		}
 
 		if (reference != null && !reference.isEmpty()) {
-			for (String item : reference) {
+			for (final String item : reference) {
 				str.append(item);
 			}
 			str.append(LINE_BREAK);
@@ -824,7 +817,7 @@ public final class T3Doc {
 	void t3DocFillContentFromCommentLocation(final Location commentLocation) {
 
 		if (commentLocation != null) {
-			List<String> commentstorage = getAllCommentStrings(commentLocation);
+			final List<String> commentstorage = getAllCommentStrings(commentLocation);
 
 			author = T3Doc.getCommentStrings(commentstorage, "@author");
 			config = T3Doc.getCommentStrings(commentstorage, "@config");
@@ -861,14 +854,14 @@ public final class T3Doc {
 		}
 
 		// get comment from file stored memory if present
-		List<ISemanticTITANEditor> editors = EditorTracker.getEditor(file);
-		ISemanticTITANEditor editor = editors.get(0);
-		IDocument document = editor.getDocument();
+		final List<ISemanticTITANEditor> editors = EditorTracker.getEditor(file);
+		final ISemanticTITANEditor editor = editors.get(0);
+		final IDocument document = editor.getDocument();
 		if (document == null) {
 			return null;
 		}
 
-		List<String> arraylistMemory = new ArrayList<String>();
+		final List<String> arraylistMemory = new ArrayList<String>();
 
 		String completeFile;
 		try {
@@ -898,7 +891,7 @@ public final class T3Doc {
 				simpleNewline = false;
 			}
 
-			String stringLine = completeFile.substring(offset, loc);
+			final String stringLine = completeFile.substring(offset, loc);
 			arraylistMemory.add(stringLine);
 			if (simpleNewline) {
 				offset = loc + "\n".length();
@@ -917,30 +910,30 @@ public final class T3Doc {
 			return null;
 		}
 
-		Reference ref = declarationCollector.getReference();
+		final Reference ref = declarationCollector.getReference();
 		if (ref == null) {
 			return null;
 		}
 
 		if ((ref.getMyScope() instanceof NamedBridgeScope || ref.getMyScope() instanceof FormalParameterList) && !collected.isEmpty()) {
-			DeclarationCollectionHelper declaration = collected.get(0);
+			final DeclarationCollectionHelper declaration = collected.get(0);
 
 			if (declaration.node instanceof TTCN3_Sequence_Type || declaration.node instanceof FormalParameter) {
 				final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
-				ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 				final Module tempModule = projectSourceParser.containedModule(file);
 
-				Assignment ass = tempModule.getEnclosingAssignment(hoverRegion.getOffset());
+				final Assignment ass = tempModule.getEnclosingAssignment(hoverRegion.getOffset());
 				if (ass != null) {
-					Reference reference = referenceParser.findReferenceForOpening(file, hoverRegion.getOffset(),
+					final Reference reference = referenceParser.findReferenceForOpening(file, hoverRegion.getOffset(),
 							textViewer.getDocument());
-					String str = reference.getDisplayName();
+					final String str = reference.getDisplayName();
 
-					List<String> al = T3Doc.getCommentStrings(ass.getCommentLocation(), str);
+					final List<String> al = T3Doc.getCommentStrings(ass.getCommentLocation(), str);
 					if (!al.isEmpty()) {
 
 						final StringBuilder sb = new StringBuilder();
-						for (String string : al) {
+						for (final String string : al) {
 							sb.append(string);
 						}
 						return sb.toString();

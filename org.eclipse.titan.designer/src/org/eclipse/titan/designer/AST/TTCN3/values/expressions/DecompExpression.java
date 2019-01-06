@@ -235,6 +235,13 @@ public final class DecompExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression()
+				&& value3.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value1 != null) {
 			value1.reArrangeInitCode(aData, source, usageModule);
@@ -245,5 +252,22 @@ public final class DecompExpression extends Expression_Value {
 		if (value3 != null) {
 			value3.reArrangeInitCode(aData, source, usageModule);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.decomp( ");
+		final IValue lastValue1 = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+		lastValue1.generateCodeExpressionMandatory(aData, expression, true);
+		expression.expression.append(", ");
+		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+		lastValue2.generateCodeExpressionMandatory(aData, expression, true);
+		expression.expression.append(", ");
+		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+		lastValue3.generateCodeExpressionMandatory(aData, expression, true);
+		expression.expression.append(')');
 	}
 }

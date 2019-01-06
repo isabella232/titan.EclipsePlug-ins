@@ -76,7 +76,7 @@ public class RecordParser {
 
 		initialize();
 
-		TimeStamp ts = readTimestamp();
+		final TimeStamp ts = readTimestamp();
 		processToken(ts);
 
 		return extractVector();
@@ -87,9 +87,9 @@ public class RecordParser {
 	 * @return Log record
 	 */
 	private LogRecord extractVector() {
-		LogRecord thisLogRecord = new LogRecord();
+		final LogRecord thisLogRecord = new LogRecord();
 
-		for (Token thisToken : this.tokenBuffer) {
+		for (final Token thisToken : this.tokenBuffer) {
 			switch (thisToken.getType()) {
 			case Constants.TIME_STAMP:
 				thisLogRecord.setTimestamp(thisToken.getContent());
@@ -180,17 +180,17 @@ public class RecordParser {
 	 * @throws ParseException
 	 */
 	private Token readNextToken(final int expectedTokenMask) throws ParseException {
-		String lookAheadToken = peek();
+		final String lookAheadToken = peek();
 
 		if ((expectedTokenMask & Constants.COMPONENT_REFERENCE) == Constants.COMPONENT_REFERENCE) {
 
 			if (isComponentRef(lookAheadToken)) {
-				int storedStartPointer = this.startPointer;
-				int storedBufPointer = this.bufPointer;
+				final int storedStartPointer = this.startPointer;
+				final int storedBufPointer = this.bufPointer;
 
-				String token = read();
+				final String token = read();
 
-				String nextWord = peekNextWord();
+				final String nextWord = peekNextWord();
 				//Check that the number is not last in logrecord.
 				if (nextWord.length() < 1) {
 					// unread -
@@ -208,18 +208,18 @@ public class RecordParser {
 
 		if ((expectedTokenMask & Constants.EVENT_TYPE) == Constants.EVENT_TYPE
 				&& isEventType(lookAheadToken)) {
-			String token = read();
+			final String token = read();
 			return new EventType(token);
 		}
 
 		if ((expectedTokenMask & Constants.SOURCE_INFORMATION) == Constants.SOURCE_INFORMATION
 				&& isSourceInfo(lookAheadToken)) {
-			String token = read();
+			final String token = read();
 			return new SourceInfo(token);
 		}
 
 		if ((expectedTokenMask & Constants.MESSAGE) == Constants.MESSAGE) {
-			String token = readUntilEOR();
+			final String token = readUntilEOR();
 			if ((token != null) && (token.length() != 0)) {
 				return new Message(token);
 			}
@@ -250,11 +250,11 @@ public class RecordParser {
 	 */
 	private String peek() {
 		int localBufPointer = this.bufPointer;
-		int localStartPointer = localBufPointer;
+		final int localStartPointer = localBufPointer;
 
 		// read next actual token
 		while (localBufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[localBufPointer];
+			final char thisChar = (char) this.buffer[localBufPointer];
 			if (isWhitespaceCharacter(thisChar)) {
 				break;
 			}
@@ -274,7 +274,7 @@ public class RecordParser {
 		this.startPointer = this.bufPointer;
 
 		while (this.bufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[this.bufPointer];
+			final char thisChar = (char) this.buffer[this.bufPointer];
 			if (isWhitespaceCharacter(thisChar)) {
 				break;
 			}
@@ -295,7 +295,7 @@ public class RecordParser {
 
 		// read past any WS
 		while (localBufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[localBufPointer];
+			final char thisChar = (char) this.buffer[localBufPointer];
 			if (!isWhitespaceCharacter(thisChar)) {
 				break;
 			}
@@ -306,7 +306,7 @@ public class RecordParser {
 		localStartPointer = localBufPointer;
 
 		while (localBufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[localBufPointer];
+			final char thisChar = (char) this.buffer[localBufPointer];
 			if (isWhitespaceCharacter(thisChar)) {
 				break;
 			}
@@ -349,7 +349,7 @@ public class RecordParser {
 			moveBufPointer(7);
 			break;
 		default:
-			MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+			final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 			stream.println("actual buffer: " + new String(buffer));
 			stream.println("actual buffer location: " + bufPointer);
 			stream.println("actual byte: " + this.buffer[this.bufPointer] + ", as char: " + (char) this.buffer[this.bufPointer]);
@@ -393,7 +393,7 @@ public class RecordParser {
 	 */
 	private void readNumeric() {
 		while (this.bufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[this.bufPointer];
+			final char thisChar = (char) this.buffer[this.bufPointer];
 			if (!isDigit(thisChar)) {
 				break;
 			}
@@ -434,7 +434,7 @@ public class RecordParser {
 		int isWhiteSpaceCounter = 0;
 		this.startPointer = this.bufPointer;
 		while (this.bufPointer < this.buffer.length) {
-			char thisChar = (char) this.buffer[this.bufPointer];
+			final char thisChar = (char) this.buffer[this.bufPointer];
 			if (isWhitespaceCharacter(thisChar)) {
 				isWhiteSpaceCounter++;
 				this.bufPointer++;
@@ -458,7 +458,7 @@ public class RecordParser {
 	private boolean isComponentRef(final String token) {
 		// if the token is a single char - the only valid i 0..9
 		if (token.length() == 1) {
-			char tkn = token.charAt(0);
+			final char tkn = token.charAt(0);
 			if ((tkn >= '0') && (tkn <= '9')) {
 				return true;
 			}
@@ -472,13 +472,13 @@ public class RecordParser {
 		}
 
 		// Checks digits. First must be 1..9 reset 0..9
-		char char1 = token.charAt(0);
+		final char char1 = token.charAt(0);
 		if (!((char1 >= '1') && (char1 <= '9'))) {
 			return false;
 		}
 
 		for (int i = 1; i < token.length(); i++) {
-			char char2 = token.charAt(i);
+			final char char2 = token.charAt(i);
 			if (!((char2 >= '0') && (char2 <= '9'))) {
 				return false;
 			}
@@ -510,14 +510,14 @@ public class RecordParser {
 	 * @return boolean true is token is a predefined Event type, otherwise false
 	 */
 	private boolean isEventType(final String token) {
-		SortedMap<String, String[]> eventCategories = org.eclipse.titan.log.viewer.utils.Constants.EVENT_CATEGORIES;
+		final SortedMap<String, String[]> eventCategories = org.eclipse.titan.log.viewer.utils.Constants.EVENT_CATEGORIES;
 		if (token.contains(UNDERSCORE)) {
 			// new format
-			String cat = token.split(UNDERSCORE)[0];
-			String subCat = token.split(UNDERSCORE)[1];
+			final String cat = token.split(UNDERSCORE)[0];
+			final String subCat = token.split(UNDERSCORE)[1];
 			if (eventCategories.keySet().contains(cat)) {
-				String[] subCategories = eventCategories.get(cat);
-				for (String subCategory : subCategories) {
+				final String[] subCategories = eventCategories.get(cat);
+				for (final String subCategory : subCategories) {
 					if (subCategory.equals(subCat)) {
 						return true;
 					}

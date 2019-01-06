@@ -50,8 +50,8 @@ public final class LoggingTreeSubPage {
 	private Button addPlugin;
 	private Button removeSelected;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 	private LoggingSectionHandler loggingSectionHandler;
 
 	public LoggingTreeSubPage(final ConfigEditor editor, final LoggingPage loggingPage) {
@@ -60,16 +60,15 @@ public final class LoggingTreeSubPage {
 	}
 
 	void createSectionComponent(final FormToolkit toolkit, final Composite parent) {
-
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		section.setText("Components and plugins");
 		section.setDescription("In this section you can manage your components and plugins. For each component and plugin different"
 				+ " log setting are available on the right section of the page. The settings of the default component/plugin are"
 				+ " valid for all components/plugins unless it is overriden by component/plugin specific settings.");
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		client.setLayout(layout);
 		section.setClient(client);
@@ -80,8 +79,8 @@ public final class LoggingTreeSubPage {
 	}
 
 	private void createMainPart(final FormToolkit toolkit, final Composite parent) {
-		Composite components = toolkit.createComposite(parent, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite components = toolkit.createComposite(parent, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		components.setLayout(layout);
 		components.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
@@ -89,7 +88,7 @@ public final class LoggingTreeSubPage {
 		toolkit.paintBordersFor(components);
 
 		componentpluginTree = toolkit.createTree(components, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true);
+		final GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true);
 		componentpluginTree.setLayoutData(gd);
 		componentpluginTree.setEnabled(loggingSectionHandler != null);
 		componentpluginViewer = new TreeViewer(componentpluginTree);
@@ -107,7 +106,7 @@ public final class LoggingTreeSubPage {
 		componentpluginViewer.setLabelProvider(new LoggerTreeLabelProvider());
 		componentpluginViewer.setInput(loggingSectionHandler);
 
-		Composite buttons = toolkit.createComposite(components);
+		final Composite buttons = toolkit.createComposite(components);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 
@@ -126,11 +125,11 @@ public final class LoggingTreeSubPage {
 					loggingPage.createLoggingSection();
 				}
 
-				NewComponentDialog dialog = new NewComponentDialog(addComponent.getShell(), loggingSectionHandler.getComponents());
+				final NewComponentDialog dialog = new NewComponentDialog(addComponent.getShell(), loggingSectionHandler.getComponents());
 				if (Window.OK == dialog.open()) {
-					String name = dialog.getName();
+					final String name = dialog.getName();
 					if (name != null) {
-						LogParamEntry lpe = loggingSectionHandler.componentPlugin(name, null);
+						final LogParamEntry lpe = loggingSectionHandler.componentPlugin(name, null);
 						internalRefresh();
 						loggingPage.treeElementAdded(new LoggingSectionHandler.LoggerTreeElement(loggingSectionHandler, name,
 								null), lpe);
@@ -155,15 +154,15 @@ public final class LoggingTreeSubPage {
 					loggingPage.createLoggingSection();
 				}
 
-				LoggingSectionHandler.LoggerTreeElement lte = getSelection();
+				final LoggingSectionHandler.LoggerTreeElement lte = getSelection();
 				if (lte != null) {
-					NewPluginDialog dialog = new NewPluginDialog(addPlugin.getShell(), loggingSectionHandler.getPlugins(lte
+					final NewPluginDialog dialog = new NewPluginDialog(addPlugin.getShell(), loggingSectionHandler.getPlugins(lte
 							.getComponentName()));
 					if (Window.OK == dialog.open()) {
-						String name = dialog.getName();
-						String path = dialog.getPath();
+						final String name = dialog.getName();
+						final String path = dialog.getPath();
 						if (name != null) {
-							LogParamEntry lpe = loggingSectionHandler.componentPlugin(lte.getComponentName(), name);
+							final LogParamEntry lpe = loggingSectionHandler.componentPlugin(lte.getComponentName(), name);
 							lpe.setPluginPath(path);
 							addPluginToList(lte.getComponentName(), name, path);
 							internalRefresh();
@@ -190,7 +189,7 @@ public final class LoggingTreeSubPage {
 				if (loggingSectionHandler.getComponents().isEmpty()) {
 					loggingPage.removeLoggingSection();
 				}
-				LoggingSectionHandler.LoggerTreeElement lte = getSelection();
+				final LoggingSectionHandler.LoggerTreeElement lte = getSelection();
 				if (lte == null || "*".equals(lte.getPluginName())) {
 					return;
 				}
@@ -200,20 +199,20 @@ public final class LoggingTreeSubPage {
 					tempComponentName = "*";
 				}
 
-				Set<String> plugins = loggingSectionHandler.getPlugins(tempComponentName);
-				String tempPluginName = lte.getPluginName();
+				final Set<String> plugins = loggingSectionHandler.getPlugins(tempComponentName);
+				final String tempPluginName = lte.getPluginName();
 				if(tempPluginName == null) {
-					for (String plugin: plugins) {
-						LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, plugin);
+					for (final String plugin: plugins) {
+						final LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, plugin);
 						removeLoggingComponents(lpe);
 						removeFromPluginList(tempComponentName, plugin);
 					}
 
-					LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, null);
+					final LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, null);
 					removeLoggingComponents(lpe);
 					removeFromPluginList(tempComponentName, null);
 				} else if (plugins.contains(tempPluginName)){
-					LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, tempPluginName);
+					final LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, tempPluginName);
 					removeLoggingComponents(lpe);
 					removeFromPluginList(tempComponentName, tempPluginName);
 				}
@@ -229,8 +228,8 @@ public final class LoggingTreeSubPage {
 	}
 
 	public LoggingSectionHandler.LoggerTreeElement getSelection() {
-		ITreeSelection selection = (ITreeSelection) componentpluginViewer.getSelection();
-		Object o = selection.getFirstElement();
+		final ITreeSelection selection = (ITreeSelection) componentpluginViewer.getSelection();
+		final Object o = selection.getFirstElement();
 		return (LoggingSectionHandler.LoggerTreeElement) o;
 	}
 
@@ -243,7 +242,7 @@ public final class LoggingTreeSubPage {
 	}
 
 	private void selectionRefresh() {
-		LoggingSectionHandler.LoggerTreeElement lte = loggingPage.getSelectedTreeElement();
+		final LoggingSectionHandler.LoggerTreeElement lte = loggingPage.getSelectedTreeElement();
 		if (lte != null) {
 			loggingPage.treeElementSelected(lte);
 		}
@@ -355,7 +354,7 @@ public final class LoggingTreeSubPage {
 			return;
 		}
 
-		LoggingSectionHandler.LoggerPluginEntry pluginEntry = entry.getPluginRoots().remove(pluginName);
+		final LoggingSectionHandler.LoggerPluginEntry pluginEntry = entry.getPluginRoots().remove(pluginName);
 		if (entry.getPluginRoots().size() == 0) {
 			((ParserRuleContext)entry.getLoggerPluginsListRoot()).children.clear();
 			// if this was the last plugin entry, the whole entry has to be removed
@@ -445,9 +444,9 @@ public final class LoggingTreeSubPage {
 			logentry.setConsoleTimestampFormat(null);
 			ConfigTreeNodeUtilities.removeChild( lastSectionRoot, logentry.getConsoleTimestampFormatRoot() );
 		}
-		Iterator<PluginSpecificParam> pspit = logentry.getPluginSpecificParam().iterator();
+		final Iterator<PluginSpecificParam> pspit = logentry.getPluginSpecificParam().iterator();
 		while (pspit.hasNext()) {
-			PluginSpecificParam psp = pspit.next();
+			final PluginSpecificParam psp = pspit.next();
 			ConfigTreeNodeUtilities.removeChild( lastSectionRoot, psp.getRoot() );
 			psp.setParamName(null);
 		}

@@ -123,7 +123,7 @@ public final class SubType implements IIncrementallyUpdateable {
 	private RangeListConstraint lengthRestriction = null;
 
 	/** used to check for circular references */
-	private Set<SubType> myParents = new HashSet<SubType>();
+	private final Set<SubType> myParents = new HashSet<SubType>();
 
 	/** The time when this setting was checked the last time. */
 	private CompilationTimeStamp lastTimeChecked = null;

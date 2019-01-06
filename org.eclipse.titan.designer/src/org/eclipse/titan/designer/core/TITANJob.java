@@ -71,14 +71,14 @@ public class TITANJob extends WorkspaceJob {
 	protected static final String EMPTY_STRING = "";
 	protected static final String CYGWIN = "No cygwin installation found.\nPlease make sure that cygwin is installed properly.";
 
-	private Map<String, IFile> files;
-	private File workingDir;
-	private IProject project;
+	private final Map<String, IFile> files;
+	private final File workingDir;
+	private final IProject project;
 	private boolean removeCompilerMarkers = false;
 	private boolean removeOnTheFlyMarkers = false;
 
-	private List<List<String>> commands;
-	private List<String> descriptions;
+	private final List<List<String>> commands;
+	private final List<String> descriptions;
 
 	private boolean foundErrors = false;
 	/* It is already reported that cygwin is not installed: */

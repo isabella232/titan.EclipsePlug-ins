@@ -420,7 +420,7 @@ public final class Choice_Value extends Value {
 		}
 
 		final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-		embeddedName.append(".get");
+		embeddedName.append(".get_");
 		if (name != null) {
 			embeddedName.append(name.getName());
 			embeddedName.append("()");
@@ -437,9 +437,21 @@ public final class Choice_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final String altName = this.name.getName();
 
-		// TODO handle the case when temporary reference is needed
-		final String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
-		return value.generateCodeInit(aData, source, embeddedName);
+		if (value.needsTemporaryReference()) {
+			final String tempId = aData.getTemporaryVariableName();
+			source.append("{\n");
+			final String embeddedTypeName = value.getMyGovernor().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format("{0} {1} = {2}.get_field_{3}();\n", embeddedTypeName, tempId, name, FieldSubReference.getJavaGetterName(altName)));
+			value.generateCodeInit(aData, source, tempId);
+			source.append("}\n");
+		} else {
+			final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, FieldSubReference.getJavaGetterName(altName));
+			value.generateCodeInit(aData, source, embeddedName);
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
+		return source;
 	}
 
 	@Override

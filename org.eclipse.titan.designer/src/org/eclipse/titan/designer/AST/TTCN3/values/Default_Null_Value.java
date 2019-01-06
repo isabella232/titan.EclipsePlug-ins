@@ -130,7 +130,9 @@ public final class Default_Null_Value extends Value {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		source.append(name);
-		source.append(".assign( TitanComponent.NULL_COMPREF );\n");
+		source.append(".operator_assign( TitanComponent.NULL_COMPREF );\n");
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

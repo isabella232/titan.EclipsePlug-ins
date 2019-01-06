@@ -20,8 +20,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
-import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -171,16 +169,6 @@ public class AllPortCheckSateExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor(originalString);
-				if (cs.isErrorneous()) {
-					value.getLocation().reportSemanticError(cs.getErrorMessage());
-					setIsErroneous(true);
-				}
-			}
-
 			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);

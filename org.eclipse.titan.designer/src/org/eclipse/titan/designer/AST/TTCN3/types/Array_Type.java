@@ -1088,7 +1088,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return true;
 		}
 
@@ -1102,7 +1102,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
-		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+		if (inTypeDefinition) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = getGenNameOwn(scope);
+		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = aData.getTemporaryVariableName();
 		}
@@ -1113,7 +1116,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+		if (inTypeDefinition) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = getGenNameOwn(scope);
+		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = aData.getTemporaryVariableName();
 		}
@@ -1124,6 +1130,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		if (!inTypeDefinition) {
 			return;
 		}
@@ -1140,28 +1152,78 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		generateCodeTypedescriptor(aData, source);
 
 		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound value.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}() '{'\n", ownName));
 		source.append(MessageFormat.format("super({0}.class, {1},{2});\n",elementName,dimension.getSize(), dimension.getOffset()));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", ownName));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
 		source.append("}\n\n");
+
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class, {1}, {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName));
 		source.append("super(otherValue);\n");
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given value.\n");
+			source.append(" * Copies all of the fields and the template becomes a specific template.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template({0} otherValue) '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}_template.class, otherValue);\n", elementName));
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template kind.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the template kind to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final Base_Template.template_sel otherValue) '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class, otherValue);\n",elementName));
-		source.append("}\n");
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", ownName));
-		source.append(MessageFormat.format("return ({0})super.valueOf();\n", ownName));
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", ownName));
+		source.append(MessageFormat.format("return ({0})super.valueof();\n", ownName));
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -1193,16 +1255,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final ArrayDimension dim = getDimension();
 
-		aData.addBuiltinTypeImport("TitanValueArray");
+		aData.addBuiltinTypeImport("TitanValue_Array");
 
-		source.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
+		source.append(MessageFormat.format("public static class {0} extends TitanValue_Array<{1}> '{'\n", className, ofType));
 		source.append(MessageFormat.format("public {0}() '{'\n", className));
 		source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("public {0}(final TitanValueArray<{1}> otherValue) '{'\n", className, ofType));
+		source.append(MessageFormat.format("public {0}(final TitanValue_Array<{1}> otherValue) '{'\n", className, ofType));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -1229,11 +1291,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final ArrayDimension dim = getDimension();
 
-		aData.addBuiltinTypeImport("TitanTemplateArray");
+		aData.addBuiltinTypeImport("TitanTemplate_Array");
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 		aData.addBuiltinTypeImport("Optional");
 
-		source.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
+		source.append(MessageFormat.format("public static class {0} extends TitanTemplate_Array<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
 		source.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
 		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
@@ -1251,10 +1313,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("case OPTIONAL_UNBOUND:\n");
 		source.append("throw new TtcnError(\"Creating an array template from an unbound optional field.\");\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
-		source.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0} valueof() '{'\n", className));
+		source.append(MessageFormat.format("return ({0})super.valueof();\n", className));
 		source.append("}\n");
 		source.append("}\n");
 	}
@@ -1301,7 +1364,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
@@ -1315,34 +1378,34 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalIndexId = aData.getTemporaryVariableName();
-		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
-				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"sizeOf()"));
+		expression.expression.append(MessageFormat.format("{0} = {1}.is_greater_than_or_equal(0) && {1}.is_less_than({2}.{3});\n",
+				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"size_of()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalId = aData.getTemporaryVariableName();
 		if (isTemplate) {
-			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
 					temporalId, externalId, temporalIndexId));
 		} else {
-			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
 					temporalId, externalId, temporalIndexId));
 		}
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"isBound":"isPresent", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId, field));
+				expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId, field));
 				expression.expression.append("}\n");
 			}
 		}

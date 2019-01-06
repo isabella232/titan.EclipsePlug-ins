@@ -9,10 +9,14 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * @author Farkas Izabella Ingrid
  */
-public class TitanValueArray<T extends Base_Type> extends Base_Type {
+public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 	Base_Type[] array_elements;
 
@@ -27,7 +31,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_elements = new ArrayList<T>();
 	}*/
 
-	public TitanValueArray(final TitanValueArray<T> otherValue) {
+	public TitanValue_Array(final TitanValue_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
@@ -36,7 +40,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_elements[i]);
+				helper.operator_assign(otherValue.array_elements[i]);
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -46,7 +50,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public TitanValueArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanValue_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 
@@ -65,7 +69,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//FIXME: implement
-/*	public void setSize(final int length) {
+/*	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T emply = clazz.newInstance();
@@ -79,11 +83,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_size = length;
 	}*/
 
-	public int getOffset() {
+	public int get_offset() {
 		return indexOffset;
 	}
 
-	public void setOffset(final int offset) {
+	public void set_offset(final int offset) {
 		indexOffset = offset;
 	}
 
@@ -95,14 +99,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
-		return isBound();
+	public boolean is_present() {
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		for (int i = 0; i < array_size; ++i) {
-			if (array_elements[i].isBound()) {
+			if (array_elements[i].is_bound()) {
 				return true;
 			}
 		}
@@ -111,14 +115,16 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//FIXME: originally array_elements.get(i).clean_up()
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		//array_elements.clear();
 		array_elements = null;
 	}
 
-	public boolean isValue() {
+	@Override
+	public boolean is_value() {
 		for (int i = 0; i < array_size; ++i) {
-			if (!array_elements[i].isValue()) {
+			if (!array_elements[i].is_value()) {
 				return false;
 			}
 		}
@@ -126,9 +132,17 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return true;
 	}
 
-	public TitanInteger lengthOf() {
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public TitanInteger lengthof() {
 		for (int i = array_size - 1; i >= 0; --i) {
-			if (array_elements[i].isBound()) {
+			if (array_elements[i].is_bound()) {
 				return new TitanInteger(i + 1);
 			}
 		}
@@ -141,16 +155,16 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	// originally not implemented operator=
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanValueArray<T> assign(final Base_Type otherValue) {
-		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
-			return assign(arrayOther);
+	public TitanValue_Array<T> operator_assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanValue_Array<?>) {
+			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
+			return operator_assign(arrayOther);
 		} else {
 			try {
 				array_size = 1;
 				array_elements = new Base_Type[1];
 				final T value = clazz.newInstance();
-				value.assign(otherValue);
+				value.operator_assign(otherValue);
 				array_elements[0] = value;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -162,8 +176,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
-		cleanUp();
+	public TitanValue_Array<T> operator_assign(final TitanValue_Array<T> otherValue) {
+		clean_up();
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new Base_Type[array_size];
@@ -171,7 +185,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_element(i));
+				helper.operator_assign(otherValue.array_element(i));
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -184,26 +198,35 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
-			return operatorEquals(arrayOther);
+	public boolean operator_equals(final Base_Type otherValue) {
+		if (otherValue instanceof TitanValue_Array<?>) {
+			final TitanValue_Array<T> arrayOther = (TitanValue_Array<T>)otherValue;
+			return operator_equals(arrayOther);
 		} else {
 			if (array_size == 1) {
-				return array_elements[0].operatorEquals(otherValue);
+				return array_elements[0].operator_equals(otherValue);
 			}
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to array value", otherValue));
 	}
 
-	public boolean operatorEquals(final TitanValueArray<T> otherValue) {
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanValue_Array<T> otherValue) {
 		if (array_size != otherValue.array_size) {
 			return false;
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements[i].operatorEquals(otherValue.array_elements[i])) {
+			if (! array_elements[i].operator_equals(otherValue.array_elements[i])) {
 				return false;
 			}
 		}
@@ -211,16 +234,44 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return true;
 	}
 
-	public boolean operatorNotEquals(final Base_Type otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final Base_Type otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	public boolean operatorNotEquals(final TitanValueArray<T> otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanValue_Array<T> otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// originally  operator<<=
-	public TitanValueArray<T> rotateLeft(int rotateCount) {
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new value array.
+	 * */
+	public TitanValue_Array<T> rotate_left(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
 		if (array_size == 0) {
 			return this;
@@ -231,7 +282,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+			final TitanValue_Array<T> result = new TitanValue_Array<T>(clazz, array_size, indexOffset);
 //			result.array_size = array_size;
 //			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -245,19 +296,39 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			}
 			return result;
 		} else {
-			return rotateLeft(-rotateCount);
+			return rotate_left(-rotateCount);
 		}
 	}
 
-	//originally  operator<<=
-	public TitanValueArray<T> rotateLeft(final TitanInteger rotateCount) {
-		rotateCount.mustBound("Unbound integer operand of rotate left operator.");
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the left with the provided
+	 * amount.
+	 *
+	 * operator<<= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate left.
+	 * @return the new value array.
+	 * */
+	public TitanValue_Array<T> rotate_left(final TitanInteger rotateCount) {
+		rotateCount.must_bound("Unbound integer operand of rotate left operator.");
 
-		return rotateLeft(rotateCount.getInt());
+		return rotate_left(rotateCount.get_int());
 	}
 
-	//originally  operator>>=
-	public TitanValueArray<T> rotateRight(int rotateCount) {
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new value array.
+	 * */
+	public TitanValue_Array<T> rotate_right(int rotateCount) {
 		if (array_size == 0) {
 			return this;
 		}
@@ -267,7 +338,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+			final TitanValue_Array<T> result = new TitanValue_Array<T>(clazz, array_size, indexOffset);
 //			result.array_size = array_size;
 //			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -281,38 +352,83 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			}
 			return result;
 		} else {
-			return rotateLeft(-rotateCount);
+			return rotate_left(-rotateCount);
 		}
 	}
 
-	//originally  operator>>=
-	public TitanValueArray<T> rotateRight(final TitanInteger rotateCount) {
-		rotateCount.mustBound("Unbound integer operand of rotate right operator.");
+	/**
+	 * Creates a new value array, that is the equivalent of the
+	 * current one with its elements rotated to the right with the provided
+	 * amount.
+	 *
+	 * operator>>= in the core.
+	 *
+	 * @param rotate_count
+	 *                the number of characters to rotate right.
+	 * @return the new value array.
+	 * */
+	public TitanValue_Array<T> rotate_right(final TitanInteger rotateCount) {
+		rotateCount.must_bound("Unbound integer operand of rotate right operator.");
 
-		return rotateRight(rotateCount.getInt());
+		return rotate_right(rotateCount.get_int());
 	}
 
-	// originally T& operator[](int)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final int index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+	public T get_at(final int index) {
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
-	//originally T& operator[](const INTEGER)
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final TitanInteger index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
-	}
-	//const originally T& operator[](int)
-	@SuppressWarnings("unchecked")
-	public T constGetAt(final int index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+	public T get_at(final TitanInteger index) {
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
-	// const // originally T& operator[](const INTEGER)
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T constGetAt(final TitanInteger index) {
-		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
+	public T constGet_at(final int index) {
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
+	}
+
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	@SuppressWarnings("unchecked")
+	public T constGet_at(final TitanInteger index) {
+		return (T)array_elements[get_array_index(index, array_size, indexOffset)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -322,20 +438,31 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
-		if (! index.isBound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return (T)array_elements[index.getInt()];
+		return (T)array_elements[index.get_int()];
 	}
 
-	// originally n_elem()
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public int n_elem() {
 		return array_size;
 	}
 
-	// originally size_of()
-	public TitanInteger sizeOf() {
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public TitanInteger size_of() {
 		return new TitanInteger(array_size);
 	}
 
@@ -365,7 +492,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	//static method
 
-	public static int getArrayIndex(final int index, final int arraySize, final int indexofset) {
+	public static int get_array_index(final int index, final int arraySize, final int indexofset) {
 		if (arraySize < 0) {
 			throw new TtcnError("Invalid array size");
 		}
@@ -383,12 +510,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return result;
 	}
 
-	public static int getArrayIndex(final TitanInteger index, final int arraySize, final int indexofset) {
-		if (! index.isBound()) {
-			throw new TtcnError("Accessing an element of an array using an unbound index.");
-		}
+	public static int get_array_index(final TitanInteger index, final int arraySize, final int indexofset) {
+		index.must_bound("Accessing an element of an array using an unbound index.");
 
-		return getArrayIndex(index.getInt(), arraySize, indexofset);
+		return get_array_index(index.get_int(), arraySize, indexofset);
 	}
 
 	@Override
@@ -401,6 +526,33 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			array_elements[elem_count].log();
 		}
 		TTCN_Logger.log_event_str(" }");
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "array value");
+		switch (param.get_type()) {
+		case MP_Value_List:
+			if (param.get_size() != array_size) {
+				param.error("The array value has incorrect number of elements: %lu was expected instead of %lu.", param.get_size(), array_size);
+			}
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				if (curr.get_type() != type_t.MP_NotUsed) {
+					array_elements[i].set_param(curr);
+				}
+			}
+			break;
+		case MP_Indexed_List:
+			for (int i = 0; i < param.get_size(); i++) {
+				final Module_Parameter curr = param.get_elem(i);
+				array_elements[curr.get_id().get_index()].set_param(curr);
+			}
+			break;
+		default:
+			param.type_error("array value");
+			break;
+		}
 	}
 
 	@Override
@@ -445,7 +597,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -453,7 +605,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(value_redirect, index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 
 				result = returnValue;
@@ -465,7 +617,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -473,7 +625,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public TitanAlt_Status killed(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
@@ -481,7 +633,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).killed(index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 
 				result = returnValue;
@@ -490,7 +642,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
@@ -498,7 +650,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public boolean running(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		boolean returnValue = false;
@@ -506,14 +658,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
 			if (returnValue) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return returnValue;
@@ -521,7 +673,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public boolean alive(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		boolean returnValue = false;
@@ -529,14 +681,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
 			if (returnValue) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexOffset);
+					index_redirect.add_index(i + indexOffset);
 				}
 				break;
 			}
 		}
 
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return returnValue;

@@ -268,7 +268,8 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return;
 		}
 
-		switch (specificValue.getValuetype()) {
+		final IValue last = specificValue.setLoweridToReference(timestamp);
+		switch (last.getValuetype()) {
 		case EXPRESSION_VALUE:
 			// checked later
 			break;
@@ -277,6 +278,25 @@ public final class SpecificValue_Template extends TTCN3Template {
 				getLocation().reportSemanticError(OmitValue_Template.SPECIFICVALUEEXPECTED);
 			}
 			return;
+		case REFERENCED_VALUE: {
+			final TTCN3Template template = getTemplateReferencedLast(timestamp);
+			switch (template.getTemplatetype()) {
+			case OMIT_VALUE:
+				if (!allowOmit) {
+					getLocation().reportSemanticError(OmitValue_Template.SPECIFICVALUEEXPECTED);
+				}
+				return;
+			case SPECIFIC_VALUE: {
+				final IValue refd = ((SpecificValue_Template)template).getSpecificValue();
+				if (refd.getValuetype() == Value_type.OMIT_VALUE && !allowOmit) {
+					getLocation().reportSemanticError(OmitValue_Template.SPECIFICVALUEEXPECTED);
+				}
+				return;
+			}
+			default:
+				return;
+			}
+		}
 		default:
 			return;
 		}
@@ -686,7 +706,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -712,23 +732,20 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeInit(aData, source, name);
 		} else {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				specificValue.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				specificValue.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			specificValue.generateCodeInit( aData, source, name );
 		}
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

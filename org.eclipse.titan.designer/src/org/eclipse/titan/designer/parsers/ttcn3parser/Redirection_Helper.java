@@ -20,11 +20,14 @@ public class Redirection_Helper {
 	public Parameter_Redirect redirectParameters;
 	public Reference senderReference;
 	public Reference indexReference;
+	public Reference timestampReference;
 
-	public Redirection_Helper(final Reference redirectValue, final Parameter_Redirect redirectParameters, final Reference senderReference, final Reference indexReference) {
+	public Redirection_Helper(final Reference redirectValue, final Parameter_Redirect redirectParameters, final Reference senderReference,
+			final Reference indexReference, final Reference timestampReference) {
 		this.redirectValue = redirectValue;
 		this.redirectParameters = redirectParameters;
 		this.senderReference = senderReference;
 		this.indexReference = indexReference;
+		this.timestampReference = timestampReference;
 	}
 }

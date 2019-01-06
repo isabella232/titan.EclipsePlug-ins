@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
  * Utility class for match functionality of record of/set of/arrays
  * @author Arpad Lovassy
  */
-public class RecordOfMatch {
+public final class RecordOf_Match {
 
 	/**
 	 * Interface for matching
@@ -84,6 +84,11 @@ public class RecordOfMatch {
 	public enum type_of_matching {
 		SUBSET, EXACT, SUPERSET
 	};
+
+	// this class should not be instantiated
+	private RecordOf_Match() {
+		//intentionally empty
+	}
 
 	/*
 	  Generic comparison function for 'set of' values. The fifth argument
@@ -299,7 +304,7 @@ public class RecordOfMatch {
 		private final int value_start;
 		private final int template_size;
 		private final int template_start;
-		private int n_asterisks;
+		private final int n_asterisks;
 		private final int[] template_index_table;
 		private edge_status[][] edge_matrix;
 		private boolean[] covered_vector; //tells if a value is covered
@@ -329,20 +334,22 @@ public class RecordOfMatch {
 			value_ptr = par_value_ptr;
 			template_ptr = par_template_ptr;
 			legacy = par_legacy;
-			n_asterisks = 0;
 			nof_covered = 0;//to get rid of the linear summing
 
 			// we won't use all elements if there are asterisks in template
 			// it is cheaper to allocate it once instead of realloc'ing
 			template_index_table = new int[par_template_size];
+			int temp_n_asterisks = 0;
 			// locating the asterisks in the template
 			for (int i = 0; i < par_template_size; i++) {
 				if (match_function.match(value_ptr, -1, template_ptr, par_template_start + i, legacy)) {
-					n_asterisks++;
+					temp_n_asterisks++;
 				} else {
-					template_index_table[i - n_asterisks] = i;
+					template_index_table[i - temp_n_asterisks] = i;
 				}
 			}
+
+			n_asterisks = temp_n_asterisks;
 			// don't count the asterisks
 			template_size = par_template_size - n_asterisks;
 
@@ -649,7 +656,7 @@ public class RecordOfMatch {
 				return true;
 			} else {
 				// the empty template matches the empty value only
-				return (value_size == 0 || match_type == type_of_matching.SUPERSET);
+				return value_size == 0 || match_type == type_of_matching.SUPERSET;
 			}
 		}
 

@@ -75,6 +75,12 @@ public class ScrollView extends Composite {
 	/** TimerTask for autoScroll feature !=null when auto scroll is running */
 	private Timer autoScrollTimer = null;
 
+	/** where mouse down appear on contents area */
+	private int mouseDownX = -1, mouseDownY = -1;
+
+	public static final int VBAR = 0x01;
+	public static final int HBAR = 0x02;
+
 	/**
 	 * Create a ScrollView, child of composite c.
 	 * Both scroll bar have the mode AUTO.
@@ -107,12 +113,12 @@ public class ScrollView extends Composite {
 		setLayout(new SVLayout());
 
 		// Create overview
-		Button b = new Button(this, SWT.NONE);
+		final Button b = new Button(this, SWT.NONE);
 		b.setImage(Activator.getDefault().getIcon(Constants.ICONS_OVERVIEW));
 		this.overview = new Overview(this);
 		this.overview.useControl(b);
 		b.setData(this.overview);
-		Control cc = b;
+		final Control cc = b;
 		b.setToolTipText(Messages.getString("ScrollView.0"));  //$NON-NLS-1$
 		setCornerControl(cc);
 
@@ -124,23 +130,23 @@ public class ScrollView extends Composite {
 	 * Initialize all listeners
 	 */
 	private void initListerners() {
-		PaintListener localPaintListener = new PaintListener() {
+		final PaintListener localPaintListener = new PaintListener() {
 			@Override
 			public void paintControl(final PaintEvent event) {
 				// use clipping, to reduce cost of paint.
-				Rectangle r = event.gc.getClipping();
-				int cx = viewToContentsX(r.x);
-				int cy = viewToContentsY(r.y);
+				final Rectangle r = event.gc.getClipping();
+				final int cx = viewToContentsX(r.x);
+				final int cy = viewToContentsY(r.y);
 				drawContents(event.gc, cx, cy, r.width, r.height);
 			}
 		};
 
 		this.viewcontrol.addPaintListener(localPaintListener);
 
-		MouseMoveListener localMouseMoveListener = new MouseMoveListener() {
+		final MouseMoveListener localMouseMoveListener = new MouseMoveListener() {
 			@Override
 			public void mouseMove(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseMoveEvent(e);
@@ -158,10 +164,10 @@ public class ScrollView extends Composite {
 			}
 		});
 
-		MouseTrackListener localMouseTrackListener = new MouseTrackListener() {
+		final MouseTrackListener localMouseTrackListener = new MouseTrackListener() {
 			@Override
 			public void mouseEnter(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseEnter(e);
@@ -171,7 +177,7 @@ public class ScrollView extends Composite {
 
 			@Override
 			public void mouseHover(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseHover(e);
@@ -181,7 +187,7 @@ public class ScrollView extends Composite {
 
 			@Override
 			public void mouseExit(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseExit(e);
@@ -193,23 +199,23 @@ public class ScrollView extends Composite {
 
 		this.viewcontrol.addMouseTrackListener(localMouseTrackListener);
 
-		MouseListener localMouseListener = new MouseListener() {
+		final MouseListener localMouseListener = new MouseListener() {
 			@Override
 			public void mouseDoubleClick(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseDoubleClickEvent(e);
 				e.x = ox;
 				e.y = oy;
 				// Notify listeners
-				Event event = new Event();
+				final Event event = new Event();
 				notifyListeners(SWT.MouseDoubleClick, event);
 			}
 
 			@Override
 			public void mouseDown(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				ScrollView.this.mouseDownX = viewToContentsX(e.x);
 				e.x = ScrollView.this.mouseDownX;
 				ScrollView.this.mouseDownY = viewToContentsY(e.y);
@@ -221,7 +227,7 @@ public class ScrollView extends Composite {
 
 			@Override
 			public void mouseUp(final MouseEvent e) {
-				int ox = e.x, oy = e.y;
+				final int ox = e.x, oy = e.y;
 				e.x = viewToContentsX(e.x);
 				e.y = viewToContentsY(e.y);
 				contentsMouseUpEvent(e);
@@ -233,7 +239,7 @@ public class ScrollView extends Composite {
 		};
 		this.viewcontrol.addMouseListener(localMouseListener);
 
-		KeyListener localKeyListener = new KeyListener() {
+		final KeyListener localKeyListener = new KeyListener() {
 			@Override
 			public void keyPressed(final KeyEvent e) {
 				keyPressedEvent(e);
@@ -265,7 +271,7 @@ public class ScrollView extends Composite {
 					new SelectionAdapter() {
 						@Override
 						public void widgetSelected(final SelectionEvent e) {
-							ScrollBar b = ScrollView.this.viewcontrol.getVerticalBar();
+							final ScrollBar b = ScrollView.this.viewcontrol.getVerticalBar();
 							setContentsPos(ScrollView.this.contentsX, b.getSelection());
 							// change "real" vertical bar selection too
 							getVerticalBar().setSelection(b.getSelection());
@@ -288,7 +294,7 @@ public class ScrollView extends Composite {
 					new SelectionAdapter() {
 						@Override
 						public void widgetSelected(final SelectionEvent e) {
-							ScrollBar b = ScrollView.this.viewcontrol
+							final ScrollBar b = ScrollView.this.viewcontrol
 									.getHorizontalBar();
 							setContentsPos(b.getSelection(),
 									ScrollView.this.contentsY);
@@ -339,7 +345,7 @@ public class ScrollView extends Composite {
 		}
 		this.horzsb = null;
 		if (this.cornerControl != null) {
-			Object data = this.cornerControl.getData();
+			final Object data = this.cornerControl.getData();
 			if (data instanceof Overview) {
 				((Overview) data).dispose();
 			}
@@ -375,10 +381,10 @@ public class ScrollView extends Composite {
 	 * @param r Rectangle corresponding to the client area of overview.
 	 */
 	protected void drawOverview(final GC gc, final Rectangle r) {
-		int x = (int) (r.width * this.contentsX / (float) this.contentsWidth);
-		int y = (int) (r.height * this.contentsY / (float) this.contentsHeight);
-		int vw = getVisibleWidth();
-		int vh = getVisibleHeight();
+		final int x = (int) (r.width * this.contentsX / (float) this.contentsWidth);
+		final int y = (int) (r.height * this.contentsY / (float) this.contentsHeight);
+		final int vw = getVisibleWidth();
+		final int vh = getVisibleHeight();
 		int w = r.width - 1;
 		if (this.contentsWidth > vw) {
 			w = (int) (r.width * vw / (float) this.contentsWidth);
@@ -587,14 +593,11 @@ public class ScrollView extends Composite {
 		this.mouseDownY = e.y;
 	}
 
-	/** where mouse down appear on contents area */
-	private int mouseDownX = -1, mouseDownY = -1;
-
 	/** TimerTask for auto scroll feature. */
 	private static class AutoScroll extends TimerTask {
 		private int dx, dy;
 
-		private ScrollView sv;
+		private final ScrollView sv;
 
 		public AutoScroll(final ScrollView sv, final int dx, final int dy) {
 			this.sv = sv;
@@ -628,8 +631,8 @@ public class ScrollView extends Composite {
 
 			int sx = 0, sy = 0;
 
-			int vRight = getContentsX() + getVisibleWidth();
-			int vBottom = getContentsY() + getVisibleHeight();
+			final int vRight = getContentsX() + getVisibleWidth();
+			final int vBottom = getContentsY() + getVisibleHeight();
 
 			//auto scroll... ?
 			if (event.x < getContentsX()) {
@@ -724,13 +727,13 @@ public class ScrollView extends Composite {
 		this.contentsHeight = tempH;
 
 		if (oldW > tempW) {
-			int s = tempW;
+			final int s = tempW;
 			tempW = oldW;
 			oldW = s;
 		}
 
-		int visWidth = getVisibleWidth();
-		int visHeight = getVisibleHeight();
+		final int visWidth = getVisibleWidth();
+		final int visHeight = getVisibleHeight();
 		if (oldW < visWidth) {
 			if (tempW > visWidth) {
 				tempW = visWidth;
@@ -740,7 +743,7 @@ public class ScrollView extends Composite {
 		}
 
 		if (oldH > tempH) {
-			int s = tempH;
+			final int s = tempH;
 			tempH = oldH;
 			oldH = s;
 		}
@@ -782,8 +785,8 @@ public class ScrollView extends Composite {
 	 */
 	public void ensureVisible(final int px, final int py) {
 		int cx = getContentsX(), cy = getContentsY();
-		int right = getContentsX() + getVisibleWidth();
-		int bottom = getContentsY() + getVisibleHeight();
+		final int right = getContentsX() + getVisibleWidth();
+		final int bottom = getContentsY() + getVisibleHeight();
 		if (px < getContentsX()) {
 			cx = px;
 		} else if (px > right) {
@@ -837,11 +840,11 @@ public class ScrollView extends Composite {
 			tempY = tempY + h;
 			tempH = -h;
 		}
-		int hbar = getHorizontalBarHeight();
-		int vbar = getVerticalBarWidth();
+		final int hbar = getHorizontalBarHeight();
+		final int vbar = getVerticalBarWidth();
 		int cx = getContentsX(), cy = getContentsY();
-		int right = getContentsX() + getVisibleWidth() - vbar;
-		int bottom = getContentsY() + getVisibleHeight() - hbar;
+		final int right = getContentsX() + getVisibleWidth() - vbar;
+		final int bottom = getContentsY() + getVisibleHeight() - hbar;
 		boolean alignH = false, alignV = false;
 
 		if (tempX < getContentsX()) {
@@ -916,8 +919,8 @@ public class ScrollView extends Composite {
 		if (y + h < getContentsY()) {
 			return false;
 		}
-		int vr = getContentsX() + getVisibleWidth();
-		int vb = getContentsY() + getVisibleHeight();
+		final int vr = getContentsX() + getVisibleWidth();
+		final int vb = getContentsY() + getVisibleHeight();
 		if (x > vr) {
 			return false;
 		}
@@ -938,16 +941,18 @@ public class ScrollView extends Composite {
 		if (y + h < getContentsY()) {
 			return null;
 		}
-		int vr = getContentsX() + getVisibleWidth();
-		int vb = getContentsY() + getVisibleHeight();
+
+		final int vr = getContentsX() + getVisibleWidth();
+		final int vb = getContentsY() + getVisibleHeight();
 		if (x > vr) {
 			return null;
 		}
 		if (y > vb) {
 			return null;
 		}
-		int rr = x + w, rb = y + h;
-		int nl = Math.max(x, getContentsX()), nt = Math
+
+		final int rr = x + w, rb = y + h;
+		final int nl = Math.max(x, getContentsX()), nt = Math
 				.max(y, getContentsY()), nr = Math.min(rr, vr), nb = Math.min(
 						rb, vb);
 		return new Rectangle(nl, nt, nr - nl, nb - nt);
@@ -1013,10 +1018,6 @@ public class ScrollView extends Composite {
 		return this.horzsb.getHorizontalBar();
 	}
 
-	public static final int VBAR = 0x01;
-
-	public static final int HBAR = 0x02;
-
 	/** compute visibility of vert/hor bar using given width/height and current visibility
 	 * (ie is barr size are already in for_xxx */
 	public int computeBarVisibility(final int forWidth, final int forHeight, final boolean currHVis, final boolean currVVis) {
@@ -1067,12 +1068,12 @@ public class ScrollView extends Composite {
 	private boolean updateScrollBarVisiblity() {
 		boolean change = false;
 
-		boolean currVVis = this.vertsb.getVisible();
-		boolean currHVis = this.horzsb.getVisible();
-		int barNewVis = computeBarVisibility(getVisibleWidth(),
+		final boolean currVVis = this.vertsb.getVisible();
+		final boolean currHVis = this.horzsb.getVisible();
+		final int barNewVis = computeBarVisibility(getVisibleWidth(),
 				getVisibleHeight(), currHVis, currVVis);
-		boolean newVVis = (barNewVis & VBAR) != 0;
-		boolean newHVis = (barNewVis & HBAR) != 0;
+		final boolean newVVis = (barNewVis & VBAR) != 0;
+		final boolean newHVis = (barNewVis & HBAR) != 0;
 		if (currVVis ^ newVVis) {
 			this.vertsb.setVisible(newVVis);
 			change = true;
@@ -1084,7 +1085,7 @@ public class ScrollView extends Composite {
 
 		// Update corner control visibility:
 		if ((this.cornerControl != null) && change) {
-			boolean vis = newVVis || newHVis;
+			final boolean vis = newVVis || newHVis;
 			if (vis ^ this.cornerControl.getVisible()) {
 				this.cornerControl.setVisible(vis);
 				change = true; //but must be already the case
@@ -1157,9 +1158,9 @@ public class ScrollView extends Composite {
 		}
 		this.cornerControl = w;
 		if (this.cornerControl != null) {
-			ScrollBar vb = getVerticalBar();
-			ScrollBar hb = getHorizontalBar();
-			boolean vis = vb.getVisible() || hb.getVisible();
+			final ScrollBar vb = getVerticalBar();
+			final ScrollBar hb = getHorizontalBar();
+			final boolean vis = vb.getVisible() || hb.getVisible();
 			this.cornerControl.setVisible(vis);
 		}
 	}
@@ -1216,7 +1217,7 @@ public class ScrollView extends Composite {
 	 * @return int the visible height of scroll view, might be > contentsHeight()
 	 */
 	public int getVisibleHeight() {
-		Rectangle r = this.viewcontrol.getClientArea();
+		final Rectangle r = this.viewcontrol.getClientArea();
 		return r.height;
 	}
 
@@ -1224,7 +1225,7 @@ public class ScrollView extends Composite {
 	 * @return int the visible width of scroll view, might be > contentsWidth()
 	 */
 	public int getVisibleWidth() {
-		Rectangle r = this.viewcontrol.getClientArea();
+		final Rectangle r = this.viewcontrol.getClientArea();
 		return r.width;
 	}
 
@@ -1253,7 +1254,7 @@ public class ScrollView extends Composite {
 			scrollBy(+getVisibleWidth() / 4, 0);
 			break;
 		case SWT.CR:
-			Event event = new Event();
+			final Event event = new Event();
 			event.keyCode = SWT.CR;
 			notifyListeners(SWT.KeyDown, event);
 			break;
@@ -1278,7 +1279,7 @@ public class ScrollView extends Composite {
 	 * @return vertical bar width, even if bar isn't visible
 	 */
 	public int getVerticalBarWidth() {
-		int bw = this.vertsb.computeTrim(0, 0, 0, 0).width;
+		final int bw = this.vertsb.computeTrim(0, 0, 0, 0).width;
 		// +1 because win32 V.bar need 1 pixel canvas size to appear
 		return bw + 1;
 	}
@@ -1287,15 +1288,15 @@ public class ScrollView extends Composite {
 	 * @return horizontal bar height even if bar isn't visible
 	 */
 	public int getHorizontalBarHeight() {
-		int bh = this.horzsb.computeTrim(0, 0, 0, 0).height;
+		final int bh = this.horzsb.computeTrim(0, 0, 0, 0).height;
 		// +1 because win32 H.bar need 1 pixel canvas size to appear
 		return bh + 1;
 	}
 
 	@Override
 	public Rectangle computeTrim(final int x, final int y, final int w, final int h) {
-		Rectangle r = new Rectangle(x, y, w, h);
-		int barVis = computeBarVisibility(w, h, false, false);
+		final Rectangle r = new Rectangle(x, y, w, h);
+		final int barVis = computeBarVisibility(w, h, false, false);
 		if ((barVis & VBAR) != 0) {
 			r.width += getVerticalBarWidth();
 		}
@@ -1313,7 +1314,7 @@ public class ScrollView extends Composite {
 
 		@Override
 		protected Point computeSize(final Composite composite, final int wHint, final int hHint, final boolean flushCache) {
-			Point p = new Point(250, 250);
+			final Point p = new Point(250, 250);
 			if (ScrollView.this.contentsWidth < p.x) {
 				p.x = ScrollView.this.contentsWidth;
 			}
@@ -1333,14 +1334,14 @@ public class ScrollView extends Composite {
 				this.dontLayout = true;
 			}
 
-			Point cs = composite.getSize();
-			int barVisibility = computeBarVisibility(cs.x, cs.y, false, false);
-			boolean vbVis = (barVisibility & VBAR) != 0;
-			boolean hbVis = (barVisibility & HBAR) != 0;
+			final Point cs = composite.getSize();
+			final int barVisibility = computeBarVisibility(cs.x, cs.y, false, false);
+			final boolean vbVis = (barVisibility & VBAR) != 0;
+			final boolean hbVis = (barVisibility & HBAR) != 0;
 			ScrollView.this.vertsb.setVisible(vbVis);
 			ScrollView.this.horzsb.setVisible(hbVis);
-			int vbw = getVerticalBarWidth();
-			int hbh = getHorizontalBarHeight();
+			final int vbw = getVerticalBarWidth();
+			final int hbh = getHorizontalBarHeight();
 			int wb = vbVis ? vbw : 0;
 			int hb = hbVis ? hbh : 0;
 			int cww = 0, cwh = 0;
@@ -1366,13 +1367,13 @@ public class ScrollView extends Composite {
 				updateScrollBarsValues();
 			}
 
-			int vw = cs.x - (vbVis ? vbw : 0);
-			int vh = cs.y - (hbVis ? hbh : 0);
-			int vbx = cs.x - wb;
-			int hby = cs.y - hb;
+			final int vw = cs.x - (vbVis ? vbw : 0);
+			final int vh = cs.y - (hbVis ? hbh : 0);
+			final int vbx = cs.x - wb;
+			final int hby = cs.y - hb;
 			Rectangle rc = ScrollView.this.viewcontrol.getClientArea();
-			int oldWidth = rc.width;
-			int oldHeight = rc.height;
+			final int oldWidth = rc.width;
+			final int oldHeight = rc.height;
 			ScrollView.this.viewcontrol.setBounds(0, 0, vw, vh);
 			boolean doViewResize = false;
 			rc = ScrollView.this.viewcontrol.getClientArea();

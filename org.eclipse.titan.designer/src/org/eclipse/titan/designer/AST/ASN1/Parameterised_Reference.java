@@ -195,19 +195,22 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 		addAssignments( assPard, compilationTimeStamp );
 
+		// create a copy of the assignment
+		final ASN1Assignment newAssignment = ((ASN1Assignment) parass).newInstance(myScope.getModuleScopeGen());
+		final String newAssignmentDisplayname = newAssignment.getIdentifier().getDisplayName();
+
 		// Add the assignments made from the formal and actual
 		// parameters to the actual module
 		assignments.setRightScope(myScope);
 		assignments.setParentScope(parass.getMyScope());
+		assignments.setParentScopeGen(myScope);
+		assignments.setScopeName(newAssignmentDisplayname);
 		assignments.setFullNameParent(this);
 		assignments.check(compilationTimeStamp);
 
-		// create a copy of the assignment and add it to the actual
-		// module
-		final ASN1Assignment newAssignment = ((ASN1Assignment) parass).newInstance(module);
-
+		// add the new assignment to the actual module
 		newAssignmentNameStart = new NameReStarter(new StringBuilder(module.getFullName()).append(INamedNode.DOT)
-				.append(newAssignment.getIdentifier().getDisplayName()).toString());
+				.append(newAssignmentDisplayname).toString());
 		newAssignmentNameStart.setFullNameParent(parass);
 		newAssignment.setFullNameParent(newAssignmentNameStart);
 		newAssignment.setLocation(location);
@@ -215,6 +218,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 		((ASN1Assignments) module.getAssignments()).addDynamicAssignment(compilationTimeStamp, newAssignment);
 		newAssignment.setMyScope(assignments);
+		newAssignment.setDontGenerate();
 		newAssignment.check(compilationTimeStamp);
 
 		final List<ISubReference> subreferences = new ArrayList<ISubReference>(1);

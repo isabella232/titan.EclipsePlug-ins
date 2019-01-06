@@ -28,205 +28,358 @@ public class TitanCharString_Element {
 		char_pos = par_char_pos;
 	}
 
-	public boolean isBound() {
+	/**
+	 * Whether the value is bound.
+	 * 
+	 * @return {@code true} if the value is bound.
+	 */
+	public boolean is_bound() {
 		return bound_flag;
 	}
 
-	public boolean isValue() {
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * @return {@code true} if the value is a actual value.
+	 */
+	public boolean is_value() {
 		return bound_flag;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (!bound_flag) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
-	// assign for String
-	public TitanCharString_Element assign(final String aOtherValue) {
-		if (aOtherValue == null || aOtherValue.length() != 1) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element operator_assign(final String otherValue) {
+		if (otherValue == null || otherValue.length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a charstring element.");
 		}
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, aOtherValue.charAt(0));
+		str_val.get_value().setCharAt(char_pos, otherValue.charAt(0));
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanCharString_Element assign(final TitanCharString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound charstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element operator_assign(final TitanCharString_Element otherValue) {
+		otherValue.must_bound("Assignment of an unbound charstring element.");
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, other_value.str_val.getValue().charAt(other_value.char_pos));
+		str_val.get_value().setCharAt(char_pos, otherValue.str_val.get_value().charAt(otherValue.char_pos));
 
 		return this;
 	}
 
-	// originally operator=
-	public TitanCharString_Element assign(final TitanCharString other_value) {
-		other_value.mustBound("Assignment of unbound charstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanCharString_Element operator_assign(final TitanCharString otherValue) {
+		otherValue.must_bound("Assignment of unbound charstring value.");
 
-		if (other_value.getValue().length() != 1) {
+		if (otherValue.get_value().length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a charstring element.");
 		}
 
 		bound_flag = true;
-		str_val.getValue().setCharAt(char_pos, other_value.getValue().charAt(0));
+		str_val.get_value().setCharAt(char_pos, otherValue.get_value().charAt(0));
 
 		return this;
 	}
 
-	// originally operator==
-	// operatorEquals for String
-	public boolean operatorEquals(final String aOtherValue) {
-		mustBound("Comparison of an unbound charstring element.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final String otherValue) {
+		must_bound("Comparison of an unbound charstring element.");
 
-		if (aOtherValue == null || aOtherValue.length() != 1) {
+		if (otherValue == null || otherValue.length() != 1) {
 			return false;
 		} else {
-			return str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0);
+			return str_val.get_at(char_pos).get_char() == otherValue.charAt(0);
 		}
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanCharString other_value) {
-		mustBound("Unbound left operand of charstring element comparison.");
-		other_value.mustBound("Unbound right operand of charstring element comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanCharString otherValue) {
+		must_bound("Unbound left operand of charstring element comparison.");
+		otherValue.must_bound("Unbound right operand of charstring element comparison.");
 
-		if (other_value.getValue().length() != 1) {
+		if (otherValue.get_value().length() != 1) {
 			return false;
 		}
 
-		return get_char() == other_value.getValue().charAt(0);
+		return get_char() == otherValue.get_value().charAt(0);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanCharString_Element other_value) {
-		mustBound("Unbound left operand of charstring element comparison.");
-		other_value.mustBound("Unbound right operand of charstring element comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanCharString_Element otherValue) {
+		must_bound("Unbound left operand of charstring element comparison.");
+		otherValue.must_bound("Unbound right operand of charstring element comparison.");
 
-		return get_char() == other_value.str_val.getValue().charAt(other_value.char_pos);
+		return get_char() == otherValue.str_val.get_value().charAt(otherValue.char_pos);
 	}
 
-	// operatorEquals for universalcharstring
-	public boolean operatorEquals(final TitanUniversalCharString aOtherValue) {
-		mustBound("The left operand of comparison is an unbound charstring element.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanUniversalCharString otherValue) {
+		must_bound("The left operand of comparison is an unbound charstring element.");
+		otherValue.must_bound("The right operand of comparison is an unbound universal charstring value.");
 
-		if (aOtherValue.val_ptr.size() != 1) {
+		if (otherValue.val_ptr.size() != 1) {
 			return false;
-		} else if (aOtherValue.charstring) {
-			return str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0).getUc_cell();
+		} else if (otherValue.charstring) {
+			return str_val.get_at(char_pos).get_char() == otherValue.char_at(0).getUc_cell();
 		} else {
-			final TitanUniversalChar temp = aOtherValue.charAt(0);
+			final TitanUniversalChar temp = otherValue.char_at(0);
 			return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-					&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
+					&& str_val.get_at(char_pos).get_char() == temp.getUc_cell();
 		}
 	}
 
-	// operatorEquals for universalcharstring_element
-	public boolean operatorEquals(final TitanUniversalCharString_Element aOtherValue) {
-		mustBound("The left operand of comparison is an unbound charstring element.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanUniversalCharString_Element otherValue) {
+		must_bound("The left operand of comparison is an unbound charstring element.");
+		otherValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
 
-		final TitanUniversalChar temp = aOtherValue.get_char();
+		final TitanUniversalChar temp = otherValue.get_char();
 		return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-				&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
+				&& str_val.get_at(char_pos).get_char() == temp.getUc_cell();
 	}
 
-	// operatorNotEquals for String
-	public boolean operatorNotEquals(final String aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final String otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// operatorNotEquals for charstring
-	public boolean operatorNotEquals(final TitanUniversalCharString aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanUniversalCharString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// operatorNotEquals for charstring_element
-	public boolean operatorNotEquals(final TitanUniversalCharString_Element aOtherValue) {
-		return !operatorEquals(aOtherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanUniversalCharString_Element otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	public char get_char() {
-		return str_val.getValue().charAt(char_pos);
+		return str_val.get_value().charAt(char_pos);
 	}
 
-	// originally operator +
-	public TitanCharString concatenate(final String aOtherValue) {
-		mustBound("Unbound operand of charstring element concatenation.");
+	/**
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final String other_value) {
+		must_bound("Unbound operand of charstring element concatenation.");
 
-		if (aOtherValue != null) {
-			final int otherLen = aOtherValue.length();
+		if (other_value != null) {
+			final int otherLen = other_value.length();
 			final StringBuilder ret_val = new StringBuilder(otherLen + 1);
-			ret_val.append(str_val.constGetAt(char_pos).get_char());
-			ret_val.append(aOtherValue);
+			ret_val.append(str_val.constGet_at(char_pos).get_char());
+			ret_val.append(other_value);
 
 			return new TitanCharString(ret_val);
 		} else {
 			final StringBuilder ret_val = new StringBuilder();
-			ret_val.append(str_val.constGetAt(char_pos).get_char());
+			ret_val.append(str_val.constGet_at(char_pos).get_char());
 
 			return new TitanCharString(ret_val);
 		}
 	}
 
-	// originally operator +
-	public TitanCharString concatenate(final TitanCharString aOtherValue) {
-		mustBound("Unbound operand of charstring element concatenation.");
-		aOtherValue.mustBound("Unbound operand of charstring concatenation.");
+	/**
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final TitanCharString other_value) {
+		must_bound("Unbound operand of charstring element concatenation.");
+		other_value.must_bound("Unbound operand of charstring concatenation.");
 
-		final int nChars = aOtherValue.lengthOf().getInt();
+		final int nChars = other_value.lengthof().get_int();
 		final StringBuilder ret_val = new StringBuilder(nChars + 1);
-		ret_val.append(str_val.constGetAt(char_pos).get_char());
-		ret_val.append(aOtherValue.getValue());
+		ret_val.append(str_val.constGet_at(char_pos).get_char());
+		ret_val.append(other_value.get_value());
 
 		return new TitanCharString(ret_val);
 	}
 
-	// originally operator +
-	public TitanCharString concatenate(final TitanCharString_Element aOtherValue) {
-		mustBound("Unbound operand of charstring element concatenation.");
-		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
+	/**
+	 * Concatenates the current charstring with the charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new charstring representing the concatenated value.
+	 * */
+	public TitanCharString operator_concatenate(final TitanCharString_Element other_value) {
+		must_bound("Unbound operand of charstring element concatenation.");
+		other_value.must_bound("Unbound operand of charstring element concatenation.");
 
 		final StringBuilder ret_val = new StringBuilder(2);
-		ret_val.append(str_val.constGetAt(char_pos).get_char());
-		ret_val.append(aOtherValue.get_char());
+		ret_val.append(str_val.constGet_at(char_pos).get_char());
+		ret_val.append(other_value.get_char());
 
 		return new TitanCharString(ret_val);
 	}
 
-	// originally operator +
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString aOtherValue) {
-		mustBound("The left operand of concatenation is an unbound charstring value.");
-		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring value.");
+	/**
+	 * Concatenates the current charstring with the universal charstring
+	 * received as a parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated
+	 *         value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString other_value) {
+		must_bound("The left operand of concatenation is an unbound charstring value.");
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring value.");
 
-		if (aOtherValue.charstring) {
+		if (other_value.charstring) {
 			final TitanUniversalCharString temp = new TitanUniversalCharString((char)0, (char)0, (char)0, get_char());
 
-			return temp.concatenate(aOtherValue);
+			return temp.operator_concatenate(other_value);
 		} else {
 			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 			ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char()));
-			for (int i = 0; i < aOtherValue.lengthOf().getInt(); i++) {
-				ret_val.add(aOtherValue.charAt(i));
+			for (int i = 0; i < other_value.lengthof().get_int(); i++) {
+				ret_val.add(other_value.char_at(i));
 			}
 
 			return new TitanUniversalCharString(ret_val);
 		}
 	}
 
-	// originally operator +
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString_Element aOtherValue) {
-		mustBound("The left operand of concatenation is an unbound charstring element.");
-		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring element.");
+	/**
+	 * Concatenates the current charstring with the universal charstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new universal charstring representing the concatenated value.
+	 * */
+	public TitanUniversalCharString operator_concatenate(final TitanUniversalCharString_Element other_value) {
+		must_bound("The left operand of concatenation is an unbound charstring element.");
+		other_value.must_bound("The right operand of concatenation is an unbound universal charstring element.");
 
 		TitanUniversalChar[] result = new TitanUniversalChar[2];
 		result[0] = new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char());
-		result[1] = aOtherValue.get_char();
+		result[1] = other_value.get_char();
 		return new TitanUniversalCharString(result);
 	}
 
@@ -247,17 +400,20 @@ public class TitanCharString_Element {
 		}
 
 		final StringBuilder builder = new StringBuilder();
-		builder.append('"').append(str_val.getValue().charAt(char_pos)).append('"');
+		builder.append('"').append(str_val.get_value().charAt(char_pos)).append('"');
 
 		return builder.toString();
 	}
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		if (bound_flag) {
-			final char c = str_val.getAt(char_pos).get_char();
-			if (TTCN_Logger.isPrintable(c)) {
+			final char c = str_val.get_at(char_pos).get_char();
+			if (TTCN_Logger.is_printable(c)) {
 				TTCN_Logger.log_char('"');
-				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char_escaped(c);
 				TTCN_Logger.log_char('"');
 			} else {
 				TTCN_Logger.log_event("char(0, 0, 0, {0})", (int) c);

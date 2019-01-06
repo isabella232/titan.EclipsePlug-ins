@@ -63,14 +63,14 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 	@Override
 	public void initialReconcile() {
 		GlobalIntervalHandler.putInterval(document, null);
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 			analyze();
 		} else {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					List<Position> positions = (new ConfigFoldingSupport()).calculatePositions(document);
+					final List<Position> positions = (new ConfigFoldingSupport()).calculatePositions(document);
 					editor.updateFoldingStructure(positions);
 				}
 			});
@@ -79,20 +79,19 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 
 	void analyze() {
 		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
-
 		if (file == null) {
 			return;
 		}
 
-		IProject project = file.getProject();
+		final IProject project = file.getProject();
 		if (project == null) {
 			return;
 		}
 
-		ProjectConfigurationParser projectConfigurationParser = GlobalParser.getConfigSourceParser(project);
+		final ProjectConfigurationParser projectConfigurationParser = GlobalParser.getConfigSourceParser(project);
 		projectConfigurationParser.reportOutdating(file);
 
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		projectSourceParser.analyzeAll(); 
 	}
 

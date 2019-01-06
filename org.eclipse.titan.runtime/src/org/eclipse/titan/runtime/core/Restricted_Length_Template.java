@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+
 /**
  * Restricted_Length_Template in titan.core
  *
@@ -42,13 +44,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	@Override
 	protected void set_selection(final template_sel other_value) {
-		templateSelection = other_value;
+		template_selection = other_value;
 		is_ifPresent = false;
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	protected void set_selection(final Restricted_Length_Template other_value) {
-		templateSelection = other_value.templateSelection;
+		template_selection = other_value.template_selection;
 		is_ifPresent = other_value.is_ifPresent;
 		length_restriction_type = other_value.length_restriction_type;
 
@@ -71,9 +73,6 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			throw new TtcnError("Internal error: Matching with a template that has invalid length restriction type.");
 		}
 	}
-
-	//TODO: implement according to:
-	//      Template.hh: class Restricted_Length_Template : public Base_Template
 
 	protected int check_section_is_single(final int min_size, final boolean has_any_or_none, final String operation_name, final String type_name_prefix,
 			final String type_name) {
@@ -211,18 +210,18 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	void decode_text_restricted(final Text_Buf text_buf) {
 		decode_text_base(text_buf);
-		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().getInt() ];
+		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().get_int() ];
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
-			single_length = text_buf.pull_int().getInt();
+			single_length = text_buf.pull_int().get_int();
 			break;
 		case NO_LENGTH_RESTRICTION:
 			break;
 		case RANGE_LENGTH_RESTRICTION:
-			range_length_min_length = text_buf.pull_int().getInt();
-			range_length_max_length_set = text_buf.pull_int().getInt() != 0;
+			range_length_min_length = text_buf.pull_int().get_int();
+			range_length_max_length_set = text_buf.pull_int().get_int() != 0;
 			if (range_length_max_length_set) {
-				range_length_max_length = text_buf.pull_int().getInt();
+				range_length_max_length = text_buf.pull_int().get_int();
 			}
 			break;
 		default:
@@ -230,28 +229,25 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-//TODO: implement
-/*
-	void set_length_range(final Module_Param param)
-	{
-		Module_Param_Length_Restriction length_range = param.get_length_restriction();
-		if (length_range==null) {
+	protected void set_length_range(final Module_Parameter param) {
+		final Module_Param_Length_Restriction length_range = param.get_length_restriction();
+		if (length_range == null) {
 			length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			return;
 		}
+
 		if (length_range.is_single()) {
 			length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
-			single_length = (int)(length_range.get_min());
+			single_length = length_range.get_min();
 		} else {
 			length_restriction_type = length_restriction_type_t.RANGE_LENGTH_RESTRICTION;
-			range_length_min_length = (int)(length_range.get_min());
+			range_length_min_length = length_range.get_min();
 			range_length_max_length_set = length_range.get_has_max();
 			if (range_length_max_length_set) {
-				range_length_max_length = (int)(length_range.get_max());
+				range_length_max_length = length_range.get_max();
 			}
 		}
 	}
-*/
 
 	protected Module_Param_Length_Restriction get_length_range() {
 		if (length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION) {
@@ -277,9 +273,9 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_single_length(final TitanInteger single_length) {
-		single_length.mustBound("Using an unbound integer value as length restriction.");
+		single_length.must_bound("Using an unbound integer value as length restriction.");
 
-		set_single_length(single_length.getInt());
+		set_single_length(single_length.get_int());
 	}
 
 	public void set_min_length(final int min_length) {
@@ -293,9 +289,9 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_min_length(final TitanInteger min_length) {
-		min_length.mustBound("Using an unbound integer value as lower length restriction.");
+		min_length.must_bound("Using an unbound integer value as lower length restriction.");
 
-		set_min_length(min_length.getInt());
+		set_min_length(min_length.get_int());
 	}
 
 	public void set_max_length(final int max_length) {
@@ -315,20 +311,20 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 
 	public void set_max_length(final TitanInteger max_length) {
-		max_length.mustBound("Using an unbound integer value as upper length restriction.");
+		max_length.must_bound("Using an unbound integer value as upper length restriction.");
 
-		set_max_length(max_length.getInt());
+		set_max_length(max_length.get_int());
 	}
 
 	@Override
-	public boolean isOmit() {
-		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent
+	public boolean is_omit() {
+		return template_selection == template_sel.OMIT_VALUE && !is_ifPresent
 				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	@Override
 	public boolean is_any_or_omit() {
-		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent
+		return template_selection == template_sel.ANY_OR_OMIT && !is_ifPresent
 				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 }

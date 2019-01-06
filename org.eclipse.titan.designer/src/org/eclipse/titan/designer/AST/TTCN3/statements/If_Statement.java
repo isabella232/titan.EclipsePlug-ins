@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -138,6 +139,17 @@ public final class If_Statement extends Statement {
 		}
 		if (statementblock != null) {
 			statementblock.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (ifClauses != null) {
+			ifClauses.setCodeSection(codeSection);
+		}
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
 		}
 	}
 

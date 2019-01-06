@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSpecification.Fieldspecification_types;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -101,5 +102,16 @@ public final class FieldSetting_Type extends FieldSetting {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		final String genName = type.getGenNameOwn();
+
+		final StringBuilder sb = aData.getCodeForType(genName);
+		final StringBuilder source = new StringBuilder();
+		type.generateCode( aData, source );
+		sb.append(source);
 	}
 }

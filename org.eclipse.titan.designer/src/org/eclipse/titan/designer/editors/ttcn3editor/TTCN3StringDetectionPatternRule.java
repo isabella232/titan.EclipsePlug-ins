@@ -34,7 +34,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	private static final int UNDEFINED = -1;
 
 	/** The token to be returned on success. */
-	private IToken fToken;
+	private final IToken fToken;
 	/** The pattern's column constrain. */
 	private int fColumn = UNDEFINED;
 
@@ -42,7 +42,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	 * Line delimiter comparator which orders according to decreasing
 	 * delimiter length.
 	 */
-	private Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
+	private final Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
 	/** Cached line delimiters. */
 	private char[][] fLineDelimiters;
 	/** Cached sorted {@linkplain #fLineDelimiters}. */
@@ -100,7 +100,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	 */
 	protected IToken doEvaluate(final ICharacterScanner scanner, final boolean resume) {
 		if (!resume) {
-			int c = scanner.read();
+			final int c = scanner.read();
 			if (c != '"') {
 				scanner.unread();
 				return Token.UNDEFINED;
@@ -137,8 +137,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	 * @return <code>true</code> if the end sequence has been detected
 	 */
 	private boolean endSequenceDetected(final ICharacterScanner scanner) {
-
-		char[][] originalDelimiters = scanner.getLegalLineDelimiters();
+		final char[][] originalDelimiters = scanner.getLegalLineDelimiters();
 		int count = originalDelimiters.length;
 		if (fLineDelimiters == null || originalDelimiters.length != count) {
 			fSortedLineDelimiters = new char[count][];
@@ -160,7 +159,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 				// Skip escaped character
 				scanner.read();
 			} else if (c == '"') {
-				int c2 = scanner.read();
+				final int c2 = scanner.read();
 				if (c2 != '"') {
 					scanner.unread();
 					return true;
@@ -193,7 +192,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	 */
 	protected boolean sequenceDetected(final ICharacterScanner scanner, final char[] sequence, final boolean eofAllowed) {
 		for (int i = 1; i < sequence.length; i++) {
-			int c = scanner.read();
+			final int c = scanner.read();
 			if (c == ICharacterScanner.EOF && eofAllowed) {
 				return true;
 			} else if (c != sequence[i]) {
@@ -220,7 +219,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 			return doEvaluate(scanner, resume);
 		}
 
-		int c = scanner.read();
+		final int c = scanner.read();
 		scanner.unread();
 		if (c == '"') {
 			return fColumn == scanner.getColumn() ? doEvaluate(scanner, resume) : Token.UNDEFINED;

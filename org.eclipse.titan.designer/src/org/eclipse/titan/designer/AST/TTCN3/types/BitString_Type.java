@@ -177,8 +177,8 @@ public final class BitString_Type extends Type {
 			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
-		boolean selfReference = false;
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case BSTR_PATTERN:
 			break;
@@ -299,6 +299,12 @@ public final class BitString_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();

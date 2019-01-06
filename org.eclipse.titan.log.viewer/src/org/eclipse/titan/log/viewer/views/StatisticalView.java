@@ -92,13 +92,13 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private Table amountTable = null;
 	private Table errorTestCasesTable = null;
 	private Table failTestCasesTable = null;
-	private Table testCases = null;
+	private Table testCasesTable = null;
 	private CachedLogReader reader = null;
 	private static final int DEFAULT_COLUMN_WIDTH = 55;
 	private static final int DEFAULT_AMOUNT_COLUMN_WIDTH = 75;
 	private OpenMSCViewAction openMSCViewAction;
 	private OpenTextTableStatisticalViewMenuAction openTextTableStatisticalViewMenuAction;
-	private List<ISelectionChangedListener> registeredListeners;
+	private final List<ISelectionChangedListener> registeredListeners;
 	private TestCase testcaseSelection = null;
 	private ISelection eventSelection;
 
@@ -108,7 +108,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private ExpandableComposite ecFail;
 	private ExpandableComposite ecTestCases;
 
-	private Map<String, Section> cachedSections;
+	private final Map<String, Section> cachedSections;
 	private List<StatisticalData> statisticalDataVector;
 
 	/**
@@ -132,22 +132,22 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		if (this.reader == null) {
 			return;
 		}
-		IMemento tempMemento = memento.createChild("selection"); //$NON-NLS-1$
+		final IMemento tempMemento = memento.createChild("selection"); //$NON-NLS-1$
 		try {
-			IMemento[] viewAttributes = new IMemento[this.statisticalDataVector.size()];
+			final IMemento[] viewAttributes = new IMemento[this.statisticalDataVector.size()];
 			for (int i = 0; i < this.statisticalDataVector.size(); i++) {
-				IMemento viewAttribute = tempMemento.createChild("viewAttributes"); //$NON-NLS-1$
-				StatisticalData statisticData = this.statisticalDataVector.get(i);
-				LogFileMetaData logFileMetaData =  statisticData.getLogFileMetaData();
+				final IMemento viewAttribute = tempMemento.createChild("viewAttributes"); //$NON-NLS-1$
+				final StatisticalData statisticData = this.statisticalDataVector.get(i);
+				final LogFileMetaData logFileMetaData =  statisticData.getLogFileMetaData();
 				viewAttribute.putString("projectName", logFileMetaData.getProjectName()); //$NON-NLS-1$
 
 				// save state about log file
-				Path filePath = new Path(logFileMetaData.getProjectRelativePath());
-				IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+				final Path filePath = new Path(logFileMetaData.getProjectRelativePath());
+				final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 				if ((logFile != null) && logFile.exists()) {
 					// add property file to the memento
 					viewAttribute.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
-					File aLogFile = logFile.getLocation().toFile();
+					final File aLogFile = logFile.getLocation().toFile();
 					viewAttribute.putString("fileSize", String.valueOf(aLogFile.length())); //$NON-NLS-1$
 					viewAttribute.putString("fileModification", String.valueOf(aLogFile.lastModified())); //$NON-NLS-1$
 				}
@@ -165,9 +165,9 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	public void setData(final List<StatisticalData> statisticalDataVector) {
 		this.statisticalDataVector = statisticalDataVector;
 		if (this.statisticalDataVector.size() > 1) {
-			Set<String> keys = cachedSections.keySet();
-			for (String currentKey : keys) {
-				Section tmpSection = cachedSections.get(currentKey);
+			final Set<String> keys = cachedSections.keySet();
+			for (final String currentKey : keys) {
+				final Section tmpSection = cachedSections.get(currentKey);
 				if (tmpSection != null && !tmpSection.isDisposed()) {
 					tmpSection.dispose();
 				}
@@ -175,14 +175,14 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			cachedSections.clear();
 		}
 
-		for (StatisticalData statisticalData : this.statisticalDataVector) {
+		for (final StatisticalData statisticalData : this.statisticalDataVector) {
 			this.logFileMetaData = statisticalData.getLogFileMetaData();
-			List<TestCase> tmpTestCases = statisticalData.getTestCaseVector();
+			final List<TestCase> tmpTestCases = statisticalData.getTestCaseVector();
 			this.reader = statisticalData.getCachedLogFileReader();
 
 
-			String projectRelativePath = this.logFileMetaData.getProjectRelativePath();
-			Section tmpSection = cachedSections.get(projectRelativePath);
+			final String projectRelativePath = this.logFileMetaData.getProjectRelativePath();
+			final Section tmpSection = cachedSections.get(projectRelativePath);
 			if (tmpSection == null) {
 				createSection();
 			}
@@ -190,7 +190,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			this.amountTable.removeAll();
 			this.errorTestCasesTable.removeAll();
 			this.failTestCasesTable.removeAll();
-			this.testCases.removeAll();
+			this.testCasesTable.removeAll();
 			int noOfPass = 0;
 			int noOfFail = 0;
 			int noOfInconc = 0;
@@ -203,24 +203,24 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				continue;
 			}
 
-			int noTotal = tmpTestCases.size();
+			final int noTotal = tmpTestCases.size();
 
-			for (TestCase tc : tmpTestCases) {
-				TableItem tcItem = new TableItem(this.testCases, SWT.BORDER);
+			for (final TestCase tc : tmpTestCases) {
+				final TableItem tcItem = new TableItem(this.testCasesTable, SWT.BORDER);
 
 				LogRecord record = getLogRecordAtRow(tc.getStartRecordNumber());
-				String start = record.getTimestamp();
+				final String start = record.getTimestamp();
 				record = getLogRecordAtRow(tc.getEndRecordNumber());
-				String stop = record.getTimestamp();
+				final String stop = record.getTimestamp();
 				Image image;
 				switch (tc.getVerdict()) {
 				case Constants.VERDICT_PASS:
 					image = Activator.getDefault().getIcon(Constants.ICONS_PASS);
 					noOfPass++;
 					break;
-				case Constants.VERDICT_ERROR:
+				case Constants.VERDICT_ERROR:{
 					image = Activator.getDefault().getIcon(Constants.ICONS_ERROR);
-					TableItem tcErrorItem = new TableItem(this.errorTestCasesTable, SWT.BORDER);
+					final TableItem tcErrorItem = new TableItem(this.errorTestCasesTable, SWT.BORDER);
 					tcErrorItem.setImage(1, image);
 					tcErrorItem.setText(2, tc.getTestCaseName());
 					tcErrorItem.setText(3, start);
@@ -228,9 +228,10 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 					tcErrorItem.setData(tc);
 					noOfError++;
 					break;
-				case Constants.VERDICT_FAIL:
+				}
+				case Constants.VERDICT_FAIL:{
 					image = Activator.getDefault().getIcon(Constants.ICONS_FAIL);
-					TableItem tcFailItem = new TableItem(this.failTestCasesTable, SWT.BORDER);
+					final TableItem tcFailItem = new TableItem(this.failTestCasesTable, SWT.BORDER);
 					tcFailItem.setImage(1, image);
 					tcFailItem.setText(2, tc.getTestCaseName());
 					tcFailItem.setText(3, start);
@@ -239,6 +240,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 					noOfFail++;
 					break;
+				}
 				case Constants.VERDICT_INCONCLUSIVE:
 					image = Activator.getDefault().getIcon(Constants.ICONS_INCONCLUSIVE);
 					noOfInconc++;
@@ -251,7 +253,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 					image = Activator.getDefault().getIcon(Constants.ICONS_CRASHED);
 					noOfCrash++;
 					break;
-
 				default:
 					// Could not find image return null
 					image = null;
@@ -268,7 +269,6 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 			if (this.errorTestCasesTable.getItems().length < 1) {
 				this.errorTestCasesTable.setLinesVisible(false);
-
 			} else {
 				this.errorTestCasesTable.redraw();
 				ecError.setExpanded(true);
@@ -276,15 +276,20 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 			if (this.failTestCasesTable.getItems().length < 1) {
 				this.failTestCasesTable.setLinesVisible(false);
-
 			} else {
 				this.failTestCasesTable.redraw();
 				ecFail.setExpanded(true);
 			}
 
+			if (this.testCasesTable.getItems().length < 1) {
+				this.testCasesTable.setLinesVisible(false);
+			} else {
+				this.testCasesTable.redraw();
+				ecTestCases.setExpanded(true);
+			}
 
 			// Create the statistical row
-			TableItem item = new TableItem(this.amountTable, SWT.BORDER);
+			final TableItem item = new TableItem(this.amountTable, SWT.BORDER);
 			item.setText(0, String.valueOf(noTotal));
 			item.setText(1, String.valueOf(noOfPass + getPercent(noOfPass, noTotal)));
 			item.setText(2, String.valueOf(noOfFail + getPercent(noOfFail, noTotal)));
@@ -292,15 +297,14 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			item.setText(4, String.valueOf(noOfNone + getPercent(noOfNone, noTotal)));
 			item.setText(5, String.valueOf(noOfError + getPercent(noOfError, noTotal)));
 			item.setText(6, String.valueOf(noOfCrash + getPercent(noOfCrash, noTotal)));
-
 		}
 
 		if (statisticalDataVector.size() > 1) {
 			setPartName("Statistics"); //$NON-NLS-1$
 			setContentDescription(""); //$NON-NLS-1$
 		} else if (this.logFileMetaData != null) {
-			File file = new File(this.logFileMetaData.getFilePath());
-			String fileName = file.getName();
+			final File file = new File(this.logFileMetaData.getFilePath());
+			final String fileName = file.getName();
 			//Set the name of the part
 			setPartName(fileName);
 			setContentDescription(this.logFileMetaData.getProjectRelativePath());
@@ -337,43 +341,47 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		if (this.memento == null) {
 			return new ArrayList<StatisticalData>();
 		}
-		List<StatisticalData> tmpStatisticalDataVector = new ArrayList<StatisticalData>();
+
+		final List<StatisticalData> tmpStatisticalDataVector = new ArrayList<StatisticalData>();
 		try {
 			// get project
-			IMemento[] viewAttributes = this.memento.getChildren("viewAttributes"); //$NON-NLS-1$
-			for (IMemento viewAttribute : viewAttributes) {
-				String projectName = viewAttribute.getString("projectName"); //$NON-NLS-1$
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			final IMemento[] viewAttributes = this.memento.getChildren("viewAttributes"); //$NON-NLS-1$
+			for (final IMemento viewAttribute : viewAttributes) {
+				final String projectName = viewAttribute.getString("projectName"); //$NON-NLS-1$
+				final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 				if ((project == null) || !project.exists() || !project.isOpen()) {
 					return new ArrayList<StatisticalData>();
 				}
 
 				// retrieve log file meta data
-				String propertyFilePath = viewAttribute.getString("propertyFile"); //$NON-NLS-1$
+				final String propertyFilePath = viewAttribute.getString("propertyFile"); //$NON-NLS-1$
 				if (propertyFilePath == null) {
 					return new ArrayList<StatisticalData>();
 				}
-				File propertyFile = new File(propertyFilePath);
+
+				final File propertyFile = new File(propertyFilePath);
 				if (!propertyFile.exists()) {
 					return new ArrayList<StatisticalData>();
 				}
-				LogFileMetaData tmpLogFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
+				final LogFileMetaData tmpLogFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 
 				// get log file
-				Path path = new Path(tmpLogFileMetaData.getProjectRelativePath());
-				IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				final Path path = new Path(tmpLogFileMetaData.getProjectRelativePath());
+				final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 				if ((logFile == null) || !logFile.exists() || !logFile.getProject().getName().equals(project.getName())) {
 					return new ArrayList<StatisticalData>();
 				}
-				File file = logFile.getLocation().toFile();
+
+				final File file = logFile.getLocation().toFile();
 
 				// get file attributes to see if file has changed
-				String fileSizeString = viewAttribute.getString("fileSize"); //$NON-NLS-1$
+				final String fileSizeString = viewAttribute.getString("fileSize"); //$NON-NLS-1$
 				long fileSize = 0;
 				if (fileSizeString != null) {
 					fileSize = Long.parseLong(fileSizeString);
 				}
-				String fileModificationString = viewAttribute.getString("fileModification");  //$NON-NLS-1$
+
+				final String fileModificationString = viewAttribute.getString("fileModification");  //$NON-NLS-1$
 				long fileModification = 0;
 				if (fileModificationString != null) {
 					fileModification = Long.valueOf(fileModificationString);
@@ -385,10 +393,10 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 				// create reader and set as input
 				this.reader = new CachedLogReader(LogFileReader.getReaderForLogFile(logFile));
-				TestCaseExtractor extractor = new TestCaseExtractor();
+				final TestCaseExtractor extractor = new TestCaseExtractor();
 				extractor.extractTestCasesFromIndexedLogFile(logFile);
 
-				StatisticalData statisticalData = new StatisticalData(tmpLogFileMetaData, extractor.getTestCases(), reader);
+				final StatisticalData statisticalData = new StatisticalData(tmpLogFileMetaData, extractor.getTestCases(), reader);
 				tmpStatisticalDataVector.add(statisticalData);
 
 			}
@@ -413,7 +421,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		int result = 0;
 
 		if (noTotal > 0) {
-			float percent = ((float) noOf / (float) noTotal * 100);
+			final float percent = ((float) noOf / (float) noTotal * 100);
 			result = Math.round(percent);
 		}
 		if (result > 0) {
@@ -453,7 +461,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	 * Adds a menu to the selected row in the table
 	 */
 	private Menu hookStatisticalViewTableContextMenu(final Control control) {
-		ProjectsViewerMenuManager menuMgr = new ProjectsViewerMenuManager();
+		final ProjectsViewerMenuManager menuMgr = new ProjectsViewerMenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new ProjectsViewerMenuListener() {
 			@Override
@@ -498,7 +506,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	}
 
 	private void fireSelectionChangeEvent() {
-		for (ISelectionChangedListener listener : this.registeredListeners) {
+		for (final ISelectionChangedListener listener : this.registeredListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, new StructuredSelection(this.testcaseSelection)));
 		}
 	}
@@ -508,18 +516,18 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	 */
 	private void createToolbar() {
 
-		IActionBars actionBars = getViewSite().getActionBars();
-		IToolBarManager mgr = actionBars.getToolBarManager();
+		final IActionBars actionBars = getViewSite().getActionBars();
+		final IToolBarManager mgr = actionBars.getToolBarManager();
 
-		IAction closeAllAction = new Action() {
+		final IAction closeAllAction = new Action() {
 			@Override
 			public void run() {
 
-				IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewReference[] viewReferences = activePage.getViewReferences();
+				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final IViewReference[] viewReferences = activePage.getViewReferences();
 
-				for (IViewReference reference : viewReferences) {
-					IViewPart view = reference.getView(false);
+				for (final IViewReference reference : viewReferences) {
+					final IViewPart view = reference.getView(false);
 
 					// memento restored views that never have had focus are
 					// null!!!
@@ -548,7 +556,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
-		List<StatisticalData> statisticalData = restoreState();
+		final List<StatisticalData> statisticalData = restoreState();
 
 		createToolbar();
 		createStatisticalViewContextMenuActions();
@@ -556,9 +564,9 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		form.setText("Statistics"); //$NON-NLS-1$
-		TableWrapLayout layout = new TableWrapLayout();
+		final TableWrapLayout layout = new TableWrapLayout();
 		form.getBody().setLayout(layout);
-		TableWrapData td = new TableWrapData();
+		final TableWrapData td = new TableWrapData();
 		td.colspan = 2;
 
 		layout.numColumns = 2;
@@ -579,9 +587,9 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	}
 
 	private Section createSection() {
-		Section section = toolkit.createSection(form.getBody(), Section.DESCRIPTION
+		final Section section = toolkit.createSection(form.getBody(), Section.DESCRIPTION
 				| ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR | ExpandableComposite.EXPANDED);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
+		final TableWrapData td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 2;
 		section.setLayoutData(td);
 		section.addExpansionListener(new ExpansionAdapter() {
@@ -591,12 +599,12 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			}
 		});
 
-		File file = new File(this.logFileMetaData.getFilePath());
-		Date date = new Date(file.lastModified());
+		final File file = new File(this.logFileMetaData.getFilePath());
+		final Date date = new Date(file.lastModified());
 		section.setText(file.getName());
 		section.setData(this.logFileMetaData.getProjectRelativePath());
 		section.setDescription(this.logFileMetaData.getProjectRelativePath() + " " + date.toString()); //$NON-NLS-1$
-		Composite sectionClient = toolkit.createComposite(section);
+		final Composite sectionClient = toolkit.createComposite(section);
 		sectionClient.setLayout(new GridLayout());
 		createAmountTable(sectionClient);
 
@@ -625,8 +633,8 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 		this.ecTestCases = toolkit.createExpandableComposite(sectionClient, ExpandableComposite.TREE_NODE | ExpandableComposite.CLIENT_INDENT);
 		ecTestCases.setText("Test cases"); //$NON-NLS-1$
-		this.testCases = createTestCaseTable(ecTestCases);
-		ecTestCases.setClient(this.testCases);
+		this.testCasesTable = createTestCaseTable(ecTestCases);
+		ecTestCases.setClient(this.testCasesTable);
 		ecTestCases.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
@@ -644,9 +652,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private Table createAmountTable(final Composite composite) {
 		this.amountTable = toolkit.createTable(composite, SWT.NONE);
 		amountTable.setBackgroundMode(SWT.INHERIT_DEFAULT);
-
 		this.amountTable.setHeaderVisible(true);
-
 		this.amountTable.setLinesVisible(true);
 
 		createAmountColumn(Messages.getString("StatisticalView.1"));
@@ -659,8 +665,8 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		return amountTable;
 	}
 
-	private void createAmountColumn(String title) {
-		TableColumn column = new TableColumn(this.amountTable, SWT.BORDER);
+	private void createAmountColumn(final String title) {
+		final TableColumn column = new TableColumn(this.amountTable, SWT.BORDER);
 		column.setText(title);
 		column.setResizable(true);
 		column.setMoveable(true);
@@ -669,7 +675,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 	private Table createTestCaseTable(final Composite composite) {
 
-		Table testCasesTable = toolkit.createTable(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.VIRTUAL);
+		final Table testCasesTable = toolkit.createTable(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.VIRTUAL);
 		testCasesTable.setHeaderVisible(true);
 		testCasesTable.setLinesVisible(true);
 
@@ -677,10 +683,10 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				if (e.getSource() instanceof Table) {
-					Table table = (Table) e.getSource();
+					final Table table = (Table) e.getSource();
 
-					TableItem tableItem = table.getItem(table.getSelectionIndex());
-					Object data = tableItem.getData();
+					final TableItem tableItem = table.getItem(table.getSelectionIndex());
+					final Object data = tableItem.getData();
 					if (data instanceof TestCase) {
 						StatisticalView.this.testcaseSelection = (TestCase) data;
 					} else {
@@ -701,8 +707,8 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		return testCasesTable;
 	}
 
-	private void createTestCasesColumn(Table testCasesTable, String title, int width) {
-		TableColumn column = new TableColumn(testCasesTable, SWT.BORDER);
+	private void createTestCasesColumn(final Table testCasesTable, final String title, final int width) {
+		final TableColumn column = new TableColumn(testCasesTable, SWT.BORDER);
 		column.setText(title);
 		column.setResizable(true);
 		column.setMoveable(true);

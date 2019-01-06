@@ -13,7 +13,7 @@ package org.eclipse.titan.designer.AST;
 public final class Identifier_Internal_Data {
 	public static final String INVALID_STRING = "<invalid>";
 
-	private String name;
+	private final String name;
 	private String asnName;
 	private String ttcnName;
 

@@ -17,7 +17,7 @@ import java.text.MessageFormat;
  * @author Gergo Ujhelyi
  **/
 
-public class TitanPortArray<T extends TitanPort> extends TitanPort {
+public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 
 	private TitanPort[] array_elements;
 	private String[] names;
@@ -28,7 +28,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	private int indexofset;
 
 	// Copy constructor
-	public TitanPortArray(final TitanPortArray<T> otherValue) {
+	public TitanPort_Array(final TitanPort_Array<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
@@ -42,15 +42,15 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
-	public TitanPortArray(final Class<T> clazz, final int size, final int offset) {
+	public TitanPort_Array(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexofset = offset;
 		array_elements = new TitanPort[size];
 		names = new String[size];
-		setSize(size);
+		set_size(size);
 	}
 
-	public void setSize(final int length) {
+	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T empty = clazz.newInstance();
@@ -64,8 +64,17 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		array_size = length;
 	}
 
-	// originally operator=
-	public TitanPortArray<T> assign(final TitanPortArray<T> otherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanPort_Array<T> operator_assign(final TitanPort_Array<T> otherValue) {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;
@@ -81,59 +90,112 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return this;
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final int index_value) {
-		return (T)array_elements[getPortArrayIndex(index_value, array_size, indexofset)];
+	public T get_at(final int index_value) {
+		return (T)array_elements[get_port_array_index(index_value, array_size, indexofset)];
 	}
 
-	// originally operator[]
+	/**
+	 * Gives access to the given element. Indexing begins from zero.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	@SuppressWarnings("unchecked")
-	public T getAt(final TitanInteger index_value) {
-		return (T)array_elements[getPortArrayIndex(index_value.getInt(), array_size, indexofset)];
+	public T get_at(final TitanInteger index_value) {
+		return (T)array_elements[get_port_array_index(index_value.get_int(), array_size, indexofset)];
 	}
 
-	// originally operator[]
-	public final T constGetAt(final int index_value) {
-		return getAt(index_value);
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public final T constGet_at(final int index_value) {
+		return get_at(index_value);
 	}
 
-	//originally operator[]
-	public final T constGetAt(final TitanInteger index_value) {
-		return getAt(index_value);
+	/**
+	 * Gives read-only access to the given element. Index overflow causes
+	 * dynamic test case error.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
+	public final T constGet_at(final TitanInteger index_value) {
+		return get_at(index_value);
 	}
 
-	//originally n_elem
-	public int nElem() {
+	/**
+	 * Returns the number of elements, that is, the size of the array.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
+	public int n_elem() {
 		return array_size;
 	}
 
-	//originally size_of
-	public int sizeOf() {
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * size_of in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public int size_of() {
 		return array_size;
 	}
 
-	//originally lengthof
-	public int lengthOf() {
+	/**
+	 * Returns the number of elements.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public int lengthof() {
 		return array_size;
 	}
 
-	//originally set_name
+	@Override
 	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
 			names[i] = name_string + '[' + i + ']';
-			array_elements[i].setName(names[i]);
+			array_elements[i].set_name(names[i]);
 		}
 	}
 
-	//originally activate_port
+	@Override
 	public void activate_port(final boolean system) {
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			array_elements[v_index].activate_port(system);
 		}
 	}
 
-	//originally safe_start
+	@Override
 	// needed by the init_system_port function
 	public void safe_start() {
 		for (int v_index = 0; v_index < array_size; v_index++) {
@@ -141,6 +203,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
+	@Override
 	public void log() {
 		TTCN_Logger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
@@ -153,18 +216,18 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
-
-	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -173,24 +236,25 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
 	// originally check_receive
-	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -199,23 +263,24 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -224,23 +289,24 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -249,23 +315,24 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -274,24 +341,25 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status getException(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
-			final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
+			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -300,24 +368,25 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status checkCatch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
-			final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_ptr,
+			final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -326,23 +395,24 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
-	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	@Override
+	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
-			index_redirect.incrPos();
+			index_redirect.incr_pos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			final TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr, index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr, timestemp_redirect, index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
-					index_redirect.addIndex(i + indexofset);
+					index_redirect.add_index(i + indexofset);
 				}
 				result = ret_val;
 				break;
@@ -351,16 +421,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			}
 		}
 		if (index_redirect != null) {
-			index_redirect.decrPos();
+			index_redirect.decr_pos();
 		}
 
 		return result;
 	}
 
 	//Static methods
-
-	//originally get_port_array_index
-	public static int getPortArrayIndex(final int index_value,final int array_size,final int index_offset) {
+	public static int get_port_array_index(final int index_value,final int array_size,final int index_offset) {
 		if (index_value < index_offset) {
 			throw new TtcnError(MessageFormat.format("Index underflow when accessing an element of a port array. The index value should be between {0} and {1} instead of {2}."
 					, index_offset, index_offset + array_size - 1, index_value));
@@ -373,10 +441,10 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		return ret_val;
 	}
 
-	public static int getPortArrayIndex(final TitanInteger index_value, final int array_size, final int index_offset) {
-		index_value.mustBound("Accessing an element of a port array using an unbound index.");
+	public static int get_port_array_index(final TitanInteger index_value, final int array_size, final int index_offset) {
+		index_value.must_bound("Accessing an element of a port array using an unbound index.");
 
-		return getPortArrayIndex(index_value.getInt(), array_size, index_offset);
+		return get_port_array_index(index_value.get_int(), array_size, index_offset);
 	}
 
 }

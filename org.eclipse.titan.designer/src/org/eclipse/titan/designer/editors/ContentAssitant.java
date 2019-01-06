@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 public class ContentAssitant extends ContentAssistant {
 	private static final String NO_PROPOSAL = "No Default proposals";
 
-	private IPropertyChangeListener listener = new IPropertyChangeListener() {
+	private final IPropertyChangeListener listener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(final PropertyChangeEvent event) {
 			final String property = event.getProperty();

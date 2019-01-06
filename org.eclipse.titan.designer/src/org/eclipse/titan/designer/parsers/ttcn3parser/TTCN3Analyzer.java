@@ -16,12 +16,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.UnbufferedCharStream;
 import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.atn.PredictionContextCache;
@@ -33,6 +36,8 @@ import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.Interval;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
@@ -42,6 +47,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
 import org.eclipse.titan.designer.parsers.ParserUtilities;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData;
 
 /**
@@ -54,6 +61,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
 	private TTCN3Module actualTtc3Module;
+	private byte[] digest = null;
 
 	/**
 	 * The list of markers (ERROR and WARNING) created during parsing
@@ -94,9 +102,11 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	public void parse( final IFile aFile, final String aCode ) {
 		Reader reader;
+		Reader reader2;
 		int rootInt;
 		if ( aCode != null ) {
 			reader = new StringReader( aCode );
+			reader2 = new StringReader( aCode );
 			rootInt = aCode.length();
 		} else if (aFile != null) {
 			try {
@@ -111,6 +121,17 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				}
 
 				reader = new BufferedReader(temp);
+				InputStreamReader temp2 = new InputStreamReader(aFile.getContents());
+				if (!aFile.getCharset().equals(temp.getEncoding())) {
+					try {
+						temp2.close();
+					} catch (IOException e) {
+						ErrorReporter.logWarningExceptionStackTrace(e);
+					}
+					temp2 = new InputStreamReader(aFile.getContents(), aFile.getCharset());
+				}
+
+				reader2 = new BufferedReader(temp2);
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
@@ -126,13 +147,15 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
 			}
-			IFileInfo fileInfo = store.fetchInfo();
+
+			final IFileInfo fileInfo = store.fetchInfo();
 			rootInt = (int) fileInfo.getLength();
 		} else {
 			return;
 		}
 
 		parse( reader, rootInt, aFile );
+		md5_processing(reader2, aFile);
 	}
 
 	/**
@@ -142,9 +165,11 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	public void parse(final File aFile ) {
 		BufferedReader bufferedReader;
+		BufferedReader bufferedReader2;
 
 		try {
 			bufferedReader = new BufferedReader( new FileReader( aFile ) );
+			bufferedReader2 = new BufferedReader( new FileReader( aFile ) );
 		} catch ( FileNotFoundException e ) {
 			//TODO: handle error
 			return;
@@ -152,6 +177,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		final int fileLength = (int)aFile.length();
 		parse( bufferedReader, fileLength, null );
+		md5_processing(bufferedReader2, null);
 	}
 
 	/**
@@ -161,27 +187,24 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 * @param aEclipseFile Eclipse dependent resource file
 	 */
 	private void parse( final Reader aReader, final int aFileLength, final IFile aEclipseFile ) {
-		CharStream charStream = new UnbufferedCharStream( aReader );
-		Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);
 
+		final CharStream charStream = new UnbufferedCharStream( aReader );
+		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
 		lexer.setCommentTodo( true );
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval( aFileLength );
+		if (realtimeEnabled) {
+			lexer.enableRealtime();
+		}
 
-		TitanListener lexerListener = new TitanListener();
+		final TitanListener lexerListener = new TitanListener();
 		// remove ConsoleErrorListener
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
 
-		// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
-		// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
-		// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
-		//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
-		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
-		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-
-		Ttcn3Parser parser = new Ttcn3Parser( tokenStream );
-		ParserUtilities.setBuildParseTree( parser );
+		Ttcn3Parser parser;
 		PreprocessedTokenStream preprocessor = null;
 
 		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
@@ -191,10 +214,21 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			if ( aEclipseFile.getProject() != null ) {
 				preprocessor.setMacros( PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines( aEclipseFile.getProject() ) );
 			}
+
 			parser = new Ttcn3Parser( preprocessor );
 			ParserUtilities.setBuildParseTree( parser );
 			preprocessor.setActualLexer(lexer);
 			preprocessor.setParser(parser);
+		} else {
+			// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
+			// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
+			// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
+			//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
+			// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
+			final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
+
+			parser = new Ttcn3Parser( tokenStream );
+			ParserUtilities.setBuildParseTree( parser );
 		}
 
 		if ( aEclipseFile != null ) {
@@ -205,13 +239,13 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		parser.addErrorListener( parserListener );
 
 		// This is added because of the following ANTLR 4 bug:
 		// Memory Leak in PredictionContextCache #499
 		// https://github.com/antlr/antlr4/issues/499
-		DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
+		final DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
 		parser.setInterpreter(new ParserATNSimulator(parser, parser.getATN(), decisionToDFA, new PredictionContextCache()));
 
 		//try SLL mode
@@ -229,7 +263,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		if (!warningsAndErrors.isEmpty() || !mErrorsStored.isEmpty()) {
 			//SLL mode might have failed, try LL mode
 			try {
-				CharStream charStream2 = new UnbufferedCharStream( aReader );
+				final CharStream charStream2 = new UnbufferedCharStream( aReader );
 				lexer.setInputStream(charStream2);
 				//lexer.reset();
 				parser.reset();
@@ -263,6 +297,69 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		try {
 			aReader.close();
 		} catch (IOException e) {
+		}
+	}
+
+	private void md5_processing(final Reader aReader, final IFile aEclipseFile) {
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
+
+		final CharStream charStream = new UnbufferedCharStream( aReader );
+		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
+		lexer.setCommentTodo( true );
+		lexer.setTokenFactory( new CommonTokenFactory( true ) );
+		if (realtimeEnabled) {
+			lexer.enableRealtime();
+		}
+
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+
+		PreprocessedTokenStream preprocessor = null;
+
+		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
+			lexer.setTTCNPP();
+			preprocessor = new PreprocessedTokenStream(lexer);
+			preprocessor.setActualFile(aEclipseFile);
+			if ( aEclipseFile.getProject() != null ) {
+				preprocessor.setMacros( PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines( aEclipseFile.getProject() ) );
+			}
+			Ttcn3Parser parser = new Ttcn3Parser( preprocessor );
+			ParserUtilities.setBuildParseTree( parser );
+			preprocessor.setActualLexer(lexer);
+			preprocessor.setParser(parser);
+
+			List<? extends Token> tokens = preprocessor.get(0, preprocessor.size());
+			for (Token token: tokens) {
+				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+					final String text = token.getText();
+					md5.update(text.getBytes());
+					md5.update(" ".getBytes());
+				}
+			}
+		} else {
+			List<? extends Token> tokens = lexer.getAllTokens();
+			for (Token token: tokens) {
+				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+					final String text = token.getText();
+					md5.update(text.getBytes());
+					md5.update(" ".getBytes());
+				}
+			}
+		}
+
+
+
+		
+		if (md5 != null) {
+			digest = md5.digest();
+			  if (actualTtc3Module != null) {
+				  actualTtc3Module.addMD5Digest(digest);
+			  }
 		}
 	}
 }

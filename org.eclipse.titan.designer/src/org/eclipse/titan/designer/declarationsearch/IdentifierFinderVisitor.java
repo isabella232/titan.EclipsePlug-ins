@@ -29,7 +29,7 @@ public class IdentifierFinderVisitor extends ASTVisitor {
 	private IReferencingElement reference = null;
 	private ISubReference subReference = null;
 
-	private int offset;
+	private final int offset;
 
 	public IdentifierFinderVisitor(final int offset) {
 		this.offset = offset;

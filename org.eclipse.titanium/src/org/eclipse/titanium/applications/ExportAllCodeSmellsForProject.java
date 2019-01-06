@@ -86,7 +86,7 @@ public class ExportAllCodeSmellsForProject extends InformationExporter {
 			return new ArrayList<IProject>();
 		}
 
-		ArrayList<IProject> result = new ArrayList<IProject>();
+		final ArrayList<IProject> result = new ArrayList<IProject>();
 		result.add(foundProject);
 		return result;
 	}

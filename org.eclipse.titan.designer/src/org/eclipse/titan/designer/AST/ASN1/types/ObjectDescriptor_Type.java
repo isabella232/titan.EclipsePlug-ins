@@ -215,6 +215,12 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		generateCodeTypedescriptor(aData, source);

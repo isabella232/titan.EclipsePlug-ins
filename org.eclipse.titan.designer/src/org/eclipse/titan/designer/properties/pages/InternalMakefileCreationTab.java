@@ -51,7 +51,7 @@ public final class InternalMakefileCreationTab {
 	private final IOptionsPage[] pages;
 
 	@SuppressWarnings("unused")
-	private IProject project;
+	private final IProject project;
 	private IOptionsPage actualPage = null;
 	private Composite settingsPageContainer;
 	private ScrolledComposite containerSC;

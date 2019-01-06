@@ -191,17 +191,17 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences() {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
-		String verbose = String.valueOf(this.verboseFieldEditor.getBooleanValue());
-		String sut = this.systemUnderTestFieldEditor.getStringValue();
-		String valueContent = this.defaultFormatFieldEditor.getSelectedLabelValue();
-		String addingComponent = this.valueContentFieldEditor.getSelectedLabelValue();
-		String openProperty = String.valueOf(this.addingComponentFieldEditor.getBooleanValue());
-		String openMSCView = this.mscViewOpenerFieldEditor.getSelectedLabelValue();
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
+		final String verbose = String.valueOf(this.verboseFieldEditor.getBooleanValue());
+		final String sut = this.systemUnderTestFieldEditor.getStringValue();
+		final String valueContent = this.defaultFormatFieldEditor.getSelectedLabelValue();
+		final String addingComponent = this.valueContentFieldEditor.getSelectedLabelValue();
+		final String openProperty = String.valueOf(this.addingComponentFieldEditor.getBooleanValue());
+		final String openMSCView = this.mscViewOpenerFieldEditor.getSelectedLabelValue();
 
-		String mscViewDefault = this.mscViewDefaultFieldEditor.getSelectedLabelValue();
-		String testcaseTabDefault = this.testCaseTabDefaultFieldEditor.getSelectedLabelValue();
-		String projectTabDefault = this.projectTabDefaultFieldEditor.getSelectedLabelValue();
+		final String mscViewDefault = this.mscViewDefaultFieldEditor.getSelectedLabelValue();
+		final String testcaseTabDefault = this.testCaseTabDefaultFieldEditor.getSelectedLabelValue();
+		final String projectTabDefault = this.projectTabDefaultFieldEditor.getSelectedLabelValue();
 
 		currentPrefs.put(PreferenceConstants.PREF_VERBOSE_ID, verbose);
 		currentPrefs.put(PreferenceConstants.PREF_SUT_ID, sut);
@@ -217,17 +217,17 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void exportPreferences() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
-		String[] verbose = new String[] {String.valueOf(this.verboseFieldEditor.getBooleanValue())};
-		String[] sut = new String[] {this.systemUnderTestFieldEditor.getStringValue()};
-		String[] valueContent = new String[] {this.defaultFormatFieldEditor.getSelectedLabelValue()};
-		String[] addingComponent = new String[] {this.valueContentFieldEditor.getSelectedLabelValue()};
-		String[] openProperty = new String[] {String.valueOf(this.addingComponentFieldEditor.getBooleanValue())};
-		String[] openMSCView = new String[] {this.mscViewOpenerFieldEditor.getSelectedLabelValue()};
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final String[] verbose = new String[] {String.valueOf(this.verboseFieldEditor.getBooleanValue())};
+		final String[] sut = new String[] {this.systemUnderTestFieldEditor.getStringValue()};
+		final String[] valueContent = new String[] {this.defaultFormatFieldEditor.getSelectedLabelValue()};
+		final String[] addingComponent = new String[] {this.valueContentFieldEditor.getSelectedLabelValue()};
+		final String[] openProperty = new String[] {String.valueOf(this.addingComponentFieldEditor.getBooleanValue())};
+		final String[] openMSCView = new String[] {this.mscViewOpenerFieldEditor.getSelectedLabelValue()};
 
-		String[] mscViewDefault = new String[] {this.mscViewDefaultFieldEditor.getSelectedLabelValue()};
-		String[] testcaseTabDefault = new String[] {this.testCaseTabDefaultFieldEditor.getSelectedLabelValue()};
-		String[] projectTabDefault = new String[] {this.projectTabDefaultFieldEditor.getSelectedLabelValue()};
+		final String[] mscViewDefault = new String[] {this.mscViewDefaultFieldEditor.getSelectedLabelValue()};
+		final String[] testcaseTabDefault = new String[] {this.testCaseTabDefaultFieldEditor.getSelectedLabelValue()};
+		final String[] projectTabDefault = new String[] {this.projectTabDefaultFieldEditor.getSelectedLabelValue()};
 
 		currentPrefs.put(PreferenceConstants.PREF_VERBOSE_ID, verbose);
 		currentPrefs.put(PreferenceConstants.PREF_SUT_ID, sut);
@@ -243,7 +243,7 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(getPageId());
+		final Map<String, String> prop = ImportExportUtils.importSettings(getPageId());
 		//if cancel
 		if (prop == null) {
 			return;

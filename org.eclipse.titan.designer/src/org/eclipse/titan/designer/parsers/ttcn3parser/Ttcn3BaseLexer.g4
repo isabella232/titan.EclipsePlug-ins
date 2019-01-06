@@ -193,8 +193,9 @@ tokens {
   MODULE,                     MODULEPAR,                  MTC,
 
   NOBLOCK,                    NONE,
-  NOT,                        NOT4B,                      NOWAIT,
-  NOT_A_NUMBER,               NULL1,                      NULL2,
+  NOT,                        NOT4B,                      NOW,
+  NOWAIT,                     NOT_A_NUMBER,               NULL1,
+  NULL2,
 
   OBJECTIDENTIFIERKEYWORD,    OCTETSTRING,                OF,
   OMIT,                       ON,                         OPTIONAL,
@@ -205,10 +206,11 @@ tokens {
   PERMUTATION,                PORT,                       PUBLIC,
   PRESENT,                    PRIVATE,                    PROCEDURE,
 
-  RAISE,                      READ,                       RECEIVE,
-  RECORD,                     RECURSIVE,                  REFERS,
-  REM,                        REPEAT,                     REPLY,
-  RETURN,                     RUNNING,                    RUNS,
+  RAISE,                      READ,                       REALTIME,
+  RECEIVE,                    RECORD,                     RECURSIVE,
+  REFERS,                     REM,                        REPEAT,
+  REPLY,                      RETURN,                     RUNNING,
+  RUNS,
 
   SELECT,                     SELF,                       SEND,
   SENDER,                     SET,                        SETVERDICT,
@@ -217,8 +219,8 @@ tokens {
   SYSTEM,
 
   TEMPLATE,                   TESTCASE,                   TIMEOUT,
-  TIMER,                      TO,                         TRIGGER,
-  TRUE,                       TYPE,
+  TIMER,                      TIMESTAMP,                  TO,
+  TRIGGER,                    TRUE,                       TYPE,
 
   UNION,                      UNIVERSAL,                  UNMAP,
 
@@ -318,6 +320,11 @@ CSTRING:
 |	~( '\\' | '"' )
 )*
 '"'
+;
+
+//[uU][+]?[0-9A-Fa-f]{1,8} but the optional + sign is handled with identifiers
+UID:
+	[uU][+][0-9a-fA-F]+
 ;
 
 fragment BIN: [01];

@@ -34,6 +34,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private static final String ENABLE_INCREMENTAL_PARSING = "Enable the incremental parsing of TTCN-3 files (EXPERIMENTAL)";
 	private static final String DELAY_SEMANTIC_CHECKING = "Delay the on-the-fly semantic check till the file is saved";
 	private static final String RECONCILER_TIMEOUT = "Timeout in seconds before on-the-fly check starts";
+	private static final String ENABLE_REALTIME = "Enable support for the realtime extension";
 
 	private	Composite composite;
 	private BooleanFieldEditor checkForLowMemory;
@@ -41,6 +42,9 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private BooleanFieldEditor useIncrementalParsing;
 	private BooleanFieldEditor delaySemanticCheckTillSave;
 	private IntegerFieldEditor reconcilerTimeout;
+	private BooleanFieldEditor enableRealtimeSupport;
+
+	private Boolean realtimeSupport;
 
 	public OnTheFlyCheckerPreferencePage() {
 		super(GRID);
@@ -74,6 +78,10 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 
 		delaySemanticCheckTillSave = new BooleanFieldEditor(PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE, DELAY_SEMANTIC_CHECKING, tempParent);
 		addField(delaySemanticCheckTillSave);
+
+		enableRealtimeSupport = new BooleanFieldEditor(PreferenceConstants.ENABLEREALTIMEEXTENSION, ENABLE_REALTIME, tempParent);
+		addField(enableRealtimeSupport);
+		realtimeSupport = new Boolean(enableRealtimeSupport.getBooleanValue());
 	}
 
 	@Override
@@ -95,6 +103,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		useIncrementalParsing.dispose();
 		delaySemanticCheckTillSave.dispose();
 		reconcilerTimeout.dispose();
+		enableRealtimeSupport.dispose();
 		composite.dispose();
 		super.dispose();
 	}
@@ -118,8 +127,26 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		if (getPreferenceStore().getBoolean(PreferenceConstants.USEONTHEFLYPARSING)) {
 			OutOfMemoryCheck.resetOutOfMemoryflag();
 		}
+		if (realtimeSupport != null && realtimeSupport != enableRealtimeSupport.getBooleanValue()) {
+			realtimeSupport = enableRealtimeSupport.getBooleanValue();
+			ErrorReporter.parallelWarningDisplayInMessageDialog(
+					"On-the-fly analyzer",
+					"The setting of the on-the-fly analyzer's support for the realtime extension has changed.\n" 
+					+ "Eclipse will need to be restarted for this change to take effect.");
+		}
 		super.performApply();
 
 	}
+	@Override
+	public boolean performOk() {
+		boolean result = super.performOk();
 
+		if (realtimeSupport != null && realtimeSupport != getPreferenceStore().getBoolean(PreferenceConstants.ENABLEREALTIMEEXTENSION)) {
+			ErrorReporter.parallelWarningDisplayInMessageDialog(
+					"On-the-fly analyzer",
+					"The setting of the on-the-fly analyzer's support for the realtime extension has changed.\n" 
+					+ "Eclipse needs to be restarted for this change to take effect.");
+		}
+		return result;
+	}
 }

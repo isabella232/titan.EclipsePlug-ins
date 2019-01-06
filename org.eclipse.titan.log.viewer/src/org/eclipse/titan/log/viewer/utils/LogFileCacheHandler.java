@@ -77,10 +77,8 @@ public final class LogFileCacheHandler {
 	 * @return true if the log file has changed, false if not
 	 */
 	public static boolean hasLogFileChanged(final IFile logFile) {
-		File file = new File(logFile.getLocationURI());
-
 		// Check if property file exists...
-		File propertyFile = getPropertyFileForLogFile(logFile);
+		final File propertyFile = getPropertyFileForLogFile(logFile);
 		if (!propertyFile.exists()) {
 			return true;
 		}
@@ -91,27 +89,28 @@ public final class LogFileCacheHandler {
 		}
 
 		// Check if index file exists...
-		File indexFile = getIndexFileForLogFile(logFile);
+		final File indexFile = getIndexFileForLogFile(logFile);
 		if (!indexFile.exists()) {
 			return true;
 		}
 
 		// Check if log record index file exists
-		File logRecordIndexFile = getLogRecordIndexFileForLogFile(logFile);
+		final File logRecordIndexFile = getLogRecordIndexFileForLogFile(logFile);
 		if (!logRecordIndexFile.exists()) {
 			return true;
 		}
 
 		// Check if update is needed (log file file has changed)
+		final File file = new File(logFile.getLocationURI());
 		return updateNeeded(file, propertyFile);
 	}
 
-	private static boolean isPropertyFileInvalid(IFile logFile, File propertyFile) {
+	private static boolean isPropertyFileInvalid(final IFile logFile, final File propertyFile) {
 		try {
-			LogFileMetaData logFileMetaData = logFileMetaDataReader(propertyFile);
-			String projectName = logFile.getProject().getName();
-			String projectRelativePath = File.separator + projectName + File.separator + logFile.getProjectRelativePath().toOSString();
-			URI logFilePath = logFile.getLocationURI();
+			final LogFileMetaData logFileMetaData = logFileMetaDataReader(propertyFile);
+			final String projectName = logFile.getProject().getName();
+			final String projectRelativePath = File.separator + projectName + File.separator + logFile.getProjectRelativePath().toOSString();
+			final URI logFilePath = logFile.getLocationURI();
 			if (!logFileMetaData.getProjectRelativePath().contentEquals(projectRelativePath)
 					|| !logFileMetaData.getFilePath().equals(logFilePath)) {
 				return true;
@@ -130,7 +129,7 @@ public final class LogFileCacheHandler {
 	 * @param logFile the log file
 	 */
 	private static void clearLogFilePropertyFile(final IFile logFile) {
-		File propertyFile = getPropertyFileForLogFile(logFile);
+		final File propertyFile = getPropertyFileForLogFile(logFile);
 		if (propertyFile.exists()) {
 			propertyFile.delete();
 		}
@@ -142,7 +141,7 @@ public final class LogFileCacheHandler {
 	 * @param logFile the log file
 	 */
 	private static void clearLogFileIndexFile(final IFile logFile) {
-		File indexFile = getIndexFileForLogFile(logFile);
+		final File indexFile = getIndexFileForLogFile(logFile);
 		FileUtils.deleteQuietly(indexFile);
 	}
 
@@ -152,7 +151,7 @@ public final class LogFileCacheHandler {
 	 * @param logFile the log file
 	 */
 	private static void clearLogFileLogRecordIndexFile(final IFile logFile) {
-		File indexFile = getLogRecordIndexFileForLogFile(logFile);
+		final File indexFile = getLogRecordIndexFileForLogFile(logFile);
 		FileUtils.deleteQuietly(indexFile);
 	}
 
@@ -162,15 +161,15 @@ public final class LogFileCacheHandler {
 	 * @param logFile the log file
 	 */
 	public static void clearLogFolderCache(final IFolder logFolder) {
-		File indexFile = getCacheFolderFor(logFolder);
+		final File indexFile = getCacheFolderFor(logFolder);
 		if (!indexFile.exists()) {
 			return;
 		}
 
 		if (indexFile.isDirectory()) {
-			File[] filesInFolder = indexFile.listFiles();
+			final File[] filesInFolder = indexFile.listFiles();
 			if (filesInFolder != null) {
-				for (File aFilesInFolder : filesInFolder) {
+				for (final File aFilesInFolder : filesInFolder) {
 					aFilesInFolder.delete();
 				}
 			}
@@ -401,13 +400,13 @@ public final class LogFileCacheHandler {
 	 * @throws IOException if i/o errors occurs
 	 */
 	public static LogRecordIndex[] readLogRecordIndexFile(final File indexFile, final int startRecordIndex, final int numberOfRecords) throws IOException {
-		int bytesToRead = numberOfRecords * LOG_RECORD_INDEX_SIZE;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(bytesToRead);
-		FileInputStream fileInputStream = new FileInputStream(indexFile);
-		FileChannel fileChannel = fileInputStream.getChannel();
+		final int bytesToRead = numberOfRecords * LOG_RECORD_INDEX_SIZE;
+		final ByteBuffer buffer = ByteBuffer.allocateDirect(bytesToRead);
+		final FileInputStream fileInputStream = new FileInputStream(indexFile);
+		final FileChannel fileChannel = fileInputStream.getChannel();
 		try {
 			fileChannel.position((long) startRecordIndex * LOG_RECORD_INDEX_SIZE);
-			int bytesRead = fileChannel.read(buffer);
+			final int bytesRead = fileChannel.read(buffer);
 			buffer.rewind();
 			LogRecordIndex[] logRecordIndexes = null;
 			if (bytesRead == bytesToRead) {
@@ -431,12 +430,12 @@ public final class LogFileCacheHandler {
 	 * @throws IOException if i/o errors occurs
 	 */
 	private static void writeLogRecordIndexFile(final File indexFile, final List<LogRecordIndex> logRecordIndexes) throws IOException {
-		ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-		FileOutputStream fileOutputStream = new FileOutputStream(indexFile);
-		FileChannel file = fileOutputStream.getChannel();
+		final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
+		final FileOutputStream fileOutputStream = new FileOutputStream(indexFile);
+		final FileChannel file = fileOutputStream.getChannel();
 		file.truncate(0);
 		try {
-			for (LogRecordIndex currLogRecordIndex : logRecordIndexes) {
+			for (final LogRecordIndex currLogRecordIndex : logRecordIndexes) {
 				buffer.putLong(currLogRecordIndex.getFileOffset());
 				buffer.putInt(currLogRecordIndex.getRecordLength());
 				buffer.putInt(currLogRecordIndex.getRecordNumber());
@@ -507,23 +506,23 @@ public final class LogFileCacheHandler {
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
-				IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+				final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 				if (view instanceof CommonNavigator) {
-					CommonNavigator navigator = (CommonNavigator) view;
+					final CommonNavigator navigator = (CommonNavigator) view;
 					navigator.getCommonViewer().collapseToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 				}
 			}
 		});
 
-		MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK | SWT.CANCEL);
+		final MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK | SWT.CANCEL);
 		mb.setText("The log file has been modified.");
 		mb.setMessage("The log file has been modified. Click on OK to extract the test cases"
 				+ " or CANCEL to close the associated views.");
 		if (mb.open() == SWT.OK) {
-			WorkspaceJob job = new WorkspaceJob("Testcase extraction from log file: " + logFile.getName()) {
+			final WorkspaceJob job = new WorkspaceJob("Testcase extraction from log file: " + logFile.getName()) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
-					boolean completed = LogFileCacheHandler.processLogFile(logFile, monitor, false);
+					final boolean completed = LogFileCacheHandler.processLogFile(logFile, monitor, false);
 					return completed ? Status.OK_STATUS : Status.CANCEL_STATUS;
 				}
 			};
@@ -543,8 +542,6 @@ public final class LogFileCacheHandler {
 	 * @return true if the processing was successful, false otherwise
 	 */
 	public static boolean processLogFile(final IFile logFile, final IProgressMonitor pMonitor, final boolean quietMode) {
-		IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
-
 		if (!logFile.exists()) {
 			if (!quietMode) {
 				TitanLogExceptionHandler.handleException(new UserException("The log file does not exist: " + logFile.getName())); //$NON-NLS-1$
@@ -553,7 +550,7 @@ public final class LogFileCacheHandler {
 		}
 
 		try {
-			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
 				if (!quietMode) {
 					TitanLogExceptionHandler.handleException(new TechnicalException("Test case extraction is running on the given logfile: " + logFile.getName())); //$NON-NLS-1$
@@ -577,10 +574,10 @@ public final class LogFileCacheHandler {
 			return false;
 		}
 
+		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
 		final LogFileHandler logFileHandler = new LogFileHandler(logFile);
-
 		try {
-			LogFileMetaData logFileMetaData = logFileHandler.autoDetect();
+			final LogFileMetaData logFileMetaData = logFileHandler.autoDetect();
 
 			final TestCaseExtractor testCaseExtractor = new TestCaseExtractor();
 			testCaseExtractor.extractTestCasesFromLogFile(logFileMetaData, monitor);
@@ -590,10 +587,10 @@ public final class LogFileCacheHandler {
 					@Override
 					public void run() {
 						final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+						final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 
 						if (view instanceof CommonNavigator) {
-							CommonNavigator navigator = (CommonNavigator) view;
+							final CommonNavigator navigator = (CommonNavigator) view;
 							navigator.getCommonViewer().update(logFile, null);
 							navigator.getCommonViewer().collapseToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 						}
@@ -608,10 +605,10 @@ public final class LogFileCacheHandler {
 				@Override
 				public void run() {
 					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
+					final IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
 
 					if (view instanceof CommonNavigator) {
-						CommonNavigator navigator = (CommonNavigator) view;
+						final CommonNavigator navigator = (CommonNavigator) view;
 						navigator.getCommonViewer().refresh(logFile, true);
 						navigator.getCommonViewer().expandToLevel(logFile, AbstractTreeViewer.ALL_LEVELS);
 					}

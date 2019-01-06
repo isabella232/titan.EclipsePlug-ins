@@ -38,7 +38,7 @@ public final class ASN1FoldingSupport extends FoldingSupport {
 				interval = (new HeuristicalIntervalDetector()).buildIntervals(document);
 				GlobalIntervalHandler.putInterval(document, interval);
 			}
-			for (Interval subintervall : interval.getSubIntervals()) {
+			for (final Interval subintervall : interval.getSubIntervals()) {
 				recursiveTokens(subintervall);
 			}
 		}

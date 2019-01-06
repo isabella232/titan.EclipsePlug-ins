@@ -202,7 +202,7 @@ public class CfgParseTreePrinter {
 			final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
 			final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
 					aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
-			for ( Entry<Path, CfgParseResult> entry : aCfgParseResults.entrySet() ) {
+			for ( final Entry<Path, CfgParseResult> entry : aCfgParseResults.entrySet() ) {
 				printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
 						entry.getValue().getTokens(), aResolveMode );
 			}

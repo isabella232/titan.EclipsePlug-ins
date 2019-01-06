@@ -381,7 +381,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			}
 		}
 
-		if (valueCheckingOptions.sub_check && (subType != null)) {
+		if (valueCheckingOptions.sub_check && subType != null) {
 			subType.checkThisValue(timestamp, value);
 		}
 
@@ -481,6 +481,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 					refd.setOwnertype(TypeOwner_type.OT_REF, this);
 				}
 
+				if (refd.getMyScope() != null) {
+					// opentype or OCFT
+					refd.setMyScope(getMyScope());
+					refd.setParentType(getParentType());
+					refd.setGenName(getGenNameOwn(), "type");
+					//FIXME
+				}
 				return refd;
 			default:
 				reference.getLocation().reportSemanticError(MessageFormat.format(TYPEREFERENCEEXPECTED, reference.getDisplayName()));
@@ -732,11 +739,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		final Module refdModule = refdLast.getMyScope().getModuleScope();
-		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
+		if (refdModule != scope.getModuleScopeGen() && !SpecialASN1Module.isSpecAsss(refdModule)) {
 			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameValue(aData, source, scope);
@@ -747,11 +754,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		final Module refdModule = refdLast.getMyScope().getModuleScope();
-		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
+		if (refdModule != scope.getModuleScopeGen() && !SpecialASN1Module.isSpecAsss(refdModule)) {
 			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameTemplate(aData, source, scope);
@@ -763,7 +770,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		if (rawAttribute != null) {
@@ -778,28 +785,39 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
+		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+			final StringBuilder tempSource = aData.getCodeForType(last.getGenNameOwn());
+			last.generateCode(aData, tempSource);
+		}
+
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			switch (last.getTypetype()) {
 			case TYPE_PORT:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, last.getGenNameValue(aData, source, myScope)));
 				break;
 			case TYPE_SIGNATURE:
-				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
-				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, last.getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", genName, last.getGenNameValue(aData, source, myScope)));
 				if (!((Signature_Type) last).isNonblocking()) {
-					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
-					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, last.getGenNameValue(aData, source, myScope)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", genName, last.getGenNameValue(aData, source, myScope)));
 				}
 				if (((Signature_Type) last).getSignatureExceptions() != null) {
-					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, getGenNameTemplate(aData, source, myScope)));
+					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, last.getGenNameTemplate(aData, source, myScope)));
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
-				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, last.getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, last.getGenNameTemplate(aData, source, myScope)));
 			}
 		}
 
@@ -830,7 +848,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
@@ -842,7 +860,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return false;
 		}
 

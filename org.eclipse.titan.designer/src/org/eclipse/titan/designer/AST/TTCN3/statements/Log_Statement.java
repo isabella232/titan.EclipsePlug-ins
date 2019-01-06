@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.Code;
 import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -135,17 +136,19 @@ public final class Log_Statement extends Statement {
 			if (logArguments.getNofLogArguments() == 1) {
 				final LogArgument firstArgument = logArguments.getLogArgumentByIndex(0);
 				switch (firstArgument.getRealArgument().getArgumentType()) {
-				case String:
+				case String: {
 					// the argument is a simple string: use non-buffered mode
-					//FIXME Code::translate_string is missing for now
-					source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
+					final String escaped = Code.translate_string(((String_InternalLogArgument) firstArgument.getRealArgument()).getString());
+					source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
 					bufferedMode = false;
 					break;
+				}
 				case Macro: {
 					final Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
 					if (value.canGenerateSingleExpression()) {
 						// the argument is a simple macro call: use non-buffered mode
-						source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", value.generateSingleExpression(aData)));
+						final String escaped = Code.translate_string(value.generateSingleExpression(aData).toString());
+						source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
 						bufferedMode = false;
 					}
 					break;
@@ -161,9 +164,8 @@ public final class Log_Statement extends Statement {
 				source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.USER_UNQUALIFIED);\n");
 				logArguments.generateCode(aData, source);
 				source.append("TTCN_Logger.end_event();\n");
-				source.append("} catch (Exception exception) {\n");
+				source.append("} finally {\n");
 				source.append("TTCN_Logger.finish_event();\n");
-				source.append("throw exception;\n");
 				source.append("}\n");
 			}
 		} else {

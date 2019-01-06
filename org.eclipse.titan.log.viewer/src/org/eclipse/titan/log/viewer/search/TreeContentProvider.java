@@ -33,7 +33,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		public void searchResultChanged(final SearchResultEvent e) {
 
 			if (e instanceof MatchEvent) {
-				MatchEvent event = (MatchEvent) e;
+				final MatchEvent event = (MatchEvent) e;
 				if (event.getKind() == MatchEvent.ADDED) {
 					addMatch(event);
 				}
@@ -49,14 +49,14 @@ public final class TreeContentProvider implements ITreeContentProvider {
 			}
 		}
 
-		private boolean removeMatch(MatchEvent event) {
-			for (Match match : event.getMatches()) {
+		private boolean removeMatch(final MatchEvent event) {
+			for (final Match match : event.getMatches()) {
 				Object child = match.getElement();
 				if (getChildren(child).length != 0) {
 					return true;
 				}
 				for (Object parent = getParent(child); parent != null; child = getParent(child), parent = getParent(parent)) {
-					List<IResource> children = tree.get(parent);
+					final List<IResource> children = tree.get(parent);
 					if (children != null) {
 						children.remove(child);
 						if (!children.isEmpty()) {
@@ -69,8 +69,8 @@ public final class TreeContentProvider implements ITreeContentProvider {
 			return false;
 		}
 
-		private void addMatch(MatchEvent event) {
-			for (Match match : event.getMatches()) {
+		private void addMatch(final MatchEvent event) {
+			for (final Match match : event.getMatches()) {
 				Object child = match.getElement();
 				for (Object parent = getParent(child); parent != null; child = parent, parent = getParent(parent)) {
 					if (!addTreeElement((IResource) parent, (IResource) child)) {
@@ -83,7 +83,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 
 	private LogSearchResult result;
 	private LogSearchResultPage page;
-	private SearchResultListener searchResultListener;
+	private final SearchResultListener searchResultListener;
 
 	private Map<IResource, List<IResource>> tree;
 
@@ -110,11 +110,11 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		}
 
 		if (newInput instanceof LogSearchResultPage) {
-			page = ((LogSearchResultPage) newInput);
+			page = (LogSearchResultPage) newInput;
 		}
 	}
 
-	protected void setResult(final LogSearchResult result) {
+	private void setResult(final LogSearchResult result) {
 		tree = new HashMap<IResource, List<IResource>>();
 		this.result = result;
 		for (Object child : result.getElements()) {
@@ -127,7 +127,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		result.addListener(searchResultListener);
 	}
 
-	protected LogSearchResultPage getPage() {
+	private LogSearchResultPage getPage() {
 		return page;
 	}
 
@@ -137,8 +137,8 @@ public final class TreeContentProvider implements ITreeContentProvider {
 	}
 
 	public List<IProject> getProjects() {
-		List<IProject> result = new ArrayList<IProject>();
-		for (IResource resource : tree.keySet()) {
+		final List<IProject> result = new ArrayList<IProject>();
+		for (final IResource resource : tree.keySet()) {
 			if (resource instanceof IProject) {
 				result.add((IProject) resource);
 			}
@@ -158,7 +158,7 @@ public final class TreeContentProvider implements ITreeContentProvider {
 		}
 
 		if (parentElement instanceof IResource) {
-			List<IResource> result = tree.get(parentElement);
+			final List<IResource> result = tree.get(parentElement);
 			return result == null ? new Object[0] : result.toArray();
 		}
 

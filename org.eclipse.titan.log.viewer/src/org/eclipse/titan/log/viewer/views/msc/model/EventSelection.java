@@ -15,8 +15,8 @@ import org.eclipse.jface.viewers.ISelection;
  */
 public class EventSelection implements ISelection {
 
-	private EventObject eventObject = null;
-	private String currTestCase = null;
+	private final EventObject eventObject;
+	private final String currTestCase;
 
 	/**
 	 * Constructor

@@ -47,13 +47,13 @@ public class TextTableViewHelper {
 	 */
 	public static TextTableView open(final String projectName, final String projectRelativePath, final int recordToSelect) {
 
-		String secondId = projectRelativePath;
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IViewReference reference = activePage.findViewReference(Constants.TEXT_TABLE_VIEW_ID, secondId);
+		final String secondId = projectRelativePath;
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IViewReference reference = activePage.findViewReference(Constants.TEXT_TABLE_VIEW_ID, secondId);
 
 		if (reference != null) {
 			try {
-				TextTableView view = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
+				final TextTableView view = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
 				view.setSelectedRecord(recordToSelect);
 				view.setFocus();
 				return view;
@@ -62,20 +62,20 @@ public class TextTableViewHelper {
 			}
 		}
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(projectName);
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(projectName);
 		final IFile logFile = project.getFile(projectRelativePath.substring(projectName.length() + 1));
 
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenMSCViewMenuAction.4"))); //$NON-NLS-1$
 			return null;
 		}
 
 		try {
-			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
+			final Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
@@ -96,7 +96,7 @@ public class TextTableViewHelper {
 		}
 
 		try {
-			TextTableView view = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
+			final TextTableView view = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
 			view.setInput(logFile, recordToSelect);
 			view.setFocus();
 			return view;
@@ -116,9 +116,9 @@ public class TextTableViewHelper {
 		return null;
 	}
 
-	static void updateSelectionInConnectedMscView(int selectedRecord, LogFileMetaData fileMetaData) {
+	static void updateSelectionInConnectedMscView(final int selectedRecord, final LogFileMetaData fileMetaData) {
 		final IViewReference[] viewReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences();
-		for (IViewReference viewReference : viewReferences) {
+		for (final IViewReference viewReference : viewReferences) {
 			final IViewPart viewPart = viewReference.getView(false);
 			if (!(viewPart instanceof MSCView)) {
 				continue;

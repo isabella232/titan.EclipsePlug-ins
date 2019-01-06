@@ -270,15 +270,19 @@ public final class Def_Timer extends Definition {
 	}
 
 	private void checkSingleDuration(final CompilationTimeStamp timestamp, final IValue duration){
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
-		referenceChain.release();
+		duration.setLoweridToReference(timestamp);
 
-		if (v.getValuetype() == Value_type.REAL_VALUE) {
-			final Real_Value value = (Real_Value) v;
-			final double valueReal = value.getValue();
-			if (valueReal < 0.0 || value.isSpecialFloat()) {
-				duration.getLocation().reportSemanticError("A non-negative float value was expected as timer duration instead of" + valueReal);
+		if (duration.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_STATIC_VALUE) == Type_type.TYPE_REAL) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
+			referenceChain.release();
+
+			if (!duration.isUnfoldable(timestamp) && v.getValuetype() == Value_type.REAL_VALUE) {
+				final Real_Value value = (Real_Value) v;
+				final double valueReal = value.getValue();
+				if (valueReal < 0.0 || value.isSpecialFloat()) {
+					duration.getLocation().reportSemanticError("A non-negative float value was expected as timer duration instead of" + valueReal);
+				}
 			}
 		} else {
 			duration.getLocation().reportSemanticError("Value is not real");
@@ -606,7 +610,7 @@ public final class Def_Timer extends Definition {
 
 						final ExpressionStruct expression = new ExpressionStruct();
 						expression.expression.append(genName);
-						expression.expression.append(".get().setDefaultDuration(");
+						expression.expression.append(".get().set_default_duration(");
 
 						defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -620,7 +624,7 @@ public final class Def_Timer extends Definition {
 					defaultDuration.generateCodeInit(aData, initComp, genName + ".get()" );
 				}
 			} else {
-				aData.addBuiltinTypeImport("TitanTimerArray");
+				aData.addBuiltinTypeImport("TitanTimer_Array");
 
 				final ArrayList<String> classNames= new ArrayList<String>();
 				final ExpressionStruct expression = new ExpressionStruct();
@@ -638,7 +642,7 @@ public final class Def_Timer extends Definition {
 				}
 
 				expression.expression.append(genName);
-				expression.expression.append(".get().setName(\"");
+				expression.expression.append(".get().set_name(\"");
 				expression.expression.append(identifier.getDisplayName());
 				expression.expression.append("\");\n");
 
@@ -658,7 +662,7 @@ public final class Def_Timer extends Definition {
 
 						final ExpressionStruct expression = new ExpressionStruct();
 						expression.expression.append(genName);
-						expression.expression.append(".setDefaultDuration(");
+						expression.expression.append(".set_default_duration(");
 
 						defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -674,7 +678,7 @@ public final class Def_Timer extends Definition {
 			} else {
 				final ArrayList<String> classNames= new ArrayList<String>();
 				final ExpressionStruct expression = new ExpressionStruct();
-				aData.addBuiltinTypeImport("TitanTimerArray");
+				aData.addBuiltinTypeImport("TitanTimer_Array");
 				final String elementName = generateClassCode(aData, sb, classNames);
 				source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
 
@@ -683,7 +687,7 @@ public final class Def_Timer extends Definition {
 				}
 
 				expression.expression.append(genName);
-				expression.expression.append(".setName(\"");
+				expression.expression.append(".set_name(\"");
 				expression.expression.append(identifier.getDisplayName());
 				expression.expression.append("\");\n");
 
@@ -718,7 +722,7 @@ public final class Def_Timer extends Definition {
 
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
-					expression.expression.append(".setDefaultDuration(");
+					expression.expression.append(".set_default_duration(");
 
 					defaultDuration.generateCodeExpression(aData, expression, true);
 
@@ -728,7 +732,7 @@ public final class Def_Timer extends Definition {
 			}
 		} else {
 			final ArrayList<String> classNames = new ArrayList<String>();
-			aData.addBuiltinTypeImport("TitanTimerArray");
+			aData.addBuiltinTypeImport("TitanTimer_Array");
 
 			final StringBuilder sb = aData.getCodeForType(genName);
 			final String elementName = generateClassCode(aData, sb, classNames);
@@ -739,7 +743,7 @@ public final class Def_Timer extends Definition {
 				generateCodeArrayDuration(aData, source, genName, classNames, defaultDuration, 0);
 			}
 
-			source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");
+			source.append(genName).append(".set_name(\"").append(identifier.getDisplayName()).append("\");\n");
 		}
 	}
 
@@ -773,7 +777,7 @@ public final class Def_Timer extends Definition {
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
-					final String embeddedName = MessageFormat.format("{0}.getAt({1})", genName, i + dim.getOffset());
+					final String embeddedName = MessageFormat.format("{0}.get_at({1})", genName, i + dim.getOffset());
 					generateCodeArrayDuration(aData, source, embeddedName, classNames, (Value) v_elem, startDim + 1);
 				}
 			} else {
@@ -785,8 +789,8 @@ public final class Def_Timer extends Definition {
 					}
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
-					expression.expression.append(".getAt(").append(i + dim.getOffset()).append(")");
-					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+					expression.expression.append(".get_at(").append(i + dim.getOffset()).append(")");
+					expression.expression.append(".operator_assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
 
@@ -812,7 +816,7 @@ public final class Def_Timer extends Definition {
 					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					index.generateCodeInit(aData, source, tempIdX);
 
-					source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
+					source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
 					generateCodeArrayDuration(aData, source, tempId1, classNames, (Value) v_elem, startDim + 1);
 					source.append("}\n");
 				}
@@ -830,9 +834,9 @@ public final class Def_Timer extends Definition {
 					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					v_elemIndex.generateCodeInit(aData, source, tempIdX);
 
-					final String embeddedName = MessageFormat.format("{0}.getAt(", genName);
+					final String embeddedName = MessageFormat.format("{0}.get_at(", genName);
 					expression.expression.append(embeddedName).append(tempIdX).append(")");
-					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+					expression.expression.append(".operator_assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
 
@@ -852,7 +856,7 @@ public final class Def_Timer extends Definition {
 			final ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
 			final String tempId2 = aData.getTemporaryVariableName();
 			list.add(tempId2);
-			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2, tempId1));
+			sb.append(MessageFormat.format("public static class {0} extends TitanTimer_Array<{1}> '{'\n", tempId2, tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
 			sb.append(MessageFormat.format("super({0}.class, {1}, {2});\n", tempId1, dim.getSize(), dim.getOffset()));
 			sb.append("}\n");
@@ -890,7 +894,7 @@ public final class Def_Timer extends Definition {
 			if (dimensions == null) {
 				final ExpressionStruct expression = new ExpressionStruct();
 				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""));
-				expression.expression.append(".setDefaultDuration(");
+				expression.expression.append(".set_default_duration(");
 
 				defaultDuration.generateCodeExpression(aData, expression, true);
 

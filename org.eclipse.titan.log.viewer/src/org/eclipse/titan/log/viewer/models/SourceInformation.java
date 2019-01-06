@@ -47,9 +47,8 @@ public class SourceInformation {
 			throw new InvalidSourceInformationException();
 		}
 
-		String lastStackElem = getLastElementOfCallStack(sourceInformationString);
-
-		String pathAndLineNumber = getPathAndLineNumber(lastStackElem);
+		final String lastStackElem = getLastElementOfCallStack(sourceInformationString);
+		final String pathAndLineNumber = getPathAndLineNumber(lastStackElem);
 
 		// This colon separates the path and the line number
 		final int indexOfColon = pathAndLineNumber.indexOf(':');
@@ -87,16 +86,16 @@ public class SourceInformation {
 	/**
 	 * For this format: timestamp someEvent SIP_Examples.ttcn:171(controlpart:SIP_Examples) "ver1"
 	 */
-	private static String getPathAndLineNumber(String lastStackElem) {
-		final int indexOfPar = lastStackElem.indexOf("(");
+	private static String getPathAndLineNumber(final String lastStackElem) {
+		final int indexOfPar = lastStackElem.indexOf('(');
 		if (indexOfPar != -1) {
 			return lastStackElem.substring(0, indexOfPar);
 		}
 		return lastStackElem;
 	}
 
-	private static String getLastElementOfCallStack(String sourceInformationString) {
-		int index = sourceInformationString.lastIndexOf("->");
+	private static String getLastElementOfCallStack(final String sourceInformationString) {
+		final int index = sourceInformationString.lastIndexOf("->");
 		if (index != -1) {
 			return sourceInformationString.substring(index + 2);
 		}

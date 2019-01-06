@@ -16,7 +16,7 @@ import org.eclipse.ui.IViewSite;
 
 public class TreeViewComposite extends Composite {
 
-	private TreeViewer viewer;
+	private final TreeViewer viewer;
 	private DetailData currentData;
 
 
@@ -50,13 +50,13 @@ public class TreeViewComposite extends Composite {
 			this.currentData = null;
 			return;
 		}
-		if ((this.currentData != null) && this.currentData.isEqualTo(newInput)) {
+		if (this.currentData != null && this.currentData.isEqualTo(newInput)) {
 			return;
 		}
 
 		this.currentData = newInput;
 		String message = this.currentData.getLine();
-		if (message.contains("{") && (message.indexOf("{") != 0)) {
+		if (message.contains("{") && message.indexOf('{') != 0) {
 			oldMessage = message;
 			message = "{ " + message + " }";
 			this.currentData.setLine(message);
@@ -64,7 +64,7 @@ public class TreeViewComposite extends Composite {
 
 		this.viewer.getContentProvider().inputChanged(this.viewer, newInput, newInput);
 
-		Tree tree = this.viewer.getTree();
+		final Tree tree = this.viewer.getTree();
 		tree.setVisible(false);
 		if (tree.getItemCount() > 0) {
 			this.viewer.setSelection(new StructuredSelection(tree.getItem(0).getData()));

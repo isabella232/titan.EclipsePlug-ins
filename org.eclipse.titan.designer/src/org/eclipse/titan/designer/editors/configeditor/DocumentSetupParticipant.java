@@ -23,9 +23,9 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 
 	@Override
 	public void setup(final IDocument document) {
-		IDocumentPartitioner partitioner = new FastPartitioner(new PartitionScanner(), PartitionScanner.PARTITION_TYPES);
+		final IDocumentPartitioner partitioner = new FastPartitioner(new PartitionScanner(), PartitionScanner.PARTITION_TYPES);
 		if (document instanceof IDocumentExtension3) {
-			IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+			final IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 			extension3.setDocumentPartitioner(PartitionScanner.CONFIG_PARTITIONING, partitioner);
 		} else {
 			document.setDocumentPartitioner(partitioner);

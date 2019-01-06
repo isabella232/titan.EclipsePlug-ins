@@ -201,7 +201,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		S_START_PROFILER,
 		/** stop profiler. */
 		S_STOP_PROFILER
-		//FIXME add support update, setstate, setencode statements
+		//FIXME add support update, setencode statements
 	}
 
 	/** the statementblock in which this statement resides. */
@@ -352,7 +352,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *  return ALT_REPEAT. Applicable to receiving statements only.
 	 * */
 	public boolean canRepeat() {
-		//FIXME fatal error
+		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "'', reached canRepeat.");
+
 		return false;
 	}
 
@@ -558,7 +559,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 */
 	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached invalid guard statement `" + getFullName() + "''");
-		expression.expression.append("FATAL_ERROR encountered");
+		expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 
 	/**
@@ -584,15 +585,15 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 		expression.expression.append("new Index_Redirect() {\n");
 		expression.expression.append("@Override\n");
-		expression.expression.append("public void addIndex(int p_index) {\n");
-		expression.expression.append("super.addIndex(p_index);\n");
+		expression.expression.append("public void add_index(int p_index) {\n");
+		expression.expression.append("super.add_index(p_index);\n");
 		final IType last = typeReference.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		switch(last.getTypetypeTtcn3()) {
 		case TYPE_INTEGER:
-			expression.expression.append(MessageFormat.format("{0}.assign(p_index);\n", tempId));
+			expression.expression.append(MessageFormat.format("{0}.operator_assign(p_index);\n", tempId));
 			break;
 		case TYPE_SEQUENCE_OF:
-			expression.expression.append(MessageFormat.format("{0}.getAt(pos).assign(p_index);\n", tempId));
+			expression.expression.append(MessageFormat.format("{0}.get_at(pos).operator_assign(p_index);\n", tempId));
 			break;
 		case TYPE_ARRAY: {
 			final ArrayDimension dimension = ((Array_Type)last).getDimension();
@@ -605,7 +606,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 			} else {
 				offsetString = MessageFormat.format(" + {0}", offset);
 			}
-			expression.expression.append(MessageFormat.format("{0}.getAt(pos{1}).assign(p_index);\n", tempId, offsetString));
+			expression.expression.append(MessageFormat.format("{0}.get_at(pos{1}).operator_assign(p_index);\n", tempId, offsetString));
 			break;
 		}
 		default:

@@ -42,7 +42,7 @@ public class FilteredLogReader implements ILogReader {
 			return;
 		}
 
-		List<Integer> tmpFilteredRecords = new ArrayList<Integer>();
+		final List<Integer> tmpFilteredRecords = new ArrayList<Integer>();
 
 
 		for (int i = 0; i < logReader.size(); ++i) {
@@ -56,7 +56,7 @@ public class FilteredLogReader implements ILogReader {
 
 			} catch (ParseException e) {
 				ErrorReporter.logExceptionStackTrace(e);
-				ParseException throwable = new ParseException("Could not parse the " + i +"th record ", 0); //$NON-NLS-1$
+				final ParseException throwable = new ParseException("Could not parse the " + i +"th record ", 0); //$NON-NLS-1$
 				throwable.initCause(e);
 				monitor.done();
 				throw throwable;
@@ -110,7 +110,7 @@ public class FilteredLogReader implements ILogReader {
 		final int positionInChildReader = logReader.getPositionFromRecordNumber(id);
 
 		if (filtered) {
-			int index = Collections.binarySearch(filteredRecords, positionInChildReader);
+			final int index = Collections.binarySearch(filteredRecords, positionInChildReader);
 			return index >= 0 ? index : -1;
 		}
 

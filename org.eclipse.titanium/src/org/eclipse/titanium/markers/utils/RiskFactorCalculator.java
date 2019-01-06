@@ -39,6 +39,7 @@ public class RiskFactorCalculator {
 		CodeSmellType.VISIBILITY_IN_DEFINITION,
 		CodeSmellType.UNINITIALIZED_VARIABLE,
 		CodeSmellType.GOTO,
+		CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS,
 		CodeSmellType.UNUSED_IMPORT,
 		CodeSmellType.UNUSED_GLOBAL_DEFINITION,
 		CodeSmellType.UNUSED_LOCAL_DEFINITION,
@@ -107,8 +108,8 @@ public class RiskFactorCalculator {
 			if (count.intValue() == 0) {
 				relativeOccurrene = 0;
 			} else {
-				int actualS = loc / count;
-				int baseS = marker.getBaseLine();
+				final int actualS = loc / count;
+				final int baseS = marker.getBaseLine();
 				if (actualS == 0) {
 					relativeOccurrene = 0;
 				} else if (actualS > baseS) {

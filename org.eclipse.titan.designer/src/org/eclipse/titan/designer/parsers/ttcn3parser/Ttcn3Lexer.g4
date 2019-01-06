@@ -15,6 +15,41 @@ import Ttcn3BaseLexer;
  * author Arpad Lovassy
  */
 
+@header
+{
+import java.util.List;
+import java.util.ArrayList;
+}
+
+@members {
+  protected boolean realtimeEnabled = false;
+
+  public void enableRealtime() {
+  	realtimeEnabled = true;
+  }
+
+private List<TITANMarker> warningsAndErrors = new ArrayList<TITANMarker>();
+
+public List<TITANMarker> getWarningsAndErrors() {
+	return warningsAndErrors;
+}
+
+public TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
+	TITANMarker marker = new TITANMarker(
+		aMessage,
+		(aStartToken != null) ? aStartToken.getLine() : -1,
+		(aStartToken != null) ? aStartToken.getStartIndex() : -1,
+		(aEndToken != null) ? aEndToken.getStopIndex() + 1 : -1,
+		aSeverity, aPriority );
+	return marker;
+}
+
+public void reportWarning( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+	TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL );
+	warningsAndErrors.add(marker);
+}
+}
+
 // Overriding tokens inherited from Ttcn3BaseLexer.g4
 // NOTE: Ttcn3 lexers must contain the same amount of tokens to make sure, that they are synchronized properly.
 //       Token index of the same token must be the same in all of the Ttcn3 lexers, otherwise code completion
@@ -71,9 +106,9 @@ import Ttcn3BaseLexer;
   MIXED: 'mixed';                   MOD: 'mod';                       MODIFIES: 'modifies';
   MODULE: 'module';                 MODULEPAR: 'modulepar';           MTC: 'mtc';
 
-  NOBLOCK: 'noblock';               NONE: 'none';
-  NOT: 'not';                       NOT4B: 'not4b';                   NOWAIT: 'nowait';
-  NOT_A_NUMBER: 'not_a_number';     NULL1: 'null';                    NULL2: 'NULL';
+  NOBLOCK: 'noblock';               NONE: 'none';                     NOT: 'not';
+  NOT4B: 'not4b';                   NOWAIT: 'nowait';                 NOT_A_NUMBER: 'not_a_number';
+  NULL1: 'null';                    NULL2: 'NULL';
 
   OBJECTIDENTIFIERKEYWORD: 'objid'; OCTETSTRING: 'octetstring';       OF: 'of';
   OMIT: 'omit';                     ON: 'on';                         OPTIONAL: 'optional';
@@ -148,3 +183,26 @@ import Ttcn3BaseLexer;
 
   UNICHAR2CHAR: 'unichar2char';     UNICHAR2INT: 'unichar2int';       UNICHAR2OCT: 'unichar2oct';
 
+
+/*------------------------------ Predefined function identifiers --------------------------------*/
+
+NOW: 'now'
+{if (!realtimeEnabled) {
+reportWarning( "Keyword 'now' is treated as an identifier. Activate real-time testing features in the On-the-fly checker's settings.", getToken(), getToken() );
+setType(IDENTIFIER);
+}
+};
+
+REALTIME: 'realtime'
+{if (!realtimeEnabled) {
+reportWarning( "Keyword 'realtime' is treated as an identifier. Activate real-time testing features in the On-the-fly checker's settings.", getToken(), getToken() );
+setType(IDENTIFIER);
+}
+};
+
+TIMESTAMP: 'timestamp'
+{if (!realtimeEnabled) {
+reportWarning( "Keyword 'timestamp' is treated as an identifier. Activate real-time testing features in the On-the-fly checker's settings.", getToken(), getToken() );
+setType(IDENTIFIER);
+}
+};

@@ -69,9 +69,9 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	private ProjectionViewer projectionViewer;
 
 	// the multipage editor which this text editor is added to
-	private ConfigEditor parentEditor;
+	private final ConfigEditor parentEditor;
 
-	private IPropertyChangeListener foldingListener = new IPropertyChangeListener() {
+	private final IPropertyChangeListener foldingListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(final PropertyChangeEvent event) {
 			final String property = event.getProperty();
@@ -96,13 +96,13 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	@Override
 	protected void initializeEditor() {
 		super.initializeEditor();
-		IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
+		final IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
 		setPreferenceStore(new ChainedPreferenceStore(stores));
 		colorManager = new ColorManager();
 		configuration = new Configuration(colorManager, this);
 		setSourceViewerConfiguration(configuration);
-		DocumentSetupParticipant participant = new DocumentSetupParticipant();
-		ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.CONFIG_PARTITIONING, participant,
+		final DocumentSetupParticipant participant = new DocumentSetupParticipant();
+		final ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.CONFIG_PARTITIONING, participant,
 				new TextFileDocumentProvider());
 		setDocumentProvider(forwardingProvider);
 		setEditorContextMenuId(EDITOR_CONTEXT);
@@ -122,7 +122,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	@Override
 	protected void configureSourceViewerDecorationSupport(final SourceViewerDecorationSupport support) {
 		super.configureSourceViewerDecorationSupport(support);
-		PairMatcher pairMatcher = new PairMatcher();
+		final PairMatcher pairMatcher = new PairMatcher();
 		support.setCharacterPairMatcher(pairMatcher);
 		support.setMatchingCharacterPainterPreferenceKeys(PreferenceConstants.MATCHING_BRACKET_ENABLED,
 				PreferenceConstants.COLOR_MATCHING_BRACKET);
@@ -132,14 +132,14 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	protected void createActions() {
 		super.createActions();
 
-		Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
+		final Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
 				ISourceViewer.CONTENTASSIST_PROPOSALS);
-		String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
+		final String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
 		caAction.setActionDefinitionId(id);
 		setAction(CONTENTASSISTPROPOSAL, caAction);
 		markAsStateDependentAction(CONTENTASSISTPROPOSAL, true);
 
-		ToggleComment tcAction = new ToggleComment(Activator.getDefault().getResourceBundle(), "ToggleComment.", this);
+		final ToggleComment tcAction = new ToggleComment(Activator.getDefault().getResourceBundle(), "ToggleComment.", this);
 		tcAction.setActionDefinitionId(TOGGLE_COMMENT_ACTION_ID);
 		setAction(TOGGLE_COMMENT_ACTION_ID, tcAction);
 		markAsStateDependentAction(TOGGLE_COMMENT_ACTION_ID, true);
@@ -157,7 +157,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 		projectionViewer = null;
 		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(foldingListener);
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		EditorTracker.remove(file, this);
 
 		super.dispose();
@@ -165,10 +165,11 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 
 	@Override
 	public IDocument getDocument() {
-		ISourceViewer sourceViewer = getSourceViewer();
+		final ISourceViewer sourceViewer = getSourceViewer();
 		if (sourceViewer == null) {
 			return null;
 		}
+
 		return sourceViewer.getDocument();
 	}
 
@@ -189,20 +190,20 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 			}
 		});
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		EditorTracker.put(file, this);
 	}
 
 	@Override
 	protected ISourceViewer createSourceViewer(final Composite parent, final IVerticalRuler ruler, final int styles) {
-		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
+		final ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
 		getSourceViewerDecorationSupport(viewer);
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(foldingListener);
 
 		// Context setting is placed here because getEditorSite() must
 		// be called after the editor is
 		// initialized.
-		IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
+		final IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
 		// As the service is retrieved from the editor instance it will
 		// be active only within the editor.
 		contextService.activateContext(EDITOR_SCOPE);
@@ -248,7 +249,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	 * */
 	@Override
 	public void invalidateTextPresentation() {
-		ISourceViewer viewer = getSourceViewer();
+		final ISourceViewer viewer = getSourceViewer();
 		if (viewer != null) {
 			viewer.invalidateTextPresentation();
 		}
@@ -263,11 +264,11 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	 *
 	 */
 	protected void updateTITANIndentPrefixes() {
-		SourceViewerConfiguration configuration = getSourceViewerConfiguration();
-		ISourceViewer sourceViewer = getSourceViewer();
-		String[] types = configuration.getConfiguredContentTypes(sourceViewer);
+		final SourceViewerConfiguration configuration = getSourceViewerConfiguration();
+		final ISourceViewer sourceViewer = getSourceViewer();
+		final String[] types = configuration.getConfiguredContentTypes(sourceViewer);
 		for (int i = 0; i < types.length; i++) {
-			String[] prefixes = configuration.getIndentPrefixes(sourceViewer, types[i]);
+			final String[] prefixes = configuration.getIndentPrefixes(sourceViewer, types[i]);
 			if (prefixes != null && prefixes.length > 0) {
 				sourceViewer.setIndentPrefixes(prefixes, types[i]);
 			}
@@ -281,12 +282,12 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	// Stolen from TTCN3Editor.
 	@Override
 	public int getCarretOffset() {
-		int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
+		final int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
 		return projectionViewer.widgetOffset2ModelOffset(widgetOffset);
 	}
 
 	public void setCarretOffset(final int i) {
-		int temp = projectionViewer.modelOffset2WidgetOffset(i);
+		final int temp = projectionViewer.modelOffset2WidgetOffset(i);
 		getSourceViewer().getTextWidget().setCaretOffset(temp);
 	}
 

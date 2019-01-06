@@ -18,7 +18,7 @@ public final class LoggingBitsLabelProvider extends LabelProvider {
 	@Override
 	public String getText(final Object element) {
 		if (element != null && element instanceof LoggingBit) {
-			LoggingBit bit = (LoggingBit) element;
+			final LoggingBit bit = (LoggingBit) element;
 			return (bit).getName();
 		}
 

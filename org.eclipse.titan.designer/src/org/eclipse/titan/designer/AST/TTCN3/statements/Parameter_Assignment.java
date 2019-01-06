@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
@@ -85,6 +86,17 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 		super.setMyScope(scope);
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statements in this parameter assignment to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 

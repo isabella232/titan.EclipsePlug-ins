@@ -18,7 +18,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class TestCaseEnd extends TestCaseEventNode {
 	private static final String PREFIX = Messages.getString("TestCaseEnd.0"); //$NON-NLS-1$
-	private String verdict;
+	private final String verdict;
 
 	/**
 	 * Constructor

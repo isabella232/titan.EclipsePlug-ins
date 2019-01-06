@@ -10,18 +10,25 @@ package org.eclipse.titan.runtime.core;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
+import java.nio.channels.NetworkChannel;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import java.nio.channels.spi.AbstractSelectableChannel;
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+import org.eclipse.titan.runtime.core.NetworkHandler.HCNetworkHandler;
+import org.eclipse.titan.runtime.core.NetworkHandler.NetworkFamily;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
 /**
  * The class handling internal communication.
@@ -30,7 +37,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
  *
  * @author Kristof Szabados
  */
-public class TTCN_Communication {
+public final class TTCN_Communication {
 	/* Any relation - any direction */
 
 	private static final int MSG_ERROR = 0;
@@ -170,6 +177,8 @@ public class TTCN_Communication {
 
 	private static String MC_host;
 	private static int MC_port;
+	private static HCNetworkHandler hcnh = new HCNetworkHandler();
+	private static boolean local_addr_set = false;
 
 	private static ThreadLocal<SocketChannel> mc_socketchannel = new ThreadLocal<SocketChannel>() {
 		@Override
@@ -259,6 +268,38 @@ public class TTCN_Communication {
 		}
 		
 	}
+	
+	public static NetworkFamily get_network_family() {
+		return hcnh.get_family();
+	}
+	
+	public static boolean has_local_address() {
+		return local_addr_set;
+	}
+	
+	public static void set_local_address(final String host_name) {
+		if (local_addr_set) {
+			TtcnError.TtcnWarning("The local address has already been set.");
+		}
+		if (is_connected.get()) {
+			throw new TtcnError("Trying to change the local address, but there is an existing control connection to MC.");
+		}
+		if (host_name == null) {
+			throw new TtcnError("TTCN_Communication.set_local_address: internal error: invalid host name."); // There is no connection to the MC
+		}
+		if (!hcnh.set_local_addr(host_name, 0)) {
+			throw new TtcnError(MessageFormat.format("Could not get the IP address for the local address ({0}): Host name lookup failure.", host_name));
+		}
+		TTCN_Logger.log_executor_misc(enum_type.local__address__was__set, hcnh.get_local_host_str(), hcnh.get_local_addr_str(), 0);
+		local_addr_set = true;
+	}
+	
+	public static InetAddress get_local_address() {
+		if (!local_addr_set) {
+			throw new TtcnError("TTCN_Communication.get_local_address: internal error: the local address has not been set.");
+		}
+		return hcnh.get_local_addr().getAddress();
+	}
 
 	public static void set_mc_address(final String MC_host, final int MC_port) {
 		if (mc_addr_set) {
@@ -273,11 +314,21 @@ public class TTCN_Communication {
 		if (MC_port < 0) {
 			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0}", MC_port));
 		}
-
-		//FIXME implement
+		hcnh.set_family(new InetSocketAddress(MC_host, MC_port));
+		if (!hcnh.set_mc_addr(MC_host, MC_port)) {
+			throw new TtcnError(MessageFormat.format("Could not get the IP address of MC ({0}): Host name lookup failure.", MC_host));
+		}
+		if (hcnh.is_local(hcnh.get_mc_addr())) {
+			TtcnError.TtcnWarning("The address of MC was set to a local IP address. This may cause incorrect behavior if a HC from a remote host also connects to MC.");
+		}
+		TTCN_Logger.log_executor_misc(enum_type.address__of__mc__was__set, hcnh.get_mc_host_str(), hcnh.get_mc_addr_str(), hcnh.get_mc_port());
 		TTCN_Communication.MC_host = MC_host;
 		TTCN_Communication.MC_port = MC_port;
 		mc_addr_set = true;
+	}
+
+	public static boolean is_mc_connected() {
+		return is_connected.get();
 	}
 
 	public static void connect_mc() {
@@ -287,15 +338,11 @@ public class TTCN_Communication {
 		if (!mc_addr_set) {
 			throw new TtcnError("Trying to connect to MC, but the address of MC has not yet been set.");
 		}
-
-		try {
-			mc_socketchannel.set(SocketChannel.open());
-			mc_socketchannel.get().connect(new InetSocketAddress(MC_host, MC_port));
-			//FIXME register
-		} catch (IOException e) {
-			throw new TtcnError(e);
+		mc_socketchannel.set(hcnh.connect_to_mc());
+		if (mc_socketchannel.get() == null) {
+			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
-		//FIXME implement
+		//FIXME register
 		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
 		try {
 			mc_socketchannel.get().configureBlocking(false);
@@ -306,7 +353,7 @@ public class TTCN_Communication {
 		}
 
 		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
-		is_connected.set(true);;
+		is_connected.set(true);
 	}
 
 	public static void disconnect_mc() {
@@ -320,7 +367,7 @@ public class TTCN_Communication {
 	public static void close_mc_connection() {
 		if (is_connected.get()) {
 			call_interval.set(0.0);
-			is_connected.set(false);;
+			is_connected.set(false);
 			incoming_buf.get().reset();
 			try {
 				mc_socketchannel.get().close();
@@ -330,6 +377,32 @@ public class TTCN_Communication {
 
 			TTCN_Snapshot.channelMap.get().remove(mc_socketchannel);
 			TTCN_Snapshot.set_timer(mc_connection.get(), 0.0, true, true, true);
+		}
+	}
+
+	//use NetworkChannel instead of file descriptor
+	public static boolean set_tcp_nodelay(final NetworkChannel fd, final boolean enable_nodelay) {
+		try {
+			fd.setOption(StandardSocketOptions.TCP_NODELAY, enable_nodelay);
+			return true;
+		} catch (IOException e) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event(e.toString());
+			TTCN_Logger.end_event();
+			return false;
+		}
+	}
+
+	//use AbstractSelectableChannel instead of file descriptor
+	public static boolean set_non_blocking_mode(final AbstractSelectableChannel fd, final boolean enable_nonblock) {
+		try {
+			fd.configureBlocking(enable_nonblock);
+			return true;
+		} catch (IOException e) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event(e.toString());
+			TTCN_Logger.end_event();
+			return false;
 		}
 	}
 
@@ -364,9 +437,9 @@ public class TTCN_Communication {
 		while (local_incoming_buf.is_message()) {
 			wait_flag = true;
 
-			final int msg_len = local_incoming_buf.pull_int().getInt();
+			final int msg_len = local_incoming_buf.pull_int().get_int();
 			final int msg_end = local_incoming_buf.get_pos() + msg_len;
-			final int msg_type = local_incoming_buf.pull_int().getInt();
+			final int msg_type = local_incoming_buf.pull_int().get_int();
 
 			switch (msg_type) {
 			case MSG_ERROR:
@@ -418,9 +491,9 @@ public class TTCN_Communication {
 
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		while (local_incoming_buf.is_message()) {
-			final int msg_len = local_incoming_buf.pull_int().getInt();
+			final int msg_len = local_incoming_buf.pull_int().get_int();
 			final int msg_end = local_incoming_buf.get_pos() + msg_len;
-			final int msg_type = local_incoming_buf.pull_int().getInt();
+			final int msg_type = local_incoming_buf.pull_int().get_int();
 
 			// messages: MC -> TC
 			switch (msg_type) {
@@ -535,6 +608,7 @@ public class TTCN_Communication {
 						break;
 					default:
 						process_unsupported_message(msg_type, msg_end);
+						break;
 					}
 				}
 			}
@@ -552,8 +626,7 @@ public class TTCN_Communication {
 		text_buf.push_int(TTCN_Runtime.TTCN3_PATCHLEVEL);
 		text_buf.push_int(TTCN_Runtime.TTCN3_BUILDNUMBER);
 
-		text_buf.push_int(0);//for now send no module info
-		//Module_List.push_version(text_buf);
+		Module_List.push_version(text_buf);
 
 		//FIXME fill with correct machine info
 		text_buf.push_string(TTCN_Runtime.get_host_name());//node
@@ -591,7 +664,11 @@ public class TTCN_Communication {
 	}
 
 	public static void send_create_req(final String componentTypeModule, final String componentTypeName,
-			final String componentName, final String componentLocation, final boolean is_alive) {
+			final String componentName, final String componentLocation, final boolean is_alive,
+			final double testcase_start_time) {
+		final int seconds = (int)Math.floor(testcase_start_time);
+		final int miliseconds = (int)((testcase_start_time - seconds) * 1000);
+
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_REQ);
 		text_buf.push_string(componentTypeModule);
@@ -599,6 +676,8 @@ public class TTCN_Communication {
 		text_buf.push_string(componentName);
 		text_buf.push_string(componentLocation);
 		text_buf.push_int( is_alive ? 1 : 0);
+		text_buf.push_int(seconds);
+		text_buf.push_int(miliseconds);
 
 		send_message(text_buf);
 	}
@@ -889,11 +968,7 @@ public class TTCN_Communication {
 			/* If an ERROR message (indicating a version mismatch) arrives from MC
 			   in state HC_IDLE (i.e. before CONFIGURE) it shall be
 			   printed to the console as well. */
-			if (TTCN_Runtime.get_state() == executorStateEnum.HC_IDLE) {
-				return false;
-			}
-
-			return true;
+			return TTCN_Runtime.get_state() != executorStateEnum.HC_IDLE;
 		} else {
 			switch (TTCN_Runtime.get_state()) {
 			case HC_EXIT:
@@ -962,7 +1037,7 @@ public class TTCN_Communication {
 		TTCN_Logger.log_configdata(ExecutorConfigdata_reason.enum_type.received__from__mc, null);
 
 		final Text_Buf local_incoming_buf = incoming_buf.get();
-		final int config_str_len = local_incoming_buf.pull_int().getInt();
+		final int config_str_len = local_incoming_buf.pull_int().get_int();
 		final int config_str_begin = local_incoming_buf.get_pos();
 		if (config_str_begin + config_str_len != msg_end) {
 			local_incoming_buf.cut_message();
@@ -979,9 +1054,9 @@ public class TTCN_Communication {
 			System.arraycopy(incoming_data, local_incoming_buf.get_begin() + config_str_begin, config_bytes, 0, config_str_len);
 			config_str = new String(config_bytes);
 		}
-		//FIXME process config string
-		// for now assume successful processing
-		boolean success = true;
+
+		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+		boolean success = !cfgAnalyzer.directParse(null, null, config_str);
 		TTCN_Logger.open_file();
 		if (success) {
 			try {
@@ -1014,7 +1089,7 @@ public class TTCN_Communication {
 	private static void process_create_ptc() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
+		final int component_reference = local_incoming_buf.pull_int().get_int();
 		if (component_reference < TitanComponent.FIRST_PTC_COMPREF) {
 			local_incoming_buf.cut_message();
 			send_error(MessageFormat.format("Message CREATE_PTC refers to invalid component reference {0}.", component_reference));
@@ -1030,18 +1105,22 @@ public class TTCN_Communication {
 		}
 
 		final String component_name = local_incoming_buf.pull_string();
-		final boolean is_alive = local_incoming_buf.pull_int().getInt() == 0 ? false : true;
+		final boolean is_alive = local_incoming_buf.pull_int().get_int() == 0 ? false : true;
 		final String testcase_module_name = local_incoming_buf.pull_string();
 		final String testcase_definition_name = local_incoming_buf.pull_string();
+		final int seconds = local_incoming_buf.pull_int().get_int();
+		final int milliSeconds = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
-		TTCN_Runtime.process_create_ptc(component_reference, component_module_name, component_definition_name, system_module_name, system_definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
+		final double start_time = seconds + milliSeconds / 1000.0;
+
+		TTCN_Runtime.process_create_ptc(component_reference, component_module_name, component_definition_name, system_module_name, system_definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name, start_time);
 	}
 
 	private static void process_kill_process() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
+		final int component_reference = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_kill_process(component_reference);
@@ -1056,7 +1135,7 @@ public class TTCN_Communication {
 	private static void process_create_ack() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
+		final int component_reference = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_create_ack(component_reference);
@@ -1097,7 +1176,7 @@ public class TTCN_Communication {
 		case PTC_EXIT:
 			break;
 		default:
-			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);
 			TTCN_Runtime.stop_execution();
 			break;
 		}
@@ -1140,7 +1219,7 @@ public class TTCN_Communication {
 	private static void process_running() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean answer = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean answer = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_running(answer);
@@ -1149,7 +1228,7 @@ public class TTCN_Communication {
 	private static void process_alive() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean answer = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean answer = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_alive(answer);
@@ -1158,8 +1237,8 @@ public class TTCN_Communication {
 	private static void process_done_ack(final int msg_end) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean answer = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final int verdict_int = local_incoming_buf.pull_int().getInt();
+		final boolean answer = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final int verdict_int = local_incoming_buf.pull_int().get_int();
 		final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
 		final String return_type = local_incoming_buf.pull_string();
 		final int return_value_begin = local_incoming_buf.get_pos();
@@ -1174,7 +1253,7 @@ public class TTCN_Communication {
 	private static void process_killed_ack() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean answer = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean answer = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_killed_ack(answer);
@@ -1183,8 +1262,8 @@ public class TTCN_Communication {
 	private static void process_cancel_done_mtc() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
-		final boolean cancel_any = local_incoming_buf.pull_int().getInt() == 0 ? false : true;
+		final int component_reference = local_incoming_buf.pull_int().get_int();
+		final boolean cancel_any = local_incoming_buf.pull_int().get_int() == 0 ? false : true;
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.cancel_component_done(component_reference);
@@ -1197,7 +1276,7 @@ public class TTCN_Communication {
 	private static void process_cancel_done_ptc() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
+		final int component_reference = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
 		TTCN_Runtime.cancel_component_done(component_reference);
@@ -1207,16 +1286,16 @@ public class TTCN_Communication {
 	private static void process_component_status_mtc(final int msg_end) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
-		final boolean is_done = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_killed = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_any_done = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_all_done = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_any_killed = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_all_killed = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final int component_reference = local_incoming_buf.pull_int().get_int();
+		final boolean is_done = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_killed = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_any_done = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_all_done = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_any_killed = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_all_killed = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		if (is_done) {
 			// the return type and value are valid
-			final int verdict_int = local_incoming_buf.pull_int().getInt();
+			final int verdict_int = local_incoming_buf.pull_int().get_int();
 			final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
 			final String return_type = local_incoming_buf.pull_string();
 			final int return_value_begin = local_incoming_buf.get_pos();
@@ -1254,12 +1333,12 @@ public class TTCN_Communication {
 	private static void process_component_status_ptc(final int msg_end) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int component_reference = local_incoming_buf.pull_int().getInt();
-		final boolean is_done = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
-		final boolean is_killed = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final int component_reference = local_incoming_buf.pull_int().get_int();
+		final boolean is_done = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
+		final boolean is_killed = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		if (is_done) {
 			// the return type and value are valid
-			final int verdict_int = local_incoming_buf.pull_int().getInt();
+			final int verdict_int = local_incoming_buf.pull_int().get_int();
 			final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
 			final String return_type = local_incoming_buf.pull_string();
 			final int return_value_begin = local_incoming_buf.get_pos();
@@ -1285,14 +1364,14 @@ public class TTCN_Communication {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
 		final String local_port = local_incoming_buf.pull_string();
-		final int remote_component = local_incoming_buf.pull_int().getInt();
+		final int remote_component = local_incoming_buf.pull_int().get_int();
 		final String remote_component_name = local_incoming_buf.pull_string();
 		final String remote_port = local_incoming_buf.pull_string();
-		final int temp_transport_type = local_incoming_buf.pull_int().getInt();
+		final int temp_transport_type = local_incoming_buf.pull_int().get_int();
 
 		local_incoming_buf.cut_message();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
 
@@ -1306,12 +1385,12 @@ public class TTCN_Communication {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
 		final String local_port = local_incoming_buf.pull_string();
-		final int remote_component = local_incoming_buf.pull_int().getInt();
+		final int remote_component = local_incoming_buf.pull_int().get_int();
 		final String remote_component_name = local_incoming_buf.pull_string();
 		final String remote_port = local_incoming_buf.pull_string();
-		final int temp_transport_type = local_incoming_buf.pull_int().getInt();
+		final int temp_transport_type = local_incoming_buf.pull_int().get_int();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
 
@@ -1342,7 +1421,7 @@ public class TTCN_Communication {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
 		final String local_port = local_incoming_buf.pull_string();
-		final int remote_component = local_incoming_buf.pull_int().getInt();
+		final int remote_component = local_incoming_buf.pull_int().get_int();
 		final String remote_port = local_incoming_buf.pull_string();
 
 		local_incoming_buf.cut_message();
@@ -1370,7 +1449,7 @@ public class TTCN_Communication {
 	private static void process_map() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean translation = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
 
@@ -1409,7 +1488,7 @@ public class TTCN_Communication {
 	private static void process_unmap() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final boolean translation = local_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
 
@@ -1500,6 +1579,13 @@ public class TTCN_Communication {
 		} catch (TtcnError error) {
 			//no operation needed
 		}
+
+		if (is_connected.get()) {
+			send_mtc_ready();
+			TTCN_Runtime.set_state(executorStateEnum.MTC_IDLE);
+		} else {
+			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
+		}
 	}
 
 	private static void process_ptc_verdict() {
@@ -1565,8 +1651,8 @@ public class TTCN_Communication {
 	private static void process_debug_command() {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		final int command = local_incoming_buf.pull_int().getInt();
-		final int argument_count = local_incoming_buf.pull_int().getInt();
+		final int command = local_incoming_buf.pull_int().get_int();
+		final int argument_count = local_incoming_buf.pull_int().get_int();
 		//FIXME process the arguments properly
 		if (argument_count > 0) {
 			for (int i = 0; i < argument_count; i++) {

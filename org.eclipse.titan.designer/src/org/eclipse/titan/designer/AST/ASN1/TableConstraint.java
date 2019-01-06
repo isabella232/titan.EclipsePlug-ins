@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ObjectClassField_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.RefdSpec_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
@@ -93,6 +94,10 @@ public final class TableConstraint extends Constraint {
 		return new TableConstraint(mObjectSetBlock, mAtNotationsBlock);
 	}
 
+	public ObjectSet getObjectSet() {
+		return objectSet;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
@@ -111,6 +116,7 @@ public final class TableConstraint extends Constraint {
 
 		final BridgingNamedNode bridge = new BridgingNamedNode(this, FULLNAMEPART);
 		objectSet.setFullNameParent(bridge);
+		objectSet.setGenName(myType.getGenNameOwn(), "os");
 
 		// search the constrained type (not the reference to it)
 		constrainedType = myType;
@@ -376,7 +382,10 @@ public final class TableConstraint extends Constraint {
 						final AtomicBoolean isStrange = new AtomicBoolean();
 						final Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type, isStrange);
 						if (!aOpenType.hasComponentWithName(id)) {
-							aOpenType.addComponent(new CompField( id, (Type) type, false, null));
+							final RefdSpec_Type otype = new RefdSpec_Type(type);
+							otype.setMyScope(type.getMyScope());
+							otype.setGenName(type.getGenNameOwn());
+							aOpenType.addComponent(new CompField( id, otype, false, null));
 							if (isStrange.get()) {
 								aOpenType.getLocation().reportSemanticWarning(MessageFormat.format("Strange alternative name (`{0}') was added to open type `{1}'", id.getDisplayName(), aOpenType.getFullName()));
 							}

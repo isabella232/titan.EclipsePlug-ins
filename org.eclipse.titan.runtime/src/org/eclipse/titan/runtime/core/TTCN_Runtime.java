@@ -39,6 +39,7 @@ public final class TTCN_Runtime {
 	public static final int TTCN3_PATCHLEVEL = 0;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
+	public static final String VERSION_STRING = "6.5.0";
 	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R5A";
 
 	public enum executorStateEnum {
@@ -82,6 +83,13 @@ public final class TTCN_Runtime {
 	//originally testcase_name
 	private static ThreadLocal<String> testcaseModuleName = new ThreadLocal<String>();
 	private static ThreadLocal<String> testcaseDefinitionName = new ThreadLocal<String>();
+
+	private static ThreadLocal<Double> startTime = new ThreadLocal<Double>() {
+		@Override
+		protected Double initialValue() {
+			return Double.valueOf(0.0);
+		}
+	};
 
 	private static ThreadLocal<VerdictTypeEnum> localVerdict = new ThreadLocal<TitanVerdictType.VerdictTypeEnum>() {
 		@Override
@@ -326,7 +334,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
-		set_port_state(state.getInt(), info.getValue().toString(), bySystem);
+		set_port_state(state.get_int(), info.get_value().toString(), bySystem);
 	}
 
 	public static TitanPort get_translation_port() {
@@ -378,13 +386,13 @@ public final class TTCN_Runtime {
 		final executorStateEnum oldState = executorState.get();
 
 		do {
-			TTCN_Snapshot.takeNew(true);
+			TTCN_Snapshot.take_new(true);
 		} while (oldState == executorState.get());
 	}
 
 
 
-	private static void clean_up(){
+	static void clean_up(){
 		component_type_module.set(null);
 		component_type_name.set(null);
 		system_type_module.set(null);
@@ -401,7 +409,7 @@ public final class TTCN_Runtime {
 
 		Module_List.initialize_component(component_type_module.get(), component_type_name.get(), true);
 
-		TitanPort.set_parameters(TitanComponent.self.get().getComponent(), component_name.get());
+		TitanPort.set_parameters(TitanComponent.self.get().get_component(), component_name.get());
 		TitanPort.all_start();
 
 		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.init__component__finish, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
@@ -416,7 +424,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
 			TTCN_Default.deactivate_all();
-			TitanTimer.allStop();
+			TitanTimer.all_stop();
 			TitanPort.deactivate_all();
 
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.component__shut__down, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
@@ -527,6 +535,16 @@ public final class TTCN_Runtime {
 		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
+	public static TitanFloat now() {
+		if (startTime.get() == 0.0) {
+			throw new TtcnError("Accessing the test system time while no test case is running.");
+		}
+
+		final double current_Time = System.currentTimeMillis() / 1000.0;
+
+		return new TitanFloat(current_Time - startTime.get());
+	}
+
 	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
 		int returnValue = 0;
 		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
@@ -538,12 +556,15 @@ public final class TTCN_Runtime {
 			TTCN_Communication.set_mc_address(MC_host, MC_port);
 			TTCN_Communication.connect_mc();
 
+			if (Usage_Stats.USAGE_STAT_SENDING) {
+				Module_List.send_usage_stats();
+			}
 			executorState.set(executorStateEnum.HC_IDLE);
 			TTCN_Communication.send_version();
 			initialize_component_process_tables();
 
 			do {
-				TTCN_Snapshot.takeNew(true);
+				TTCN_Snapshot.take_new(true);
 				TTCN_Communication.process_all_messages_hc();
 			} while (executorState.get().ordinal() >= executorStateEnum.HC_IDLE.ordinal() && executorState.get().ordinal() < executorStateEnum.HC_EXIT.ordinal());
 
@@ -563,6 +584,10 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
 		}
 
+		if (Usage_Stats.USAGE_STAT_SENDING) {
+			Module_List.clean_up_usage_stats();
+		}
+
 		return returnValue;
 	}
 
@@ -579,7 +604,7 @@ public final class TTCN_Runtime {
 			TTCN_Communication.send_mtc_created();
 
 			do {
-				TTCN_Snapshot.takeNew(true);
+				TTCN_Snapshot.take_new(true);
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
@@ -625,7 +650,7 @@ public final class TTCN_Runtime {
 			if (returnValue == 0) {
 				try {
 					do {
-						TTCN_Snapshot.takeNew(true);
+						TTCN_Snapshot.take_new(true);
 						TTCN_Communication.process_all_messages_tc();
 					} while (executorState.get() != executorStateEnum.PTC_EXIT);
 				} catch (final TtcnError error) {
@@ -710,7 +735,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Executing create operation in invalid state.");
 		}
 
-		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive);
+		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive, startTime.get());
 		if (is_mtc()) {
 			// updating the component status flags
 			// 'any component.done' and 'any component.killed' might be successful
@@ -739,11 +764,9 @@ public final class TTCN_Runtime {
 		} else if (is_single()) {
 			throw new TtcnError("Start test component operation cannot be performed in single mode.");
 		}
-		if (!component_reference.isBound()) {
-			throw new TtcnError("Performing a start operation on an unbound component reference.");
-		}
+		component_reference.must_bound("Performing a start operation on an unbound component reference.");
 
-		final int compref = component_reference.getComponent();
+		final int compref = component_reference.get_component();
 		switch (compref) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Start operation cannot be performed on the null component reference.");
@@ -759,7 +782,7 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (TitanComponent.self.get().getComponent() == compref) {
+		if (TitanComponent.self.get().get_component() == compref) {
 			throw new TtcnError("Start operation cannot be performed on the own component reference of the initiating component (i.e. 'self.start' is not allowed).");
 		}
 
@@ -1068,13 +1091,14 @@ public final class TTCN_Runtime {
 			break;
 		default:
 			stop_ptc(component_reference);
+			break;
 		}
 	}
 
 	//originally stop_execution
 	public static void stop_execution() {
 		if (in_controlPart()) {
-			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);
 		} else {
 			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping test component execution.");
 
@@ -1117,6 +1141,7 @@ public final class TTCN_Runtime {
 			break;
 		default:
 			kill_ptc(component_reference);
+			break;
 		}
 	}
 
@@ -1780,10 +1805,8 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponent.isBound()) {
-			throw new TtcnError("The first argument of connect operation contains an unbound component reference.");
-		}
-		switch (sourceComponent.getComponent()) {
+		sourceComponent.must_bound("The first argument of connect operation contains an unbound component reference.");
+		switch (sourceComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The first argument of connect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1792,10 +1815,8 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (!destinationComponent.isBound()) {
-			throw new TtcnError("The second argument of connect operation contains an unbound component reference.");
-		}
-		switch (destinationComponent.getComponent()) {
+		destinationComponent.must_bound("The second argument of connect operation contains an unbound component reference.");
+		switch (destinationComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The second argument of connect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1806,19 +1827,19 @@ public final class TTCN_Runtime {
 
 		switch (executorState.get()) {
 		case SINGLE_TESTCASE:
-			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+			if (sourceComponent.get_component() != TitanComponent.MTC_COMPREF || destinationComponent.get_component() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of connect operation must refer to ports of mtc in single mode.");
 			}
 
 			TitanPort.make_local_connection(sourePort, destinationPort);
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_connect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.MTC_CONNECT);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_connect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.PTC_CONNECT);
 			wait_for_state_change();
 			break;
@@ -1830,7 +1851,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
@@ -1845,10 +1866,8 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponent.isBound()) {
-			throw new TtcnError("The first argument of disconnect operation contains an unbound component reference.");
-		}
-		switch (sourceComponent.getComponent()) {
+		sourceComponent.must_bound("The first argument of disconnect operation contains an unbound component reference.");
+		switch (sourceComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The first argument of disconnect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1857,10 +1876,8 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (!destinationComponent.isBound()) {
-			throw new TtcnError("The second argument of disconnect operation contains an unbound component reference.");
-		}
-		switch (destinationComponent.getComponent()) {
+		destinationComponent.must_bound("The second argument of disconnect operation contains an unbound component reference.");
+		switch (destinationComponent.get_component()) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("The second argument of disconnect operation contains the null component reference.");
 		case TitanComponent.SYSTEM_COMPREF:
@@ -1871,19 +1888,19 @@ public final class TTCN_Runtime {
 
 		switch (executorState.get()) {
 		case SINGLE_TESTCASE:
-			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+			if (sourceComponent.get_component() != TitanComponent.MTC_COMPREF || destinationComponent.get_component() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of disconnect operation must refer to ports of mtc in single mode.");
 			}
 
 			TitanPort.terminate_local_connection(sourePort, destinationPort);
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_disconnect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.MTC_DISCONNECT);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			TTCN_Communication.send_disconnect_req(sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 			executorState.set(executorStateEnum.PTC_DISCONNECT);
 			wait_for_state_change();
 			break;
@@ -1895,7 +1912,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.get_component(), sourePort, destinationComponent.get_component(), destinationPort);
 	}
 
 
@@ -1912,35 +1929,31 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponentRef.isBound()) {
-			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
-		}
+		sourceComponentRef.must_bound("The first argument of map operation contains an unbound component reference.");
 
 		final TitanComponent sourceComponent = sourceComponentRef;
-		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of map operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound()) {
-			throw new TtcnError("The second argument of map operation contains an unbound component reference.");
-		}
+		destinationComponentRef.must_bound("The second argument of map operation contains an unbound component reference.");
 
 		final TitanComponent destinationComponent = destinationComponentRef;
-		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (destinationComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of map operation contains the null component reference.");
 		}
 
 		TitanComponent componentReference;
 		String componentPort;
 		String systemPort;
-		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
-			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 				throw new TtcnError("Both arguments of map operation refer to system ports.");
 			}
 			componentReference = destinationComponent;
 			componentPort = destinationPort;
 			systemPort = sourePort;
-		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		} else if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 			componentReference = sourceComponent;
 			componentPort = sourePort;
 			systemPort = destinationPort;
@@ -1993,35 +2006,31 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
 		TTCN_Logger.end_event();
 
-		if (!sourceComponentRef.isBound()) {
-			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
-		}
+		sourceComponentRef.must_bound("The first argument of unmap operation contains an unbound component reference.");
 
 		final TitanComponent sourceComponent = sourceComponentRef;
-		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound()) {
-			throw new TtcnError("The second argument of unmap operation contains an unbound component reference.");
-		}
+		destinationComponentRef.must_bound("The second argument of unmap operation contains an unbound component reference.");
 
 		final TitanComponent destinationComponent = destinationComponentRef;
-		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+		if (destinationComponent.get_component() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of unmap operation contains the null component reference.");
 		}
 
 		TitanComponent componentReference;
 		String componentPort;
 		String systemPort;
-		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
-			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		if (sourceComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 				throw new TtcnError("Both arguments of unmap operation refer to system ports.");
 			}
 			componentReference = destinationComponent;
 			componentPort = destinationPort;
 			systemPort = sourePort;
-		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+		} else if (destinationComponent.get_component() == TitanComponent.SYSTEM_COMPREF) {
 			componentReference = sourceComponent;
 			componentPort = sourePort;
 			systemPort = destinationPort;
@@ -2070,7 +2079,7 @@ public final class TTCN_Runtime {
 	public static void end_controlpart() {
 		TTCN_Default.deactivate_all();
 		TTCN_Default.reset_counter();
-		TitanTimer.allStop();
+		TitanTimer.all_stop();
 		TTCN_Logger.log_controlpart_start_stop(control_module_name, true);
 		//FIXME implement execute_command
 		control_module_name = null;
@@ -2088,8 +2097,8 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		if (hasTimer && timerValue.isLessThan(0.0)) {
-			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.getValue()));
+		if (hasTimer && timerValue.is_less_than(0.0)) {
+			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.get_value()));
 		}
 	}
 
@@ -2106,7 +2115,7 @@ public final class TTCN_Runtime {
 		default:
 			throw new TtcnError("Internal error: Executing a test case in an invalid state.");
 		}
-		TitanTimer.saveControlTimers();
+		TitanTimer.save_control_timers();
 		TTCN_Default.save_control_defaults();
 		set_testcase_name(moduleName, testcaseName);
 		set_system_type(system_comptype_module, system_comptype_name);
@@ -2114,7 +2123,7 @@ public final class TTCN_Runtime {
 
 		TTCN_Logger.log_testcase_started(moduleName, testcaseName);
 		if (hasTimer) {
-			TitanTimer.testcaseTimer.start(timerValue.getValue());
+			TitanTimer.testcaseTimer.start(timerValue.get_value());
 		}
 
 		set_component_type(mtc_comptype_module, mtc_comptype_name);
@@ -2124,6 +2133,7 @@ public final class TTCN_Runtime {
 		all_component_done_status = TitanAlt_Status.ALT_YES;
 		any_component_killed_status = TitanAlt_Status.ALT_NO;
 		all_component_killed_status = TitanAlt_Status.ALT_YES;
+		startTime.set(System.currentTimeMillis() / 1000.0);
 	}
 
 	//originally TTCN_Runtime::end_testcase
@@ -2142,6 +2152,7 @@ public final class TTCN_Runtime {
 		case MTC_MAP:
 		case MTC_UNMAP:
 			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
 		case MTC_TESTCASE:
 			break;
 		case SINGLE_TESTCASE:
@@ -2178,7 +2189,8 @@ public final class TTCN_Runtime {
 
 		TTCN_Default.restore_control_defaults();
 		TitanTimer.restore_control_timers();
-		TTCN_EncDec_ErrorContext.resetAllContexts();
+		TTCN_EncDec_ErrorContext.reset_all_contexts();
+		startTime.set(0.0);
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
@@ -2272,11 +2284,9 @@ public final class TTCN_Runtime {
 	}
 
 	public static void setverdict(final TitanVerdictType newValue, final String reason) {
-		if (!newValue.isBound()) {
-			throw new TtcnError("The argument of setverdict operation is an unbound verdict value.");
-		}
+		newValue.must_bound("The argument of setverdict operation is an unbound verdict value.");
 
-		setverdict(newValue.getValue(), reason);
+		setverdict(newValue.get_value(), reason);
 	}
 
 	//originally set_error_verdict
@@ -2345,7 +2355,7 @@ public final class TTCN_Runtime {
 			@Override
 			public void run() {
 				//runs in the MTC
-				TTCN_Snapshot.reOpen();
+				TTCN_Snapshot.re_open();
 				TTCN_Communication.close_mc_connection();
 
 				TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
@@ -2372,7 +2382,9 @@ public final class TTCN_Runtime {
 		//FIXME implement
 	}
 
-	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name, final String system_type_module, final String system_type_name, final String par_component_name, final boolean par_is_alive, final String current_testcase_module, final String current_testcase_name) {
+	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name,
+			final String system_type_module, final String system_type_name, final String par_component_name, final boolean par_is_alive,
+			final String current_testcase_module, final String current_testcase_name, final double testcase_start_time) {
 		switch (executorState.get()) {
 		case HC_ACTIVE:
 		case HC_OVERLOADED:
@@ -2390,7 +2402,7 @@ public final class TTCN_Runtime {
 			@Override
 			public void run() {
 				//runs in the PTC
-				TTCN_Snapshot.reOpen();
+				TTCN_Snapshot.re_open();
 				TTCN_Communication.close_mc_connection();
 
 				TitanComponent.self.set(new TitanComponent(component_reference));
@@ -2399,6 +2411,7 @@ public final class TTCN_Runtime {
 				set_component_name(par_component_name);
 				TTCN_Runtime.is_alive.set(par_is_alive);
 				set_testcase_name(current_testcase_module, current_testcase_name);
+				startTime.set(testcase_start_time);
 				executorState.set(executorStateEnum.PTC_INITIAL);
 
 				//What now???
@@ -2525,12 +2538,12 @@ public final class TTCN_Runtime {
 		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
-		final int n_PTCS = text_buf.pull_int().getInt();
+		final int n_PTCS = text_buf.pull_int().get_int();
 		if (n_PTCS > 0) {
 			for (int i = 0; i < n_PTCS; i++) {
-				final int ptc_compref = text_buf.pull_int().getInt();
+				final int ptc_compref = text_buf.pull_int().get_int();
 				final String ptc_name = text_buf.pull_string();
-				final int verdictInt = text_buf.pull_int().getInt();
+				final int verdictInt = text_buf.pull_int().get_int();
 				final String ptc_verdict_reason = text_buf.pull_string();
 				if (verdictInt < VerdictTypeEnum.NONE.ordinal() || verdictInt > VerdictTypeEnum.ERROR.ordinal()) {
 					throw new TtcnError(MessageFormat.format("Internal error: Invalid PTC verdict was received from MC: {0}.", verdictInt));
@@ -2550,7 +2563,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
-		final boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
+		final boolean continueExecution = text_buf.pull_int().get_int() == 0 ? false : true;
 		if (continueExecution) {
 			executorState.set(executorStateEnum.MTC_CONTROLPART);
 		} else {
@@ -2571,7 +2584,7 @@ public final class TTCN_Runtime {
 			// This may affect the final verdict.
 			terminate_component_type();
 
-			TTCN_Communication.send_killed(localVerdict.get(), null);
+			TTCN_Communication.send_killed(localVerdict.get(), verdictReason.get());
 			TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 			break;
@@ -2581,6 +2594,7 @@ public final class TTCN_Runtime {
 			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Kill was requested from MC.");
 
 			kill_execution();
+			break;
 		}
 	}
 
@@ -2701,7 +2715,7 @@ public final class TTCN_Runtime {
 		}
 
 		final ArrayList<component_status_table_struct> localTables = component_status_table.get();
-		if (localTables.size() == 0) {
+		if (localTables.isEmpty()) {
 			//the table is empty, this will be the first entry
 			final component_status_table_struct temp = new component_status_table_struct();
 			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2833,7 +2847,7 @@ public final class TTCN_Runtime {
 			return;
 		}
 
-		for (int i = 0 ; i < threads.size(); ) {
+		for (int i = 0; i < threads.size(); ) {
 			if (threads.get(i).getState() == State.TERMINATED) {
 				final Thread thread = threads.get(i);
 				threads.remove(i);

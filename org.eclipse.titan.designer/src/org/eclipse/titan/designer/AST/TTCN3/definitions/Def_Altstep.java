@@ -717,7 +717,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append("TitanAlt_Status altstep_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
 		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
 		source.append("for( ; ; ) {\n");
-		source.append("TTCN_Snapshot.takeNew(block_flag);\n");
+		source.append("TTCN_Snapshot.take_new(block_flag);\n");
 		source.append("if (altstep_flag != TitanAlt_Status.ALT_NO) {\n");
 		source.append(MessageFormat.format("altstep_flag = {0}_instance({1});\n", genName, actualParameterList));
 		source.append("if (altstep_flag == TitanAlt_Status.ALT_YES || altstep_flag == TitanAlt_Status.ALT_BREAK) {\n");
@@ -771,13 +771,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			case A_PAR_VAL_IN:
 			case A_PAR_TEMP_IN:
 				if (formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL) {
-					source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+					source.append(MessageFormat.format("par_{0}.operator_assign({0});\n", FormalParName));
 				} else {
 					source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+				source.append(MessageFormat.format("par_{0}.operator_assign({0});\n", FormalParName));
 			}
 		}
 		source.append("}\n\n");

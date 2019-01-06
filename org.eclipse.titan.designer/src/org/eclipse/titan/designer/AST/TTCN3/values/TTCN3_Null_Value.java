@@ -155,7 +155,11 @@ public final class TTCN3_Null_Value extends Value {
 			return source;
 		}
 
-		return lastValue.generateCodeInit(aData, source, name);
+		lastValue.generateCodeInit(aData, source, name);
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
+		return source;
 	}
 
 	@Override

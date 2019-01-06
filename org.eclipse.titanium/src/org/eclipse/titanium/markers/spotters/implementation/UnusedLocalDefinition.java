@@ -65,7 +65,7 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 	
 	class LocalDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public LocalDefinitionCheck() {
 			setOfDefinition.clear();
@@ -89,7 +89,7 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 
 	class LocalUsedDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public LocalUsedDefinitionCheck() {
 			setOfDefinition.clear();

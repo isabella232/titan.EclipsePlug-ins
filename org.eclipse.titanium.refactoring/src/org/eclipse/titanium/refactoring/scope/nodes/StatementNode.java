@@ -165,7 +165,7 @@ public class StatementNode extends Node {
 		if (this.equals(n)) {
 			return true;
 		}
-		for (BlockNode bn: blocks) {
+		for (final BlockNode bn: blocks) {
 			if (bn.containsNode(n)) {
 				return true;
 			}
@@ -284,7 +284,7 @@ public class StatementNode extends Node {
 			sb.append("MOVED; ");
 		}
 		if (isDeclaration()) {
-			sb.append("declaration: " + declaredVar);
+			sb.append("declaration: ").append(declaredVar);
 		}
 		return sb.toString();
 	}
@@ -294,13 +294,14 @@ public class StatementNode extends Node {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(prefix).append("SN: ").append(toString()).append('\n');
 		if (recursive) {
-			sb.append(prefix).append("  blocks: ").append('\n');
-			for (BlockNode bn: blocks) {
+			sb.append(prefix).append("  blocks:\n");
+			for (final BlockNode bn: blocks) {
 				sb.append(bn.toStringRecursive(true, prefixLen+4)).append('\n');
 			}
+			sb.append('\n');
 		}
-		sb.append(prefix).append("  refdVars: ").append('\n');
-		for (Variable var: referedVars) {
+		sb.append(prefix).append("  refdVars:\n");
+		for (final Variable var: referedVars) {
 			sb.append(var.toStringRecursive(false, prefixLen+4)).append('\n');
 		}
 		return sb.toString();

@@ -51,8 +51,8 @@ public final class LoggingBitsSubPage {
 	private LoggingSectionHandler loggingSectionHandler;
 	private LogParamEntry selectedLogEntry;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 
 	private CheckboxTreeViewer consoleMaskViewer;
 	private CheckboxTreeViewer fileMaskViewer;
@@ -63,12 +63,11 @@ public final class LoggingBitsSubPage {
 	}
 
 	void createSectionLoggingBits(final FormToolkit toolkit, final ScrolledForm form, final Composite parent) {
-
-		Section section = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
+		final Section section = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 		client.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -81,7 +80,7 @@ public final class LoggingBitsSubPage {
 	}
 
 	void createSubSectionConsoleMaskBits(final FormToolkit toolkit, final ScrolledForm form, final Composite parent) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		section.setText("Console Log bitmask");
 		section.setExpanded(true);
@@ -92,8 +91,8 @@ public final class LoggingBitsSubPage {
 			}
 		});
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		client.setLayout(layout);
 		section.setClient(client);
@@ -102,7 +101,7 @@ public final class LoggingBitsSubPage {
 
 		consoleMaskViewer = new CheckboxTreeViewer(client, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		consoleMaskViewer.setContentProvider(new LoggingBitsContentProvider());
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		final GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 230;
 		consoleMaskViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		consoleMaskViewer.setLabelProvider(new LoggingBitsLabelProvider());
@@ -129,7 +128,7 @@ public final class LoggingBitsSubPage {
 		consoleMaskViewer.getTree().addListener(SWT.MouseHover, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
-				TreeItem item = consoleMaskViewer.getTree().getItem(new Point(event.x, event.y));
+				final TreeItem item = consoleMaskViewer.getTree().getItem(new Point(event.x, event.y));
 				if (item != null) {
 					if (item.getData() instanceof LoggingBit) {
 						consoleMaskViewer.getTree().setToolTipText(((LoggingBit) item.getData()).getToolTip());
@@ -164,7 +163,7 @@ public final class LoggingBitsSubPage {
 	}
 
 	void createSubSectionFileMaskBits(final FormToolkit toolkit, final ScrolledForm form, final Composite parent) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		section.setText("File Log bitmask");
 		section.setExpanded(true);
@@ -175,8 +174,8 @@ public final class LoggingBitsSubPage {
 			}
 		});
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		client.setLayout(layout);
 		section.setClient(client);
@@ -210,7 +209,7 @@ public final class LoggingBitsSubPage {
 		fileMaskViewer.getTree().addListener(SWT.MouseHover, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
-				TreeItem item = fileMaskViewer.getTree().getItem(new Point(event.x, event.y));
+				final TreeItem item = fileMaskViewer.getTree().getItem(new Point(event.x, event.y));
 				if (item != null) {
 					if (item.getData() instanceof LoggingBit) {
 						fileMaskViewer.getTree().setToolTipText(((LoggingBit) item.getData()).getToolTip());
@@ -245,36 +244,36 @@ public final class LoggingBitsSubPage {
 	}
 
 	private void createConsoleMaskRootNode(final LoggingSectionHandler.LoggerTreeElement lte, final LogParamEntry logentry) {
-		ParseTree consoleMaskRoot = new ParserRuleContext();
+		final ParseTree consoleMaskRoot = new ParserRuleContext();
 		logentry.setConsoleMaskRoot( consoleMaskRoot );
 		ConfigTreeNodeUtilities.addChild( consoleMaskRoot, new AddedParseTree("\n") );
 
-		StringBuilder name = new StringBuilder();
+		final StringBuilder name = new StringBuilder();
 		lte.writeNamePrefix(name);
 		name.append("ConsoleMask := ");
 
-		ParseTree node = new AddedParseTree(name.toString());
+		final ParseTree node = new AddedParseTree(name.toString());
 		ConfigTreeNodeUtilities.addChild( consoleMaskRoot, node );
 
-		ParseTree consoleMask = new ParserRuleContext();
+		final ParseTree consoleMask = new ParserRuleContext();
 		logentry.setConsoleMask( consoleMask );
 		ConfigTreeNodeUtilities.addChild( consoleMaskRoot, consoleMask );
 		ConfigTreeNodeUtilities.addChild( loggingSectionHandler.getLastSectionRoot(), consoleMaskRoot );
 	}
 
 	private void createFileMaskRootNode(final LoggingSectionHandler.LoggerTreeElement lte, final LogParamEntry logentry) {
-		ParseTree fileMaskRoot = new ParserRuleContext();
+		final ParseTree fileMaskRoot = new ParserRuleContext();
 		logentry.setFileMaskRoot( fileMaskRoot );
 		ConfigTreeNodeUtilities.addChild( fileMaskRoot, new AddedParseTree("\n") );
 
-		StringBuilder name = new StringBuilder();
+		final StringBuilder name = new StringBuilder();
 		lte.writeNamePrefix(name);
 		name.append("FileMask := ");
 
-		ParseTree node = new AddedParseTree(name.toString());
+		final ParseTree node = new AddedParseTree(name.toString());
 		ConfigTreeNodeUtilities.addChild( fileMaskRoot, node );
 
-		ParseTree fileMask = new ParserRuleContext();
+		final ParseTree fileMask = new ParserRuleContext();
 		logentry.setFileMask( fileMask );
 		ConfigTreeNodeUtilities.addChild( fileMaskRoot, fileMask );
 		ConfigTreeNodeUtilities.addChild( loggingSectionHandler.getLastSectionRoot(), fileMaskRoot );
@@ -284,10 +283,10 @@ public final class LoggingBitsSubPage {
 			final CheckStateChangedEvent event) {
 		editor.setDirty();
 
-		LoggingBit bit = (LoggingBit) event.getElement();
+		final LoggingBit bit = (LoggingBit) event.getElement();
 
 		if (LoggingBitHelper.hasChildren(bit)) {
-			LoggingBit[] children = LoggingBitHelper.getChildren(bit);
+			final LoggingBit[] children = LoggingBitHelper.getChildren(bit);
 
 			if (bitMask.containsKey(bit)) {
 				removeLoggingBit(bitMask, bitmaskRoot, bit);
@@ -304,14 +303,14 @@ public final class LoggingBitsSubPage {
 			if (bitMask.containsKey(bit)) {
 				removeLoggingBit(bitMask, bitmaskRoot, bit);
 			} else {
-				LoggingBit parent = LoggingBitHelper.getParent(bit);
+				final LoggingBit parent = LoggingBitHelper.getParent(bit);
 				if (parent == null) {
 					return;
 				}
 
-				LoggingBit[] children = LoggingBitHelper.getChildren(parent);
+				final LoggingBit[] children = LoggingBitHelper.getChildren(parent);
 				int elementCount = 0;
-				for (LoggingBit child : children) {
+				for (final LoggingBit child : children) {
 					if (bitMask.containsKey(child)) {
 						elementCount++;
 					}
@@ -341,8 +340,8 @@ public final class LoggingBitsSubPage {
 	}
 
 	private void bitCompression(final Map<LoggingBit, ParseTree> bitMask, final ParseTree bitmaskRoot) {
-		for (LoggingBit parent : LoggingBitHelper.getFirstLevelNodes()) {
-			LoggingBit[] children = LoggingBitHelper.getChildren(parent);
+		for (final LoggingBit parent : LoggingBitHelper.getFirstLevelNodes()) {
+			final LoggingBit[] children = LoggingBitHelper.getChildren(parent);
 
 			if (bitMask.containsKey(parent)) {
 				for (int i = 0; i < children.length; i++) {
@@ -353,7 +352,7 @@ public final class LoggingBitsSubPage {
 			} else {
 				int childCount = 0;
 
-				for (LoggingBit child : children) {
+				for (final LoggingBit child : children) {
 					if (bitMask.containsKey(child)) {
 						childCount++;
 					}
@@ -373,11 +372,11 @@ public final class LoggingBitsSubPage {
 	}
 
 	private void addLoggingBit(final Map<LoggingBit, ParseTree> bitMask, final ParseTree bitmaskRoot, final LoggingBit bit) {
-		ParseTree newBit = new AddedParseTree(bit.getName());
+		final ParseTree newBit = new AddedParseTree(bit.getName());
 		bitMask.put(bit, newBit);
 
 		if (bitMask.keySet().size() > 1) {
-			ParseTree separator = new AddedParseTree("|");
+			final ParseTree separator = new AddedParseTree("|");
 			ConfigTreeNodeUtilities.addChild( bitmaskRoot, separator );
 		}
 
@@ -390,16 +389,16 @@ public final class LoggingBitsSubPage {
 	}
 
 	private void evaluateSelection(final CheckboxTreeViewer viewer, final Map<LoggingBit, ParseTree> bitMask) {
-		LoggingBit[] firstLevelnodes = LoggingBitHelper.getFirstLevelNodes();
+		final LoggingBit[] firstLevelnodes = LoggingBitHelper.getFirstLevelNodes();
 		LoggingBit[] children;
-		List<LoggingBit> toBeGrayed = new ArrayList<LoggingBit>();
-		List<LoggingBit> toBeSelected = new ArrayList<LoggingBit>();
+		final List<LoggingBit> toBeGrayed = new ArrayList<LoggingBit>();
+		final List<LoggingBit> toBeSelected = new ArrayList<LoggingBit>();
 		toBeSelected.addAll(bitMask.keySet());
 
-		for (LoggingBit firstLevelnode : firstLevelnodes) {
+		for (final LoggingBit firstLevelnode : firstLevelnodes) {
 			children = LoggingBitHelper.getChildren(firstLevelnode);
 			int count = 0;
-			for (LoggingBit child : children) {
+			for (final LoggingBit child : children) {
 				if (bitMask.containsKey(child)) {
 					count++;
 				}
@@ -411,7 +410,7 @@ public final class LoggingBitsSubPage {
 			}
 
 			if (bitMask.containsKey(firstLevelnode)) {
-				for (LoggingBit child : children) {
+				for (final LoggingBit child : children) {
 					toBeSelected.add(child);
 				}
 			}
@@ -423,8 +422,8 @@ public final class LoggingBitsSubPage {
 
 	private void logAllHandler(final Map<LoggingBit, ParseTree> bitMask, final ParseTree bitmaskRoot) {
 		if (bitMask.containsKey(LoggingBit.LOG_ALL)) {
-			LoggingBit[] logAllBits = LoggingBitHelper.getLogAllBits();
-			for (LoggingBit bit : logAllBits) {
+			final LoggingBit[] logAllBits = LoggingBitHelper.getLogAllBits();
+			for (final LoggingBit bit : logAllBits) {
 				if (!bitMask.containsKey(bit)) {
 					addLoggingBit(bitMask, bitmaskRoot, bit);
 				}
@@ -436,7 +435,7 @@ public final class LoggingBitsSubPage {
 
 	public void pluginRenamed() {
 		if (selectedLogEntry.getConsoleMaskRoot() != null) {
-			ParseTree child = selectedLogEntry.getConsoleMask().getChild( 0 );
+			final ParseTree child = selectedLogEntry.getConsoleMask().getChild( 0 );
 			ConfigTreeNodeUtilities.removeChild( loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getConsoleMaskRoot() );
 			createConsoleMaskRootNode(loggingPage.getSelectedTreeElement(), selectedLogEntry);
 			if (child != null) {
@@ -444,7 +443,7 @@ public final class LoggingBitsSubPage {
 			}
 		}
 		if (selectedLogEntry.getFileMaskRoot() != null) {
-			ParseTree child = selectedLogEntry.getFileMask().getChild( 0 );
+			final ParseTree child = selectedLogEntry.getFileMask().getChild( 0 );
 			ConfigTreeNodeUtilities.removeChild( loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getFileMaskRoot() );
 			createFileMaskRootNode(loggingPage.getSelectedTreeElement(), selectedLogEntry);
 			if (child != null) {

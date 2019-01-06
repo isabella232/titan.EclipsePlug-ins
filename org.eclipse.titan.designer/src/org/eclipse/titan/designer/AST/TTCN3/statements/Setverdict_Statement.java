@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -124,6 +125,17 @@ public final class Setverdict_Statement extends Statement {
 		}
 		if (verdictReason != null) {
 			verdictReason.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (verdictValue != null) {
+			verdictValue.setCodeSection(codeSection);
+		}
+		if (verdictReason != null) {
+			verdictReason.setCodeSection(codeSection);
 		}
 	}
 
@@ -237,7 +249,7 @@ public final class Setverdict_Statement extends Statement {
 				expression.postamble.append(reason.postamble);
 			}
 			expression.expression.append(reason.expression);
-			expression.expression.append(".getValue().toString()");
+			expression.expression.append(".get_value().toString()");
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);

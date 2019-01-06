@@ -7,26 +7,27 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
- * Utility class for generating the value and template classes for signature types.
+ * Utility class for generating the value and template classes for signature
+ * types.
  *
  *
  * @author Kristof Szabados
  * */
-public class SignatureGenerator {
+public final class SignatureGenerator {
 
 	enum signatureParamaterDirection {PAR_IN, PAR_OUT, PAR_INOUT};
 
 	public static class SignatureParameter {
-		private signatureParamaterDirection direction;
+		private final signatureParamaterDirection direction;
 
 		/** Java type name of the parameter */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the parameter */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** Parameter name */
-		private String mJavaName;
+		private final String mJavaName;
 
 		public SignatureParameter(final signatureParamaterDirection direction, final String paramType, final String paramTemplate, final String paramName) {
 			this.direction = direction;
@@ -38,10 +39,10 @@ public class SignatureGenerator {
 
 	public static class SignatureReturnType {
 		/** Java type name of the return type */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the return type */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		public SignatureReturnType(final String paramType, final String paramTemplate) {
 			mJavaTypeName = paramType;
@@ -51,13 +52,13 @@ public class SignatureGenerator {
 
 	public static class SignatureException {
 		/** Java type name of the exception */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the exception */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** The name to be displayed for the user */
-		private String mDisplayName;
+		private final String mDisplayName;
 
 		public SignatureException(final String paramType, final String paramTemplate, final String displayName) {
 			mJavaTypeName = paramType;
@@ -67,12 +68,12 @@ public class SignatureGenerator {
 	}
 
 	public static class SignatureDefinition {
-		private String genName;
-		private String displayName;
-		private ArrayList<SignatureParameter> formalParameters;
-		private SignatureReturnType returnType;
-		private boolean isNoBlock;
-		private ArrayList<SignatureException> signatureExceptions;
+		private final String genName;
+		private final String displayName;
+		private final ArrayList<SignatureParameter> formalParameters;
+		private final SignatureReturnType returnType;
+		private final boolean isNoBlock;
+		private final ArrayList<SignatureException> signatureExceptions;
 
 		public SignatureDefinition(final String genName, final String displayName, final ArrayList<SignatureParameter> formalParameters, final SignatureReturnType returnType, final boolean isNoBlock, final ArrayList<SignatureException> signatureExceptions) {
 			this.genName = genName;
@@ -93,9 +94,12 @@ public class SignatureGenerator {
 	 *
 	 * defSignatureClasses in compiler2/ttcn3/signature.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	public static void generateClasses(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		aData.addBuiltinTypeImport("TitanBoolean");
@@ -115,11 +119,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles calls.
+	 * This function can be used to generate for signature types that class
+	 * that handles calls.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateCallClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_call '{'\n", def.genName));
@@ -147,7 +155,7 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get_field_{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 			}
 		}
 		source.append("}\n");
@@ -156,11 +164,11 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("public {0} get_field_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 				source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 				source.append("}\n");
 
-				source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+				source.append(MessageFormat.format("public {0} constGet_field_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 				source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 				source.append("}\n");
 			}
@@ -184,9 +192,12 @@ public class SignatureGenerator {
 				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName));
 			}
 		}
-		source.append("}\n");
+		source.append("}\n\n");
 
-		source.append("public void log() {");
+		source.append("/**\n");
+		source.append(" * Logs this value.\n");
+		source.append(" */\n");
+		source.append("public void log() {\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 		boolean isFirst = true;
 		for (int i = 0; i < def.formalParameters.size(); i++) {
@@ -208,11 +219,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles redirections.
+	 * This function can be used to generate for signature types that class
+	 * that handles redirections.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_call_redirect '{'\n", def.genName));
@@ -264,7 +279,7 @@ public class SignatureGenerator {
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 				source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-				source.append(MessageFormat.format("ptr_{0}.assign(call_par.constGet{0}());\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("ptr_{0}.operator_assign(call_par.constGet_field_{0}());\n", formalPar.mJavaName));
 				source.append("}\n");
 			}
 		}
@@ -273,11 +288,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles replies.
+	 * This function can be used to generate for signature types that class
+	 * that handles replies.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateReplyClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if(!def.isNoBlock) {
@@ -313,11 +332,11 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("param_{0} = new {1}(other_value.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("param_{0} = new {1}(other_value.get_field_{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 				}
 			}
 			if (def.returnType != null) {
-				source.append(MessageFormat.format("reply_value = new {0}(other_value.getreturn_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("reply_value = new {0}(other_value.get_return_value());\n", def.returnType.mJavaTypeName));
 			}
 			source.append("}\n");
 
@@ -325,22 +344,22 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("public {0} get_field_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 					source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 					source.append("}\n");
 
-					source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+					source.append(MessageFormat.format("public {0} constGet_field_{1}() '{'\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 					source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
 			}
 
 			if (def.returnType != null) {
-				source.append(MessageFormat.format("public {0} getreturn_value() '{'\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} get_return_value() '{'\n", def.returnType.mJavaTypeName));
 				source.append("return reply_value;\n");
 				source.append("}\n");
 
-				source.append(MessageFormat.format("public {0} constGetreturn_value() '{'\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} constGet_return_value() '{'\n", def.returnType.mJavaTypeName));
 				source.append("return reply_value;\n");
 				source.append("}\n");
 			}
@@ -369,8 +388,11 @@ public class SignatureGenerator {
 			if (def.returnType != null) {
 				source.append("reply_value.decode_text(text_buf);\n");
 			}
-			source.append("}\n");
+			source.append("}\n\n");
 
+			source.append("/**\n");
+			source.append(" * Logs this value.\n");
+			source.append(" */\n");
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 			boolean isFirst = true;
@@ -400,11 +422,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles reply redirections.
+	 * This function can be used to generate for signature types that class
+	 * that handles reply redirections.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateReplyRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if(!def.isNoBlock) {
@@ -476,14 +502,14 @@ public class SignatureGenerator {
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
 					source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
-					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet{0}());\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("ptr_{0}.operator_assign(reply_par.constGet_field_{0}());\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
 				
 			}
 			if (def.returnType != null) {
 				source.append("if (ret_val_redir != null) {\n");
-				source.append(MessageFormat.format("ret_val_redir.assign(reply_par.constGetreturn_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("ret_val_redir.operator_assign(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
 				source.append("}\n");
 			}
 			source.append("}\n");
@@ -492,11 +518,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types that class that handles exceptions.
+	 * This function can be used to generate for signature types that class
+	 * that handles exceptions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateExceptionClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if (!def.signatureExceptions.isEmpty()) {
@@ -512,8 +542,12 @@ public class SignatureGenerator {
 			source.append("//originally a union which can not be mapped to Java\n");
 			source.append("private Base_Type field;\n");
 
-			source.append("//originally clean_up\n");
-			source.append("public void cleanUp() {\n");
+			source.append("/**\n");
+			source.append(" * Deletes the value, setting it to unbound.\n");
+			source.append(" *\n");
+			source.append(" * clean_up() in the core\n");
+			source.append(" * */\n");
+			source.append("public void clean_up() {\n");
 			source.append("field = null;\n");
 			source.append("exception_selection = exception_selection_type.UNBOUND_VALUE;\n");
 			source.append("}\n");
@@ -548,15 +582,26 @@ public class SignatureGenerator {
 				source.append("}\n");
 
 				source.append(MessageFormat.format("public {0}_exception( final {1}_template otherValue) '{'\n", def.genName, exception.mJavaTypeName));
-				source.append(MessageFormat.format("field = new {0}(otherValue.valueOf());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("field = new {0}(otherValue.valueof());\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
 				source.append("}\n");
 			}
 
-			source.append("//originally operator=\n");
-			source.append(MessageFormat.format("public {0}_exception assign( final {0}_exception otherValue ) '{'\n", def.genName));
+			if ( aData.isDebug() ) {
+				source.append("/**\n");
+				source.append(" * Assigns the other value to this value.\n");
+				source.append(" * Overwriting the current content in the process.\n");
+				source.append(" *<p>\n");
+				source.append(" * operator= in the core.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the other value to assign.\n");
+				source.append(" * @return the new value object.\n");
+				source.append(" */\n");
+			}
+			source.append(MessageFormat.format("public {0}_exception operator_assign( final {0}_exception otherValue ) '{'\n", def.genName));
 			source.append("if(this != otherValue) {\n");
-			source.append("cleanUp();\n");
+			source.append("clean_up();\n");
 			source.append("copy_value(otherValue);\n");
 			source.append("}\n");
 			source.append("return this;\n");
@@ -566,9 +611,9 @@ public class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("//originally {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("public {0} get{0}() '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} get_field_{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
-				source.append("cleanUp();\n");
+				source.append("clean_up();\n");
 				source.append(MessageFormat.format("field = new {0}();\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
 				source.append("}\n");
@@ -576,7 +621,7 @@ public class SignatureGenerator {
 				source.append("}\n");
 
 				source.append(MessageFormat.format("//originally const {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("public {0} constGet{0}() '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("public {0} constGet_field_{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
 
 				source.append(MessageFormat.format("throw new TtcnError(\"Referencing to non-selected type integer in an exception of signature {0}.\");\n", def.displayName));
@@ -606,19 +651,22 @@ public class SignatureGenerator {
 
 			source.append("public void decode_text(final Text_Buf text_buf) {\n");
 			source.append("final TitanInteger temp = text_buf.pull_int();\n");
-			source.append("switch (temp.getInt()) {\n");
+			source.append("switch (temp.get_int()) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case {0}:\n", i));
-				source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("get_field_{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received for an exception of signature {0}.\");\n", def.displayName));
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
+			source.append("/**\n");
+			source.append(" * Logs this value.\n");
+			source.append(" */\n");
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("switch (exception_selection) {\n");
@@ -655,9 +703,20 @@ public class SignatureGenerator {
 				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("redirection_field = value_redirect;\n");
-				source.append("}\n");
+				source.append("}\n\n");
 			}
 
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Matches the provided ecpetion value against this template. In legacy mode\n");
+				source.append(" * omitted value fields are not matched against the template field.\n");
+				source.append(" *\n");
+				source.append(" * @param other_value\n");
+				source.append(" *                the value to be matched.\n");
+				source.append(" * @param legacy\n");
+				source.append(" *                use legacy mode.\n");
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public boolean match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
 			source.append("if (exception_selection != other_value.get_selection()) {\n");
 			source.append("return false;\n");
@@ -668,30 +727,43 @@ public class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("return (({0}) field).match(other_value.get{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("return (({0}) field).match(other_value.get_field_{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
 			}
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
-			source.append(MessageFormat.format("public void log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Logs the matching of the provided value to this template, to help\n");
+				source.append(" * identify the reason for mismatch. In legacy mode omitted value fields\n");
+				source.append(" * are not matched against the template field.\n");
+				source.append(" *\n");
+				source.append(" * @param match_value\n");
+				source.append(" *                the value to be matched.\n");
+				source.append(" * @param legacy\n");
+				source.append(" *                use legacy mode.\n");
+				source.append(" * */\n");
+			}
+			source.append(MessageFormat.format("public void log_match(final {0}_exception match_value, final boolean legacy) '{'\n", def.genName));
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
-			source.append("if (exception_selection == other_value.get_selection()) {\n");
+			source.append("if (exception_selection == match_value.get_selection()) {\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
-				source.append(MessageFormat.format("field.log_match(other_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("field.log_match(match_value.constGet_field_{0}(), legacy);\n", exception.mJavaTypeName));
 				source.append("break;");
 			}
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
+			source.append("break;");
 			source.append("}\n");
 			source.append("} else {\n");
-			source.append("other_value.log();\n");
+			source.append("match_value.log();\n");
 			source.append("TTCN_Logger.log_event_str(\" with \");\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
@@ -704,8 +776,9 @@ public class SignatureGenerator {
 			}
 			source.append("default:\n");
 			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
+			source.append("break;");
 			source.append("}\n");
-			source.append("if (match(other_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
+			source.append("if (match(match_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
 			source.append("else TTCN_Logger.log_event_str(\" unmatched\");\n");
 			source.append("}\n");
 			source.append("}\n");
@@ -718,7 +791,7 @@ public class SignatureGenerator {
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append("if (redirection_field != null) {\n");
-				source.append(MessageFormat.format("redirection_field.assign(source_value.constGet{0}());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("redirection_field.operator_assign(source_value.constGet_field_{0}());\n", exception.mJavaTypeName));
 				source.append("}\n");
 				source.append("return;\n");
 			}
@@ -747,11 +820,15 @@ public class SignatureGenerator {
 	}
 
 	/**
-	 * This function can be used to generate for signature types the template class.
+	 * This function can be used to generate for signature types the
+	 * template class.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param def the signature definition to generate code for.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param def
+	 *                the signature definition to generate code for.
 	 * */
 	private static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_template '{'\n", def.genName));
@@ -765,6 +842,11 @@ public class SignatureGenerator {
 			source.append(MessageFormat.format("private {0} reply_value;\n", def.returnType.mJavaTemplateName));
 		}
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to unbound/uninitialized template.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -772,7 +854,16 @@ public class SignatureGenerator {
 			source.append(MessageFormat.format("param_{0} = new {1}(template_sel.ANY_VALUE);\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
+
 		if (def.formalParameters.isEmpty()) {
+			if (aData.isDebug()) {
+				source.append("/**\n");
+				source.append(" * Initializes to an empty specific value template.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the null value.\n");
+				source.append(" * */\n");
+			}
 			source.append(MessageFormat.format("public {0}_template(final TitanNull_Type otherValue) '{'\n", def.genName));
 			if (def.returnType != null) {
 				source.append(MessageFormat.format("reply_value = new {0}(template_sel.ANY_VALUE);\n", def.returnType.mJavaTemplateName));
@@ -780,16 +871,37 @@ public class SignatureGenerator {
 			source.append("}\n\n");
 		}
 
+		if (aData.isDebug()) {
+			source.append("/**\n");
+			source.append(" * Initializes to a given template.\n");
+			source.append(" * The elements of the provided template are copied.\n");
+			source.append(" *\n");
+			source.append(" * @param otherValue\n");
+			source.append(" *                the value to initialize to.\n");
+			source.append(" * */\n");
+		}
 		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
+			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get_field_{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
 
 		if (def.formalParameters.isEmpty()) {
-			source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type otherValue) '{'\n", def.genName));
+			if ( aData.isDebug() ) {
+				source.append("/**\n");
+				source.append(" * Sets the current value to unbound.\n");
+				source.append(" * Overwriting the current content in the process.\n");
+				source.append(" *<p>\n");
+				source.append(" * operator= in the core.\n");
+				source.append(" *\n");
+				source.append(" * @param otherValue\n");
+				source.append(" *                the other value to assign.\n");
+				source.append(" * @return the new value object.\n");
+				source.append(" */\n");
+			}
+			source.append(MessageFormat.format("public {0}_template operator_assign(final TitanNull_Type otherValue) '{'\n", def.genName));
 			source.append("return this;\n");
 			source.append("}\n\n");
 		}
@@ -797,11 +909,11 @@ public class SignatureGenerator {
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			source.append(MessageFormat.format("public {0} get{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
+			source.append(MessageFormat.format("public {0} get_field_{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
 			source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName ));
 			source.append("}\n");
 
-			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
+			source.append(MessageFormat.format("public {0} constGet_field_{1}() '{'\n", formalPar.mJavaTemplateName, formalPar.mJavaName ));
 			source.append(MessageFormat.format("return param_{0};\n", formalPar.mJavaName ));
 			source.append("}\n");
 		}
@@ -818,7 +930,7 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("return_value.get_field_{0}().operator_assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return return_value;\n");
@@ -831,12 +943,12 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("return_value.get_field_{0}().operator_assign(param_{0}.valueof());\n", formalPar.mJavaName ));
 				}
 			}
 
 			if (def.returnType != null) {
-				source.append("return_value.getreturn_value().assign(reply_value.valueOf());\n");
+				source.append("return_value.get_return_value().operator_assign(reply_value.valueof());\n");
 			}
 			source.append("return return_value;\n");
 			source.append("}\n");
@@ -851,7 +963,7 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get_field_{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return true;\n");
@@ -867,11 +979,11 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get_field_{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 				}
 			}
 			if (def.returnType != null) {
-				source.append("if (!reply_value.match(match_value.getreturn_value(), legacy)) {return false;}\n");
+				source.append("if (!reply_value.match(match_value.get_return_value(), legacy)) {return false;}\n");
 			}
 			source.append("return true;\n");
 			source.append("}\n");
@@ -906,7 +1018,7 @@ public class SignatureGenerator {
 				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName ));
 			}
 		}
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("public void log() {\n");
 		boolean isFirst = true;
@@ -936,7 +1048,7 @@ public class SignatureGenerator {
 				} else {
 					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 				}
-				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("param_{0}.log_match(match_value.get_field_{0}(), legacy);\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("TTCN_Logger.log_event_str(\" }\");\n");
@@ -956,19 +1068,19 @@ public class SignatureGenerator {
 						} else {
 							source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 						}
-						source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+						source.append(MessageFormat.format("param_{0}.log_match(match_value.get_field_{0}(), legacy);\n", formalPar.mJavaName ));
 					}
 				}
 				if (def.returnType != null) {
 					source.append("TTCN_Logger.log_event_str(\" } value \");\n");
-					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+					source.append("reply_value.log_match(match_value.get_return_value(), legacy);\n");
 				}
 			} else {
 				if (def.returnType == null) {
 					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched\");\n");
 				} else {
 					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched value \");\n");
-					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+					source.append("reply_value.log_match(match_value.get_return_value(), legacy);\n");
 				}
 			}
 			source.append("}\n");

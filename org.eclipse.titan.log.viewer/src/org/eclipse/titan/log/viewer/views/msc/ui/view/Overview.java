@@ -33,7 +33,7 @@ public class Overview {
 	private static Cursor overviewCursor;
 	/** default size for overview */
 	private int overviewSize = 100;
-	private ScrollView sv;
+	private final ScrollView sv;
 	private static final int MIN_SCROLL_VALUE = -50;
 	private static final int MAX_SCROLL_VALUE = 50;
 	private static final int MIN_EVENTTIME = 40;
@@ -146,11 +146,11 @@ public class Overview {
 		int y = p.y;
 		int w = this.overviewSize;
 		int h = this.overviewSize;
-		Rectangle scr = this.sv.getDisplay().getBounds();
-		Point ccs = this.sv.cornerControl.getSize();
+		final Rectangle scr = this.sv.getDisplay().getBounds();
+		final Point ccs = this.sv.cornerControl.getSize();
 		try {
 			if (this.sv.contentsWidth > this.sv.contentsHeight) {
-				float ratio = this.sv.contentsHeight / (float) this.sv.contentsWidth;
+				final float ratio = this.sv.contentsHeight / (float) this.sv.contentsWidth;
 				h = (int) (w * ratio);
 				if (h < ccs.y) {
 					h = ccs.y;
@@ -158,7 +158,7 @@ public class Overview {
 					h = scr.height / 2;
 				}
 			} else {
-				float ratio = this.sv.contentsWidth / (float) this.sv.contentsHeight;
+				final float ratio = this.sv.contentsWidth / (float) this.sv.contentsHeight;
 				w = (int) (h * ratio);
 				if (w < ccs.x) {
 					w = ccs.x;
@@ -185,16 +185,16 @@ public class Overview {
 		this.overview.redraw(x, y, w, h, false);
 
 		if (overviewCursor == null) {
-			RGB[] rgb = {new RGB(0, 0, 0), new RGB(255, 0, 0)};
-			PaletteData pal = new PaletteData(rgb);
-			int s = 1;
-			byte[] src = new byte[s * s];
-			byte[] msk = new byte[s * s];
+			final RGB[] rgb = {new RGB(0, 0, 0), new RGB(255, 0, 0)};
+			final PaletteData pal = new PaletteData(rgb);
+			final int s = 1;
+			final byte[] src = new byte[s * s];
+			final byte[] msk = new byte[s * s];
 			for (int i = 0; i < s * s; ++i) {
 				src[i] = (byte) 0xFF;
 			}
-			ImageData iSrc = new ImageData(s, s, 1, pal, 1, src);
-			ImageData iMsk = new ImageData(s, s, 1, pal, 1, msk);
+			final ImageData iSrc = new ImageData(s, s, 1, pal, 1, src);
+			final ImageData iMsk = new ImageData(s, s, 1, pal, 1, msk);
 			overviewCursor = new Cursor(null, iSrc, iMsk, 0, 0);
 		}
 		this.sv.cornerControl.setCursor(overviewCursor);
@@ -203,13 +203,13 @@ public class Overview {
 		this.saveCursorX = p.x;
 		this.saveCursorY = p.y;
 
-		Rectangle r = this.overview.getClientArea();
+		final Rectangle r = this.overview.getClientArea();
 		int cx = (int) (r.width * this.sv.contentsX / (float) this.sv.contentsWidth);
 		int cy = (int) (r.height * this.sv.contentsY / (float) this.sv.contentsHeight);
 
 		//cx,cy to display's global coordinates
 		p = toGlobalCoordinates(this.overview.getParent(), cx, cy);
-		cx = p.x;
+		cx = p.x;//TODO can not have an effect.
 		cy = p.y;
 	}
 
@@ -234,7 +234,7 @@ public class Overview {
 	}
 
 	private void overviewMove(final MouseEvent event) {
-		Point p = toGlobalCoordinates(this.sv.cornerControl, event.x, event.y);
+		final Point p = toGlobalCoordinates(this.sv.cornerControl, event.x, event.y);
 		int dx = p.x - this.saveCursorX;
 		int dy = p.y - this.saveCursorY;
 
@@ -244,7 +244,7 @@ public class Overview {
 		}
 
 		// Prevent to many events
-		long time = 0xFFFFFFFFL & event.time;
+		final long time = 0xFFFFFFFFL & event.time;
 		if (time == this.lastTime) {
 			return;
 		}
@@ -273,18 +273,18 @@ public class Overview {
 		boolean shift = false;
 
 		if (event instanceof MouseEvent) {
-			MouseEvent e = (MouseEvent) event;
+			final MouseEvent e = (MouseEvent) event;
 			this.sv.getDisplay().setCursorLocation(this.saveCursorX, this.saveCursorY);
 			ctrl = (e.stateMask & SWT.CONTROL) != 0;
 			shift = (e.stateMask & SWT.SHIFT) != 0;
 		} else if (event instanceof KeyEvent) {
-			KeyEvent e = (KeyEvent) event;
+			final KeyEvent e = (KeyEvent) event;
 			ctrl = (e.stateMask & SWT.CONTROL) != 0;
 			shift = (e.stateMask & SWT.SHIFT) != 0;
 		}
 
-		int cx = this.sv.contentsX;
-		int cy = this.sv.contentsY;
+		final int cx = this.sv.contentsX;
+		final int cy = this.sv.contentsY;
 		float fx = this.overviewFactorX;
 		float fy = this.overviewFactorY;
 
@@ -319,9 +319,9 @@ public class Overview {
 			int trimX = 0, trimY = 0;
 			//other kind of widget with trimming ??
 			if (c instanceof Scrollable) {
-				Scrollable s = (Scrollable) c;
-				Rectangle rr = s.getClientArea();
-				Rectangle tr = s.computeTrim(rr.x, rr.y, rr.width, rr.height);
+				final Scrollable s = (Scrollable) c;
+				final Rectangle rr = s.getClientArea();
+				final Rectangle tr = s.computeTrim(rr.x, rr.y, rr.width, rr.height);
 				trimX = rr.x - tr.x;
 				trimY = rr.y - tr.y;
 			}

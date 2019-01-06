@@ -44,8 +44,8 @@ import org.eclipse.titan.designer.AST.Location;
  */
 public final class OutputAnalyzer {
 	private Map<String, IFile> files;
-	private HashMap<IResource, IDocument> documentMap;
-	private List<IPath> filesOpened;
+	private final HashMap<IResource, IDocument> documentMap;
+	private final List<IPath> filesOpened;
 	private IProject project;
 
 	private boolean processedErrorMessages;

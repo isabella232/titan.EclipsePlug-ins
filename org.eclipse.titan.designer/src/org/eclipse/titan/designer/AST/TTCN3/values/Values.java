@@ -138,7 +138,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	public void setCodeSection(final CodeSectionType codeSection) {
 		if (isIndexed) {
 			for (int i = 0; i < indexedValues.size(); i++) {
-				indexedValues.get(i).getValue().setCodeSection(codeSection);
+				indexedValues.get(i).setCodeSection(codeSection);
 			}
 		} else {
 			for (int i = 0; i < values.size(); i++) {

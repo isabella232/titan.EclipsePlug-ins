@@ -457,17 +457,32 @@ public final class Template_List extends CompositeTemplate {
 		if (templates.getNofTemplates() != 0) {
 			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
 
-			return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 		}
 
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
-		return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		if (myGovernor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		final StringBuilder result = new StringBuilder();
+		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+		}
+
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression, true);
 			return;
@@ -494,7 +509,7 @@ public final class Template_List extends CompositeTemplate {
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -525,9 +540,6 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (asValue != null) {
@@ -610,13 +622,13 @@ public final class Template_List extends CompositeTemplate {
 						preamble.append(referenceExpression.preamble);
 					}
 
-					setSize.append(".n_elem().getInt()");
-					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
+					setSize.append(".n_elem().get_int()");
+					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
 
-					final String embeddedName = MessageFormat.format("{0}.getAt({1} + i_i)", name, counter);
+					final String embeddedName = MessageFormat.format("{0}.get_at({1} + i_i)", name, counter);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, body, embeddedName, referenceExpression.expression);
 					body.append("}\n");
-					body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, referenceExpression.expression));
+					body.append(MessageFormat.format("{0} += {1}.n_elem().get_int();\n", counter, referenceExpression.expression));
 				} else if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
 					final int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
 					final String permutationStart = aData.getTemporaryVariableName();
@@ -655,14 +667,14 @@ public final class Template_List extends CompositeTemplate {
 								preamble.append(referenceExpression.preamble);
 							}
 
-							setSize.append(".n_elem().getInt()");
-							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
+							setSize.append(".n_elem().get_int()");
+							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
 
-							final String embeddedName = MessageFormat.format("{0}.getAt({1} + i_i)", name, counter);
+							final String embeddedName = MessageFormat.format("{0}.get_at({1} + i_i)", name, counter);
 							((All_From_Template) template2).generateCodeInitAllFrom(aData, body, embeddedName, referenceExpression.expression);
 							body.append("}\n");
 
-							body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, referenceExpression.expression));
+							body.append(MessageFormat.format("{0} += {1}.n_elem().get_int();\n", counter, referenceExpression.expression));
 							template2.lastTimeBuilt = aData.buildTimestamp;
 						} else {
 							fixedPart++;
@@ -683,13 +695,11 @@ public final class Template_List extends CompositeTemplate {
 
 			source.append(preamble);
 
-			source.append(MessageFormat.format("{0}.setSize({1}", name, fixedPart));
+			source.append(MessageFormat.format("{0}.set_size({1}", name, fixedPart));
 			source.append(setSize);
 			source.append(");\n");
 			source.append(body);
 		} else {
-			//source.append(MessageFormat.format("{0}.setSize({1});\n", name, getNofTemplates()));
-
 			int index = 0;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 				final TTCN3Template template = templates.getTemplateByIndex(i);
@@ -721,7 +731,7 @@ public final class Template_List extends CompositeTemplate {
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

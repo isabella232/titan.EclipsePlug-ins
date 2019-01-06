@@ -19,7 +19,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  */
 public class SetverdictUnknown extends MSCNode {
 
-	private String verdict;
+	private final String verdict;
 	private int lifelines;
 
 	/**
@@ -61,10 +61,10 @@ public class SetverdictUnknown extends MSCNode {
 
 	@Override
 	protected void draw(final IGC context) {
-		int x = getX();
-		int y = getY();
-		int width = getWidth();
-		int height = getHeight();
+		final int x = getX();
+		final int y = getY();
+		final int width = getWidth();
+		final int height = getHeight();
 
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);

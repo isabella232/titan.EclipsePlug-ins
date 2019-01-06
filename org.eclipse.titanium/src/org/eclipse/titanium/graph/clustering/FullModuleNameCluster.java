@@ -45,7 +45,7 @@ public class FullModuleNameCluster extends ModuleNameCluster {
 		clusterGraph = new DirectedSparseGraph<NodeDescriptor, EdgeDescriptor>();
 		stack = new LinkedList<String>();
 
-		ClusterNode root = new ClusterNode(ALL, mapNameCluster.get(ALL));
+		final ClusterNode root = new ClusterNode(ALL, mapNameCluster.get(ALL));
 		clusterGraph.addVertex(root);
 		mapNameNode.put(ALL, root);
 

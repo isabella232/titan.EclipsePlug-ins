@@ -27,7 +27,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 
 	// Variables
 	private Tree checkTree;
-	private String prefName;
+	private final String prefName;
 	private int numberOfNodes = 0;
 
 	/**
@@ -47,7 +47,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 
 	@Override
 	protected void createControl(final Composite parent) {
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = getNumberOfControls();
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -58,15 +58,15 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-		Control control = getLabelControl();
+		final Control control = getLabelControl();
 		((GridData) control.getLayoutData()).horizontalSpan = numColumns;
 		((GridData) this.checkTree.getLayoutData()).horizontalSpan = numColumns - 1;
 	}
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-		Control control = getLabelControl(parent);
-		GridData gd = new GridData();
+		final Control control = getLabelControl(parent);
+		final GridData gd = new GridData();
 		gd.horizontalSpan = numColumns;
 		control.setLayoutData(gd);
 
@@ -80,29 +80,29 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 					return;
 				}
 
-				TreeItem item = (TreeItem) e.item;
+				final TreeItem item = (TreeItem) e.item;
 				// Check if item has a parent
-				TreeItem parent = item.getParentItem();
+				final TreeItem parent = item.getParentItem();
 
 				// Item is a child
 				if (parent != null) {
-					TreeItem[] children = parent.getItems();
-					int numberOfChildren = children.length;
-					int checkedChildren = countChecked(children);
+					final TreeItem[] children = parent.getItems();
+					final int numberOfChildren = children.length;
+					final int checkedChildren = countChecked(children);
 					updateParent(parent, numberOfChildren, checkedChildren);
 
 
 					// Item is a parent
 				} else {
 					item.setGrayed(false);
-					boolean checked = item.getChecked();
-					TreeItem[] children = item.getItems();
+					final boolean checked = item.getChecked();
+					final TreeItem[] children = item.getItems();
 					setChecked(children, checked);
 				}
 				valueChanged();
 			}
 
-			private void updateParent(TreeItem parent, int numberOfChildren, int checkedChildren) {
+			private void updateParent(final TreeItem parent, final int numberOfChildren, final int checkedChildren) {
 				// Check if all children checked
 				if (checkedChildren == numberOfChildren) {
 					parent.setGrayed(false);
@@ -119,7 +119,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 			}
 		});
 
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = numColumns;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -135,18 +135,18 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	private void setTreeContent(final SortedMap<String, String[]> treeContent) {
 		// Turn off drawing to avoid flicker
 		this.checkTree.setRedraw(false);
-		Set<String> parents = treeContent.keySet();
+		final Set<String> parents = treeContent.keySet();
 		int index = 0;
 		int tmpNumberOfNodes = 0;
-		for (String parent : parents) {
-			TreeItem parentItem = new TreeItem(this.checkTree, SWT.NONE);
+		for (final String parent : parents) {
+			final TreeItem parentItem = new TreeItem(this.checkTree, SWT.NONE);
 			parentItem.setText(parent);
 			this.checkTree.setData(parent, index++);
 			tmpNumberOfNodes++;
-			String[] strings = treeContent.get(parent);
+			final String[] strings = treeContent.get(parent);
 			for (int i = 0; i < strings.length; i++) {
-				String child = strings[i];
-				TreeItem childItem = new TreeItem(parentItem, SWT.NONE);
+				final String child = strings[i];
+				final TreeItem childItem = new TreeItem(parentItem, SWT.NONE);
 				childItem.setText(child);
 				this.checkTree.setData(parent + PreferenceConstants.SILENT_EVENTS_UNDERSCORE + child, i);
 				tmpNumberOfNodes++;
@@ -158,7 +158,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	}
 
 	private void valueChanged() {
-		TreeItem[] newItems = this.checkTree.getItems();
+		final TreeItem[] newItems = this.checkTree.getItems();
 		fireValueChanged(VALUE, null, newItems);
 	}
 
@@ -166,13 +166,14 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	 * Deselects all tree items (parents and children)
 	 */
 	public void deselectAll() {
-		TreeItem[] parents = this.checkTree.getItems();
-		for (TreeItem parent : parents) {
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
 			parent.setChecked(false);
 			if (parent.getGrayed()) {
 				parent.setGrayed(false);
 			}
-			TreeItem[] children = parent.getItems();
+
+			final TreeItem[] children = parent.getItems();
 			setChecked(children, false);
 		}
 	}
@@ -181,13 +182,14 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	 * Selects all tree items (parents and children)
 	 */
 	public void selectAll() {
-		TreeItem[] parents = this.checkTree.getItems();
-		for (TreeItem parent : parents) {
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
 			parent.setChecked(true);
 			if (parent.getGrayed()) {
 				parent.setGrayed(false);
 			}
-			TreeItem[] children = parent.getItems();
+
+			final TreeItem[] children = parent.getItems();
 			setChecked(children, true);
 		}
 	}
@@ -195,7 +197,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	@Override
 	protected void doLoadDefault() {
 		// Get default values from preference store
-		String prefDefValues = getPreferenceStore().getDefaultString(this.prefName);
+		final String prefDefValues = getPreferenceStore().getDefaultString(this.prefName);
 		if (prefDefValues.length() > 0) {
 			updateCheckedState(prefDefValues);
 			updateGrayedState();
@@ -205,7 +207,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	@Override
 	protected void doLoad() {
 		// Stored values from preference store
-		String prefValues = getPreferenceStore().getString(this.prefName);
+		final String prefValues = getPreferenceStore().getString(this.prefName);
 		if (prefValues.length() > 0) {
 			updateCheckedState(prefValues);
 			updateGrayedState();
@@ -219,19 +221,18 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	 * tree items that should be checked
 	 */
 	private void updateCheckedState(final String prefValues) {
-		String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
-		for (String category : categories) {
-			String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
-
+		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
+		for (final String category : categories) {
+			final String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
 			if (currCategory.length > 1) {
-				String currKey = currCategory[0];
-				boolean currValue = Boolean.valueOf(currCategory[1]);
+				final String currKey = currCategory[0];
+				final boolean currValue = Boolean.valueOf(currCategory[1]);
 
 				if (currKey.contains(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)) {
 					// CAT + SUB CAT
-					String cat = currKey.split(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)[0];
-					int parentIndex = (Integer) this.checkTree.getData(cat);
-					int childIndex = (Integer) this.checkTree.getData(currKey);
+					final String cat = currKey.split(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)[0];
+					final int parentIndex = (Integer) this.checkTree.getData(cat);
+					final int childIndex = (Integer) this.checkTree.getData(currKey);
 					this.checkTree.getItem(parentIndex).getItem(childIndex).setChecked(currValue);
 				} else {
 					// CAT
@@ -246,10 +247,10 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	 * A parent is grayed if one or more, but not all of the children is checked
 	 */
 	private void updateGrayedState() {
-		TreeItem[] parents = this.checkTree.getItems();
-		for (TreeItem parent : parents) {
-			TreeItem[] children = parent.getItems();
-			int numOfCheckChildren = countChecked(children);
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
+			final TreeItem[] children = parent.getItems();
+			final int numOfCheckChildren = countChecked(children);
 			if ((numOfCheckChildren > 0) && (numOfCheckChildren < children.length)) {
 				parent.setGrayed(true);
 			} else {
@@ -260,7 +261,7 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 
 	@Override
 	protected void doStore() {
-		String prefValues = ImportExportUtils.arrayToString(getElements(), PreferenceConstants.PREFERENCE_DELIMITER);
+		final String prefValues = ImportExportUtils.arrayToString(getElements(), PreferenceConstants.PREFERENCE_DELIMITER);
 		getPreferenceStore().setValue(this.prefName, prefValues);
 	}
 
@@ -281,17 +282,17 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 	 * @return the elements as a string array
 	 */
 	public String[] getElements() {
-		TreeItem[] parents = this.checkTree.getItems();
-		String[] prefValues = new String[this.numberOfNodes];
+		final TreeItem[] parents = this.checkTree.getItems();
+		final String[] prefValues = new String[this.numberOfNodes];
 		int currPrefIndex = 0;
-		for (TreeItem currParent : parents) {
+		for (final TreeItem currParent : parents) {
 			prefValues[currPrefIndex++] = currParent.getText()
 					+ PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM
 					+ Boolean.toString(currParent.getChecked());
 
 			// Traverse current parents children
-			TreeItem[] children = currParent.getItems();
-			for (TreeItem currChild : children) {
+			final TreeItem[] children = currParent.getItems();
+			for (final TreeItem currChild : children) {
 				prefValues[currPrefIndex++] = currParent.getText()
 						+ PreferenceConstants.SILENT_EVENTS_UNDERSCORE
 						+ currChild.getText()
@@ -302,18 +303,19 @@ public final class CheckBoxTreeEditor extends FieldEditor {
 		return prefValues;
 	}
 
-	private static int countChecked(TreeItem[] items) {
+	private static int countChecked(final TreeItem[] items) {
 		int checked = 0;
-		for (TreeItem item : items) {
+		for (final TreeItem item : items) {
 			if (item.getChecked()) {
 				checked++;
 			}
 		}
+
 		return checked;
 	}
 
-	private static void setChecked(TreeItem[] items, boolean checked) {
-		for (TreeItem item : items) {
+	private static void setChecked(final TreeItem[] items, final boolean checked) {
+		for (final TreeItem item : items) {
 			item.setChecked(checked);
 		}
 	}

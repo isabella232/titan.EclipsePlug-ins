@@ -7,7 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.core;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
@@ -62,8 +64,10 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		BuildTimestamp timestamp = BuildTimestamp.getNewBuildCounter();
 
 		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
-		codeGeneratorMonitor.beginTask("Checking prerequisites", sourceParser.getModules().size() + 1);
-		for(Module module : sourceParser.getModules()) {
+		final Collection<Module> localModules = sourceParser.getModules();
+		final Set<String> knownModuleNames = sourceParser.getKnownModuleNames();
+		codeGeneratorMonitor.beginTask("Checking prerequisites", localModules.size() + 1);
+		for(Module module : localModules) {
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
 				ProjectSourceCompiler.compile(timestamp, module, reportDebugInformation );
@@ -75,8 +79,8 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		}
 		TITANDebugConsole.println("Generating code for single main");
 		try {
-			ProjectSourceCompiler.generateSingleMain( project, sourceParser.getModules());
-			ProjectSourceCompiler.generateParallelMain(project, sourceParser.getModules());
+			ProjectSourceCompiler.generateSingleMain( project, knownModuleNames);
+			ProjectSourceCompiler.generateParallelMain(project, knownModuleNames);
 		} catch ( CoreException e ) {
 			ErrorReporter.logExceptionStackTrace("While generating Java code for main module ", e);
 		}

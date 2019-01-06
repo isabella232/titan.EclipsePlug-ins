@@ -59,14 +59,14 @@ public class MSCFilterDialog extends Dialog {
 	private boolean isFilterStringValid = true;
 	private boolean isStartTimeStampValid = true;
 	private boolean isEndTimeStampValid = true;
-	private Listener changeListener = new Listener() {
+	private final Listener changeListener = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			MSCFilterDialog.this.changed = true;
 		}
 	};
 
-	private Listener filterStringChanged = new Listener() {
+	private final Listener filterStringChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (!isRegularExpressionButton.getSelection()) {
@@ -91,7 +91,7 @@ public class MSCFilterDialog extends Dialog {
 		}
 	};
 
-	private Listener startTimeStampChanged = new Listener() {
+	private final Listener startTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (startTimestamp.getText().length() > 0
@@ -112,7 +112,7 @@ public class MSCFilterDialog extends Dialog {
 		}
 	};
 
-	private Listener endTimeStampChanged = new Listener() {
+	private final Listener endTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
 			if (endTimestamp.getText().length() > 0
@@ -148,8 +148,8 @@ public class MSCFilterDialog extends Dialog {
 	protected Control createDialogArea(final Composite parent) {
 		parent.getShell().setText("Filter");
 		parent.getShell().setImage(Activator.getDefault().getIcon(Constants.ICONS_FILTER));
-		Composite container = (Composite) super.createDialogArea(parent);
-		GridLayout mainLayout = new GridLayout(2, false);
+		final Composite container = (Composite) super.createDialogArea(parent);
+		final GridLayout mainLayout = new GridLayout(2, false);
 
 		mainLayout.marginHeight = 20;
 		mainLayout.marginWidth = 20;
@@ -161,8 +161,8 @@ public class MSCFilterDialog extends Dialog {
 		createEventTypesGroup(container);
 		setTreeContent(filterPattern);
 
-		Composite rightSide = new Composite(container, SWT.NONE);
-		GridLayout rightLayout = new GridLayout(1, true);
+		final Composite rightSide = new Composite(container, SWT.NONE);
+		final GridLayout rightLayout = new GridLayout(1, true);
 		rightLayout.verticalSpacing = 20;
 		rightSide.setLayout(rightLayout);
 		rightSide.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
@@ -174,13 +174,13 @@ public class MSCFilterDialog extends Dialog {
 	}
 
 	protected Group createEventTypesGroup(final Composite parent) {
-		Group eventContainer = new Group(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, true);
+		final Group eventContainer = new Group(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, true);
 
 		eventContainer.setText("Event types");
 		eventContainer.setLayout(layout);
 
-		GridData gd = new GridData();
+		final GridData gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.CENTER;
 		eventContainer.setLayoutData(gd);
@@ -194,16 +194,16 @@ public class MSCFilterDialog extends Dialog {
 			public void widgetSelected(final SelectionEvent e) {
 				if (e.detail == SWT.CHECK
 						&& e.item instanceof TreeItem) {
-					TreeItem item = (TreeItem) e.item;
+					final TreeItem item = (TreeItem) e.item;
 					// Check if item has a parent
-					TreeItem parent = item.getParentItem();
+					final TreeItem parent = item.getParentItem();
 
 					// Item is a child
 					if (parent != null) {
-						TreeItem[] children = parent.getItems();
-						int numberOfChildren = children.length;
+						final TreeItem[] children = parent.getItems();
+						final int numberOfChildren = children.length;
 						int checkedChildren = 0;
-						for (TreeItem child : children) {
+						for (final TreeItem child : children) {
 							if (child.getChecked()) {
 								checkedChildren++;
 							}
@@ -225,9 +225,9 @@ public class MSCFilterDialog extends Dialog {
 						// Item is a parent
 					} else {
 						item.setGrayed(false);
-						boolean checked = item.getChecked();
-						TreeItem[] children = item.getItems();
-						for (TreeItem aChildren : children) {
+						final boolean checked = item.getChecked();
+						final TreeItem[] children = item.getItems();
+						for (final TreeItem aChildren : children) {
 							aChildren.setChecked(checked);
 						}
 					}
@@ -237,7 +237,7 @@ public class MSCFilterDialog extends Dialog {
 
 		});
 
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -281,13 +281,13 @@ public class MSCFilterDialog extends Dialog {
 	}
 
 	protected Group createSearchGroup(final Composite parent) {
-		Group searchGroup = new Group(parent, SWT.NONE);
-		GridLayout searchLayout = new GridLayout(2, true);
+		final Group searchGroup = new Group(parent, SWT.NONE);
+		final GridLayout searchLayout = new GridLayout(2, true);
 		searchGroup.setLayout(searchLayout);
 		searchGroup.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		searchGroup.setText("Filter string");
 
-		CLabel wildCardsLabel = new CLabel(searchGroup, SWT.NONE);
+		final CLabel wildCardsLabel = new CLabel(searchGroup, SWT.NONE);
 		wildCardsLabel.setText("* = any string, ? = any character, \\ = escape for literals: *?\\");
 		wildCardsLabel.setImage(Activator.getDefault().getIcon(Constants.ICONS_TREE_TEXT_OBJ));
 		wildCardsLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
@@ -309,7 +309,7 @@ public class MSCFilterDialog extends Dialog {
 		isRegularExpressionButton.addListener(SWT.Selection, filterStringChanged);
 		isRegularExpressionButton.addListener(SWT.Selection, changeListener);
 
-		Label searchInLabel = new Label(searchGroup, SWT.NONE);
+		final Label searchInLabel = new Label(searchGroup, SWT.NONE);
 		searchInLabel.setText("Search in: ");
 		searchInLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false, 2, 1));
 
@@ -334,16 +334,16 @@ public class MSCFilterDialog extends Dialog {
 	}
 
 	protected Group createTimeGroup(final Composite parent) {
-		Group timeGroup = new Group(parent, SWT.NONE);
-		GridLayout timeLayout = new GridLayout(2, true);
+		final Group timeGroup = new Group(parent, SWT.NONE);
+		final GridLayout timeLayout = new GridLayout(2, true);
 		timeLayout.marginHeight = 20;
 		timeGroup.setLayout(timeLayout);
 		timeGroup.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		timeGroup.setText("Filter by time interval");
 
-		Composite start = new Composite(timeGroup, SWT.NONE);
+		final Composite start = new Composite(timeGroup, SWT.NONE);
 		start.setLayout(new GridLayout(2, false));
-		Label startLabel = new Label(start, SWT.NONE);
+		final Label startLabel = new Label(start, SWT.NONE);
 		startLabel.setText("Start: ");
 		startTimestamp = new Text(start, SWT.BORDER);
 		startTimestamp.setText(filterPattern.getTimeInterval() != null ? filterPattern.getTimeInterval().getStart() : "");
@@ -352,9 +352,9 @@ public class MSCFilterDialog extends Dialog {
 		startTimestamp.addListener(SWT.Modify, changeListener);
 		startTimestamp.setTextLimit(filterPattern.getTimeInterval().getTimeStampFormat().length());
 
-		Composite end = new Composite(timeGroup, SWT.NONE);
+		final Composite end = new Composite(timeGroup, SWT.NONE);
 		end.setLayout(new GridLayout(2, false));
-		Label endLabel = new Label(end, SWT.NONE);
+		final Label endLabel = new Label(end, SWT.NONE);
 		endLabel.setText("End: ");
 
 		endTimestamp = new Text(end, SWT.BORDER);
@@ -374,7 +374,7 @@ public class MSCFilterDialog extends Dialog {
 		invalidEndTimestamp.setImage(Activator.getDefault().getIcon(Constants.ICONS_ERROR));
 		invalidEndTimestamp.setVisible(false);
 
-		CLabel formatLabel = new CLabel(timeGroup, SWT.NONE);
+		final CLabel formatLabel = new CLabel(timeGroup, SWT.NONE);
 		formatLabel.setText("Format: " + filterPattern.getTimeInterval().getTimeStampFormat());
 		formatLabel.setImage(Activator.getDefault().getIcon(Constants.ICONS_TREE_TEXT_OBJ));
 		formatLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
@@ -385,7 +385,7 @@ public class MSCFilterDialog extends Dialog {
 
 	protected void loadFromPreferenceStore() {
 		// Get default values from preference store
-		String prefDefValues = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES);
+		final String prefDefValues = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES);
 		if (prefDefValues.length() > 0) {
 			updateCheckedState(prefDefValues);
 			updateGrayedState();
@@ -399,19 +399,19 @@ public class MSCFilterDialog extends Dialog {
 	 * tree items that should be checked
 	 */
 	private void updateCheckedState(final String prefValues) {
-		String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
-		for (String category : categories) {
-			String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
+		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
+		for (final String category : categories) {
+			final String[] currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
 
 			if (currCategory.length > 1) {
-				String currKey = currCategory[0];
-				boolean currValue = Boolean.valueOf(currCategory[1]);
+				final String currKey = currCategory[0];
+				final boolean currValue = Boolean.valueOf(currCategory[1]);
 
 				if (currKey.contains(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)) {
 					// CAT + SUB CAT
-					String cat = currKey.split(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)[0];
-					int parentIndex = (Integer) this.checkTree.getData(cat);
-					int childIndex = (Integer) this.checkTree.getData(currKey);
+					final String cat = currKey.split(PreferenceConstants.SILENT_EVENTS_UNDERSCORE)[0];
+					final int parentIndex = (Integer) this.checkTree.getData(cat);
+					final int childIndex = (Integer) this.checkTree.getData(currKey);
 					this.checkTree.getItem(parentIndex).getItem(childIndex).setChecked(currValue);
 				} else {
 					// CAT
@@ -426,12 +426,11 @@ public class MSCFilterDialog extends Dialog {
 	 * A parent is grayed if one or more, but not all of the children is checked
 	 */
 	private void updateGrayedState() {
-		TreeItem[] parents = this.checkTree.getItems();
-		int numOfCheckChildren;
-		for (TreeItem parent : parents) {
-			TreeItem[] children = parent.getItems();
-			numOfCheckChildren = 0;
-			for (TreeItem child : children) {
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
+			final TreeItem[] children = parent.getItems();
+			int numOfCheckChildren = 0;
+			for (final TreeItem child : children) {
 				if (child.getChecked()) {
 					numOfCheckChildren++;
 				}
@@ -469,12 +468,12 @@ public class MSCFilterDialog extends Dialog {
 			return;
 		}
 
-		for (TreeItem item : checkTree.getItems()) {
+		for (final TreeItem item : checkTree.getItems()) {
 			filterPattern.getEventsToFilter().put((String) item.getData(), item.getChecked());
 		}
 		filterPattern.setInclusive(inclusiveButton.getSelection());
 
-		Map<Field, Boolean> fieldsToFilter = new HashMap<Field, Boolean>();
+		final Map<Field, Boolean> fieldsToFilter = new HashMap<Field, Boolean>();
 
 		fieldsToFilter.put(Field.SOURCE_INFO, sourceInfoButton.getSelection());
 		fieldsToFilter.put(Field.MESSAGE, messageButton.getSelection());
@@ -495,15 +494,15 @@ public class MSCFilterDialog extends Dialog {
 	private void setTreeContent(final FilterPattern pattern) {
 		checkTree.setRedraw(false);
 		if (pattern.containsSilentEvents()) {
-			for (Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
-				TreeItem parentItem = new TreeItem(checkTree, SWT.NONE);
+			for (final Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
+				final TreeItem parentItem = new TreeItem(checkTree, SWT.NONE);
 				parentItem.setText(entry.getKey());
 				parentItem.setData(entry.getKey());
 				parentItem.setChecked(pattern.getEventsToFilter().get(entry.getKey()));
 
-				for (String str : entry.getValue()) {
-					String silentEvent = entry.getKey() + PreferenceConstants.SILENT_EVENTS_UNDERSCORE + str;
-					TreeItem childItem = new TreeItem(parentItem, SWT.NONE);
+				for (final String str : entry.getValue()) {
+					final String silentEvent = entry.getKey() + PreferenceConstants.SILENT_EVENTS_UNDERSCORE + str;
+					final TreeItem childItem = new TreeItem(parentItem, SWT.NONE);
 					childItem.setText(str);
 					childItem.setData(silentEvent);
 					if (pattern.getEventsToFilter().get(silentEvent) != null) {
@@ -517,8 +516,8 @@ public class MSCFilterDialog extends Dialog {
 			return;
 		}
 
-		for (Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
-			TreeItem parentItem = new TreeItem(checkTree, SWT.NONE);
+		for (final Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
+			final TreeItem parentItem = new TreeItem(checkTree, SWT.NONE);
 			parentItem.setText(entry.getKey());
 			parentItem.setData(entry.getKey());
 			parentItem.setChecked(filterPattern.getEventsToFilter().get(entry.getKey()));
@@ -530,14 +529,15 @@ public class MSCFilterDialog extends Dialog {
 	 * Deselects all tree items (parents and children)
 	 */
 	public void deselectAll() {
-		TreeItem[] parents = this.checkTree.getItems();
-		for (TreeItem parent : parents) {
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
 			parent.setChecked(false);
 			if (parent.getGrayed()) {
 				parent.setGrayed(false);
 			}
-			TreeItem[] children = parent.getItems();
-			for (TreeItem child : children) {
+
+			final TreeItem[] children = parent.getItems();
+			for (final TreeItem child : children) {
 				child.setChecked(false);
 			}
 		}
@@ -547,14 +547,15 @@ public class MSCFilterDialog extends Dialog {
 	 * Selects all tree items (parents and children)
 	 */
 	public void selectAll() {
-		TreeItem[] parents = this.checkTree.getItems();
-		for (TreeItem parent : parents) {
+		final TreeItem[] parents = this.checkTree.getItems();
+		for (final TreeItem parent : parents) {
 			parent.setChecked(true);
 			if (parent.getGrayed()) {
 				parent.setGrayed(false);
 			}
-			TreeItem[] children = parent.getItems();
-			for (TreeItem child : children) {
+
+			final TreeItem[] children = parent.getItems();
+			for (final TreeItem child : children) {
 				child.setChecked(true);
 			}
 		}

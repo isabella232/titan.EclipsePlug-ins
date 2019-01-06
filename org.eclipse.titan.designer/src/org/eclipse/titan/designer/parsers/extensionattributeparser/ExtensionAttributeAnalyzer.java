@@ -41,14 +41,13 @@ public final class ExtensionAttributeAnalyzer {
 	}
 
 	public void parse(final AttributeSpecification specification) {
-		ExtensionAttributeLexer lexer;
-		Location location = specification.getLocation();
+		final Location location = specification.getLocation();
 
-		StringReader reader = new StringReader(specification.getSpecification());
-		CharStream charStream = new UnbufferedCharStream(reader);
-		lexer = new ExtensionAttributeLexer(charStream);
+		final StringReader reader = new StringReader(specification.getSpecification());
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final ExtensionAttributeLexer lexer = new ExtensionAttributeLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
-		TitanListener lexerListener = new TitanListener();
+		final TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
 
@@ -59,10 +58,10 @@ public final class ExtensionAttributeAnalyzer {
 		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 
-		ExtensionAttributeParser parser = new ExtensionAttributeParser( tokenStream );
+		final ExtensionAttributeParser parser = new ExtensionAttributeParser( tokenStream );
 		parser.setBuildParseTree(false);
 
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		parser.removeErrorListeners();
 		parser.addErrorListener(parserListener);
 
@@ -77,7 +76,7 @@ public final class ExtensionAttributeAnalyzer {
 		attributes = parser.pr_ExtensionAttributeRoot().list;
 
 		if (!lexerListener.getErrorsStored().isEmpty()) {
-			String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+			final String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, GeneralConstants.WARNING, null);
 			int errorLevel;
 			if (GeneralConstants.ERROR.equals(reportLevel)) {
@@ -88,13 +87,13 @@ public final class ExtensionAttributeAnalyzer {
 				return;
 			}
 			for (int i = 0; i < lexerListener.getErrorsStored().size(); i++) {
-				Location temp = new Location(location);
+				final Location temp = new Location(location);
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), lexerListener.getErrorsStored().get(i), errorLevel, temp);
 			}
 		}
 		if (!parserListener.getErrorsStored().isEmpty()) {
-			String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+			final String reportLevel = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, GeneralConstants.WARNING, null);
 			int errorLevel;
 			if (GeneralConstants.ERROR.equals(reportLevel)) {
@@ -105,7 +104,7 @@ public final class ExtensionAttributeAnalyzer {
 				return;
 			}
 			for (int i = 0; i < parserListener.getErrorsStored().size(); i++) {
-				Location temp = new Location(location);
+				final Location temp = new Location(location);
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), parserListener.getErrorsStored().get(i), errorLevel, temp);
 			}

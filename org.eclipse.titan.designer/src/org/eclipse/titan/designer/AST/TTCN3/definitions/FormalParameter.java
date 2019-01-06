@@ -101,7 +101,7 @@ public final class FormalParameter extends Definition {
 	private boolean usedAsLValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private FormalParameterList myParameterList;
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	private boolean wasAssigned;
 
@@ -170,6 +170,8 @@ public final class FormalParameter extends Definition {
 		if (type == child) {
 			return builder.append(FULLNAMEPART1);
 		} else if (defaultValue == child) {
+			return builder.append(FULLNAMEPART2);
+		} else if (actualDefaultParameter == child) {
 			return builder.append(FULLNAMEPART2);
 		}
 
@@ -299,6 +301,9 @@ public final class FormalParameter extends Definition {
 		}
 		if (defaultValue != null) {
 			defaultValue.setMyScope(scope);
+		}
+		if (actualDefaultParameter != null) {
+			actualDefaultParameter.setMyScope(scope);
 		}
 	}
 
@@ -1088,8 +1093,6 @@ public final class FormalParameter extends Definition {
 		source.append( ' ' );
 		// parameter name
 		source.append( identifier.getName() );
-
-		//TODO: implement: handle default value
 	}
 
 	/**
@@ -1111,7 +1114,7 @@ public final class FormalParameter extends Definition {
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
 				if (generateInitialized) {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new final Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
 				} else {
 					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2};\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName()));
 				}
@@ -1182,7 +1185,7 @@ public final class FormalParameter extends Definition {
 		switch(assignmentType) {
 		case A_PAR_TEMP_OUT:
 		case A_PAR_VAL_OUT:
-			source.append(MessageFormat.format("{0}.cleanUp();\n", identifier.getName()));
+			source.append(MessageFormat.format("{0}.clean_up();\n", identifier.getName()));
 			break;
 		default:
 			break;
@@ -1249,5 +1252,19 @@ public final class FormalParameter extends Definition {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Generate code for referencing the value of formal parameters.
+	 * Where we need to reference through a formal parameter to reach the actual value.
+	 * */
+	public String getGeneratedReferenceName() {
+		final StringBuilder builder = new StringBuilder(getIdentifier().getName());
+		if (evaluationType != parameterEvaluationType.NORMAL_EVAL) {
+			builder.append(".evaluate()");
+		}
+
+		return builder.toString();
+		
 	}
 }

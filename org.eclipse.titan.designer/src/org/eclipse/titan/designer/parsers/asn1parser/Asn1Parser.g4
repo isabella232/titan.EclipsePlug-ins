@@ -1583,7 +1583,9 @@ locals [Defined_Reference tempReference]
 	)?
 	(
 		DOT
-		pr_FieldNameLower //pr_LowerFromObj
+		f = pr_FieldNameLower //pr_LowerFromObj
+		{$reference = new InformationFromObj($tempReference, $f.fieldName);
+		$reference.setLocation(getLocation($start, $f.stop));}
 	|	{ $reference = $tempReference; }
 	)
 );

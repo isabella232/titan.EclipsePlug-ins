@@ -144,7 +144,7 @@ public class ChangeCreator {
 		}
 		//create edits
 		final List<Edit> allEdits = new ArrayList<Edit>();
-		for (Definition def: funcs) {
+		for (final Definition def: funcs) {
 			final List<Edit> edits = analyzeFunction(def);
 			if (edits == null) {
 				continue;
@@ -170,12 +170,12 @@ public class ChangeCreator {
 		final List<TextEdit> allTes = new LinkedList<TextEdit>();
 		//collect processed (insert) edits with their created insert edit
 		final Map<Edit, InsertEdit> editsDone = new HashMap<Edit, InsertEdit>();
-		for (Edit e: allEdits) {
+		for (final Edit e: allEdits) {
 			final TextEdit[] tes = createTextEdit(toVisit, fileContents, e, editsDone);
-			for (TextEdit te: tes) {
+			for (final TextEdit te: tes) {
 				if (!(te instanceof DeleteEdit)) {
 					allTes.add(te);
-					//System.err.println("$ nonde added: " + te.getOffset() + "-" + te.getExclusiveEnd());
+
 					continue;
 				}
 				DeleteEdit dte = (DeleteEdit)te;
@@ -185,24 +185,24 @@ public class ChangeCreator {
 					if (!(currTe instanceof DeleteEdit)) {
 						continue;
 					}
+
 					final DeleteEdit currDte = (DeleteEdit)currTe;
 					//dte: to be added, currDte: present in the list
 					//if the new edit (dte) overlaps currDte, merge them
 					if (doesDeleteEditsOverlap(dte, currDte)) {
-						//System.err.println("$ de removed: " + currDte.getOffset() + "-" + currDte.getExclusiveEnd());
 						it.remove();
 						dte = mergeDeleteEdits(dte, currDte);
-						//System.err.println("$ merged des: " + dte.getOffset() + "-" + dte.getExclusiveEnd());
 					}
 				}
-				//System.err.println("$ de added: " + dte.getOffset() + "-" + dte.getExclusiveEnd());
+
 				allTes.add(dte);
 			}
 		}
 		Collections.reverse(allTes);
-		for (TextEdit te: allTes) {
+		for (final TextEdit te: allTes) {
 			rootEdit.addChild(te);
 		}
+
 		return tfc;
 	}
 
@@ -221,7 +221,7 @@ public class ChangeCreator {
 			if (!e.isRemoveEdit()) {
 				//update insert location if the insertionPoint stmt was moved
 				int insertOffset = ((ILocateableNode)e.insertionPoint.getAstNode()).getLocation().getOffset();
-				for (Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
+				for (final Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
 					if (ed.getKey().declSt.equals(e.insertionPoint)) {
 						insertOffset = ed.getValue().getOffset();
 						break;
@@ -245,7 +245,7 @@ public class ChangeCreator {
 				//update insert location if the insertionPoint stmt was moved
 				final Location insPLoc = ((ILocateableNode)e.insertionPoint.getAstNode()).getLocation();
 				int insertOffset = insPLoc.getOffset();
-				for (Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
+				for (final Map.Entry<Edit, InsertEdit> ed: editsDone.entrySet()) {
 					if (ed.getKey().declSt.equals(e.insertionPoint)) {
 						insertOffset = ed.getValue().getOffset();
 						break;
@@ -265,10 +265,10 @@ public class ChangeCreator {
 
 			final int cutLen = cutLoc.getEndOffset() - cutLoc.getOffset();
 			final TextEdit cut = new DeleteEdit(cutLoc.getOffset(), cutLen);
-			//System.err.println("DeleteEdit: " + fileContent.substring(cutLoc.getOffset(), cutLoc.getEndOffset()));
 			if (insert != null) {
 				return new TextEdit[]{insert, cut};
 			}
+
 			return new TextEdit[]{cut};
 		}
 	}
@@ -387,7 +387,7 @@ public class ChangeCreator {
 		//
 		if (md.getSize() <= 1) {
 			final Location cutLoc = findStatementLocation(fileContent, declStmt.getLocation(), true);
-			//System.err.println("mdcutloc <= 1 -->>>" + fileContent.substring(cutLoc.getOffset(), cutLoc.getEndOffset()) + "<<<");
+
 			return cutLoc;
 		}
 		//
@@ -406,7 +406,7 @@ public class ChangeCreator {
 			//intermediate var
 			cutEndOffset = calculateEndOffsetIncludingTrailingComma(fileContent, cutEndOffset, declStmtLoc.getEndOffset());
 		}
-		//System.err.println("mdcutloc -->>>" + fileContent.substring(cutOffset, cutEndOffset) + "<<<");
+
 		return new Location(declStmtLoc.getFile(), declStmtLoc.getLine(), cutOffset, cutEndOffset);
 	}
 
@@ -533,7 +533,7 @@ public class ChangeCreator {
 		//remove newlines from varContent
 		prefixContent = prefixContent.replaceAll("[\n\r]", " ");
 		varContent = varContent.replaceAll("[\n\r]", " ");
-		//System.err.println("mdcopyloc -->>>" + prefixContent + "<>" + varContent + "<>" + suffixContent + "<<<");
+
 		return prefixContent + varContent + suffixContent;
 	}
 
@@ -602,7 +602,7 @@ public class ChangeCreator {
 		public int visit(final IVisitableNode node) {
 			if (node instanceof For_Loop_Definitions && suspendDeclarationsForNode == null) {
 				setSuspendDeclarationsForNode(node);
-				//System.err.println("*** suspended decl when entering: " + node);
+
 				return V_CONTINUE;
 			}
 			if (node instanceof Statement && suspendStackBuildingForNode == null) {
@@ -612,11 +612,9 @@ public class ChangeCreator {
 					sn.setParent(parent);
 					parent.addStatement(sn);
 					currStack.push(sn);
-					//System.err.println("*** pushed sn: " + node);
 				} else {
 					setSuspendStackBuildingForNode(node);
 					setSuspendDeclarationsForNode(node);
-					//System.err.println("DEBUG > SN parent is not a BN! (1) st: " + sn + ",\n         stacktop: " + currStack.peek());
 				}
 			}
 			if (node instanceof StatementBlock && suspendStackBuildingForNode == null) {
@@ -625,32 +623,25 @@ public class ChangeCreator {
 					//root block
 					env.setRootNode(bn);
 					currStack.push(bn);
-					//System.err.println("*** pushed bn as root node: " + node);
 				} else {
 					if (currStack.peek() instanceof StatementNode) {
 						final StatementNode parent = (StatementNode)currStack.peek();
 						bn.setParent(parent);
 						parent.addBlock(bn);
 						currStack.push(bn);
-						//System.err.println("*** pushed bn: " + node);
 					} else {
 						setSuspendStackBuildingForNode(node);
 						setSuspendDeclarationsForNode(node);
-						//System.err.println("DEBUG > BN parent is not a SN! (2) st: " + bn + ",\n         stacktop: " + currStack.peek());
 					}
 				}
 			}
 			if (node instanceof FormalParameter && suspendDeclarationsForNode == null) {
 				final Variable var = new Variable((FormalParameter)node, null, true);
-				//System.err.println("*** var added as FormalParameter: " + var);
 				env.addVariable(var);
+
 				return V_SKIP;
 			}
 			if (node instanceof Def_Var && suspendDeclarationsForNode == null) {
-				if (!(currStack.peek() instanceof StatementNode)) {
-					//System.err.println("DEBUG > At a var def: stacktop is not a SN! (5) st: " + node + ",\n         stacktop: " + currStack.peek());
-				}
-
 				final StatementNode declSt = (StatementNode)currStack.peek();
 				final Variable var = new Variable((Def_Var)node, declSt, false);
 				if (declSt == null) {
@@ -658,7 +649,7 @@ public class ChangeCreator {
 				}
 				declSt.setDeclaredVar(var);
 				env.addVariable(var);
-				//System.err.println("*** var added, declSt is stacktop (SN) " + var);
+
 				//test for multi-declaration
 				final StatementNode prevSt = declSt.getParent().getPreviousStatement(declSt);
 				if (prevSt != null && prevSt.isDeclaration() && prevSt.isLocationEqualTo(declSt)) {
@@ -678,27 +669,25 @@ public class ChangeCreator {
 					//should be a return type or runs on reference (ignore it)
 					return V_SKIP;
 				}
+
 				//does the statement contain function calls?
 				if (as instanceof Def_Function || as instanceof Def_Extfunction) {
 					refSt.setHasFunctionCall();
 					return V_CONTINUE;
 				}
-				//
+
 				final Variable var = env.getVariable(as);
 				if (var == null) {
-					//System.err.println("DEBUG > Reference to undeclared variable! (3) id: " + as.getIdentifier());
 					if (as instanceof Def_Var) {
 						//TODO only this type can be unchecked? (consts are definitely not)
 						refSt.setHasUncheckedRef();
 					}
 					return V_CONTINUE;
 				}
-				/*if (!(currStack.peek() instanceof StatementNode)) {
-					System.err.println("DEBUG > At a reference: stacktop is not a SN! (4) id: " + as.getIdentifier() + "\n         stacktop: " + currStack.peek());
-				}*/
+
 				var.addReference(refSt, ref.getUsedOnLeftHandSide());
 				refSt.addReferedVars(var);
-				//System.err.println("*** ref added to stacktop st (SN) " + var);
+
 				return V_CONTINUE;
 			}
 			return V_CONTINUE;
@@ -708,21 +697,13 @@ public class ChangeCreator {
 		public int leave(final IVisitableNode node) {
 			if (node instanceof For_Loop_Definitions) {
 				checkForUnsuspend(node);
-				//System.err.println("*** unsuspended decl when leaving: " + node);
+
 				return V_CONTINUE;
 			}
 			if (node instanceof Statement) {
-				if (suspendStackBuildingForNode == null) {
-					final Node n = currStack.pop();
-					//System.err.println("*** popped(" + n.getClass() + "): " + node);
-				}
 				checkForUnsuspend(node);
 			}
 			if (node instanceof StatementBlock) {
-				if (suspendStackBuildingForNode == null) {
-					final Node n = currStack.pop();
-					//System.err.println("*** popped(" + n.getClass() + "): " + node);
-				}
 				checkForUnsuspend(node);
 			}
 			return V_CONTINUE;
@@ -736,7 +717,7 @@ public class ChangeCreator {
 	 * */
 	private static class FunctionCollector extends ASTVisitor {
 
-		private Set<Definition> result = new HashSet<Definition>();
+		private final Set<Definition> result = new HashSet<Definition>();
 
 		public Set<Definition> getResult() {
 			return result;
@@ -761,7 +742,7 @@ public class ChangeCreator {
 		StringBuilder fileContents;
 		try {
 			final InputStream is = toLoad.getContents();
-			final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is, toLoad.getCharset()));
 			fileContents = new StringBuilder();
 			final char[] buff = new char[1024];
 			while (br.ready()) {

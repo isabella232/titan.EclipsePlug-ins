@@ -22,7 +22,7 @@ public class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
 
 	// linked list of running timers
-	private static final ThreadLocal<LinkedList<TitanTimer>> TIMERS = new ThreadLocal<LinkedList<TitanTimer>>() {
+	private static final ThreadLocal<LinkedList<TitanTimer>> RUNNING_TIMERS = new ThreadLocal<LinkedList<TitanTimer>>() {
 		@Override
 		protected LinkedList<TitanTimer> initialValue() {
 			return new LinkedList<TitanTimer>();
@@ -35,53 +35,83 @@ public class TitanTimer {
 		}
 	};
 
-	private String timerName;
-	private boolean hasDefault;
-	private boolean isStarted;
-	private double defaultValue;
-	private double timeStarted;
-	private double timeExpires;
-	private static boolean controlTimerSaved = false;
+	private String timer_name;
+	private boolean has_default;
+	private boolean is_started;
+	private double default_value;
+	private double time_started;
+	private double time_expires;
+	private static boolean control_timer_saved = false;
 
 	protected TitanTimer(){
-
+		//intentionally left empty
 	}
 
-	TitanTimer assign(final TitanTimer otherValue) {
-		timerName = otherValue.timerName;
-		hasDefault = otherValue.hasDefault;
-		isStarted = otherValue.isStarted;
-		defaultValue = otherValue.defaultValue;
-		timeStarted = otherValue.timeStarted;
-		timeExpires = otherValue.timeExpires;
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	TitanTimer operator_assign(final TitanTimer otherValue) {
+		timer_name = otherValue.timer_name;
+		has_default = otherValue.has_default;
+		is_started = otherValue.is_started;
+		default_value = otherValue.default_value;
+		time_started = otherValue.time_started;
+		time_expires = otherValue.time_expires;
 
 		return this;
 	}
 
-	public TitanTimer assign(final Ttcn3Float defaultValue) {
-		setDefaultDuration(defaultValue);
-		isStarted = false;
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanTimer operator_assign(final Ttcn3Float defaultValue) {
+		set_default_duration(defaultValue);
+		is_started = false;
 
 		return this;
 	}
 
-	public TitanTimer assign(final TitanFloat defaultValue) {
-		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanTimer operator_assign(final TitanFloat defaultValue) {
+		defaultValue.must_bound("Initializing a timer duration with an unbound float value.");
 
-		setDefaultDuration(defaultValue);
-		isStarted = false;
+		set_default_duration(defaultValue);
+		is_started = false;
 
 		return this;
 	}
 
 	public TitanTimer(final String name) {
 		if (name == null) {
-			timerName = "<unknown>";
+			timer_name = "<unknown>";
 		} else {
-			timerName = name;
+			timer_name = name;
 		}
-		hasDefault = false;
-		isStarted = false;
+		has_default = false;
+		is_started = false;
 	}
 
 	public TitanTimer(final String name, final double defaultValue) {
@@ -89,9 +119,9 @@ public class TitanTimer {
 			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
 		}
 
-		timerName = name;
-		setDefaultDuration(defaultValue);
-		isStarted = false;
+		timer_name = name;
+		set_default_duration(defaultValue);
+		is_started = false;
 	}
 
 	public TitanTimer(final String name, final Ttcn3Float defaultValue) {
@@ -99,27 +129,27 @@ public class TitanTimer {
 			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
 		}
 
-		timerName = name;
-		setDefaultDuration(defaultValue);
-		isStarted = false;
+		timer_name = name;
+		set_default_duration(defaultValue);
+		is_started = false;
 	}
 
 	public TitanTimer(final String name, final TitanFloat defaultValue) {
 		if (name == null) {
 			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
 		}
-		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
+		defaultValue.must_bound("Initializing a timer duration with an unbound float value.");
 
-		timerName = name;
-		setDefaultDuration(defaultValue);
-		isStarted = false;
+		timer_name = name;
+		set_default_duration(defaultValue);
+		is_started = false;
 	}
 
 	/**
 	 * Add the current timer instance to the end of the running timers list.
 	 * */
-	private void addToList() {
-		final LinkedList<TitanTimer> localTimers = TIMERS.get();
+	private void add_to_list() {
+		final LinkedList<TitanTimer> localTimers = RUNNING_TIMERS.get();
 		if (localTimers.contains(this)) {
 			return;
 		}
@@ -130,52 +160,51 @@ public class TitanTimer {
 	/**
 	 * Remove the current timer from the list of running timers
 	 * */
-	private void removeFromList() {
-		TIMERS.get().remove(this);
+	private void remove_from_list() {
+		RUNNING_TIMERS.get().remove(this);
 	}
 
-	//originally TIMER::set_name
-	public void setName(final String name) {
+	public void set_name(final String name) {
 		if (name == null) {
 			throw new TtcnError("Internal error: Setting an invalid name for a single element of a timer array.");
 		}
-		timerName = name;
+		timer_name = name;
 	}
-	// originally set_default_duration
-	public final void setDefaultDuration(final double defaultValue) {
+
+	public final void set_default_duration(final double defaultValue) {
 		if (defaultValue < 0.0) {
 			throw new TtcnError(MessageFormat.format("Setting the default duration of timer {0} to a negative float value ({1}).",
-					timerName, defaultValue));
+					timer_name, defaultValue));
 		} else if (Double.isInfinite(defaultValue) || Double.isNaN(defaultValue)) {
 			throw new TtcnError(
 					MessageFormat.format("Setting the default duration of timer {0} to a non-numeric float value ({1}).",
-							timerName, defaultValue));
+							timer_name, defaultValue));
 		}
 
-		hasDefault = true;
-		this.defaultValue = defaultValue;
+		has_default = true;
+		this.default_value = defaultValue;
 	}
 
 	// originally set_default_duration
-	public final void setDefaultDuration(final Ttcn3Float defaultValue) {
-		setDefaultDuration(defaultValue.getValue());
+	public final void set_default_duration(final Ttcn3Float defaultValue) {
+		set_default_duration(defaultValue.getValue());
 	}
 
 	// originally set_default_duration
-	public final void setDefaultDuration(final TitanFloat defaultValue) {
-		defaultValue.mustBound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timerName));
+	public final void set_default_duration(final TitanFloat defaultValue) {
+		defaultValue.must_bound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timer_name));
 
-		setDefaultDuration(defaultValue.getValue());
+		set_default_duration(defaultValue.get_value());
 	}
 
 	// originally start
 	public void start() {
-		if (!hasDefault) {
+		if (!has_default) {
 			throw new TtcnError(MessageFormat.format("Timer {0} does not have default duration. It can only be started with a given duration.",
-					timerName));
+					timer_name));
 		}
 
-		start(defaultValue);
+		start(default_value);
 	}
 
 	// originally start(double start_val)
@@ -183,22 +212,22 @@ public class TitanTimer {
 		if (this != testcaseTimer) {
 			if (startValue < 0.0) {
 				throw new TtcnError(MessageFormat.format("Starting timer {0} with a negative duration ({1}).",
-						timerName, startValue));
+						timer_name, startValue));
 			}
 			if (Double.isNaN(startValue) || Double.isInfinite(startValue)) {
 				throw new TtcnError(MessageFormat.format("Starting timer {0} with a non-numeric float value ({1}).",
-						timerName, startValue));
+						timer_name, startValue));
 			}
-			if (isStarted) {
+			if (is_started) {
 				TtcnError.TtcnWarning(MessageFormat.format("Re-starting timer {0}, which is already active (running or expired).",
-						timerName));
-				removeFromList();
+						timer_name));
+				remove_from_list();
 			} else {
-				isStarted = true;
+				is_started = true;
 			}
 
-			TTCN_Logger.log_timer_start(timerName, startValue);
-			addToList();
+			TTCN_Logger.log_timer_start(timer_name, startValue);
+			add_to_list();
 		} else {
 			if (startValue < 0.0) {
 				throw new TtcnError(MessageFormat.format("Using a negative duration ({0}) for the guard timer of the test case.",
@@ -209,12 +238,12 @@ public class TitanTimer {
 						startValue));
 			}
 
-			isStarted = true;
+			is_started = true;
 			TTCN_Logger.log_timer_guard(startValue);
 		}
 
-		timeStarted = TTCN_Snapshot.timeNow();
-		timeExpires = timeStarted + startValue;
+		time_started = TTCN_Snapshot.time_now();
+		time_expires = time_started + startValue;
 	}
 
 	// originally start(const FLOAT& start_val)
@@ -224,23 +253,23 @@ public class TitanTimer {
 
 	// originally start(const FLOAT& start_val)
 	public void start(final TitanFloat startValue) {
-		startValue.mustBound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timerName));
+		startValue.must_bound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timer_name));
 
-		start(startValue.getValue());
+		start(startValue.get_value());
 	}
 
 	// originally stop()
 	public void stop() {
 		if (this != testcaseTimer) {
-			if (isStarted) {
-				isStarted = false;
-				TTCN_Logger.log_timer_stop(timerName, timeExpires - timeStarted);
-				removeFromList();
+			if (is_started) {
+				is_started = false;
+				TTCN_Logger.log_timer_stop(timer_name, time_expires - time_started);
+				remove_from_list();
 			} else {
-				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timerName));
+				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timer_name));
 			}
 		} else {
-			isStarted = false;
+			is_started = false;
 		}
 	}
 
@@ -252,24 +281,24 @@ public class TitanTimer {
 	public TitanFloat read() {
 		double returnValue;
 
-		if (isStarted) {
-			final double currentTime = TTCN_Snapshot.timeNow();
-			if (currentTime >= timeExpires) {
+		if (is_started) {
+			final double currentTime = TTCN_Snapshot.time_now();
+			if (currentTime >= time_expires) {
 				returnValue = 0.0;
 			} else {
-				returnValue = currentTime - timeStarted;
+				returnValue = currentTime - time_started;
 			}
 		} else {
 			returnValue = 0.0;
 		}
 
-		TTCN_Logger.log_timer_read(timerName, returnValue);
+		TTCN_Logger.log_timer_read(timer_name, returnValue);
 
 		return new TitanFloat(returnValue);
 	}
 
 	/**
-	 * @return true if is_started and not yet expired, false otherwise.
+	 * @return {@code true} if is_started and not yet expired, {@code false} otherwise.
 	 *
 	 * originally running(Index_Redirect* = null)
 	 */
@@ -278,12 +307,12 @@ public class TitanTimer {
 	}
 
 	/**
-	 * @return true if is_started and not yet expired, false otherwise.
+	 * @return {@code true} if is_started and not yet expired, {@code false} otherwise.
 	 *
 	 * originally running(Index_Redirect*)
 	 */
 	public boolean running(final Index_Redirect index_redirect) {
-		return isStarted && TTCN_Snapshot.timeNow() < timeExpires;
+		return is_started && TTCN_Snapshot.time_now() < time_expires;
 	}
 
 	/**
@@ -313,21 +342,21 @@ public class TitanTimer {
 	 *         originally timeout(Index_Redirect*)
 	 * */
 	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
-		if (isStarted) {
-			if (TTCN_Snapshot.getAltBegin() < timeExpires) {
+		if (is_started) {
+			if (TTCN_Snapshot.get_alt_begin() < time_expires) {
 				return TitanAlt_Status.ALT_MAYBE;
 			}
 
-			isStarted = false;
+			is_started = false;
 			if (this != testcaseTimer) {
-				TTCN_Logger.log_timer_timeout(timerName, timeExpires - timeStarted);
-				removeFromList();
+				TTCN_Logger.log_timer_timeout(timer_name, time_expires - time_started);
+				remove_from_list();
 			}
 
 			return TitanAlt_Status.ALT_YES;
 		} else {
 			if (this != testcaseTimer) {
-				TTCN_Logger.log_matching_timeout(timerName);
+				TTCN_Logger.log_matching_timeout(timer_name);
 			}
 
 			return TitanAlt_Status.ALT_NO;
@@ -338,18 +367,18 @@ public class TitanTimer {
 	 * stop all running timers.
 	 * (empty the list)
 	 * */
-	public static void allStop() {
-		final LinkedList<TitanTimer> localTimers = TIMERS.get();
-		while (localTimers.size() != 0) {
+	public static void all_stop() {
+		final LinkedList<TitanTimer> localTimers = RUNNING_TIMERS.get();
+		while (!localTimers.isEmpty()) {
 			localTimers.get(0).stop();
 		}
 	}
 
 	/**
-	 * @return true if there is a running timer.
+	 * @return {@code true} if there is a running timer.
 	 * */
-	public static boolean anyRunning() {
-		for (final TitanTimer timer : TIMERS.get()) {
+	public static boolean any_running() {
+		for (final TitanTimer timer : RUNNING_TIMERS.get()) {
 			if (timer.running(null)) {
 				return true;
 			}
@@ -366,12 +395,10 @@ public class TitanTimer {
 	 *         and the snapshot was taken before it's expiration time
 	 * @return ALT_YES if there is at least one time that is started
 	 *         and the snapshot is past it's expiration time
-	 *
-	 *         originally any_timeout()
 	 * */
-	public static TitanAlt_Status anyTimeout() {
+	public static TitanAlt_Status any_timeout() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
-		for (final TitanTimer timer : TIMERS.get()) {
+		for (final TitanTimer timer : RUNNING_TIMERS.get()) {
 			switch (timer.timeout(null)) {
 			case ALT_YES:
 				TTCN_Logger.log_timer_any_timeout();
@@ -381,7 +408,7 @@ public class TitanTimer {
 				break;
 			default:
 				throw new TtcnError(MessageFormat.format("Internal error: Timer {0} returned unexpected status code while evaluating `any timer.timeout'.",
-						timer.timerName));
+						timer.timer_name));
 			}
 		}
 
@@ -397,23 +424,23 @@ public class TitanTimer {
 	 * Includes the testcase's guard timer.
 	 *
 	 * @param minValue will return the expiration time if one is found.
-	 * @return true if an active timer was found, false otherwise.
+	 * @return {@code true} if an active timer was found, {@code false} otherwise.
 	 * */
-	public static boolean getMinExpiration(final Changeable_Double minValue) {
+	public static boolean get_min_expiration(final Changeable_Double minValue) {
 		boolean minFlag = false;
-		final double altBegin = TTCN_Snapshot.getAltBegin();
+		final double altBegin = TTCN_Snapshot.get_alt_begin();
 
-		if (testcaseTimer.isStarted && testcaseTimer.timeExpires > altBegin) {
-			minValue.setValue(testcaseTimer.timeExpires);
+		if (testcaseTimer.is_started && testcaseTimer.time_expires > altBegin) {
+			minValue.setValue(testcaseTimer.time_expires);
 			minFlag = true;
 		}
 
-		for (final TitanTimer timer : TIMERS.get()) {
-			if (timer.timeExpires < altBegin) {
+		for (final TitanTimer timer : RUNNING_TIMERS.get()) {
+			if (timer.time_expires < altBegin) {
 				//ignore timers that expired before the snapshot
 				continue;
-			} else if (!minFlag || timer.timeExpires < minValue.getValue()){
-				minValue.setValue(timer.timeExpires);
+			} else if (!minFlag || timer.time_expires < minValue.getValue()){
+				minValue.setValue(timer.time_expires);
 				minFlag = true;
 			}
 		}
@@ -422,56 +449,56 @@ public class TitanTimer {
 		return minFlag;
 	}
 
-	// originally TIMER::save_control_timers
-	public static void saveControlTimers() {
-		if (controlTimerSaved) {
+	public static void save_control_timers() {
+		if (control_timer_saved) {
 			throw new TtcnError("Internal error: Control part timers are already saved.");
 		}
 
-		final LinkedList<TitanTimer> localTimers = TIMERS.get();
+		final LinkedList<TitanTimer> localTimers = RUNNING_TIMERS.get();
 		if (!localTimers.isEmpty()) {
 			BACKUP_TIMERS.get().addAll(localTimers);
 			localTimers.clear();
 		}
-		controlTimerSaved = true;
+		control_timer_saved = true;
 	}
 
-	//originally TIMER::restore_control_timers
 	public static void restore_control_timers() {
-		if (!controlTimerSaved) {
+		if (!control_timer_saved) {
 			throw new TtcnError("Internal error: Control part timers are not saved.");
 		}
 
-		if (!TIMERS.get().isEmpty()) {
+		if (!RUNNING_TIMERS.get().isEmpty()) {
 			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
 		}
 
 		final LinkedList<TitanTimer> localBackupTimers = BACKUP_TIMERS.get();
 		if (!localBackupTimers.isEmpty()) {
-			TIMERS.get().addAll(localBackupTimers);
+			RUNNING_TIMERS.get().addAll(localBackupTimers);
 			localBackupTimers.clear();
 		}
-		controlTimerSaved = false;
+		control_timer_saved = false;
 	}
 
-	// originally TIMER::log()
+	/**
+	 * Logs this timer.
+	 */
 	public void log() {
 		// the time is not frozen (i.e. time_now() is used)
-		TTCN_Logger.log_event("timer: { name: " + timerName + ", default duration: ");
-		if (hasDefault) {
-			TTCN_Logger.log_event(defaultValue + " s");
+		TTCN_Logger.log_event("timer: { name: " + timer_name + ", default duration: ");
+		if (has_default) {
+			TTCN_Logger.log_event(default_value + " s");
 		} else {
 			TTCN_Logger.log_event_str("none");
 		}
 		TTCN_Logger.log_event_str(", state: ");
-		if (isStarted) {
-			final double current_time = TTCN_Snapshot.timeNow();
-			if (current_time < timeExpires) {
+		if (is_started) {
+			final double current_time = TTCN_Snapshot.time_now();
+			if (current_time < time_expires) {
 				TTCN_Logger.log_event_str("running");
 			} else {
 				TTCN_Logger.log_event_str("expired");
 			}
-			TTCN_Logger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: " + (current_time - timeStarted)
+			TTCN_Logger.log_event(", actual duration: " + (time_expires - time_started) + " s,elapsed time: " + (current_time - time_started)
 					+ " s");
 		} else {
 			TTCN_Logger.log_event_str("inactive");

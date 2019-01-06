@@ -96,9 +96,9 @@ public abstract class MessageAnalyser {
 	 * @return String token
 	 */
 	protected String getTokenAfterString(final String string, final String delimiter) {
-		String[] strings = this.message.split(string);
+		final String[] strings = this.message.split(string);
 		if ((strings.length > 1) && (strings[1] != null)) {
-			StringTokenizer tokenizer = new StringTokenizer(strings[1], delimiter);
+			final StringTokenizer tokenizer = new StringTokenizer(strings[1], delimiter);
 			if (tokenizer.hasMoreTokens()) {
 				return tokenizer.nextToken();
 			}
@@ -425,9 +425,9 @@ public abstract class MessageAnalyser {
 	public String getSendType() {
 		//Special for message containing system(<text>)
 		if (this.message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = this.message.indexOf(")"); //$NON-NLS-1$
-			String tmp = this.message.substring(stopIndex + 1);
-			String type = tmp.split(":")[0]; //$NON-NLS-1$
+			final int stopIndex = this.message.indexOf(")"); //$NON-NLS-1$
+			final String tmp = this.message.substring(stopIndex + 1);
+			final String type = tmp.split(":")[0]; //$NON-NLS-1$
 			return type.trim();
 		}
 
@@ -472,9 +472,9 @@ public abstract class MessageAnalyser {
 	 */
 	public String getReceiveType() {
 		if (this.message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
-			int stopIndex = this.message.indexOf(")"); //$NON-NLS-1$
-			String tmp = this.message.substring(stopIndex + 1);
-			String type = tmp.split(":")[0]; //$NON-NLS-1$
+			final int stopIndex = this.message.indexOf(")"); //$NON-NLS-1$
+			final String tmp = this.message.substring(stopIndex + 1);
+			final String type = tmp.split(":")[0]; //$NON-NLS-1$
 			return type.trim();
 		}
 		return getTokenAfterString(RECIEVE_TYPE, " "); //$NON-NLS-1$
@@ -599,7 +599,7 @@ public abstract class MessageAnalyser {
 	 * @return target
 	 */
 	public String getEnqueuedTarget() {
-		String port = getTokenAfterString(MESSAGE_ENQUEUED_ON);
+		final String port = getTokenAfterString(MESSAGE_ENQUEUED_ON);
 
 		return port;
 	}
@@ -617,7 +617,7 @@ public abstract class MessageAnalyser {
 	 * @return type
 	 */
 	protected String getEnqueuedReceiveType() {
-		String[] tmpstrings = this.message.split(" "); //$NON-NLS-1$
+		final String[] tmpstrings = this.message.split(" "); //$NON-NLS-1$
 		return tmpstrings[0];
 	}
 
@@ -634,8 +634,8 @@ public abstract class MessageAnalyser {
 	}
 
 	protected String getSetverdictType() {
-		int startpos = this.message.indexOf("("); //$NON-NLS-1$
-		int stoppos = this.message.indexOf(")"); //$NON-NLS-1$
+		final int startpos = this.message.indexOf("("); //$NON-NLS-1$
+		final int stoppos = this.message.indexOf(")"); //$NON-NLS-1$
 		return this.message.substring(startpos + 1, stoppos);
 	}
 
@@ -655,14 +655,14 @@ public abstract class MessageAnalyser {
 	 */
 	protected String getComponentRef(final String compNameAndRef) {
 		if (compNameAndRef.startsWith(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) {
-			int startRef = compNameAndRef.indexOf("(");
+			final int startRef = compNameAndRef.indexOf('(');
 			return compNameAndRef.substring(0, startRef);
 		} else if (compNameAndRef.contains("(") && compNameAndRef.contains(")")) {
-			int startRef = compNameAndRef.indexOf("(");
-			int stopRef = compNameAndRef.indexOf(")");
+			final int startRef = compNameAndRef.indexOf('(');
+			final int stopRef = compNameAndRef.indexOf(')');
 			return compNameAndRef.substring(startRef + 1, stopRef);
 		} else if (compNameAndRef.contains(":")) {
-			String[] component = compNameAndRef.split(":");
+			final String[] component = compNameAndRef.split(":");
 			return component[0];
 		} else {
 			return compNameAndRef;
@@ -673,7 +673,7 @@ public abstract class MessageAnalyser {
 	 * Check if the message is a Dynamic test case error
 	 */
 	protected boolean isDynamicTestCaseError() {
-		for (String anErrorCausedBy : this.errorCausedBy) {
+		for (final String anErrorCausedBy : this.errorCausedBy) {
 			if (this.message.contains(anErrorCausedBy)) {
 				return true;
 			}
@@ -686,7 +686,7 @@ public abstract class MessageAnalyser {
 	 */
 	protected boolean isFailMessages() {
 
-		for (String aFailCausedBy : this.failCausedBy) {
+		for (final String aFailCausedBy : this.failCausedBy) {
 			if (this.message.contains(aFailCausedBy)) {
 				return true;
 			}
@@ -700,7 +700,7 @@ public abstract class MessageAnalyser {
 	 */
 	public String getPort(final String componentAndPort) {
 		if (componentAndPort.contains(":")) { //$NON-NLS-1$
-			int index = componentAndPort.lastIndexOf(":"); //$NON-NLS-1$
+			final int index = componentAndPort.lastIndexOf(":"); //$NON-NLS-1$
 			if (index < 0) {
 				return "";  //$NON-NLS-1$
 			}

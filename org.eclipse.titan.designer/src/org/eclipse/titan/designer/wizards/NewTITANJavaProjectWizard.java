@@ -47,6 +47,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 */
 
 /**
@@ -203,7 +204,8 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		content.append("Bundle-Name: " + newProject.getName() + "\n");
 		content.append("Bundle-SymbolicName: " + newProject.getName() + "; singleton:=true\n");
 		content.append("Bundle-Version: 1.0.0\n");
-		content.append("Require-Bundle: org.eclipse.titan.runtime;bundle-version=\"1.0.0\"\n");
+		content.append("Require-Bundle: org.eclipse.titan.runtime;bundle-version=\"1.0.0\",\n");
+		content.append(" org.antlr.runtime;bundle-version=\"4.3.0\"\n");
 		content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n");
 		content.append("Bundle-ActivationPolicy: lazy\n");
 
@@ -218,6 +220,16 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		} else {
 			properties.create(stream, true, null);
 		}
+	}
+
+	// the root package of the user generated java source, e.g. test port types, generally TestPortTypeName_PT
+	//private final static String PACKAGE_USER_PROVIDED_ROOT = "org.eclipse.titan.user_provided";
+	// the root folder of the user generated java source, e.g. for test port types 
+	private final static String DIR_USER_PROVIDED_ROOT = "user_provided/org/eclipse/titan/user_provided";
+	
+	private void createUserProvidedPackageFolder() throws CoreException {
+		final IFolder folder = newProject.getFolder(DIR_USER_PROVIDED_ROOT);
+		ProjectSourceCompiler.createDir(folder);
 	}
 
 	@Override
@@ -243,11 +255,14 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/java_src")));
+			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/user_provided")));
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]), null);
 			javaProject.setOutputLocation(new Path("/" + newProject.getName() + "/java_bin"), null);
 
 			createBuildProperties();
 			createManifest();
+			createUserProvidedPackageFolder();
+
 		} catch (CoreException exception) {
 			ErrorReporter.logExceptionStackTrace(exception);
 		}

@@ -14,7 +14,7 @@ import java.text.MessageFormat;
  *
  * @author Arpad Lovassy
  */
-public class Module_Param_Length_Restriction {
+public final class Module_Param_Length_Restriction {
 	private int min;
 	private boolean has_max;
 	private int max;
@@ -55,6 +55,9 @@ public class Module_Param_Length_Restriction {
 		return has_max && min == max;
 	}
 
+	/**
+	 * Logs this length restriction.
+	 */
 	public void log() {
 		TTCN_Logger.log_event_str(MessageFormat.format(" length({0}", min));
 		if (min != max) {

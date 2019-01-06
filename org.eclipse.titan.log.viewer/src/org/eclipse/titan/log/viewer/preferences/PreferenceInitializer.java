@@ -37,14 +37,14 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		this.preferenceStore.setDefault(PreferenceConstants.PREF_MSCVIEW_DEFAULT, PreferenceConstants.PREF_MSCVIEW_DEFAULT_VALUEVIEW);
 
 		// Silent Events filters changed from 1.0 to 1.1. -> Support upgrade
-		String version = this.preferenceStore.getString(PreferenceConstants.PREF_KEY_LV_VERSION);
+		final String version = this.preferenceStore.getString(PreferenceConstants.PREF_KEY_LV_VERSION);
 		if (!version.contentEquals(Constants.LOG_VIEWER_CURRENT_VERSION)) {
 			// First time new version is used or new workspace
 			this.preferenceStore.setValue(PreferenceConstants.PREF_KEY_LV_VERSION, Constants.LOG_VIEWER_CURRENT_VERSION);
 
 			if (FilteredSilentEventUtils.hasPreferencesOldFilteredSilentEvents(this.preferenceStore)) {
 				// Upgrade! - Set new value based on old filters
-				String preferenceValue = FilteredSilentEventUtils.getOldFilteredSilentEventsFromPreferences(this.preferenceStore);
+				final String preferenceValue = FilteredSilentEventUtils.getOldFilteredSilentEventsFromPreferences(this.preferenceStore);
 				this.preferenceStore.setValue(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES, preferenceValue);
 				// Clear preference keys for old silent event filters
 				FilteredSilentEventUtils.clearOldFilteredSilentEventsInPreferences(this.preferenceStore);

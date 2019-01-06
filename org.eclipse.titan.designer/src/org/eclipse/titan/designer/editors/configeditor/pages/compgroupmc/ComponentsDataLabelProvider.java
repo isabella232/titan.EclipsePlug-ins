@@ -26,7 +26,7 @@ public final class ComponentsDataLabelProvider extends LabelProvider implements 
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof Component) {
-			Component parameter = (Component) element;
+			final Component parameter = (Component) element;
 			String text;
 			switch (columnIndex) {
 			case 0:

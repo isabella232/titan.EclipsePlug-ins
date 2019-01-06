@@ -11,10 +11,10 @@ import org.eclipse.swt.graphics.RGB;
 
 public class KeywordColor {
 
-	private String keyword;
-	private RGB color;
+	private final String keyword;
+	private final RGB color;
 
-	public KeywordColor(String keyword, RGB color) {
+	public KeywordColor(final String keyword, final RGB color) {
 		this.keyword = keyword;
 		this.color = color;
 	}

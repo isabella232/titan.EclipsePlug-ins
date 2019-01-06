@@ -7,6 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
+import org.eclipse.titan.designer.compiler.JavaGenData;
+
 /**
  * A governed thing that will be mapped to a Java entity.
  * (e.g. Value, Template)
@@ -66,6 +70,9 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * */
 	private CodeSectionType codeSection = CodeSectionType.CS_UNKNOWN;
 
+	/** the time when this governed simple was built the last time. */
+	protected BuildTimestamp lastTimeGenerated = null;
+
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
 	}
@@ -82,6 +89,12 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		this.codeSection = codeSection;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public BuildTimestamp getLastTimeBuilt() {
+		return lastTimeGenerated;
+	}
+
 	/***
 	 * Returns the Java expression that refers to the object, which has to be
 	 * initialized.
@@ -95,5 +108,52 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		builder.append(getGenNameOwn());
 
 		return builder.toString();
+	}
+
+	/**
+	 * Checks if the referenced governed simple needs to precede the actual
+	 * one. Used in initializing values to reorder them for proper
+	 * initialization.
+	 *
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
+	 * @param refd
+	 *                the referenced governed simple.
+	 * */
+	public boolean needsInitPrecede(final JavaGenData aData, final IGovernedSimple refd) {
+		if (refd.getLastTimeBuilt() != null && !refd.getLastTimeBuilt().isLess(aData.getBuildTimstamp())) {
+			return false;
+		}
+
+		if (codeSection == CodeSectionType.CS_UNKNOWN || refd.getCodeSection() == CodeSectionType.CS_UNKNOWN) {
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "'', reached needsInitPreccede with `" + refd.getFullName() + "''");
+
+			return false;
+		}
+
+		if (codeSection != refd.getCodeSection()) {
+			return false;
+		}
+
+		if (getMyScope().getModuleScopeGen() != refd.getMyScope().getModuleScopeGen()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean isTopLevel() {
+		//TODO find a more semantic way to do this.
+		final String name = getGenNameOwn();
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c < '0' || c > '9') && c != '_') {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

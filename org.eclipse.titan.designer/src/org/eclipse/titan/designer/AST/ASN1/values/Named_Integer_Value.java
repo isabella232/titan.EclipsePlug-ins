@@ -177,7 +177,11 @@ public final class Named_Integer_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (calculatedValue != null) {
-			return calculatedValue.generateCodeInit(aData, source, name);
+			calculatedValue.generateCodeInit(aData, source, name);
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
+			return source;
 		}
 
 		ErrorReporter.INTERNAL_ERROR("named integer encountered in code generation of " + getFullName());

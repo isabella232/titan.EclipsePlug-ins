@@ -99,9 +99,9 @@ public class ReferenceSearchResultView extends AbstractTextSearchViewPage {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
 				try {
-					Object selectedElement = ((TreeSelection) event.getSelection()).getFirstElement();
+					final Object selectedElement = ((TreeSelection) event.getSelection()).getFirstElement();
 					if (selectedElement instanceof ReferenceSearchMatch) {
-						ReferenceSearchMatch match = (ReferenceSearchMatch) selectedElement;
+						final ReferenceSearchMatch match = (ReferenceSearchMatch) selectedElement;
 						showMatch(match, match.getOffset(), match.getLength(), false);
 						return;
 					}
@@ -124,21 +124,21 @@ public class ReferenceSearchResultView extends AbstractTextSearchViewPage {
 			return;
 		}
 
-		IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
 		if (selection != null && !selection.toList().contains(match)) {
 			getViewer().setSelection(new StructuredSelection(match));
 		}
 
-		IFile file = (IFile) match.getElement();
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+		final IFile file = (IFile) match.getElement();
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 		if (desc == null) {
 			return;
 		}
 
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId(), false);
+		final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId(), false);
 		if (part != null && part instanceof ITextEditor) {
-			ITextEditor textEditor = (ITextEditor) part;
+			final ITextEditor textEditor = (ITextEditor) part;
 			textEditor.selectAndReveal(currentOffset, currentLength);
 		}
 	}

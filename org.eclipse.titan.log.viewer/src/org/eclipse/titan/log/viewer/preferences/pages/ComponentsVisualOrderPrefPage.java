@@ -66,10 +66,10 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences() {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
 		String signalFilter = ""; //$NON-NLS-1$
-		String[] elements = this.compVisOrderEditor.getElements();
-		for (String element : elements) {
+		final String[] elements = this.compVisOrderEditor.getElements();
+		for (final String element : elements) {
 			signalFilter = signalFilter.concat(element + PreferenceConstants.PREFERENCE_DELIMITER);
 		}
 		currentPrefs.put(this.compVisOrderEditor.getPreferenceName(), signalFilter);
@@ -81,7 +81,7 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 		currentPrefs.put(this.compVisOrderEditor.getPreferenceName(), this.compVisOrderEditor.getElements());
 		return currentPrefs;
 	}
@@ -93,21 +93,21 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_COMP_VIS_ORDER_PAGE);
+		final Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_COMP_VIS_ORDER_PAGE);
 		//if cancel
 		if (prop == null) {
 			return;
 		}
-		String propertyValues = prop.get(PreferenceConstants.PREF_COMPONENT_ORDER_ID);
+		final String propertyValues = prop.get(PreferenceConstants.PREF_COMPONENT_ORDER_ID);
 		if (propertyValues == null) {
 			return;
 		}
 
 		boolean sutFound = false;
 		boolean mtcFound = false;
-		String[] propertyValuesSeparated = propertyValues.split(File.pathSeparator);
+		final String[] propertyValuesSeparated = propertyValues.split(File.pathSeparator);
 		for (int i = 0; (i < propertyValuesSeparated.length) && !(sutFound && mtcFound); i++) {
-			String currValue = propertyValuesSeparated[i];
+			final String currValue = propertyValuesSeparated[i];
 			if (currValue.contentEquals(PreferenceConstants.SUT_DESCRIPTION)) {
 				sutFound = true;
 			} else if (currValue.contentEquals(PreferenceConstants.MTC_DESCRIPTION)) {

@@ -69,7 +69,7 @@ public class TimeInterval {
 			return false;
 		}
 
-		TimeInterval rhs = (TimeInterval) o;
+		final TimeInterval rhs = (TimeInterval) o;
 		return ObjectUtils.equals(timestampFormat, rhs.timestampFormat)
 				&& ObjectUtils.equals(start, rhs.start)
 				&& ObjectUtils.equals(end, rhs.end);

@@ -22,7 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  *
  * @author Farkas Izabella Ingrid
  */
-public class TTCN_Buffer {
+public final class TTCN_Buffer {
 	final static private int INITIAL_SIZE = 1024;
 
 	private char data_ptr[];
@@ -128,11 +128,11 @@ public class TTCN_Buffer {
 	 * @param p_os 
 	 * 			the {@link TitanOctetString} used to initialize the buffer. */
 	public  TTCN_Buffer(final TitanOctetString p_os) {
-		p_os.mustBound("Initializing a TTCN_Buffer with an unbound octetstring value.");
+		p_os.must_bound("Initializing a TTCN_Buffer with an unbound octetstring value.");
 
-		buf_len = p_os.lengthOf().getInt();
+		buf_len = p_os.lengthof().get_int();
 		data_ptr = new char[buf_len];
-		System.arraycopy(p_os.getValue(), 0, data_ptr, 0, buf_len);
+		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
 	}
 
@@ -141,12 +141,12 @@ public class TTCN_Buffer {
 	 * @param p_cs 
 	 * 			the {@link TitanCharString} used to initialize the buffer.*/
 	public TTCN_Buffer(final TitanCharString p_cs) {
-		p_cs.mustBound("Initializing a TTCN_Buffer with an unbound charstring value.");
+		p_cs.must_bound("Initializing a TTCN_Buffer with an unbound charstring value.");
 
-		buf_len = p_cs.lengthOf().getInt();
+		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
-			data_ptr[i] =  p_cs.getAt(i).get_char();
+			data_ptr[i] =  p_cs.get_at(i).get_char();
 		}
 		reset_buffer();
 	}
@@ -155,7 +155,7 @@ public class TTCN_Buffer {
 	 * The read position and other attributes are reset.
 	 * @param p_buf
 	 *  */
-	public TTCN_Buffer assign(final TTCN_Buffer p_buf) {
+	public TTCN_Buffer operator_assign(final TTCN_Buffer p_buf) {
 		if (p_buf != this) {
 			buf_len = p_buf.buf_len;
 			if (p_buf.data_ptr != null) {
@@ -172,11 +172,11 @@ public class TTCN_Buffer {
 	/** Copies the contents of p_os into this. Other attributes are reset.
 	 * @param p_os
 	 * 				  */
-	public  TTCN_Buffer assign(final TitanOctetString p_os) {
-		p_os.mustBound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
-		buf_len = p_os.lengthOf().getInt();
+	public  TTCN_Buffer operator_assign(final TitanOctetString p_os) {
+		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
+		buf_len = p_os.lengthof().get_int();
 		data_ptr = new char[buf_len];
-		System.arraycopy(p_os.getValue(), 0, data_ptr, 0, buf_len);
+		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
 		reset_buffer();
 		return this;
 	}
@@ -186,13 +186,13 @@ public class TTCN_Buffer {
 	 * @param p_cs 
 	 * 			the {@link TitanCharString}
 	 *  */
-	public TTCN_Buffer assign(final TitanCharString p_cs) {
-		p_cs.mustBound("Assignment of an unbound charstring value to a TTCN_Buffer.");
+	public TTCN_Buffer operator_assign(final TitanCharString p_cs) {
+		p_cs.must_bound("Assignment of an unbound charstring value to a TTCN_Buffer.");
 
-		buf_len = p_cs.lengthOf().getInt();
+		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new char[buf_len];
 		for (int i = 0; i < buf_len; i++) {
-			data_ptr[i] =  p_cs.getAt(i).get_char();
+			data_ptr[i] =  p_cs.get_at(i).get_char();
 		}
 		reset_buffer();
 		return this;
@@ -328,17 +328,17 @@ public class TTCN_Buffer {
 	 * @param p_os append to the buffer
 	 *  */
 	public void put_string(final TitanOctetString p_os) {
-		p_os.mustBound("Appending an unbound octetstring value to a TTCN_Buffer.");
+		p_os.must_bound("Appending an unbound octetstring value to a TTCN_Buffer.");
 
-		final int n_octets = p_os.lengthOf().getInt();
+		final int n_octets = p_os.lengthof().get_int();
 		if (n_octets > 0) {
 			if (buf_len > 0) {
 				increase_size(n_octets);
-				System.arraycopy(p_os.getValue(), 0, data_ptr, buf_len, n_octets);
+				System.arraycopy(p_os.get_value(), 0, data_ptr, buf_len, n_octets);
 				buf_len += n_octets;
 			} else {
 				data_ptr = new char[n_octets];
-				System.arraycopy(p_os.getValue(), 0, data_ptr, 0, n_octets);
+				System.arraycopy(p_os.get_value(), 0, data_ptr, 0, n_octets);
 				buf_len = n_octets;
 			}
 		}
@@ -355,20 +355,20 @@ public class TTCN_Buffer {
 	 * @param p_cs append to the buffer
 	 * */
 	public void put_string(final TitanCharString p_cs) {
-		p_cs.mustBound("Appending an unbound charstring value to a TTCN_Buffer.");
+		p_cs.must_bound("Appending an unbound charstring value to a TTCN_Buffer.");
 
-		final int n_chars = p_cs.lengthOf().getInt();
+		final int n_chars = p_cs.lengthof().get_int();
 		if (n_chars > 0) { // there is something in the CHARSTRING
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
 				for (int i = 0; i < n_chars; i++) {
-					data_ptr[buf_len + i] = p_cs.getValue().charAt(i);
+					data_ptr[buf_len + i] = p_cs.get_value().charAt(i);
 				}
 				buf_len += n_chars;
 			} else { // share the data
 				data_ptr = new char[n_chars];
 				for (int i = 0; i < n_chars; i++) {
-					data_ptr[i] = p_cs.getValue().charAt(i);
+					data_ptr[i] = p_cs.get_value().charAt(i);
 				}
 				buf_len = n_chars;
 			}
@@ -419,13 +419,13 @@ public class TTCN_Buffer {
 	 * @param p_os the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanOctetString p_os) {
-		p_os.cleanUp();
+		p_os.clean_up();
 		if (buf_len > 0) {
 			final char[] data = new char[buf_len];
 			System.arraycopy(data_ptr, 0, data, 0, buf_len);
-			p_os.setValue(data);
+			p_os.set_value(data);
 		} else {
-			p_os.setValue(new char[]{});
+			p_os.set_value(new char[]{});
 		}
 	}
 
@@ -435,15 +435,15 @@ public class TTCN_Buffer {
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanCharString p_cs) {
-		p_cs.cleanUp();
+		p_cs.clean_up();
 		if (buf_len > 0) {
 			final StringBuilder str = new StringBuilder();
 			for (int i = 0; i < buf_len; i++) {
 				str.append(data_ptr[i]);
 			}
-			p_cs.assign(str.toString());
+			p_cs.operator_assign(str.toString());
 		} else {
-			p_cs.assign("");
+			p_cs.operator_assign("");
 		}
 	}
 
@@ -453,15 +453,15 @@ public class TTCN_Buffer {
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanUniversalCharString p_cs) {
-		p_cs.cleanUp();
+		p_cs.clean_up();
 		if (buf_len > 0) {
 			final List<TitanUniversalChar> data = new ArrayList<TitanUniversalChar>(data_ptr.length / 4);
 			for (int i = 0; i < buf_len / 4; i++) {
 				data.add(new TitanUniversalChar(data_ptr[4 * i], data_ptr[4 * i + 1], data_ptr[4 * i + 2], data_ptr[4 * i + 3]));
 			}
-			p_cs.setValue(data);
+			p_cs.set_value(data);
 		} else {
-			p_cs.assign("");
+			p_cs.operator_assign("");
 		}
 	}
 
@@ -536,6 +536,9 @@ public class TTCN_Buffer {
 		throw new TtcnError("contains_complete_TLV() for TTCN_Buffer is not implemented!");
 	}
 
+	/**
+	 * Logs this buffer.
+	 */
 	public void log() {
 		TTCN_Logger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
 		if (buf_len > 0) {

@@ -15,8 +15,75 @@ options{
 }
 
 @header {
+import org.eclipse.titan.runtime.core.Base_Type;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_param_t;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
+import org.eclipse.titan.runtime.core.Module_List;
+import org.eclipse.titan.runtime.core.Module_Param_Length_Restriction;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Indexed_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Enumerated;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FloatRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Index;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_IntRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_NotUsed;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Pattern;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Permutation_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Subset_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Superset_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_system;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Universal_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Value_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_type_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Logging_Bits;
+import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.timestamp_format_t;
+import org.eclipse.titan.runtime.core.TitanCharString;
+import org.eclipse.titan.runtime.core.TitanComponent;
+import org.eclipse.titan.runtime.core.TitanInteger;
+import org.eclipse.titan.runtime.core.TitanPort;
+import org.eclipse.titan.runtime.core.TitanUniversalChar;
+import org.eclipse.titan.runtime.core.TitanUniversalCharString;
+import org.eclipse.titan.runtime.core.TitanVerdictType;
+import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
-import org.eclipse.titan.runtime.core.cfgparser.LoggingSectionHandler.LogParamEntry;
 
 import java.io.File;
 import java.util.EnumMap;
@@ -60,8 +127,6 @@ import java.util.regex.Pattern;
 	private int mLine = 1;
 	private int mOffset = 0;
 
-	private ModuleParameterSectionHandler moduleParametersHandler = new ModuleParameterSectionHandler();
-	private TestportParameterSectionHandler testportParametersHandler = new TestportParameterSectionHandler();
 	private ComponentSectionHandler componentSectionHandler = new ComponentSectionHandler();
 	private GroupSectionHandler groupSectionHandler = new GroupSectionHandler();
 	private MCSectionHandler mcSectionHandler = new MCSectionHandler();
@@ -70,7 +135,6 @@ import java.util.regex.Pattern;
 	private IncludeSectionHandler includeSectionHandler = new IncludeSectionHandler();
 	private IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
 	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
-	private LoggingSectionHandler loggingSectionHandler = new LoggingSectionHandler();
 
 	/**
 	 * Adds a new definition
@@ -95,7 +159,7 @@ import java.util.regex.Pattern;
 		mCfgParseResult.addMacro( aMacroName, aMacroToken, mActualFile, aErrorMarker );
 	}
 
-	public void reportWarning(TITANMarker marker){
+	private void reportWarning(TITANMarker marker){
 		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
 
@@ -109,14 +173,6 @@ import java.util.regex.Pattern;
 
 	public void setEnvironmentalVariables(Map<String, String> aEnvVariables){
 		mEnvVariables = aEnvVariables;
-	}
-
-	public ModuleParameterSectionHandler getModuleParametersHandler() {
-		return moduleParametersHandler;
-	}
-
-	public TestportParameterSectionHandler getTestportParametersHandler() {
-		return testportParametersHandler;
 	}
 
 	public ComponentSectionHandler getComponentSectionHandler() {
@@ -151,10 +207,6 @@ import java.util.regex.Pattern;
 		return defineSectionHandler;
 	}
 
-	public LoggingSectionHandler getLoggingSectionHandler() {
-		return loggingSectionHandler;
-	}
-
 	/**
 	 * Creates a marker.
 	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
@@ -168,7 +220,7 @@ import java.util.regex.Pattern;
 	 * @param aPriority priority (low/normal/high)
 	 * @return new marker
 	 */
-	public TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
+	private TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
 		TITANMarker marker = new TITANMarker(
 			aMessage,
 			(aStartToken != null) ? mLine - 1 + aStartToken.getLine() : -1,
@@ -188,7 +240,7 @@ import java.util.regex.Pattern;
 	 * @param aEndToken the last token, its end position will be used for the location.
 	 *                  NOTE: end position is the column index after the token's last character.
 	 */
-	public void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
 		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
@@ -204,7 +256,7 @@ import java.util.regex.Pattern;
 	 *                  NOTE: end position is the column index after the token's last character.
 	 * @return the created error marker
 	 */
-	public TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+	private TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
 		return marker;
 	}
@@ -294,6 +346,46 @@ import java.util.regex.Pattern;
 		}
 		return value;
 	}
+
+	/**
+	 * Converts timestamp format string to timestamp format enum
+	 * @param timestamp_str timestamp format string
+	 * @return timestamp format enum
+	 */
+	private timestamp_format_t to_timestamp_format(final String timestamp_str) {
+		if (null == timestamp_str) {
+			return null;
+		}
+		if ("time".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_TIME;
+		} else if ("datetime".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_DATETIME;
+		} else if ("seconds".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_SECONDS;
+		}
+		return null;
+	}
+
+	/**
+	 * Sets a module parameter
+	 * @param new module parameter
+	 */
+	private void set_param(Module_Parameter param) {
+		try {
+			Module_List.set_param(param);
+		} catch (TtcnError e) {
+			//TODO: handle error
+			//error_flag = true;
+		}
+	}
+
+	/**
+	 * Logs error during the process
+	 * @param errorMsg error message
+	 */
+	private void config_process_error(final String errorMsg)	{
+		//TODO: implement
+	}
 }
 
 pr_ConfigFile:
@@ -303,18 +395,18 @@ pr_ConfigFile:
 ;
 
 pr_Section:
-(	mc = pr_MainControllerSection
-|	i = pr_IncludeSection
-|	oi = pr_OrderedIncludeSection
-|	e = pr_ExecuteSection
-|	d = pr_DefineSection
-|	ec = pr_ExternalCommandsSection
-|	tp = pr_TestportParametersSection
-|	g = pr_GroupsSection
-|	mp = pr_ModuleParametersSection
-|	c = pr_ComponentsSection
-|	l = pr_LoggingSection
-|	p = pr_ProfilerSection
+(	pr_MainControllerSection
+|	pr_IncludeSection
+|	pr_OrderedIncludeSection
+|	pr_ExecuteSection
+|	pr_DefineSection
+|	pr_ExternalCommandsSection
+|	pr_TestportParametersSection
+|	pr_GroupsSection
+|	pr_ModuleParametersSection
+|	pr_ComponentsSection
+|	pr_LoggingSection
+|	pr_ProfilerSection
 )
 ;
 
@@ -404,7 +496,7 @@ pr_MainControllerItemTcpPort:
 pr_IncludeSection:
 	INCLUDE_SECTION
 	( f = INCLUDE_FILENAME
-		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
+		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			//TODO: remove one of them, it is redundant
 			includeSectionHandler.getFiles().add( fileName );
@@ -415,7 +507,7 @@ pr_IncludeSection:
 pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
 	( f = ORDERED_INCLUDE_FILENAME
-		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
+		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			//TODO: remove one of them, it is redundant
 			orderedIncludeSectionHandler.getFiles().add( fileName );
@@ -514,20 +606,17 @@ pr_TestportParametersSection:
 	)*
 ;
 
-pr_TestportParameter:
-	a = pr_ComponentID
+pr_TestportParameter
+@init {
+}:
+	comp = pr_ComponentID
 	DOT
-	b = pr_TestportName
+	pn = pr_TestportName	{	final String portName = "*".equals($pn.text) ? null : $pn.text;	}
 	DOT
-	c = pr_Identifier
+	paramname = pr_Identifier
 	ASSIGNMENTCHAR
-	d = pr_StringValue
-{	TestportParameterSectionHandler.TestportParameter parameter = new TestportParameterSectionHandler.TestportParameter();
-	parameter.setComponentName( $a.ctx );
-	parameter.setTestportName( $b.ctx );
-	parameter.setParameterName( $c.ctx );
-	parameter.setValue( $d.ctx );
-	testportParametersHandler.getTestportParameters().add( parameter );
+	value = pr_StringValue
+{	TitanPort.add_parameter( $comp.comp, portName, $paramname.identifier, $value.string );
 }
 ;
 
@@ -539,11 +628,7 @@ pr_GroupsSection:
 
 pr_ModuleParametersSection:
 	MODULE_PARAMETERS_SECTION
-	(	param = pr_ModuleParam
-			{	if ( $param.parameter != null ) {
-					moduleParametersHandler.getModuleParameters().add( $param.parameter );
-				}
-			}
+	(	pr_ModuleParam
 		SEMICOLON?
 	)*
 ;
@@ -608,7 +693,7 @@ pr_DatabaseFile:
 pr_DatabaseFilePart:
 (	STRING
 |	macro = MACRO
-		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 );
@@ -635,7 +720,7 @@ pr_StatisticsFile:
 pr_StatisticsFilePart:
 (	STRING
 |	macro = MACRO
-		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 );
@@ -740,113 +825,118 @@ pr_ComponentSpecificLoggingParam:
 pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
+	component_id_t comp = new component_id_t(); 
 }:
-	(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_ComponentID DOT
+		{	componentName = $cn.text;
+			comp = $cn.comp;
+		}
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
 	BEGINCHAR
-	lpl = pr_LoggerPluginsList
+	pr_LoggerPluginsList[comp]
 	ENDCHAR
-{
-	for (LoggingSectionHandler.LoggerPluginEntry item : $lpl.entries) {
-		LoggingSectionHandler.LogParamEntry lpe = loggingSectionHandler.componentPlugin(componentName, item.getName());
-		lpe.setPluginPath(item.getPath());
-	}
-	LoggingSectionHandler.LoggerPluginsEntry entry = new LoggingSectionHandler.LoggerPluginsEntry();
-	entry.setPlugins( new HashMap<String, LoggingSectionHandler.LoggerPluginEntry>( $lpl.entries.size() ) );
-	for ( LoggingSectionHandler.LoggerPluginEntry item : $lpl.entries ) {
-		entry.getPlugins().put(item.getName(), item);
-	}
-	loggingSectionHandler.getLoggerPluginsTree().put(componentName, entry);
-}
 ;
 
-pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> entries ]
-@init {
-	$entries = new ArrayList<LoggingSectionHandler.LoggerPluginEntry>();
-}:
-	lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
-	(	COMMA lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
+pr_LoggerPluginsList [component_id_t comp]:
+	pr_LoggerPluginEntry[$comp]
+	(	COMMA
+		pr_LoggerPluginEntry[$comp]
 	)*
+;
+
+pr_LoggerPluginEntry [component_id_t comp]
+@init {
+	String pluginFilename = "";
+}:
+	i = pr_Identifier
+	(	ASSIGNMENTCHAR
+		s = pr_StringValue	{	pluginFilename = $s.string;	}
+	)?
+	{
+//TODO: implement
+//		TTCN_Logger.register_plugin( $comp, $i.identifier, pluginFilename );
+		
+//		final logging_setting_t logging_setting = new logging_setting_t();
+//		logging_setting.component = comp;
+//		logging_setting.pluginId = $i.identifier;
+//		final logging_param_t logging_param = new logging_param_t();
+//		logging_param.log_param_selection = logging_param_type.LP_UNKNOWN;
+//		logging_setting.logparam = logging_param;
+//		TTCN_Logger.add_parameter(logging_setting);
+	}
 ;
 
 pr_PlainLoggingParam
 @init {
 	String componentName = "*";
 	String pluginName = "*";
+	component_id_t comp = new component_id_t(); 
 }:
-(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+(	cn = pr_ComponentID DOT
+		{	componentName = $cn.text;
+			comp = $cn.comp;
+		}
 )?
 (	STAR DOT
 |	pn = pr_Identifier DOT { pluginName = $pn.text; }
 )?
-{	LogParamEntry logParamEntry = loggingSectionHandler.componentPlugin(componentName, pluginName);
-}
 (	FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
-		{	logParamEntry.setFileMaskBits( $fileMask.loggingBitMask );
+		{	TTCN_Logger.set_file_mask(comp, $fileMask.loggingBitMask);
 		}
 |	CONSOLEMASK ASSIGNMENTCHAR consoleMask = pr_LoggingBitMask
-		{	logParamEntry.setConsoleMaskBits( $consoleMask.loggingBitMask );
+		{	TTCN_Logger.set_console_mask(comp, $consoleMask.loggingBitMask);
 		}
-|	DISKFULLACTION ASSIGNMENTCHAR dfa = pr_DiskFullActionValue
-		{	logParamEntry.setDiskFullAction( $dfa.text );
-		}
+|	DISKFULLACTION ASSIGNMENTCHAR pr_DiskFullActionValue
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
-		{	logParamEntry.setLogfileNumber( $lfn.integer );
+		{	TTCN_Logger.set_file_number( $lfn.integer.getIntegerValue() );
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
-		{	logParamEntry.setLogfileSize( $lfs.integer );
+		{	TTCN_Logger.set_file_size( $lfs.integer.getIntegerValue() );
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
-	{	mCfgParseResult.setLogFileDefined( true );
-		String logFileName = $f.text;
-		//TODO: remove one of them, it is redundant
-		if ( logFileName != null ) {
-			// remove quotes
-			logFileName = logFileName.replaceAll("^\"|\"$", "");
-			mCfgParseResult.setLogFileName( logFileName );
+		{	TTCN_Logger.set_file_name( $f.string, true );
 		}
-		logParamEntry.setLogFile( $f.text );
-	}
 |	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-	{	logParamEntry.setTimestampFormat( $ttv.text );
-	}
-|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-	{	logParamEntry.setConsoleTimestampFormat( $ttv.text );
-	}
-|	SOURCEINFOFORMAT ASSIGNMENTCHAR
-	(	siv1 = pr_SourceInfoValue
-		{	logParamEntry.setSourceInfoFormat( $siv1.text );
+		{	TTCN_Logger.set_timestamp_format( to_timestamp_format( $ttv.text ) );
 		}
-	|	siv2 = pr_YesNoOrBoolean
-		{	logParamEntry.setSourceInfoFormat( $siv2.text );
+|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
+		{	//TODO: add TTCN_Logger.set_console_timestamp_format(timestamp_format_t)
+			//TTCN_Logger.set_console_timestamp_format( to_timestamp_format( $ttv.text ) );
+		}
+|	SOURCEINFOFORMAT ASSIGNMENTCHAR
+	(	pr_SourceInfoValue
+	|	b = pr_YesNoOrBoolean
+		{	TTCN_Logger.set_source_info_format( $b.bool ? source_info_format_t.SINFO_SINGLE : source_info_format_t.SINFO_NONE);
 		}
 	)
 |	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
-	{	logParamEntry.setAppendFile( $af.bool );
+	{	TTCN_Logger.set_append_file( $af.bool );
 	}
-|	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
-	{	logParamEntry.setLogeventTypes( $let.text );
-	}
+|	LOGEVENTTYPES ASSIGNMENTCHAR pr_LogEventTypesValue
 |	LOGENTITYNAME ASSIGNMENTCHAR len = pr_YesNoOrBoolean
-	{	logParamEntry.setLogEntityName( $len.bool );
+	{	//TODO: change to TTCN_Logger.set_log_entity_name(boolean)
+		//TTCN_Logger.set_log_entity_name( $len.bool );
 	}
-|	MATCHINGHINTS ASSIGNMENTCHAR mh = pr_MatchingHintsValue
-	{	logParamEntry.setMatchingHints( $mh.text );
-	}
+|	MATCHINGHINTS ASSIGNMENTCHAR pr_MatchingHintsValue
 |	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
-	{	logParamEntry.getPluginSpecificParam().add(
-			new LoggingSectionHandler.PluginSpecificParam( $o1.text, $o2.text ) );
+	{	final logging_setting_t logging_setting = new logging_setting_t();
+		logging_setting.component = comp;
+		logging_setting.pluginId = pluginName;
+		final logging_param_t logging_param = new logging_param_t();
+		logging_param.log_param_selection = logging_param_type.LP_PLUGIN_SPECIFIC;
+		logging_param.param_name = $o1.text;
+		logging_param.str_val = $o2.string;
+		logging_setting.logparam = logging_param;
+		TTCN_Logger.add_parameter(logging_setting);
 	}
 |	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
-	{	logParamEntry.setEmergencyLogging( $el.integer );
+	{	TTCN_Logger.set_emergency_logging( $el.integer.getIntegerValue() );
 	}
-|	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR elb = pr_BufferAllOrMasked
-	{	logParamEntry.setEmergencyLoggingBehaviour( $elb.text );
-	}
+|	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
-	{	logParamEntry.setEmergencyLoggingMask( $elm.loggingBitMask );
+	{	TTCN_Logger.set_emergency_logging_mask(comp, $elm.loggingBitMask);
 	}
 )
 ;
@@ -856,7 +946,9 @@ pr_TimeStampValue:
 ;
 
 pr_SourceInfoValue:
-	SOURCEINFOVALUE
+	SOURCEINFOVALUE_NONE	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_NONE);	}
+|	SOURCEINFOVALUE_SINGLE	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_SINGLE);	}
+|	SOURCEINFOVALUE_STACK	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_STACK);	}
 ;
 
 pr_PluginSpecificParamName:
@@ -864,51 +956,75 @@ pr_PluginSpecificParamName:
 ;
 
 pr_BufferAllOrMasked:
-	BUFFERALLORBUFFERMASKED
+	BUFFERALL		{	TTCN_Logger.set_emergency_logging_behaviour(emergency_logging_behaviour_t.BUFFER_ALL);	}
+|	BUFFERMASKED	{	TTCN_Logger.set_emergency_logging_behaviour(emergency_logging_behaviour_t.BUFFER_MASKED);	}
 ;
 
 pr_DiskFullActionValue:
-(	DISKFULLACTIONVALUE
-|	DISKFULLACTIONVALUERETRY ( LPAREN NATURAL_NUMBER RPAREN )?
-)
-;
-
-pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
-@init {
-	$entry = new LoggingSectionHandler.LoggerPluginEntry();
-}:
-	i = pr_Identifier {	$entry.setName( $i.identifier );
-						$entry.setPath("");	}
-	(	ASSIGNMENTCHAR
-		s = pr_StringValue { $entry.setPath( $s.string ); }
+(	DISKFULLACTIONVALUE_ERROR	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_ERROR);	}
+|	DISKFULLACTIONVALUE_STOP	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_STOP);	}
+|	DISKFULLACTIONVALUE_DELETE	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_DELETE);	}
+|	DISKFULLACTIONVALUE_RETRY
+	{	int retry_interval = 30;	// default retry interval
+	}
+	(	LPAREN
+		n = NATURAL_NUMBER
+			{	try {
+					retry_interval = Integer.parseInt( $n.text );
+				} catch ( Exception e ) {
+					// do nothing
+				}
+			}
+		RPAREN
 	)?
-;
-
-pt_TestComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
-|	MTCKEYWORD
-|	STAR
+	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_RETRY, retry_interval);	}
 )
 ;
 
-pr_LoggingBitMask returns [ List<LoggingBit> loggingBitMask ]
+pr_ComponentID returns [component_id_t comp]
 @init {
-	$loggingBitMask = new ArrayList<LoggingBit>();
+	$comp = new component_id_t();
+}:
+(	i = pr_Identifier
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
+			$comp.id_name = $i.text;
+		}
+|	n = pr_NaturalNumber
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
+			$comp.id_compref = $n.integer.getIntegerValue();
+		}
+|	MTCKEYWORD
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
+			$comp.id_compref = TitanComponent.MTC_COMPREF;
+		}
+|	STAR
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
+			$comp.id_name = null;
+		}
+|	SYSTEMKEYWORD
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_SYSTEM;
+			$comp.id_name = null;
+		}
+)
+;
+
+pr_LoggingBitMask returns [ Logging_Bits loggingBitMask ]
+@init {
+	$loggingBitMask = new Logging_Bits();
 }:
 	pr_LoggingMaskElement [ $loggingBitMask ]
 	(	LOGICALOR	pr_LoggingMaskElement [ $loggingBitMask ]
 	)*
 ;
 
-pr_LoggingMaskElement [ List<LoggingBit> loggingBitMask ]:
+pr_LoggingMaskElement [ Logging_Bits loggingBitMask ]:
 	pr_LogEventType [ $loggingBitMask ]
 |	pr_LogEventTypeSet [ $loggingBitMask ]
 |	pr_deprecatedEventTypeSet [ $loggingBitMask ]
 ;
 
-pr_LogfileName:
-	pr_StringValue
+pr_LogfileName returns [String string]:
+	s = pr_StringValue { $string = $s.string; }
 ;
 
 pr_YesNoOrBoolean returns [Boolean bool]:
@@ -917,120 +1033,121 @@ pr_YesNoOrBoolean returns [Boolean bool]:
 ;
 
 pr_LogEventTypesValue:
-	pr_YesNoOrBoolean
-|	pr_Detailed
+	b = pr_YesNoOrBoolean	{	TTCN_Logger.set_log_event_types( $b.bool ?
+									log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO );	}
+|	pr_Detailed				{	TTCN_Logger.set_log_event_types( log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES );	}
 ;
 
 pr_MatchingHintsValue:
-	COMPACT
-|	DETAILED
+	COMPACT		{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_COMPACT );	}
+|	DETAILED	{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_FULL );	}
 ;
 
-pr_LogEventType [ List<LoggingBit> loggingBitMask ]:
-(  a1 = ACTION_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.ACTION_UNQUALIFIED); }
-|  a2 = DEBUG_ENCDEC			{ loggingBitMask.add(LoggingBit.DEBUG_ENCDEC); }
-|  a3 = DEBUG_TESTPORT			{ loggingBitMask.add(LoggingBit.DEBUG_TESTPORT); }
-|  a4 = DEBUG_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.DEBUG_UNQUALIFIED); }
-|  a5 = DEFAULTOP_ACTIVATE		{ loggingBitMask.add(LoggingBit.DEFAULTOP_ACTIVATE); }
-|  a6 = DEFAULTOP_DEACTIVATE	{ loggingBitMask.add(LoggingBit.DEFAULTOP_DEACTIVATE); }
-|  a7 = DEFAULTOP_EXIT			{ loggingBitMask.add(LoggingBit.DEFAULTOP_EXIT); }
-|  a8 = DEFAULTOP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.DEFAULTOP_UNQUALIFIED); }
-|  a9 = ERROR_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.ERROR_UNQUALIFIED); }
-|  a10 = EXECUTOR_COMPONENT		{ loggingBitMask.add(LoggingBit.EXECUTOR_COMPONENT); }
-|  a11 = EXECUTOR_CONFIGDATA	{ loggingBitMask.add(LoggingBit.EXECUTOR_CONFIGDATA); }
-|  a12 = EXECUTOR_EXTCOMMAND	{ loggingBitMask.add(LoggingBit.EXECUTOR_EXTCOMMAND); }
-|  a13 = EXECUTOR_LOGOPTIONS	{ loggingBitMask.add(LoggingBit.EXECUTOR_LOGOPTIONS); }
-|  a14 = EXECUTOR_RUNTIME		{ loggingBitMask.add(LoggingBit.EXECUTOR_RUNTIME); }
-|  a15 = EXECUTOR_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.EXECUTOR_UNQUALIFIED); }
-|  a16 = FUNCTION_RND			{ loggingBitMask.add(LoggingBit.FUNCTION_RND); }
-|  a17 = FUNCTION_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.FUNCTION_UNQUALIFIED); }
-|  a18 = MATCHING_DONE			{ loggingBitMask.add(LoggingBit.MATCHING_DONE); }
-|  a19 = MATCHING_MCSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_MCSUCCESS); }
-|  a20 = MATCHING_MCUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_MCUNSUCC); }
-|  a21 = MATCHING_MMSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_MMSUCCESS); }
-|  a22 = MATCHING_MMUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_MMUNSUCC); }
-|  a23 = MATCHING_PCSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_PCSUCCESS); }
-|  a24 = MATCHING_PCUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_PCUNSUCC); }
-|  a25 = MATCHING_PMSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_PMSUCCESS); }
-|  a26 = MATCHING_PMUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_PMUNSUCC); }
-|  a27 = MATCHING_PROBLEM		{ loggingBitMask.add(LoggingBit.MATCHING_PROBLEM); }
-|  a28 = MATCHING_TIMEOUT		{ loggingBitMask.add(LoggingBit.MATCHING_TIMEOUT); }
-|  a29 = MATCHING_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.MATCHING_UNQUALIFIED); }
-|  a30 = PARALLEL_PORTCONN		{ loggingBitMask.add(LoggingBit.PARALLEL_PORTCONN); }
-|  a31 = PARALLEL_PORTMAP		{ loggingBitMask.add(LoggingBit.PARALLEL_PORTMAP); }
-|  a32 = PARALLEL_PTC			{ loggingBitMask.add(LoggingBit.PARALLEL_PTC); }
-|  a33 = PARALLEL_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.PARALLEL_UNQUALIFIED); }
-|  a34 = PORTEVENT_DUALRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_DUALRECV); }
-|  a35 = PORTEVENT_DUALSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_DUALSEND); }
-|  a36 = PORTEVENT_MCRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_MCRECV); }
-|  a37 = PORTEVENT_MCSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_MCSEND); }
-|  a38 = PORTEVENT_MMRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_MMRECV); }
-|  a39 = PORTEVENT_MMSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_MMSEND); }
-|  a40 = PORTEVENT_MQUEUE		{ loggingBitMask.add(LoggingBit.PORTEVENT_MQUEUE); }
-|  a41 = PORTEVENT_PCIN			{ loggingBitMask.add(LoggingBit.PORTEVENT_PCIN); }
-|  a42 = PORTEVENT_PCOUT		{ loggingBitMask.add(LoggingBit.PORTEVENT_PCOUT); }
-|  a43 = PORTEVENT_PMIN			{ loggingBitMask.add(LoggingBit.PORTEVENT_PMIN); }
-|  a44 = PORTEVENT_PMOUT		{ loggingBitMask.add(LoggingBit.PORTEVENT_PMOUT); }
-|  a45 = PORTEVENT_PQUEUE		{ loggingBitMask.add(LoggingBit.PORTEVENT_PQUEUE); }
-|  a46 = PORTEVENT_STATE		{ loggingBitMask.add(LoggingBit.PORTEVENT_STATE); }
-|  a47 = PORTEVENT_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.PORTEVENT_UNQUALIFIED); }
-|  a48 = STATISTICS_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.STATISTICS_UNQUALIFIED); }
-|  a49 = STATISTICS_VERDICT		{ loggingBitMask.add(LoggingBit.STATISTICS_VERDICT); }
-|  a50 = TESTCASE_FINISH		{ loggingBitMask.add(LoggingBit.TESTCASE_FINISH); }
-|  a51 = TESTCASE_START			{ loggingBitMask.add(LoggingBit.TESTCASE_START); }
-|  a52 = TESTCASE_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.TESTCASE_UNQUALIFIED); }
-|  a53 = TIMEROP_GUARD			{ loggingBitMask.add(LoggingBit.TIMEROP_GUARD); }
-|  a54 = TIMEROP_READ			{ loggingBitMask.add(LoggingBit.TIMEROP_READ); }
-|  a55 = TIMEROP_START			{ loggingBitMask.add(LoggingBit.TIMEROP_START); }
-|  a56 = TIMEROP_STOP			{ loggingBitMask.add(LoggingBit.TIMEROP_STOP); }
-|  a57 = TIMEROP_TIMEOUT		{ loggingBitMask.add(LoggingBit.TIMEROP_TIMEOUT); }
-|  a58 = TIMEROP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.TIMEROP_UNQUALIFIED); }
-|  a59 = USER_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.USER_UNQUALIFIED); }
-|  a60 = VERDICTOP_FINAL		{ loggingBitMask.add(LoggingBit.VERDICTOP_FINAL); }
-|  a61 = VERDICTOP_GETVERDICT	{ loggingBitMask.add(LoggingBit.VERDICTOP_GETVERDICT); }
-|  a62 = VERDICTOP_SETVERDICT	{ loggingBitMask.add(LoggingBit.VERDICTOP_SETVERDICT); }
-|  a63 = VERDICTOP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.VERDICTOP_UNQUALIFIED); }
-|  a64 = WARNING_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.WARNING_UNQUALIFIED); }
+pr_LogEventType [ Logging_Bits loggingBitMask ]:
+(  a1 = ACTION_UNQUALIFIED		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a2 = DEBUG_ENCDEC			{ loggingBitMask.add(Severity.DEBUG_ENCDEC); }
+|  a3 = DEBUG_TESTPORT			{ loggingBitMask.add(Severity.DEBUG_TESTPORT); }
+|  a4 = DEBUG_UNQUALIFIED		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
+|  a5 = DEFAULTOP_ACTIVATE		{ loggingBitMask.add(Severity.DEFAULTOP_ACTIVATE); }
+|  a6 = DEFAULTOP_DEACTIVATE	{ loggingBitMask.add(Severity.DEFAULTOP_DEACTIVATE); }
+|  a7 = DEFAULTOP_EXIT			{ loggingBitMask.add(Severity.DEFAULTOP_EXIT); }
+|  a8 = DEFAULTOP_UNQUALIFIED	{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a9 = ERROR_UNQUALIFIED		{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a10 = EXECUTOR_COMPONENT		{ loggingBitMask.add(Severity.EXECUTOR_COMPONENT); }
+|  a11 = EXECUTOR_CONFIGDATA	{ loggingBitMask.add(Severity.EXECUTOR_CONFIGDATA); }
+|  a12 = EXECUTOR_EXTCOMMAND	{ loggingBitMask.add(Severity.EXECUTOR_EXTCOMMAND); }
+|  a13 = EXECUTOR_LOGOPTIONS	{ loggingBitMask.add(Severity.EXECUTOR_LOGOPTIONS); }
+|  a14 = EXECUTOR_RUNTIME		{ loggingBitMask.add(Severity.EXECUTOR_RUNTIME); }
+|  a15 = EXECUTOR_UNQUALIFIED	{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a16 = FUNCTION_RND			{ loggingBitMask.add(Severity.FUNCTION_RND); }
+|  a17 = FUNCTION_UNQUALIFIED	{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a18 = MATCHING_DONE			{ loggingBitMask.add(Severity.MATCHING_DONE); }
+|  a19 = MATCHING_MCSUCCESS		{ loggingBitMask.add(Severity.MATCHING_MCSUCCESS); }
+|  a20 = MATCHING_MCUNSUCC		{ loggingBitMask.add(Severity.MATCHING_MCUNSUCC); }
+|  a21 = MATCHING_MMSUCCESS		{ loggingBitMask.add(Severity.MATCHING_MMSUCCESS); }
+|  a22 = MATCHING_MMUNSUCC		{ loggingBitMask.add(Severity.MATCHING_MMUNSUCC); }
+|  a23 = MATCHING_PCSUCCESS		{ loggingBitMask.add(Severity.MATCHING_PCSUCCESS); }
+|  a24 = MATCHING_PCUNSUCC		{ loggingBitMask.add(Severity.MATCHING_PCUNSUCC); }
+|  a25 = MATCHING_PMSUCCESS		{ loggingBitMask.add(Severity.MATCHING_PMSUCCESS); }
+|  a26 = MATCHING_PMUNSUCC		{ loggingBitMask.add(Severity.MATCHING_PMUNSUCC); }
+|  a27 = MATCHING_PROBLEM		{ loggingBitMask.add(Severity.MATCHING_PROBLEM); }
+|  a28 = MATCHING_TIMEOUT		{ loggingBitMask.add(Severity.MATCHING_TIMEOUT); }
+|  a29 = MATCHING_UNQUALIFIED	{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a30 = PARALLEL_PORTCONN		{ loggingBitMask.add(Severity.PARALLEL_PORTCONN); }
+|  a31 = PARALLEL_PORTMAP		{ loggingBitMask.add(Severity.PARALLEL_PORTMAP); }
+|  a32 = PARALLEL_PTC			{ loggingBitMask.add(Severity.PARALLEL_PTC); }
+|  a33 = PARALLEL_UNQUALIFIED	{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a34 = PORTEVENT_DUALRECV		{ loggingBitMask.add(Severity.PORTEVENT_DUALRECV); }
+|  a35 = PORTEVENT_DUALSEND		{ loggingBitMask.add(Severity.PORTEVENT_DUALSEND); }
+|  a36 = PORTEVENT_MCRECV		{ loggingBitMask.add(Severity.PORTEVENT_MCRECV); }
+|  a37 = PORTEVENT_MCSEND		{ loggingBitMask.add(Severity.PORTEVENT_MCSEND); }
+|  a38 = PORTEVENT_MMRECV		{ loggingBitMask.add(Severity.PORTEVENT_MMRECV); }
+|  a39 = PORTEVENT_MMSEND		{ loggingBitMask.add(Severity.PORTEVENT_MMSEND); }
+|  a40 = PORTEVENT_MQUEUE		{ loggingBitMask.add(Severity.PORTEVENT_MQUEUE); }
+|  a41 = PORTEVENT_PCIN			{ loggingBitMask.add(Severity.PORTEVENT_PCIN); }
+|  a42 = PORTEVENT_PCOUT		{ loggingBitMask.add(Severity.PORTEVENT_PCOUT); }
+|  a43 = PORTEVENT_PMIN			{ loggingBitMask.add(Severity.PORTEVENT_PMIN); }
+|  a44 = PORTEVENT_PMOUT		{ loggingBitMask.add(Severity.PORTEVENT_PMOUT); }
+|  a45 = PORTEVENT_PQUEUE		{ loggingBitMask.add(Severity.PORTEVENT_PQUEUE); }
+|  a46 = PORTEVENT_STATE		{ loggingBitMask.add(Severity.PORTEVENT_STATE); }
+|  a47 = PORTEVENT_UNQUALIFIED	{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a48 = STATISTICS_UNQUALIFIED	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a49 = STATISTICS_VERDICT		{ loggingBitMask.add(Severity.STATISTICS_VERDICT); }
+|  a50 = TESTCASE_FINISH		{ loggingBitMask.add(Severity.TESTCASE_FINISH); }
+|  a51 = TESTCASE_START			{ loggingBitMask.add(Severity.TESTCASE_START); }
+|  a52 = TESTCASE_UNQUALIFIED	{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a53 = TIMEROP_GUARD			{ loggingBitMask.add(Severity.TIMEROP_GUARD); }
+|  a54 = TIMEROP_READ			{ loggingBitMask.add(Severity.TIMEROP_READ); }
+|  a55 = TIMEROP_START			{ loggingBitMask.add(Severity.TIMEROP_START); }
+|  a56 = TIMEROP_STOP			{ loggingBitMask.add(Severity.TIMEROP_STOP); }
+|  a57 = TIMEROP_TIMEOUT		{ loggingBitMask.add(Severity.TIMEROP_TIMEOUT); }
+|  a58 = TIMEROP_UNQUALIFIED	{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a59 = USER_UNQUALIFIED		{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a60 = VERDICTOP_FINAL		{ loggingBitMask.add(Severity.VERDICTOP_FINAL); }
+|  a61 = VERDICTOP_GETVERDICT	{ loggingBitMask.add(Severity.VERDICTOP_GETVERDICT); }
+|  a62 = VERDICTOP_SETVERDICT	{ loggingBitMask.add(Severity.VERDICTOP_SETVERDICT); }
+|  a63 = VERDICTOP_UNQUALIFIED	{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a64 = WARNING_UNQUALIFIED	{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
 )
 ;
 
-pr_LogEventTypeSet [ List<LoggingBit> loggingBitMask ]:
-(  a1 = TTCN_EXECUTOR2		{ loggingBitMask.add(LoggingBit.EXECUTOR); }
-|  a2 = TTCN_ERROR2			{ loggingBitMask.add(LoggingBit.ERROR); }
-|  a3 = TTCN_WARNING2		{ loggingBitMask.add(LoggingBit.WARNING); }
-|  a4 = TTCN_PORTEVENT2		{ loggingBitMask.add(LoggingBit.PORTEVENT); }
-|  a5 = TTCN_TIMEROP2		{ loggingBitMask.add(LoggingBit.TIMEROP); }
-|  a6 = TTCN_VERDICTOP2		{ loggingBitMask.add(LoggingBit.VERDICTOP); }
-|  a7 = TTCN_DEFAULTOP2		{ loggingBitMask.add(LoggingBit.DEFAULTOP); }
-|  a8 = TTCN_ACTION2		{ loggingBitMask.add(LoggingBit.ACTION); }
-|  a9 = TTCN_TESTCASE2		{ loggingBitMask.add(LoggingBit.TESTCASE); }
-|  a10 = TTCN_FUNCTION2		{ loggingBitMask.add(LoggingBit.FUNCTION); }
-|  a11 = TTCN_USER2			{ loggingBitMask.add(LoggingBit.USER); }
-|  a12 = TTCN_STATISTICS2	{ loggingBitMask.add(LoggingBit.STATISTICS); }
-|  a13 = TTCN_PARALLEL2		{ loggingBitMask.add(LoggingBit.PARALLEL); }
-|  a14 = TTCN_MATCHING2		{ loggingBitMask.add(LoggingBit.MATCHING); }
-|  a15 = TTCN_DEBUG2		{ loggingBitMask.add(LoggingBit.DEBUG); }
-|  a16 = LOG_ALL			{ loggingBitMask.add(LoggingBit.LOG_ALL); }
-|  a17 = LOG_NOTHING		{ loggingBitMask.add(LoggingBit.LOG_NOTHING); }
+pr_LogEventTypeSet [ Logging_Bits loggingBitMask ]:
+(  a1 = TTCN_EXECUTOR2		{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a2 = TTCN_ERROR2			{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a3 = TTCN_WARNING2		{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
+|  a4 = TTCN_PORTEVENT2		{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a5 = TTCN_TIMEROP2		{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a6 = TTCN_VERDICTOP2		{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a7 = TTCN_DEFAULTOP2		{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a8 = TTCN_ACTION2		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a9 = TTCN_TESTCASE2		{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a10 = TTCN_FUNCTION2		{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a11 = TTCN_USER2			{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a12 = TTCN_STATISTICS2	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a13 = TTCN_PARALLEL2		{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a14 = TTCN_MATCHING2		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a15 = TTCN_DEBUG2		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
+|  a16 = LOG_ALL			{ loggingBitMask.addBitmask(Logging_Bits.log_all); }
+|  a17 = LOG_NOTHING		{ loggingBitMask.addBitmask(Logging_Bits.log_nothing); }
 )
 ;
 
-pr_deprecatedEventTypeSet [ List<LoggingBit> loggingBitMask ]:
-(  a1 = TTCN_EXECUTOR1		{ loggingBitMask.add(LoggingBit.EXECUTOR); }
-|  a2 = TTCN_ERROR1			{ loggingBitMask.add(LoggingBit.ERROR); }
-|  a3 = TTCN_WARNING1		{ loggingBitMask.add(LoggingBit.WARNING); }
-|  a4 = TTCN_PORTEVENT1		{ loggingBitMask.add(LoggingBit.PORTEVENT); }
-|  a5 = TTCN_TIMEROP1		{ loggingBitMask.add(LoggingBit.TIMEROP); }
-|  a6 = TTCN_VERDICTOP1		{ loggingBitMask.add(LoggingBit.VERDICTOP); }
-|  a7 = TTCN_DEFAULTOP1		{ loggingBitMask.add(LoggingBit.DEFAULTOP); }
-|  a8 = TTCN_ACTION1		{ loggingBitMask.add(LoggingBit.ACTION); }
-|  a9 = TTCN_TESTCASE1		{ loggingBitMask.add(LoggingBit.TESTCASE); }
-|  a10 = TTCN_FUNCTION1		{ loggingBitMask.add(LoggingBit.FUNCTION); }
-|  a11 = TTCN_USER1			{ loggingBitMask.add(LoggingBit.USER); }
-|  a12 = TTCN_STATISTICS1	{ loggingBitMask.add(LoggingBit.STATISTICS); }
-|  a13 = TTCN_PARALLEL1		{ loggingBitMask.add(LoggingBit.PARALLEL); }
-|  a14 = TTCN_MATCHING1		{ loggingBitMask.add(LoggingBit.MATCHING); }
-|  a15 = TTCN_DEBUG1		{ loggingBitMask.add(LoggingBit.DEBUG); }
+pr_deprecatedEventTypeSet [ Logging_Bits loggingBitMask ]:
+(  a1 = TTCN_EXECUTOR1		{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a2 = TTCN_ERROR1			{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a3 = TTCN_WARNING1		{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
+|  a4 = TTCN_PORTEVENT1		{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a5 = TTCN_TIMEROP1		{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a6 = TTCN_VERDICTOP1		{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a7 = TTCN_DEFAULTOP1		{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a8 = TTCN_ACTION1		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a9 = TTCN_TESTCASE1		{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a10 = TTCN_FUNCTION1		{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a11 = TTCN_USER1			{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a12 = TTCN_STATISTICS1	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a13 = TTCN_PARALLEL1		{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a14 = TTCN_MATCHING1		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a15 = TTCN_DEBUG1		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
 )
 {	reportWarning(new TITANMarker("Deprecated logging option " + $start.getText(), $start.getLine(),
 		$start.getStartIndex(), $start.getStopIndex(), SEVERITY_WARNING, PRIORITY_NORMAL));
@@ -1069,11 +1186,11 @@ pr_HostName:
 (	pr_DNSName
 |	TTCN3IDENTIFIER
 |	macro1 = MACRO_HOSTNAME
-		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 |	macro2 = MACRO
-		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
+		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
 )
@@ -1146,18 +1263,10 @@ pr_StructuredValue2:
 )?
 ;
 
-pr_ComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
-|	MTC
-|	SYSTEM
-|	STAR
-)
-;
-
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
+		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -1165,9 +1274,7 @@ pr_TestportName:
 
 pr_Identifier returns [String identifier]:
 (	macro = MACRO_ID
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
-			$identifier = value;
-		}
+		{	$identifier = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
 |	a = TTCN3IDENTIFIER
 		{	$identifier = $a.getText();	}
 )
@@ -1228,13 +1335,23 @@ pr_NaturalNumber returns [CFGNumber integer]:
 )
 ;
 
+pr_MPNaturalNumber returns [TitanInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new TitanInteger($a.text);}
+|	pr_MacroNaturalNumber
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
+)
+;
+
 pr_MacroNaturalNumber returns [CFGNumber integer]:
 (	macro1 = MACRO_INT
-		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
+		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
 			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
 |	macro2 = MACRO
-		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
+		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
 			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
 )
@@ -1246,32 +1363,52 @@ pr_StringValue returns [String string]
 }:
 	a = pr_CString
 		{	if ( $a.string != null ) {
-				$string = $a.string.replaceAll("^\"|\"$", "");
+				$string = $a.string;
 			}
 		}
 	(	STRINGOP
 		b = pr_CString
 			{	if ( $b.string != null ) {
-					$string = $string + $b.string.replaceAll("^\"|\"$", "");
+					$string = $string + $b.string;
 				}
 			}
 	)*
-	{	if ( $string != null ) {
-			$string = "\"" + $string + "\"";
-		}
-	}
 ;
 
 pr_CString returns [String string]:
-(	a = STRING
+(	cs = STRING
 		{
-			$string = $a.text;
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				config_process_error( cse.getErrorMessage() );
+			}
 		}
-|	macro2 = pr_MacroCString			{	$string = "\"" + $macro2.string + "\"";	}
-|	macro1 = pr_MacroExpliciteCString	{	$string = "\"" + $macro1.string + "\"";	}
+|	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
+|	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$string = "\"\""; // value is unknown yet, but it should not be null
+		{	$string = ""; // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPCString returns [String string]:
+(	cs = STRING
+		{
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				config_process_error( cse.getErrorMessage() );
+			}
+		}
+|	(	pr_MacroCString
+	|	pr_MacroExpliciteCString
+	)
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
+	
 )
 ;
 
@@ -1324,37 +1461,36 @@ pr_DNSName:
 )
 ;
 
-pr_ModuleParam returns[ModuleParameterSectionHandler.ModuleParameter parameter]
+pr_ModuleParam
 @init {
-	$parameter = null;
+	operation_type_t operation;
 }:
-	name = pr_ParameterName	{$parameter = $name.parameter;}
-	(	ASSIGNMENTCHAR
-		val1 = pr_ParameterValue	{$parameter.setValue($val1.text);}
-	|	CONCATCHAR
-		val2 = pr_ParameterValue	{$parameter.setValue($val2.text);}
+	name = pr_ParameterName
+	(	ASSIGNMENTCHAR	{	operation = operation_type_t.OT_ASSIGN;	}
+	|	CONCATCHAR	{	operation = operation_type_t.OT_CONCAT;	}
 	)
+	param = pr_ParameterValue
+		{	final Module_Parameter mp = $param.moduleparameter;
+			if (mp != null) {
+				mp.set_id(new Module_Param_Name($name.names));
+				mp.set_operation_type(operation);
+				set_param(mp);
+			}
+		}
 ;
 
-pr_ParameterName returns[ModuleParameterSectionHandler.ModuleParameter parameter]:
-{	$parameter = new ModuleParameterSectionHandler.ModuleParameter();
-}
-(	id1 = pr_ParameterNamePart
+pr_ParameterName returns [List<String> names]
+@init {
+	$names = new ArrayList<String>();
+}:
+(	id1 = pr_ParameterNamePart	{	$names.add($id1.text);	}
 	(	separator = pr_Dot
-		id2 = pr_ParameterNameTail
-			{	$parameter.setModuleName( $id1.text );
-				$parameter.setSeparator( $separator.text );
-				$parameter.setParameterName( $id2.text );
-			}
-	|	{	$parameter.setParameterName( $id1.text );
-		}
+		id2 = pr_ParameterNameTail[$names]
+	|
 	)
 |	star = pr_StarModuleName
 	DOT
-	id3 = pr_ParameterNamePart
-	{	$parameter.setModuleName($star.text);
-		$parameter.setParameterName($id3.text);
-	}
+	id3 = pr_ParameterNamePart	{	$names.add($id3.text);	}
 )
 ;
 
@@ -1366,10 +1502,10 @@ pr_ParameterNamePart:
 
 // rest of the parameter name after the first dot
 // this is handled as parameter (2nd column) in the cfg editor on module parameters tab
-pr_ParameterNameTail:
-	pr_ParameterNamePart
+pr_ParameterNameTail [List<String> names]:
+	n = pr_ParameterNamePart	{	$names.add($n.text);	}
 	(	pr_Dot
-		pr_ParameterNamePart
+		n = pr_ParameterNamePart	{	$names.add($n.text);	}
 	)*
 ;
 
@@ -1381,90 +1517,181 @@ pr_StarModuleName:
 	STAR
 ;
 
-pr_ParameterValue:
-	pr_ParameterExpression pr_LengthMatch? IFPRESENTKEYWORD?
+pr_ParameterValue returns [Module_Parameter moduleparameter]:
+	pe = pr_ParameterExpression	{	$moduleparameter = $pe.moduleparameter;	}
+	(	lm = pr_LengthMatch	{	$moduleparameter.set_length_restriction($lm.length_restriction);	}
+	)?
+	(	IFPRESENTKEYWORD	{	$moduleparameter.set_ifpresent();	}
+	)?
 ;
 
 //module parameter expression, it can contain previously defined module parameters
-pr_ParameterExpression:
-	pr_SimpleParameterValue
-|	pr_ParameterReference
-|	pr_ParameterExpression
-	(	(	PLUS
-		|	MINUS
-		|	STAR
-		|	SLASH
-		|	STRINGOP
+pr_ParameterExpression returns [Module_Parameter moduleparameter]:
+	pe = pr_MPAddExpression	{	$moduleparameter = $pe.moduleparameter;	}
+;
+
+pr_MPAddExpression returns[Module_Parameter moduleparameter]:
+(	pe1 = pr_MPMulExpression { $moduleparameter = $pe1.moduleparameter; }
+	(	{	expression_operand_t operand;	}
+		(	PLUS	{	operand = expression_operand_t.EXPR_ADD;	}
+		|	MINUS	{	operand = expression_operand_t.EXPR_SUBTRACT;	}
+		|	STRINGOP	{	operand = expression_operand_t.EXPR_CONCATENATE;	}
 		)
-		pr_ParameterExpression
-	)+
-|	(	PLUS
-	|	MINUS
-	)
-	pr_ParameterExpression
+		pe2 = pr_MPMulExpression
+		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);
+		}
+	)*
+);
+
+pr_MPMulExpression returns[Module_Parameter moduleparameter]:
+(	pe1 = pr_MPUnaryExpression { $moduleparameter = $pe1.moduleparameter; }
+	(	{	expression_operand_t operand;	}
+		(	STAR	{	operand = expression_operand_t.EXPR_MULTIPLY;	}
+		|	SLASH	{	operand = expression_operand_t.EXPR_DIVIDE;	}
+		)
+		pe2 = pr_MPUnaryExpression
+		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);
+		}
+	)*
+);
+
+pr_MPUnaryExpression returns [Module_Parameter moduleparameter]:
+(	PLUS
+	ue = pr_MPUnaryExpression	{	$moduleparameter = $ue.moduleparameter;	}
+|	MINUS
+	ue = pr_MPUnaryExpression	{	$moduleparameter = new Module_Param_Expression($ue.moduleparameter);	}
 |	LPAREN
-	pr_ParameterExpression
+	pe = pr_ParameterExpression
+	RPAREN
+	{	$moduleparameter = $pe.moduleparameter;	}
+|	pv = pr_MPPrimaryValue		{	$moduleparameter = $pv.moduleparameter;	}
+);
+
+pr_MPPrimaryValue returns [Module_Parameter moduleparameter]:
+(	spv = pr_SimpleParameterValue	{	$moduleparameter = $spv.moduleparameter;	}
+|	pr = pr_ParameterReference		{	$moduleparameter = $pr.moduleparameter;	}
+);
+
+pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
+@init {
+	$length_restriction = new Module_Param_Length_Restriction();
+}:
+	LENGTHKEYWORD
+	LPAREN
+	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer.getIntegerValue());	}
+	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer.getIntegerValue());	}
+		DOTDOT
+		(	max = pr_LengthBound
+			{
+				if ($min.integer.getIntegerValue() > $max.integer.getIntegerValue()) {
+					config_process_error("invalid length restriction: lower bound > upper bound");
+				}
+				$length_restriction.set_max($max.integer.getIntegerValue());
+			}
+		|	INFINITYKEYWORD
+		)
+	)
 	RPAREN
 ;
 
-pr_LengthMatch:
-	LENGTHKEYWORD LPAREN pr_LengthBound
-	(	RPAREN
-	|	DOTDOT
-		(	pr_LengthBound | INFINITYKEYWORD	)
-		RPAREN
-	)
+pr_LengthBound returns [CFGNumber integer]:
+	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
 ;
 
-pr_SimpleParameterValue:
-(	pr_ArithmeticValueExpression
-|	pr_Boolean
-|	pr_ObjIdValue
-|	pr_VerdictValue
-|	pr_BStringValue
-|	pr_HStringValue
-|	pr_OStringValue
-|	pr_UniversalOrNotStringValue
-|	OMITKEYWORD
-|	pr_EnumeratedValue
-|	pr_NULLKeyword
-|	MTCKEYWORD
-|	SYSTEMKEYWORD
-|	pr_CompoundValue
-|	ANYVALUE
-|	STAR
-|	pr_IntegerRange
-|	pr_FloatRange
-|	pr_StringRange
-|	PATTERNKEYWORD pr_PatternChunkList
-|	pr_BStringMatch
-|	pr_HStringMatch
-|	pr_OStringMatch
+pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
+@init {
+	$moduleparameter = null;
+}:
+(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer($i.integer);	}
+|	f = pr_MPFloat					{	$moduleparameter = new Module_Param_Float($f.floatnum);	}
+|	bool = pr_Boolean				{	$moduleparameter = new Module_Param_Boolean($bool.bool);	}
+|	oi = pr_ObjIdValue
+	{	final List<TitanInteger> cs = $oi.components;
+		final int size = cs.size();
+		$moduleparameter = new Module_Param_Objid(size, cs.toArray(new TitanInteger[size]));
+	}
+|	verdict = pr_VerdictValue		{	$moduleparameter = new Module_Param_Verdict($verdict.verdict);	}
+|	bstr = pr_BStringValue			{	$moduleparameter = new Module_Param_Bitstring($bstr.string);	}
+|	hstr = pr_HStringValue			{	$moduleparameter = new Module_Param_Hexstring($hstr.string);	}
+|	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
+|	cs = pr_MPCString				{	$moduleparameter = new Module_Param_Charstring(new TitanCharString($cs.string));	}
+|	ucs = pr_Quadruple				{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
+|	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
+|	nulltext = pr_NULLKeyword
+	{	if ("null".equals($nulltext.text)) {
+			$moduleparameter = new Module_Param_Ttcn_Null();
+		} else {
+			$moduleparameter = new Module_Param_Asn_Null();
+		}
+	}
+|	MTCKEYWORD						{	$moduleparameter = new Module_Param_Ttcn_mtc();	}
+|	SYSTEMKEYWORD					{	$moduleparameter = new Module_Param_Ttcn_system();	}
+|	cv = pr_CompoundValue			{	$moduleparameter = $cv.moduleparameter;	}
+|	ANYVALUE						{	$moduleparameter = new Module_Param_Any();	}
+|	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
+|	ir = pr_IntegerRange
+	{	$moduleparameter = new Module_Param_IntRange(
+			new TitanInteger($ir.min.getIntegerValue()), new TitanInteger($ir.max.getIntegerValue()),
+			$ir.min_exclusive, $ir.max_exclusive );
+	}
+|	fr = pr_FloatRange
+	{	$moduleparameter = new Module_Param_FloatRange(
+			$fr.min != null ? $fr.min.getValue() : 0,
+			$fr.min != null,
+			$fr.max != null ? $fr.max.getValue() : 0,
+			$fr.max != null,
+			$fr.min_exclusive, $fr.max_exclusive );
+	}
+|	sr = pr_StringRange	{	$moduleparameter = $sr.stringrange;	}
+|	PATTERNKEYWORD pcl = pr_PatternChunkList
+	{
+		//TODO: handle nocase
+		boolean nocase = false;
+		$moduleparameter = new Module_Param_Pattern($pcl.ucstr.to_utf(), nocase);
+	}
+|	bsm = pr_BStringMatch			{	$moduleparameter = new Module_Param_Bitstring_Template($bsm.string);	}
+|	hsm = pr_HStringMatch			{	$moduleparameter = new Module_Param_Hexstring_Template($hsm.string);	}
+|	osm = pr_OStringMatch			{	$moduleparameter = new Module_Param_Octetstring_Template($osm.string);	}
 )
 ;
-pr_ParameterReference:
+
+pr_ParameterReference returns [Module_Parameter moduleparameter]:
 	// enumerated values are also treated as references by the parser,
 	// these will be sorted out later during set_param()
-	pr_ParameterNameSegment
+	pns = pr_ParameterNameSegment
+	{	// no references allowed in RT1, so the name segment must be an enumerated value
+    	// (which means it can only contain 1 name)
+    	if ($pns.names == null || $pns.names.size() != 1) {
+			config_process_error("Module parameter references are not allowed in the Load Test Runtime.");
+		}
+		$moduleparameter = ($pns.names == null || $pns.names.size() == 0) ? null : new Module_Param_Enumerated($pns.names.get(0));
+	}
 ;
 
-pr_ParameterNameSegment:
-	pr_ParameterNameSegment
+pr_ParameterNameSegment returns [List<String> names]:
+	pns = pr_ParameterNameSegment
 	pr_Dot
-	pr_Identifier
-|	pr_ParameterNameSegment
-	pr_IndexItemIndex
-|	pr_Identifier
+	i = pr_Identifier
+	{	$names = $pns.names;
+		$names.add($i.identifier);
+	}
+|	pns = pr_ParameterNameSegment
+	iii = pr_IndexItemIndex
+	{	$names = $pns.names;
+		int size = $names.size();
+		final String last = $names.get(size - 1);
+		$names.set(size - 1, last + $iii.text);
+	}
+|	i = pr_Identifier
+	{	$names = new ArrayList<String>();
+		$names.add($i.identifier);
+	}
 ;
 
-pr_IndexItemIndex:
+pr_IndexItemIndex returns [CFGNumber integer]:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
 	SQUARECLOSE
-;
-
-pr_LengthBound:
-	pr_IntegerValueExpression
 ;
 
 pr_ArithmeticValueExpression returns [CFGNumber number]:
@@ -1508,21 +1735,33 @@ pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 ;
 
 pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
-(	a = pr_Float	{$number = $a.number;}
+(	a = pr_Float	{$number = $a.floatnum;}
 |	b = pr_NaturalNumber	{$number = $b.integer;}
 |	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
 )
 ;
 
-pr_Float returns [CFGNumber number]:
-(	a = FLOAT {$number = new CFGNumber($a.text);}
+pr_Float returns [CFGNumber floatnum]:
+(	a = FLOAT {$floatnum = new CFGNumber($a.text);}
 |	macro = MACRO_FLOAT
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
-			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
+		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
+			$floatnum = new CFGNumber( value.length() > 0 ? value : "0.0" );
 		}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
-		}
+		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
+		}//TODO: incorrect behaviour
+)
+;
+
+pr_MPFloat returns [double floatnum]:
+(	a = FLOAT {$floatnum = Double.parseDouble($a.text);}
+|	NANKEYWORD	{	$floatnum = Double.NaN;	}
+|	INFINITYKEYWORD	{	$floatnum = Double.POSITIVE_INFINITY;	}
+|	MACRO_FLOAT
+	{
+		// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 
@@ -1530,218 +1769,439 @@ pr_Boolean returns [Boolean bool]:
 (	t = TRUE { $bool = true; }
 |	f = FALSE { $bool = false; }
 |	macro = MACRO_BOOL
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
+		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
 			$bool = "true".equalsIgnoreCase( value );
 		}
 )
 ;
 
-pr_ObjIdValue:
-	OBJIDKEYWORD	BEGINCHAR	pr_ObjIdComponent+	ENDCHAR
+pr_ObjIdValue returns[List<TitanInteger> components]
+@init{
+	$components = new ArrayList<TitanInteger>();
+}:
+	OBJIDKEYWORD
+	BEGINCHAR
+	(	c = pr_ObjIdComponent { $components.add($c.integer);}
+	)+
+	ENDCHAR
 ;
 
-pr_ObjIdComponent:
-(	pr_NaturalNumber
-|	pr_Identifier LPAREN pr_NaturalNumber RPAREN
+pr_ObjIdComponent returns [TitanInteger integer]:
+(	n = pr_NaturalNumber	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
+|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
 )
 ;
 
-pr_VerdictValue:
-(	NONE_VERDICT
-|	PASS_VERDICT
-|	INCONC_VERDICT
-|	FAIL_VERDICT
-|	ERROR_VERDICT
+pr_VerdictValue returns [TitanVerdictType verdict]:
+(	NONE_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.NONE);	}
+|	PASS_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.PASS);	}
+|	INCONC_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.INCONC);	}
+|	FAIL_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.FAIL);	}
+|	ERROR_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.ERROR);	}
 )
 ;
 
-pr_BStringValue:
-	pr_BString	(	STRINGOP pr_BString	)*
+pr_BStringValue returns [String string]:
+	s = pr_BString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_BString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_BString returns [String string]:
-(	b = BITSTRING { $string = $b.getText(); }
-|	macro = MACRO_BSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );
-			$string = "'" + value + "'B";
+(	b = BITSTRING
+	{	final String temp = $b.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'B$|\\s+", "");
 		}
+	}
+|	macro = MACRO_BSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );	}
 )
 ;
 
-pr_HStringValue:
-	pr_HString	(	STRINGOP pr_HString	)*
+pr_HStringValue returns [String string]:
+	s = pr_HString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_HString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_HString returns [String string]:
-(	h = HEXSTRING { $string = $h.getText(); }
-|	macro = MACRO_HSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );
-			$string = "'" + value + "'H";
+(	h = HEXSTRING
+	{	final String temp = $h.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'H$|\\s+", "");
 		}
+	}
+|	macro = MACRO_HSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );	}
 )
 ;
 
-pr_OStringValue:
-	pr_OString	(	STRINGOP pr_OString	)*
+pr_OStringValue returns [String string]:
+	s = pr_OString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_OString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_OString returns [String string]:
-(	o = OCTETSTRING { $string = $o.getText(); }
-|	macro = MACRO_OSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );
-			$string = "'" + value + "'0";
+(	o = OCTETSTRING
+	{	final String temp = $o.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'O$|\\s+", "");
 		}
-|	macro_bin = MACRO_BINARY
-		{	String value = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );
-			$string = value;
-		}
+	}
+|	macro = MACRO_OSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );	}
+|	macro_bin = MACRO_BINARY	{	$string = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );	}
 )
 ;
 
-pr_UniversalOrNotStringValue:
-(	pr_CString
-|	pr_Quadruple
+//returns TitanCharString or TitanUniversalCharString
+pr_UniversalOrNotStringValue returns [Base_Type cstr]:
+(	c = pr_CString	{ 	$cstr = new TitanCharString($c.string);	}
+|	q = pr_Quadruple	{ 	$cstr = $q.ucstr;	}
 )
 (	STRINGOP
-	(	pr_CString
-	|	pr_Quadruple
+	(	c = pr_CString
+		{	if ($cstr instanceof TitanCharString) {
+				final TitanCharString cs = (TitanCharString)$cstr;
+				$cstr = cs.operator_concatenate($c.string);
+			} else {
+				final TitanUniversalCharString ucs = (TitanUniversalCharString)$cstr;
+				$cstr = ucs.operator_concatenate($c.string);
+			}
+		}
+	|	q = pr_Quadruple
+		{	if ($cstr instanceof TitanCharString) {
+				final TitanCharString cs = (TitanCharString)$cstr;
+				$cstr = cs.operator_concatenate($q.ucstr);
+			} else {
+				final TitanUniversalCharString ucs = (TitanUniversalCharString)$cstr;
+				$cstr = ucs.operator_concatenate($q.ucstr);
+			}
+		}
 	)
 )*
 ;
 
-pr_Quadruple:
+pr_Quadruple returns [TitanUniversalCharString ucstr]:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
+	i1 = pr_IntegerValueExpression
+	COMMA
+	i2 = pr_IntegerValueExpression
+	COMMA
+	i3 = pr_IntegerValueExpression
+	COMMA
+	i4 = pr_IntegerValueExpression
 	RPAREN
+	{	$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
+												(char)$i2.integer.getIntegerValue().intValue(),
+												(char)$i3.integer.getIntegerValue().intValue(),
+												(char)$i4.integer.getIntegerValue().intValue()	);
+	}
 ;
 
-pr_EnumeratedValue:
-	pr_Identifier
+pr_EnumeratedValue returns [String identifier]:
+	i = pr_Identifier	{	$identifier = $i.identifier;	}
 ;
 
 pr_NULLKeyword:
 	NULLKEYWORD
 ;
 
-pr_CompoundValue:
+pr_CompoundValue returns [Module_Parameter moduleparameter]:
 (	BEGINCHAR
-	(	/* empty */
-	|	pr_FieldValue	(	COMMA pr_FieldValue	)*
-	|	pr_ArrayItem	(	COMMA pr_ArrayItem	)*
-	|	pr_IndexValue	(	COMMA pr_IndexValue	)*
+	(	/* empty */	{	$moduleparameter = new Module_Param_Value_List();	}
+	|	fv = pr_FieldValue
+		{	$moduleparameter = new Module_Param_Assignment_List();
+			$moduleparameter.add_elem($fv.moduleparameter);
+		}
+		(	COMMA
+			fv = pr_FieldValue	{	$moduleparameter.add_elem($fv.moduleparameter);	}
+		)*
+	|	ai = pr_ArrayItem
+		{	$moduleparameter = new Module_Param_Value_List();
+			$ai.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+			$moduleparameter.add_elem($ai.moduleparameter);
+		}
+		(	COMMA
+			ai = pr_ArrayItem
+			{	$ai.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+				$moduleparameter.add_elem($ai.moduleparameter);
+			}
+		)*
+	|	iv = pr_IndexValue
+		{	$moduleparameter = new Module_Param_Indexed_List();
+			$moduleparameter.add_elem($iv.moduleparameter);
+		}
+		(	COMMA
+			iv = pr_IndexValue	{	$moduleparameter.add_elem($iv.moduleparameter);	}
+		)*
 	)
 	ENDCHAR
 |	LPAREN
 	/* at least 2 elements to avoid shift/reduce conflicts with pr_IntegerValueExpression and pr_FloatValueExpression rules */
-	pr_ParameterValue (COMMA pr_ParameterValue)+
+	pv = pr_ParameterValue
+	{	$moduleparameter = new Module_Param_List_Template();
+		$pv.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+		$moduleparameter.add_elem($pv.moduleparameter);
+	}
+	COMMA
+	til = pr_TemplateItemList	{	$moduleparameter.add_list_with_implicit_ids($til.mplist);	}
 	RPAREN
-|	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	COMPLEMENTKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_ComplementList_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
+|	SUPERSETKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_Superset_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
+|	SUBSETKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_Subset_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
 )
 ;
 
-pr_FieldValue:
-	pr_FieldName ASSIGNMENTCHAR pr_ParameterValueOrNotUsedSymbol
+pr_FieldValue returns [Module_Parameter moduleparameter]:
+	fn = pr_FieldName
+	ASSIGNMENTCHAR
+	pv = pr_ParameterValueOrNotUsedSymbol
+	{
+		$moduleparameter = $pv.moduleparameter;
+		$moduleparameter.set_id(new Module_Param_FieldName($fn.identifier));
+	}
 ;
 
-pr_FieldName:
-	pr_Identifier
+pr_FieldName returns [String identifier]:
+	i = pr_Identifier	{	$identifier = $i.identifier; }
 ;
 
-pr_ParameterValueOrNotUsedSymbol:
-	MINUS
-|	pr_ParameterValue
+pr_ParameterValueOrNotUsedSymbol returns [Module_Parameter moduleparameter]:
+	MINUS	{	$moduleparameter = new Module_Param_NotUsed();	}
+|	pv = pr_ParameterValue	{	$moduleparameter = $pv.moduleparameter;	}
 ;
 
-pr_ArrayItem:
-	pr_ParameterValueOrNotUsedSymbol
-|	PERMUTATIONKEYWORD LPAREN pr_TemplateItemList RPAREN
+pr_ArrayItem returns [Module_Parameter moduleparameter]:
+	pv = pr_ParameterValueOrNotUsedSymbol	{	$moduleparameter = $pv.moduleparameter;	}
+|	PERMUTATIONKEYWORD LPAREN til = pr_TemplateItemList RPAREN
+	{	$moduleparameter = new Module_Param_Permutation_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
 ;
 
-pr_TemplateItemList:
-	pr_ParameterValue
-	(	COMMA pr_ParameterValue
+pr_TemplateItemList returns [List<Module_Parameter> mplist]:
+	pv = pr_ParameterValue
+	{	$mplist = new ArrayList<Module_Parameter>();
+		$mplist.add($pv.moduleparameter);
+	}
+	(	COMMA
+		pv = pr_ParameterValue	{	$mplist.add($pv.moduleparameter);	}
 	)*
 ;
 
-pr_IndexValue:
-	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
+// config_process.y/IndexItem
+pr_IndexValue returns [Module_Parameter moduleparameter]:
+	iii = pr_IndexItemIndex ASSIGNMENTCHAR pv = pr_ParameterValue
+	{	$moduleparameter = $pv.moduleparameter;
+		$moduleparameter.set_id(new Module_Param_Index($iii.integer.getIntegerValue(),true));
+	}
 ;
 
-pr_IntegerRange:
+//TODO: handle exclusive: '!' before the number
+pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+@init {
+	$min = null;
+	$max = null;
+	$min_exclusive = false;
+	$max_exclusive = false;
+}:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
-	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
+	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
+	|	MINUS	INFINITYKEYWORD
+	)
+	DOTDOT
+	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
-pr_FloatRange:
+//TODO: handle exclusive: '!' before the number
+pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+@init {
+	$min = null;
+	$max = null;
+	$min_exclusive = false;
+	$max_exclusive = false;
+}:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
-	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
+	(	f1 = pr_FloatValueExpression	{	$min = $f1.floatnum;	}
+	|	MINUS	INFINITYKEYWORD
+	)
+	DOTDOT
+	(	f2 = pr_FloatValueExpression	{	$max = $f2.floatnum;	}
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
-pr_FloatValueExpression:
-	pr_FloatAddExpression
+pr_FloatValueExpression returns [CFGNumber floatnum]:
+	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_FloatAddExpression:
-	pr_FloatMulExpression
-	(	(	PLUS
-		|	MINUS
+pr_FloatAddExpression returns [CFGNumber floatnum]:
+	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
+	(	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
+		|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
 		)
-		pr_FloatMulExpression
 	)*
 ;
 
-pr_FloatMulExpression:
-	pr_FloatUnaryExpression
-	(	(	STAR
-		|	SLASH
-		)
-		pr_FloatUnaryExpression
+pr_FloatMulExpression returns [CFGNumber floatnum]:
+	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
+	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum.mul($b1.floatnum);	}
+	|	SLASH	b2 = pr_FloatUnaryExpression
+		{	try {
+				$floatnum.div($b2.floatnum);
+			} catch ( ArithmeticException e ) {
+				// division by 0
+				reportError( e.getMessage(), $a.start, $b2.stop );
+				$floatnum = new CFGNumber( "0" );
+			}
+		}
 	)*
 ;
 
-pr_FloatUnaryExpression:
+pr_FloatUnaryExpression returns [CFGNumber floatnum]:
+{	boolean negate = false;
+}
 	(	PLUS
-	|	MINUS
+	|	MINUS	{	negate = !negate;	}
 	)*
-	pr_FloatPrimaryExpression
+	a = pr_FloatPrimaryExpression
+		{	$floatnum = $a.floatnum;
+			if ( negate ) {
+				$floatnum.mul( -1 );
+			}
+		}
 ;
 
-pr_FloatPrimaryExpression:
-(	pr_Float
-|	LPAREN pr_FloatAddExpression RPAREN
+pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
+(	a = pr_Float	{	$floatnum = $a.floatnum;	}
+|	LPAREN b = pr_FloatAddExpression RPAREN	{	$floatnum = $b.floatnum;	}
 )
 ;
 
-pr_StringRange:
-	LPAREN pr_UniversalOrNotStringValue DOTDOT pr_UniversalOrNotStringValue RPAREN
+//TODO: handle exclusive: '!' before the values
+pr_StringRange returns [Module_Param_StringRange stringrange]
+@init {
+	TitanUniversalChar lower = new TitanUniversalChar((char)0, (char)0, (char)0, (char)0);
+	TitanUniversalChar upper = new TitanUniversalChar((char)0, (char)0, (char)0, (char)0);
+	boolean min_exclusive = false;
+	boolean max_exclusive = false;
+}:
+	LPAREN
+	s1 = pr_UniversalOrNotStringValue
+	{	if ($s1.cstr instanceof TitanCharString) {
+			final TitanCharString cs = (TitanCharString)$s1.cstr;
+			if (cs.lengthof().operator_not_equals(1)) {
+				config_process_error("Lower bound of char range must be 1 character only");
+			} else {
+				lower = new TitanUniversalChar((char)0, (char)0, (char)0, cs.get_value().charAt(0));
+			}
+		} else {
+			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s1.cstr;
+			if (ucs.lengthof().operator_not_equals(1)) {
+				config_process_error("Lower bound of char range must be 1 character only");
+			} else {
+				lower = ucs.get_value().get(0);
+			}
+		}
+	}
+	DOTDOT
+	s2 = pr_UniversalOrNotStringValue
+	{	if ($s2.cstr instanceof TitanCharString) {
+			final TitanCharString cs = (TitanCharString)$s2.cstr;
+			if (cs.lengthof().operator_not_equals(1)) {
+				config_process_error("Upper bound of char range must be 1 character only");
+			} else {
+				upper = new TitanUniversalChar((char)0, (char)0, (char)0, cs.get_value().charAt(0));
+			}
+		} else {
+			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s2.cstr;
+			if (ucs.lengthof().operator_not_equals(1)) {
+				config_process_error("Upper bound of char range must be 1 character only");
+			} else {
+				upper = ucs.get_value().get(0);
+			}
+		}
+	}
+	RPAREN
+{
+	if (upper.is_less_than(lower)) {
+		config_process_error("Lower bound is larger than upper bound in the char range");
+		lower = upper;
+	}
+	$stringrange = new Module_Param_StringRange(lower, upper, min_exclusive, max_exclusive);
+}
 ;
 
-pr_PatternChunkList:
-	pr_PatternChunk (AND pr_PatternChunk)*
+
+pr_PatternChunkList returns [TitanUniversalCharString ucstr]:
+	p = pr_PatternChunk	{	$ucstr = $p.ucstr;	}
+	(	AND
+		p = pr_PatternChunk	{	$ucstr.operator_concatenate($p.ucstr);	}
+	)*
 ;
 
-pr_PatternChunk:
-	pr_CString
-|	pr_Quadruple
+pr_PatternChunk returns [TitanUniversalCharString ucstr]:
+	cstr = pr_CString
+	// pr_CString.text is used instead of pr_CString.string,
+	// so the original text is used instead of the unescaped return value.
+	// This is done this way, because pattern string escape handling is done differently.
+	// But beginning and ending quotes must be removed.
+	{	if ( $cstr.text != null ) {
+			$ucstr = new TitanUniversalCharString($cstr.text.replaceAll("^\"|\"$", ""));
+		}
+	}
+|	q = pr_Quadruple	{	$ucstr = $q.ucstr;	}
 ;
 
-pr_BStringMatch:
-	BITSTRINGMATCH
+pr_BStringMatch returns [String string]:
+	b = BITSTRINGMATCH
+	{	final String temp = $b.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'B$|\\s+", "");
+		}
+	}
 ;
 
-pr_HStringMatch:
-	HEXSTRINGMATCH
+pr_HStringMatch returns [String string]:
+	h = HEXSTRINGMATCH
+	{	final String temp = $h.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'H$|\\s+", "");
+		}
+	}
 ;
 
-pr_OStringMatch:
-	OCTETSTRINGMATCH
+pr_OStringMatch returns [String string]:
+	o = OCTETSTRINGMATCH
+	{	final String temp = $o.text;
+		if ( temp != null ) {
+			$string = temp.replaceAll("^\'|\'O$|\\s+", "");
+		}
+	}
 ;

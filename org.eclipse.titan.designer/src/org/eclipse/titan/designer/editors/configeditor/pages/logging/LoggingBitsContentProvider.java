@@ -23,7 +23,7 @@ public final class LoggingBitsContentProvider implements ITreeContentProvider {
 			return new Object[] {};
 		}
 
-		LoggingBit bit = (LoggingBit) parentElement;
+		final LoggingBit bit = (LoggingBit) parentElement;
 		return LoggingBitHelper.getChildren(bit);
 	}
 
@@ -38,8 +38,7 @@ public final class LoggingBitsContentProvider implements ITreeContentProvider {
 			return false;
 		}
 
-		LoggingBit bit = (LoggingBit) element;
-
+		final LoggingBit bit = (LoggingBit) element;
 		return LoggingBitHelper.hasChildren(bit);
 	}
 

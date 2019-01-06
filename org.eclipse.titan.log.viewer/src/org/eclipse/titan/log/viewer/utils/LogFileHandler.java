@@ -63,11 +63,12 @@ public class LogFileHandler {
 			return null;
 		}
 
-		String[] strings = logString.split("\\s"); //$NON-NLS-1$
+		final String[] strings = logString.split("\\s"); //$NON-NLS-1$
 		if (strings.length < 1) {
 			return null;
 		}
-		String seconds = strings[0];
+
+		final String seconds = strings[0];
 		// Second format: s.SSSSSS
 		if (Pattern.matches(Constants.REGEXP_SECONDS_FORMAT, seconds)) {
 			return Constants.SECONDS_FORMAT;
@@ -78,7 +79,7 @@ public class LogFileHandler {
 			return null;
 		}
 
-		String time = logString.substring(0, Constants.TIME_FORMAT.length());
+		final String time = logString.substring(0, Constants.TIME_FORMAT.length());
 		//Time format: HH:mm:ss.SSSSSS
 		if (Pattern.matches(Constants.REGEXP_TIME_FORMAT, time)) {
 			return Constants.TIME_FORMAT;
@@ -89,7 +90,7 @@ public class LogFileHandler {
 			return null;
 		}
 
-		String date = logString.substring(0, Constants.DATETIME_FORMAT.length());
+		final String date = logString.substring(0, Constants.DATETIME_FORMAT.length());
 		//Date format: yyyy/MMM/dd HH:mm:ss.SSSSSS
 		if (Pattern.matches(Constants.REGEXP_DATETIME_FORMAT, date)) {
 			return Constants.DATETIME_FORMAT;
@@ -105,42 +106,45 @@ public class LogFileHandler {
 	 * @return
 	 */
 	public static String validateTimeStamp(final String logLine, final String format) {
-		String temp;
 		switch (format.length()) {
-		case Constants.DATETIME_FORMAT_LENGTH:
+		case Constants.DATETIME_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.DATETIME_FORMAT.length()) {
 				break;
 			}
-			temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
+
+			final String temp = logLine.substring(0, Constants.DATETIME_FORMAT.length());
 			if (validateDateTime(temp)) {
 				return temp;
 			}
 			break;
-
-		case Constants .TIME_FORMAT_LENGTH:
+		}
+		case Constants .TIME_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.TIME_FORMAT.length()) {
 				break;
 			}
-			temp = logLine.substring(0, Constants.TIME_FORMAT.length());
+
+			final String temp = logLine.substring(0, Constants.TIME_FORMAT.length());
 			if (validateTime(temp)) {
 				return temp;
 			}
 			break;
-
-		case Constants.SECONDS_FORMAT_LENGTH:
+		}
+		case Constants.SECONDS_FORMAT_LENGTH:{
 			if (logLine.length() < Constants.SECONDS_FORMAT.length()) {
 				break;
 			}
-			String[] strings = logLine.split("\\s"); //$NON-NLS-1$
+
+			final String[] strings = logLine.split("\\s"); //$NON-NLS-1$
 			if (strings.length < 1) {
 				return null;
 			}
-			temp = strings[0];
+
+			final String temp = strings[0];
 			if (validateSeconds(temp)) {
 				return temp;
 			}
 			break;
-
+		}
 		default:
 			break;
 		}
@@ -181,9 +185,7 @@ public class LogFileHandler {
 	 * @throws TechnicalException invalid log file
 	 */
 	public LogFileMetaData autoDetect() throws TechnicalException {
-		String logLine = null;
-		BufferedReader bufferedReader = null;
-		File logFile = new File(this.fileMetaInfo.getFilePath());
+		final File logFile = new File(this.fileMetaInfo.getFilePath());
 
 		// check if the log file exists
 		if (!logFile.exists()) {
@@ -191,10 +193,10 @@ public class LogFileHandler {
 		}
 
 		// check if .log file extension
-		int fileSize = logFile.getName().length();
-		String logExt = "." + Constants.LOG_EXTENSION; //$NON-NLS-1$
+		final int fileSize = logFile.getName().length();
+		final String logExt = "." + Constants.LOG_EXTENSION; //$NON-NLS-1$
 		if (fileSize > logExt.length()) { // ".log".length -> 4
-			String fileExtension = logFile.getName().substring(fileSize - logExt.length(), fileSize);
+			final String fileExtension = logFile.getName().substring(fileSize - logExt.length(), fileSize);
 			if (!fileExtension.equalsIgnoreCase(logExt)) {
 				throw new TechnicalException(Messages.getString("LogFileHandler.4")); //$NON-NLS-1$
 			}
@@ -211,6 +213,8 @@ public class LogFileHandler {
 		}
 
 		// read first line in the log file
+		String logLine = null;
+		BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new FileReader(logFile));
 			try {
@@ -221,7 +225,7 @@ public class LogFileHandler {
 			}
 
 			// check if a valid time format can be found
-			String timeStampFormat = logLine != null ? getTimeStampFormat(logLine) : null;
+			final String timeStampFormat = logLine != null ? getTimeStampFormat(logLine) : null;
 			if (timeStampFormat == null) {
 				throw new TechnicalException(Messages.getString("LogFileHandler.1")); //$NON-NLS-1$
 			}
@@ -229,7 +233,7 @@ public class LogFileHandler {
 
 			// remove timestamp from the log line
 			logLine = logLine.substring(timeStampFormat.length(), logLine.length()).trim();
-			String[] logLineArray = logLine.split(" "); //$NON-NLS-1$
+			final String[] logLineArray = logLine.split(" "); //$NON-NLS-1$
 
 			// only timestamp is present in the log
 			if (logLineArray.length < 1) {
@@ -241,7 +245,7 @@ public class LogFileHandler {
 
 			// check for execution mode, single or parallel
 			// (parallel merged is left out)
-			String executionMode = getExecutionMode(logLine);
+			final String executionMode = getExecutionMode(logLine);
 			if (executionMode == null) {
 				throw new TechnicalException(Messages.getString("LogFileHandler.3")); //$NON-NLS-1$
 			}
@@ -273,9 +277,9 @@ public class LogFileHandler {
 	private boolean isEventTypePresent(final String logLine) {
 		// We only need to check for main category, because ALL sub
 		// categories has main in their name
-		SortedMap<String, String[]> eventCategories = Constants.EVENT_CATEGORIES;
-		Set<String> categories = eventCategories.keySet();
-		for (String category : categories) {
+		final SortedMap<String, String[]> eventCategories = Constants.EVENT_CATEGORIES;
+		final Set<String> categories = eventCategories.keySet();
+		for (final String category : categories) {
 			if (logLine.contains(category)) {
 				return true;
 			}

@@ -86,10 +86,10 @@ public final class ProjectSourceParser {
 
 	private static final String SOURCE_ANALYSING = "Analysing the source code of project ";
 
-	private IProject project;
+	private final IProject project;
 
-	private ProjectSourceSyntacticAnalyzer syntacticAnalyzer;
-	private ProjectSourceSemanticAnalyzer semanticAnalyzer;
+	private final ProjectSourceSyntacticAnalyzer syntacticAnalyzer;
+	private final ProjectSourceSemanticAnalyzer semanticAnalyzer;
 
 	/**
 	 * Counts how many parallel full analyzer threads are running. Should
@@ -97,7 +97,7 @@ public final class ProjectSourceParser {
 	 * existing analyzes run, which have to be checked by a subsequent
 	 * check.
 	 * */
-	private AtomicInteger fullAnalyzersRunning = new AtomicInteger();
+	private final AtomicInteger fullAnalyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastFullAnalyzes = null;
@@ -112,7 +112,7 @@ public final class ProjectSourceParser {
 	 * the existing analyzes run, which have to be checked by a subsequent
 	 * check.
 	 * */
-	private AtomicInteger syntaxAnalyzersRunning = new AtomicInteger();
+	private final AtomicInteger syntaxAnalyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastSyntaxAnalyzes = null;
@@ -123,7 +123,7 @@ public final class ProjectSourceParser {
 
 		@Override
 		public void propertyChanged(final IResource resource) {
-			ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(resource.getProject());
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(resource.getProject());
 			if (resource instanceof IFile) {
 				projectSourceParser.reportOutdating((IFile) resource);
 			} else if (resource instanceof IFolder) {
@@ -245,7 +245,7 @@ public final class ProjectSourceParser {
 		}
 		visited.add(project);
 
-		for (IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
+		for (final IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
 			if (!visited.contains(tempProject)) {
 				tempFile = GlobalParser.getProjectSourceParser(tempProject).internalTTCN3IncludeFileByName(name, visited);
 				if (tempFile != null) {
@@ -287,7 +287,7 @@ public final class ProjectSourceParser {
 		}
 		visited.add(project);
 
-		for (IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
+		for (final IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
 			if (!visited.contains(tempProject)) {
 				tempModule = GlobalParser.getProjectSourceParser(tempProject).internalGetModuleByName(name, visited, uptodateOnly);
 				if (tempModule != null) {
@@ -324,7 +324,7 @@ public final class ProjectSourceParser {
 	 *         ones referenced.
 	 * */
 	private Set<String> internalGetKnownModuleNames(final List<IProject> visitedprojects) {
-		Set<String> temp = new HashSet<String>();
+		final Set<String> temp = new HashSet<String>();
 
 		if (visitedprojects.contains(project)) {
 			return temp;
@@ -351,7 +351,7 @@ public final class ProjectSourceParser {
 	 * @return the name of the module found in the file, or null
 	 * */
 	public String containedModuleName(final IFile file) {
-		Module module = semanticAnalyzer.getModulebyFile(file);
+		final Module module = semanticAnalyzer.getModulebyFile(file);
 		if (module != null) {
 			return module.getName();
 		}
@@ -385,7 +385,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final IFile outdatedFile) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.reportOutdating(outdatedFile);
@@ -396,7 +396,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -427,7 +427,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportSyntacticOutdatingOnly(final IFile outdatedFile) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFile.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.reportSyntacticOutdatingOnly(outdatedFile);
@@ -437,7 +437,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -467,7 +467,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final List<IFile> outdatedFiles) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for " + outdatedFiles.size() + " files") {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for " + outdatedFiles.size() + " files") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				for (IFile file : outdatedFiles) {
@@ -479,7 +479,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -521,7 +521,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -544,7 +544,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob clearSemanticInformation() {
-		WorkspaceJob op = new WorkspaceJob("Clearing all semantic information") {
+		final WorkspaceJob op = new WorkspaceJob("Clearing all semantic information") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				semanticAnalyzer.clearSemanticInformation();
@@ -554,7 +554,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -584,7 +584,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final IFolder outdatedFolder) {
-		WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFolder.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Reporting outdate for: " + outdatedFolder.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.reportOutdating(outdatedFolder);
@@ -594,7 +594,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -626,7 +626,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob updateSyntax(final IFile file, final TTCN3ReparseUpdater reparser) {
-		WorkspaceJob op = new WorkspaceJob("Updating the syntax incremantally for: " + file.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incremantally for: " + file.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.updateSyntax(file, reparser);
@@ -635,7 +635,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.SHORT);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -676,26 +676,26 @@ public final class ProjectSourceParser {
 			return Status.CANCEL_STATUS;
 		}
 
-		List<IProject> tobeAnalyzed = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+		final List<IProject> tobeAnalyzed = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 
 		// collect the projects referencing the just now analyzed
 		// projects in a bottom up order into the list "tobeAnalyzed"
-		Deque<IProject> temporalList = new LinkedList<IProject>();
+		final Deque<IProject> temporalList = new LinkedList<IProject>();
 		temporalList.addLast(project);
 		tobeAnalyzed.remove(project);
 		while (!temporalList.isEmpty()) {
-			IProject tempProject = temporalList.getFirst();
+			final IProject tempProject = temporalList.getFirst();
 			temporalList.removeFirst();
 			if (!tobeAnalyzed.contains(tempProject)) {
 				tobeAnalyzed.add(tempProject);
 
-				IProject[] tempProjects = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getReferencingProjects();
-				for (IProject tempProject2 : tempProjects) {
+				final IProject[] tempProjects = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getReferencingProjects();
+				for (final IProject tempProject2 : tempProjects) {
 					if (!GlobalParser.getProjectSourceParser(tempProject2).analyzesRunning) {
 						if (tempProject2.isAccessible()) {
 							temporalList.addLast(tempProject2);
 						} else {
-							Location location = new Location(project);
+							final Location location = new Location(project);
 							location.reportExternalProblem(MessageFormat.format(
 									"The project {0} is not accessible but requires to analyze the project {1}",
 									tempProject2.getName(), tempProject.getName()), IMarker.SEVERITY_ERROR,
@@ -708,16 +708,16 @@ public final class ProjectSourceParser {
 
 		// Collect those projects that might be needed to do the correct
 		// analysis.
-		List<IProject> additionalRequired = new ArrayList<IProject>();
-		for (IProject project : tobeAnalyzed) {
-			List<IProject> temp = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
-			for (IProject temp2 : temp) {
+		final List<IProject> additionalRequired = new ArrayList<IProject>();
+		for (final IProject project : tobeAnalyzed) {
+			final List<IProject> temp = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+			for (final IProject temp2 : temp) {
 				if (!tobeAnalyzed.contains(temp2) && !additionalRequired.contains(temp2)
 						&& GlobalParser.getProjectSourceParser(temp2).getLastTimeChecked() == null) {
 					if (temp2.isAccessible()) {
 						additionalRequired.add(temp2);
 					} else {
-						Location location = new Location(project);
+						final Location location = new Location(project);
 						location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, temp2.getName(),
 								project.getName()), IMarker.SEVERITY_ERROR, GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 					}
@@ -728,19 +728,19 @@ public final class ProjectSourceParser {
 		tobeAnalyzed.addAll(additionalRequired);
 
 		// Do the analyzes in the determined order.
-		CompilationTimeStamp compilationCounter = CompilationTimeStamp.getNewCompilationCounter();
+		final CompilationTimeStamp compilationCounter = CompilationTimeStamp.getNewCompilationCounter();
 
-		SubMonitor progress = SubMonitor.convert(monitor, tobeAnalyzed.size() * 2);
+		final SubMonitor progress = SubMonitor.convert(monitor, tobeAnalyzed.size() * 2);
 		progress.setTaskName("Analysis of projects");
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
-		boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		final boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("On-the-fly analyzation of project " + project.getName() + " started");
 		}
 
-		List<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
+		final List<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
 
 		try {
 			for (int i = 0; i < tobeAnalyzed.size(); i++) {
@@ -753,14 +753,14 @@ public final class ProjectSourceParser {
 								.internalDoAnalyzeSyntactically(progress.newChild(1));
 						tobeSemanticallyAnalyzed.add(tobeAnalyzed.get(i));
 					} else {
-						Location location = new Location(project, 0, 0, 0);
+						final Location location = new Location(project, 0, 0, 0);
 						location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
 								tobeAnalyzed.get(i).getName(), project.getName()), IMarker.SEVERITY_ERROR,
 								GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 						progress.worked(1);
 					}
 				} else {
-					Location location = new Location(project);
+					final Location location = new Location(project);
 					location.reportExternalProblem(
 							MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tobeAnalyzed.get(i).getName(),
 									project.getName()), IMarker.SEVERITY_ERROR,
@@ -798,7 +798,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob analyzeAllOnlySyntactically() {
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (!prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 			return null;
 		}
@@ -866,7 +866,7 @@ public final class ProjectSourceParser {
 		};
 		op.setPriority(Job.LONG);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -923,14 +923,14 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob analyzeAll(final boolean allowQuickExit) {
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (!prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 			return null;
 		}
 
-		WorkspaceJob configAnalyzes = GlobalParser.getConfigSourceParser(project).doSyntaticalAnalyze();
+		final WorkspaceJob configAnalyzes = GlobalParser.getConfigSourceParser(project).doSyntaticalAnalyze();
 
-		WorkspaceJob analyzes = new WorkspaceJob(SOURCE_ANALYSING + project.getName()) {
+		final WorkspaceJob analyzes = new WorkspaceJob(SOURCE_ANALYSING + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				IStatus result = Status.OK_STATUS;
@@ -992,7 +992,7 @@ public final class ProjectSourceParser {
 		};
 		analyzes.setPriority(Job.LONG);
 
-		IPreferencesService preferenceService = Platform.getPreferencesService();
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		if (GeneralConstants.DEBUG
 				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 						true, null)) {
@@ -1019,7 +1019,7 @@ public final class ProjectSourceParser {
 		final WorkspaceJob temp = analyzes;
 		final WorkspaceJob temp2 = configAnalyzes;
 
-		WorkspaceJob extensions = new WorkspaceJob("Executing Titan extensions on project " + project.getName()) {
+		final WorkspaceJob extensions = new WorkspaceJob("Executing Titan extensions on project " + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				final SubMonitor progress = SubMonitor.convert(monitor, 100);
@@ -1068,14 +1068,14 @@ public final class ProjectSourceParser {
 	}
 
 	private ISchedulingRule getSchedulingRule() {
-		Deque<IProject> temporalList = new LinkedList<IProject>();
+		final Deque<IProject> temporalList = new LinkedList<IProject>();
 
 		IProject[] tempProjects;
 		IProject tempProject;
 
-		List<IProject> projectTobeLocked = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
-		for (Iterator<IProject> iterator = projectTobeLocked.iterator(); iterator.hasNext();) {
-			IProject temp = iterator.next();
+		final List<IProject> projectTobeLocked = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+		for (final Iterator<IProject> iterator = projectTobeLocked.iterator(); iterator.hasNext();) {
+			final IProject temp = iterator.next();
 			if (GlobalParser.getProjectSourceParser(temp).getLastTimeChecked() != null) {
 				iterator.remove();
 			}
@@ -1092,7 +1092,7 @@ public final class ProjectSourceParser {
 				projectTobeLocked.add(tempProject);
 
 				tempProjects = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getReferencingProjects();
-				for (IProject tempProject2 : tempProjects) {
+				for (final IProject tempProject2 : tempProjects) {
 					if (!GlobalParser.getProjectSourceParser(tempProject2).analyzesRunning) {
 						temporalList.addLast(tempProject2);
 					}
@@ -1102,10 +1102,10 @@ public final class ProjectSourceParser {
 
 		// Collect those projects that might be needed to do the correct
 		// analysis.
-		List<IProject> additionalRequired = new ArrayList<IProject>();
-		for (IProject project : projectTobeLocked) {
-			List<IProject> temp = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
-			for (IProject temp2 : temp) {
+		final List<IProject> additionalRequired = new ArrayList<IProject>();
+		for (final IProject project : projectTobeLocked) {
+			final List<IProject> temp = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+			for (final IProject temp2 : temp) {
 				// TODO this a quick hack, when we have time
 				// check if the commented requirement is valid
 				// or not.
@@ -1117,9 +1117,9 @@ public final class ProjectSourceParser {
 
 		projectTobeLocked.addAll(additionalRequired);
 
-		IResourceRuleFactory ruleFactory = ResourcesPlugin.getWorkspace().getRuleFactory();
+		final IResourceRuleFactory ruleFactory = ResourcesPlugin.getWorkspace().getRuleFactory();
 		ISchedulingRule combinedRule = null;
-		for (IProject project : projectTobeLocked) {
+		for (final IProject project : projectTobeLocked) {
 			combinedRule = MultiRule.combine(ruleFactory.createRule(project), combinedRule);
 		}
 
@@ -1146,19 +1146,19 @@ public final class ProjectSourceParser {
 			return false;
 		}
 
-		List<ProjectConfigurationsPropertyData.ConfigurationRequirement> requirements = ProjectConfigurationsPropertyData
+		final List<ProjectConfigurationsPropertyData.ConfigurationRequirement> requirements = ProjectConfigurationsPropertyData
 				.getConfigurationRequirements(project);
 		for (int i = 0, size = requirements.size(); i < size; i++) {
-			ProjectConfigurationsPropertyData.ConfigurationRequirement temp = requirements.get(i);
+			final ProjectConfigurationsPropertyData.ConfigurationRequirement temp = requirements.get(i);
 			if (temp.getConfiguration() == null || "".equals(temp.getConfiguration())) {
 				continue;
 			}
-			for (IProject referencedProject : referencedProjects) {
-				String name = referencedProject.getName();
+			for (final IProject referencedProject : referencedProjects) {
+				final String name = referencedProject.getName();
 				if (name.equals(temp.getProjectName())) {
-					String tempActiveConfiguration = ProjectFileHandler.getActiveConfigurationName(referencedProject);
+					final String tempActiveConfiguration = ProjectFileHandler.getActiveConfigurationName(referencedProject);
 					if (!temp.getConfiguration().equals(tempActiveConfiguration)) {
-						Location location = new Location(project);
+						final Location location = new Location(project);
 						location.reportExternalProblem("In order to build project `" + project.getName() + "' project `"
 								+ name + "' must be using the `" + temp.getConfiguration()
 								+ "' configuration, but right now it is using `" + tempActiveConfiguration + "'",
@@ -1189,7 +1189,7 @@ public final class ProjectSourceParser {
 	// functionality is available on any other way
 	public void makefileCreatingAnalyzeAll() {
 		fullAnalyzersRunning.incrementAndGet();
-		ISchedulingRule rule = getSchedulingRule();
+		final ISchedulingRule rule = getSchedulingRule();
 		Job.getJobManager().beginRule(rule, new NullProgressMonitor());
 
 		try {

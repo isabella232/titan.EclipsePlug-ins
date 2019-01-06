@@ -101,7 +101,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 				return;
 			}
 
-			IPreferencesService prefs = Platform.getPreferencesService();
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 				analyze(false);
 			}
@@ -122,7 +122,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		}
 
 		final TTCN3ReparseUpdater reparser;
-		int length = dirtyRegion.getLength();
+		final int length = dirtyRegion.getLength();
 
 		if (DirtyRegion.INSERT.equals(dirtyRegion.getType())) {
 			reparser = new TTCN3ReparseUpdater(editedFile, actualCode.toString(), firstLine + 1, lineBreaks, dirtyRegion.getOffset(),
@@ -143,7 +143,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		if (!editor.isSemanticCheckingDelayed()) {
 			sourceParser.analyzeAll();
 
-			WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
+			final WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					Display.getDefault().asyncExec(new Runnable() {
@@ -183,14 +183,14 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		actualCode = new StringBuilder(document.get());
 
 		GlobalIntervalHandler.putInterval(document, null);
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 			analyze(isInitial);
 		} else {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(document);
+					final List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(document);
 					editor.updateFoldingStructure(positions);
 					editor.updateOutlinePage();
 				}
@@ -204,7 +204,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			return;
 		}
 
-		IProject project = editedFile.getProject();
+		final IProject project = editedFile.getProject();
 		if (project == null) {
 			return;
 		}
@@ -212,7 +212,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(document);
+				final List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(document);
 				getEditor().updateFoldingStructure(positions);
 			}
 		});
@@ -222,7 +222,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			projectSourceParser.reportOutdating(editedFile);
 			projectSourceParser.analyzeAll();
 
-			WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
+			final WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					Display.getDefault().asyncExec(new Runnable() {

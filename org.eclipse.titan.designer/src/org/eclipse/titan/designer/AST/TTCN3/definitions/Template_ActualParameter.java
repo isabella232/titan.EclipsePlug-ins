@@ -145,7 +145,7 @@ public final class Template_ActualParameter extends ActualParameter {
 		final Reference baseReference = template.getDerivedReference();
 		if (baseReference != null) {
 			final ExpressionStruct expression = new ExpressionStruct();
-			expression.expression.append(MessageFormat.format("{0}.assign(", temp.get_lhs_name()));
+			expression.expression.append(MessageFormat.format("{0}.operator_assign(", temp.get_lhs_name()));
 			baseReference.generateCode(aData, expression);
 			expression.expression.append(')');
 		}

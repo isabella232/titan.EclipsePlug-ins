@@ -48,14 +48,14 @@ public final class ConfigReferenceParser implements IReferenceParser {
 
 	public String findIncludedFileForOpening(final int offset, final IDocument document) {
 		moduleParameter = false;
-		String includeString = null;
+		final String includeString = null;
 		int ofs = offset - 1;
 		int endoffset = offset;
 		if (-1 == offset) {
 			return includeString;
 		}
 		try {
-			int tempOfs = includeStartOffset(ofs, document);
+			final int tempOfs = includeStartOffset(ofs, document);
 			if (-1 == tempOfs) {
 				return includeString;
 			}
@@ -83,7 +83,7 @@ public final class ConfigReferenceParser implements IReferenceParser {
 			return reference;
 		}
 		try {
-			int tempOfs = referenceStartOffset(ofs, document);
+			final int tempOfs = referenceStartOffset(ofs, document);
 			if (-1 == tempOfs) {
 				return reference;
 			}
@@ -99,15 +99,15 @@ public final class ConfigReferenceParser implements IReferenceParser {
 				defineName = document.get(ofs, endoffset - ofs);
 				return null;
 			}
-			String selected = document.get(ofs, endoffset - ofs);
+			final String selected = document.get(ofs, endoffset - ofs);
 			String parameter = selected;
-			int dotIndex = selected.indexOf('.');
+			final int dotIndex = selected.indexOf('.');
 			if (dotIndex > 0) {
-				String moduleName = selected.substring(0, dotIndex);
+				final String moduleName = selected.substring(0, dotIndex);
 				if (!"*".equals(moduleName)) {
 					exactModuleName = moduleName;
 
-					IPreferencesService prefs = Platform.getPreferencesService();
+					final IPreferencesService prefs = Platform.getPreferencesService();
 					if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true,
 							null)) {
 						TITANDebugConsole.println("Module: " + exactModuleName);
@@ -116,7 +116,7 @@ public final class ConfigReferenceParser implements IReferenceParser {
 				}
 				parameter = selected.substring(dotIndex + 1);
 			}
-			TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
+			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
 			reference = refAnalyzer.parse(file, parameter, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);

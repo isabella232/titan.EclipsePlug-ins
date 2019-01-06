@@ -16,8 +16,8 @@ import org.eclipse.ui.IEditorPart;
  * @author Kristof Szabados
  * */
 public final class TextHover extends BaseTextHover {
-	private ISourceViewer sourceViewer;
-	private IEditorPart editor;
+	private final ISourceViewer sourceViewer;
+	private final IEditorPart editor;
 
 	public TextHover(final ISourceViewer sourceViewer, final ASN1Editor editor) {
 		this.sourceViewer = sourceViewer;

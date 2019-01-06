@@ -204,7 +204,9 @@ public final class Verdict_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

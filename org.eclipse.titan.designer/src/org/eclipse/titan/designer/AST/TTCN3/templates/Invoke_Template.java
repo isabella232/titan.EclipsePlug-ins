@@ -427,7 +427,7 @@ public final class Invoke_Template extends TTCN3Template {
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -482,23 +482,20 @@ public final class Invoke_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (getCodeSection() == CodeSectionType.CS_POST_INIT) {
-			reArrangeInitCode(aData, source, myScope.getModuleScope());
+			reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
-		expression.expression.append(MessageFormat.format("{0}.assign(", name));
+		expression.expression.append(MessageFormat.format("{0}.operator_assign(", name));
 		generateCodeExpressionInvoke(aData, expression);
 		expression.expression.append(')');
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

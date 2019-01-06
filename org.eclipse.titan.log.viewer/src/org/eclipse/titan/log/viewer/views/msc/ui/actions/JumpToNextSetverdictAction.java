@@ -21,8 +21,8 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 public class JumpToNextSetverdictAction extends SelectionProviderAction {
 
 	private IStructuredSelection selection;
-	private MSCView view = null;
-	private MSCWidget widget = null;
+	private final MSCView view;
+	private final MSCWidget widget;
 
 	public JumpToNextSetverdictAction(final MSCView view) {
 		super(view.getMSCWidget(), "");
@@ -35,17 +35,19 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 		if (this.widget == null) {
 			return;
 		}
-		ExecutionModel model = this.view.getModel();
+
+		final ExecutionModel model = this.view.getModel();
 		if (model == null) {
 			return;
 		}
-		int[] setverdictPlaces = model.getSetverdict();
-		int selectedLine = (Integer) this.selection.getFirstElement();
+
+		final int[] setverdictPlaces = model.getSetverdict();
+		final int selectedLine = (Integer) this.selection.getFirstElement();
 		selectSetVerdict(setverdictPlaces, selectedLine);
 	}
 
-	private void selectSetVerdict(int[] setverdictPlaces, int selectedLine) {
-		for (int setverdictPlace : setverdictPlaces) {
+	private void selectSetVerdict(final int[] setverdictPlaces, final int selectedLine) {
+		for (final int setverdictPlace : setverdictPlaces) {
 			if (setverdictPlace > selectedLine) {
 				this.widget.setSelection(new StructuredSelection(setverdictPlace));
 				return;
@@ -56,16 +58,15 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 	@Override
 	public void selectionChanged(final IStructuredSelection selection) {
 		this.selection = selection;
-		int selectedLine = (Integer) this.selection.getFirstElement();
 
-		boolean enable = false;
-
-		ExecutionModel model = this.view.getModel();
+		final ExecutionModel model = this.view.getModel();
 		if (model == null) {
 			setEnabled(false);
 			return;
 		}
 
+		boolean enable = false;
+		final int selectedLine = (Integer) this.selection.getFirstElement();
 		for (int j = 0; j < model.getSetverdict().length; j++) {
 			if (model.getSetverdict()[j] > selectedLine) {
 				enable = true;

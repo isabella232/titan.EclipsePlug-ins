@@ -48,7 +48,7 @@ public class CachedLogReader implements ILogReader {
 		if (tempMax >= size()) {
 			tempMax = size() - 1;
 		}
-		LogRecord[] newRecords = new LogRecord[tempMax - tempMin + 1];
+		final LogRecord[] newRecords = new LogRecord[tempMax - tempMin + 1];
 
 		if (minIndex > this.minIndex) {
 			if (minIndex >= this.maxIndex) {
@@ -94,7 +94,7 @@ public class CachedLogReader implements ILogReader {
 			} catch (ParseException e) {
 				ErrorReporter.logExceptionStackTrace(e);
 				cachedRecords[i - minIndex] = null;
-				ParseException throwable = new ParseException("Could not parse the " + i +"th record ", 0);  //$NON-NLS-1$
+				final ParseException throwable = new ParseException("Could not parse the " + i +"th record ", 0);  //$NON-NLS-1$
 				throwable.initCause(e);
 				throw throwable;
 			}
@@ -135,9 +135,9 @@ public class CachedLogReader implements ILogReader {
 			return logReader.getRecordById(id);
 		}
 
-		LogRecord tmp = new LogRecord();
+		final LogRecord tmp = new LogRecord();
 		tmp.setRecordNumber(id);
-		int index = Arrays.binarySearch(cachedRecords, tmp, new Comparator<LogRecord>() {
+		final int index = Arrays.binarySearch(cachedRecords, tmp, new Comparator<LogRecord>() {
 			@Override
 			public int compare(final LogRecord o1, final LogRecord o2) {
 				return o1.getRecordNumber() - o2.getRecordNumber();

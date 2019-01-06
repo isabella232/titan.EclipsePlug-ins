@@ -147,7 +147,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -168,9 +168,6 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
@@ -207,7 +204,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 			final StringBuilder setType = new StringBuilder();
 			final StringBuilder variableReferences[] = new StringBuilder[templates.getNofTemplates()];
 
-			setType.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1}", name, fixedPart));
+			setType.append(MessageFormat.format("{0}.set_type(template_sel.SUBSET_MATCH, {1}", name, fixedPart));
 
 			for (int v = 0; v < variables.size(); v++) {
 				TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
@@ -248,7 +245,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 
 				variableReferences[variables.get(v)] = expression.expression;
 				setType.append(expression.expression);
-				setType.append(".n_elem().getInt()");
+				setType.append(".n_elem().get_int()");
 			}
 
 			source.append(preamble);
@@ -263,40 +260,40 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 				case ALL_FROM: {
 					// the template must be all from
 					final StringBuilder storedExpression = variableReferences[i];
-					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", storedExpression));
+					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().get_int(); i_i < i_lim; ++i_i ) '{'\n", storedExpression));
 
-					final String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
+					final String embeddedName = MessageFormat.format("{0}.set_item({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName, storedExpression);
 					source.append("}\n");
-					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", storedExpression));
+					shifty.append(MessageFormat.format("-1 + {0}.n_elem().get_int()", storedExpression));
 					break;
 				}
 				default:
 					if (template.needsTemporaryReference()) {
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
-						source.append(MessageFormat.format("final {0} {1} = {2}.setItem({3}{4});\n", ofTypeName, tempId, name, i, shifty));
+						source.append(MessageFormat.format("final {0} {1} = {2}.set_item({3}{4});\n", ofTypeName, tempId, name, i, shifty));
 						template.generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
-						final String embeddedName = MessageFormat.format("{0}.setItem({1}{2})", name, i, shifty);
+						final String embeddedName = MessageFormat.format("{0}.set_item({1}{2})", name, i, shifty);
 						template.generateCodeInit(aData, source, embeddedName);
 					}
 					break;
 				}
 			}
 		} else {
-			source.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1});\n", name, templates.getNofTemplates()));
+			source.append(MessageFormat.format("{0}.set_type(template_sel.SUBSET_MATCH, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
 				final TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.needsTemporaryReference()) {
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append(MessageFormat.format("final {0} {1} = {2}.setItem({3});\n", ofTypeName, tempId, name, i));
+					source.append(MessageFormat.format("final {0} {1} = {2}.set_item({3});\n", ofTypeName, tempId, name, i));
 					template.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {
-					final String embeddedName = MessageFormat.format("{0}.setItem({1})", name, i);
+					final String embeddedName = MessageFormat.format("{0}.set_item({1})", name, i);
 					template.generateCodeInit(aData, source, embeddedName);
 				}
 			}
@@ -304,7 +301,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

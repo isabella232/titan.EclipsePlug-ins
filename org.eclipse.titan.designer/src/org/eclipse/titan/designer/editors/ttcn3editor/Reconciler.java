@@ -91,7 +91,7 @@ public class Reconciler implements IReconciler {
 		 */
 		public void cancel() {
 			isCanceled = true;
-			IProgressMonitor pm = progressMonitor;
+			final IProgressMonitor pm = progressMonitor;
 			if (pm != null) {
 				pm.setCanceled(true);
 			}
@@ -162,7 +162,7 @@ public class Reconciler implements IReconciler {
 				isStrategyActive = true;
 
 				boolean full = false;
-				for (DirtyRegion region2 : oldRegions) {
+				for (final DirtyRegion region2 : oldRegions) {
 					if (region2.getOffset() == -1) {
 						full = true;
 						break;
@@ -171,7 +171,7 @@ public class Reconciler implements IReconciler {
 
 				try {
 					if (full || !isIncrementalReconciler() || oldRegions.size() > 100) {
-						IDocument tmpDocument = getDocument();
+						final IDocument tmpDocument = getDocument();
 						if (tmpDocument != null) {
 							reconcilingStrategy.reconcile(new Region(0, tmpDocument.getLength()));
 						}
@@ -190,7 +190,7 @@ public class Reconciler implements IReconciler {
 						// reconciler was non
 						// incremental when the change happened,
 						// but is incremental when it is processed.
-						IDocument tmpDocument = getDocument();
+						final IDocument tmpDocument = getDocument();
 						if (tmpDocument != null) {
 							reconcilingStrategy.reconcile(new Region(0, tmpDocument.getLength()));
 						}
@@ -223,7 +223,7 @@ public class Reconciler implements IReconciler {
 		 * @return the merged list o dirty regions.
 		 * */
 		private List<DirtyRegion> mergeRegions(final List<DirtyRegion> originalRegions) {
-			List<DirtyRegion> mergedRegions = new ArrayList<DirtyRegion>();
+			final List<DirtyRegion> mergedRegions = new ArrayList<DirtyRegion>();
 			DirtyRegion actual = originalRegions.get(0);
 			DirtyRegion next;
 			boolean merged = false;
@@ -242,7 +242,7 @@ public class Reconciler implements IReconciler {
 						// insert + remove
 						if (actual.getOffset() + actual.getLength() == next.getOffset() + next.getLength()) {
 							// deleted something
-							int diff = actual.getOffset() - next.getOffset();
+							final int diff = actual.getOffset() - next.getOffset();
 							if (diff < 0) {
 								actual = new DirtyRegion(actual.getOffset(), -1 * diff, DirtyRegion.INSERT, actual
 										.getText().substring(0, -1 * diff));
@@ -344,7 +344,7 @@ public class Reconciler implements IReconciler {
 			}
 
 			if(!MAP.containsKey(newInput)) {
-				LinkedList<Reconciler.Listener> temp = new LinkedList<Reconciler.Listener>();
+				final LinkedList<Reconciler.Listener> temp = new LinkedList<Reconciler.Listener>();
 				MAP.putIfAbsent(newInput, temp);
 			}
 			MAP.get(newInput).add(this);
@@ -372,7 +372,7 @@ public class Reconciler implements IReconciler {
 
 				if (isIncrementalReconciler()) {
 					if (document != null && document.getLength() > 0 && backgroundThread.isDirty() && backgroundThread.isAlive()) {
-						DocumentEvent e = new DocumentEvent(document, 0, document.getLength(), "");
+						final DocumentEvent e = new DocumentEvent(document, 0, document.getLength(), "");
 						createDirtyRegion(e);
 						backgroundThread.uninstall();
 					}
@@ -415,7 +415,7 @@ public class Reconciler implements IReconciler {
 	private ITextViewer textViewer;
 
 	/** The reconciling strategy. */
-	private ReconcilingStrategy reconcilingStrategy;
+	private final ReconcilingStrategy reconcilingStrategy;
 
 	/**
 	 * Creates a new reconciler without configuring it.
@@ -504,7 +504,7 @@ public class Reconciler implements IReconciler {
 	 * @see IReconcilingStrategy
 	 */
 	protected final boolean isIncrementalReconciler() {
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		// incremental reconcile is set in preferences
 		return mIsIncrementalReconcilerAllowed && prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.USEINCREMENTALPARSING, false, null);
@@ -584,7 +584,7 @@ public class Reconciler implements IReconciler {
 		// change
 		// on the viewer.
 		// In order to do that, we simulate an input change.
-		IDocument tmpDocument = textViewer.getDocument();
+		final IDocument tmpDocument = textViewer.getDocument();
 		if (tmpDocument != null) {
 			changeListener.inputDocumentAboutToBeChanged(tmpDocument, tmpDocument);
 			changeListener.inputDocumentChanged(tmpDocument, tmpDocument);
@@ -607,7 +607,7 @@ public class Reconciler implements IReconciler {
 
 			synchronized (this) {
 				// http://dev.eclipse.org/bugs/show_bug.cgi?id=19135
-				BackgroundThread bt = backgroundThread;
+				final BackgroundThread bt = backgroundThread;
 				backgroundThread = null;
 				bt.cancel();
 			}
@@ -677,7 +677,7 @@ public class Reconciler implements IReconciler {
 			}
 
 			if (isIncrementalReconciler()) {
-				DocumentEvent e = new DocumentEvent(document, 0, document.getLength(), document.get());
+				final DocumentEvent e = new DocumentEvent(document, 0, document.getLength(), document.get());
 				createDirtyRegion(e);
 			} else {
 				requestFullAnalyzes();
@@ -731,8 +731,8 @@ public class Reconciler implements IReconciler {
 	 * @return the timeout value in milliseconds
 	 */
 	private final int getReconcilerTimeout() {
-		IPreferencesService prefs = Platform.getPreferencesService();
-		int timeout = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.RECONCILERTIMEOUT, 1, null);
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final int timeout = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.RECONCILERTIMEOUT, 1, null);
 		return 1000 * timeout;
 	}
 }

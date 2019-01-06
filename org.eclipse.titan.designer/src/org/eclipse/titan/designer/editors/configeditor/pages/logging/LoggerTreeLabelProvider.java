@@ -24,7 +24,7 @@ public final class LoggerTreeLabelProvider extends LabelProvider {
 	@Override
 	public String getText(final Object element) {
 		if (element != null && element instanceof LoggingSectionHandler.LoggerTreeElement) {
-			LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
+			final LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
 			if (lte.getPluginName() == null) {
 				// this is a component
 				if ("*".equals(lte.getComponentName())) {
@@ -37,9 +37,10 @@ public final class LoggerTreeLabelProvider extends LabelProvider {
 			if ("*".equals(lte.getPluginName())) {
 				return "* (all valid plugins)";
 			}
-			String pluginPath = lte.getLsh().componentPlugin(lte.getComponentName(), lte.getPluginName()).getPluginPath();
+
+			final String pluginPath = lte.getLsh().componentPlugin(lte.getComponentName(), lte.getPluginName()).getPluginPath();
 			if (pluginPath != null && !"".equals(pluginPath)) {
-				StringBuffer sb = new StringBuffer();
+				final StringBuffer sb = new StringBuffer();
 				sb.append(lte.getPluginName()).append(" (").append(pluginPath).append(')');
 				return sb.toString();
 			}

@@ -111,20 +111,20 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 	@Override
 	protected void initializeEditor() {
 		super.initializeEditor();
-		IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
+		final IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
 		setPreferenceStore(new ChainedPreferenceStore(stores));
 		colorManager = new ColorManager();
 		configuration = new Configuration(colorManager, this);
 		setSourceViewerConfiguration(configuration);
-		DocumentSetupParticipant participant = new DocumentSetupParticipant(this);
-		ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.ASN1_PARTITIONING, participant,
+		final DocumentSetupParticipant participant = new DocumentSetupParticipant(this);
+		final ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.ASN1_PARTITIONING, participant,
 				new TextFileDocumentProvider());
 		setDocumentProvider(forwardingProvider);
 		setEditorContextMenuId(EDITOR_CONTEXT);
 	}
 
 	public boolean isSemanticCheckingDelayed() {
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		return prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE,
 				false, null);
 	}
@@ -173,7 +173,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 	@Override
 	protected void configureSourceViewerDecorationSupport(final SourceViewerDecorationSupport support) {
 		super.configureSourceViewerDecorationSupport(support);
-		PairMatcher pairMatcher = new PairMatcher();
+		final PairMatcher pairMatcher = new PairMatcher();
 		support.setCharacterPairMatcher(pairMatcher);
 		support.setMatchingCharacterPainterPreferenceKeys(PreferenceConstants.MATCHING_BRACKET_ENABLED,
 				PreferenceConstants.COLOR_MATCHING_BRACKET);
@@ -183,9 +183,9 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 	protected void createActions() {
 		super.createActions();
 
-		Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
+		final Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
 				ISourceViewer.CONTENTASSIST_PROPOSALS);
-		String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
+		final String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
 		caAction.setActionDefinitionId(id);
 		setAction(CONTENTASSISTPROPOSAL, caAction);
 		markAsStateDependentAction(CONTENTASSISTPROPOSAL, true);
@@ -224,7 +224,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 		}
 		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(foldingListener);
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			EditorTracker.remove(file, this);
 		}
@@ -240,7 +240,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 	@Override
 	protected void editorSaved() {
 		super.editorSaved();
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			GlobalProjectStructureTracker.saveFile(file);
 		}
@@ -248,7 +248,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	@Override
 	public IDocument getDocument() {
-		ISourceViewer sourceViewer = getSourceViewer();
+		final ISourceViewer sourceViewer = getSourceViewer();
 		if (sourceViewer == null) {
 			return null;
 		}
@@ -279,7 +279,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 		getSelectionProvider().addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
+				final ISelection selection = event.getSelection();
 				if (selection.isEmpty() || !(selection instanceof TextSelection)
 						|| "".equals(((TextSelection) selection).getText())) {
 					return;
@@ -291,7 +291,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 			}
 		});
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			EditorTracker.put(file, this);
 		}
@@ -306,13 +306,13 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	@Override
 	protected ISourceViewer createSourceViewer(final Composite parent, final IVerticalRuler ruler, final int styles) {
-		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
+		final ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
 		getSourceViewerDecorationSupport(viewer);
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(foldingListener);
 
 		// Context setting is placed here because getEditorSite() must
 		// be called after the editor is initialized.
-		IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
+		final IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
 		// As the service is retrieved from the editor instance it will
 		// be active only within the editor.
 		contextService.activateContext(EDITOR_SCOPE);
@@ -340,7 +340,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	@Override
 	public void invalidateTextPresentation() {
-		ISourceViewer viewer = getSourceViewer();
+		final ISourceViewer viewer = getSourceViewer();
 		if (viewer != null) {
 			viewer.invalidateTextPresentation();
 		}
@@ -348,12 +348,12 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	@Override
 	public int getCarretOffset() {
-		int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
+		final int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
 		return projectionViewer.widgetOffset2ModelOffset(widgetOffset);
 	}
 
 	public void setCarretOffset(final int i) {
-		int temp = projectionViewer.modelOffset2WidgetOffset(i);
+		final int temp = projectionViewer.modelOffset2WidgetOffset(i);
 		getSourceViewer().getTextWidget().setCaretOffset(temp);
 	}
 
@@ -365,11 +365,11 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 	 * updateIndentPrefixes function.
 	 */
 	protected void updateTITANIndentPrefixes() {
-		SourceViewerConfiguration configuration = getSourceViewerConfiguration();
-		ISourceViewer sourceViewer = getSourceViewer();
-		String[] types = configuration.getConfiguredContentTypes(sourceViewer);
+		final SourceViewerConfiguration configuration = getSourceViewerConfiguration();
+		final ISourceViewer sourceViewer = getSourceViewer();
+		final String[] types = configuration.getConfiguredContentTypes(sourceViewer);
 		for (int i = 0; i < types.length; i++) {
-			String[] prefixes = configuration.getIndentPrefixes(sourceViewer, types[i]);
+			final String[] prefixes = configuration.getIndentPrefixes(sourceViewer, types[i]);
 			if (prefixes != null && prefixes.length > 0) {
 				sourceViewer.setIndentPrefixes(prefixes, types[i]);
 			}

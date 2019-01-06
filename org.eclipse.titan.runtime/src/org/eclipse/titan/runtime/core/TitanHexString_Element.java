@@ -20,17 +20,34 @@ public class TitanHexString_Element {
 		nibble_pos = par_nibble_pos;
 	}
 
-	public boolean isBound() {
+	/**
+	 * Whether the value is bound.
+	 * 
+	 * @return {@code true} if the value is bound.
+	 */
+	public boolean is_bound() {
 		return bound_flag;
 	}
 
-	public boolean isValue() {
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * @return {@code true} if the value is a actual value.
+	 */
+	public boolean is_value() {
 		return bound_flag;
 	}
 
-	public void mustBound(final String aErrorMessage) {
+	/**
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
+	 *
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
 		if (!bound_flag) {
-			throw new TtcnError(aErrorMessage);
+			throw new TtcnError(errorMessage);
 		}
 	}
 
@@ -57,54 +74,97 @@ public class TitanHexString_Element {
 		return sb.toString();
 	}
 
-	// originally operator=
-	public TitanHexString_Element assign(final TitanHexString_Element other_value) {
-		other_value.mustBound("Assignment of an unbound hexstring element.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanHexString_Element operator_assign(final TitanHexString_Element otherValue) {
+		otherValue.must_bound("Assignment of an unbound hexstring element.");
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
+		str_val.set_nibble(nibble_pos, otherValue.str_val.get_nibble(otherValue.nibble_pos));
 		return this;
 	}
 
-	// originally operator=
-	public TitanHexString_Element assign(final TitanHexString other_value) {
-		other_value.mustBound("Assignment of unbound hexstring value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanHexString_Element operator_assign(final TitanHexString otherValue) {
+		otherValue.must_bound("Assignment of unbound hexstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (otherValue.get_value().length != 1) {
 			throw new TtcnError("Assignment of a hexstring value with length other than 1 to a hexstring element.");
 		}
 
 		bound_flag = true;
-		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
+		str_val.set_nibble(nibble_pos, otherValue.get_nibble(0));
 		return this;
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final TitanHexString_Element other_value) {
-		mustBound("Unbound left operand of hexstring element comparison.");
-		other_value.mustBound("Unbound right operand of hexstring comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanHexString_Element otherValue) {
+		must_bound("Unbound left operand of hexstring element comparison.");
+		otherValue.must_bound("Unbound right operand of hexstring comparison.");
 
-		return str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble(other_value.nibble_pos);
+		return str_val.get_nibble(nibble_pos) == otherValue.str_val.get_nibble(otherValue.nibble_pos);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanHexString other_value) {
-		mustBound("Unbound left operand of hexstring element comparison.");
-		other_value.mustBound("Unbound right operand of hexstring element comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanHexString otherValue) {
+		must_bound("Unbound left operand of hexstring element comparison.");
+		otherValue.must_bound("Unbound right operand of hexstring element comparison.");
 
-		if (other_value.getValue().length != 1) {
+		if (otherValue.get_value().length != 1) {
 			return false;
 		}
 
-		return str_val.get_nibble(nibble_pos) == other_value.get_nibble(0);
+		return str_val.get_nibble(nibble_pos) == otherValue.get_nibble(0);
 	}
 
-	// originally operator+
-	public TitanHexString concatenate(final TitanHexString other_value) {
-		mustBound("Unbound left operand of hexstring element concatenation.");
-		other_value.mustBound("Unbound right operand of hexstring concatenation.");
+	/**
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
+	public TitanHexString operator_concatenate(final TitanHexString other_value) {
+		must_bound("Unbound left operand of hexstring element concatenation.");
+		other_value.must_bound("Unbound right operand of hexstring concatenation.");
 
-		final byte src_ptr[] = other_value.getValue();
+		final byte src_ptr[] = other_value.get_value();
 		final int n_nibbles = src_ptr.length;
 		final byte dest_ptr[] = new byte[1 + n_nibbles];
 		dest_ptr[0] = str_val.get_nibble(nibble_pos);
@@ -113,28 +173,54 @@ public class TitanHexString_Element {
 		return new TitanHexString(dest_ptr);
 	}
 
-	// originally operator+
-	public TitanHexString concatenate(final TitanHexString_Element other_value) {
-		mustBound("Unbound left operand of hexstring element concatenation.");
-		other_value.mustBound("Unbound right operand of hexstring element concatenation.");
+	/**
+	 * Concatenates the current hexstring with the hexstring received as a
+	 * parameter.
+	 *
+	 * operator+ in the core.
+	 *
+	 * @param other_value
+	 *                the other value to concatenate with.
+	 * @return the new hexstring representing the concatenated value.
+	 * */
+	public TitanHexString operator_concatenate(final TitanHexString_Element other_value) {
+		must_bound("Unbound left operand of hexstring element concatenation.");
+		other_value.must_bound("Unbound right operand of hexstring element concatenation.");
 
 		return new TitanHexString(other_value.str_val);
 	}
 
-	// originally operator~
+	/**
+	 * Creates a new hexstring with all bit inverted.
+	 * 
+	 * operator~ in the core.
+	 *
+	 * @return the new hexstring with the inverted bits.
+	 * */
 	public TitanHexString not4b() {
-		mustBound("Unbound hexstring element operand of operator not4b.");
+		must_bound("Unbound hexstring element operand of operator not4b.");
 
 		final byte result = (byte) (~str_val.get_nibble(nibble_pos) & 0x0F);
 		return new TitanHexString(result);
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise and operation on this and the provided hexstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString and4b(final TitanHexString other_value) {
-		mustBound("Left operand of operator and4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator and4b is an unbound hexstring value.");
+		must_bound("Left operand of operator and4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator and4b is an unbound hexstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (other_value.get_value().length != 1) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
 
@@ -142,21 +228,43 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	// originally operator&
+	/**
+	 * Performs a bitwise and operation on this and the provided hexstring.
+	 * The resulting value is 1 if both bits are set to 1,
+	 *  otherwise the value for the resulting bit is 0.
+	 * Both have to be the same length.
+	 * 
+	 * operator& in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString and4b(final TitanHexString_Element other_value) {
-		mustBound("Left operand of operator and4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator and4b is an unbound hexstring element.");
+		must_bound("Left operand of operator and4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator and4b is an unbound hexstring element.");
 
 		final byte result = (byte) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanHexString(result);
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString or4b(final TitanHexString other_value) {
-		mustBound("Left operand of operator or4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator or4b is an unbound hexstring value.");
+		must_bound("Left operand of operator or4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator or4b is an unbound hexstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (other_value.get_value().length != 1) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 
@@ -164,21 +272,43 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	// originally operator|
+	/**
+	 * Performs a bitwise or operation on this and the provided hexstring.
+	 * the resulting value is 0 if both bits are set to 0,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator| in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString or4b(final TitanHexString_Element other_value) {
-		mustBound("Left operand of operator or4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator or4b is an unbound hexstring element.");
+		must_bound("Left operand of operator or4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator or4b is an unbound hexstring element.");
 
 		final byte result = (byte) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanHexString(result);
 	}
 
-	// originally operator^
+	/**
+	 * Performs a bitwise xor operation on this and the provided hexstring.
+	 * The resulting value is 0 if both bits are the same,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString xor4b(final TitanHexString other_value) {
-		mustBound("Left operand of operator xor4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator xor4b is an unbound hexstring value.");
+		must_bound("Left operand of operator xor4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator xor4b is an unbound hexstring value.");
 
-		if (other_value.getValue().length != 1) {
+		if (other_value.get_value().length != 1) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
 
@@ -186,10 +316,21 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	// originally operator^
+	/**
+	 * Performs a bitwise xor operation on this and the provided hexstring.
+	 * The resulting value is 0 if both bits are the same,
+	 *  otherwise the value for the resulting bit is 1.
+	 * Both have to be the same length.
+	 * 
+	 * operator^ in the core.
+	 *
+	 * @param other_value
+	 *                the other value.
+	 * @return the resulting hexstring.
+	 * */
 	public TitanHexString xor4b(final TitanHexString_Element other_value) {
-		mustBound("Left operand of operator xor4b is an unbound hexstring element.");
-		other_value.mustBound("Right operand of operator xor4b is an unbound hexstring element.");
+		must_bound("Left operand of operator xor4b is an unbound hexstring element.");
+		other_value.must_bound("Right operand of operator xor4b is an unbound hexstring element.");
 
 		final byte result = (byte) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanHexString(result);
@@ -199,6 +340,9 @@ public class TitanHexString_Element {
 		return (char) str_val.get_nibble(nibble_pos);
 	}
 
+	/**
+	 * Logs this value element.
+	 */
 	public void log() {
 		if (bound_flag) {
 			TTCN_Logger.log_char('\'');

@@ -316,17 +316,17 @@ public final class EqualsExpression extends Expression_Value {
 
 		if (isOptional1) {
 			value1.generateCodeExpression(aData, expression, true);
-			expression.expression.append( ".operatorEquals( " );
+			expression.expression.append( ".operator_equals( " );
 			value2.generateCodeExpression(aData, expression, true);
 			expression.expression.append( " )" );
 		} else if (isOptional2) {
 			value2.generateCodeExpression(aData, expression, true);
-			expression.expression.append( ".operatorEquals( " );
+			expression.expression.append( ".operator_equals( " );
 			value1.generateCodeExpression(aData, expression, true);
 			expression.expression.append( " )" );
 		} else {
 			value1.generateCodeExpressionMandatory(aData, expression, true);
-			expression.expression.append( ".operatorEquals( " );
+			expression.expression.append( ".operator_equals( " );
 			value2.generateCodeExpressionMandatory(aData, expression, false);
 			expression.expression.append( " )" );
 		}

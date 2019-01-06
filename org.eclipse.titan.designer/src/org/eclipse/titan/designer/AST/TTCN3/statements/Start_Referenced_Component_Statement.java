@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -115,6 +116,20 @@ public final class Start_Referenced_Component_Statement extends Statement {
 		}
 		if (parameters != null) {
 			parameters.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentReference != null) {
+			componentReference.setCodeSection(codeSection);
+		}
+		if (dereferredValue != null) {
+			dereferredValue.setCodeSection(codeSection);
+		}
+		if (parameters != null) {
+			parameters.setCodeSection(codeSection);
 		}
 	}
 

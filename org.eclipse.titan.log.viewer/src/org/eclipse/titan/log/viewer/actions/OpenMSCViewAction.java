@@ -31,7 +31,7 @@ public class OpenMSCViewAction extends Action implements IActionDelegate, ISelec
 	}
 
 	public void run(final IStructuredSelection selection) {
-		OpenMSCViewMenuAction menuAction = new OpenMSCViewMenuAction();
+		final OpenMSCViewMenuAction menuAction = new OpenMSCViewMenuAction();
 		menuAction.setFirstRow(recordToSelect);
 		menuAction.run(selection);
 

@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Text;
  * */
 public final class ListItemDialog extends Dialog {
 
-	private String title;
-	private String itemKind;
+	private final String title;
+	private final String itemKind;
 	private String item;
 	private Text itemText;
 

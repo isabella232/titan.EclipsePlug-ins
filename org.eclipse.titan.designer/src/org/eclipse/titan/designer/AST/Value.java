@@ -230,6 +230,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 				final String encodingName = ((Charstring_Value)last).getValue();
 				if (!encodingName.equals("UTF-8")
 					&& !encodingName.equals("UTF-16")
+					&& !encodingName.equals("UTF-16LE")
+					&& !encodingName.equals("UTF-16BE")
 					&& !encodingName.equals("UTF-32")
 					&& !encodingName.equals("UTF-32LE")
 					&& !encodingName.equals("UTF-32BE")) {
@@ -450,6 +452,14 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		} else {
 			setGenName(parameterGenName);
 		}
+	}
+
+	/**
+	 * Returns whether the Java initialization sequence requires a temporary
+	 * variable reference to be introduced for efficiency reasons.
+	 * */
+	public boolean needsTemporaryReference() {
+		return false;
 	}
 
 	/**
@@ -680,7 +690,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			}
 
 			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype()) && !returnsNative()) {
-				init.append(MessageFormat.format("{0} = TitanBoolean.getNative({1});\n", tempId, expression.expression));
+				init.append(MessageFormat.format("{0} = TitanBoolean.get_native({1});\n", tempId, expression.expression));
 			} else {
 				init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
 			}

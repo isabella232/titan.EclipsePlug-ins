@@ -1,3 +1,4 @@
+[[the_problems_view]]
 = Contents of the Problems View
 :toc:
 :figure-number: 109

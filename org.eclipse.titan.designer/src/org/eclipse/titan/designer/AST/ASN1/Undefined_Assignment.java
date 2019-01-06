@@ -241,12 +241,17 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	@Override
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
+		if (null != assPard || dontGenerate) {
+			// don't generate code for assignments that still have a parameter at this point.
+			return;
+		}
+
 		if (realAssignment != null) {
 			realAssignment.generateCode(aData, cleanUp);
 			return;
 		}
 
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous undefined assignment `" + getFullName() + "''");
-		aData.getSrc().append("FATAL_ERROR encountered");
+		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }

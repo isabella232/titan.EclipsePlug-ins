@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -59,10 +60,11 @@ public final class Getreply_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".parameter";
 	private static final String FULLNAMEPART3 = ".valuematch";
 	private static final String FULLNAMEPART4 = ".from";
-	private static final String FULLNAMEPART5 = ".redirecvalue";
+	private static final String FULLNAMEPART5 = ".redirectValue";
 	private static final String FULLNAMEPART6 = ".parameters";
 	private static final String FULLNAMEPART7 = ".redirectSender";
 	private static final String FULLNAMEPART8 = ".redirectIndex";
+	private static final String FULLNAMEPART9 = ".redirectTimestamp";
 	private static final String STATEMENT_NAME = "getreply";
 
 	private final Reference portReference;
@@ -74,10 +76,11 @@ public final class Getreply_Statement extends Statement {
 	private final Parameter_Redirect redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
+	private final Reference redirectTimestamp;
 
 	public Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
 			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
-			final Reference redirectSender, final Reference redirectIndex) {
+			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.parameter = parameter;
@@ -87,6 +90,7 @@ public final class Getreply_Statement extends Statement {
 		this.redirectParameter = redirectParameter;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
+		this.redirectTimestamp = redirectTimestamp;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -111,6 +115,9 @@ public final class Getreply_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setFullNameParent(this);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setFullNameParent(this);
 		}
 	}
 
@@ -155,6 +162,8 @@ public final class Getreply_Statement extends Statement {
 			return builder.append(FULLNAMEPART7);
 		} else if (redirectSender == child) {
 			return builder.append(FULLNAMEPART8);
+		} else if (redirectTimestamp == child) {
+			return builder.append(FULLNAMEPART9);
 		}
 
 		return builder;
@@ -188,6 +197,41 @@ public final class Getreply_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (parameter != null) {
+			parameter.setCodeSection(codeSection);
+		}
+		if (valueMatch != null) {
+			valueMatch.setCodeSection(codeSection);
+		}
+		if (fromClause != null) {
+			fromClause.setCodeSection(codeSection);
+		}
+		if (redirectValue != null) {
+			redirectValue.setCodeSection(codeSection);
+		}
+		if (redirectParameter != null) {
+			redirectParameter.setCodeSection(codeSection);
+		}
+		if (redirectSender != null) {
+			redirectSender.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
+		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -210,7 +254,7 @@ public final class Getreply_Statement extends Statement {
 		}
 
 		checkGetreply(timestamp, this, "getreply", portReference, anyFrom, parameter, valueMatch, fromClause, redirectValue, redirectParameter,
-				redirectSender, redirectIndex);
+				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -221,6 +265,9 @@ public final class Getreply_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.setUsedOnLeftHandSide();
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.setUsedOnLeftHandSide();
+		}
 
 		lastTimeChecked = timestamp;
 	}
@@ -228,7 +275,7 @@ public final class Getreply_Statement extends Statement {
 	public static void checkGetreply(final CompilationTimeStamp timestamp, final Statement source, final String statementName,
 			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
 			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
-			final Reference redirectSender, final Reference redirectIndex) {
+			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, source, portReference, anyFrom);
 		if (parameter == null) {
 			if (portType != null) {
@@ -364,6 +411,8 @@ public final class Getreply_Statement extends Statement {
 			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
 			checkIndexRedirection(timestamp, redirectIndex, assignment == null ? null : ((Def_Port)assignment).getDimensions(), anyFrom, "port");
 		}
+
+		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
 	}
 
 	@Override
@@ -449,6 +498,11 @@ public final class Getreply_Statement extends Statement {
 			redirectIndex.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectIndex.getLocation());
 		}
+
+		if (redirectTimestamp != null) {
+			redirectTimestamp.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectTimestamp.getLocation());
+		}
 	}
 
 	@Override
@@ -478,6 +532,9 @@ public final class Getreply_Statement extends Statement {
 		if (redirectIndex != null) {
 			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectTimestamp != null) {
+			redirectTimestamp.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -505,6 +562,9 @@ public final class Getreply_Statement extends Statement {
 			return false;
 		}
 		if (redirectIndex != null && !redirectIndex.accept(v)) {
+			return false;
+		}
+		if (redirectTimestamp != null && !redirectTimestamp.accept(v)) {
 			return false;
 		}
 
@@ -577,6 +637,12 @@ public final class Getreply_Statement extends Statement {
 				}
 			}
 
+			expression.expression.append(", ");
+			if (redirectTimestamp == null) {
+				expression.expression.append("null");
+			}else {
+				redirectTimestamp.generateCode(aData, expression);
+			}
 			expression.expression.append(",");
 			if (redirectIndex == null) {
 				expression.expression.append("null");
@@ -592,6 +658,12 @@ public final class Getreply_Statement extends Statement {
 				expression.expression.append("null");
 			} else {
 				redirectSender.generateCode(aData, expression);
+			}
+			expression.expression.append(", ");
+			if (redirectTimestamp == null) {
+				expression.expression.append("null");
+			}else {
+				redirectTimestamp.generateCode(aData, expression);
 			}
 		}
 		expression.expression.append(')');

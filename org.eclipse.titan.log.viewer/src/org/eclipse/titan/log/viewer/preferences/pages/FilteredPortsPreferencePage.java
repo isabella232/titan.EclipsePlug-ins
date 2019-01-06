@@ -41,7 +41,6 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	public void createFieldEditors() {
-
 		this.connectingPortsEditor = new BooleanFieldEditor(
 				PreferenceConstants.PREF_CONNECTING_PORTS_ID,
 				Messages.getString("FilteredPortsPreferencePage.1"), //$NON-NLS-1$
@@ -69,9 +68,9 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences() {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
-		String connectingPorts = String.valueOf(this.connectingPortsEditor.getBooleanValue());
-		String mappingPorts = String.valueOf(this.mappingPortsEditor.getBooleanValue());
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
+		final String connectingPorts = String.valueOf(this.connectingPortsEditor.getBooleanValue());
+		final String mappingPorts = String.valueOf(this.mappingPortsEditor.getBooleanValue());
 
 		currentPrefs.put(PreferenceConstants.PREF_CONNECTING_PORTS_ID, connectingPorts);
 		currentPrefs.put(PreferenceConstants.PREF_MAPPING_PORTS_ID, mappingPorts);
@@ -84,11 +83,11 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
-		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
+		final Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 
-		String[] connectingPorts = new String[] {String.valueOf(this.connectingPortsEditor.getBooleanValue())};
+		final String[] connectingPorts = new String[] {String.valueOf(this.connectingPortsEditor.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_CONNECTING_PORTS_ID, connectingPorts);
-		String[] mappingPorts = new String[] {String.valueOf(this.mappingPortsEditor.getBooleanValue())};
+		final String[] mappingPorts = new String[] {String.valueOf(this.mappingPortsEditor.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_MAPPING_PORTS_ID, mappingPorts);
 		return currentPrefs;
 	}
@@ -100,11 +99,12 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE);
+		final Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE);
 		//if cancel
 		if (prop == null) {
 			return;
 		}
+
 		setOldPreferences(getCurrentPreferences());
 		setProperties(prop);
 		// Settings changed -> Enable apply button
@@ -113,10 +113,7 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void updatePage() {
-
 		this.connectingPortsEditor.load();
 		this.mappingPortsEditor.load();
-
 	}
-
 }

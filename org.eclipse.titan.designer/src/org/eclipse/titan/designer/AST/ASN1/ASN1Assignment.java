@@ -41,6 +41,7 @@ public abstract class ASN1Assignment extends Assignment {
 	private static boolean markOccurrences;
 
 	protected final Ass_pard assPard;
+	protected boolean dontGenerate;
 
 	static {
 		final IPreferencesService prefService = Platform.getPreferencesService();
@@ -65,6 +66,11 @@ public abstract class ASN1Assignment extends Assignment {
 	protected ASN1Assignment(final Identifier id, final Ass_pard assPard) {
 		super(id);
 		this.assPard = assPard;
+		this.dontGenerate = false;
+	}
+
+	public void setDontGenerate() {
+		dontGenerate = true;
 	}
 
 	/** @return the parameterizes assignment related to the assignment */
@@ -170,7 +176,7 @@ public abstract class ASN1Assignment extends Assignment {
 	/** {@inheritDoc} */
 	public String getGenName() {
 		if(myScope == null ||
-				myScope.getParentScope().equals(myScope.getModuleScope())) {
+				myScope.getParentScope().equals(myScope.getModuleScopeGen())) {
 			// use the simple identifier if the assignment does not have scope
 			// or it is a simple assignment at module scope
 			return identifier.getName();
@@ -180,13 +186,13 @@ public abstract class ASN1Assignment extends Assignment {
 			final StringBuilder nameBuilder = new StringBuilder("@");
 			nameBuilder.append(myScope.getScopeName());
 			final String displayName = identifier.getDisplayName();
-			final boolean isParameterised = displayName.contains(".");
+			final boolean isParameterised = displayName.lastIndexOf('.') == displayName.length();
 			if(isParameterised) {
 				nameBuilder.append('.');
 				nameBuilder.append(displayName);
 			}
 
-			final StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
+			final StringBuilder returnValue = new StringBuilder(Identifier.getNameFromAsnName(nameBuilder.toString()));
 			if(isParameterised) {
 				returnValue.append("_par_");
 			}

@@ -117,14 +117,14 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		text.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
 		text.setSize(120, 10);
 
-		FillLayout fl = new FillLayout();
+		final FillLayout fl = new FillLayout();
 
-		Composite buttonsAndCheckBoxes = new Composite(shlFind, SWT.NONE);
+		final Composite buttonsAndCheckBoxes = new Composite(shlFind, SWT.NONE);
 		buttonsAndCheckBoxes.setLayout(fl);
 		buttonsAndCheckBoxes.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
 
-		Composite checkBoxes = new Composite(buttonsAndCheckBoxes, SWT.NONE);
-		GridLayout cbLayout = new GridLayout(1, false);
+		final Composite checkBoxes = new Composite(buttonsAndCheckBoxes, SWT.NONE);
+		final GridLayout cbLayout = new GridLayout(1, false);
 		cbLayout.verticalSpacing = 15;
 		checkBoxes.setLayout(cbLayout);
 
@@ -134,8 +134,8 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		final Button btnCaseSensitive = new Button(checkBoxes, SWT.CHECK);
 		btnCaseSensitive.setText("Case sensitive");
 
-		Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
-		GridLayout btLayout = new GridLayout(1, false);
+		final Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
+		final GridLayout btLayout = new GridLayout(1, false);
 		btLayout.verticalSpacing = 5;
 		buttons.setLayout(btLayout);
 

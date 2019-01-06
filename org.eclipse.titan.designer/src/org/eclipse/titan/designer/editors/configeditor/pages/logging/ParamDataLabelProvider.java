@@ -25,16 +25,16 @@ public class ParamDataLabelProvider extends LabelProvider implements ITableLabel
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof PluginSpecificParam) {
-			PluginSpecificParam item = (PluginSpecificParam) element;
+			final PluginSpecificParam item = (PluginSpecificParam) element;
 			switch (columnIndex) {
 			case 0:
-				String param = item.getParamName();
+				final String param = item.getParamName();
 				if (param == null || param.length() == 0) {
 					return "";
 				}
 				return param;
 			case 1:
-				String value = item.getValue().getText();
+				final String value = item.getValue().getText();
 				if (value == null || value.length() == 0) {
 					return "";
 				}

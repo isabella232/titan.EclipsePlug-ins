@@ -59,8 +59,8 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 
 	private MSCView mscView;
 	private Integer selectedLine;
-	private boolean silent;
-	private boolean forceEditorOpening = false;
+	private final boolean silent;
+	private final boolean forceEditorOpening;
 
 	private static String lastFilename = null;
 	private static URI lastPath = null;
@@ -115,24 +115,23 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 			return;
 		}
 
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window == null) {
 			return;
 		}
 
-		IWorkbenchPage activePage = window.getActivePage();
+		final IWorkbenchPage activePage = window.getActivePage();
 		if (activePage == null) {
 			return;
 		}
 
-		LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(logFileMetaData.getProjectName());
-		IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
-
+		final LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(logFileMetaData.getProjectName());
+		final IFile logFile = project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenValueViewAction.1"))); //$NON-NLS-1$
 			return;
@@ -143,14 +142,14 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 			return;
 		}
 
-		ExecutionModel model = this.mscView.getModel();
-		String testCase = model.getTestCase().getTestCaseName();
+		final ExecutionModel model = this.mscView.getModel();
+		final String testCase = model.getTestCase().getTestCaseName();
 
 		EventObject eventObject;
 		int actualLine = selectedLine;
 		SourceInformation sourceInformation = null;
 		while (sourceInformation == null && actualLine > 2) {
-			IEventObject ieventObject = model.getEvent(actualLine - 2);
+			final IEventObject ieventObject = model.getEvent(actualLine - 2);
 			if (!(ieventObject instanceof EventObject)) {
 				actualLine--;
 				continue;
@@ -190,7 +189,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 
 		if (sourceInformation == null) {
 			if (!silent) {
-				String setting = logFileMetaData.getOptionsSettings("SourceInfoFormat");
+				final String setting = logFileMetaData.getOptionsSettings("SourceInfoFormat");
 				if (setting == null) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
 							"Error opening source",
@@ -215,7 +214,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 
 		IFile targetFile;
 		if (lastFilename != null && lastFilename.equals(fileName) && lastPath != null) {
-			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(lastPath);
+			final IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(lastPath);
 			if (files.length == 0) {
 				mscView.getViewSite().getActionBars().getStatusLineManager().setErrorMessage("The file `" + lastFilename + "' could not be found");
 				setLastFilename(null);
@@ -276,20 +275,19 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 			}
 		}
 
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window == null) {
 			return;
 		}
 
-		IWorkbenchPage activePage = window.getActivePage();
+		final IWorkbenchPage activePage = window.getActivePage();
 		if (activePage == null) {
 			return;
 		}
 
 		try {
-			FileEditorInput editorInput = new FileEditorInput(targetFile);
+			final FileEditorInput editorInput = new FileEditorInput(targetFile);
 			IEditorPart editorPart = activePage.findEditor(editorInput);
-
 			if (editorPart == null) {
 				if (!forceEditorOpening) {
 					return;
@@ -303,9 +301,8 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 				return;
 			}
 
-			AbstractTextEditor textEditor = (AbstractTextEditor) editorPart;
-
-			IDocument targetDocument = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
+			final AbstractTextEditor textEditor = (AbstractTextEditor) editorPart;
+			final IDocument targetDocument = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 			if (targetDocument == null) {
 				logView.getViewSite().getActionBars().getStatusLineManager().setErrorMessage("The target document does not exist");
 				return;
@@ -316,7 +313,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 				return;
 			}
 
-			IRegion lineRegion = targetDocument.getLineInformation(lineNumber - 1); // Line numbers are indexed from zero in the editors
+			final IRegion lineRegion = targetDocument.getLineInformation(lineNumber - 1); // Line numbers are indexed from zero in the editors
 			activePage.bringToTop(textEditor);
 			textEditor.selectAndReveal(lineRegion.getOffset(), lineRegion.getLength());
 		} catch (PartInitException e) {
@@ -347,9 +344,9 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 	 */
 	private static IFile findSourceFile(final IProject project, final String fileName, final List<IProject> chain) {
 		try {
-			FileFinder fileFinder = new FileFinder(fileName);
+			final FileFinder fileFinder = new FileFinder(fileName);
 			final IResource[] members = project.members();
-			for (IResource resource : members) {
+			for (final IResource resource : members) {
 				if (!resource.isDerived(IResource.CHECK_ANCESTORS)) {
 					resource.accept(fileFinder);
 				}
@@ -360,9 +357,9 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 			}
 
 			final IProject[] referencedProjects = project.getReferencedProjects();
-			for (IProject referencedProject : referencedProjects) {
+			for (final IProject referencedProject : referencedProjects) {
 				if (!chain.contains(referencedProject)) {
-					IFile file = findSourceFile(referencedProject, fileName);
+					final IFile file = findSourceFile(referencedProject, fileName);
 					if (file != null) {
 						return file;
 					}
@@ -381,15 +378,15 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 	}
 
 	@Override
-	public void setDelayedSelection(ISelection delayedSelection) {
+	public void setDelayedSelection(final ISelection delayedSelection) {
 		this.delayedSelection = delayedSelection;
 	}
 
-	private static synchronized void setLastFilename(String lastFilename) {
+	private static synchronized void setLastFilename(final String lastFilename) {
 		OpenSourceAction.lastFilename = lastFilename;
 	}
 
-	public static synchronized void setLastPath(URI lastPath) {
+	public static synchronized void setLastPath(final URI lastPath) {
 		OpenSourceAction.lastPath = lastPath;
 	}
 

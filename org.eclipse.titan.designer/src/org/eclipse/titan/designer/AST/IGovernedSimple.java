@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 
 /**
  * @author Kristof Szabados
@@ -28,9 +29,21 @@ public interface IGovernedSimple extends IGoverned {
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection);
 
+	/**
+	 * Returns the build timestamp of the last time this governedsimple was built.
+	 *  */
+	public BuildTimestamp getLastTimeBuilt();
+
 	/***
 	 * Returns the Java expression that refers to the object, which has to be
 	 * initialized.
 	 * */
 	public String get_lhs_name();
+
+	/**
+	 * Returns whether the entity is a top-level one (i.e. it is not
+	 * embedded into another entity). The function examines whether the
+	 * genname is a single identifier or not.
+	 * */
+	public boolean isTopLevel();
 }

@@ -327,7 +327,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referencedLast.getGenNameValue(aData, source, scope);
@@ -338,7 +338,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referencedLast.getGenNameTemplate(aData, source, scope);
@@ -346,11 +346,42 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == referencedLast|| referencedLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+		}
+
+		if (rawAttribute != null) {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+
+		return referencedLast.getGenNameRawDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
+		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+			final StringBuilder tempSource = aData.getCodeForType(last.getGenNameOwn());
+			if (tempSource.length() == 0) {
+				last.generateCode(aData, tempSource);
+			}
+		}
+
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			switch (last.getTypetype()) {
 			case TYPE_PORT:
 				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source, myScope)));

@@ -6,7 +6,7 @@
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
 /*
-//AUTHOR:
+//AUTHOR: Kristof Szabados, Jeno Balasko
 //DATE:
 //VERSION:
 */
@@ -270,6 +270,27 @@ function f_CR_TR00018474()
   vtu[0] := ?
   fsi_universal_charstrings(vtu[0])
   }
+}
+
+// situations where value was expected instead of template:
+template integer t_i100 := 0;
+
+function f_1(in template integer pl_i1,out template integer pl_i2, inout template integer pl_i3, template integer pl_i4){
+  if(pl_i1 == 3) {}
+  if(pl_i2 == 3) {}
+  if(pl_i3 == 3) {}
+  if(pl_i4 == 3) {}
+}
+
+modulepar template integer tsp_ti := 0;
+
+function f_2(){
+  template integer tl_i := 0;
+  var template integer vt_i := 0;
+  if(t_i100==3){}
+  if(tsp_ti==3){}
+  if(tl_i==3){}
+  if(vt_i==3){}
 }
 
 }  // end of module

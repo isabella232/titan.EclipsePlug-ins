@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 /**
@@ -42,113 +46,158 @@ public class TitanVerdictType extends Base_Type {
 
 	private VerdictTypeEnum verdict_value;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanVerdictType() {
 		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
-	public TitanVerdictType(final VerdictTypeEnum other_value) {
-		if (!isValid(other_value)) {
-			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanVerdictType(final VerdictTypeEnum otherValue) {
+		if (!is_valid(otherValue)) {
+			throw new TtcnError("Initializing a verdict variable with an invalid value (" + otherValue + ").");
 		}
 
-		verdict_value = other_value;
+		verdict_value = otherValue;
 	}
 
-	public TitanVerdictType(final TitanVerdictType other_value) {
-		other_value.mustBound("Copying an unbound verdict value.");
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanVerdictType(final TitanVerdictType otherValue) {
+		otherValue.must_bound("Copying an unbound verdict value.");
 
-		verdict_value = other_value.verdict_value;
+		verdict_value = otherValue.verdict_value;
 	}
 
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
 	//originally #define IS_VALID
-	public static boolean isValid(final VerdictTypeEnum aVerdictValue) {
+	public static boolean is_valid(final VerdictTypeEnum aVerdictValue) {
 		return aVerdictValue != VerdictTypeEnum.UNBOUND;
 	}
 
 	@Override
-	public boolean isPresent() {
-		return isBound();
+	public boolean is_present() {
+		return is_bound();
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return verdict_value != VerdictTypeEnum.UNBOUND;
 	}
 
-	public void mustBound(final String aErrorMessage) {
-		if (verdict_value == VerdictTypeEnum.UNBOUND) {
-			throw new TtcnError(aErrorMessage);
-		}
-	}
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanVerdictType otherValue) {
+		must_bound("The left operand of comparison is an unbound verdict value.");
+		otherValue.must_bound("The right operand of comparison is an unbound verdict value.");
 
-	//originally operator==
-	public boolean operatorEquals(final TitanVerdictType aOtherValue) {
-		mustBound("The left operand of comparison is an unbound verdict value.");
-		aOtherValue.mustBound("The right operand of comparison is an unbound verdict value.");
-
-		return verdict_value.equals(aOtherValue.verdict_value);
+		return verdict_value.equals(otherValue.verdict_value);
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanVerdictType) {
-			return operatorEquals((TitanVerdictType)otherValue);
+			return operator_equals((TitanVerdictType)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
 	}
 
-	// originally boolean VERDICTTYPE::operator==(verdicttype other_value) const
-	public boolean operatorEquals(final VerdictTypeEnum aOtherValue) {
-		mustBound("The left operand of comparison is an unbound verdict value.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final VerdictTypeEnum otherValue) {
+		must_bound("The left operand of comparison is an unbound verdict value.");
 
-		if (!isValid(aOtherValue)) {
-			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ").");
+		if (!is_valid(otherValue)) {
+			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
 		}
 
-		return verdict_value == aOtherValue;
+		return verdict_value == otherValue;
 	}
 
-	//originally operator=
-	public TitanVerdictType assign(final TitanVerdictType aOtherValue) {
-		aOtherValue.mustBound("Assignment of an unbound verdict value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanVerdictType operator_assign(final TitanVerdictType otherValue) {
+		otherValue.must_bound("Assignment of an unbound verdict value.");
 
-		if (aOtherValue != this) {
-			verdict_value = aOtherValue.verdict_value;
+		if (otherValue != this) {
+			verdict_value = otherValue.verdict_value;
 		}
 
 		return this;
 	}
 
 	@Override
-	public TitanVerdictType assign(final Base_Type otherValue) {
+	public TitanVerdictType operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanVerdictType) {
-			return assign((TitanVerdictType)otherValue);
+			return operator_assign((TitanVerdictType)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
 	}
 
-	//originally operator= (verdicttype other_value)
-	public TitanVerdictType assign(final VerdictTypeEnum other_value) {
-		if (!isValid(other_value)) {
-			throw new TtcnError("Assignment of an invalid verdict value (" + other_value + ").");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanVerdictType operator_assign(final VerdictTypeEnum otherValue) {
+		if (!is_valid(otherValue)) {
+			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ").");
 		}
 
-		verdict_value = other_value;
+		verdict_value = otherValue;
 		return this;
 	}
 
-	public VerdictTypeEnum getValue() {
+	public VerdictTypeEnum get_value() {
 		return verdict_value;
 	}
 
+	@Override
 	public void log() {
-		if (isValid(verdict_value)) {
+		if (is_valid(verdict_value)) {
 			TTCN_Logger.log_event_str(verdict_name[verdict_value.ordinal()]);
 		} else if (verdict_value == VerdictTypeEnum.UNBOUND) {
 			TTCN_Logger.log_event_unbound();
@@ -158,9 +207,22 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "verdict value");
+		if (param.get_type() != type_t.MP_Verdict) {
+			param.type_error("verdict value");
+		}
+		final TitanVerdictType verdict = param.get_verdict();
+		if (!is_valid(verdict.verdict_value)) {
+			param.error("Internal error: invalid verdict value (%d).", verdict);
+		}
+		verdict_value = verdict.verdict_value;
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound verdict value.");
+		must_bound("Text encoder: Encoding an unbound verdict value.");
 
 		text_buf.push_int(verdict_value.getValue());
 	}
@@ -168,17 +230,50 @@ public class TitanVerdictType extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		final int received_value = text_buf.pull_int().getInt();
+		final int received_value = text_buf.pull_int().get_int();
 		if (received_value < 0 || received_value > 5) {
 			throw new TtcnError(MessageFormat.format("Text decoder: Invalid verdict value ({0}) was received.", received_value));
 		}
 		verdict_value = VerdictTypeEnum.values()[received_value];
 	}
 
-	//TODO: implement VERDICTTYPE::set_param()
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param par_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+		if (!TitanVerdictType.is_valid(par_value)) {
+			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
+		}
+
+		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
+
+		return par_value == other_value.get_value();
+	}
+
 	//TODO: implement VERDICTTYPE::get_param()
-	//TODO: implement VERDICTTYPE::encode()
-	//TODO: implement VERDICTTYPE::decode()
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		//only xer and JSON will be supported
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		//only xer and JSON will be supported
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+	}
+
 	//TODO: implement VERDICTTYPE::XER_encode()
 
 	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {

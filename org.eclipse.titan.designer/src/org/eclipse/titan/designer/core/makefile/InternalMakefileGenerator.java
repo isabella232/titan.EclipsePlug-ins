@@ -81,27 +81,27 @@ public final class InternalMakefileGenerator {
 	private static final boolean USAGE_STATS = true;
 	private static final String MISSING_CYGWIN = "Makefile generation failed. No cygwin installation found! Please make sure that cygwin is installed properly.";
 
-	private IProject project;
+	private final IProject project;
 	// The OS specific path of the project, used to speed up calculations.
 	private String projectLocation;
 
-	private List<ModuleStruct> ttcn3Modules = new ArrayList<ModuleStruct>();
+	private final List<ModuleStruct> ttcn3Modules = new ArrayList<ModuleStruct>();
 	private boolean preprocess = false;
-	private List<ModuleStruct> ttcnppModules = new ArrayList<ModuleStruct>();
+	private final List<ModuleStruct> ttcnppModules = new ArrayList<ModuleStruct>();
 	private boolean ttcn3ModulesRegular = true;
 	private boolean baseTTCN3ModulesRegular = true;
-	private List<TTCN3IncludeFileStruct> ttcn3IncludeFiles = new ArrayList<TTCN3IncludeFileStruct>();
-	private List<ModuleStruct> asn1modules = new ArrayList<ModuleStruct>();
+	private final List<TTCN3IncludeFileStruct> ttcn3IncludeFiles = new ArrayList<TTCN3IncludeFileStruct>();
+	private final List<ModuleStruct> asn1modules = new ArrayList<ModuleStruct>();
 	private boolean asn1ModulesRegular = true;
 	private boolean baseASN1ModulesRegular = true;
-	private List<UserStruct> userFiles = new ArrayList<UserStruct>();
+	private final List<UserStruct> userFiles = new ArrayList<UserStruct>();
 	private boolean userHeadersRegular = true;
 	private boolean userSourcesRegular = true;
 	private boolean baseUserHeadersRegular = true;
 	private boolean baseUserSourcesRegular = true;
-	private List<OtherFileStruct> otherFiles = new ArrayList<OtherFileStruct>();
-	private List<BaseDirectoryStruct> baseDirectories = new ArrayList<BaseDirectoryStruct>();
-	private List<BaseDirectoryStruct> additionallyIncludedFolders = new ArrayList<BaseDirectoryStruct>();
+	private final List<OtherFileStruct> otherFiles = new ArrayList<OtherFileStruct>();
+	private final List<BaseDirectoryStruct> baseDirectories = new ArrayList<BaseDirectoryStruct>();
+	private final List<BaseDirectoryStruct> additionallyIncludedFolders = new ArrayList<BaseDirectoryStruct>();
 	private String workingDirectory;
 	private IPath workingDirectoryPath;
 	private boolean gnuMake = false;
@@ -122,7 +122,7 @@ public final class InternalMakefileGenerator {
 	/**
 	 * right now not set
 	 */
-	private boolean useCrossCompilation = false;
+	private final boolean useCrossCompilation = false;
 
 	private List<IProject> reachableProjects;
 	
@@ -628,8 +628,8 @@ public final class InternalMakefileGenerator {
 		}
 		contents.append("# - make archive        Archives all source files.\n");
 		contents.append("# - make check          Checks the semantics of TTCN-3 and ASN.1 modules.\n");
-		contents.append("# - make clean          Removes all generated files.\n");
 		contents.append("# - make port           Generates port skeletons.\n");
+		contents.append("# - make clean          Removes all generated files.\n");
 		contents.append("# - make compile        Translates TTCN-3 and ASN.1 modules to C++.\n");
 		contents.append("# - make dep            Creates/updates dependency list.\n");
 		contents.append("# - make executable     Builds the executable test suite.\n");
@@ -715,12 +715,6 @@ public final class InternalMakefileGenerator {
 			contents.append("CXX = ").append(compilerName).append("\n\n");
 		}
 
-		if (incrementalDependencyRefresh) {
-			contents.append("# Flags for dependency generation\n");
-			// -xM1 for SunPro
-			contents.append("CXXDEPFLAGS := -MM\n\n");
-		}
-
 		if (preprocess) {
 			contents.append("# C preprocessor used for TTCN-3 files:\n");
 			String preprocessorName = TTCN3PreprocessorOptionsData.getPreprocessorName(project);
@@ -782,6 +776,12 @@ public final class InternalMakefileGenerator {
 			}
 		}
 		contents.append("\n\n");
+
+		if (incrementalDependencyRefresh) {
+			contents.append("# Flags for dependency generation\n");
+			// -xM1 for SunPro
+			contents.append("CXXDEPFLAGS = -MM\n\n");
+		}
 
 		if (preprocess) {
 			contents.append("# Flags for preprocessing TTCN-3 files:\n");
@@ -2078,9 +2078,6 @@ public final class InternalMakefileGenerator {
 
 		contents.append("clean:\n");
 		contents.append("\t-").append(rmCommand).append(" $(EXECUTABLE) $(OBJECTS) $(LIBRARY) $(GENERATED_HEADERS)");
-		if (incrementalDependencyRefresh) {
-			contents.append(" $(DEPFILES)");
-		}
 		contents.append(" \\\n");
 		contents.append("\t$(GENERATED_SOURCES) ");
 		if (dynamicLinking) {
@@ -2093,11 +2090,11 @@ public final class InternalMakefileGenerator {
 		if (centralStorage) {
 			contents.append(" compile-all");
 		}
-		contents.append(" \\\n");
-		contents.append("\tbrowserdata.dat tags *.log");
 		if (incrementalDependencyRefresh) {
 			contents.append(" $(DEPFILES)");
 		}
+		contents.append(" \\\n");
+		contents.append("\tbrowserdata.dat tags *.log");
 		contents.append("\n\n");
 		contents.append("dep: $(GENERATED_SOURCES) $(USER_SOURCES)");
 		if (incrementalDependencyRefresh) {

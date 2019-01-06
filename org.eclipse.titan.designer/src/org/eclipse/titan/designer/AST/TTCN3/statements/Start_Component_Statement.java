@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -108,6 +109,17 @@ public final class Start_Component_Statement extends Statement {
 		}
 		if (functionInstanceReference != null) {
 			functionInstanceReference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentReference != null) {
+			componentReference.setCodeSection(codeSection);
+		}
+		if (functionInstanceReference != null) {
+			functionInstanceReference.setCodeSection(codeSection);
 		}
 	}
 

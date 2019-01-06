@@ -1,6 +1,6 @@
 = Building the Project
 :toc:
-:figure-number: 89
+:figure-number: 88
 
 In this chapter a detailed, stepbystep procedure description is provided about how to build a project according to the workflow.
 
@@ -152,7 +152,9 @@ Some hints for selecting the appropriate build level: on build levels 0-3 the ex
 
 Projects might need to be built for several platforms, for several different GCC versions, or it might just happen that the user’s computer is not powerful enough to assure short build times.
 
-Remote building (see <<4-managing_projects.adoc#setting-requirements-on-the-configuration-of-referenced-projects, here>>) is chosen by *right clicking* the project and selecting *TITAN / Build remotely*, as shown on Figure 80 above.
+Building remotely is chosen by *right clicking* the project and selecting *Titan / Build remotely*, as shown on Figure 80 above.
+
+image::images/RemoteBuild1.png[title="Build remotely"]
 
 The outputs of the remote build processes are displayed in the TITAN Console view. Every piece of such an output is prefixed by the host name that provided it.
 

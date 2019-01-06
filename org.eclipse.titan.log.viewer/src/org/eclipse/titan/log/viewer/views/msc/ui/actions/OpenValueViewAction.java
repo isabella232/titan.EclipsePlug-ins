@@ -46,7 +46,7 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 	private static final String NAME = Messages.getString("OpenValueViewAction.0"); //$NON-NLS-1$
 	private MSCView mscView;
 	private Integer selectedLine;
-	private boolean forceEditorOpening = false;
+	private final boolean forceEditorOpening;
 
 	private ISelection delayedSelection = null;
 
@@ -97,7 +97,7 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 	}
 
 	@Override
-	public void setDelayedSelection(ISelection delayedSelection) {
+	public void setDelayedSelection(final ISelection delayedSelection) {
 		this.delayedSelection = delayedSelection;
 	}
 
@@ -107,17 +107,17 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 			return;
 		}
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage == null) {
 			return;
 		}
 
-		LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
-		IProject project = getProjectByName(logFileMetaData);
-		IFile logFile = getLogFileFromProject(logFileMetaData, project);
+		final LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
+		final IProject project = getProjectByName(logFileMetaData);
+		final IFile logFile = getLogFileFromProject(logFileMetaData, project);
 
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenValueViewAction.1"))); //$NON-NLS-1$
 			return;
@@ -146,14 +146,14 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 		// pass log file meta data
 		detailsview.setLogFileMetaData(this.mscView.getLogFileMetaData());
 
-		ExecutionModel model = this.mscView.getModel();
-		IEventObject ieventObject = model.getEvent(selectedLine - 2);
+		final ExecutionModel model = this.mscView.getModel();
+		final IEventObject ieventObject = model.getEvent(selectedLine - 2);
 		if (!(ieventObject instanceof EventObject)) {
 			return;
 		}
 
-		EventObject eventObject = (EventObject) ieventObject;
-		String testCase = model.getTestCase().getTestCaseName();
+		final EventObject eventObject = (EventObject) ieventObject;
+		final String testCase = model.getTestCase().getTestCaseName();
 		if ((testCase == null) || eventObject.getRecordNumber() == 0) {
 			return;
 		}
@@ -170,8 +170,8 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 			TitanLogExceptionHandler.handleException(new TechnicalException(Messages.getString("OpenValueViewAction.3"))); //$NON-NLS-1$
 			return;
 		}
-		String message = logrecord.getMessage();
-		DetailData detailData = new DetailData(eventObject.getName(),
+		final String message = logrecord.getMessage();
+		final DetailData detailData = new DetailData(eventObject.getName(),
 				eventObject.getPort(),
 				message,
 				testCase,
@@ -181,13 +181,13 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 		detailsview.setData(detailData, false);
 	}
 
-	private IFile getLogFileFromProject(LogFileMetaData logFileMetaData, IProject project) {
+	private IFile getLogFileFromProject(final LogFileMetaData logFileMetaData, final IProject project) {
 		return project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 	}
 
-	private IProject getProjectByName(LogFileMetaData logFileMetaData) {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
+	private IProject getProjectByName(final LogFileMetaData logFileMetaData) {
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
 		return root.getProject(logFileMetaData.getProjectName());
 	}
 

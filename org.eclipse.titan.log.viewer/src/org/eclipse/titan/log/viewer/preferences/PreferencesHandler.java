@@ -114,7 +114,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		String property = event.getProperty();
+		final String property = event.getProperty();
 		if (!property.startsWith(Constants.PLUGIN_ID)) {
 			return;
 		}
@@ -175,9 +175,9 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	 * @return the current preferences
 	 */
 	public PreferencesHolder getPreferences(final String project) {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot workspaceRoot = workspace.getRoot();
-		IProject iProject = workspaceRoot.getProject(project);
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot workspaceRoot = workspace.getRoot();
+		final IProject iProject = workspaceRoot.getProject(project);
 		if (iProject.exists()) {
 			return getOverlayedPreferencesHolder(iProject);
 		}
@@ -302,8 +302,8 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	 * @return the new string array list (converted string list)
 	 */
 	private List<String> stringListToArray(final String stringList) {
-		StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
-		List<String> array = new ArrayList<String>();
+		final StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
+		final List<String> array = new ArrayList<String>();
 		while (st.hasMoreElements()) {
 			array.add((String) st.nextElement());
 		}
@@ -370,7 +370,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	}
 
 	private String getOverlayedPreferenceValue(final IResource resource, final String pageId, final String keyName) {
-		IProject project = resource.getProject();
+		final IProject project = resource.getProject();
 		String value = null;
 		if (useProjectSettings(project, pageId)) {
 			value = ResourcePropertyHandler.getProperty(resource, pageId, keyName);
@@ -385,7 +385,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	}
 
 	private boolean useProjectSettings(final IResource resource, final String pageId) {
-		String usingProjectSetting = ResourcePropertyHandler.getProperty(resource, pageId, LogViewerPreferenceRootPage.USEPROJECTSETTINGS);
+		final String usingProjectSetting = ResourcePropertyHandler.getProperty(resource, pageId, LogViewerPreferenceRootPage.USEPROJECTSETTINGS);
 		return usingProjectSetting != null && "true".equals(usingProjectSetting);
 	}
 
@@ -401,10 +401,10 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	}
 
 	private Map<String, Boolean> silentEventsStringToArray(final String prefValues) {
-		String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
-		Map<String, Boolean> silentEvents = new HashMap<String, Boolean>();
+		final String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
+		final Map<String, Boolean> silentEvents = new HashMap<String, Boolean>();
 		String[] currCategory;
-		for (String category : categories) {
+		for (final String category : categories) {
 			currCategory = category.split(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM);
 			if (currCategory.length > 1) {
 				silentEvents.put(currCategory[0], Boolean.valueOf(currCategory[1]));
@@ -458,10 +458,10 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	}
 
 	private Map<String, Integer> getFilters(final String stringList) {
-		StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
-		Map<String, Integer> filters = new HashMap<String, Integer>();
+		final StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
+		final Map<String, Integer> filters = new HashMap<String, Integer>();
 		while (st.hasMoreElements()) {
-			String filter = (String) st.nextElement();
+			final String filter = (String) st.nextElement();
 			if ((filter.length() >= 3) && filter.startsWith("*") && filter.endsWith("*")) { //$NON-NLS-1$ //$NON-NLS-2$
 				filters.put(filter.substring(1, filter.length() - 1), PreferenceConstants.FILTER_CONTAINS);
 			} else if ((filter.length() >= 2) && filter.startsWith("*")) { //$NON-NLS-1$
@@ -476,23 +476,23 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	}
 
 	private Map<String, RGB> getColors(final String stringList) {
-		StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
-		Map<String, RGB> keyWordColors = new HashMap<String, RGB>();
+		final StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
+		final Map<String, RGB> keyWordColors = new HashMap<String, RGB>();
 		String item = null;
 		String color = null;
 		RGB rgb = null;
 		while (stringColors.hasMoreElements()) {
-			String stringColor = (String) stringColors.nextElement();
-			String[] sc = stringColor.split(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
+			final String stringColor = (String) stringColors.nextElement();
+			final String[] sc = stringColor.split(PreferenceConstants.KEYWORD_COLOR_SEPARATOR);
 			if (sc.length > 1) {
 				item = sc[0];
 				color = sc[1];
 			}
 			if ((color != null) && (color.trim().length() > 0)) {
-				String[] splitColor = color.split(PreferenceConstants.RGB_COLOR_SEPARATOR);
-				int red = Integer.parseInt(splitColor[0]);
-				int green = Integer.parseInt(splitColor[1]);
-				int blue = Integer.parseInt(splitColor[2]);
+				final String[] splitColor = color.split(PreferenceConstants.RGB_COLOR_SEPARATOR);
+				final int red = Integer.parseInt(splitColor[0]);
+				final int green = Integer.parseInt(splitColor[1]);
+				final int blue = Integer.parseInt(splitColor[2]);
 				rgb = new RGB(red, green, blue);
 			}
 			if ((item != null) && (rgb != null)) {

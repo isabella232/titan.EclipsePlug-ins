@@ -94,7 +94,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 	};
 
 	private static final String LICENSERENEWALTEXT = "<A> Prolong expired license (only for Ericsson employees) </A>";
-	private RenewLicense renewLicense = new RenewLicense();
+	private final RenewLicense renewLicense = new RenewLicense();
 
 	static {
 		final Activator activator = Activator.getDefault();
@@ -167,7 +167,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 	}
 
 	private static final String NEWLICENSETEXT = "<A> Order a new license (only for Ericsson employees) </A>";
-	private CreateNewLicense createNewLicense = new CreateNewLicense();
+	private final CreateNewLicense createNewLicense = new CreateNewLicense();
 
 	private class RenewLicense extends SelectionAdapter {
 		private int uniqueID;

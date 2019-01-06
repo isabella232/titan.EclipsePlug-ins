@@ -63,7 +63,7 @@ public final class GroupsSubPage {
 	private Button addItem;
 	private Button removeItem;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private GroupSectionHandler groupSectionHandler;
 	private Group selectedGroup;
 
@@ -72,12 +72,12 @@ public final class GroupsSubPage {
 	}
 
 	void createGroupsSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 		client.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -92,7 +92,7 @@ public final class GroupsSubPage {
 				form.reflow(false);
 			}
 		});
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		final GridData gd = new GridData(GridData.FILL_BOTH);
 		section.setLayoutData(gd);
 
 		createMainGroupsSection(client, form, toolkit);
@@ -100,12 +100,12 @@ public final class GroupsSubPage {
 	}
 
 	void createMainGroupsSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 
 		client.setLayout(layout);
@@ -120,7 +120,7 @@ public final class GroupsSubPage {
 		groupsTable.setLinesVisible(true);
 		groupsTable.setHeaderVisible(true);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		addGroup = toolkit.createButton(buttons, "Add group", SWT.PUSH);
@@ -138,7 +138,7 @@ public final class GroupsSubPage {
 					createNewGroupsSection();
 				}
 
-				Group newGroup = createNewGroup();
+				final Group newGroup = createNewGroup();
 				if (newGroup == null) {
 					return;
 				}
@@ -196,7 +196,7 @@ public final class GroupsSubPage {
 		gd = new GridData(GridData.FILL_BOTH);
 		section.setLayoutData(gd);
 
-		TableColumn column = new TableColumn(groupsTable, SWT.LEFT, 0);
+		final TableColumn column = new TableColumn(groupsTable, SWT.LEFT, 0);
 		column.setText("Group name");
 		column.setWidth(150);
 		column.setMoveable(false);
@@ -205,7 +205,7 @@ public final class GroupsSubPage {
 		groupsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				Group group = (Group) ((StructuredSelection) event.getSelection()).getFirstElement();
+				final Group group = (Group) ((StructuredSelection) event.getSelection()).getFirstElement();
 				selectedGroup = group;
 				itemsTable.setEnabled(groupSectionHandler != null && selectedGroup != null);
 				addItem.setEnabled(groupSectionHandler != null && selectedGroup != null);
@@ -228,14 +228,14 @@ public final class GroupsSubPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				GroupDataLabelProvider labelProvider = (GroupDataLabelProvider) groupsTableViewer.getLabelProvider();
+				final GroupDataLabelProvider labelProvider = (GroupDataLabelProvider) groupsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, 0);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					Group group = (Group) ((TableItem) element).getData();
+					final Group group = (Group) ((TableItem) element).getData();
 					ConfigTreeNodeUtilities.setText( group.getGroupName(), (String) value );
 					groupsTableViewer.refresh(group);
 					editor.setDirty();
@@ -246,12 +246,12 @@ public final class GroupsSubPage {
 	}
 
 	private void createGroupItemsSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 
 		client.setLayout(layout);
@@ -266,7 +266,7 @@ public final class GroupsSubPage {
 		itemsTable.setLinesVisible(true);
 		itemsTable.setHeaderVisible(true);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		addItem = toolkit.createButton(buttons, "Add item", SWT.PUSH);
@@ -285,10 +285,10 @@ public final class GroupsSubPage {
 				}
 				GroupItem newItem;
 
-				ParseTree hidden = new AddedParseTree(", ");
+				final ParseTree hidden = new AddedParseTree(", ");
 				ConfigTreeNodeUtilities.addChild(selectedGroup.getRoot(), hidden );
 
-				ParseTree node = new AddedParseTree("item");
+				final ParseTree node = new AddedParseTree("item");
 				ConfigTreeNodeUtilities.addChild(selectedGroup.getRoot(), node );
 
 				newItem = new GroupSectionHandler.GroupItem(node);
@@ -342,7 +342,7 @@ public final class GroupsSubPage {
 		gd = new GridData(GridData.FILL_BOTH);
 		section.setLayoutData(gd);
 
-		TableColumn column = new TableColumn(itemsTable, SWT.LEFT, 0);
+		final TableColumn column = new TableColumn(itemsTable, SWT.LEFT, 0);
 		column.setText("Group item");
 		column.setWidth(150);
 		column.setMoveable(false);
@@ -361,14 +361,14 @@ public final class GroupsSubPage {
 
 			@Override
 			public Object getValue(final Object element, final String property) {
-				GroupItemDataLabelProvider labelProvider = (GroupItemDataLabelProvider) itemsTableViewer.getLabelProvider();
+				final GroupItemDataLabelProvider labelProvider = (GroupItemDataLabelProvider) itemsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, 0);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					GroupItem item = (GroupItem) ((TableItem) element).getData();
+					final GroupItem item = (GroupItem) ((TableItem) element).getData();
 					ConfigTreeNodeUtilities.setText( item.getItem(), (String) value );
 					itemsTableViewer.refresh(item);
 					editor.setDirty();
@@ -438,12 +438,12 @@ public final class GroupsSubPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		groupSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[GROUPS]");
+		final ParseTree header = new AddedParseTree("\n[GROUPS]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -486,10 +486,10 @@ public final class GroupsSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) groupsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) groupsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			Group group = (Group) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final Group group = (Group) iterator.next();
 			if (group != null) {
 				ConfigTreeNodeUtilities.removeChild(groupSectionHandler.getLastSectionRoot(), group.getRoot());
 				groupSectionHandler.getGroups().remove(group);
@@ -502,10 +502,10 @@ public final class GroupsSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) itemsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) itemsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			GroupItem item = (GroupItem) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final GroupItem item = (GroupItem) iterator.next();
 			if (item != null) {
 				final List<GroupItem> groupItems = selectedGroup.getGroupItems();
 				final int size = groupItems.size();

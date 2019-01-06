@@ -16,8 +16,15 @@ import java.util.List;
  * @author Kristof Szabados
  */
 public class TitanTeletexString extends TitanUniversalCharString {
+	/**
+	 * Factory function to create a teletexstring from an octetstring
+	 * containing iso2022 format content.
+	 *
+	 * @param p_os
+	 *                the source octetstring.
+	 * */
 	public static TitanTeletexString TTCN_ISO2022_2_TeletexString(final TitanOctetString p_os) {
-		final char osstr[] = p_os.getValue();
+		final char osstr[] = p_os.get_value();
 		final int len = osstr.length;
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 
@@ -28,7 +35,40 @@ public class TitanTeletexString extends TitanUniversalCharString {
 		return new TitanTeletexString(ucstr);
 	}
 
-	public TitanTeletexString(final List<TitanUniversalChar> aOtherValue) {
-		super(aOtherValue);
+	/**
+	 * Initializes to unbound value.
+	 * */
+	public TitanTeletexString() {
+		//intentionally empty
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final TitanUniversalCharString otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final List<TitanUniversalChar> otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanTeletexString(final TitanTeletexString otherValue) {
+		super(otherValue);
 	}
 }

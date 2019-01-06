@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
@@ -623,7 +624,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					return selfReference;
 				}
 
-				base = ((Template_List) tempBase);
+				base = (Template_List) tempBase;
 				nofBaseComps = base.getNofTemplates();
 			}
 
@@ -882,18 +883,109 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
-		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
-		final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
-		final StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
-		ofType.generateCode(aData, tempSource);
+		final boolean optimized_memalloc = false;//TODO
+		final boolean force_gen_seof = aData.getForceGenSeof();
 
 		generateCodeTypedescriptor(aData, source);
 
-		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, false, getGenerateCoderFunctions(MessageEncoding_type.RAW));
-		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
+		if (force_gen_seof) {
+			final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
+			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
+
+			final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+			int extension_bit = RawASTStruct.XDEFDEFAULT;
+			if (hasRaw) {
+				RawAST dummy_raw;
+				if (rawAttribute == null) {
+					dummy_raw = new RawAST(getDefaultRawFieldLength());
+				} else {
+					dummy_raw = rawAttribute;
+				}
+
+				extension_bit = dummy_raw.extension_bit;
+			}
+
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit);
+			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
+		} else {
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BOOLEAN", "", false, optimized_memalloc);
+				break;
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BITSTRING", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BITSTRING", "", false, optimized_memalloc);
+				break;
+			case TYPE_HEXSTRING:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "HEXSTRING", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "HEXSTRING", "", false, optimized_memalloc);
+				break;
+			case TYPE_OCTETSTRING:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "OCTETSTRING", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "OCTETSTRING", "", false, optimized_memalloc);
+				break;
+			case TYPE_CHARSTRING:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "CHARSTRING", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "CHARSTRING", "", false, optimized_memalloc);
+				break;
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", "", false, optimized_memalloc);
+				break;
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "INTEGER", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "INTEGER", "", false, optimized_memalloc);
+				break;
+			case TYPE_REAL:
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", false, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "FLOAT", "", false, optimized_memalloc);
+				break;
+			default: {
+				final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
+				final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
+
+				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+				int extension_bit = RawASTStruct.XDEFDEFAULT;
+				if (hasRaw) {
+					RawAST dummy_raw;
+					if (rawAttribute == null) {
+						dummy_raw = new RawAST(getDefaultRawFieldLength());
+					} else {
+						dummy_raw = rawAttribute;
+					}
+
+					extension_bit = dummy_raw.extension_bit;
+				}
+
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit);
+				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
+				break;
+			}
+			}
+		}
+
+		final StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
+		ofType.generateCode(aData, tempSource);
 
 		if (!isAsn()) {
 			if (hasDoneAttribute()) {
@@ -910,7 +1002,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
-		return getGenNameOwn();
+		return getGenNameOwn(scope);
 	}
 
 	@Override

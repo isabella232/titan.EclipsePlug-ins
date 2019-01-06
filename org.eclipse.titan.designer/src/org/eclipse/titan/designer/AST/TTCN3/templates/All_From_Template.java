@@ -473,6 +473,12 @@ public class All_From_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (allFrom != null) {
 			allFrom.reArrangeInitCode(aData, source, usageModule);
@@ -482,16 +488,13 @@ public class All_From_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		generateCodeInitAllFrom(aData, source, name);
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}
@@ -536,10 +539,10 @@ public class All_From_Template extends TTCN3Template {
 		}
 
 		// The caller will have to provide the for cycle with this variable
-		source.append(MessageFormat.format("{0}.assign({1}.getAt(i_i));\n", name, expression.expression));
+		source.append(MessageFormat.format("{0}.operator_assign({1}.get_at(i_i));\n", name, expression.expression));
 	}
 
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name, final StringBuilder referenceCache) {
-		source.append(MessageFormat.format("{0}.assign({1}.getAt(i_i));\n", name, referenceCache));
+		source.append(MessageFormat.format("{0}.operator_assign({1}.get_at(i_i));\n", name, referenceCache));
 	}
 }

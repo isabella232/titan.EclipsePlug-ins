@@ -61,22 +61,22 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 			return new ICompletionProposal[] {};
 		}
 
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			return new ICompletionProposal[] {};
 		}
 
-		IDocument doc = viewer.getDocument();
-		TTCN3ReferenceParser refParser = new TTCN3ReferenceParser(true);
-		Reference ref = refParser.findReferenceForCompletion(file, offset, doc);
+		final IDocument doc = viewer.getDocument();
+		final TTCN3ReferenceParser refParser = new TTCN3ReferenceParser(true);
+		final Reference ref = refParser.findReferenceForCompletion(file, offset, doc);
 
 		if (ref == null || ref.getSubreferences().isEmpty()) {
 			return new ICompletionProposal[] {};
 		}
 
 		Scope scope = null;
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
-		Module tempModule = projectSourceParser.containedModule(file);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final Module tempModule = projectSourceParser.containedModule(file);
 		String moduleName = null;
 		if (tempModule != null) {
 			moduleName = tempModule.getName();
@@ -85,22 +85,22 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 			ref.detectModid();
 		}
 
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
 			TITANDebugConsole.println("parsed the reference: " + ref);
 		}
 
-		TemplateContextType contextType = new TemplateContextType(TTCN3CodeSkeletons.CONTEXT_IDENTIFIER, TTCN3CodeSkeletons.CONTEXT_NAME);
-		ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_TTCN, TTCN3CodeSkeletons.CONTEXT_IDENTIFIER, contextType,
+		final TemplateContextType contextType = new TemplateContextType(TTCN3CodeSkeletons.CONTEXT_IDENTIFIER, TTCN3CodeSkeletons.CONTEXT_NAME);
+		final ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_TTCN, TTCN3CodeSkeletons.CONTEXT_IDENTIFIER, contextType,
 				doc, ref, refParser.getReplacementOffset());
 
 		propCollector.setProjectParser(projectSourceParser);
 		if (moduleName == null) {
 			// rootless behavior
 			if (ref.getModuleIdentifier() == null) {
-				Set<String> moduleNames = projectSourceParser.getKnownModuleNames();
+				final Set<String> moduleNames = projectSourceParser.getKnownModuleNames();
 				Module module;
-				for (String name : moduleNames) {
+				for (final String name : moduleNames) {
 					module = projectSourceParser.getModuleByName(name);
 					if (module != null) {
 						propCollector.addProposal(name, name, ImageCache.getImage("ttcn.gif"), TTCN3Module.MODULE);
@@ -108,7 +108,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 					}
 				}
 			} else {
-				Module module = projectSourceParser.getModuleByName(ref.getModuleIdentifier().getName());
+				final Module module = projectSourceParser.getModuleByName(ref.getModuleIdentifier().getName());
 				if (module != null) {
 					module.getAssignments().addProposal(propCollector);
 				}
@@ -134,10 +134,10 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 			return propCollector.getCompletitions();
 		}
 
-		Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
-		for (String knownModuleName : knownModuleNames) {
-			Identifier tempIdentifier = new Identifier(Identifier_type.ID_NAME, knownModuleName);
-			Module tempModule2 = projectSourceParser.getModuleByName(knownModuleName);
+		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
+		for (final String knownModuleName : knownModuleNames) {
+			final Identifier tempIdentifier = new Identifier(Identifier_type.ID_NAME, knownModuleName);
+			final Module tempModule2 = projectSourceParser.getModuleByName(knownModuleName);
 			propCollector.addProposal(tempIdentifier, ImageCache.getImage(tempModule2.getOutlineIcon()), "module");
 		}
 		propCollector.sortTillMarked();
@@ -178,7 +178,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 				return propCollector.getCompletitions();
 			}
 
-			String fakeModule = ref.getModuleIdentifier().getName();
+			final String fakeModule = ref.getModuleIdentifier().getName();
 			if ("any component".equals(fakeModule) || "all component".equals(fakeModule)) {
 				Component_Type.addAnyorAllProposal(propCollector, 0);
 			} else if ("any port".equals(fakeModule) || "all port".equals(fakeModule)) {

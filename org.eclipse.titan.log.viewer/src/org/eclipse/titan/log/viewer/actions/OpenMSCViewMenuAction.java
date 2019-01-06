@@ -70,8 +70,8 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		if (!(tempSelection instanceof IStructuredSelection)) {
 			return null;
 		}
@@ -87,7 +87,8 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 		if (!isEnabled()) {
 			return;
 		}
-		Object element = selection.getFirstElement();
+
+		final Object element = selection.getFirstElement();
 		if (!(element instanceof TestCase)) {
 			return;
 		}
@@ -111,7 +112,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 
 				if (!logFile.exists()) {
 					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					IViewReference[] viewReferences = activePage.getViewReferences();
+					final IViewReference[] viewReferences = activePage.getViewReferences();
 					ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 					TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenMSCViewMenuAction.4"))); //$NON-NLS-1$
 					return;
@@ -125,11 +126,11 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 
 				// Get log record index file for selected log file - No need to check is exists due to
 				// LogFileCacheHandler.hasLogFileChanged(logFile) returning false above
-				File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+				final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 				final LogRecordIndex[] logRecordIndexes = LogFileCacheHandler.readLogRecordIndexFile(logRecordIndexFile, tc.getStartRecordNumber(), tc.getNumberOfRecords());
 				final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName());
 
-				WorkspaceJob job = new WorkspaceJob("Loading log information") {
+				final WorkspaceJob job = new WorkspaceJob("Loading log information") {
 
 					@Override
 					public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
@@ -180,7 +181,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 				job.schedule();
 
 			} else {
-				String userE = Messages.getString("OpenMSCViewMenuAction.1"); //$NON-NLS-1$
+				final String userE = Messages.getString("OpenMSCViewMenuAction.1"); //$NON-NLS-1$
 				TitanLogExceptionHandler.handleException(new UserException(userE));
 			}
 		} catch (IOException e) {
@@ -234,7 +235,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final String viewId = Constants.MSC_VIEW_ID;
 		final String secondId = generateSecondaryViewId(tc, this.logFileMetaData);
-		IViewReference reference = activePage.findViewReference(viewId, secondId);
+		final IViewReference reference = activePage.findViewReference(viewId, secondId);
 		MSCView part = null;
 
 		// Get the view

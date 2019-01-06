@@ -53,11 +53,11 @@ public class FoldingSupport {
 		foldingDistance = preferencesService.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.FOLD_DISTANCE, 0, null);
 
 		if (preferencesService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.FOLDING_ENABLED, true, null)) {
-			Interval interval = GlobalIntervalHandler.getInterval(document);
+			final Interval interval = GlobalIntervalHandler.getInterval(document);
 			if (interval == null) {
 				return positions;
 			}
-			for (Interval subintervall : interval.getSubIntervals()) {
+			for (final Interval subintervall : interval.getSubIntervals()) {
 				recursiveTokens(subintervall);
 			}
 		}
@@ -82,7 +82,7 @@ public class FoldingSupport {
 			endline = lastLineIndex;
 		}
 
-		int distance = endline - interval.getStartLine();
+		final int distance = endline - interval.getStartLine();
 		if (distance >= foldingDistance) {
 			switch (documentText.charAt(interval.getStartOffset())) {
 			case '{':
@@ -106,7 +106,7 @@ public class FoldingSupport {
 			}
 		}
 
-		for (Interval subIntervall : interval.getSubIntervals()) {
+		for (final Interval subIntervall : interval.getSubIntervals()) {
 			recursiveTokens(subIntervall);
 		}
 	}
@@ -167,10 +167,10 @@ public class FoldingSupport {
 			}
 		}
 
-		Map<ProjectionAnnotation, Position> newAnnotations = new HashMap<ProjectionAnnotation, Position>();
+		final Map<ProjectionAnnotation, Position> newAnnotations = new HashMap<ProjectionAnnotation, Position>();
 		ProjectionAnnotation annotation;
 
-		List<ProjectionAnnotation> newAnnotations2 = new ArrayList<ProjectionAnnotation>(newAnnotations.size());
+		final List<ProjectionAnnotation> newAnnotations2 = new ArrayList<ProjectionAnnotation>(newAnnotations.size());
 		Position position;
 		for (int i = 0; i < newPositions.size(); i++) {
 			position = newPositions.get(i);

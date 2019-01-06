@@ -54,17 +54,17 @@ public class SearchLabelProvider extends LabelProvider {
 		}
 
 		if (element instanceof Match) {
-			Match match = (Match) element;
-			IFile logFile = (IFile) match.getElement();
+			final Match match = (Match) element;
+			final IFile logFile = (IFile) match.getElement();
 			RandomAccessFile file = null;
 			String result = "";
 			try {
 				// TODO: This should be cached in some way
-				File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
-				LogRecordIndex[] indexes = LogFileCacheHandler.readLogRecordIndexFile(indexFile, match.getOffset(), 1);
+				final File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+				final LogRecordIndex[] indexes = LogFileCacheHandler.readLogRecordIndexFile(indexFile, match.getOffset(), 1);
 				file = new RandomAccessFile(new File(logFile.getLocationURI()), "r");
-				int length = indexes[0].getRecordLength() > MAX_TEXT_LENGTH ? MAX_TEXT_LENGTH : indexes[0].getRecordLength();
-				byte[] record = new byte[length];
+				final int length = indexes[0].getRecordLength() > MAX_TEXT_LENGTH ? MAX_TEXT_LENGTH : indexes[0].getRecordLength();
+				final byte[] record = new byte[length];
 				file.seek(indexes[0].getFileOffset());
 				file.read(record);
 				result = new String(record);

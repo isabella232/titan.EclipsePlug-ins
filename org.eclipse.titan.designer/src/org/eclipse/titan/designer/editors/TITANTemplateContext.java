@@ -49,8 +49,8 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 			return null;
 		}
 
-		TemplateTranslator translator = new TemplateTranslator();
-		TemplateBuffer buffer = translator.translate(template);
+		final TemplateTranslator translator = new TemplateTranslator();
+		final TemplateBuffer buffer = translator.translate(template);
 
 		getContextType().resolve(buffer, this);
 
@@ -60,12 +60,12 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 		}
 
 		// calculate base indentation prefix
-		IDocument document = getDocument();
+		final IDocument document = getDocument();
 		String prefixString = "";
 		String delimeter = null;
 		try {
-			IRegion lineRegion = document.getLineInformationOfOffset(getCompletionOffset());
-			int firstCharLocation = FirstCharAction.firstVisibleCharLocation(document, lineRegion);
+			final IRegion lineRegion = document.getLineInformationOfOffset(getCompletionOffset());
+			final int firstCharLocation = FirstCharAction.firstVisibleCharLocation(document, lineRegion);
 			if (firstCharLocation != -1) {
 				prefixString = document.get(lineRegion.getOffset(), firstCharLocation - lineRegion.getOffset());
 			}
@@ -74,21 +74,21 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		TemplateVariable[] variables = buffer.getVariables();
+		final TemplateVariable[] variables = buffer.getVariables();
 
 		// apply the base indentation prefix to every line but the first
-		IDocument temporalDocument = new Document(buffer.getString());
-		MultiTextEdit edit = new MultiTextEdit(0, temporalDocument.getLength());
-		List<RangeMarker> positions = variablesToPositions(variables);
+		final IDocument temporalDocument = new Document(buffer.getString());
+		final MultiTextEdit edit = new MultiTextEdit(0, temporalDocument.getLength());
+		final List<RangeMarker> positions = variablesToPositions(variables);
 		for (int i = temporalDocument.getNumberOfLines() - 1; i >= 0; i--) {
 			edit.addChild(new InsertEdit(temporalDocument.getLineOffset(i), prefixString));
 		}
 		edit.addChildren(positions.toArray(new TextEdit[positions.size()]));
 
 		// replace line delimeters with the ones at the insertion
-		String delimeterZero = temporalDocument.getLineDelimiter(0);
+		final String delimeterZero = temporalDocument.getLineDelimiter(0);
 		if(delimeter != null && delimeterZero != null && !delimeter.equals(delimeterZero)) {
-			FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(temporalDocument);
+			final FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(temporalDocument);
 			int startOffset = 0;
 			IRegion region = adapter.find(startOffset, delimeterZero, true, false, false, false);
 			while (region != null) {
@@ -108,9 +108,9 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 	}
 
 	private static List<RangeMarker> variablesToPositions(final TemplateVariable[] variables) {
-		List<RangeMarker> positions = new ArrayList<RangeMarker>(5);
+		final List<RangeMarker> positions = new ArrayList<RangeMarker>(5);
 		for (int i = 0; i != variables.length; i++) {
-			int[] offsets = variables[i].getOffsets();
+			final int[] offsets = variables[i].getOffsets();
 			for (int j = 0; j != offsets.length; j++) {
 				positions.add(new RangeMarker(offsets[j], 0));
 			}
@@ -120,12 +120,11 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 	}
 
 	private static void positionsToVariables(final List<RangeMarker> positions, final TemplateVariable[] variables) {
-		Iterator<RangeMarker> iterator = positions.iterator();
+		final Iterator<RangeMarker> iterator = positions.iterator();
 
 		for (int i = 0; i != variables.length; i++) {
-			TemplateVariable variable = variables[i];
-
-			int[] offsets = new int[variable.getOffsets().length];
+			final TemplateVariable variable = variables[i];
+			final int[] offsets = new int[variable.getOffsets().length];
 			for (int j = 0; j != offsets.length; j++) {
 				offsets[j] = ((TextEdit) iterator.next()).getOffset();
 			}

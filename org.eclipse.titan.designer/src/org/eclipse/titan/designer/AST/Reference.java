@@ -1172,9 +1172,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				final Identifier id = ((FieldSubReference) subreference).getId();
 				expression.expression.append(".");
 				if (isConst) {
-					expression.expression.append("constGet");
+					expression.expression.append("constGet_field_");
 				} else {
-					expression.expression.append("get");
+					expression.expression.append("get_field_");
 				}
 				expression.expression.append(FieldSubReference.getJavaGetterName(id.getName()));
 				expression.expression.append("()");
@@ -1226,36 +1226,36 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				if (pt.getTypetype() == Type_type.TYPE_ARRAY) {
 					long length = ((Array_Type)pt).getDimension().getSize();
 					long start = ((Array_Type)pt).getDimension().getOffset();
-					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {
-							expression.expression.append(".constGetAt(");
+							expression.expression.append(".constGet_at(");
 						} else {
-							expression.expression.append(".getAt(");
+							expression.expression.append(".get_at(");
 						}
 
 						value.generateCodeExpression(aData, expression, false);
-						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else if (pt.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
 					long length = ((SequenceOf_Type)pt).getSubtype().get_length_restriction();
 					long start = 0;
-					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {
-							expression.expression.append(".constGetAt(");
+							expression.expression.append(".constGet_at(");
 						} else {
-							expression.expression.append(".getAt(");
+							expression.expression.append(".get_at(");
 						}
 
 						value.generateCodeExpression(aData, expression, false);
-						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else {
 					if (isConst) {
-						expression.expression.append(".constGetAt(");
+						expression.expression.append(".constGet_at(");
 					} else {
-						expression.expression.append(".getAt(");
+						expression.expression.append(".get_at(");
 					}
 
 					value.generateCodeExpression(aData, expression, false);
@@ -1348,11 +1348,15 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			ass_id2 = newId.toString();
 		}
 
+		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
+			ass_id2 = ass_id2 + ".get()";
+		}
+
 		if (subReferences.size() > 1) {
 			final String tempGeneralId = aData.getTemporaryVariableName();
 			final ExpressionStruct isboundExpression = new ExpressionStruct();
 
-			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id2));
+			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.is_bound();\n", tempGeneralId, ass_id2));
 
 			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			type.generateCodeIsPresentBoundChosen(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, optype, field);
@@ -1363,13 +1367,13 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		} else {
 			switch (optype) {
 			case ISBOUND_OPERATION:
-				expression.expression.append(MessageFormat.format("{0}.isBound()", ass_id2));
+				expression.expression.append(MessageFormat.format("{0}.is_bound()", ass_id2));
 				break;
 			case ISPRESENT_OPERATION:
-				expression.expression.append(MessageFormat.format("{0}.isPresent({1})", ass_id2, isTemplate && aData.getAllowOmitInValueList()? "true":""));
+				expression.expression.append(MessageFormat.format("{0}.is_present({1})", ass_id2, isTemplate && aData.getAllowOmitInValueList()? "true":""));
 				break;
 			case ISCHOOSEN_OPERATION:
-				expression.expression.append(MessageFormat.format("{0}.isChosen({1})", ass_id2, field));
+				expression.expression.append(MessageFormat.format("{0}.ischosen({1})", ass_id2, field));
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");

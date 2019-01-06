@@ -22,13 +22,13 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCNodeComparator;
  * Represents the base sequence diagram graph nodes container
  */
 public class Frame extends BasicFrame {
-	private MSCModel model;
+	private final MSCModel model;
 	private boolean hasChildren = false;
 
 	private List<Lifeline> lifelineNodes;
 	private List<LifelineHeader> lifelineHeaderNodes;
 
-	private MSCNodeComparator comparator;
+	private final MSCNodeComparator comparator;
 	private int selectedLine = 3;
 
 	private String name = ""; //$NON-NLS-1$
@@ -82,7 +82,7 @@ public class Frame extends BasicFrame {
 	 * @return the number of lifelines
 	 */
 	public int lifeLinesCount()	{
-		List<Lifeline> lifelines = getLifelines();
+		final List<Lifeline> lifelines = getLifelines();
 		if (lifelines != null) {
 			return lifelines.size();
 		}
@@ -114,7 +114,7 @@ public class Frame extends BasicFrame {
 		}
 
 		// Update index of lifelines
-		int oldPosition = lifeLine.getIndex();
+		final int oldPosition = lifeLine.getIndex();
 
 		if (oldPosition > position) {
 			moveLeft(oldPosition, position);
@@ -130,9 +130,9 @@ public class Frame extends BasicFrame {
 	}
 
 	private void moveLeft(final int oldPosition, final int newPosition) {
-		List<Lifeline> lifelines = getLifelines();
-		for (Lifeline currLifeLine : lifelines) {
-			int currLifeLineIndex = currLifeLine.getIndex();
+		final List<Lifeline> lifelines = getLifelines();
+		for (final Lifeline currLifeLine : lifelines) {
+			final int currLifeLineIndex = currLifeLine.getIndex();
 			if ((currLifeLineIndex < oldPosition) && (currLifeLineIndex >= newPosition)) {
 				currLifeLine.setIndex(currLifeLineIndex + 1);
 			}
@@ -140,9 +140,9 @@ public class Frame extends BasicFrame {
 	}
 
 	private void moveRight(final int oldPosition, final int newPosition) {
-		List<Lifeline> lifelines = getLifelines();
-		for (Lifeline currLifeLine : lifelines) {
-			int currLifeLineIndex = currLifeLine.getIndex();
+		final List<Lifeline> lifelines = getLifelines();
+		for (final Lifeline currLifeLine : lifelines) {
+			final int currLifeLineIndex = currLifeLine.getIndex();
 			if ((currLifeLineIndex > oldPosition) && (currLifeLineIndex <= newPosition)) {
 				currLifeLine.setIndex(currLifeLineIndex - 1);
 			}
@@ -219,7 +219,7 @@ public class Frame extends BasicFrame {
 			return null;
 		}
 
-		MSCNode toReturn = getHeaderNodeFromListAt(x, y, lifelineHeaderNodes, 0);
+		final MSCNode toReturn = getHeaderNodeFromListAt(x, y, lifelineHeaderNodes, 0);
 		if (toReturn != null) {
 			return toReturn;
 		}
@@ -252,8 +252,8 @@ public class Frame extends BasicFrame {
 		// Draw all nodes
 		drawLifeLineNodes(context, lifelineNodes, 0, arrayStep);
 
-		int yStart = (context.getContentsY() - MSCConstants.ROW_SPACING / 2) / MSCConstants.ROW_HEIGHT;
-		int yEnd = (context.getContentsY() + context.getVisibleHeight() - MSCConstants.ROW_SPACING / 2) / MSCConstants.ROW_HEIGHT;
+		final int yStart = (context.getContentsY() - MSCConstants.ROW_SPACING / 2) / MSCConstants.ROW_HEIGHT;
+		final int yEnd = (context.getContentsY() + context.getVisibleHeight() - MSCConstants.ROW_SPACING / 2) / MSCConstants.ROW_HEIGHT;
 		nodeCache = model.getNodes(yStart, yEnd + 3);
 
 		drawNodes(context, nodeCache, 0, arrayStep);
@@ -267,13 +267,13 @@ public class Frame extends BasicFrame {
 		}
 
 		int nodesCount = 0;
-		int contextX = context.getContentsX();
-		int contextY = context.getContentsY();
-		int contextWidth = context.getVisibleWidth();
-		int contextHeight = context.getVisibleHeight();
+		final int contextX = context.getContentsX();
+		final int contextY = context.getContentsY();
+		final int contextWidth = context.getVisibleWidth();
+		final int contextHeight = context.getVisibleHeight();
 
 		for (int i = startIndex; i < list.size(); i = i + step) {
-			MSCNode toDraw = list.get(i);
+			final MSCNode toDraw = list.get(i);
 			// ***Common*** nodes visibility
 			if (toDraw.isVisible(contextX, contextY, contextWidth, contextHeight)) {
 				toDraw.draw(context);
@@ -298,21 +298,21 @@ public class Frame extends BasicFrame {
 			return 0;
 		}
 
-		int contextX = context.getContentsX();
-		int contextY = context.getContentsY();
-		int contextWidth = context.getVisibleWidth();
-		int contextHeight = context.getVisibleHeight();
+		final int contextX = context.getContentsX();
+		final int contextY = context.getContentsY();
+		final int contextWidth = context.getVisibleWidth();
+		final int contextHeight = context.getVisibleHeight();
 
-		List<MSCNode> shouldBeDrawn = new ArrayList<MSCNode>();
+		final List<MSCNode> shouldBeDrawn = new ArrayList<MSCNode>();
 		for (int i = startIndex; i < list.size(); i = i + step) {
-			MSCNode toDraw = list.get(i);
+			final MSCNode toDraw = list.get(i);
 			// ***Common*** nodes visibility
 			if (toDraw.isVisible(contextX, contextY, contextWidth, contextHeight)) {
 				shouldBeDrawn.add(toDraw);
 			}
 		}
 
-		for (MSCNode temp : shouldBeDrawn) {
+		for (final MSCNode temp : shouldBeDrawn) {
 			if (temp instanceof SetverdictUnknown) {
 				((SetverdictUnknown) temp).setNumLifelines(lifeLinesCount());
 			}
@@ -333,10 +333,10 @@ public class Frame extends BasicFrame {
 		}
 
 		// Draw selection
-		int x = 0;
-		int y = MSCConstants.ROW_HEIGHT * this.selectedLine + MSCConstants.ROW_HEIGHT; // Lifeline Header
-		int width = getWidth();
-		int height = MSCConstants.ROW_HEIGHT;
+		final int x = 0;
+		final int y = MSCConstants.ROW_HEIGHT * this.selectedLine + MSCConstants.ROW_HEIGHT; // Lifeline Header
+		final int width = getWidth();
+		final int height = MSCConstants.ROW_HEIGHT;
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.SELECTION_COLOR));
 		context.fillRectangle(x, y, width, height);
 

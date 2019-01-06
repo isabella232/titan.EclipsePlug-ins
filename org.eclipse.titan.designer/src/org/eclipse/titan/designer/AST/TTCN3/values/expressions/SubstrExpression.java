@@ -625,7 +625,7 @@ public final class SubstrExpression extends Expression_Value {
 		case TYPE_UCHARSTRING: {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
-			expression.expression.append("AdditionalFunctions.subString( ");
+			expression.expression.append("AdditionalFunctions.substr( ");
 			final ITTCN3Template temp = templateInstance1.getTemplateBody();
 			if (temp.isValue(CompilationTimeStamp.getBaseTimestamp())) {
 				final IValue value = temp.getValue();

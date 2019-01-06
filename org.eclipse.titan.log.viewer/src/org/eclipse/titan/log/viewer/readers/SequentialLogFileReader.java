@@ -62,10 +62,10 @@ public class SequentialLogFileReader implements Closeable {
 	 * @throws IOException
 	 */
 	private String readRecord() throws IOException {
-		int nextLen = this.logRecordIndexes[currentRecord].getRecordLength();
-		byte[] buffer = new byte[nextLen];
+		final int nextLen = this.logRecordIndexes[currentRecord].getRecordLength();
+		final byte[] buffer = new byte[nextLen];
 		inputStream.read(buffer);
-		String result = new String(buffer);
+		final String result = new String(buffer);
 		return result.trim();
 	}
 
@@ -85,7 +85,7 @@ public class SequentialLogFileReader implements Closeable {
 		}
 
 		currentRecord++;
-		LogRecord result = recordParser.parse(readRecord());
+		final LogRecord result = recordParser.parse(readRecord());
 		result.setRecordOffset(logRecordIndexes[currentRecord].getFileOffset());
 		result.setRecordLength(logRecordIndexes[currentRecord].getRecordLength());
 		result.setRecordNumber(logRecordIndexes[currentRecord].getRecordNumber());

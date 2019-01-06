@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * 
  * @author Kristof Szabados
  * */
-public class PortGenerator {
+public final class PortGenerator {
 
 	// The kind of the testport
 	public enum TestportType {NORMAL, INTERNAL, ADDRESS};
@@ -43,9 +43,15 @@ public class PortGenerator {
 		private final String mDisplayName;
 
 		/**
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param messageType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param messageTemplate
+		 *                the string representing the template type of
+		 *                this message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public messageTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
 			mJavaTypeName = messageType;
@@ -94,8 +100,12 @@ public class PortGenerator {
 		/**
 		 * The constructor for simple mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName) {
 			this.targetName = targetType;
@@ -106,11 +116,20 @@ public class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
-		 * @param functionName the string representing the name of the function.
-		 * @param functionDisplayName the string representing the function in error messages.
-		 * @param functionPrototype the prototype of the function.
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
+		 * @param functionName
+		 *                the string representing the name of the
+		 *                function.
+		 * @param functionDisplayName
+		 *                the string representing the function in error
+		 *                messages.
+		 * @param functionPrototype
+		 *                the prototype of the function.
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName, final String functionName, final String functionDisplayName, final FunctionPrototype_Type functionPrototype) {
 			this.targetName = targetType;
@@ -125,13 +144,24 @@ public class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param targetType the string representing the value type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
-		 * @param typedescriptorName the string representing the typedescriptor.
-		 * @param encodingType the string representing the encoding type.
-		 * @param encodingOptions the string representing the options of the encoding type.
-		 * @param errorbeviour the string representing the errorbehaviour setting code.
-		 * @param mappingType encode or decode
+		 * @param targetType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
+		 * @param typedescriptorName
+		 *                the string representing the typedescriptor.
+		 * @param encodingType
+		 *                the string representing the encoding type.
+		 * @param encodingOptions
+		 *                the string representing the options of the
+		 *                encoding type.
+		 * @param errorbeviour
+		 *                the string representing the errorbehaviour
+		 *                setting code.
+		 * @param mappingType
+		 *                encode or decode
 		 * */
 		public MessageTypeMappingTarget(final String targetType, final String displayName, final String typedescriptorName, final String encodingType, final String encodingOptions, final String errorbeviour, final MessageMappingType_type mappingType) {
 			this.targetName = targetType;
@@ -162,9 +192,15 @@ public class PortGenerator {
 		private final ArrayList<MessageTypeMappingTarget> targets;
 
 		/**
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
-		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param messageType
+		 *                the string representing the value type of this
+		 *                message in the generated code.
+		 * @param messageTemplate
+		 *                the string representing the template type of
+		 *                this message in the generated code.
+		 * @param displayName
+		 *                the string representing the name to be
+		 *                displayed for the user.
 		 * */
 		public MessageMappedTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
 			mJavaTypeName = messageType;
@@ -211,10 +247,12 @@ public class PortGenerator {
 	public static class portMessageProvider {
 		final private String name;
 		final private ArrayList<String> outMessageTypeNames;
+		final private boolean realtime;
 
-		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames) {
+		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames, final boolean realtime) {
 			this.name = name;
 			this.outMessageTypeNames = outMessageTypeNames;
+			this.realtime = realtime;
 		}
 	}
 
@@ -250,6 +288,7 @@ public class PortGenerator {
 		public ArrayList<portMessageProvider> providerMessageOutList;
 
 		public ArrayList<String> mapperNames;
+		public ArrayList<Boolean> mapperRealtime;
 
 		public ArrayList<MessageMappedTypeInfo> providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>();
 
@@ -259,6 +298,7 @@ public class PortGenerator {
 		public StringBuilder varDefs;
 		public StringBuilder varInit;
 		public StringBuilder translationFunctions = new StringBuilder();
+		public boolean realtime;
 
 		public PortDefinition(final String genName, final String displayName) {
 			javaName = genName;
@@ -275,9 +315,12 @@ public class PortGenerator {
 	 *
 	 * defPortClass in compiler2/port.{h,c}
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		aData.addImport("java.util.LinkedList");
@@ -285,6 +328,7 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport("Index_Redirect");
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "TitanComponent");
+		aData.addBuiltinTypeImport( "TitanFloat");
 		aData.addBuiltinTypeImport( "TitanOctetString");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
@@ -341,9 +385,9 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 			final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
-			generateTypedReceive(source, i, inType, false);
-			generateTypedReceive(source, i, inType, true);
-			generateTypeTrigger(source, i, inType);
+			generateTypedReceive(source, portDefinition, i, inType, false);
+			generateTypedReceive(source, portDefinition, i, inType, true);
+			generateTypeTrigger(source, portDefinition, i, inType);
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -518,7 +562,10 @@ public class PortGenerator {
 					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
 						source.append(MessageFormat.format("protected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
-							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+						}
+						if (portDefinition.realtime) {
+							source.append(", final TitanFloat timestamp_redirect");
 						}
 						source.append(");\n\n");
 					}
@@ -531,7 +578,10 @@ public class PortGenerator {
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 						source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
-							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+						}
+						if (portDefinition.realtime) {
+							source.append(", final TitanFloat timestamp_redirect");
 						}
 						source.append(") {\n");
 						for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
@@ -548,7 +598,15 @@ public class PortGenerator {
 								// Call outgoing_public_send so the outgoing_send can remain
 								source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
 								source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
-								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", j));
+								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", j));
+								if (tempMessageProvider.realtime) {
+									if (portDefinition.realtime) {
+										source.append(", timestamp_redirect");
+									} else {
+										source.append(", null");
+									}
+								}
+								source.append(");\n");
 								source.append("return;\n");
 								source.append("}\n");
 								source.append("}\n");
@@ -564,7 +622,11 @@ public class PortGenerator {
 							}
 						}
 						if (found && (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy)) {
-							source.append("outgoing_send(send_par);\n");
+							source.append("outgoing_send(send_par");
+							if (portDefinition.realtime) {
+								source.append(", timestamp_redirect");
+							}
+							source.append(");\n");
 						} else if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
 							source.append("throw new TtcnError(\"Cannot send message without successful mapping on a internal port with translation capability.\");\n");
 						} else {
@@ -592,7 +654,10 @@ public class PortGenerator {
 							// This is for the mapping target types.
 							source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", target.targetName));
 							if (portDefinition.testportType == TestportType.ADDRESS) {
-								source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+								source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+							}
+							if (portDefinition.realtime) {
+								source.append(", final TitanFloat timestamp_redirect");
 							}
 							source.append(") {\n");
 							for (int k = 0; k < portDefinition.providerMessageOutList.size(); k++) {
@@ -609,7 +674,15 @@ public class PortGenerator {
 									// Call outgoing_public_send so the outgoing_send can remain
 									source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", k));
 									source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", k));
-									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", k));
+									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", k));
+									if (tempMessageProvider.realtime) {
+										if (portDefinition.realtime) {
+											source.append(", timestamp_redirect");
+										} else {
+											source.append(", null");
+										}
+									}
+									source.append(");\n");
 									source.append("return;\n");
 									source.append("}\n");
 									source.append("}\n");
@@ -624,7 +697,11 @@ public class PortGenerator {
 								}
 							}
 							if (found) {
-								source.append("outgoing_send(send_par);\n");
+								source.append("outgoing_send(send_par");
+								if (portDefinition.realtime) {
+									source.append(", timestamp_redirect");
+								}
+								source.append(");\n");
 							} else {
 								source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly {0}.\");\n", target.targetName));
 							}
@@ -643,6 +720,9 @@ public class PortGenerator {
 				if (portDefinition.testportType == TestportType.ADDRESS) {
 					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 				}
+				if (portDefinition.realtime) {
+					source.append(", final TitanFloat timestamp_redirect");
+				}
 				source.append(");\n");
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
@@ -652,6 +732,9 @@ public class PortGenerator {
 					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+					}
+					if (portDefinition.realtime) {
+						source.append(", final TitanFloat timestamp_redirect");
 					}
 					source.append(");\n");
 				}
@@ -664,6 +747,9 @@ public class PortGenerator {
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
+					if (portDefinition.realtime) {
+						source.append(", final TitanFloat timestamp_redirect");
+					}
 					source.append(");\n");
 				}
 			}
@@ -671,8 +757,16 @@ public class PortGenerator {
 
 		if (portDefinition.mapperNames != null && portDefinition.mapperNames.size() > 0) {
 			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
-				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par) '{'\n", portDefinition.outMessages.get(i).mJavaTypeName));
-				source.append("outgoing_send(send_par);\n");
+				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
+				if (portDefinition.realtime) {
+					source.append(", final TitanFloat timestamp_redirect");
+				}
+				source.append(") {\n");
+				source.append("outgoing_send(send_par");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 		}
@@ -793,12 +887,16 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates and returns the name of the class representing the port type.
-	 * In some cases this is generated by us, in other cases the user has to provide it.
+	 * This function generates and returns the name of the class
+	 * representing the port type. In some cases this is generated by us, in
+	 * other cases the user has to provide it.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
@@ -832,11 +930,15 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the declaration of the generated port type class.
+	 * This function generates the declaration of the generated port type
+	 * class.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateDeclaration(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
@@ -906,6 +1008,9 @@ public class PortGenerator {
 			source.append("int sender_component;\n");
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
+			}
+			if (portDefinition.realtime) {
+				source.append("TitanFloat timestamp;\n");
 			}
 			source.append("}\n");
 
@@ -994,6 +1099,9 @@ public class PortGenerator {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
 			}
+			if (portDefinition.realtime) {
+				source.append("TitanFloat timestamp;\n");
+			}
 			source.append("}\n");
 			
 			if (portDefinition.has_sliding) {
@@ -1068,18 +1176,23 @@ public class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param mappedType the information about the outgoing message.
-	 * @param hasAddress true if the type has address
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param mappedType
+	 *                the information about the outgoing message.
+	 * @param hasAddress
+	 *                {@code true} if the type has address
 	 * */
 	private static void generateSendMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasAddress) {
 		boolean hasBuffer = false;
 		boolean hasDiscard = false;
 		boolean reportError = false;
 		if (portDefinition.testportType == TestportType.INTERNAL && portDefinition.legacy) {
-			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
 			source.append("}\n");
 		}
@@ -1136,12 +1249,12 @@ public class PortGenerator {
 
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 					source.append("TitanOctetString send_copy = new TitanOctetString(send_par);\n");
-					source.append(MessageFormat.format("if ({0}(send_copy, mapped_par).operatorNotEquals(1)) '{'\n", target.functionName));
+					source.append(MessageFormat.format("if ({0}(send_copy, mapped_par).operator_not_equals(1)) '{'\n", target.functionName));
 					hasCondition = true;
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("if({0}(send_par, mapped_par).operatorEquals(0)) '{'\n", target.functionName));
+					source.append(MessageFormat.format("if({0}(send_par, mapped_par).operator_equals(0)) '{'\n", target.functionName));
 					hasCondition = true;
 					break;
 				default:
@@ -1202,7 +1315,7 @@ public class PortGenerator {
 				source.append("outgoing_send(mapped_par, destination_address);\n");
 			} else {
 				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
-					source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+					source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 					source.append(MessageFormat.format("outgoing_{0}send(mapped_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(", null");
@@ -1266,25 +1379,29 @@ public class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param outType the information about the outgoing message.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param outType
+	 *                the information about the outgoing message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
-		source.append("final TTCN_Logger.Severity log_severity = destination_component.getComponent() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMSEND : TTCN_Logger.Severity.PORTEVENT_MCSEND;\n");
+		source.append("final TTCN_Logger.Severity log_severity = destination_component.get_component() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMSEND : TTCN_Logger.Severity.PORTEVENT_MCSEND;\n");
 		source.append("if (TTCN_Logger.log_this_event(log_severity)) {\n");
 		source.append("TTCN_Logger.begin_event(log_severity);\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" {0} : \");\n", outType.mDisplayName));
 		source.append("send_par.log();\n");
-		source.append("TTCN_Logger.log_msgport_send(get_name(), destination_component.getComponent(), TTCN_Logger.end_event_log2str());\n");
+		source.append("TTCN_Logger.log_msgport_send(get_name(), destination_component.get_component(), TTCN_Logger.end_event_log2str());\n");
 		source.append("}\n");
 		if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
@@ -1294,7 +1411,7 @@ public class PortGenerator {
 				source.append("if (!in_translation_mode()) {\n");
 			}
 			/* the same message type goes through the external interface */
-			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
 			} else {
@@ -1302,6 +1419,9 @@ public class PortGenerator {
 				source.append(MessageFormat.format("outgoing_{0}send(send_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
 				if (portDefinition.testportType == TestportType.ADDRESS) {
 					source.append(", null");
+				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
 				}
 				source.append(");\n");
 			}
@@ -1325,7 +1445,7 @@ public class PortGenerator {
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTypeName, portDefinition.addressName));
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName, portDefinition.addressName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -1336,50 +1456,60 @@ public class PortGenerator {
 			source.append("}\n\n");
 			source.append("get_default_destination();\n");
 			if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)) {
-				source.append("outgoing_send(send_par, destination_address);\n");
+				source.append("outgoing_send(send_par, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			} else {
 				generateSendMapping(aData, source, portDefinition, outType, true);
 			}
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTypeName));
-		source.append("send(send_par, new TitanComponent(get_default_destination()));\n");
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
+		source.append("send(send_par, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
-		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
-		source.append("send(send_par_value, destination_component);\n");
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
+		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
+		source.append("send(send_par_value, destination_component, timestamp_redirect);\n");
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
-			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
-			source.append("send(send_par_value, destination_address);\n");
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
+			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
+			source.append("send(send_par_value, destination_address, timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTemplateName));
-		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
-		source.append("send(send_par_value, new TitanComponent(get_default_destination()));\n");
+		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
+		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
+		source.append("send(send_par_value, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 	}
 
 	/**
-	 * This function generates the generic receive or check(receive) function.
+	 * This function generates the generic receive or check(receive)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericReceive(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 		final String logger_operation = isCheck ? "check__receive__op" : "receive__op";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -1430,11 +1560,16 @@ public class PortGenerator {
 		}
 
 		source.append(" else {\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(my_head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(my_head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(my_head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(my_head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(my_head.sender_component);\n");
 		}
 		source.append("}\n");
 		if(isAddress) {
@@ -1478,15 +1613,19 @@ public class PortGenerator {
 	/**
 	 * This function generates the generic trigger function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericTrigger(final StringBuilder source, final PortDefinition portDefinition, final boolean isAddress) {
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer, final Index_Redirect index_redirect) '{'\n", senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -1540,11 +1679,16 @@ public class PortGenerator {
 		}
 
 		source.append(" else {\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(my_head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(my_head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(my_head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(my_head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(my_head.sender_component);\n");
 		}
 		source.append("}\n");
 		if(isAddress) {
@@ -1582,21 +1726,29 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the receive or check(receive) function for a type
+	 * This function generates the receive or check(receive) function for a
+	 * type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
 	 * */
-	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck) {
+	private static void generateTypedReceive(final StringBuilder source, final PortDefinition portDefinition, final int index, final messageTypeInfo inType, final boolean isCheck) {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 		final String printedFunctionName = isCheck ? "Check-receive" : "Receive";
 		final String operationName = isCheck ? "check__receive__op" : "receive__op";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using ''*'' as matching template\");\n", printedFunctionName));
 		source.append("}\n");
@@ -1637,10 +1789,15 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
+		source.append(MessageFormat.format("value_redirect.operator_assign(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(my_head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("sender_pointer.operator_assign(my_head.sender_component);\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.Severity log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMSUCCESS : TTCN_Logger.Severity.MATCHING_MCSUCCESS;\n");
 		source.append("if (TTCN_Logger.log_this_event(log_severity)) {\n");
@@ -1668,15 +1825,21 @@ public class PortGenerator {
 	/**
 	 * This function generates the trigger function for a type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
 	 * */
-	private static void generateTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType) {
+	private static void generateTypeTrigger(final StringBuilder source, final PortDefinition portDefinition, final int index, final messageTypeInfo inType) {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Trigger operation using '*' as matching template\");\n");
 		source.append("}\n");
@@ -1721,10 +1884,15 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(" } else {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
+		source.append(MessageFormat.format("value_redirect.operator_assign(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(my_head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("sender_pointer.operator_assign(my_head.sender_component);\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.Severity log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMSUCCESS : TTCN_Logger.Severity.MATCHING_MCSUCCESS;\n");
 		source.append("if (TTCN_Logger.log_this_event(log_severity)) {\n");
@@ -1748,13 +1916,19 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming message mapping part of the incoming_message function.
+	 * This function generates the incoming message mapping part of the
+	 * incoming_message function.
 	 *
-	 * @param aData only used to add imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param mappedType the information about the outgoing message.
-	 * @param hasSimple true if the port definition is simple
+	 * @param aData
+	 *                only used to add imports if needed.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param mappedType
+	 *                the information about the outgoing message.
+	 * @param hasSimple
+	 *                {@code true} if the port definition is simple
 	 * */
 	private static void generateIncomingMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasSimple) {
 		// If has simple is true, then always the first one is the simple mapping,
@@ -1804,18 +1978,18 @@ public class PortGenerator {
 					break;
 				case SLIDING:
 					if (!isSliding) {
-						source.append("slider.assign(slider.concatenate(incoming_par));\n");
+						source.append("slider.operator_assign(slider.operator_concatenate(incoming_par));\n");
 						isSliding = true;
 					}
 					source.append("for (;;) {\n");
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).getInt();\n", target.functionName));
+					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).get_int();\n", target.functionName));
 					source.append("if (decoding_result == 0) {\n");
 					hasCondition = true;
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("boolean success_flag = {0}(incoming_par, mapped_par).operatorEquals(0);\n", target.functionName));
+					source.append(MessageFormat.format("boolean success_flag = {0}(incoming_par, mapped_par).operator_equals(0);\n", target.functionName));
 					source.append("if (success_flag) {\n");
 					hasCondition = true;
 					break;
@@ -1893,7 +2067,7 @@ public class PortGenerator {
 					source.append("} else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
-					source.append("if (slider.lengthOf().getInt() == 0) {\n");
+					source.append("if (slider.lengthof().get_int() == 0) {\n");
 					source.append("return;\n");
 					source.append("}\n");
 					source.append("if (decoding_result == 2) {\n");
@@ -1902,7 +2076,7 @@ public class PortGenerator {
 					source.append("}\n");
 				} else {
 					if (isSliding) {
-						source.append("slider.assign(new TitanOctetString(\"\"));\n");
+						source.append("slider.operator_assign(new TitanOctetString(\"\"));\n");
 					}
 					source.append("return;\n");
 					source.append("}\n");
@@ -1939,13 +2113,20 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming_message function for a type, for a user port
+	 * This function generates the incoming_message function for a type, for
+	 * a user port
 	 *
-	 * @param aData only used to add imports if needed
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param mappedType the information about the incoming message.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                only used to add imports if needed
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param mappedType
+	 *                the information about the incoming message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIncommingMessageUser(final JavaGenData aData, final StringBuilder source, final int index, final MessageMappedTypeInfo mappedType, final PortDefinition portDefinition) {
 		final String typeValueName = mappedType.mJavaTypeName;
@@ -1963,6 +2144,9 @@ public class PortGenerator {
 		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		if (portDefinition.realtime) {
+			source.append(", TitanFloat timestamp");
 		}
 		source.append(") {\n");
 		source.append("if (!is_started) {\n");
@@ -2010,6 +2194,11 @@ public class PortGenerator {
 			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
 			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 			source.append("new_item.sender_component = sender_component;\n");
+			if (portDefinition.realtime) {
+				source.append("if(timestamp.is_bound()) {\n");
+				source.append("new_item.timestamp.operator_assign(timestamp);\n");
+				source.append("}\n");
+			}
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append("if (sender_address != null) {\n");
 				source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -2024,17 +2213,17 @@ public class PortGenerator {
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", sliding_buffer");
 				}
 				source.append(");\n}\n");
 
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null", portDefinition.realtime ? ", new TitanFloat()":""));
 			} else {
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 			}
 			if (portDefinition.has_sliding) {
 				source.append(", sliding_buffer");
@@ -2044,12 +2233,18 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming_message function for a type, for a provider or regular port
+	 * This function generates the incoming_message function for a type, for
+	 * a provider or regular port
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIncommingMessageProvider(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
@@ -2064,13 +2259,20 @@ public class PortGenerator {
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
+		if (portDefinition.realtime) {
+			source.append(", TitanFloat timestamp");
+		}
 		source.append(") {\n");
 		if (portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null) {
 			// We forward the incoming_message to the mapped port
 			for (int j = 0; j < portDefinition.mapperNames.size(); j++) {
 				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
 				source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
-				source.append(MessageFormat.format("p_{0}.get(i).incoming_message(incoming_par, sender_component);\n", j));
+				source.append(MessageFormat.format("p_{0}.get(i).incoming_message(incoming_par, sender_component", j));
+				if (portDefinition.realtime) {
+					source.append(", timestamp");
+				}
+				source.append(");\n");
 				source.append("return;\n");
 				source.append("}\n");
 				source.append("}\n");
@@ -2100,6 +2302,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
 		source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 		source.append("new_item.sender_component = sender_component;\n");
+		if (portDefinition.realtime) {
+			source.append("if(timestamp.is_bound()) {\n");
+			source.append("new_item.timestamp = new TitanFloat(timestamp);\n");
+			source.append("}\n");
+		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n");
 			source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -2113,17 +2320,17 @@ public class PortGenerator {
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", sliding_buffer");
 				}
 				source.append(");\n}\n");
 
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null", portDefinition.realtime ? ", new TitanFloat()":""));
 			} else {
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF");
+				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 			}
 			if (portDefinition.has_sliding) {
 				source.append(", sliding_buffer");
@@ -2135,8 +2342,10 @@ public class PortGenerator {
 	/**
 	 * This function generates the process_message function for a type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
@@ -2147,7 +2356,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_message(incoming_par, sender_component");
+				source.append(MessageFormat.format("incoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", slider");
 				}
@@ -2165,7 +2374,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_message(incoming_par, sender_component");
+				source.append(MessageFormat.format("incoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", slider");
 				}
@@ -2185,33 +2394,41 @@ public class PortGenerator {
 	/**
 	 * This function generates the call function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
-		source.append("final TTCN_Logger.Severity log_sev = destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+		source.append("final TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 		source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 		source.append("call_temp.log();\n");
-		source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+		source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 		source.append("}\n");
-		source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+		source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", get_name()));\n");
-		} else if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("outgoing_call(call_temp, null);\n");
 		} else {
-			source.append("outgoing_call(call_temp);\n");
+			source.append("outgoing_call(call_temp");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(", null");
+			}
+			if (portDefinition.realtime) {
+				source.append(", timestamp_redirect");
+			}
+			source.append(");\n");
 		}
 
 		source.append("} else {\n");
@@ -2223,7 +2440,7 @@ public class PortGenerator {
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format("public void call(final {0}_template call_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+			source.append(MessageFormat.format("public void call(final {0}_template call_template, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
@@ -2236,46 +2453,58 @@ public class PortGenerator {
 			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
-			source.append("outgoing_call(call_temp, destination_address);\n");
+			source.append("outgoing_call(call_temp, destination_address");
+			if (portDefinition.realtime) {
+				source.append(", timestamp_redirect");
+			}
+			source.append(");\n");
 			source.append("}\n\n");
 		}
 
-		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
-		source.append("call(call_template, new TitanComponent(get_default_destination()));\n");
+		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+		source.append("call(call_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("}\n\n");
 	}
 
 	/**
 	 * This function generates the reply function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
-			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.is_bound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
 			source.append("}\n\n");
 
 			source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
-			source.append("final TTCN_Logger.Severity log_sev = destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+			source.append("final TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 			source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("reply_temp.log();\n");
-			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
-			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", get_name()));\n");
-			} else if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("outgoing_reply(reply_temp, null);\n");
 			} else {
-				source.append("outgoing_reply(reply_temp);\n");
+				source.append("outgoing_reply(reply_temp");
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			}
 			source.append("} else {\n");
 			source.append("final Text_Buf text_buf = new Text_Buf();\n");
@@ -2286,7 +2515,7 @@ public class PortGenerator {
 			source.append("}\n\n");
 
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 				source.append("if (!is_started) {\n");
 				source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
 				source.append("}\n");
@@ -2299,12 +2528,16 @@ public class PortGenerator {
 				source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 				source.append("}\n");
 				source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
-				source.append("outgoing_reply(reply_temp, destination_address);\n");
+				source.append("outgoing_reply(reply_temp, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 
-			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
-			source.append("reply(reply_template, new TitanComponent(get_default_destination()));\n");
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+			source.append("reply(reply_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 	}
@@ -2312,33 +2545,41 @@ public class PortGenerator {
 	/**
 	 * This function generates the raise function for a signature
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param info information about the signature type.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param info
+	 *                information about the signature type.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
-			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.is_bound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("}\n\n");
 
-			source.append("final TTCN_Logger.Severity log_sev = destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+			source.append("final TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 			source.append("if (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("raise_exception.log();\n");
-			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.getComponent(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
+			source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("}\n");
-			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", get_name()));\n");
-			} else if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("outgoing_raise(raise_exception, null);\n");
 			} else {
-				source.append("outgoing_raise(raise_exception);\n");
+				source.append("outgoing_raise(raise_exception");
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 			}
 			source.append("} else {\n");
 			source.append("final Text_Buf text_buf = new Text_Buf();\n");
@@ -2349,7 +2590,7 @@ public class PortGenerator {
 			source.append("}\n\n");
 
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final {1} destination_address, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName, portDefinition.addressName));
 				source.append("if (!is_started) {\n");
 				source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
 				source.append("}\n");
@@ -2361,30 +2602,39 @@ public class PortGenerator {
 				source.append("raise_exception.log();\n");
 				source.append("TTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
 				source.append("}\n");
-				source.append("outgoing_raise(raise_exception, destination_address);\n");
+				source.append("outgoing_raise(raise_exception, destination_address");
+				if (portDefinition.realtime) {
+					source.append(", timestamp_redirect");
+				}
+				source.append(");\n");
 				source.append("}\n\n");
 			}
 
-			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
-			source.append("raise(raise_exception, new TitanComponent(get_default_destination()));\n");
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
+			source.append("raise(raise_exception, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("}\n\n");
 		}
 	}
 
 	/**
-	 * This function generates the generic getcall or check(getcall) function.
+	 * This function generates the generic getcall or check(getcall)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -2426,11 +2676,16 @@ public class PortGenerator {
 		}
 
 		source.append("{\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		if(isAddress) {
@@ -2458,22 +2713,30 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getcall or check(getcall) function for a signature type
+	 * This function generates the getcall or check(getcall) function for a
+	 * signature type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -2521,11 +2784,16 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append(MessageFormat.format("param_ref.set_parameters(head.call_{0});\n", index));
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		generate_proc_incoming_data_logging(source, "call", "getcall_template.log_match_call", isAddress, isCheck, index);
@@ -2538,19 +2806,24 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic getreply or check(getreply) function.
+	 * This function generates the generic getreply or check(getreply)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -2594,11 +2867,16 @@ public class PortGenerator {
 		}
 
 		source.append("{\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		if(isAddress) {
@@ -2626,22 +2904,30 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getreply or check(getreply) function for a signature type
+	 * This function generates the getreply or check(getreply) function for
+	 * a signature type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (getreply_template.return_value().get_selection() == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
@@ -2696,11 +2982,16 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append(MessageFormat.format("param_ref.set_parameters(head.reply_{0});\n", index));
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		generate_proc_incoming_data_logging(source, "reply", "getreply_template.log_match_reply", isAddress, isCheck, index);
@@ -2713,19 +3004,24 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic get_exception or check(catch) function.
+	 * This function generates the generic get_exception or check(catch)
+	 * function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -2769,11 +3065,16 @@ public class PortGenerator {
 		}
 
 		source.append("{\n");
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		if(isAddress) {
@@ -2803,20 +3104,25 @@ public class PortGenerator {
 	/**
 	 * This function generates the get_exception or check(catch) function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
 	 * */
 	private static void generateTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (catch_template.is_any_or_omit()) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '''*''' as matching template\");\n", printedFunctionName));
@@ -2873,11 +3179,16 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append(MessageFormat.format("catch_template.set_value(head.exception_{0});\n", index));
+		if (portDefinition.realtime) {
+			source.append("if (timestamp_redirect != null && head.timestamp.is_bound()) {\n");
+			source.append("timestamp_redirect.operator_assign(head.timestamp);\n");
+			source.append("}\n");
+		}
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
-			source.append("sender_pointer.assign(head.sender_address);\n");
+			source.append("sender_pointer.operator_assign(head.sender_address);\n");
 		} else {
-			source.append("sender_pointer.assign(head.sender_component);\n");
+			source.append("sender_pointer.operator_assign(head.sender_component);\n");
 		}
 		source.append("}\n");
 		generate_proc_incoming_data_logging(source, "exception", "catch_template.log_match", isAddress, isCheck, index);
@@ -2892,15 +3203,22 @@ public class PortGenerator {
 	/**
 	 * This function generates the type incoming call function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		if (portDefinition.realtime) {
+			source.append(", TitanFloat timestamp");
 		}
 		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
@@ -2928,6 +3246,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.realtime) {
+			source.append("if(timestamp.is_bound()) {\n");
+			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
+			source.append("}\n");
+		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n" );
 			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -2940,27 +3263,34 @@ public class PortGenerator {
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append(MessageFormat.format("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("}\n\n");
 		}
 
 		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par) '{'\n", info.mJavaTypeName));
-		source.append("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+		source.append(MessageFormat.format("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 		source.append("}\n\n");
 	}
 
 	/**
 	 * This function generates the type incoming reply function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		if (portDefinition.realtime) {
+			source.append(", TitanFloat timestamp");
 		}
 		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
@@ -2988,6 +3318,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.REPLY_{0};\n", index));
 		source.append(MessageFormat.format("newItem.reply_{0} = new {1}_reply(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.realtime) {
+			source.append("if(timestamp.is_bound()) {\n");
+			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
+			source.append("}\n");
+		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n" );
 			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -3000,12 +3335,12 @@ public class PortGenerator {
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append(MessageFormat.format("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("}\n\n");
 		}
 
 		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par) '{'\n", info.mJavaTypeName));
-		source.append("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+		source.append(MessageFormat.format("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 
 		source.append("}\n\n");
 	}
@@ -3013,15 +3348,22 @@ public class PortGenerator {
 	/**
 	 * This function generates the type incoming exception function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		if (portDefinition.realtime) {
+			source.append(", TitanFloat timestamp");
 		}
 		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
@@ -3049,6 +3391,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.EXCEPTION_{0};\n", index));
 		source.append(MessageFormat.format("newItem.exception_{0} = new {1}_exception(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.realtime) {
+			source.append("if(timestamp.is_bound()) {\n");
+			source.append("newItem.timestamp = new TitanFloat(timestamp);\n");
+			source.append("}\n");
+		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n" );
 			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -3061,20 +3408,22 @@ public class PortGenerator {
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append(MessageFormat.format("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("}\n\n");
 		}
 
 		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par) '{'\n", info.mJavaTypeName));
-		source.append("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+		source.append(MessageFormat.format("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 		source.append("}\n\n");
 	}
 
 	/**
 	 * This function generates the process_call function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3087,7 +3436,7 @@ public class PortGenerator {
 			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 			source.append(MessageFormat.format("final {0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
-			source.append("incoming_call(incoming_par, sender_component);\n");
+			source.append(MessageFormat.format("incoming_call(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("return true;\n");
 		}
 
@@ -3101,8 +3450,10 @@ public class PortGenerator {
 	/**
 	 * This function generates the process_reply function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3118,7 +3469,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("final {0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_reply(incoming_par, sender_component);\n");
+				source.append(MessageFormat.format("incoming_reply(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 				source.append("return true;\n");
 			}
 		}
@@ -3133,8 +3484,10 @@ public class PortGenerator {
 	/**
 	 * This function generates the process_exception function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
@@ -3150,7 +3503,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("final {0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_exception(incoming_par, sender_component);\n");
+				source.append(MessageFormat.format("incoming_exception(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 				source.append("return true;\n");
 			}
 		}
@@ -3164,15 +3517,22 @@ public class PortGenerator {
 
 	/**
 	 * A utility function for generating code for the standalone version of
-	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
-	 *  statements.
+	 * receive
+	 * /trigger/getcall/getreply/catch/check/check-receive/check-getcall
+	 * /check-getreply/check-catch/timeout/done/killed statements.
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param statement the code generated for the statement as an expression.
-	 * @param statementName the name of the statement for display in error message
-	 * @param canRepeat true if the statement can repeat.
-	 * @param location the location of the statement to report errors to.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param statement
+	 *                the code generated for the statement as an expression.
+	 * @param statementName
+	 *                the name of the statement for display in error message
+	 * @param canRepeat
+	 *                {@code true} if the statement can repeat.
+	 * @param location
+	 *                the location of the statement to report errors to.
 	 * */
 	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final String statementName, final boolean canRepeat, final Location location) {
 		aData.addBuiltinTypeImport("TitanAlt_Status");
@@ -3185,7 +3545,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
 		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
 		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
-		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("TTCN_Snapshot.take_new(false);\n");
 		source.append("for( ; ; ) {\n");
 		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
 
@@ -3212,7 +3572,7 @@ public class PortGenerator {
 		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone {0} statement failed in file {1}, line {2}.\");\n", statementName, location.getFile().getProjectRelativePath(), location.getLine()));
 		source.append("}\n");
-		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("TTCN_Snapshot.take_new(true);\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");
@@ -3221,14 +3581,23 @@ public class PortGenerator {
 	/**
 	 * Generate code for logging
 	 *
-	 * Called from generateTypedGetcall, generateTypedgetreply, generateTypedexception
+	 * Called from generateTypedGetcall, generateTypedgetreply,
+	 * generateTypedexception
 	 *
-	 * @param source where the source code is to be generated
-	 * @param opStr "call", "reply" or "exception"
-	 * @param matchStr "catch_template.log_match", "getcall_template.log_match_call" or "getreply_template.log_match_reply"
-	 * @param isAddress generate for address or not?
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param index the index this signature type has in the selector.
+	 * @param source
+	 *                where the source code is to be generated
+	 * @param opStr
+	 *                "call", "reply" or "exception"
+	 * @param matchStr
+	 *                "catch_template.log_match",
+	 *                "getcall_template.log_match_call" or
+	 *                "getreply_template.log_match_reply"
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param index
+	 *                the index this signature type has in the selector.
 	 */
 	private static void generate_proc_incoming_data_logging(final StringBuilder source, final String opStr, final String matchStr, final boolean isAddress, final boolean isCheck, final int index) {
 		String procOp = "";
@@ -3268,12 +3637,16 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function can be used to generate the necessary member functions of port array types
+	 * This function can be used to generate the necessary member functions
+	 * of port array types
 	 *
 	 *
-	 * @param aData only used to update imports if needed.
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
 	 * */
 	public static void generatePortArrayBodyMembers(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final long arraySize, final long indexOffset) {
 		aData.addBuiltinTypeImport("Index_Redirect");
@@ -3346,31 +3719,39 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the receive or check(receive) function for a array of port type
+	 * This function generates the receive or check(receive) function for a
+	 * array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck, final long arraySize, final long indexOffset) {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incrPos();\n");
+		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
 		source.append("}\n");
 		source.append("result = ret_val;\n");
 		source.append("break;\n");
@@ -3379,7 +3760,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decrPos();\n");
+		source.append("index_redirect.decr_pos();\n");
 		source.append("}\n");
 
 		source.append("return result;\n");
@@ -3387,30 +3768,38 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the trigger function for an array of port type
+	 * This function generates the trigger function for an array of port
+	 * type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index this message type has in the declaration the
+	 *                port type.
+	 * @param inType
+	 *                the information about the incoming message.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType, final long arraySize, final long indexOffset) {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incrPos();\n");
+		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append("final TitanAlt_Status ret_val = getAt(i).trigger(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n");
+		source.append("final TitanAlt_Status ret_val = get_at(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
 		source.append("}\n");
 		source.append("result = ret_val;\n");
 		source.append("break;\n");
@@ -3419,7 +3808,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decrPos();\n");
+		source.append("index_redirect.decr_pos();\n");
 		source.append("}\n");
 
 		source.append("return result;\n");
@@ -3427,33 +3816,43 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getcall or check(getcall) function for an array of port type
+	 * This function generates the getcall or check(getcall) function for an
+	 * array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incrPos();\n");
+		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
 		source.append("}\n");
 		source.append("result = ret_val;\n");
 		source.append("break;\n");
@@ -3462,7 +3861,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decrPos();\n");
+		source.append("index_redirect.decr_pos();\n");
 		source.append("}\n");
 
 		source.append("return result;\n");
@@ -3470,33 +3869,43 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getreply or check(getreply) function for an array of port type
+	 * This function generates the getreply or check(getreply) function for
+	 * an array of port type
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incrPos();\n");
+		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
 		source.append("}\n");
 		source.append("result = ret_val;\n");
 		source.append("break;\n");
@@ -3505,7 +3914,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decrPos();\n");
+		source.append("index_redirect.decr_pos();\n");
 		source.append("}\n");
 
 		source.append("return result;\n");
@@ -3515,31 +3924,40 @@ public class PortGenerator {
 	/**
 	 * This function generates the get_exception or check(catch) function.
 	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * @param portDefinition the definition of the port.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * @param isCheck generate the check or the non-checking version.
-	 * @param isAddress generate for address or not?
-	 * @param arraySize the size of the array.
-	 * @param indexOffset the index offset of this array.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param portDefinition
+	 *                the definition of the port.
+	 * @param index
+	 *                the index this signature type has in the selector.
+	 * @param info
+	 *                the information about the signature.
+	 * @param isCheck
+	 *                generate the check or the non-checking version.
+	 * @param isAddress
+	 *                generate for address or not?
+	 * @param arraySize
+	 *                the size of the array.
+	 * @param indexOffset
+	 *                the index offset of this array.
 	 * */
 	private static void generateArrayBodyTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incrPos();\n");
+		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
 
 		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(catch_template, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
 		source.append("}\n");
 		source.append("result = ret_val;\n");
 		source.append("break;\n");
@@ -3548,7 +3966,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decrPos();\n");
+		source.append("index_redirect.decr_pos();\n");
 		source.append("}\n");
 
 		source.append("return result;\n");

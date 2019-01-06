@@ -582,16 +582,37 @@ public final class SetOf_Value extends Value {
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append(".getAt(").append(i).append(')');
+				embeddedName.append(".get_at(").append(i).append(')');
 				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
 				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append(".getAt(").append(i).append(')');
+				embeddedName.append(".get_at(").append(i).append(')');
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
 		}
+	}
+
+	@Override
+	public boolean needsTemporaryReference() {
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				final IValue tempValue = values.getIndexedValueByIndex(i).getValue();
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
+					return true;
+				}
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				final IValue tempValue = values.getValueByIndex(i);
+				if (tempValue.getValuetype() != Value_type.NOTUSED_VALUE && tempValue.needsTemporaryReference()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -639,7 +660,7 @@ public final class SetOf_Value extends Value {
 			if (nofIndexedValues == 0) {
 				aData.addBuiltinTypeImport("TitanNull_Type");
 
-				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
 				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
@@ -649,12 +670,12 @@ public final class SetOf_Value extends Value {
 					source.append("{\n");
 					final Value index = indexedValue.getIndex().getValue();
 					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
-						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+						source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
 					} else {
 						final String tempId2 = aData.getTemporaryVariableName();
 						source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempId2));
 						index.generateCodeInit(aData, source, tempId2);
-						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+						source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId1, name, tempId2));
 					}
 					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
 					source.append("}\n");
@@ -665,24 +686,31 @@ public final class SetOf_Value extends Value {
 			if (nofValues == 0) {
 				aData.addBuiltinTypeImport("TitanNull_Type");
 
-				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
-				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
+				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
-				ofType.getGenNameValue(aData, source, myScope);
+				final String embeddedTypeName = ofType.getGenNameValue(aData, source, myScope);
 
 				for (int i = 0; i < nofValues; i++) {
 					final IValue value = values.getValueByIndex(i);
 					if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
 						continue;
-					} else //FIXME needs temporary reference branch (needs_temp_ref function missing)
-					{
-						final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, i);
+					} else if (value.needsTemporaryReference()) {
+						final String tempId = aData.getTemporaryVariableName();
+						source.append("{\n");
+						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId, name, i));
+						value.generateCodeInit(aData, source, tempId);
+						source.append("}\n");
+					} else {
+						final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, i);
 						value.generateCodeInit(aData, source, embeddedName);
 					}
 				}
 			}
 		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
 	}

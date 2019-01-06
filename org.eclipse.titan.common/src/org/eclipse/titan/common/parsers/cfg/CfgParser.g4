@@ -16,6 +16,7 @@ options{
 
 @header {
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
+import org.eclipse.titan.common.parsers.CharstringExtractor;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.cfg.indices.ComponentSectionHandler;
 import org.eclipse.titan.common.parsers.cfg.indices.DefineSectionHandler;
@@ -772,7 +773,7 @@ pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
 }:
-	(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_ComponentID DOT { componentName = $cn.text; }
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
@@ -804,12 +805,25 @@ pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> ent
 	)*
 ;
 
+pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
+@init {
+	$entry = new LoggingSectionHandler.LoggerPluginEntry();
+}:
+	i = pr_Identifier {	$entry.setName( $i.identifier );
+						$entry.setPath("");	}
+	(	ASSIGNMENTCHAR
+		s = pr_StringValue { $entry.setPath( $s.string ); }
+	)?
+{	$entry.setLoggerPluginRoot( $ctx );
+}
+;
+
 pr_PlainLoggingParam
 @init {
 	String componentName = "*";
 	String pluginName = "*";
 }:
-(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+(	cn = pr_ComponentID DOT { componentName = $cn.text; }
 )?
 (	STAR DOT
 |	pn = pr_Identifier DOT { pluginName = $pn.text; }
@@ -842,10 +856,8 @@ pr_PlainLoggingParam
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 	{	mCfgParseResult.setLogFileDefined( true );
-		String logFileName = $f.text;
+		String logFileName = $f.string;
 		if ( logFileName != null ) {
-			// remove quotes
-			logFileName = logFileName.replaceAll("^\"|\"$", "");
 			mCfgParseResult.setLogFileName( logFileName );
 		}
 		logParamEntry.setLogFileRoot( $ctx );
@@ -911,7 +923,9 @@ pr_TimeStampValue:
 ;
 
 pr_SourceInfoValue:
-	SOURCEINFOVALUE
+	SOURCEINFOVALUE_NONE
+|	SOURCEINFOVALUE_SINGLE
+|	SOURCEINFOVALUE_STACK
 ;
 
 pr_PluginSpecificParamName:
@@ -919,33 +933,24 @@ pr_PluginSpecificParamName:
 ;
 
 pr_BufferAllOrMasked:
-	BUFFERALLORBUFFERMASKED
+	BUFFERALL
+|	BUFFERMASKED
 ;
 
 pr_DiskFullActionValue:
-(	DISKFULLACTIONVALUE
-|	DISKFULLACTIONVALUERETRY ( LPAREN NATURAL_NUMBER RPAREN )?
+(	DISKFULLACTIONVALUE_ERROR
+|	DISKFULLACTIONVALUE_STOP
+|	DISKFULLACTIONVALUE_DELETE
+|	DISKFULLACTIONVALUE_RETRY ( LPAREN NATURAL_NUMBER RPAREN )?
 )
 ;
 
-pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
-@init {
-	$entry = new LoggingSectionHandler.LoggerPluginEntry();
-}:
-	i = pr_Identifier {	$entry.setName( $i.identifier );
-						$entry.setPath("");	}
-	(	ASSIGNMENTCHAR
-		s = pr_StringValue { $entry.setPath( $s.string ); }
-	)?
-{	$entry.setLoggerPluginRoot( $ctx );
-}
-;
-
-pt_TestComponentID:
+pr_ComponentID:
 (	pr_Identifier
 |	pr_NaturalNumber
 |	MTCKEYWORD
 |	STAR
+|	SYSTEMKEYWORD
 )
 ;
 
@@ -964,8 +969,8 @@ pr_LoggingMaskElement [ Map<LoggingBit, ParseTree> loggingBitMask ]:
 |	pr_deprecatedEventTypeSet [ $loggingBitMask ]
 ;
 
-pr_LogfileName:
-	pr_StringValue
+pr_LogfileName returns [String string]:
+	s = pr_StringValue	{	$string = $s.string;	}
 ;
 
 pr_YesNoOrBoolean:
@@ -1204,15 +1209,6 @@ pr_StructuredValue2:
 )?
 ;
 
-pr_ComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
-|	MTC
-|	SYSTEM
-|	STAR
-)
-;
-
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
@@ -1286,6 +1282,12 @@ pr_NaturalNumber returns [CFGNumber number]:
 )
 ;
 
+pr_MPNaturalNumber:
+(	NATURAL_NUMBER
+|	pr_MacroNaturalNumber
+)
+;
+
 pr_MacroNaturalNumber returns [CFGNumber number]:
 (	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
@@ -1303,33 +1305,38 @@ pr_StringValue returns [String string]
 	$string = "";
 }:
 	a = pr_CString
-		{	if ( $a.string != null ) {
-				$string = $a.string.replaceAll("^\"|\"$", "");
-			}
+		{	$string = $a.string;
 		}
 	(	STRINGOP
 		b = pr_CString
 			{	if ( $b.string != null ) {
-					$string = $string + $b.string.replaceAll("^\"|\"$", "");
+					$string += $b.string;
 				}
 			}
 	)*
-	{	if ( $string != null ) {
-			$string = "\"" + $string + "\"";
-		}
-	}
 ;
 
 pr_CString returns [String string]:
-(	a = STRING
+(	cs = STRING
 		{
-			$string = $a.text;
+			final CharstringExtractor cse = new CharstringExtractor( $cs.text );
+			$string = cse.getExtractedString();
+			if ( cse.isErroneous() ) {
+				reportError( cse.getErrorMessage(), $cs, $cs );
+			}
 		}
-|	macro2 = pr_MacroCString			{	$string = "\"" + $macro2.string + "\"";	}
-|	macro1 = pr_MacroExpliciteCString	{	$string = "\"" + $macro1.string + "\"";	}
+|	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
+|	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$string = "\"\""; // value is unknown yet, but it should not be null
+		{	$string = ""; // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPCString:
+(	STRING
+|	pr_MacroCString
+|	pr_MacroExpliciteCString
 )
 ;
 
@@ -1446,46 +1453,73 @@ pr_ParameterValue:
 
 //module parameter expression, it can contain previously defined module parameters
 pr_ParameterExpression:
-	pr_SimpleParameterValue
-|	pr_ParameterReference
-|	pr_ParameterExpression
+	pr_MPAddExpression
+;
+
+pr_MPAddExpression:
+(	pr_MPMulExpression
 	(	(	PLUS
 		|	MINUS
-		|	STAR
-		|	SLASH
 		|	STRINGOP
 		)
-		pr_ParameterExpression
-	)+
-|	(	PLUS
-	|	MINUS
-	)
-	pr_ParameterExpression
+		pr_MPMulExpression
+	)*
+);
+
+pr_MPMulExpression:
+(	pr_MPUnaryExpression
+	(	(	STAR
+		|	SLASH
+		)
+		pr_MPUnaryExpression
+	)*
+);
+
+pr_MPUnaryExpression:
+(	PLUS
+	pr_MPUnaryExpression
+|	MINUS
+	pr_MPUnaryExpression
 |	LPAREN
 	pr_ParameterExpression
 	RPAREN
-;
+|	pr_MPPrimaryValue
+);
+
+pr_MPPrimaryValue:
+(	pr_SimpleParameterValue
+|	pr_ParameterReference
+);
 
 pr_LengthMatch:
-	LENGTHKEYWORD LPAREN pr_LengthBound
-	(	RPAREN
-	|	DOTDOT
-		(	pr_LengthBound | INFINITYKEYWORD	)
-		RPAREN
+	LENGTHKEYWORD
+	LPAREN
+	(	pr_LengthBound
+	|	pr_LengthBound
+		DOTDOT
+		(	pr_LengthBound
+		|	INFINITYKEYWORD
+		)
 	)
+	RPAREN
+;
+
+pr_LengthBound:
+	pr_IntegerValueExpression
 ;
 
 pr_SimpleParameterValue:
-(	pr_ArithmeticValueExpression
+(	pr_MPNaturalNumber
+|	pr_MPFloat
 |	pr_Boolean
 |	pr_ObjIdValue
 |	pr_VerdictValue
 |	pr_BStringValue
 |	pr_HStringValue
 |	pr_OStringValue
-|	pr_UniversalOrNotStringValue
+|	pr_MPCString
+|	pr_Quadruple
 |	OMITKEYWORD
-|	pr_EnumeratedValue
 |	pr_NULLKeyword
 |	MTCKEYWORD
 |	SYSTEMKEYWORD
@@ -1520,10 +1554,6 @@ pr_IndexItemIndex:
 	SQUAREOPEN
 	pr_IntegerValueExpression
 	SQUARECLOSE
-;
-
-pr_LengthBound:
-	pr_IntegerValueExpression
 ;
 
 pr_ArithmeticValueExpression returns [CFGNumber number]:
@@ -1582,6 +1612,14 @@ pr_Float returns [CFGNumber number]:
 |	TTCN3IDENTIFIER // module parameter name
 		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
+)
+;
+
+pr_MPFloat:
+(	FLOAT
+|	NANKEYWORD
+|	INFINITYKEYWORD
+|	MACRO_FLOAT
 )
 ;
 
@@ -1697,11 +1735,11 @@ pr_CompoundValue:
 	ENDCHAR
 |	LPAREN
 	/* at least 2 elements to avoid shift/reduce conflicts with pr_IntegerValueExpression and pr_FloatValueExpression rules */
-	pr_ParameterValue (COMMA pr_ParameterValue)+
+	pr_ParameterValue COMMA pr_TemplateItemList
 	RPAREN
-|	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	COMPLEMENTKEYWORD LPAREN pr_TemplateItemList RPAREN
+|	SUPERSETKEYWORD LPAREN pr_TemplateItemList RPAREN
+|	SUBSETKEYWORD LPAREN pr_TemplateItemList RPAREN
 )
 ;
 
@@ -1730,21 +1768,29 @@ pr_TemplateItemList:
 ;
 
 pr_IndexValue:
-	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
+	pr_IndexItemIndex ASSIGNMENTCHAR pr_ParameterValue
 ;
 
 pr_IntegerRange:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
-	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
+	(	pr_IntegerValueExpression
+	|	MINUS	INFINITYKEYWORD
+	)
+	DOTDOT
+	(	pr_IntegerValueExpression
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
 pr_FloatRange:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
-	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
+	(	pr_FloatValueExpression
+	|	MINUS	INFINITYKEYWORD
+	)
+	DOTDOT
+	(	pr_FloatValueExpression
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
@@ -1755,19 +1801,17 @@ pr_FloatValueExpression:
 
 pr_FloatAddExpression:
 	pr_FloatMulExpression
-	(	(	PLUS
-		|	MINUS
+	(	(	PLUS	pr_FloatMulExpression
+		|	MINUS	pr_FloatMulExpression
 		)
-		pr_FloatMulExpression
 	)*
 ;
 
 pr_FloatMulExpression:
 	pr_FloatUnaryExpression
-	(	(	STAR
-		|	SLASH
+	(	(	STAR	pr_FloatUnaryExpression
+		|	SLASH	pr_FloatUnaryExpression
 		)
-		pr_FloatUnaryExpression
 	)*
 ;
 

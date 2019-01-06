@@ -23,46 +23,52 @@ import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 public class JavaGenData {
 
 	/** the java source file without the import part */
-	private StringBuilder mSrc;
+	private final StringBuilder mSrc;
 
 	/** the header of the generated class */
-	private StringBuilder classHeader;
+	private final StringBuilder classHeader;
 
 	/** the extra module level variables (global in original, in java public static) */
-	private HashSet<String> mGlobalVariablesGenerated;
-	private StringBuilder mGlobalVariables;
+	private final HashSet<String> mGlobalVariablesGenerated;
+	private final StringBuilder mGlobalVariables;
 
 	/** the constructor of the generated class */
-	private StringBuilder constructor;
+	private final StringBuilder constructor;
 
 	/** the contents of pre_init */
-	private StringBuilder preInit;
+	private final StringBuilder preInit;
 
 	/** the contents of post_init */
-	private StringBuilder postInit;
+	private final StringBuilder postInit;
 
 	/** the contents of set_module_param */
-	private StringBuilder setModuleParameters;
+	private final StringBuilder setModuleParameters;
 
 	/** the contents of start_function if needed */
-	private StringBuilder startPTCFunction;
+	private final StringBuilder startPTCFunction;
 
+	/** the contents of the execute_testcase function */
+	private final StringBuilder executeTestcase;
+
+	/** the contents of the execute_all_testcases function */
+	private final StringBuilder executeAllTestcases;
+	
 	/** the contents of init_comp_type */
-	private StringBuilder initComp;
+	private final StringBuilder initComp;
 
 	/** the contents of init_system_port*/
-	private StringBuilder initSystemPort;
+	private final StringBuilder initSystemPort;
 
 	/** The imports with short class names */
-	private Set<String> mImports;
+	private final Set<String> mImports;
 
 	/** The imports with short class names */
-	private Set<String> mInternalImports;
+	private final Set<String> mInternalImports;
 
 	/** The imports with short class names */
-	private Set<String> mInterModuleImports;
+	private final Set<String> mInterModuleImports;
 
-	private HashMap<String, StringBuilder> types;
+	private final HashMap<String, StringBuilder> types;
 
 	/** are omits allowed in value list (legacy mode) */
 	private boolean allowOmitInValueList = false;
@@ -76,6 +82,8 @@ public class JavaGenData {
 	/** is generating source code line info needed */
 	private boolean addSourceInfo = false;
 
+	/** is generating seof types fully, forced? */
+	private boolean forceGenSeof = false;
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -100,6 +108,8 @@ public class JavaGenData {
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
 		startPTCFunction = new StringBuilder();
+		executeTestcase = new StringBuilder();
+		executeAllTestcases = new StringBuilder();
 		initComp = new StringBuilder();
 		initSystemPort = new StringBuilder();
 
@@ -129,6 +139,9 @@ public class JavaGenData {
 		try {
 			String s= project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			allowOmitInValueList = s == null || "true".equals(s);
+
+			s= project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.FORCE_GEN_SEOF));
+			forceGenSeof = s != null && "true".equals(s);
 
 			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
 			rawDisabled = s == null || "true".equals(s);
@@ -222,6 +235,20 @@ public class JavaGenData {
 	 */
 	public StringBuilder getStartPTCFunction() {
 		return startPTCFunction;
+	}
+
+	/**
+	 * @return the string where new execute_testcase code is written
+	 */
+	public StringBuilder getExecuteTestcase() {
+		return executeTestcase;
+	}
+
+	/**
+	 * @return the string where new execute_all_testcases code is written
+	 */
+	public StringBuilder getExecuteAllTestcase() {
+		return executeAllTestcases;
 	}
 
 	/**
@@ -328,6 +355,13 @@ public class JavaGenData {
 	 */
 	public boolean getAllowOmitInValueList() {
 		return allowOmitInValueList;
+	}
+
+	/**
+	 * @return if seof types must be fully generated.
+	 */
+	public boolean getForceGenSeof() {
+		return forceGenSeof;
 	}
 
 	/**

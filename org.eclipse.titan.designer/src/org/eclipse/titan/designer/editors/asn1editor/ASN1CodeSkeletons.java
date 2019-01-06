@@ -94,7 +94,7 @@ public final class ASN1CodeSkeletons {
 	 *                the ProposalCollector which collects the skeletons
 	 * */
 	public static void addSkeletonProposals(final IDocument doc, final int offset, final ProposalCollector collector) {
-		for (SkeletonTemplateProposal templateProposal : TEMPLATE_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TEMPLATE_PROPOSALS) {
 			collector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), skeletonImage);
 		}
 	}
@@ -108,7 +108,7 @@ public final class ASN1CodeSkeletons {
 	 * @return the ASN1 module skeleton
 	 * */
 	public static String getASN1ModuleWithEmptyBody(final String moduleName) {
-		StringBuilder buffer = new StringBuilder(moduleName);
+		final StringBuilder buffer = new StringBuilder(moduleName);
 		buffer.append(ASN1_MODULE_EMPTY);
 		return buffer.toString();
 	}
@@ -122,7 +122,7 @@ public final class ASN1CodeSkeletons {
 	 * @return the ASN1 module skeleton
 	 * */
 	public static String getASN1ModuleSkeleton(final String moduleName) {
-		StringBuilder buffer = new StringBuilder(moduleName);
+		final StringBuilder buffer = new StringBuilder(moduleName);
 		buffer.append(ASN1_MODULE_SKELETON);
 		return buffer.toString();
 	}

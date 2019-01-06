@@ -35,13 +35,13 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 			return;
 		}
 
-		DetailData oI = (DetailData) oldInput;
-		DetailData nI = (DetailData) newInput;
+		final DetailData oI = (DetailData) oldInput;
+		final DetailData nI = (DetailData) newInput;
 
 		sourceInfo = nI.getSourceInfo();
 
 		String oldValue = oI.getLine();
-		String newValue = nI.getLine();
+		final String newValue = nI.getLine();
 
 		if (newValue == null) {
 			TITANDebugConsole.getConsole().newMessageStream().println("c");
@@ -61,9 +61,9 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 			this.value = newValue;
 		}
 
-		String name = nI.getName();
-		String port = nI.getPort();
-		if ((port != null) && (port.trim().length() > 0)) {
+		final String name = nI.getName();
+		final String port = nI.getPort();
+		if ((port != null) && (!port.trim().isEmpty())) {
 			buildTreeModel(name + '(' + port + ')');
 		} else {
 			buildTreeModel(name);
@@ -114,10 +114,10 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 	 */
 	private void buildTreeModel(final String namePort) {
 
-		String logString = this.value;
-		StringTokenizer tokenizer = new StringTokenizer(logString, "{},", true);
-		Deque<TreeParent> parentStack = new ArrayDeque<TreeParent>();
-		TreeParent root = new TreeParent(namePort);
+		final String logString = this.value;
+		final StringTokenizer tokenizer = new StringTokenizer(logString, "{},", true);
+		final Deque<TreeParent> parentStack = new ArrayDeque<TreeParent>();
+		final TreeParent root = new TreeParent(namePort);
 		addSourceInfo(root);
 
 		if (!logString.startsWith("{")) {
@@ -136,7 +136,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 				//			Set TreeParent named or unnamed and add to parentStack
 				if ("{".equals(token)) {
 					if (prev.endsWith(":=")) {
-						String parentName = prev.substring(0, prev.indexOf(' '));
+						final String parentName = prev.substring(0, prev.indexOf(' '));
 						parentStack.push(new TreeParent(parentName));
 					} else {
 						parentStack.push(new TreeParent(""));
@@ -150,7 +150,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 				//			root.
 				if (token.endsWith("}")) {
 					if (!parentStack.isEmpty()) {
-						TreeParent tmpParent = parentStack.peek();
+						final TreeParent tmpParent = parentStack.peek();
 						parentStack.pop();
 						if (!parentStack.isEmpty()) {
 							parentStack.peek().addChild(tmpParent);
@@ -182,7 +182,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 		parentStack.clear();
 	}
 
-	private void addSourceInfo(TreeParent root) {
+	private void addSourceInfo(final TreeParent root) {
 		if (this.sourceInfo != null && this.sourceInfo.trim().length() > 0) {
 			root.addChild(new TreeObject("sourceInfo := " + this.sourceInfo));
 		} else {

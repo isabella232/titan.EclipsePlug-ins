@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
-import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -459,16 +458,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = serialization.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor(originalString);
-				if (cs.isErrorneous()) {
-					serialization.getLocation().reportSemanticError(cs.getErrorMessage());
-					setIsErroneous(true);
-				}
-			}
-
 			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
@@ -755,7 +744,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			serialization.generateCodeExpressionMandatory(aData, tempExpression, true);
 			final String tempID = aData.getTemporaryVariableName();
 			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
-			expression.preamble.append(MessageFormat.format("if ({0}.operatorNotEquals(\"UTF-8\") && {0}.operatorNotEquals(\"UTF-16\") && {0}.operatorNotEquals(\"UTF-16LE\") && {0}.operatorNotEquals(\"UTF-16BE\") && {0}.operatorNotEquals(\"UTF-32\") && {0}.operatorNotEquals(\"UTF-32LE\") && {0}.operatorNotEquals(\"UTF-32BE\")) '{'\n", tempID));
+			expression.preamble.append(MessageFormat.format("if ({0}.operator_not_equals(\"UTF-8\") && {0}.operator_not_equals(\"UTF-16\") && {0}.operator_not_equals(\"UTF-16LE\") && {0}.operator_not_equals(\"UTF-16BE\") && {0}.operator_not_equals(\"UTF-32\") && {0}.operator_not_equals(\"UTF-32LE\") && {0}.operator_not_equals(\"UTF-32BE\")) '{'\n", tempID));
 			expression.preamble.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"decvalue_unichar: Invalid encoding parameter: '{'0'}'\", {0}));\n", tempID));
 			expression.preamble.append("}\n");
 
@@ -784,7 +773,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.unichar2oct({1}, {2}));\n", bufferID, expression1.expression, v3_code));
 		expression.preamble.append(MessageFormat.format("TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
-		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
+		expression.preamble.append(MessageFormat.format("if ({0}.operator_equals(0)) '{'\n", returnValueID));
 		expression.preamble.append(MessageFormat.format("{0} = AdditionalFunctions.oct2unichar({1}, {2});\n", expression1.expression, bufferID, v3_code));
 		expression.preamble.append("}\n");
 

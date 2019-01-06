@@ -76,11 +76,11 @@ public class Decipherer {
 			}
 		}
 
-		TreeModel model = new TreeModel();
+		final TreeModel model = new TreeModel();
 		model.inputChanged(msg);
 
 
-		for (String rule : rules) {
+		for (final String rule : rules) {
 			final List<String> splitted = Arrays.asList(rule.split(Pattern.quote(".")));
 			final String deciphered = model.getFieldValue(splitted);
 			if (deciphered != null) {

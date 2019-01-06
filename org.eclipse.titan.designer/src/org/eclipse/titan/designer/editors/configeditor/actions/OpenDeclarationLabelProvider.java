@@ -60,10 +60,10 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 	@Override
 	public String getText(final Object element) {
 		if (element instanceof ConfigDeclarationCollectionHelper) {
-			CfgLocation location = ((ConfigDeclarationCollectionHelper) element).location;
+			final CfgLocation location = ((ConfigDeclarationCollectionHelper) element).location;
 			return ((ConfigDeclarationCollectionHelper) element).description + " - " + location.getFile().getName();
 		} else if (element instanceof Assignment) {
-			Assignment assignment = (Assignment) element;
+			final Assignment assignment = (Assignment) element;
 			return assignment.getDescription() + " - " + assignment.getLocation().getFile().getName();
 		}
 

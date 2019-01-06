@@ -230,23 +230,20 @@ public final class Value_Range_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		if (valueRange != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			valueRange.generateCodeInit(aData, source, name);
 		}
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

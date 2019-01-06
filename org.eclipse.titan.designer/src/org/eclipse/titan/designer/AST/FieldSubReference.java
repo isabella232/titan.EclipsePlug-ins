@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -150,13 +151,8 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	 * @return aTtcn3RecField TTCN-3 record field name
 	 */
 	public static String getJavaGetterName( final String aTtcn3RecField ) {
-		if ( aTtcn3RecField == null ) {
-			return null;
-		}
-		if ( aTtcn3RecField.length() == 0 ) {
-			return "";
-		}
-		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
+		//TODO at this point this function no longer looks useful, lets just keep it for some time, in case we need it.
+		return aTtcn3RecField;
 	}
 
 	@Override
@@ -174,9 +170,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 			if (isFirst) {
 				expression.expression.append( fieldId.getName() );
 			} else {
-				expression.expression.append( ".get" );
-				expression.expression.append( getJavaGetterName(fieldId.getName()) );
-				expression.expression.append( "()" );
+				expression.expression.append(MessageFormat.format(".get_field_{0}()", getJavaGetterName(fieldId.getName())));
 			}
 		}
 	}

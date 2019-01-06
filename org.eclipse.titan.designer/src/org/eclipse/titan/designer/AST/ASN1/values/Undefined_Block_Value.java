@@ -81,6 +81,16 @@ public final class Undefined_Block_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (realValue != null) {
+			realValue.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -494,10 +504,14 @@ public final class Undefined_Block_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (realValue != null && realValue != this) {
-			return realValue.generateCodeInit(aData, source, name);
+			realValue.generateCodeInit(aData, source, name);
+
+			lastTimeGenerated = aData.getBuildTimstamp();
+
+			return source;
 		}
 
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-		return new StringBuilder("FATAL_ERROR encountered");
+		return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }

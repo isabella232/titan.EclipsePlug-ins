@@ -51,8 +51,8 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		if (!(tempSelection instanceof IStructuredSelection)) {
 			return null;
 		}
@@ -73,7 +73,7 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		if (SelectionUtils.isSelectionALogFile(this.selection)) {
 			this.logFile = SelectionUtils.selectionToIFile(this.selection);
 		} else if (selection.getFirstElement() instanceof TestCase) {
-			TestCase testCase = (TestCase) selection.getFirstElement();
+			final TestCase testCase = (TestCase) selection.getFirstElement();
 			this.logFile = testCase.getLogFile();
 			logRecordToSelect = testCase.getStartRecordNumber();
 		} else {
@@ -97,20 +97,22 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
+
 		this.selection = (IStructuredSelection) selection;
 		if (this.selection.size() != 1) {
 			setEnabled(false);
 			return;
 		}
-		boolean isSelectionATestCase = this.selection.getFirstElement() instanceof TestCase;
+
+		final boolean isSelectionATestCase = this.selection.getFirstElement() instanceof TestCase;
 		setEnabled(isSelectionATestCase || SelectionUtils.isSelectionALogFile(selection));
 	}
 
 	@Override
 	public void update(final Observable observable, final Object event) {
 		if (event instanceof TestCaseEvent) {
-			TestCaseEvent testCaseEvent = (TestCaseEvent) event;
-			int worked = testCaseEvent.getProgress();
+			final TestCaseEvent testCaseEvent = (TestCaseEvent) event;
+			final int worked = testCaseEvent.getProgress();
 			this.lastWorked = worked;
 		}
 	}

@@ -63,7 +63,8 @@ public final class TTCN_EncDec {
 		error_behavior_type.EB_WARNING,
 		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_ERROR,
-		error_behavior_type.EB_ERROR
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING
 	};
 
 	/** Current error behaviours for all error types */
@@ -93,7 +94,8 @@ public final class TTCN_EncDec {
 		error_behavior_type.EB_WARNING,
 		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_ERROR,
-		error_behavior_type.EB_ERROR
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING
 	};
 
 	/** Endianness indicator */
@@ -165,7 +167,8 @@ public final class TTCN_EncDec {
 		ET_OMITTED_TAG,   /**< During encoding the key of a tag references
 				                           an optional field with omitted value */
 		ET_NEGTEST_CONFL, /**< Contradictory negative testing and RAW attributes. */
-		ET_ALL,           /**< Used only when setting error behavior. 26 */
+		ET_EXTRA_DATA,    /**< Data remained after decoding. */
+		ET_ALL,           /**< Used only when setting error behavior. 27 */
 		ET_INTERNAL,      /**< Internal error. Error behavior cannot be set
 				                           for this. */
 		ET_NONE           /**< There was no error. */
@@ -281,7 +284,7 @@ public final class TTCN_EncDec {
 	 * coding_type has to be returned in Java.
 	 * */
 	public static coding_type get_coding_from_str(final TitanUniversalCharString coding_str, final AtomicInteger extra, final boolean encode) {
-		if (coding_str.operatorEquals("BER:2002") || coding_str.operatorEquals("DER:2002")) {
+		if (coding_str.operator_equals("BER:2002") || coding_str.operator_equals("DER:2002")) {
 			if (encode) {
 				extra.set(BER_ENCODE_DER);
 			} else {
@@ -289,7 +292,7 @@ public final class TTCN_EncDec {
 			}
 
 			return coding_type.CT_BER;
-		} else if (coding_str.operatorEquals("CER:2002")) {
+		} else if (coding_str.operator_equals("CER:2002")) {
 			if (encode) {
 				extra.set(BER_ENCODE_CER);
 			} else {
@@ -297,19 +300,19 @@ public final class TTCN_EncDec {
 			}
 
 			return coding_type.CT_BER;
-		} else if (coding_str.operatorEquals("RAW")) {
+		} else if (coding_str.operator_equals("RAW")) {
 			return coding_type.CT_RAW;
-		} else if (coding_str.operatorEquals("TEXT")) {
+		} else if (coding_str.operator_equals("TEXT")) {
 			return coding_type.CT_TEXT;
-		} else if (coding_str.operatorEquals("JSON")) {
+		} else if (coding_str.operator_equals("JSON")) {
 			return coding_type.CT_JSON;
-		} else if (coding_str.operatorEquals("XML") || coding_str.operatorEquals("XER")) {
+		} else if (coding_str.operator_equals("XML") || coding_str.operator_equals("XER")) {
 			if (extra != null) {
 				extra.set(XER_EXTENDED);
 			}
 
 			return coding_type.CT_XER;
-		} else if (coding_str.operatorEquals("OER")) {
+		} else if (coding_str.operator_equals("OER")) {
 			return coding_type.CT_OER;
 		} else {
 			TTCN_Logger.begin_event_log2str();

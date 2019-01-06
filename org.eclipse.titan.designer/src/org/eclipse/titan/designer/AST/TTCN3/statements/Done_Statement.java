@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
@@ -125,6 +126,23 @@ public final class Done_Statement extends Statement {
 		}
 		if (redirectIndex != null) {
 			redirectIndex.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (componentreference != null) {
+			componentreference.setCodeSection(codeSection);
+		}
+		if (doneMatch != null) {
+			doneMatch.setCodeSection(codeSection);
+		}
+		if (redirectValue != null) {
+			redirectValue.setCodeSection(codeSection);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setCodeSection(codeSection);
 		}
 	}
 
@@ -334,8 +352,8 @@ public final class Done_Statement extends Statement {
 				}
 
 				// determine whether the done() function is in the same module
-				final Module t_module = t.getMyScope().getModuleScope();
-				if (t_module != myStatementBlock.getModuleScope()) {
+				final Module t_module = t.getMyScope().getModuleScopeGen();
+				if (t_module != myStatementBlock.getModuleScopeGen()) {
 					expression.expression.append(MessageFormat.format("{0}.", t_module.getIdentifier().getName()));
 				}
 				expression.expression.append("done(");

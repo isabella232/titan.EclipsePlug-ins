@@ -38,8 +38,8 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 	}
 
 	@Override
-	protected void process(IVisitableNode node, Problems problems) {
- 		final Set<Identifier> definitions = new HashSet<Identifier>();
+	protected void process(final IVisitableNode node, final Problems problems) {
+		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 		final Identifier identifier;
@@ -47,7 +47,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		final Component_Type componentType;
 		if (node instanceof Def_Function) {
 			final Def_Function variable = (Def_Function) node;
-			componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp);
 			if (componentType == null) {
 				return;
 			}
@@ -56,7 +56,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			identifier = variable.getIdentifier();
 		} else if (node instanceof Def_Altstep) {
 			final Def_Altstep variable = (Def_Altstep) node;
-			componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp);
 			if (componentType == null) {
 				return;
 			}
@@ -65,7 +65,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			identifier = variable.getIdentifier();
 		} else {
 			final Def_Testcase variable = (Def_Testcase) node;
-			componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp);
 			if (componentType == null) {
 				return;
 			}
@@ -103,7 +103,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		}
 	}
 
-	private ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, Set<Identifier> identifiersOfTree) {
+	private ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, final Set<Identifier> identifiersOfTree) {
 		final List<ComponentTypeBody> parentComponentBodies = component.getExtensions().getComponentBodies();
 		if (parentComponentBodies.isEmpty()) {
 			identifiersOfTree.add(component.getIdentifier());
@@ -128,10 +128,10 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		identifiersOfTree.addAll(setNodes);
 		return null;
 	}
-	
+
 	class ReferenceCheck extends ASTVisitor {
 
-		private Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
+		private final Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
 
 		public ReferenceCheck() {
 			setOfIdentifier.clear();
@@ -153,7 +153,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 					final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 					if (assignment != null){
 						if (assignment instanceof Def_Function) {
-							final Component_Type componentType = ((Def_Function) assignment).getRunsOnType(timestamp); 
+							final Component_Type componentType = ((Def_Function) assignment).getRunsOnType(timestamp);
 							if (componentType == null) {
 								return V_CONTINUE;
 							}
@@ -172,9 +172,9 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 	}
 
 	@Override
-	public List<Class<? extends IVisitableNode>> getStartNode() { 
+	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(4);
-		ret.add(Def_Altstep.class); 
+		ret.add(Def_Altstep.class);
 		ret.add(Def_Function.class);
 		ret.add(Def_Testcase.class);
 		return ret;

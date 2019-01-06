@@ -287,6 +287,12 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenNameOse(String prefix, String suffix) {
+		setGenName(prefix, suffix);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectSetElementVisitor_objectCollector visitor) {
 		visitor.visitObjectSet(this, false);
 	}

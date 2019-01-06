@@ -43,8 +43,8 @@ public final class ColorManager {
 	public Color getForegroundColor(final String aName) {
 		Color color = COLOR_TABLE.get(aName);
 		if (color == null) {
-			IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-			RGB rgb = PreferenceConverter.getColor(store, aName);
+			final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+			final RGB rgb = PreferenceConverter.getColor(store, aName);
 			if (rgb == null) {
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
 			} else {
@@ -66,8 +66,8 @@ public final class ColorManager {
 	public Color getBackgroundColor(final String aName) {
 		Color color = COLOR_TABLE.get(aName);
 		if (color == null) {
-			IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-			RGB rgb = PreferenceConverter.getColor(store, aName);
+			final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+			final RGB rgb = PreferenceConverter.getColor(store, aName);
 			if (rgb == null) {
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 			} else {
@@ -94,14 +94,14 @@ public final class ColorManager {
 	 * @return The TextAttribute created.
 	 */
 	public TextAttribute createAttributeFromPreference(final String key) {
-		Color foregroundColor = getForegroundColor(key + PreferenceConstants.FOREGROUND);
+		final Color foregroundColor = getForegroundColor(key + PreferenceConstants.FOREGROUND);
 		Color backgroundColor;
 		if (Activator.getDefault().getPreferenceStore().getBoolean(key + PreferenceConstants.USEBACKGROUNDCOLOR)) {
 			backgroundColor = getBackgroundColor(key + PreferenceConstants.BACKGROUND);
 		} else {
 			backgroundColor = null;
 		}
-		boolean isBold = Activator.getDefault().getPreferenceStore().getBoolean(key + PreferenceConstants.BOLD);
+		final boolean isBold = Activator.getDefault().getPreferenceStore().getBoolean(key + PreferenceConstants.BOLD);
 		return new TextAttribute(foregroundColor, backgroundColor, isBold ? SWT.BOLD : SWT.NORMAL);
 	}
 
@@ -119,7 +119,7 @@ public final class ColorManager {
 			return TOKEN_TABLE.get(key);
 		}
 
-		Token temp = new Token(createAttributeFromPreference(key));
+		final Token temp = new Token(createAttributeFromPreference(key));
 		TOKEN_TABLE.put(key, temp);
 		return temp;
 	}
@@ -146,7 +146,7 @@ public final class ColorManager {
 		}
 
 		if (baseKey != null && TOKEN_TABLE.containsKey(baseKey)) {
-			Token tempToken = TOKEN_TABLE.get(baseKey);
+			final Token tempToken = TOKEN_TABLE.get(baseKey);
 			COLOR_TABLE.remove(key);
 			tempToken.setData(createAttributeFromPreference(baseKey));
 		}

@@ -45,8 +45,8 @@ public class CloseAllConnectedViewMenuAction extends AbstractHandler implements 
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		if (!(tempSelection instanceof IStructuredSelection)) {
 			return null;
 		}
@@ -70,8 +70,8 @@ public class CloseAllConnectedViewMenuAction extends AbstractHandler implements 
 			return;
 		}
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IViewReference[] viewReferences = activePage.getViewReferences();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IViewReference[] viewReferences = activePage.getViewReferences();
 		ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 	}
 

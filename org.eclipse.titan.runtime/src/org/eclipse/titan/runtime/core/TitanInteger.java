@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -33,25 +35,46 @@ public class TitanInteger extends Base_Type {
 	private int nativeInt;
 	private BigInteger openSSL;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanInteger() {
 		boundFlag = false;
 		nativeFlag = true;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final int otherValue) {
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final BigInteger otherValue) {
 		openSSL = otherValue;
 		boundFlag = true;
 		nativeFlag = false;
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final TitanInteger otherValue) {
-		otherValue.mustBound("Copying an unbound integer value.");
+		otherValue.must_bound("Copying an unbound integer value.");
 
 		boundFlag = true;
 		nativeFlag = otherValue.nativeFlag;
@@ -62,7 +85,7 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	private boolean fromString(final String otherValue) {
+	private boolean from_string(final String otherValue) {
 		try {
 			final BigInteger temp = new BigInteger(otherValue);
 			if (temp.abs().compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == -1) {
@@ -79,27 +102,42 @@ public class TitanInteger extends Base_Type {
 
 	}
 
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanInteger(final String otherValue) {
 		if (otherValue == null) {
 			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
 		}
 		boundFlag = true;
-		if (!fromString(otherValue)) {
+		if (!from_string(otherValue)) {
 			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
 		}
 	}
 
-	//originally clean_up
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		if (!nativeFlag) {
 			openSSL = null;
 		}
 		boundFlag = false;
 	}
 
-	// originally operator=
-	public TitanInteger assign(final int otherValue) {
-		cleanUp();
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanInteger operator_assign(final int otherValue) {
+		clean_up();
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
@@ -107,9 +145,18 @@ public class TitanInteger extends Base_Type {
 		return this;
 	}
 
-	// originally operator=
-	public TitanInteger assign(final BigInteger otherValue) {
-		cleanUp();
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanInteger operator_assign(final BigInteger otherValue) {
+		clean_up();
 		boundFlag = true;
 		nativeFlag = false;
 		openSSL = otherValue;
@@ -117,12 +164,21 @@ public class TitanInteger extends Base_Type {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger assign(final TitanInteger otherValue) {
-		otherValue.mustBound("Assignment of an unbound integer value.");
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanInteger operator_assign(final TitanInteger otherValue) {
+		otherValue.must_bound("Assignment of an unbound integer value.");
 
 		if (otherValue != this) {
-			cleanUp();
+			clean_up();
 			boundFlag = true;
 			nativeFlag = otherValue.nativeFlag;
 			if (nativeFlag) {
@@ -136,9 +192,9 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public TitanInteger assign(final Base_Type otherValue) {
+	public TitanInteger operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
-			return assign((TitanInteger)otherValue);
+			return operator_assign((TitanInteger)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
@@ -146,7 +202,7 @@ public class TitanInteger extends Base_Type {
 
 	//originally operator+ unary plus
 	public TitanInteger add() {
-		mustBound("Unbound integer operand of unary + operator.");
+		must_bound("Unbound integer operand of unary + operator.");
 
 		if (nativeFlag) {
 			return new TitanInteger(nativeInt);
@@ -157,7 +213,7 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator-
 	public TitanInteger sub() {
-		mustBound("Unbound integer operand of unary - operator (negation).");
+		must_bound("Unbound integer operand of unary - operator (negation).");
 
 		if (nativeFlag) {
 			final long temp = (long) nativeInt * -1;
@@ -186,8 +242,8 @@ public class TitanInteger extends Base_Type {
 	 * originally operator+
 	 */
 	public TitanInteger add(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer addition.");
-		otherValue.mustBound("Unbound right operand of integer addition.");
+		must_bound("Unbound left operand of integer addition.");
+		otherValue.must_bound("Unbound right operand of integer addition.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -222,8 +278,8 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator-
 	public TitanInteger sub(final TitanInteger otherValue) {
-		this.mustBound("Unbound left operand of integer addition. ");
-		otherValue.mustBound("Unbound right operand of integer addition. ");
+		this.must_bound("Unbound left operand of integer addition. ");
+		otherValue.must_bound("Unbound right operand of integer addition. ");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -258,9 +314,9 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator*
 	public TitanInteger mul(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer multiplication.");
+		must_bound("Unbound left operand of integer multiplication.");
 
-		otherValue.mustBound("Unbound right operand of integer multiplication.");
+		otherValue.must_bound("Unbound right operand of integer multiplication.");
 
 		if (nativeFlag && nativeInt == 0 || (otherValue.nativeFlag && otherValue.nativeInt == 0)) {
 			return new TitanInteger((int) 0);
@@ -299,10 +355,10 @@ public class TitanInteger extends Base_Type {
 
 	// originally operator/
 	public TitanInteger div(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer division.");
-		otherValue.mustBound("Unbound right operand of integer division.");
+		must_bound("Unbound left operand of integer division.");
+		otherValue.must_bound("Unbound right operand of integer division.");
 
-		if (otherValue.operatorEquals(0)) {
+		if (otherValue.operator_equals(0)) {
 			throw new TtcnError("Integer division by zero.");
 		}
 		if (nativeFlag && nativeInt == 0) {
@@ -350,15 +406,23 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public TitanInteger rem(final TitanInteger rightValue) {
-		this.mustBound("Unbound left operand of rem operator ");
-		rightValue.mustBound("Unbound right operand of rem operator");
+		this.must_bound("Unbound left operand of rem operator ");
+		rightValue.must_bound("Unbound right operand of rem operator");
 
-		return this.sub(rightValue.mul((this.div(rightValue))));
+		return this.sub(rightValue.mul(this.div(rightValue)));
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final int otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt == otherValue;
@@ -368,9 +432,17 @@ public class TitanInteger extends Base_Type {
 		return openSSL.equals(other_int);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final BigInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (!nativeFlag) {
 			return openSSL.equals(otherValue);
@@ -380,10 +452,18 @@ public class TitanInteger extends Base_Type {
 		return local_int.equals(otherValue);
 	}
 
-	// originally operator==
-	public boolean operatorEquals(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -403,32 +483,64 @@ public class TitanInteger extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
-			return operatorEquals((TitanInteger) otherValue);
+			return operator_equals((TitanInteger) otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
-	// originally operator !=
-	public boolean operatorNotEquals(final int otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final int otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// originally operator !=
-	public boolean operatorNotEquals(final BigInteger otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final BigInteger otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// originally operator!=
-	public boolean operatorNotEquals(final TitanInteger otherValue) {
-		return !operatorEquals(otherValue);
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanInteger otherValue) {
+		return !operator_equals(otherValue);
 	}
 
-	// originally operator <
-	public boolean isLessThan(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final int otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt < otherValue;
@@ -438,9 +550,17 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <
-	public boolean isLessThan(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final BigInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			final BigInteger this_int = BigInteger.valueOf(nativeInt);
@@ -450,10 +570,18 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <
-	public boolean isLessThan(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+	/**
+	 * Checks if the current value is less than the provided one.
+	 *
+	 * operator< in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than the provided.
+	 */
+	public boolean is_less_than(final TitanInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -472,9 +600,17 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final int otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final int otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			return nativeInt > otherValue;
@@ -485,9 +621,17 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final BigInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final BigInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
 			final BigInteger this_int = BigInteger.valueOf(nativeInt);
@@ -498,10 +642,18 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator >
-	public boolean isGreaterThan(final TitanInteger otherValue) {
-		mustBound("Unbound left operand of integer comparison.");
-		otherValue.mustBound("Unbound right operand of integer comparison.");
+	/**
+	 * Checks if the current value is greater than the provided one.
+	 *
+	 * operator> in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than the provided.
+	 */
+	public boolean is_greater_than(final TitanInteger otherValue) {
+		must_bound("Unbound left operand of integer comparison.");
+		otherValue.must_bound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if (otherValue.nativeFlag) {
@@ -520,56 +672,101 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final int otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final int otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final BigInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final BigInteger otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator <=
-	public boolean isLessThanOrEqual(final TitanInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	/**
+	 * Checks if the current value is less than or equivalent to the provided one.
+	 *
+	 * operator<= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is less than or equivalent to the provided.
+	 */
+	public boolean is_less_than_or_equal(final TitanInteger otherValue) {
+		return !is_greater_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final int otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final int otherValue) {
+		return !is_less_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final BigInteger otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final BigInteger otherValue) {
+		return !is_less_than(otherValue);
 	}
 
-	// originally operator >=
-	public boolean isGreaterThanOrEqual(final TitanInteger otherValue) {
-		return !isLessThan(otherValue);
+	/**
+	 * Checks if the current value is greater than or equivalent to the provided one.
+	 *
+	 * operator>= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 */
+	public boolean is_greater_than_or_equal(final TitanInteger otherValue) {
+		return !is_less_than(otherValue);
 	}
 
-	public boolean isNative() {
+	public boolean is_native() {
 		return nativeFlag;
 	}
 
-	public boolean isBound() {
+	@Override
+	public boolean is_bound() {
 		return boundFlag;
 	}
 
-	public boolean isPresent() {
-		return isBound();
+	@Override
+	public boolean is_present() {
+		return is_bound();
 	}
 
-	public boolean isValue() {
+	@Override
+	public boolean is_value() {
 		return boundFlag;
-	}
-
-	public void mustBound(final String errorMessage) {
-		if (!boundFlag) {
-			throw new TtcnError(errorMessage);
-		}
 	}
 
 	/** 
@@ -587,9 +784,10 @@ public class TitanInteger extends Base_Type {
 		if (!boundFlag) {
 			return "<unbound>";
 		}
-		return getBigInteger().toString();
+		return get_BigInteger().toString();
 	}
 
+	@Override
 	public void log() {
 		if (boundFlag) {
 			if (nativeFlag) {
@@ -603,8 +801,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally int()
-	public int getInt() {
-		mustBound("Using the value of an unbound integer variable.");
+	public int get_int() {
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (!nativeFlag) {
 			throw new TtcnError("Invalid conversion of a large integer value.");
@@ -614,8 +812,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally get_long_long_val
-	public long getLong() {
-		mustBound("Using the value of an unbound integer variable.");
+	public long get_long() {
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
 			return nativeInt;
@@ -625,8 +823,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally get_long_long_val
-	public BigInteger getBigInteger() {
-		mustBound("Using the value of an unbound integer variable.");
+	public BigInteger get_BigInteger() {
+		must_bound("Using the value of an unbound integer variable.");
 
 		if (nativeFlag) {
 			return BigInteger.valueOf(nativeInt);
@@ -638,7 +836,7 @@ public class TitanInteger extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		mustBound("Text encoder: Encoding an unbound integer value.");
+		must_bound("Text encoder: Encoding an unbound integer value.");
 
 		text_buf.push_int(this);
 	}
@@ -646,7 +844,7 @@ public class TitanInteger extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		assign(text_buf.pull_int());
+		operator_assign(text_buf.pull_int());
 	}
 
 	@Override
@@ -659,12 +857,12 @@ public class TitanInteger extends Base_Type {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
 
-			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -691,12 +889,12 @@ public class TitanInteger extends Base_Type {
 				order = raw_order_t.ORDER_MSB;
 				break;
 			}
-	
+
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
-	
-			errorContext.leaveContext();
+
+			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -706,7 +904,7 @@ public class TitanInteger extends Base_Type {
 
 	// static operator+
 	public static TitanInteger add(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer addition.");
+		otherValue.must_bound("Unbound right operand of integer addition.");
 
 		if (otherValue.nativeFlag) {
 			final long temp = (long) intValue + (long) otherValue.nativeInt;
@@ -723,7 +921,7 @@ public class TitanInteger extends Base_Type {
 
 	// static operator-
 	public static TitanInteger sub(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer subtraction.");
+		otherValue.must_bound("Unbound right operand of integer subtraction.");
 
 		if (otherValue.nativeFlag) {
 			final long temp = (long) intValue - (long) otherValue.nativeInt;
@@ -758,8 +956,8 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public static TitanInteger rem(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.mustBound("Unbound left operand of rem operator ");
-		rightValue.mustBound("Unbound right operand of rem operator");
+		leftValue.must_bound("Unbound left operand of rem operator ");
+		rightValue.must_bound("Unbound right operand of rem operator");
 
 		return leftValue.sub(rightValue.mul((leftValue.div(rightValue))));
 	}
@@ -792,20 +990,20 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public static TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.mustBound("Unbound left operand of mod operator.");
-		rightValue.mustBound("Unbound right operand of mod operator");
+		leftValue.must_bound("Unbound left operand of mod operator.");
+		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.isLessThan(0)) {
+		if (rightValue.is_less_than(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operatorEquals(0)) {
+		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
-		if (leftValue.isGreaterThan(0)) {
+		if (leftValue.is_greater_than(0)) {
 			return rem(leftValue, rightValue);
 		} else {
 			final TitanInteger result = rem(leftValue, rightValueAbs);
-			if (result.operatorEquals(0)) {
+			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -834,20 +1032,20 @@ public class TitanInteger extends Base_Type {
 
 	// mod with one parameter
 	public TitanInteger mod(final TitanInteger rightValue) {
-		mustBound("Unbound left operand of mod operator.");
-		rightValue.mustBound("Unbound right operand of mod operator");
+		must_bound("Unbound left operand of mod operator.");
+		rightValue.must_bound("Unbound right operand of mod operator");
 
 		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.isLessThan(0)) {
+		if (rightValue.is_less_than(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operatorEquals(0)) {
+		} else if (rightValue.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
-		if (isGreaterThan(0)) {
+		if (is_greater_than(0)) {
 			return rem(this, rightValue);
 		} else {
 			final TitanInteger result = rem(this, rightValueAbs);
-			if (result.operatorEquals(0)) {
+			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -855,34 +1053,96 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// static operator==
-	public static boolean operatorEquals(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).operatorEquals(otherValue);
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).operator_equals(otherValue);
 	}
 
-	// static operator!=
-	public static boolean operatorNotEquals(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).operatorNotEquals(otherValue);
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public static boolean operator_not_equals(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).operator_not_equals(otherValue);
 	}
 
-	// static operator <
-	public static boolean isLessThan(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isLessThan(otherValue);
+	/**
+	 * Checks if the first value is less than the second one.
+	 *
+	 * static operator< in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than the second.
+	 */
+	public static boolean is_less_than(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_less_than(otherValue);
 	}
 
-	// static operator >
-	public static boolean isGreaterThan(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isGreaterThan(otherValue);
+	/**
+	 * Checks if the first value is greater than the second one.
+	 *
+	 * static operator> in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than the second.
+	 */
+	public static boolean is_greater_than(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_greater_than(otherValue);
 	}
 
-	// static operator <=
-	public static boolean isLessThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isLessThanOrEqual(otherValue);
+	/**
+	 * Checks if the first value is less than or equal to the second one.
+	 *
+	 * static operator<= in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is less than or equal to the
+	 *         second.
+	 */
+	public static boolean is_less_than_or_equal(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_less_than_or_equal(otherValue);
 	}
 
-	// static operator >=
-	public static boolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
+	/**
+	 * Checks if the first value is greater than or equal to the second one.
+	 *
+	 * static operator>= in the core
+	 *
+	 * @param intValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the second value to check against.
+	 * @return {@code true} if the first value is greater than or equal the
+	 *         second.
+	 */
+	public static boolean is_greater_than_or_equal(final int intValue, final TitanInteger otherValue) {
+		return new TitanInteger(intValue).is_greater_than_or_equal(otherValue);
 	}
 
 	/** Encodes the value of the variable according to the
@@ -903,9 +1163,9 @@ public class TitanInteger extends Base_Type {
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
-		int value = getInt();
+		int value = get_int();
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
 			value = 0;
 			neg_sgbit = false;
@@ -913,7 +1173,7 @@ public class TitanInteger extends Base_Type {
 
 		if (value == Integer.MIN_VALUE) {
 			final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			return big_value.RAW_encode_openssl(p_td, myleaf);
 		}
 
@@ -1021,7 +1281,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return myleaf.length;
 	}
@@ -1034,7 +1294,7 @@ public class TitanInteger extends Base_Type {
 		BigInteger D = new BigInteger(openSSL.toString());
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!isBound()) {
+		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			neg_sgbit = false;
 		}
@@ -1151,8 +1411,8 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		errorContext.leaveContext();
-		
+		errorContext.leave_context();
+
 		return myleaf.length;
 	}
 
@@ -1201,9 +1461,9 @@ public class TitanInteger extends Base_Type {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
 					}
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
-					return -error_type.ET_LEN_ERR.ordinal(); 
+					return -error_type.ET_LEN_ERR.ordinal();
 				} else {
 					limit -= 8;
 				}
@@ -1212,11 +1472,11 @@ public class TitanInteger extends Base_Type {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
 					}
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
 					return -error_type.ET_INCOMPL_MSG.ordinal();
 				}
-				
+
 				// extract the next length octet (or partial length octet)
 				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
@@ -1247,7 +1507,7 @@ public class TitanInteger extends Base_Type {
 						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leaveContext();
+				errorContext.leave_context();
 
 				return -error_type.ET_LEN_ERR.ordinal();
 			}
@@ -1261,15 +1521,15 @@ public class TitanInteger extends Base_Type {
 						"There are not enough bits in the buffer to decode %s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leaveContext();
+				errorContext.leave_context();
 
 				return error_type.ET_INCOMPL_MSG.ordinal();
 			}
 			decode_length = nof_unread_bits;
 		}
-		cleanUp();
+		clean_up();
 		if (decode_length < 0) {
-			errorContext.leaveContext();
+			errorContext.leave_context();
 			return -1;
 		} else if (decode_length == 0 && partial_octet_bits == 0) {
 			boundFlag = true;
@@ -1299,7 +1559,7 @@ public class TitanInteger extends Base_Type {
 			case SG_NO:
 				break;
 			case SG_SG_BIT:
-				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0 ? true : false;
+				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0;
 				end_pos--;
 				break;
 			default:
@@ -1345,7 +1605,7 @@ public class TitanInteger extends Base_Type {
 					}
 					decode_length += buff.increase_pos_padd(p_td.raw.padding);
 					boundFlag = true;
-					errorContext.leaveContext();
+					errorContext.leave_context();
 
 					return decode_length + prepaddlength + len_bits;
 				} else {
@@ -1361,8 +1621,69 @@ public class TitanInteger extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		boundFlag = true;
-		errorContext.leaveContext();
+		errorContext.leave_context();
 
 		return decode_length + prepaddlength + len_bits;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "integer value");
+		switch (param.get_type()) {
+		case MP_Integer:
+			operator_assign(param.get_integer());
+			break;
+		case MP_Expression:
+			switch (param.get_expr_type()) {
+			case EXPR_NEGATE: {
+				final TitanInteger operand = new TitanInteger();
+				operand.set_param(param.get_operand1());
+				operator_assign(operand.sub());
+				break; }
+			case EXPR_ADD: {
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				operator_assign(operand1.add(operand2));
+				break;
+			}
+			case EXPR_SUBTRACT: {
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				operator_assign(operand1.sub(operand2));
+				break;
+			}
+			case EXPR_MULTIPLY: {
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				operator_assign(operand1.mul(operand2));
+				break;
+			}
+			case EXPR_DIVIDE: {
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (operand2.operator_equals(0)) {
+					param.error("Integer division by zero.");
+				}
+				operator_assign(operand1.div(operand2));
+				break; }
+			default:
+				param.expr_type_error("an integer");
+				break;
+			}
+			break;
+		default:
+			param.type_error("integer value");
+			break;
+		}
+	}
+
 }

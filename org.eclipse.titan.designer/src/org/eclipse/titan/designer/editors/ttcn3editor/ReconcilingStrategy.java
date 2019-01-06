@@ -90,7 +90,8 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			if (!editor.isDirty()) {
 				return;
 			}
-			IPreferencesService prefs = Platform.getPreferencesService();
+
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 				analyze(false);
 			}
@@ -108,7 +109,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 	 *                the document region which has been changed
 	 */
 	public void reconcileSyntax(final DirtyRegion dirtyRegion) {
-		double parserStart = System.nanoTime();
+		final double parserStart = System.nanoTime();
 		if (document == null) {
 			return;
 		}
@@ -139,7 +140,8 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			if (!editor.isDirty()) {
 				return;
 			}
-			IPreferencesService prefs = Platform.getPreferencesService();
+
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 				analyze(false);
 			}
@@ -164,7 +166,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		}
 
 		final TTCN3ReparseUpdater reparser;
-		int length = dirtyRegion.getLength();
+		final int length = dirtyRegion.getLength();
 		if (DirtyRegion.REMOVE.equals(dirtyRegion.getType())) {
 			reparser = new TTCN3ReparseUpdater(editedFile, actualCode.toString(), firstLine + 1, -1 * lineBreaks,
 					dirtyRegion.getOffset(), dirtyRegion.getOffset() + length, -1 * length);
@@ -188,12 +190,12 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		lastIncrementalSyntaxCheck = sourceParser.updateSyntax(editedFile, reparser);
 
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		if (store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION)) {
 			TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
 		}
 
-		WorkspaceJob op = new WorkspaceJob(FOLDING_UPDATE) {
+		final WorkspaceJob op = new WorkspaceJob(FOLDING_UPDATE) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				Display.getDefault().asyncExec(new Runnable() {
@@ -234,16 +236,16 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			}
 		}
 
-		IProject project = editedFile.getProject();
+		final IProject project = editedFile.getProject();
 		if (project == null) {
 			return;
 		}
 
 		TITANDebugConsole.println("Reconciling semantics at " + System.nanoTime() + " time.");
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		sourceParser.analyzeAll();
 
-		WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
+		final WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				Display.getDefault().asyncExec(new Runnable() {
@@ -279,14 +281,14 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		actualCode = new StringBuilder(document.get());
 
 		GlobalIntervalHandler.putInterval(document, null);
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
 			analyze(isInitial);
 		} else {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
+					final List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
 					getEditor().updateFoldingStructure(positions);
 					final IFile editedFile = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 					if (!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, editedFile)) {
@@ -303,7 +305,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			return;
 		}
 
-		IProject project = editedFile.getProject();
+		final IProject project = editedFile.getProject();
 		if (project == null) {
 			return;
 		}
@@ -311,7 +313,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
+				final List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
 				getEditor().updateFoldingStructure(positions);
 			}
 		});
@@ -323,7 +325,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			}
 			projectSourceParser.analyzeAll();
 
-			WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
+			final WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					Display.getDefault().asyncExec(new Runnable() {

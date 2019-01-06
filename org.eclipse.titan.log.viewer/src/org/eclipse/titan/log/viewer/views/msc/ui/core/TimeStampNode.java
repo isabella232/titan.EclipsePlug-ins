@@ -51,10 +51,10 @@ public class TimeStampNode extends MSCNode {
 
 	@Override
 	protected void draw(final IGC context) {
-		int x = getX();
-		int y = getY();
-		int width = getWidth();
-		int height = getHeight();
+		final int x = getX();
+		final int y = getY();
+		final int width = getWidth();
+		final int height = getHeight();
 
 		// Draw time stamp
 		context.setFont((Font) Activator.getDefault().getCachedResource(MSCConstants.MSC_DEFAULT_FONT));

@@ -13,5 +13,51 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public class TitanAsn_Any_template extends TitanOctetString_template {
-  // does not need extra functionality
+	/**
+	 * Initializes to unbound/uninitialized template.
+	 * */
+	public TitanAsn_Any_template() {
+		//intentionally empty
+	}
+
+	/**
+	 * Initializes to a given template kind.
+	 *
+	 * @param otherValue
+	 *                the template kind to initialize to.
+	 * */
+	public TitanAsn_Any_template(final template_sel otherValue) {
+		super(otherValue);
+		check_single_selection(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 * Copies all of the fields and the template becomes a specific template.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanAsn_Any_template(final TitanAsn_Any otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given template.
+	 *
+	 * @param otherValue
+	 *                the template to initialize to.
+	 * */
+	public TitanAsn_Any_template(final TitanAsn_Any_template otherValue) {
+		super(otherValue);
+	}
+
+	@Override
+	public TitanAsn_Any valueof() {
+		if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific `ANY' template.");
+		}
+
+		return new TitanAsn_Any(single_value);
+	}
 }

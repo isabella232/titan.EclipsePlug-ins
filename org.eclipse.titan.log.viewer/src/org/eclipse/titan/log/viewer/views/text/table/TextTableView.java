@@ -99,10 +99,10 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	private OpenValueViewMenuAction silentOpenValueViewMenuAction;
 	private OpenSourceViewMenuAction openSourceViewMenuAction;
 	private OpenSourceViewMenuAction silentOpenSourceViewMenuAction;
-	private IAction filterAction;
+	private final IAction filterAction;
 
 	private ISelection eventSelection;
-	private List<ISelectionChangedListener> registeredListeners;
+	private final List<ISelectionChangedListener> registeredListeners;
 	private EventObject selectedEventObject;
 	private Listener tableSetDataListener = null;
 
@@ -119,7 +119,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			}
 
 			@Override
-			public String getData(LogRecord logRecord) {
+			public String getData(final LogRecord logRecord) {
 				return logRecord.getTimestamp();
 			}
 		},
@@ -130,7 +130,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			}
 
 			@Override
-			public String getData(LogRecord logRecord) {
+			public String getData(final LogRecord logRecord) {
 				return logRecord.getComponentReference();
 			}
 		},
@@ -141,7 +141,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			}
 
 			@Override
-			public String getData(LogRecord logRecord) {
+			public String getData(final LogRecord logRecord) {
 				return logRecord.getEventType();
 			}
 		},
@@ -152,7 +152,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			}
 
 			@Override
-			public String getData(LogRecord logRecord) {
+			public String getData(final LogRecord logRecord) {
 				return logRecord.getSourceInformation();
 			}
 		},
@@ -200,12 +200,20 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	}
 
 	private static PreferencesHolder preferences;
+	private final List<Column> orderedColumns = Arrays.asList(
+			Column.COL_TIMESTAMP,
+			Column.COL_COMP_REF,
+			Column.COL_EVENT_TYPE,
+			Column.COL_SRC_INFO,
+			Column.COL_MESSAGE);
+
+	private ClearingRunnable clearingThread = null;
 
 	private class TableSetDataListener implements Listener {
 		@Override
 		public void handleEvent(final Event event) {
-			int topIndex = TextTableView.this.table.getTopIndex();
-			int visibleItems = TextTableView.this.table.getClientArea().height / TextTableView.this.table.getItemHeight();
+			final int topIndex = TextTableView.this.table.getTopIndex();
+			final int visibleItems = TextTableView.this.table.getClientArea().height / TextTableView.this.table.getItemHeight();
 			int startPos = topIndex + visibleItems + TextTableView.CACHE_SIZE;
 			if (startPos >= filteredLogReader.size()) {
 				startPos = filteredLogReader.size() - 1;
@@ -222,11 +230,11 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 			Display.getDefault().asyncExec(clearingThread);
 
-			int rowIndex = event.index;
+			final int rowIndex = event.index;
 
 			try {
 				cachedLogReader.cacheRecords(topIndex, startPos);
-				LogRecord record = getLogRecordAtRow(rowIndex);
+				final LogRecord record = getLogRecordAtRow(rowIndex);
 				TextTableView.this.setTableItem(item, record);
 			} catch (IOException e) {
 				ErrorReporter.logExceptionStackTrace(e);
@@ -238,16 +246,6 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		}
 	}
 
-
-	private final List<Column> orderedColumns = Arrays.asList(
-			Column.COL_TIMESTAMP,
-			Column.COL_COMP_REF,
-			Column.COL_EVENT_TYPE,
-			Column.COL_SRC_INFO,
-			Column.COL_MESSAGE);
-
-
-	private ClearingRunnable clearingThread = null;
 	/**
 	 * Helper class used to clear out data of items not visible at a later time in a parallel thread.
 	 * */
@@ -256,7 +254,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		private final int visibleItems;
 		private volatile boolean stoped = false;
 
-		private ClearingRunnable(final int topIndex, final int visibleItems) {
+		public ClearingRunnable(final int topIndex, final int visibleItems) {
 			this.topIndex = topIndex;
 			this.visibleItems = visibleItems;
 		}
@@ -279,7 +277,8 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			if (stoped || TextTableView.this.table.isDisposed()) {
 				return;
 			}
-			int startPos = topIndex + visibleItems + TextTableView.CACHE_SIZE;
+
+			final int startPos = topIndex + visibleItems + TextTableView.CACHE_SIZE;
 			endPos = TextTableView.this.table.getItemCount() - 1;
 			if (startPos < endPos) {
 				TextTableView.this.table.clear(startPos + 1, endPos);
@@ -323,21 +322,22 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		if (this.filteredLogReader == null) {
 			return;
 		}
-		IMemento tempMemento = memento.createChild("selection"); //$NON-NLS-1$
+
+		final IMemento tempMemento = memento.createChild("selection"); //$NON-NLS-1$
 		try {
-			IMemento viewAttributes = tempMemento.createChild("viewAttributes"); //$NON-NLS-1$
+			final IMemento viewAttributes = tempMemento.createChild("viewAttributes"); //$NON-NLS-1$
 			viewAttributes.putString("projectName", this.logFileMetaData.getProjectName()); //$NON-NLS-1$
 			viewAttributes.putInteger("selectedRow", this.table.getSelectionIndex()); //$NON-NLS-1$
 			viewAttributes.putInteger("viewWidth", this.table.getClientArea().width); //$NON-NLS-1$
 
 			// save state about log file
-			Path filePath = new Path(this.logFileMetaData.getProjectRelativePath());
-			IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+			final Path filePath = new Path(this.logFileMetaData.getProjectRelativePath());
+			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 
-			if ((logFile != null) && logFile.exists()) {
+			if (logFile != null && logFile.exists()) {
 				// add property file to the memento
 				viewAttributes.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
-				File aLogFile = logFile.getLocation().toFile();
+				final File aLogFile = logFile.getLocation().toFile();
 				viewAttributes.putString("fileSize", String.valueOf(aLogFile.length())); //$NON-NLS-1$
 				viewAttributes.putString("fileModification", String.valueOf(aLogFile.lastModified())); //$NON-NLS-1$
 			}
@@ -366,44 +366,47 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		}
 		try {
 			// get project
-			IMemento viewAttributes = this.memento.getChild("viewAttributes"); //$NON-NLS-1$
-			String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			if ((project == null) || !project.exists() || !project.isOpen()) {
+			final IMemento viewAttributes = this.memento.getChild("viewAttributes"); //$NON-NLS-1$
+			final String projectName = viewAttributes.getString("projectName"); //$NON-NLS-1$
+			final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			if (project == null || !project.exists() || !project.isOpen()) {
 				return;
 			}
 
 			// retrieve log file meta data
-			String propertyFilePath = viewAttributes.getString("propertyFile"); //$NON-NLS-1$
+			final String propertyFilePath = viewAttributes.getString("propertyFile"); //$NON-NLS-1$
 			if (propertyFilePath == null) {
 				return;
 			}
-			File propertyFile = new File(propertyFilePath);
+
+			final File propertyFile = new File(propertyFilePath);
 			if (!propertyFile.exists()) {
 				return;
 			}
 			this.logFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 
 			// get log file
-			Path path = new Path(this.logFileMetaData.getProjectRelativePath());
-			IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if ((logFile == null) || !logFile.exists() || !logFile.getProject().getName().equals(project.getName())) {
+			final Path path = new Path(this.logFileMetaData.getProjectRelativePath());
+			final IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if (logFile == null || !logFile.exists() || !logFile.getProject().getName().equals(project.getName())) {
 				return;
 			}
-			File file = logFile.getLocation().toFile();
+
+			final File file = logFile.getLocation().toFile();
 
 			// get file attributes to see if file has changed
-			String fileSizeString = viewAttributes.getString("fileSize"); //$NON-NLS-1$
+			final String fileSizeString = viewAttributes.getString("fileSize"); //$NON-NLS-1$
 			long fileSize = 0;
 			if (fileSizeString != null) {
 				fileSize = Long.parseLong(fileSizeString);
 			}
-			String fileModificationString = viewAttributes.getString("fileModification");  //$NON-NLS-1$
+
+			final String fileModificationString = viewAttributes.getString("fileModification");  //$NON-NLS-1$
 			long fileModification = 0;
 			if (fileModificationString != null) {
 				fileModification = Long.parseLong(fileModificationString);
 			}
-			if ((file.lastModified() != fileModification) || (file.length() != fileSize)) {
+			if (file.lastModified() != fileModification || file.length() != fileSize) {
 				return;
 			}
 
@@ -432,17 +435,18 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		createToolbar();
 		restoreState(); // restores any saved state
 		if (this.problemDuringRestore) {
-			Label text = new Label(parent, SWT.LEFT);
+			final Label text = new Label(parent, SWT.LEFT);
 			text.setText(Messages.getString("TextTableModel.8")); //$NON-NLS-1$
 			return;
 		}
-		Composite composite = new Composite(parent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
+
+		final Composite composite = new Composite(parent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		composite.setLayout(new FillLayout());
 		this.table = new Table(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.VIRTUAL);
 
 		// Add columns
-		for (Column col : orderedColumns) {
-			TableColumn tableColumn = new TableColumn(this.table, SWT.BORDER);
+		for (final Column col : orderedColumns) {
+			final TableColumn tableColumn = new TableColumn(this.table, SWT.BORDER);
 			tableColumn.setText(col.getDisplayName());
 			tableColumn.setResizable(true);
 			tableColumn.setMoveable(true);
@@ -509,18 +513,18 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 					return;
 				}
 
-				Table table = (Table) e.getSource();
-				int index = table.getSelectionIndex();
+				final Table table = (Table) e.getSource();
+				final int index = table.getSelectionIndex();
 				if (index < 0 || index >= table.getItemCount()) {
 					return;
 				}
 
-				TableItem tableItem = table.getItem(index);
-				Object data = tableItem.getData();
+				final TableItem tableItem = table.getItem(index);
+				final Object data = tableItem.getData();
 				if (data instanceof LogRecord) {
-					LogRecord logrecord = (LogRecord) data;
+					final LogRecord logrecord = (LogRecord) data;
 
-					EventObject eventObject = createEventObject(logrecord);
+					final EventObject eventObject = createEventObject(logrecord);
 
 					TextTableView.this.eventSelection = new EventSelection(eventObject, ""); //$NON-NLS-1$
 					TextTableView.this.openValueViewMenuAction.run();
@@ -538,18 +542,17 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			@Override
 			public void keyPressed(final KeyEvent e) {
 
-				int moves = e.keyCode;
+				final int moves = e.keyCode;
 				if (moves != SWT.CR) {
 					return;
 				}
 				if (e.getSource() instanceof Table) {
-					Table table = (Table) e.getSource();
-					TableItem tableItem = table.getItem(table.getSelectionIndex());
-					Object data = tableItem.getData();
+					final Table table = (Table) e.getSource();
+					final TableItem tableItem = table.getItem(table.getSelectionIndex());
+					final Object data = tableItem.getData();
 					if (data instanceof LogRecord) {
-						LogRecord logrecord = (LogRecord) data;
-
-						EventObject eventObject = createEventObject(logrecord);
+						final LogRecord logrecord = (LogRecord) data;
+						final EventObject eventObject = createEventObject(logrecord);
 
 						TextTableView.this.eventSelection = new EventSelection(eventObject, "");  //$NON-NLS-1$
 					} else {
@@ -564,8 +567,8 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		});
 	}
 
-	private EventObject createEventObject(LogRecord logrecord) {
-		EventObject newEventObject = new EventObject(EventType.UNKNOWN);
+	private EventObject createEventObject(final LogRecord logrecord) {
+		final EventObject newEventObject = new EventObject(EventType.UNKNOWN);
 		newEventObject.setRecordLength(logrecord.getRecordLength());
 		newEventObject.setRecordNumber(logrecord.getRecordNumber());
 		newEventObject.setRecordOffset(logrecord.getRecordOffset());
@@ -577,7 +580,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	@Override
 	public void setFocus() {
-		if ((this.table != null) && !this.table.isDisposed()) {
+		if (this.table != null && !this.table.isDisposed()) {
 			this.table.forceFocus();
 		}
 	}
@@ -589,7 +592,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 * @throws ClassNotFoundException if the log file meta data can not be found
 	 */
 	public void setInput(final IFile logFile, final int selection) throws IOException, ClassNotFoundException {
-		LogFileMetaData newLogFileMetaData = LogFileCacheHandler.logFileMetaDataReader(LogFileCacheHandler.getPropertyFileForLogFile(logFile));
+		final LogFileMetaData newLogFileMetaData = LogFileCacheHandler.logFileMetaDataReader(LogFileCacheHandler.getPropertyFileForLogFile(logFile));
 		final FilteredLogReader filteredReader = new FilteredLogReader(LogFileReader.getReaderForLogFile(logFile));
 		final CachedLogReader cachedReader = new CachedLogReader(filteredReader);
 		setInput(newLogFileMetaData, cachedReader, filteredReader, selection);
@@ -627,11 +630,12 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		if (this.viewerWidth == 0) {
 			this.viewerWidth = this.table.getClientArea().width;
 		}
-		TableColumn[] columns = this.table.getColumns();
-		int colWidth = this.viewerWidth / columns.length;
+
+		final TableColumn[] columns = this.table.getColumns();
+		final int colWidth = this.viewerWidth / columns.length;
 		if (colWidth > 0) {
 			this.table.setRedraw(false);
-			for (TableColumn column : columns) {
+			for (final TableColumn column : columns) {
 				column.setWidth(colWidth);
 			}
 			this.table.setRedraw(true);
@@ -667,13 +671,13 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		}
 
 		// Clear Details View if needed
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage != null) {
-			DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
-			if ((detailsView != null) && (this.selectedEventObject != null)) {
-				URI dvFullPath = detailsView.getFullPath();
-				URI ttFullPath = this.logFileMetaData.getFilePath();
-				if ((dvFullPath != null) && (ttFullPath != null) && dvFullPath.equals(ttFullPath)) {
+			final DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
+			if (detailsView != null && this.selectedEventObject != null) {
+				final URI dvFullPath = detailsView.getFullPath();
+				final URI ttFullPath = this.logFileMetaData.getFilePath();
+				if (dvFullPath != null && ttFullPath != null && dvFullPath.equals(ttFullPath)) {
 					detailsView.setData(null, false);
 				}
 			}
@@ -691,13 +695,13 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 */
 	private void createToolbar() {
 
-		IActionBars actionBars = getViewSite().getActionBars();
-		IToolBarManager mgr = actionBars.getToolBarManager();
+		final IActionBars actionBars = getViewSite().getActionBars();
+		final IToolBarManager mgr = actionBars.getToolBarManager();
 
-		IAction closeAllAction = new CloseAllAction();
+		final IAction closeAllAction = new CloseAllAction();
 		closeAllAction.setEnabled(true);
 
-		IAction switchToMSCAction = new SwitchToMscAction(this);
+		final IAction switchToMSCAction = new SwitchToMscAction(this);
 		switchToMSCAction.setEnabled(true);
 
 		mgr.add(filterAction);
@@ -718,8 +722,8 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		table.setTopIndex(0);
 		table.setSelection(0);
 
-		int topIndex = 0;
-		int visibleItems = TextTableView.this.table.getClientArea().height / TextTableView.this.table.getItemHeight();
+		final int topIndex = 0;
+		final int visibleItems = TextTableView.this.table.getClientArea().height / TextTableView.this.table.getItemHeight();
 		int startPos = topIndex + visibleItems + TextTableView.CACHE_SIZE;
 		if (startPos >= filteredLogReader.size()) {
 			startPos = filteredLogReader.size() - 1;
@@ -737,7 +741,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			cachedLogReader.cacheRecords(topIndex, startPos);
 			for (int rowIndex = topIndex; rowIndex <= startPos; ++rowIndex) {
 				final TableItem item = table.getItem(rowIndex);
-				LogRecord record = getLogRecordAtRow(rowIndex);
+				final LogRecord record = getLogRecordAtRow(rowIndex);
 				setTableItem(item, record);
 			}
 		} catch (IOException e) {
@@ -758,7 +762,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		final SetVerdictFilter setVerdictFilter = new SetVerdictFilter(preferences);
 		// Set data
 		for (int i = 0; i < TextTableView.this.orderedColumns.size(); i++) {
-			Column column = orderedColumns.get(i);
+			final Column column = orderedColumns.get(i);
 			final String message = column.getData(record);
 			item.setText(i, message);
 			item.setData(record);
@@ -792,7 +796,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 * @return
 	 */
 	private Menu hookContextMenu(final Control control) {
-		ProjectsViewerMenuManager menuMgr = new ProjectsViewerMenuManager();
+		final ProjectsViewerMenuManager menuMgr = new ProjectsViewerMenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new ProjectsViewerMenuListener() {
 			@Override
@@ -800,6 +804,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 				TextTableView.this.fillContextMenu(menuManager);
 			}
 		});
+
 		return menuMgr.createContextMenu(control);
 	}
 
@@ -839,7 +844,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	}
 
 	private void fireSelectionChangeEvent() {
-		for (ISelectionChangedListener listener : this.registeredListeners) {
+		for (final ISelectionChangedListener listener : this.registeredListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, this.eventSelection));
 		}
 	}
@@ -849,13 +854,13 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 * @return The log record or null if no record is selected.
 	 */
 	public LogRecord getSelectedRecord() {
-		int index = table.getSelectionIndex();
+		final int index = table.getSelectionIndex();
 		if (index == -1) {
 			return null;
 		}
 
-		TableItem selectedItem = table.getItem(index);
-		Object data = selectedItem.getData();
+		final TableItem selectedItem = table.getItem(index);
+		final Object data = selectedItem.getData();
 		if (data instanceof LogRecord) {
 			return (LogRecord) data;
 		}
@@ -867,7 +872,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			return;
 		}
 
-		int position = filteredLogReader.getPositionFromRecordNumber(recordNumber);
+		final int position = filteredLogReader.getPositionFromRecordNumber(recordNumber);
 		if (position >= 0 && position < table.getItemCount()) {
 			table.setSelection(position);
 			updateSelection(table);
@@ -879,11 +884,11 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 *
 	 *  @param table to work on
 	 **/
-	private void updateSelection(Table table1) {
-		TableItem tableItem = table1.getItem(table1.getSelectionIndex());
-		Object data = tableItem.getData();
+	private void updateSelection(final Table table1) {
+		final TableItem tableItem = table1.getItem(table1.getSelectionIndex());
+		final Object data = tableItem.getData();
 		if (data instanceof LogRecord) {
-			LogRecord logrecord = (LogRecord) data;
+			final LogRecord logrecord = (LogRecord) data;
 			TextTableView.this.selectedEventObject = createEventObject(logrecord);
 			TextTableView.this.eventSelection = new EventSelection(TextTableView.this.selectedEventObject, "");
 		} else {
@@ -951,7 +956,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		return filterPattern;
 	}
 
-	void setFilterPattern(FilterPattern filterPattern) {
+	void setFilterPattern(final FilterPattern filterPattern) {
 		this.filterPattern = filterPattern;
 	}
 

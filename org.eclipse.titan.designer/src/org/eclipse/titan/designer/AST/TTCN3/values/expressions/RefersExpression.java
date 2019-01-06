@@ -288,7 +288,7 @@ public final class RefersExpression extends Expression_Value {
 		}
 
 		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		final String moduleName = referredAssignment.getMyScope().getModuleScope().getName();
+		final String moduleName = referredAssignment.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredAssignment.getIdentifier().getName();
 
 		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));

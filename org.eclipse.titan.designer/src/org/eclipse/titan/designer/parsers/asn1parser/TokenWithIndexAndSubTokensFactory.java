@@ -30,7 +30,7 @@ public class TokenWithIndexAndSubTokensFactory implements	TokenFactory<TokenWith
 			final int channel, final int start, final int stop,
 							  final int line, final int charPositionInLine)
 	{
-		TokenWithIndexAndSubTokens t = new TokenWithIndexAndSubTokens(source, type, channel, start, stop);
+		final TokenWithIndexAndSubTokens t = new TokenWithIndexAndSubTokens(source, type, channel, start, stop);
 		t.setLine(line);
 		t.setCharPositionInLine(charPositionInLine);
 		if ( text!=null ) {

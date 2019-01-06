@@ -42,6 +42,20 @@ public abstract class Base_Type {
 		 * */
 		public TTCN_Typedescriptor oftype_descr;
 
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * @param raw
+		 *                the RAW descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * @param oftype_descr
+		 *                in case of record of ans set of types, the
+		 *                type descriptor of the of type, {@code false}
+		 *                otherwise.
+		 * */
 		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
 			this.raw = raw;
@@ -85,57 +99,79 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null);
 
 	/**
+	 * Deletes the value, setting it to unbound.
+	 * */
+	public abstract void clean_up();
+
+	/**
 	 * Whether the value is present.
 	 * Note: this is not the TTCN-3 ispresent()!
 	 * causes DTE, must be used only if the field is OPTIONAL<>
 	 *
-	 * @return true if the value is present.
+	 * @return {@code true} if the value is present.
 	 */
-	public abstract boolean isPresent();
+	public abstract boolean is_present();
 
 	/**
 	 * Whether the value is bound.
-	 *
-	 * @return true if the value is bound.
+	 * 
+	 * @return {@code true} if the value is bound.
 	 */
-	public abstract boolean isBound();
+	public abstract boolean is_bound();
 
 	/**
 	 * Whether the value is a actual value.
 	 *
-	 * @return true if the value is a actual value.
+	 * @return {@code true} if the value is a actual value.
 	 */
-	public boolean isValue() {
-		return isBound();
+	public boolean is_value() {
+		return is_bound();
 	}
 
 	/**
 	 * Whether the value is optional.
 	 *
-	 * @return true if the value is optional.
+	 * @return {@code true} if the value is optional.
 	 */
-	public boolean isOptional() {
+	public boolean is_optional() {
 		return false;
 	}
 
 	/**
-	 * Checks if the current value is equivalent to the provided one.
+	 * Checks that this value is bound or not. Unbound value results in
+	 * dynamic testcase error with the provided error message.
 	 *
-	 * @param otherValue the other value to check against.
-	 * @return true if the values are equivalent.
+	 * @param errorMessage
+	 *                the error message to report.
+	 * */
+	public void must_bound(final String errorMessage) {
+		if ( !is_bound() ) {
+			throw new TtcnError( errorMessage );
+		}
+	}
+
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *<p>
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
 	 */
-	public abstract boolean operatorEquals(final Base_Type otherValue);
+	public abstract boolean operator_equals(final Base_Type otherValue);
 
 	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
 	 *
-	 * represents the := operator from TTCN-3.
-	 *
-	 * @param otherValue the other value to assign.
+	 * @param otherValue
+	 *                the other value to assign.
 	 * @return the new value object.
 	 */
-	public abstract Base_Type assign(final Base_Type otherValue);
+	public abstract Base_Type operator_assign(final Base_Type otherValue);
 
 	/**
 	 * Logs this value.
@@ -148,14 +184,7 @@ public abstract class Base_Type {
 	 * other module parameters or module parameter expressions, which are processed
 	 * by this method to calculated the final result.
 	 * @param param module parameter value (its ID specifies which object is to be set) */
-	public void set_param (final Param_Types.Module_Parameter param) {
-		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TTCN_Logger.log_event_str( "//TODO: " );
-		TTCN_Logger.log_event_str( getClass().getSimpleName() );
-		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TTCN_Logger.end_event();
-	}
+	public abstract void set_param (final Param_Types.Module_Parameter param);
 
 	/**
 	 * Recursively set the optional fields to omit.

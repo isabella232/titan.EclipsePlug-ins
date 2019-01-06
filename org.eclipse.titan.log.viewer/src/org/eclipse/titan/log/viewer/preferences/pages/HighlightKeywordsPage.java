@@ -76,13 +76,13 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, String> getCurrentPreferences(final String separator) {
-		Map<String, String> currentPrefs = new HashMap<String, String>();
-		String highlight = String.valueOf(this.useHighLight.getBooleanValue());
+		final Map<String, String> currentPrefs = new HashMap<String, String>();
+		final String highlight = String.valueOf(this.useHighLight.getBooleanValue());
 
 		String keywords = ""; //$NON-NLS-1$
-		String[] elements = this.highLightEditor.getElements();
+		final String[] elements = this.highLightEditor.getElements();
 
-		for (String element : elements) {
+		for (final String element : elements) {
 			keywords = keywords.concat(element + separator);
 		}
 		currentPrefs.put(PreferenceConstants.PREF_USE_HIGHLIGHT_ID, highlight);
@@ -95,17 +95,17 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 	 * @return map of the preferences
 	 */
 	private Map<String, Object[]> getCurrentPreferencesSeparated() {
-		Map<String, Object[]> currentPrefs = new HashMap<String, Object[]>();
-		String[] highlight = new String[] {String.valueOf(this.useHighLight.getBooleanValue())};
+		final Map<String, Object[]> currentPrefs = new HashMap<String, Object[]>();
+		final String[] highlight = new String[] {String.valueOf(this.useHighLight.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_USE_HIGHLIGHT_ID, highlight);
-		String[] listItems = this.highLightEditor.getElements();
-		Map<String, RGB> colors = this.highLightEditor.getColors();
-		KeywordColor[] values = new KeywordColor[this.highLightEditor.getElements().length];
+		final String[] listItems = this.highLightEditor.getElements();
+		final Map<String, RGB> colors = this.highLightEditor.getColors();
+		final KeywordColor[] values = new KeywordColor[this.highLightEditor.getElements().length];
 
 		for (int i = 0; i < listItems.length; i++) {
-			String item = listItems[i];
-			RGB color = colors.get(item);
-			KeywordColor keywordColor = new KeywordColor(item, color);
+			final String item = listItems[i];
+			final RGB color = colors.get(item);
+			final KeywordColor keywordColor = new KeywordColor(item, color);
 			values[i] = keywordColor;
 
 		}
@@ -121,7 +121,7 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void importPreferences() {
-		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_HIGHLIGHT_KEYWORDS_PAGE);
+		final Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_HIGHLIGHT_KEYWORDS_PAGE);
 		//if cancel
 		if (prop == null) {
 			return;

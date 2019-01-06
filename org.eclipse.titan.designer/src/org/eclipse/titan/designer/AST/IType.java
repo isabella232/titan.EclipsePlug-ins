@@ -55,6 +55,8 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		TYPE_OBJECTID,
 		/** referenced. */
 		TYPE_REFERENCED,
+		/** referenced directly by pointer. */
+		TYPE_REFD_SPEC,
 		/** sequence of. */
 		TYPE_SEQUENCE_OF,
 		/** set of. */

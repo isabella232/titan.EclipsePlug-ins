@@ -11,8 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
 
 /**
  * TTCN-3 component variable
@@ -32,20 +33,6 @@ public class TitanComponent extends Base_Type {
 	public static final int UNBOUND_COMPREF = -3;
 	//Pseudo-component for logging when the MTC is executing a controlpart
 	public static final int CONTROL_COMPREF = -4;
-
-	//TODO temporary location
-	public enum Component_id_selector {
-		COMPONENT_ID_NAME,
-		COMPONENT_ID_COMPREF,
-		COMPONENT_ID_ALL,
-		COMPONENT_ID_SYSTEM
-	}
-
-	public class Component_Id_type {
-		public component_id_selector_enum id_selector;
-		public int id_component;
-		public String id_name;
-	}
 
 	public static ThreadLocal<TitanComponent> self = new ThreadLocal<TitanComponent>() {
 		@Override
@@ -68,34 +55,63 @@ public class TitanComponent extends Base_Type {
 
 	int componentValue;
 
+	/**
+	 * Initializes to unbound value.
+	 * */
 	public TitanComponent() {
 		componentValue = UNBOUND_COMPREF;
 	}
 
-	public TitanComponent(final int aOtherValue) {
-		componentValue = aOtherValue;
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanComponent(final int otherValue) {
+		componentValue = otherValue;
 	}
 
-	public TitanComponent(final TitanComponent aOtherValue) {
-		if (aOtherValue.componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Copying an unbound component reference.");
-		}
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanComponent(final TitanComponent otherValue) {
+		otherValue.must_bound("Copying an unbound component reference.");
 
-		componentValue = aOtherValue.componentValue;
+		componentValue = otherValue.componentValue;
 	}
 
-	//originally operator=
-	public TitanComponent assign(final int otherValue) {
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= with component parameter in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanComponent operator_assign(final int otherValue) {
 		componentValue = otherValue;
 
 		return this;
 	}
 
-	//originally operator=
-	public TitanComponent assign(final TitanComponent otherValue) {
-		if (otherValue.componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Copying an unbound component reference.");
-		}
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanComponent operator_assign(final TitanComponent otherValue) {
+		otherValue.must_bound("Copying an unbound component reference.");
 
 		componentValue = otherValue.componentValue;
 
@@ -103,9 +119,9 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public TitanComponent assign(final Base_Type otherValue) {
+	public TitanComponent operator_assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
-			return assign((TitanComponent)otherValue);
+			return operator_assign((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
@@ -113,11 +129,17 @@ public class TitanComponent extends Base_Type {
 	}
 
 
-	//originally operator==
-	public boolean operatorEquals(final int otherValue) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("The left operand of comparison is an unbound component reference.");
-		}
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final int otherValue) {
+		must_bound("The left operand of comparison is an unbound component reference.");
 		if (otherValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
 		}
@@ -125,61 +147,59 @@ public class TitanComponent extends Base_Type {
 		return componentValue == otherValue;
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final TitanComponent otherValue) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("The left operand of comparison is an unbound component reference.");
-		}
-		if (otherValue.componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("The right operand of comparison is an unbound component reference.");
-		}
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanComponent otherValue) {
+		must_bound("The left operand of comparison is an unbound component reference.");
+		otherValue.must_bound("The right operand of comparison is an unbound component reference.");
 
 		return componentValue == otherValue.componentValue;
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
-			return operatorEquals((TitanComponent)otherValue);
+			return operator_equals((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
 	}
 
 	// originally component cast operator
-	public int getComponent() {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Using the value of an unbound component reference.");
-		}
+	public int get_component() {
+		must_bound("Using the value of an unbound component reference.");
 
 		return componentValue;
 	}
 
-	public void cleanUp() {
+	@Override
+	public void clean_up() {
 		componentValue = UNBOUND_COMPREF;
 	}
 
 	@Override
-	public boolean isPresent() {
+	public boolean is_present() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 
 	@Override
-	public boolean isBound() {
+	public boolean is_bound() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 
 	@Override
-	public boolean isValue() {
+	public boolean is_value() {
 		return componentValue != UNBOUND_COMPREF;
 	}
 
-	public void mustBound(final String aErrorMessage) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError(aErrorMessage);
-		}
-	}
-
+	@Override
 	public void log() {
 		if (componentValue == UNBOUND_COMPREF) {
 			TTCN_Logger.log_event_unbound();
@@ -189,15 +209,13 @@ public class TitanComponent extends Base_Type {
 	}
 
 	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirection) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing done operation on an unbound component reference.");
-		}
+		must_bound("Performing done operation on an unbound component reference.");
 
 		final AtomicReference<VerdictTypeEnum> ptc_verdict = new AtomicReference<VerdictTypeEnum>(VerdictTypeEnum.NONE);
 
 		final TitanAlt_Status status = TTCN_Runtime.component_done(componentValue, ptc_verdict);
 		if (value_redirect != null) {
-			value_redirect.assign(ptc_verdict.get());
+			value_redirect.operator_assign(ptc_verdict.get());
 		}
 
 		return status;
@@ -205,45 +223,57 @@ public class TitanComponent extends Base_Type {
 
 	// originally killed
 	public TitanAlt_Status killed(final Index_Redirect index_redirection) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing killed operation on an unbound component reference.");
-		}
+		must_bound("Performing killed operation on an unbound component reference.");
 
 		return TTCN_Runtime.component_killed(componentValue);
 	}
 
 	// originally running
 	public boolean running(final Index_Redirect index_redirection) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing running operation on an unbound component reference.");
-		}
+		must_bound("Performing running operation on an unbound component reference.");
 
 		return TTCN_Runtime.component_running(componentValue);
 	}
 
 	// originally alive
 	public boolean alive(final Index_Redirect index_redirection) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing alive operation on an unbound component reference.");
-		}
+		must_bound("Performing alive operation on an unbound component reference.");
 
 		return TTCN_Runtime.component_alive(componentValue);
 	}
 
 	public void stop() {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing stop operation on an unbound component reference.");
-		}
+		must_bound("Performing stop operation on an unbound component reference.");
 
 		TTCN_Runtime.stop_component(componentValue);
 	}
 
 	public void kill() {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Performing kill operation on an unbound component reference.");
-		}
+		must_bound("Performing kill operation on an unbound component reference.");
 
 		TTCN_Runtime.kill_component(componentValue);
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "component reference (integer or null) value");
+		switch (param.get_type()) {
+		case MP_Integer:
+			componentValue = param.get_integer().get_int();
+			break;
+		case MP_Ttcn_Null:
+			componentValue = NULL_COMPREF;
+			break;
+		case MP_Ttcn_mtc:
+			componentValue = MTC_COMPREF;
+			break;
+		case MP_Ttcn_system:
+			componentValue = SYSTEM_COMPREF;
+			break;
+		default:
+			param.type_error("component reference (integer or null) value");
+			break;
+		}
 	}
 
 	public static void log_component_reference(final int component_reference) {
@@ -291,9 +321,7 @@ public class TitanComponent extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		if (componentValue == UNBOUND_COMPREF) {
-			throw new TtcnError("Text encoder: Encoding an unbound component reference.");
-		}
+		must_bound("Text encoder: Encoding an unbound component reference.");
 
 		text_buf.push_int(componentValue);
 		switch (componentValue) {
@@ -310,7 +338,7 @@ public class TitanComponent extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		componentValue = text_buf.pull_int().getInt();
+		componentValue = text_buf.pull_int().get_int();
 
 		switch (componentValue) {
 		case NULL_COMPREF:
@@ -346,7 +374,7 @@ public class TitanComponent extends Base_Type {
 
 		int min = 0;
 		final ArrayList<ComponentNameStruct> localComponentNames = componentNames.get();
-		if (localComponentNames.size() > 0) {
+		if (!localComponentNames.isEmpty()) {
 			// perform a binary search to find the place for the component reference
 			int max = localComponentNames.size() - 1;
 			while (min < max) {

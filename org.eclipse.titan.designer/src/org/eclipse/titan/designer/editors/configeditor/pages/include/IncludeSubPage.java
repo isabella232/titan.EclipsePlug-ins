@@ -53,7 +53,7 @@ public final class IncludeSubPage {
 	private Table includeElementsTable;
 	private TableViewer includeElementsTableViewer;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private IncludeSectionHandler includeSectionHandler;
 	private Button add;
 	private Button remove;
@@ -63,12 +63,12 @@ public final class IncludeSubPage {
 	}
 
 	void createIncludeSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 
@@ -85,7 +85,7 @@ public final class IncludeSubPage {
 		gd.verticalAlignment = SWT.FILL;
 		includeElementsTable.setLayoutData(gd);
 
-		TableColumn column = new TableColumn(includeElementsTable, SWT.LEFT, 0);
+		final TableColumn column = new TableColumn(includeElementsTable, SWT.LEFT, 0);
 		column.setText("File name");
 		column.setMoveable(false);
 		column.setWidth(100);
@@ -93,7 +93,7 @@ public final class IncludeSubPage {
 		includeElementsTable.setLinesVisible(true);
 		includeElementsTable.setHeaderVisible(true);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -111,12 +111,12 @@ public final class IncludeSubPage {
 					createNewIncludeSection();
 				}
 
-				ParseTree newItem = createNewIncludeItem();
+				final ParseTree newItem = createNewIncludeItem();
 				if (newItem == null) {
 					return;
 				}
 
-				ParseTree root = includeSectionHandler.getLastSectionRoot();
+				final ParseTree root = includeSectionHandler.getLastSectionRoot();
 				// a new line before every item
 				ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 				ConfigTreeNodeUtilities.addChild( root, newItem );
@@ -192,14 +192,14 @@ public final class IncludeSubPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				IncludeDataLabelProvider labelProvider = (IncludeDataLabelProvider) includeElementsTableViewer.getLabelProvider();
+				final IncludeDataLabelProvider labelProvider = (IncludeDataLabelProvider) includeElementsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, 0);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					ParseTree item = (ParseTree) ((TableItem) element).getData();
+					final ParseTree item = (ParseTree) ((TableItem) element).getData();
 					ConfigTreeNodeUtilities.setText(item, (String) value);
 					includeElementsTableViewer.refresh(item);
 					editor.setDirty();
@@ -243,12 +243,12 @@ public final class IncludeSubPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		includeSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[INCLUDE]");
+		final ParseTree header = new AddedParseTree("\n[INCLUDE]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -259,7 +259,7 @@ public final class IncludeSubPage {
 			return null;
 		}
 
-		ParseTree item = new AddedParseTree("\"included_file\"");
+		final ParseTree item = new AddedParseTree("\"included_file\"");
 		return item;
 	}
 
@@ -277,10 +277,10 @@ public final class IncludeSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) includeElementsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) includeElementsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			ParseTree item = (ParseTree) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final ParseTree item = (ParseTree) iterator.next();
 			if (item != null) {
 				ConfigTreeNodeUtilities.removeChild(includeSectionHandler.getLastSectionRoot(), item);
 				includeSectionHandler.getFiles().remove(item);

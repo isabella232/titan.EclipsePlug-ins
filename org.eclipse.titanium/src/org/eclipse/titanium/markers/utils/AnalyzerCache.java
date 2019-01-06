@@ -17,6 +17,24 @@ import org.eclipse.titanium.preferences.ProblemTypePreference;
 import org.eclipse.titanium.preferences.pages.MarkersPreferencePage;
 
 public final class AnalyzerCache {
+	private static final AtomicReference<Analyzer> PREFERENCE_BASED = new AtomicReference<Analyzer>();
+	// TODO: we should only rebuild when a smell parameter value is changed
+	private static final AtomicReference<Analyzer> ALL_BASED = new AtomicReference<Analyzer>();
+
+	static {
+		PREFERENCE_BASED.set(Analyzer.builder().adaptPreferences().build());
+		ALL_BASED.set(buildAllBased());
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(final PropertyChangeEvent event) {
+				if (event.getProperty().startsWith(ProblemTypePreference.PREFIX)) {
+					PREFERENCE_BASED.set(Analyzer.builder().adaptPreferences().build());
+					ALL_BASED.set(buildAllBased());
+				}
+			}
+		});
+	}
+
 	/**
 	 * Private constructor.
 	 * */
@@ -55,38 +73,11 @@ public final class AnalyzerCache {
 		return ALL_BASED.get();
 	}
 
-	private static final AtomicReference<Analyzer> PREFERENCE_BASED = new AtomicReference<Analyzer>();
-	static {
-		PREFERENCE_BASED.set(Analyzer.builder().adaptPreferences().build());
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				if (event.getProperty().startsWith(ProblemTypePreference.PREFIX)) {
-					PREFERENCE_BASED.set(Analyzer.builder().adaptPreferences().build());
-				}
-			}
-		});
-	}
-
 	private static Analyzer buildAllBased() {
 		final AnalyzerBuilder allBasedBuilder = Analyzer.builder();
 		for (final CodeSmellType type : CodeSmellType.values()) {
 			allBasedBuilder.addProblem(type);
 		}
 		return allBasedBuilder.build();
-	}
-
-	// TODO: we should only rebuild when a smell parameter value is changed
-	private static final AtomicReference<Analyzer> ALL_BASED = new AtomicReference<Analyzer>();
-	static {
-		ALL_BASED.set(buildAllBased());
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				if (event.getProperty().startsWith(ProblemTypePreference.PREFIX)) {
-					ALL_BASED.set(buildAllBased());
-				}
-			}
-		});
 	}
 }

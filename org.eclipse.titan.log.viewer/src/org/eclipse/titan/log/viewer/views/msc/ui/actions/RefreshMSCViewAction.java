@@ -46,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
 public class RefreshMSCViewAction extends Action {
 
 	private static final String NAME = Messages.getString("RefreshMSCViewAction.0"); //$NON-NLS-1$
-	private MSCView mscView;
+	private final MSCView mscView;
 
 	public RefreshMSCViewAction(final MSCView mscView) {
 		super(NAME);
@@ -57,22 +57,20 @@ public class RefreshMSCViewAction extends Action {
 	public void run() {
 		// Set current log file meta data
 		final LogFileMetaData logFileMetaData = this.mscView.getLogFileMetaData();
-		ExecutionModel model = this.mscView.getModel();
-
 		final PreferencesHolder preferences = PreferencesHandler.getInstance().getPreferences(logFileMetaData.getProjectName());
 		if (preferences.getVisualOrderComponents().isEmpty()) {
-			String userE = Messages.getString("RefreshMSCViewAction.3"); //$NON-NLS-1$
+			final String userE = Messages.getString("RefreshMSCViewAction.3"); //$NON-NLS-1$
 			TitanLogExceptionHandler.handleException(new UserException(userE));
 			return;
 		}
 
 		final IFile logFile = getSelectedLogFile(logFileMetaData);
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
 		// Check if the log file exists
 		if (!logFile.exists()) {
-			IViewReference[] viewReferences = activePage.getViewReferences();
+			final IViewReference[] viewReferences = activePage.getViewReferences();
 			ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("RefreshMSCViewAction.1"))); //$NON-NLS-1$
 			return;
@@ -86,8 +84,8 @@ public class RefreshMSCViewAction extends Action {
 
 		// Get log record index file for selected log file - No need to check is exists due to
 		// LogFileCacheHandler.hasLogFileChanged(logFile) returning false above
-		File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
-
+		final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
+		final ExecutionModel model = this.mscView.getModel();
 		try {
 			// Read/parse log file
 			final TestCase tc = model.getTestCase();
@@ -95,7 +93,7 @@ public class RefreshMSCViewAction extends Action {
 					LogFileCacheHandler.readLogRecordIndexFile(logRecordIndexFile, tc.getStartRecordNumber(), tc.getNumberOfRecords());
 
 
-			WorkspaceJob job = new WorkspaceJob("Loading log information") {
+			final WorkspaceJob job = new WorkspaceJob("Loading log information") {
 
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
@@ -123,11 +121,11 @@ public class RefreshMSCViewAction extends Action {
 				}
 
 				private ExecutionModel parseLogFile() throws TechnicalException {
-					ExecutionModel model;
 					if (logFileMetaData.getExecutionMode() == null) {
 						throw new TechnicalException("Error while parsing of the log file: ExecutionMode is null");
 					}
 
+					ExecutionModel model;
 					try {
 						// re-parse tc
 						Parser parser = new Parser(logFileMetaData);
@@ -147,7 +145,7 @@ public class RefreshMSCViewAction extends Action {
 		}
 	}
 
-	private int getFirstRow(ExecutionModel model, PreferencesHolder preferences) {
+	private int getFirstRow(final ExecutionModel model, final PreferencesHolder preferences) {
 		final int firstRow;
 		switch (preferences.getMscViewOpen()) {
 		case PreferenceConstants.MSCVIEW_TOP:
@@ -169,11 +167,11 @@ public class RefreshMSCViewAction extends Action {
 		return firstRow;
 	}
 
-	private IFile getSelectedLogFile(LogFileMetaData logFileMetaData) {
+	private IFile getSelectedLogFile(final LogFileMetaData logFileMetaData) {
 		// Get selected log file
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(logFileMetaData.getProjectName());
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(logFileMetaData.getProjectName());
 		return project.getFile(logFileMetaData.getProjectRelativePath().substring(logFileMetaData.getProjectName().length() + 1));
 	}
 }

@@ -30,11 +30,11 @@ class CloseAllAction extends Action {
 	@Override
 	public void run() {
 
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IViewReference[] viewReferences = activePage.getViewReferences();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IViewReference[] viewReferences = activePage.getViewReferences();
 
-		for (IViewReference reference : viewReferences) {
-			IViewPart view = reference.getView(false);
+		for (final IViewReference reference : viewReferences) {
+			final IViewPart view = reference.getView(false);
 
 			// memento restored views that never have had focus are null!!!
 			if (view == null) {
@@ -45,7 +45,7 @@ class CloseAllAction extends Action {
 		}
 
 		// Clear Details View if needed
-		DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
+		final DetailsView detailsView = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
 		if (detailsView != null
 				&& "".equals(detailsView.getTestCaseName())) {
 			detailsView.setData(null, false);

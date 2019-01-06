@@ -28,11 +28,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * */
 public final class ComponentsGroupsMCPage extends FormPage {
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ScrolledForm form;
-	private ComponentsSubPage componentsSubPage;
-	private GroupsSubPage groupsSubPage;
-	private MCSubPage mcsubPage;
+	private final ComponentsSubPage componentsSubPage;
+	private final GroupsSubPage groupsSubPage;
+	private final MCSubPage mcsubPage;
 
 	public ComponentsGroupsMCPage(final ConfigEditor editor) {
 		super(editor, "Components_Groups_MainController_section_page", "Components, Groups and Main Controller");
@@ -46,7 +46,7 @@ public final class ComponentsGroupsMCPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Components, Groups and main controller sections");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
@@ -55,7 +55,7 @@ public final class ComponentsGroupsMCPage extends FormPage {
 		form.getBody().setLayout(layout);
 		form.getBody().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite client = toolkit.createComposite(form.getBody(), SWT.WRAP);
+		final Composite client = toolkit.createComposite(form.getBody(), SWT.WRAP);
 		layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.marginHeight = 0;

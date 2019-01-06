@@ -563,16 +563,12 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 
-			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			final String javaGetterName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
-			embeddedName.append(".get");
-			embeddedName.append(javaGetterName);
-			embeddedName.append("()");
-			namedTemplate.getTemplate().setGenNameRecursive(embeddedName.toString());
+			final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", parameterGenName, javaGetterName);
+			namedTemplate.getTemplate().setGenNameRecursive(embeddedName);
 		}
 	}
 
@@ -602,17 +598,33 @@ public final class Named_Template_List extends TTCN3Template {
 		if (namedTemplates.getNofTemplates() != 0) {
 			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for named template list `" + getFullName() + "''");
 
-			return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 		}
 
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
-		return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		if (myGovernor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		final StringBuilder result = new StringBuilder();
+		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
+
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+		}
+
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression, true);
 			return;
@@ -633,7 +645,7 @@ public final class Named_Template_List extends TTCN3Template {
 		generateCodeInit(aData, expression.preamble, tempId);
 
 		if (templateRestriction != Restriction_type.TR_NONE) {
-			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
 		}
 
 		expression.expression.append(tempId);
@@ -659,9 +671,6 @@ public final class Named_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (asValue != null) {
@@ -673,7 +682,6 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		//FIXME actually a bit more complex
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (type == null) {
 			return;
@@ -682,13 +690,11 @@ public final class Named_Template_List extends TTCN3Template {
 		if (namedTemplates.getNofTemplates() == 0) {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
-			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 		}//else is not needed as the loop will not run
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			final String fieldName = namedTemplate.getName().getName();
-			//FIXME handle needs_temp_ref case
-
 			final String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
 			final TTCN3Template template = namedTemplate.getTemplate();
 			if (template.needsTemporaryReference()) {
@@ -728,18 +734,18 @@ public final class Named_Template_List extends TTCN3Template {
 
 				final String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
-				source.append(MessageFormat.format("final {0} {1} = {2}.get{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
-				final String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName);
+				final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, generatedFieldName);
 				template.generateCodeInit(aData, source, embeddedName);
 			}
 		}
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

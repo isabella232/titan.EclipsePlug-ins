@@ -35,26 +35,22 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 public class VariantAttributeAnalyzer {
 
 	public void parse(final RawAST rawAST, final AttributeSpecification specification, final int lengthMultiplier, final AtomicBoolean raw_found) {
-		VariantAttributeLexer lexer;
-		Location location = specification.getLocation();
-
-		StringReader reader = new StringReader(specification.getSpecification());
-		CharStream charStream = new UnbufferedCharStream(reader);
-		lexer = new VariantAttributeLexer(charStream);
+		final Location location = specification.getLocation();
+		final StringReader reader = new StringReader(specification.getSpecification());
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		VariantAttributeLexer lexer = new VariantAttributeLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
-		TitanListener lexerListener = new TitanListener();
+		final TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
 
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-
-		VariantAttributeParser parser = new VariantAttributeParser( tokenStream );
+		final VariantAttributeParser parser = new VariantAttributeParser( tokenStream );
 		parser.setBuildParseTree(false);
 
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		parser.removeErrorListeners();
 		parser.addErrorListener(parserListener);
-
 		parser.setActualFile((IFile)location.getFile());
 		parser.setLine(location.getLine());
 		parser.setOffset(location.getOffset() + 1);
@@ -68,14 +64,14 @@ public class VariantAttributeAnalyzer {
 
 		if (!lexerListener.getErrorsStored().isEmpty()) {
 			for (int i = 0; i < lexerListener.getErrorsStored().size(); i++) {
-				Location temp = new Location(location);
+				final Location temp = new Location(location);
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), lexerListener.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
 			}
 		}
 		if (!parserListener.getErrorsStored().isEmpty()) {
 			for (int i = 0; i < parserListener.getErrorsStored().size(); i++) {
-				Location temp = new Location(location);
+				final Location temp = new Location(location);
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), parserListener.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
 			}

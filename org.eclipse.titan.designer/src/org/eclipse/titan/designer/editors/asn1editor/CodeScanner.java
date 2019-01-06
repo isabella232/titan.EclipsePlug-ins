@@ -60,20 +60,20 @@ public final class CodeScanner extends RuleBasedScanner {
 	private static final String[] COMMENT_PIECES = new String[] { "--", "/*", "*/" };
 
 	public CodeScanner(final ColorManager colorManager) {
-		IToken comment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
-		IToken verbs = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CMIP_VERB);
-		IToken compareType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMPARE_TYPE);
-		IToken statusType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STATUS);
-		IToken keywords = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_ASN1_KEYWORDS);
-		IToken tags = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TAG);
-		IToken storage = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STORAGE);
-		IToken modifier = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_MODIFIER);
-		IToken accesType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_ACCESS_TYPE);
+		final IToken comment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
+		final IToken verbs = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CMIP_VERB);
+		final IToken compareType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMPARE_TYPE);
+		final IToken statusType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STATUS);
+		final IToken keywords = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_ASN1_KEYWORDS);
+		final IToken tags = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TAG);
+		final IToken storage = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STORAGE);
+		final IToken modifier = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_MODIFIER);
+		final IToken accesType = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_ACCESS_TYPE);
 
-		IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
-		IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
+		final IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
+		final IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
 
-		List<IRule> rules = new ArrayList<IRule>();
+		final List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new PatternRule(COMMENT_PIECES[0], COMMENT_PIECES[0], comment, '\0', true, true));
 		rules.add(new MultiLineRule(COMMENT_PIECES[1], COMMENT_PIECES[2], comment, '\0', true));
@@ -89,30 +89,30 @@ public final class CodeScanner extends RuleBasedScanner {
 		rules.add(new SingleLineRule("OCTET", "STRING", storage));
 		rules.add(new SingleLineRule("MATCHES", "FOR", modifier));
 
-		WordRule wordRule = new WordRule(new WordDetector(), other);
+		final WordRule wordRule = new WordRule(new WordDetector(), other);
 
-		for (String element : CodeScanner.VERBS) {
+		for (final String element : CodeScanner.VERBS) {
 			wordRule.addWord(element, verbs);
 		}
-		for (String element : CodeScanner.COMPARE_TYPES) {
+		for (final String element : CodeScanner.COMPARE_TYPES) {
 			wordRule.addWord(element, compareType);
 		}
-		for (String element : CodeScanner.STATUS_TYPE) {
+		for (final String element : CodeScanner.STATUS_TYPE) {
 			wordRule.addWord(element, statusType);
 		}
-		for (String element : CodeScanner.KEYWORDS) {
+		for (final String element : CodeScanner.KEYWORDS) {
 			wordRule.addWord(element, keywords);
 		}
-		for (String element : CodeScanner.TAGS) {
+		for (final String element : CodeScanner.TAGS) {
 			wordRule.addWord(element, tags);
 		}
-		for (String element : CodeScanner.STORAGE) {
+		for (final String element : CodeScanner.STORAGE) {
 			wordRule.addWord(element, storage);
 		}
-		for (String element : CodeScanner.MODIFIER) {
+		for (final String element : CodeScanner.MODIFIER) {
 			wordRule.addWord(element, modifier);
 		}
-		for (String element : CodeScanner.ACCESS_TYPE) {
+		for (final String element : CodeScanner.ACCESS_TYPE) {
 			wordRule.addWord(element, accesType);
 		}
 

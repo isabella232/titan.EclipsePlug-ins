@@ -44,15 +44,15 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 			return null;
 		}
 
-		IAnnotationModel annotationModel = getSourceViewer().getAnnotationModel();
+		final IAnnotationModel annotationModel = getSourceViewer().getAnnotationModel();
 		if (annotationModel != null) {
-			Iterator<?> iterator = annotationModel.getAnnotationIterator();
-			List<String> messages = new ArrayList<String>();
+			final Iterator<?> iterator = annotationModel.getAnnotationIterator();
+			final List<String> messages = new ArrayList<String>();
 			while (iterator.hasNext()) {
-				Object o = iterator.next();
+				final Object o = iterator.next();
 				if (o instanceof MarkerAnnotation) {
-					MarkerAnnotation actualMarker = (MarkerAnnotation) o;
-					Position markerPosition = annotationModel.getPosition(actualMarker);
+					final MarkerAnnotation actualMarker = (MarkerAnnotation) o;
+					final Position markerPosition = annotationModel.getPosition(actualMarker);
 					if (markerPosition != null && markerPosition.getOffset() <= hoverRegion.getOffset()
 							&& markerPosition.getOffset() + markerPosition.getLength() >= hoverRegion.getOffset()) {
 						String message = actualMarker.getText();
@@ -86,18 +86,18 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 		}
 		ErrorReporter.parallelDisplayInStatusLine(getTargetEditor(),null);
 
-		DeclarationCollector declarationCollector = OpenDeclarationHelper.findVisibleDeclarations(getTargetEditor(), getReferenceParser(),
+		final DeclarationCollector declarationCollector = OpenDeclarationHelper.findVisibleDeclarations(getTargetEditor(), getReferenceParser(),
 				textViewer.getDocument(), hoverRegion.getOffset(), false);
 
 		if (declarationCollector == null) {
 			return null;
 		}
 
-		List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
+		final List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
 
 		// To handle reference problem in T3Doc
 		if (T3Doc.isT3DocEnable()) {
-			String string = T3Doc.getCommentStringBasedOnReference(declarationCollector, collected, getTargetEditor(), hoverRegion,
+			final String string = T3Doc.getCommentStringBasedOnReference(declarationCollector, collected, getTargetEditor(), hoverRegion,
 					getReferenceParser(), textViewer);
 			if (string != null) {
 				return string;
@@ -108,7 +108,7 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 			return null;
 		}
 
-		DeclarationCollectionHelper declaration = collected.get(0);
+		final DeclarationCollectionHelper declaration = collected.get(0);
 
 		// Check whether the T3Doc is enabled in the preferences window
 		if (!T3Doc.isT3DocEnable()) {

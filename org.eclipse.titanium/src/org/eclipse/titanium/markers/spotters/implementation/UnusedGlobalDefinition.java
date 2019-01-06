@@ -21,7 +21,6 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -29,9 +28,9 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-*
-* @author Farkas Izabella Ingrid
-*/
+ *
+ * @author Farkas Izabella Ingrid
+ */
 public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	public UnusedGlobalDefinition() {
@@ -39,7 +38,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 	}
 
 	@Override
-	protected void process(IProject project, Problems problems) {
+	protected void process(final IProject project, final Problems problems) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<Module> modules = new ArrayList<Module>();
@@ -68,7 +67,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	class GlobalDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public GlobalDefinitionCheck() {
 			setOfDefinition.clear();
@@ -92,7 +91,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 
 	class GlobalUsedDefinitionCheck extends ASTVisitor {
 
-		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
+		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
 		public GlobalUsedDefinitionCheck() {
 			setOfDefinition.clear();

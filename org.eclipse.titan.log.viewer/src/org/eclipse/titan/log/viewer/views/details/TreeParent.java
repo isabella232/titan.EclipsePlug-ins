@@ -60,18 +60,19 @@ public class TreeParent extends TreeObject {
 	}
 
 	public TreeObject getChild(final String name) {
-		for (TreeObject child : children) {
+		for (final TreeObject child : children) {
 			if (child.getName().trim().equals(name)) {
 				return child;
 			}
 		}
+
 		return null;
 	}
 
 	public String asString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(getName()).append('\n').append('[');
-		for (TreeObject obj : children) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(getName()).append("\n[");
+		for (final TreeObject obj : children) {
 			builder.append(obj.toString()).append('\n');
 		}
 		builder.append("]\n");

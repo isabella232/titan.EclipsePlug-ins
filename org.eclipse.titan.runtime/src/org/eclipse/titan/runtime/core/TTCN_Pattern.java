@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Utility for handling TTCN-3 pattern
  * @author Arpad Lovassy
  */
-public class TtcnPattern {
+public class TTCN_Pattern {
 
 	/**
 	 * Pattern for TTCN-3 dynamic reference
@@ -80,8 +80,8 @@ public class TtcnPattern {
 	 * @param nocase true for case insensitive matching
 	 * @return converted java pattern
 	 */
-	public static Pattern convertPattern( final String ttcnPattern, final boolean nocase ) {
-		return convertPattern( ttcnPattern, nocase, null );
+	public static Pattern convert_pattern( final String ttcnPattern, final boolean nocase ) {
+		return convert_pattern( ttcnPattern, nocase, null );
 	}
 
 	/**
@@ -91,10 +91,10 @@ public class TtcnPattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 * @return converted java pattern
 	 */
-	public static Pattern convertPattern( final String ttcnPattern, final boolean nocase, final Map< String, String > refs ) {
+	public static Pattern convert_pattern( final String ttcnPattern, final boolean nocase, final Map< String, String > refs ) {
 		Pattern javaPattern = null;
 		try {
-			String javaPatternString = convertPattern(ttcnPattern, refs);
+			String javaPatternString = convert_pattern(ttcnPattern, refs);
 			if ( nocase ) {
 				//NOTE: it is made this way because Pattern.compile( javaPatternString, Pattern.CASE_INSENSITIVE ) does NOT work
 				javaPatternString = javaPatternString.toLowerCase();
@@ -154,7 +154,7 @@ public class TtcnPattern {
 	 * @return matching substring, or empty string in case of no match
 	 */
 	public static String regexp( final String s, final String ttcnPattern, final int groupno, final boolean nocase ) {
-		return regexp( s, convertPattern( ttcnPattern, nocase ), groupno, nocase );
+		return regexp( s, convert_pattern( ttcnPattern, nocase ), groupno, nocase );
 	}
 
 	/**
@@ -164,10 +164,10 @@ public class TtcnPattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 * @return converted java pattern
 	 */
-	private static String convertPattern( final String ttcnPattern, final Map< String, String > refs ) {
+	private static String convert_pattern( final String ttcnPattern, final Map< String, String > refs ) {
 		final StringBuilder javaPattern = new StringBuilder();
-		final String ttcnStaticPattern = convertDynamicReferences( ttcnPattern, refs );
-		convertStaticPattern( ttcnStaticPattern, new AtomicInteger(0), javaPattern, refs );
+		final String ttcnStaticPattern = convert_dynamic_references( ttcnPattern, refs );
+		convert_static_pattern( ttcnStaticPattern, new AtomicInteger(0), javaPattern, refs );
 		return javaPattern.toString();
 	}
 
@@ -177,7 +177,7 @@ public class TtcnPattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 * @return converted TTCN-3 static pattern
 	 */
-	private static String convertDynamicReferences( String ttcnPattern, final Map< String, String > refs ) {
+	private static String convert_dynamic_references( String ttcnPattern, final Map< String, String > refs ) {
 		if ( refs == null || refs.isEmpty() ) {
 			return ttcnPattern;
 		}
@@ -202,7 +202,7 @@ public class TtcnPattern {
 	 * @param javaPattern converted java pattern
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
-	private static void convertStaticPattern( final String ttcnPattern, final AtomicInteger pos,
+	private static void convert_static_pattern( final String ttcnPattern, final AtomicInteger pos,
 											  final StringBuilder javaPattern, final Map< String, String > refs ) {
 		while ( pos.get() < ttcnPattern.length() ) {
 			final char c = ttcnPattern.charAt(pos.getAndIncrement());
@@ -217,7 +217,7 @@ public class TtcnPattern {
 				javaPattern.append('+');
 				break;
 			case '\\': {
-				convertEscaped( ttcnPattern, pos, javaPattern, false, refs );
+				convert_escaped( ttcnPattern, pos, javaPattern, false, refs );
 				break;
 			}
 			case '"': {
@@ -234,17 +234,17 @@ public class TtcnPattern {
 				break;
 			case '[': {
 				javaPattern.append('[');
-				convertSet( ttcnPattern, pos, javaPattern, refs );
+				convert_set( ttcnPattern, pos, javaPattern, refs );
 				break;
 			}
 			case '#': {
-				convertRepetition( ttcnPattern, pos, javaPattern );
+				convert_repetition( ttcnPattern, pos, javaPattern );
 				break;
 			}
 			case '{': {
 				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
 				if ( c2 == '\\' ) {
-					convertStaticReference( ttcnPattern, pos, javaPattern, refs );
+					convert_static_reference( ttcnPattern, pos, javaPattern, refs );
 				}
 				// else is not needed, because dynamic references are already resolved
 				break;
@@ -259,13 +259,13 @@ public class TtcnPattern {
 	}
 
 	/**
-	 * @return true if character can be metacharacter, false otherwise.
+	 * @return {@code true} if character can be metacharacter, {@code false} otherwise.
 	 * Quote from TTCN-3 standard B.1.5.0:
 	 * The symbols that can appear as lexical marks in metacharacter definitions are called metacharacter symbols. They
 	 * include the following characters: "#", "(", ")", "*", "+", "-", "?", "[", "\", "]", "^", "{","|","}". When any of the
 	 * metacharacter symbols are present in a pattern, but do not form a valid metacharacter, they retain their literal value.
 	 */
-	private static boolean isMeta( final char c ) {
+	private static boolean is_meta( final char c ) {
 		return METACHARS.indexOf(c) >= 0;
 	}
 
@@ -278,7 +278,7 @@ public class TtcnPattern {
 	 * @param isSet true inside a set
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
-	private static void convertEscaped( final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern,
+	private static void convert_escaped( final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern,
 										final boolean isSet, final Map< String, String > refs ) {
 		final char c = ttcnPattern.charAt(pos.getAndIncrement());
 		switch ( c ) {
@@ -314,13 +314,13 @@ public class TtcnPattern {
 			javaPattern.append("\\\"");
 			break;
 		case 'q':
-			convertUnicharList(ttcnPattern, pos, javaPattern);
+			convert_unichar_list(ttcnPattern, pos, javaPattern);
 			break;
 		case 'N':
-			convertCharsetReference(ttcnPattern, pos, javaPattern, isSet, refs);
+			convert_charset_reference(ttcnPattern, pos, javaPattern, isSet, refs);
 			break;
 		default:
-			if ( isMeta( c ) ) {
+			if ( is_meta( c ) ) {
 				javaPattern.append("\\" + c);
 			} else {
 				throw new TtcnError("Escape character \\" + c + " is not supported at position " + pos.get());
@@ -336,7 +336,7 @@ public class TtcnPattern {
 	 * @param javaPattern converted java pattern
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
-	private static void convertSet( final String ttcnPattern, final AtomicInteger pos,
+	private static void convert_set( final String ttcnPattern, final AtomicInteger pos,
 									final StringBuilder javaPattern, final Map< String, String > refs ) {
 		char c = ttcnPattern.charAt(pos.getAndIncrement());
 		if ( c == '^' ) {
@@ -346,7 +346,7 @@ public class TtcnPattern {
 		while ( c != ']' ) {
 			switch ( c ) {
 			case '\\':
-				convertEscaped( ttcnPattern, pos, javaPattern, true, refs );
+				convert_escaped( ttcnPattern, pos, javaPattern, true, refs );
 				break;
 			case '^':
 				throw new TtcnError("Character ^ can be only the first character of th set at position " + pos.get());
@@ -376,7 +376,7 @@ public class TtcnPattern {
 	 * @param javaPattern converted java pattern
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
-	private static void convertStaticReference( final String ttcnPattern, final AtomicInteger pos,
+	private static void convert_static_reference( final String ttcnPattern, final AtomicInteger pos,
 												final StringBuilder javaPattern, final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
 		final Matcher m = PATTERN_STATIC_REFERENCE.matcher(input);
@@ -401,7 +401,7 @@ public class TtcnPattern {
 	 * @param isSet true inside a set
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
-	private static void convertCharsetReference( final String ttcnPattern, final AtomicInteger pos,
+	private static void convert_charset_reference( final String ttcnPattern, final AtomicInteger pos,
 												 final StringBuilder javaPattern, final boolean isSet,
 												 final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
@@ -424,7 +424,7 @@ public class TtcnPattern {
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
-	private static void convertRepetition(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
+	private static void convert_repetition(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_REPETITION_SINGLE.matcher(input);
 		if ( m.matches() ) {
@@ -461,7 +461,7 @@ public class TtcnPattern {
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
-	private static void convertUnicharList(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
+	private static void convert_unichar_list(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_UNICHAR_USI_LIST.matcher(input);
 		if ( m.matches() ) {
@@ -488,7 +488,7 @@ public class TtcnPattern {
 				final int row = Integer.parseInt(rowStr);
 				final int cell = Integer.parseInt(cellStr);
 				final TitanUniversalChar uc = new TitanUniversalChar( (char)group, (char)plane, (char)row, (char)cell);
-				javaPattern.append(uc.toUtf());
+				javaPattern.append(uc.to_utf());
 			} else {
 				throw new TtcnError("Invalid unichar list at position " + pos.get());
 			}

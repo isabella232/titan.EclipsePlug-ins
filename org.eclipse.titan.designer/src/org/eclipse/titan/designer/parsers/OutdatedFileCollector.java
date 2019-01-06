@@ -41,14 +41,14 @@ public final class OutdatedFileCollector implements IResourceVisitor {
 	private static final String DOT = ".";
 	private String resourcename;
 
-	private Map<IFile, String> uptodateFiles;
-	private Set<IFile> highlySyntaxErroneousFiles;
-	private List<IFile> asn1FilesToCheck;
-	private List<IFile> cfgFilesToCheck;
-	private List<IFile> ttcn3FilesToCheck;
-	private List<IFile> ttcninFilesModified;
+	private final Map<IFile, String> uptodateFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
+	private final List<IFile> asn1FilesToCheck;
+	private final List<IFile> cfgFilesToCheck;
+	private final List<IFile> ttcn3FilesToCheck;
+	private final List<IFile> ttcninFilesModified;
 	private final IContainer[] workingDirectories;
-	private ResourceExclusionHelper helper;
+	private final ResourceExclusionHelper helper;
 
 	public OutdatedFileCollector(final IContainer[] workingDirectories, final Map<IFile, String> uptodateFiles,
 			final Set<IFile> highlySyntaxErroneousFiles) {
@@ -91,8 +91,8 @@ public final class OutdatedFileCollector implements IResourceVisitor {
 		}
 		switch (resource.getType()) {
 		case IResource.FILE:
-			IFile file = (IFile) resource;
-			String extension = file.getFileExtension();
+			final IFile file = (IFile) resource;
+			final String extension = file.getFileExtension();
 			if (!ResourceExclusionHelper.isDirectlyExcluded((IFile) resource) && !uptodateFiles.containsKey(file) && !highlySyntaxErroneousFiles.contains(file)
 					&& !helper.isExcludedByRegexp(resourcename)) {
 				if (GlobalParser.isSupportedTTCN3Extension(extension)) {
@@ -107,7 +107,7 @@ public final class OutdatedFileCollector implements IResourceVisitor {
 			}
 			break;
 		case IResource.FOLDER:
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(resource)) {
 					return false;
 				}

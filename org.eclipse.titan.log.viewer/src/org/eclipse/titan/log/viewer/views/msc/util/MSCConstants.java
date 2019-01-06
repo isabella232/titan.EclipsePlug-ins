@@ -13,6 +13,7 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Resource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.log.viewer.utils.Constants;
@@ -274,70 +275,96 @@ public final class MSCConstants {
 	 * @return the resource of null if key not found
 	 */
 	public static Resource getResource(final String resourceKey) {
-		Resources resourceValue = MSCConstants.Resources.getResourceValue(resourceKey);
+		final Resources resourceValue = MSCConstants.Resources.getResourceValue(resourceKey);
 		if (resourceValue == null) {
 			return null;
 		}
 
-		Resource resource = null;
+		final Display defaultDisplay = Display.getDefault();
 		switch (resourceValue) {
 		// Colors
-		case COLOR_BLACK: 			   return new Color(Display.getDefault(),   0,   0,   0);
-		case COLOR_WHITE: 			   return new Color(Display.getDefault(), 255, 255, 255);
+		case COLOR_BLACK:
+			return new Color(defaultDisplay, 0, 0, 0);
+		case COLOR_WHITE:
+			return new Color(defaultDisplay, 255, 255, 255);
+		case COLOR_LIGHTER_GREY:
+			return new Color(defaultDisplay, 220, 220, 220);
+		case COLOR_LIGHT_GREY:
+			return new Color(defaultDisplay, 200, 200, 200);
+		case COLOR_GREY:
+			return new Color(defaultDisplay, 150, 150, 150);
+		case COLOR_DARK_GREY:
+			return new Color(defaultDisplay, 100, 100, 100);
+		case COLOR_SOFT_BLUE:
+			return new Color(defaultDisplay, 135, 155, 165);
+		case COLOR_EVENT_RED:
+			return new Color(defaultDisplay, 255, 0, 0);
+		case COLOR_EVENT_BLUE:
+			return new Color(defaultDisplay, 0, 0, 255);
+		case COLOR_EVENT_YELLOW:
+			return new Color(defaultDisplay, 255, 255, 0);
+		case COLOR_EVENT_GREEN:
+			return new Color(defaultDisplay, 0, 255, 0);
+		case COLOR_EVENT_ORANGE:
+			return new Color(defaultDisplay, 255, 153, 0);
+		case COLOR_EVENT_LIME:
+			return new Color(defaultDisplay, 204, 255, 0);
+		case COLOR_EVENT_DARK_BLUE:
+			return new Color(defaultDisplay, 51, 0, 102);
+		case COLOR_EVENT_LIGHT_YELLOW:
+			return new Color(defaultDisplay, 255, 255, 204);
+		case COLOR_EVENT_LIGHT_ORANGE:
+			return new Color(defaultDisplay, 255, 204, 102);
+		case COLOR_EVENT_CORAL:
+			return new Color(defaultDisplay, 255, 127, 80);
+		case COLOR_EVENT_FUCHSIA:
+			return new Color(defaultDisplay, 255, 0, 255);
+		case COLOR_EVENT_LIGHT_GREEN:
+			return new Color(defaultDisplay, 102, 255, 102);
+		case COLOR_EVENT_PINK:
+			return new Color(defaultDisplay, 255, 102, 204);
+		case COLOR_EVENT_LIGHT_BLUE:
+			return new Color(defaultDisplay, 0, 204, 255);
+		case COLOR_EVENT_DARK_PURPLE:
+			return new Color(defaultDisplay, 102, 0, 153);
+		case COLOR_EVENT_PALE_PURPLE:
+			return new Color(defaultDisplay, 255, 204, 255);
+		case COLOR_VERDICT_FAIL_ERROR:
+			return new Color(defaultDisplay, 255, 102, 102);
+		case COLOR_VERDICT_INCONC:
+			return new Color(defaultDisplay, 232, 242, 254);
+		case COLOR_VERDICT_PASS:
+			return new Color(defaultDisplay, 102, 204, 102);
+		case COLOR_VERDICT_NONE:
+			return new Color(defaultDisplay, 200, 200, 200);
 
-		case COLOR_LIGHTER_GREY:       return new Color(Display.getDefault(), 220, 220, 220);
-		case COLOR_LIGHT_GREY:   	   return new Color(Display.getDefault(), 200, 200, 200);
-		case COLOR_GREY :        	   return new Color(Display.getDefault(), 150, 150, 150);
-		case COLOR_DARK_GREY :   	   return new Color(Display.getDefault(), 100, 100, 100);
-		case COLOR_SOFT_BLUE :   	   return new Color(Display.getDefault(), 135, 155, 165);
-
-		case COLOR_EVENT_RED:          return new Color(Display.getDefault(), 255,   0,   0);
-		case COLOR_EVENT_BLUE:         return new Color(Display.getDefault(),   0,   0, 255);
-		case COLOR_EVENT_YELLOW:       return new Color(Display.getDefault(), 255, 255,   0);
-		case COLOR_EVENT_GREEN:        return new Color(Display.getDefault(),   0, 255,   0);
-		case COLOR_EVENT_ORANGE:       return new Color(Display.getDefault(), 255, 153,   0);
-		case COLOR_EVENT_LIME:         return new Color(Display.getDefault(), 204, 255,   0);
-		case COLOR_EVENT_DARK_BLUE:    return new Color(Display.getDefault(),  51,   0, 102);
-		case COLOR_EVENT_LIGHT_YELLOW: return new Color(Display.getDefault(), 255, 255, 204);
-		case COLOR_EVENT_LIGHT_ORANGE: return new Color(Display.getDefault(), 255, 204, 102);
-		case COLOR_EVENT_CORAL:        return new Color(Display.getDefault(), 255, 127,  80);
-		case COLOR_EVENT_FUCHSIA:      return new Color(Display.getDefault(), 255,   0, 255);
-		case COLOR_EVENT_LIGHT_GREEN:  return new Color(Display.getDefault(), 102, 255, 102);
-		case COLOR_EVENT_PINK:         return new Color(Display.getDefault(), 255, 102, 204);
-		case COLOR_EVENT_LIGHT_BLUE:   return new Color(Display.getDefault(),   0, 204, 255);
-		case COLOR_EVENT_DARK_PURPLE:  return new Color(Display.getDefault(), 102,   0, 153);
-		case COLOR_EVENT_PALE_PURPLE:  return new Color(Display.getDefault(), 255, 204, 255);
-
-		case COLOR_VERDICT_FAIL_ERROR: return new Color(Display.getDefault(), 255, 102, 102);
-		case COLOR_VERDICT_INCONC:     return new Color(Display.getDefault(), 232, 242, 254);
-		case COLOR_VERDICT_PASS:       return new Color(Display.getDefault(), 102, 204, 102);
-		case COLOR_VERDICT_NONE:       return new Color(Display.getDefault(), 200, 200, 200);
-
-		// Fonts
-		case FONT_DEFAULT:            return new Font(Display.getDefault(),
-				Display.getDefault().getSystemFont().getFontData()[0].getName(),
-				Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
-				SWT.NORMAL);
-		case FONT_BOLD:               return new Font(Display.getDefault(),
-				Display.getDefault().getSystemFont().getFontData()[0].getName(),
-				Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
-				SWT.BOLD);
-		default: break;
+			// Fonts
+		case FONT_DEFAULT:{
+			final FontData fontData = defaultDisplay.getSystemFont().getFontData()[0];
+			return new Font(defaultDisplay, fontData.getName(), fontData.getHeight(), SWT.NORMAL);
 		}
-		return resource;
+		case FONT_BOLD:{
+			final FontData fontData = defaultDisplay.getSystemFont().getFontData()[0];
+			return new Font(defaultDisplay, fontData.getName(), fontData.getHeight(), SWT.BOLD);
+		}
+		default:
+			break;
+		}
+
+		return null;
 	}
 
 	public static String getVerdictColor(final String verdict) {
-		String color = VERDICT_NONE; // none
 		if (verdict.equals(Constants.TEST_CASE_VERDICT_PASS)) {
-			color = VERDICT_PASS;
+			return VERDICT_PASS;
 		} else if (verdict.equals(Constants.TEST_CASE_VERDICT_FAIL)
 				|| verdict.equals(Constants.TEST_CASE_VERDICT_ERROR)) {
-			color = VERDICT_FAIL_ERROR;
+			return VERDICT_FAIL_ERROR;
 		} else if (verdict.equals(Constants.TEST_CASE_VERDICT_INCONCLUSIVE)) {
-			color = VERDICT_INCONC;
+			return VERDICT_INCONC;
 		}
-		return color;
+
+		return VERDICT_NONE;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class ParamDataContentProvider implements IStructuredContentProvider {
 	public Object[] getElements(final Object inputElement) {
 		if (inputElement != null) {
 			if (inputElement instanceof LogParamEntry) {
-				List<PluginSpecificParam> list = ((LogParamEntry) inputElement).getPluginSpecificParam();
+				final List<PluginSpecificParam> list = ((LogParamEntry) inputElement).getPluginSpecificParam();
 				if (list == null) {
 					return new Object[] {};
 				}

@@ -22,8 +22,8 @@ import org.eclipse.titan.designer.editors.configeditor.ConfigEditor;
  */
 public final class IncludeSectionDropTargetListener implements DropTargetListener {
 
-	private TableViewer viewer;
-	private ConfigEditor editor;
+	private final TableViewer viewer;
+	private final ConfigEditor editor;
 
 	public IncludeSectionDropTargetListener(final TableViewer viewer, final ConfigEditor editor) {
 		this.viewer = viewer;
@@ -78,9 +78,9 @@ public final class IncludeSectionDropTargetListener implements DropTargetListene
 	public void drop(final DropTargetEvent event) {
 		if (IncludeItemTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			if (event.item != null && viewer.getInput() != null) {
-				IncludeSectionHandler includeSectionHandler = (IncludeSectionHandler) viewer.getInput();
-				ParseTree element = (ParseTree) event.item.getData();
-				ParseTree[] items = (ParseTree[]) event.data;
+				final IncludeSectionHandler includeSectionHandler = (IncludeSectionHandler) viewer.getInput();
+				final ParseTree element = (ParseTree) event.item.getData();
+				final ParseTree[] items = (ParseTree[]) event.data;
 
 				int baseindex = includeSectionHandler.getFiles().indexOf(element);
 

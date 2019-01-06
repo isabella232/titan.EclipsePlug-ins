@@ -11,6 +11,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
+
 /**
  * This is a universal identifier class which can handle all
  * reserved keywords. It contains also the name mappings. It is
@@ -191,6 +196,11 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"volatile_", "volatile", "volatile"},
 		/* Java types used by the generated code postfixed */
 		{"String_", "String", "String"},
+		{"MessageFormat_", "MessageFormat", "MessageFormat"},
+		{"ArrayList_", "ArrayList", "ArrayList"},
+		{"List_", "List", "List"},
+		{"AtomicBoolean_", "AtomicBoolean", "AtomicBoolean"},
+		{"AtomicInteger_", "AtomicInteger", "AtomicInteger"},
 		/* Java keywords postfixed - keywords in TTCN */
 		{"and__", "and", "and_"},
 		{"boolean__","boolean", "boolean_"},
@@ -367,6 +377,11 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"stdin_", "stdin", "stdin"},
 		{"stdout_", "stdout", "stdout"},
 		{"TTCN3_", "TTCN3", "TTCN3"},
+		{"AdditionalFunctions_", "AdditionalFunctions", "AdditionalFunctions"},
+		{"Optional_", "Optional", "Optional"},
+		{"RAW_", "RAW", "RAW"},
+		{"TtcnError_", "TtcnError", "TtcnError"},
+		{"Severity_", "Severity", "Severity"},
 		/* built-in types */
 		{"TitanAddress", null, "address"},
 		{"ASN_NULL", "NULL", null},
@@ -408,13 +423,17 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"TitanDefault_", null, "TitanDefault"},
 		{"EXTERNAL_", null, "EXTERNAL"},
 		{"TitanFloat_", "TitanFloat", "TitanFloat"},
-		{"GraphicString_", null, "GraphicString"},
+		{"Ttcn3Float_", "Ttcn3Float", "Ttcn3Float"},
+		{"TitanGeneralString_", "TitanGeneralString", "TitanGeneralString"},
+		{"TitanGraphicString_", "TitanGraphicString", "TitanGraphicString"},
 		{"TitanHexString_", "TitanHexString", "TitanHexString"},
+		{"TitanPort_", "TitanPort", "TitanPort"},
 		{"IA5String_", null, "IA5String"},
-		{"TitanInteger_", null, "TitanInteger"},
+		{"TitanInteger_", "TitanInteger", "TitanInteger"},
 		{"ISO646String_", null, "ISO646String"},
 		{"NumericString_", null, "NumericString"},
 		{"OBJID_", "OBJID", "OBJID"},
+		{"TitanObjectid_", "TitanObjectid", "TitanObjectid"},
 		{"TitanOctetString_", "TitanOctetString", "TitanOctetString"},
 		{"ObjectDescriptor_", null, "ObjectDescriptor"},
 		{"PrintableString_", null, "PrintableString"},
@@ -553,26 +572,46 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"TTCN_internal_", "<internal>", "<internal>"}
 	};
 
+	/**
+	 * Special names in the realtime extension that can not be converted on the normal way.
+	 * <p>
+	 * Java name, ASN.1 name, TTCN-3 name
+	 * */
+	private static final String[][] REALTIME_KEYWORDS = {
+		/* Java keywords - can never be used */
+		{"now__", "now", "now_"},
+		{"realtime__", "realtime", "realtime_"},
+		{"timestamp__", "timestamp", "timestamp_"}
+	};
+
 	static {
 		//fill the data structures with the keywords, and their associations.
-		String[] tempKeyword;
 		for (int i = 0; i < KEYWORDS.length; i++) {
-			tempKeyword = KEYWORDS[i];
+			addKeyword(KEYWORDS[i]);
+		}
 
-			final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
-			final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null)) {
+			for (int i = 0; i < REALTIME_KEYWORDS.length; i++) {
+				addKeyword(REALTIME_KEYWORDS[i]);
+			}
+		}
+	}
 
-			final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
-			// add to the map the name
-			if (!ID_MAP_NAME.containsKey(idData.getName())) {
-				ID_MAP_NAME.put(idData.getName(), idData);
-			}
-			if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
-				ID_MAP_ASN.put(asnName, idData);
-			}
-			if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
-				ID_MAP_TTCN.put(ttcnName, idData);
-			}
+	private static void addKeyword(final String[] tempKeyword) {
+		final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
+		final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
+
+		final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
+		// add to the map the name
+		if (!ID_MAP_NAME.containsKey(idData.getName())) {
+			ID_MAP_NAME.put(idData.getName(), idData);
+		}
+		if (tempKeyword[1] != null && !ID_MAP_ASN.containsKey(asnName)) {
+			ID_MAP_ASN.put(asnName, idData);
+		}
+		if (tempKeyword[2] != null && !ID_MAP_TTCN.containsKey(ttcnName)) {
+			ID_MAP_TTCN.put(ttcnName, idData);
 		}
 	}
 

@@ -46,14 +46,14 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(final ITextViewer viewer, final int offset) {
-		IDocument doc = viewer.getDocument();
+		final IDocument doc = viewer.getDocument();
 
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 
-		ASN1ReferenceParser refParser = new ASN1ReferenceParser();
-		Reference ref = refParser.findReferenceForCompletion(file, offset, doc);
+		final ASN1ReferenceParser refParser = new ASN1ReferenceParser();
+		final Reference ref = refParser.findReferenceForCompletion(file, offset, doc);
 
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
 			TITANDebugConsole.println("parsed the reference: " + ref);
 		}
@@ -63,16 +63,16 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 		}
 
 		Scope scope = null;
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
-		Module tempModule = projectSourceParser.containedModule(file);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final Module tempModule = projectSourceParser.containedModule(file);
 		if (tempModule != null) {
 			scope = tempModule.getSmallestEnclosingScope(refParser.getReplacementOffset());
 			ref.setMyScope(scope);
 			ref.detectModid();
 		}
 
-		TemplateContextType contextType = new TemplateContextType(ASN1CodeSkeletons.CONTEXT_IDENTIFIER, ASN1CodeSkeletons.CONTEXT_NAME);
-		ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_ASN, ASN1CodeSkeletons.CONTEXT_IDENTIFIER, contextType,
+		final TemplateContextType contextType = new TemplateContextType(ASN1CodeSkeletons.CONTEXT_IDENTIFIER, ASN1CodeSkeletons.CONTEXT_NAME);
+		final ProposalCollector propCollector = new ProposalCollector(Identifier_type.ID_ASN, ASN1CodeSkeletons.CONTEXT_IDENTIFIER, contextType,
 				doc, ref, refParser.getReplacementOffset());
 
 		if (scope != null) {
@@ -106,7 +106,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 
 		propCollector.sortTillMarked();
 
-		String sortingpolicy = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING);
+		final String sortingpolicy = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING);
 		if (PreferenceConstantValues.SORT_ALPHABETICALLY.equals(sortingpolicy)) {
 			propCollector.sortAll();
 		}

@@ -23,8 +23,8 @@ import org.eclipse.titan.designer.editors.configeditor.ConfigEditor;
  */
 public final class ModuleParameterSectionDropTargetListener implements DropTargetListener {
 
-	private TableViewer viewer;
-	private ConfigEditor editor;
+	private final TableViewer viewer;
+	private final ConfigEditor editor;
 
 	public ModuleParameterSectionDropTargetListener(final TableViewer viewer, final ConfigEditor editor) {
 		this.viewer = viewer;
@@ -79,9 +79,9 @@ public final class ModuleParameterSectionDropTargetListener implements DropTarge
 	public void drop(final DropTargetEvent event) {
 		if (ModuleParameterTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			if (event.item != null && viewer.getInput() != null) {
-				ModuleParameterSectionHandler moduleParameterSectionHandler = (ModuleParameterSectionHandler) viewer.getInput();
-				ModuleParameter element = (ModuleParameter) event.item.getData();
-				ModuleParameter[] items = (ModuleParameter[]) event.data;
+				final ModuleParameterSectionHandler moduleParameterSectionHandler = (ModuleParameterSectionHandler) viewer.getInput();
+				final ModuleParameter element = (ModuleParameter) event.item.getData();
+				final ModuleParameter[] items = (ModuleParameter[]) event.data;
 
 				int baseindex = moduleParameterSectionHandler.getModuleParameters().indexOf(element);
 

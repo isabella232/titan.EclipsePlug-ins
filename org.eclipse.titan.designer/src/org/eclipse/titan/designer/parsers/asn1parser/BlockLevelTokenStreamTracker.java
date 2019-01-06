@@ -67,7 +67,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 				// discard this Token
 				assert(true); // TODO: remove it if it proves OK (in Lexer done it)
 			} else if (t.getType() == Asn1Lexer.BEGINCHAR) {
-				boolean exit = getBlock(first);
+				final boolean exit = getBlock(first);
 				if (exit) {
 					return ++i;
 				}
@@ -91,17 +91,17 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 			return null;
 		}
 
-		BlockLevelTokenStreamTracker tracker = new BlockLevelTokenStreamTracker(aBlock, startIndex);
+		final BlockLevelTokenStreamTracker tracker = new BlockLevelTokenStreamTracker(aBlock, startIndex);
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
 
-		Asn1Parser parser = new Asn1Parser(tracker);
+		final Asn1Parser parser = new Asn1Parser(tracker);
 
 		tracker.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setBuildParseTree(false);
-		ASN1Listener parserListener = new ASN1Listener(parser);
+		final ASN1Listener parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);
 		return parser;
@@ -115,7 +115,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 
 		TokenWithIndexAndSubTokens result;
 		Token t = oldList.get(index++);
-		List<Token> tokenList = new ArrayList<Token>();
+		final List<Token> tokenList = new ArrayList<Token>();
 		int nofUnclosedParanthesis = 1;
 		while(t != null && t.getType() != Token.EOF && index < oldList.size()) {
 			if(t.getType() == Asn1Lexer.BEGINCHAR) {
@@ -146,10 +146,11 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	}
 
 	private String makeString(final List<Token> list) {
-		StringBuilder text = new StringBuilder();
-		for (Token t : list) {
+		final StringBuilder text = new StringBuilder();
+		for (final Token t : list) {
 			text.append(t.getText());
 		}
+
 		return text.toString();
 	}
 }

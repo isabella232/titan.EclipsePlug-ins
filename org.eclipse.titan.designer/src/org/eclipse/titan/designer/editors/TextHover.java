@@ -24,7 +24,7 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
  * @author Arpad Lovassy
  */
 public final class TextHover implements ITextHover {
-	private ISourceViewer sourceViewer;
+	private final ISourceViewer sourceViewer;
 
 	public TextHover(final ISourceViewer sourceViewer) {
 		this.sourceViewer = sourceViewer;
@@ -36,14 +36,14 @@ public final class TextHover implements ITextHover {
 			return null;
 		}
 
-		IAnnotationModel annotationModel = sourceViewer.getAnnotationModel();
+		final IAnnotationModel annotationModel = sourceViewer.getAnnotationModel();
 		if (annotationModel != null) {
-			Iterator<?> iterator = annotationModel.getAnnotationIterator();
+			final Iterator<?> iterator = annotationModel.getAnnotationIterator();
 			while (iterator.hasNext()) {
-				Object o = iterator.next();
+				final Object o = iterator.next();
 				if (o instanceof MarkerAnnotation) {
-					MarkerAnnotation actualMarker = (MarkerAnnotation) o;
-					Position markerPosition = annotationModel.getPosition(actualMarker);
+					final MarkerAnnotation actualMarker = (MarkerAnnotation) o;
+					final Position markerPosition = annotationModel.getPosition(actualMarker);
 					if (markerPosition.getOffset() <= hoverRegion.getOffset()
 							&& markerPosition.getOffset() + markerPosition.getLength() >= hoverRegion.getOffset()) {
 						String message = actualMarker.getText();

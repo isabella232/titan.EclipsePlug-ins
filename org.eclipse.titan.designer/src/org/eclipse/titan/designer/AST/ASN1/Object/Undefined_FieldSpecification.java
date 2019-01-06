@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.ASN1.values.Undefined_Block_Value;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -256,5 +257,13 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		if (fieldSpecification != null) {
+			fieldSpecification.generateCode(aData);
+		}
 	}
 }

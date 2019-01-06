@@ -8,8 +8,15 @@
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.Error_Setting;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -22,26 +29,53 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 // FIXME enhance when values become available
 public final class FieldSetting_Value extends FieldSetting {
 
-	public FieldSetting_Value(final Identifier name /* , Value setting */) {
+	private final IValue setting;
+
+	public FieldSetting_Value(final Identifier name, final IValue setting ) {
 		super(name);
+		this.setting = setting;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public FieldSetting newInstance() {
-		return new FieldSetting_Value(name.newInstance());
+		return new FieldSetting_Value(name.newInstance(), setting);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public Error_Setting getSetting() {
-		return new Error_Setting();
+	public IValue getSetting() {
+		return setting;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final FieldSpecification fieldSpecification) {
-		//Do nothing while values are missing
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+			return;
+		}
+
+		lastTimeChecked = timestamp;
+
+		if (!(fieldSpecification instanceof FixedTypeValue_FieldSpecification)) {
+			getLocation().reportSemanticError("Value setting was expected");
+			//FIXME set erroneous
+			return;
+		}
+
+		FixedTypeValue_FieldSpecification fs = (FixedTypeValue_FieldSpecification)fieldSpecification;
+		IType type = fs.getType();
+		setting.setMyGovernor(type);
+		final IValue tempValue = type.checkThisValueRef(timestamp, setting);
+		type.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, true,
+				false));
+
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		setting.checkRecursions(timestamp, chain);
+		chain.release();
+
+		setting.setGenNameRecursive(setting.getGenNameOwn());
+		setting.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
 	@Override
@@ -63,5 +97,29 @@ public final class FieldSetting_Value extends FieldSetting {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		final String genName = setting.get_lhs_name();
+		final IType type = setting.getMyGovernor();
+
+		final StringBuilder sb = aData.getSrc();
+		final StringBuilder source = new StringBuilder();
+		source.append( "\tpublic static " );
+		source.append( "final " );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, setting.getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( ' ' );
+		source.append( genName );
+		source.append( " = new " );
+		source.append( typeGeneratedName );
+		source.append( "();\n" );
+		if ( setting != null ) {
+			setting.generateCodeInit( aData, aData.getPreInit(), genName );
+		}
+		sb.append(source);
+		
 	}
 }

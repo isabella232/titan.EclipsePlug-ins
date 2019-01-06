@@ -291,12 +291,13 @@ public class AutomaticCluster extends BaseCluster {
 	 * @return The MQ value
 	 */
 	private double MQ() {
-		int k = 0;
-		int e = 0;
 		if (clusternum == 1) {
 			final double edgenum = moduleGraph.getEdgeCount();
 			return edgenum / (nodenum * (nodenum));
 		}
+
+		int k = 0;
+		int e = 0;
 		double sumA = 0;
 		double sumE = 0;
 		for (final int i : indices) {

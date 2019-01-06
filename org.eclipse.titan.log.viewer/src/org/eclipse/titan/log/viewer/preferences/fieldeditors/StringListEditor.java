@@ -65,8 +65,9 @@ public class StringListEditor extends TitanListEditor {
 				if ("".equals(tempText)) { //$NON-NLS-1$
 					return ""; //$NON-NLS-1$
 				}
-				String[] elements = getElements();
-				for (String element : elements) {
+
+				final String[] elements = getElements();
+				for (final String element : elements) {
 					if (element.contentEquals(tempText)) {
 						return Messages.getString("StringListEditor.6"); //$NON-NLS-1$
 					}
@@ -87,8 +88,7 @@ public class StringListEditor extends TitanListEditor {
 
 	@Override
 	protected String getNewInputObject() {
-
-		InputDialog dialog = new InputDialog(getShell(),
+		final InputDialog dialog = new InputDialog(getShell(),
 				Messages.getString("StringListEditor.0"), //$NON-NLS-1$
 				Messages.getString("StringListEditor.1"), //$NON-NLS-1$
 				Messages.getString("StringListEditor.2"), //$NON-NLS-1$

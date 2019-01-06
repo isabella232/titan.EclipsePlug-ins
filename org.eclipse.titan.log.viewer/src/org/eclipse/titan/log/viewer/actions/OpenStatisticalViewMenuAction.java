@@ -77,8 +77,8 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection tempSelection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		if (!(tempSelection instanceof IStructuredSelection)) {
 			return null;
 		}
@@ -97,10 +97,10 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 			return;
 		}
 
-		Set<IFile> logFiles = new HashSet<IFile>(selection.size());
+		final Set<IFile> logFiles = new HashSet<IFile>(selection.size());
 
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			Object object = iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final Object object = iterator.next();
 			if (object instanceof IFile) {
 				logFiles.add((IFile) object);
 			} else if (object instanceof TestCase) {
@@ -112,7 +112,7 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 			return;
 		}
 
-		List<StatisticalData> statisticalDataVector = createStatisticalData(logFiles);
+		final List<StatisticalData> statisticalDataVector = createStatisticalData(logFiles);
 		if (statisticalDataVector == null || statisticalDataVector.isEmpty()) {
 			return;
 		}
@@ -121,8 +121,9 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 		if (statisticalDataVector.size() < 2) {
 			secondId = File.separator + this.logFile.getProject().getName() + File.separator + this.logFile.getProjectRelativePath().toOSString();
 		}
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IViewReference reference = activePage.findViewReference(Constants.STATISTICAL_VIEW_ID, secondId);
+
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IViewReference reference = activePage.findViewReference(Constants.STATISTICAL_VIEW_ID, secondId);
 
 		// get the view
 		if (reference != null) {
@@ -131,7 +132,7 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 
 		// create a new view
 		try {
-			StatisticalView part = (StatisticalView) activePage.showView(Constants.STATISTICAL_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
+			final StatisticalView part = (StatisticalView) activePage.showView(Constants.STATISTICAL_VIEW_ID, secondId, IWorkbenchPage.VIEW_ACTIVATE);
 			part.setData(statisticalDataVector);
 			part.setFocus();
 		} catch (PartInitException e) {
@@ -141,9 +142,9 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 		}
 	}
 
-	private List<StatisticalData> createStatisticalData(Set<IFile> logFiles) {
-		List<StatisticalData> statisticalDataVector = new ArrayList<StatisticalData>();
-		for (IFile file : logFiles) {
+	private List<StatisticalData> createStatisticalData(final Set<IFile> logFiles) {
+		final List<StatisticalData> statisticalDataVector = new ArrayList<StatisticalData>();
+		for (final IFile file : logFiles) {
 			this.logFile = file;
 
 			if (!this.logFile.exists()) {
@@ -151,8 +152,8 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 				return null;
 			}
 
-			File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(this.logFile);
-			File propertyFile = LogFileCacheHandler.getPropertyFileForLogFile(this.logFile);
+			final File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(this.logFile);
+			final File propertyFile = LogFileCacheHandler.getPropertyFileForLogFile(this.logFile);
 			if (!logRecordIndexFile.exists() || !propertyFile.exists() || LogFileCacheHandler.hasLogFileChanged(this.logFile)) {
 				processLogFile();
 			} else {
@@ -178,10 +179,10 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 						this.logFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 					}
 
-					List<TestCase> testCases = this.testCaseExtractor.getTestCases();
+					final List<TestCase> testCases = this.testCaseExtractor.getTestCases();
 					// //Create data for the statistical view
 					final CachedLogReader reader = new CachedLogReader(LogFileReader.getReaderForLogFile(this.logFile));
-					StatisticalData statisticalData = new StatisticalData(this.logFileMetaData, testCases, reader);
+					final StatisticalData statisticalData = new StatisticalData(this.logFileMetaData, testCases, reader);
 					statisticalDataVector.add(statisticalData);
 
 				} catch (IOException e) {
@@ -206,7 +207,7 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 					OpenStatisticalViewMenuAction.this.monitor = monitor;
 					OpenStatisticalViewMenuAction.this.testCaseExtractor = null;
 					try {
-						LogFileHandler logFileHandler = new LogFileHandler(logFile);
+						final LogFileHandler logFileHandler = new LogFileHandler(logFile);
 
 						// First of all, verify that the file is a TITAN supported log file
 						try {
@@ -276,8 +277,8 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 		}
 
 		this.selection = (IStructuredSelection) selection;
-		for (Iterator<?> iterator = this.selection.iterator(); iterator.hasNext();) {
-			Object object = iterator.next();
+		for (final Iterator<?> iterator = this.selection.iterator(); iterator.hasNext();) {
+			final Object object = iterator.next();
 			if (!(object instanceof IFile || object instanceof TestCase)) {
 				setEnabled(false);
 				return;
@@ -289,8 +290,8 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 	@Override
 	public void update(final Observable observable, final Object event) {
 		if (event instanceof TestCaseEvent) {
-			TestCaseEvent testCaseEvent = (TestCaseEvent) event;
-			int worked = testCaseEvent.getProgress();
+			final TestCaseEvent testCaseEvent = (TestCaseEvent) event;
+			final int worked = testCaseEvent.getProgress();
 			if (this.monitor != null) {
 				this.monitor.worked(worked - this.lastWorked);
 			}

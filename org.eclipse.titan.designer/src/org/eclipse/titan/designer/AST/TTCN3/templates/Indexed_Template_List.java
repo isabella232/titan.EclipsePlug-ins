@@ -142,7 +142,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	public void setCodeSection(final CodeSectionType codeSection) {
 		super.setCodeSection(codeSection);
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-			indexedTemplates.getTemplateByIndex(i).getTemplate().setCodeSection(codeSection);
+			indexedTemplates.getTemplateByIndex(i).setCodeSection(codeSection);
 		}
 		if (lengthRestriction != null) {
 			lengthRestriction.setCodeSection(codeSection);
@@ -459,17 +459,33 @@ public final class Indexed_Template_List extends TTCN3Template {
 		if (indexedTemplates.getNofTemplates() != 0) {
 			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for indexed template list `" + getFullName() + "''");
 
-			return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 		}
 
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
-		return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		if (myGovernor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		final StringBuilder result = new StringBuilder();
+		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
+
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+		}
+
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression, true);
 			return;
@@ -516,9 +532,6 @@ public final class Indexed_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (asValue != null) {
@@ -530,7 +543,6 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return;
 		}
 
-		//FIXME actually a bit more complex
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		String ofTypeName;
 		switch(type.getTypetype()) {
@@ -551,7 +563,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		if (indexedTemplates.getNofTemplates() == 0) {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
-			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 		}//else is not needed as the loop will not run
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
 			final IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
@@ -559,12 +571,12 @@ public final class Indexed_Template_List extends TTCN3Template {
 			source.append("{\n");
 			final Value index = indexedTemplate.getIndex().getValue();
 			if (Value_type.INTEGER_VALUE.equals(index.getValuetype())) {
-				source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
 			} else {
 				final String tempId2 = aData.getTemporaryVariableName();
 				source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempId2));
 				index.generateCodeInit(aData, source, tempId2);
-				source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, tempId2));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_at({3});\n", ofTypeName, tempId, name, tempId2));
 			}
 			indexedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
 			source.append("}\n");
@@ -572,7 +584,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

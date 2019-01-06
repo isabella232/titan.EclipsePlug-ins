@@ -740,7 +740,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
@@ -754,34 +754,34 @@ public abstract class AbstractOfType extends ASN1Type {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalIndexId = aData.getTemporaryVariableName();
-		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
-				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"sizeOf()"));
+		expression.expression.append(MessageFormat.format("{0} = {1}.is_greater_than_or_equal(0) && {1}.is_less_than({2}.{3});\n",
+				globalId, temporalIndexId, externalId, isTemplate?"n_elem()":"size_of()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalId = aData.getTemporaryVariableName();
 		if (isTemplate) {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
 					temporalId, externalId, temporalIndexId));
 		} else {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
 					temporalId, externalId, temporalIndexId));
 		}
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		if (optype == Operation_type.ISBOUND_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"isBound":"isPresent", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"is_bound":"is_present", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId));
 			if (subReferenceIndex==subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId, field));
+				expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2});\n", globalId, temporalId, field));
 				expression.expression.append("}\n");
 			}
 		}

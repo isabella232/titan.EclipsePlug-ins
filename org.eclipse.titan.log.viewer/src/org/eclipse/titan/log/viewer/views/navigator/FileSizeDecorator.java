@@ -33,9 +33,10 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 		if (!(element instanceof IFile)) {
 			return;
 		}
-		IFile aFile = (IFile) element;
-		String extension = aFile.getFileExtension();
-		if ((extension == null) || !extension.contentEquals(Constants.LOG_EXTENSION)) {
+
+		final IFile aFile = (IFile) element;
+		final String extension = aFile.getFileExtension();
+		if (!Constants.LOG_EXTENSION.equals(extension)) {
 			return;
 		}
 		try {
@@ -46,7 +47,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 			return;
 		}
 
-		String formattedSize = getFormattedSize(aFile);
+		final String formattedSize = getFormattedSize(aFile);
 		decoration.addSuffix(" [" + formattedSize + ']'); //$NON-NLS-1$
 	} // decorate
 
@@ -59,7 +60,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 	 *
 	 */
 	private String getFormattedSize(final IFile aFile) {
-		long size = getSize(aFile);
+		final long size = getSize(aFile);
 		return getFormat(size);
 	}
 
@@ -68,11 +69,12 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 	 *
 	 */
 	private long getSize(final IFile file) {
-		IPath location = file.getLocation();
+		final IPath location = file.getLocation();
 		if (location == null) {
 			return -1L;
 		}
-		File localFile = location.toFile();
+
+		final File localFile = location.toFile();
 		return localFile.length();
 	} // getSize
 

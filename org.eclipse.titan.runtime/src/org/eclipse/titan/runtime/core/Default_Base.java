@@ -14,7 +14,7 @@ package org.eclipse.titan.runtime.core;
  *
  * FIXME implement destructor.
  */
-public class Default_Base {
+public abstract class Default_Base {
 	private final int defaultId;
 	private final String altstepName;
 
@@ -30,20 +30,19 @@ public class Default_Base {
 		TTCN_Logger.log_defaultop_activate(altstepName, defaultId);
 	}
 
-	public int getDefaultId() {
+	public int get_default_id() {
 		return defaultId;
 	}
 
-	public String getAlstepName() {
+	public String get_alstep_name() {
 		return altstepName;
 	}
 
-	// originally call_altstep
-	// TODO should be abstract
-	public TitanAlt_Status call_altstep() {
-		return TitanAlt_Status.ALT_NO;
-	}
+	public abstract TitanAlt_Status call_altstep();
 
+	/**
+	 * Logs this value.
+	 */
 	public void log() {
 		TTCN_Logger.log_event("default reference: altstep: %s, id: %u", altstepName, defaultId);
 	}

@@ -57,12 +57,12 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 		}
 
 		try {
-			char currentChar = document.getChar(ofs);
+			final char currentChar = document.getChar(ofs);
 			if (']' == currentChar || ')' == currentChar || '}' == currentChar) {
 				return reference;
 			}
-			GeneralPairMatcher pairMatcher = new ASN1ReferencePairMatcher();
 
+			final GeneralPairMatcher pairMatcher = new ASN1ReferencePairMatcher();
 			ofs = referenceStartOffset(ofs, document, pairMatcher);
 
 			if (-1 == ofs) {
@@ -72,9 +72,9 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 			// the last character where the loop stopped is not part
 			// of the reference
 			ofs++;
-			String toBeParsed = document.get(ofs, offset - ofs);
+			final String toBeParsed = document.get(ofs, offset - ofs);
 
-			ASN1ReferenceParser refAnalyzer = newInstance();
+			final ASN1ReferenceParser refAnalyzer = newInstance();
 
 			reference = refAnalyzer.parseReference(file, toBeParsed, document.getLineOfOffset(ofs) + 1, ofs);
 
@@ -93,7 +93,7 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 		}
 
 		try {
-			GeneralPairMatcher pairMatcher = new ASN1ReferencePairMatcher();
+			final GeneralPairMatcher pairMatcher = new ASN1ReferencePairMatcher();
 
 			ofs = referenceStartOffset(ofs, document, pairMatcher);
 			if (-1 == ofs) {
@@ -122,9 +122,9 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 				currentChar = document.getChar(endoffset);
 			}
 
-			String toBeParsed = document.get(ofs, endoffset - ofs);
+			final String toBeParsed = document.get(ofs, endoffset - ofs);
 
-			ASN1ReferenceParser refAnalyzer = newInstance();
+			final ASN1ReferenceParser refAnalyzer = newInstance();
 
 			reference = refAnalyzer.parseReference(file, toBeParsed, document.getLineOfOffset(ofs)+1,ofs );
 		} catch (BadLocationException e) {
@@ -161,7 +161,7 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 				}
 				foundWhiteSpaces = false;
 				foundDot = false;
-				IRegion pair = pairMatcher.match(document, temporalOffset + 1);
+				final IRegion pair = pairMatcher.match(document, temporalOffset + 1);
 				if (pair == null) {
 					return -1;
 				}
@@ -188,24 +188,24 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 
 	private Reference parseReference(final IFile file, final String input, final int line, final int offset) {
 		Reference reference = null;
-		StringReader reader = new StringReader(input);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Asn1Lexer lexer = new Asn1Lexer(charStream);
+		final StringReader reader = new StringReader(input);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Asn1Lexer lexer = new Asn1Lexer(charStream);
 		lexer.setTokenFactory(new TokenWithIndexAndSubTokensFactory(true));
-		ASN1Listener lexerListener = new ASN1Listener();
+		final ASN1Listener lexerListener = new ASN1Listener();
 		lexer.removeErrorListeners(); // remove ConsoleErrorListener
 		lexer.addErrorListener(lexerListener);
-		ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
+		final ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
-		Asn1Parser parser = new Asn1Parser(tracker);
+		final Asn1Parser parser = new Asn1Parser(tracker);
 		parser.setProject(file.getProject());
 		parser.setActualFile(file);
 		parser.setLine(line);
 		parser.setOffset(offset);
 		parser.setBuildParseTree(false);
-		ASN1Listener parserListener = new ASN1Listener();
+		final ASN1Listener parserListener = new ASN1Listener();
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);
 		reference = parser.pr_parseReference().reference;

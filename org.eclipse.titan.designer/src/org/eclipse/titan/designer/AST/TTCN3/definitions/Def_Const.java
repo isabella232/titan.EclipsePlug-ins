@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
@@ -481,27 +482,32 @@ public final class Def_Const extends Definition {
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		final StringBuilder source = new StringBuilder();
+		final StringBuilder globalVariable = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "private" );
+				globalVariable.append( "\tprivate" );
 			} else {
-				source.append( "public" );
+				globalVariable.append( "\tpublic" );
 			}
 		}
 
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, temp_sb);
 		}
 
-		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		//TODO const with references to other const does not need to copy
+		globalVariable.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
-		last.generateCodeInit( aData, aData.getPreInit(), genName );
+		if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
+			last.generateCodeInit( aData, aData.getPreInit(), genName );
+		} else if (value.getLastTimeBuilt() == null || value.getLastTimeBuilt().isLess(aData.getBuildTimstamp())) {
+			value.generateCodeInit( aData, aData.getPreInit(), genName );
+		}
 
-		aData.addGlobalVariable(typeGeneratedName, source.toString());
+		aData.addGlobalVariable(typeGeneratedName, globalVariable.toString());
 	}
 
 	@Override

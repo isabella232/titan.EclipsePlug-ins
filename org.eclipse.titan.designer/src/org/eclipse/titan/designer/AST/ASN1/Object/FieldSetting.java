@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -66,6 +67,19 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 		getSetting().setMyScope(scope);
 	}
 
+	/**
+	 * Set the generated name for this field setting,
+	 *  as a concatenation of a prefix, an underscore and a suffix,
+	 * unless the prefix already ends with, or the suffix already begins with
+	 * precisely one underscore.
+	 *
+	 * @param prefix the prefix to use
+	 * @param suffix the suffix to use.
+	 * */
+	public void setGenName(final String prefix, final String suffix) {
+		getSetting().setGenName(prefix, suffix);
+	}
+
 	public abstract void check(final CompilationTimeStamp timestamp, FieldSpecification fieldSpecification);
 
 	/**
@@ -94,4 +108,13 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 	 *                point us a step forward to the declaration.
 	 * */
 	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
+
+	/**
+	 * Generate Java code for this field setting.
+	 *
+	 * generate_code in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 */
+	public abstract void generateCode( final JavaGenData aData);
 }

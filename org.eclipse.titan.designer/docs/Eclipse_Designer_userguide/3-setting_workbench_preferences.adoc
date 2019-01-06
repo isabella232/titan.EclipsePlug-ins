@@ -6,18 +6,17 @@ This section gives an overview about the various settings related to the workben
 
 In Eclipse, workbench preferences are used to set user specific general rules, which apply to every project; for example, preferred font styles, access to version handling systems and so on.
 
-Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation – see Figure 8.
-
+Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation (see <<titan-preferences-sub-tree,figure below>>).
+[[titan-preferences-sub-tree]]
 image::images/2_F8.png[title="TITAN preferences sub-tree"]
 
 This section only concerns the preferences that are available under the TITAN preferences node of this preference tree.
 
-[[titan-preferences]]
 == TITAN Preferences
-
+[[titan-preferences]]
 image::images/2_F9.png[title="TITAN preferences"]
 
-The following options can be set on the TITAN preferences page (see the figure above):
+The following options can be set on the TITAN preferences page (see <<titan-preferences,the figure above>>):
 
 * **TITAN installation path.**
 +
@@ -58,7 +57,9 @@ By default, the Designer plug-in isn’t logging debug information to the Debug 
 +
 The option is NOT CHECKED by default because most of the time these features hold no value for the users.
 +
-If you want to set any of these options, set the options "Display debug preferences" [.underline]#then press button "Apply".# An entry "Debug" appears under "**TITAN Preferences**" on the left pane (see Figure 10).
+If you want to set any of these options, set the options "Display debug preferences" [.underline]#then press button "Apply".# An entry "Debug" appears under "**TITAN Preferences**" on the left pane (see <<display-debug-preferences,figure below>> ).
+
+[[display-debug-preferences]]
 
 image::images/2_F10.png[title="Display Debug preferences"]
 
@@ -67,10 +68,10 @@ Below the last option, the version of the currently set compiler and information
 NOTE: In case the license file is not provided, is not valid or has expired an additional link will appear on this page. Clicking on this link a browser will open directing the user to a web page where he can order a new license or can ask for a renewal of his existing one.
 
 == Content Assist Preferences
-
+[[content-assist]]
 image::images/3_F11.png[title="Content Assist"]
 
-The following options can be set on the Content Assist page (see figure above):
+The following options can be set on the <<content-assist,Content Assist page>>:
 
 * **Insert single proposals automatically**
 +
@@ -102,10 +103,10 @@ The default setting is: 500 milliseconds
 
 [[debug]]
 == Debug
-
+[[debug-options]]
 image::images/3_F12.png[title="Debug options and Load Balancing"]
 
-The following option groups can be set on the Debug page (see figure above):
+The following option groups can be set on the Debug page (see <<debug-options,figure above>>):
 
 * **Debug options for the Titan plugins**
 +
@@ -315,9 +316,14 @@ The parsing process is detailed <<7-editing_with_titan_designer_plugin.adoc#on-t
 +
 NOTE: The delayed semantic checking separates the syntactic analysis from the semantic analysis, while the timeout before on-the-fly check starts feature shifts them together. As such these two features are orthogonal to each other.
 
+* **Enable support for the realtime extension**
++
+When this feature enabled support for the realtime extension of the TTCN-3 standard will be activated. This also means that the now, realtime and timestamp words become keywords in TTCN-3 files.
+
+
 === Pitfalls
 
-* In the worst case incremental parsing can actually take somewhat longer than a full parsing of the file. As it is using among others the opening and closing brackets to localize the semantic effect of a change, if these are not used in a consistent way, which reduce the performance drastically. For example, if only the '\{' sign is entered, but the pairing '}' is not, that might structurally damage the whole file, as all statement blocks might become syntactically invalid.
+* In the worst case incremental parsing can actually take somewhat longer than a full parsing of the file. As it is using among others the opening and closing brackets to localize the semantic effect of a change, if these are not used in a consistent way, which reduce the performance drastically. For example, if only the '{' sign is entered, but the pairing '}' is not, that might structurally damage the whole file, as all statement blocks might become syntactically invalid.
 +
 NOTE: Using the automatic typing features provided, and programming in a consistent way, can practically eliminate the chances of such performance degradations.
 
@@ -443,9 +449,12 @@ NOTE: Changing these preferences will trigger a full re-checking of the projects
 [[pitfalls-0]]
 === Pitfalls
 
-The detection of unused module importations and definitions is based on the semantic analyzes done on-the-fly. As that is not yet a full semantic analyzes, these feature can also produce only heuristic behavior.
+The detection of unused module importations and definitions is based on the semantic analyzes done on-the-fly.
+As that is not yet a full semantic analyzes, these feature can also produce only heuristic behavior.
 
-For example, every importation / definition will be reported unused, if it is not used by the semantic analyzer. This sadly does not mean that they are actually not used, but on the contrary it means that every importation / definition not marked is sure to be used. However this also means that if there are any unused importations / definitions in the project they will be contained in this list, thus considerably reducing every effort needed to find them.
+For example, every importation / definition will be reported unused, if it is not used by the semantic analyzer.
+This sadly does not mean that they are actually not used, but on the contrary it means that every importation / definition not marked is sure to be used.
+However this also means that if there are any unused importations / definitions in the project they will be contained in this list, thus considerably reducing every effort needed to find them.
 
 == Naming Conventions
 
@@ -539,13 +548,15 @@ if this options is set default values in ASN.1 structures will be handled as omi
 NOTE: This is only useful in a few protocols. The option is UNCHECKED by default.
 
 == Typing Preferences
-
+[[typing-preferences]]
 image::images/3_F25.png[title="Typing preferences"]
 
-The Typing page (above) is used to configure the automatic behavior during typing in supported editors. The variable parameters are divided into two groups.
+The Typing page (above) is used to configure the automatic behavior during typing in supported editors.
+The variable parameters are divided into two groups.
 
 The first group deals with automatic bracket insertion. For the last three items a checked box means that, as soon as the user types the opening bracket, the corresponding closing bracket will be automatically inserted. The cursor will be placed between the two brackets. This automatism can be invoked for three types of brackets: (parentheses), [square brackets] and {curly brackets}. For apostrophe it is somewhat different. In this case if there is some text selected when the user types an apostrophe, its pair will not be inserted right after, but rather on the other side of the selection, effectively enclosing the selected region. If there is an alphabetical character right before or after the cursor only one apostrophe is inserted. In other cases, the closing apostrophe is inserted automatically after the one typed.
 
-The second group contains only one box for controlling new line insertion. A checked box has the following effect: if the user hits *Enter* between two curly brackets, the cursor will be moved to the next line and the closing bracket even further, to the second line. This way an empty line is formed with an opening bracket above and a closing bracket below it. The cursor will be placed on the empty line.
+The second group contains only one box for controlling new line insertion. A checked box has the following effect:
+if the user hits *Enter* between two curly brackets, the cursor will be moved to the next line and the closing bracket even further, to the second line. This way an empty line is formed with an opening bracket above and a closing bracket below it. The cursor will be placed on the empty line.
 
 By default, all boxes are checked.

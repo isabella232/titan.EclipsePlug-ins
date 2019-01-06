@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IResourceVisitor;
  * */
 public class FileFinder implements IResourceVisitor {
 	private IFile targetFile = null;
-	private String fileName;
+	private final String fileName;
 
 	public FileFinder(final String fileName) {
 		this.fileName = fileName;
@@ -37,7 +37,7 @@ public class FileFinder implements IResourceVisitor {
 	@Override
 	public boolean visit(final IResource resource) {
 		if (resource.getType() == IResource.FILE) {
-			IFile file = (IFile) resource;
+			final IFile file = (IFile) resource;
 			if (file.getName().equals(fileName)) {
 				targetFile = file;
 			}
