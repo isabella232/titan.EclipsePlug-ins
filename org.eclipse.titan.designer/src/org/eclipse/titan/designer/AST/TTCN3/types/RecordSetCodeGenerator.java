@@ -194,7 +194,7 @@ public final class RecordSetCodeGenerator {
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
 
-		source.append( "\t}\n" );
+		source.append( "\t}\n\n" );
 	}
 
 	/**
