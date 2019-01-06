@@ -165,13 +165,30 @@ public class TitanFloat extends Base_Type {
 		return float_value != null;
 	}
 
-	public static TitanBoolean is_special(final double aOtherValue) {
-		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));
+	/**
+	 * Checks if the provided float value is plus infinity, minus infinity
+	 * or NaN.
+	 *
+	 * @param other_value
+	 *                the value to check.
+	 * @return {@code true} if it is plus infinity, minus infinity or NaN,
+	 *         {@code false} otherwise.
+	 * */
+	public static TitanBoolean is_special(final double other_value) {
+		return new TitanBoolean(other_value == PLUS_INFINITY || other_value == MINUS_INFINITY || Double.isNaN(other_value));
 	}
 
-	public static void check_numeric(final double floatValue, final String errorMsg) {
-		if (is_special(floatValue).get_value()) {
-			throw new TtcnError(MessageFormat.format("{0} must be a numeric value instead of {1}", errorMsg, floatValue));
+	/**
+	 * Checks if the provided value is a numeric value or not.
+	 *
+	 * @param float_value
+	 *                the value to check.
+	 * @param error_msg
+	 *                the error message to log if the value is not numeric.
+	 * */
+	public static void check_numeric(final double float_value, final String error_msg) {
+		if (is_special(float_value).get_value()) {
+			throw new TtcnError(MessageFormat.format("{0} must be a numeric value instead of {1}", error_msg, float_value));
 		}
 	}
 
