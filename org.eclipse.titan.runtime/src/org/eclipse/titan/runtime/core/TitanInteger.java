@@ -933,6 +933,12 @@ public class TitanInteger extends Base_Type {
 		return !is_less_than(otherValue);
 	}
 
+	/**
+	 * Checks if the integer fits into the native range.
+	 *
+	 * @return {@code true} if it can be stored in int, {@code false}
+	 *         otherwise.
+	 * */
 	public boolean is_native() {
 		return nativeFlag;
 	}
@@ -983,7 +989,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally int()
+	/**
+	 * Returns the value as an int.
+	 * <p>
+	 * A current value larger than the native int range results in dynamic
+	 * testcase error.
+	 *
+	 * int() in the core.
+	 *
+	 * @return the native int value.
+	 * */
 	public int get_int() {
 		must_bound("Using the value of an unbound integer variable.");
 
@@ -994,7 +1009,16 @@ public class TitanInteger extends Base_Type {
 		return nativeInt;
 	}
 
-	// originally get_long_long_val
+	/**
+	 * Returns the value as a long.
+	 * <p>
+	 * A current value larger than the native int range results in dynamic
+	 * testcase error.
+	 *
+	 * get_long_long_val() in the core.
+	 *
+	 * @return the native long value.
+	 * */
 	public long get_long() {
 		must_bound("Using the value of an unbound integer variable.");
 
@@ -1005,7 +1029,13 @@ public class TitanInteger extends Base_Type {
 		return openSSL.longValue();
 	}
 
-	// originally get_long_long_val
+	/**
+	 * Returns the value as a BigInteger.
+	 *
+	 * get_long_long_val() in the core.
+	 *
+	 * @return the value as a BigInteger.
+	 * */
 	public BigInteger get_BigInteger() {
 		must_bound("Using the value of an unbound integer variable.");
 
