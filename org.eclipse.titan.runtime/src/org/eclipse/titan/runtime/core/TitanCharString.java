@@ -248,6 +248,9 @@ public class TitanCharString extends Base_Type {
 		return new TitanInteger(val_ptr.length());
 	}
 
+	/**
+	 * The supported character codings.
+	 * */
 	public static enum CharCoding {
 		UNKNOWN,
 		ASCII,
@@ -260,8 +263,16 @@ public class TitanCharString extends Base_Type {
 		UTF32LE
 	}
 
+	/**
+	 * Enumeration used to process charstring for logging.
+	 * */
 	private static enum States {
-		INIT, PCHAR, NPCHAR;
+		// represents the initial state
+		INIT,
+		// the last processed character was printable
+		PCHAR,
+		// the last processed character was non-printable
+		NPCHAR;
 	}
 
 	@Override
