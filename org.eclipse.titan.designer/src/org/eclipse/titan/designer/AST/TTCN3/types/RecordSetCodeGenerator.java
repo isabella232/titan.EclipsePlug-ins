@@ -48,7 +48,7 @@ public final class RecordSetCodeGenerator {
 
 		private final boolean isOptional;
 
-		private final boolean ofType;//TODO check if this is really neded here
+		private final boolean ofType;
 
 		/** Field variable name in java getter/setter function names and parameters */
 		private final String mJavaVarName;
