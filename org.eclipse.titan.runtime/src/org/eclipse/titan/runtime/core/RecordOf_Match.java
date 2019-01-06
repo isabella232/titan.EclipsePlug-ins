@@ -705,7 +705,7 @@ public final class RecordOf_Match {
 							int temp_value_index;
 							int actual_node;
 							boolean at_end = false;
-							for (; !at_end;) {
+							while (!at_end) {
 								at_end = tree.is_head();
 								actual_node = tree.actual_data();
 
