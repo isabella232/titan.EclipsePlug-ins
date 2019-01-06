@@ -154,7 +154,21 @@ public class TitanHexString extends Base_Type {
 		return nibbles_ptr[nibble_index];
 	}
 
-	public void set_nibble(final int nibble_index, final byte new_value) {
+	/**
+	 * Overwrites the internal data storage of this hexstring directly.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 * <p>
+	 *
+	 * @param nibble_index
+	 *                the index to overwrite.
+	 * @param new_value
+	 *                the value to use.
+	 * */
+	void set_nibble(final int nibble_index, final byte new_value) {
 		nibbles_ptr[nibble_index] = new_value;
 	}
 
