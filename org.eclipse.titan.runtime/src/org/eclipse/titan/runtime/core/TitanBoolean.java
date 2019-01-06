@@ -62,12 +62,31 @@ public class TitanBoolean extends Base_Type {
 		boolean_value = otherValue.boolean_value;
 	}
 
+	/**
+	 * Returns the Java native boolean value.
+	 *
+	 * @return the boolean value.
+	 * */
 	public Boolean get_value() {
 		return boolean_value;
 	}
 
-	public void set_value(final Boolean aOtherValue) {
-		boolean_value = aOtherValue;
+	/**
+	 * Overwrites the internal data storage of this boolean.
+	 * Takes ownership of the provided data.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @param other_value the new internal value of this boolean.
+	 * */
+	public void set_value(final Boolean other_value) {
+		boolean_value = other_value;
 	}
 
 	/**

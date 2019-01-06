@@ -186,7 +186,19 @@ public class TitanUniversalCharString extends Base_Type {
 		return clonedList;
 	}
 
-	// originally operator universal_char*
+	/**
+	 * Returns the internal data storage of this universal charstring.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * operator universal char*() in the core
+	 *
+	 * @return the internal representation of the universal chartstring.
+	 * */
 	public List<TitanUniversalChar> get_value() {
 		must_bound("Casting an unbound universal charstring value to const universal_char*.");
 
@@ -197,10 +209,23 @@ public class TitanUniversalCharString extends Base_Type {
 		return val_ptr;
 	}
 
-	// takes ownership of aOtherValue
-	public void set_value(final List<TitanUniversalChar> aOtherValue) {
-		if (aOtherValue != null) {
-			val_ptr = aOtherValue;
+	/**
+	 * Overwrites the internal data storage of this universal chartstring.
+	 * Takes ownership of the provided data.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * operator universal char*() in the core
+	 *
+	 * @param other_value the internal representation of the universal chartstring.
+	 * */
+	public void set_value(final List<TitanUniversalChar> other_value) {
+		if (other_value != null) {
+			val_ptr = other_value;
 			cstr = null;
 			charstring = false;
 		}

@@ -78,6 +78,13 @@ public class TitanFloat extends Base_Type {
 		float_value = otherValue.float_value;
 	}
 
+	/**
+	 * Returns the value of this float.
+	 *
+	 * operator double() in the core
+	 *
+	 * @return the float value as double.
+	 * */
 	public Double get_value() {
 		return float_value.getValue();
 	}

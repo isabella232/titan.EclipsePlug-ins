@@ -88,7 +88,19 @@ public class TitanCharString extends Base_Type {
 		operator_assign(otherValue);
 	}
 
-	// originally char*()
+	/**
+	 * Returns the internal data storage of this charstring.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @return the internal representation of the charstring.
+	 * */
 	public StringBuilder get_value() {
 		must_bound("Getting an unbound charstring value as string.");
 
