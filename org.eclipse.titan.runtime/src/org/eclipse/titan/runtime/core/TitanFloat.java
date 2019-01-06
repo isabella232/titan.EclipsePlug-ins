@@ -642,39 +642,45 @@ public class TitanFloat extends Base_Type {
 	}
 
 	/**
-	 * Checks if the current value is greater than or equivalent to the provided one.
+	 * Checks if the current value is greater than or equivalent to the
+	 * provided one.
 	 *
 	 * operator>= in the core
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 * @return {@code true} if the value is greater than or equivalent to
+	 *         the provided.
 	 */
 	public boolean is_greater_than_or_equal(final double otherValue) {
 		return !is_less_than(otherValue);
 	}
 
 	/**
-	 * Checks if the current value is greater than or equivalent to the provided one.
+	 * Checks if the current value is greater than or equivalent to the
+	 * provided one.
 	 *
 	 * operator>= in the core
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 * @return {@code true} if the value is greater than or equivalent to
+	 *         the provided.
 	 */
 	public boolean is_greater_than_or_equal(final Ttcn3Float otherValue) {
 		return !is_less_than(otherValue);
 	}
 
 	/**
-	 * Checks if the current value is greater than or equivalent to the provided one.
+	 * Checks if the current value is greater than or equivalent to the
+	 * provided one.
 	 *
 	 * operator>= in the core
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the value is greater than or equivalent to the provided.
+	 * @return {@code true} if the value is greater than or equivalent to
+	 *         the provided.
 	 */
 	public boolean is_greater_than_or_equal(final TitanFloat otherValue) {
 		return !is_less_than(otherValue);
