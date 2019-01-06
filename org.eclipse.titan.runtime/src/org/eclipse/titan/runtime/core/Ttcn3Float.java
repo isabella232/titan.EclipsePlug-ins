@@ -25,11 +25,20 @@ public class Ttcn3Float {
 	/** the floating-point value */
 	private double value;
 
+	/**
+	 * Initializes to the provided value.
+	 *
+	 * @param d the double value to use.
+	 * */
 	public Ttcn3Float( final double d ) {
 		value = d;
 	}
 
-	//originally operator double()
+	/**
+	 * operator double() in the core
+	 *
+	 * @return the double value.
+	 * */
 	double getValue() {
 		return value;
 	}
