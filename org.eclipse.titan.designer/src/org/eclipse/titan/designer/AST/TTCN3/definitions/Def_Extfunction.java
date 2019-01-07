@@ -1116,6 +1116,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "TTCN_Logger.end_event();\n" );
 		source.append( "}\n" );
 		if (prototype != EncodingPrototype_type.SLIDING) {
+			aData.addBuiltinTypeImport("TitanCharString");
+			aData.addBuiltinTypeImport("TitanOctetString");
+
 			// checking for remaining data in the buffer if decoding was successful
 			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
 			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len()) {\n" );
@@ -1135,6 +1138,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			// closing the block and returning the appropriate result or status code
 			if (prototype == EncodingPrototype_type.BACKTRACK) {
+				aData.addBuiltinTypeImport("TitanInteger");
+
 				source.append( "return new TitanInteger(0);\n" );
 				source.append( "} else {\n" );
 				source.append( "return new TitanInteger(1);\n" );
@@ -1146,11 +1151,15 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				}
 			}
 		} else {
+			aData.addBuiltinTypeImport("TitanInteger");
+
 			// result handling and debug printout for sliding decoders
 			source.append( "switch (TTCN_EncDec.get_last_error_type()) {\n" );
 			source.append( "case ET_NONE: {\n" );
 			source.append( "ttcn_buffer.cut();\n" );
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+				aData.addBuiltinTypeImport("TitanOctetString");
+
 				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
 				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
 				source.append(MessageFormat.format( "{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
