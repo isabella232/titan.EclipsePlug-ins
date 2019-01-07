@@ -82,7 +82,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	private final Assignment_type assignmentType;
 	private final FormalParameterList formalParList;
 	private final Type returnType;
-	private final boolean returnsTemplate;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private EncodingPrototype_type prototype;
 	private Type inputType;
@@ -101,7 +100,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		formalParList = formalParameters;
 		formalParList.setMyDefinition(this);
 		this.returnType = returnType;
-		this.returnsTemplate = returnsTemplate;
 		this.templateRestriction = templateRestriction;
 		prototype = EncodingPrototype_type.NONE;
 		functionEncodingType = ExternalFunctionEncodingType_type.MANUAL;
