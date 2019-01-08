@@ -683,7 +683,7 @@ public class TitanHexString extends Base_Type {
 
 		final int n_bytes = (nibbles_ptr.length + 1) / 2;
 		if (n_bytes == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -717,7 +717,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -775,7 +775,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -833,7 +833,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -886,7 +886,7 @@ public class TitanHexString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
@@ -903,7 +903,7 @@ public class TitanHexString extends Base_Type {
 
 			return new TitanHexString(result);
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanHexString(this);
 		} else {
 			return this.shift_right(-shift_count);
 		}
@@ -942,7 +942,7 @@ public class TitanHexString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
@@ -959,7 +959,7 @@ public class TitanHexString extends Base_Type {
 
 			return new TitanHexString(result);
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanHexString(this);
 		} else {
 			return this.shift_left(-shift_count);
 		}
@@ -997,12 +997,12 @@ public class TitanHexString extends Base_Type {
 		must_bound("Unbound hexstring operand of rotate left operator.");
 
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= nibbles_ptr.length;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			return this.shift_left(rotate_count).or4b(this.shift_right(nibbles_ptr.length - rotate_count));
@@ -1043,12 +1043,12 @@ public class TitanHexString extends Base_Type {
 		must_bound("Unbound hexstring operand of rotate right operator.");
 
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 		if (rotateCount >= 0) {
 			rotateCount %= nibbles_ptr.length;
 			if (rotateCount == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			return this.shift_right(rotateCount).or4b(this.shift_left(nibbles_ptr.length - rotateCount));

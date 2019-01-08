@@ -470,7 +470,7 @@ public class TitanBitString extends Base_Type {
 
 		final int n_bytes = (n_bits + 7) / 8;
 		if (n_bytes == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 
 		final int dest_ptr[] = new int[(n_bits + 7) / 8];
@@ -504,7 +504,7 @@ public class TitanBitString extends Base_Type {
 			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
 		}
 		if (n_bits == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 
 		final int n_bytes = (n_bits + 7) / 8;
@@ -565,7 +565,7 @@ public class TitanBitString extends Base_Type {
 			throw new TtcnError("The bitstring operands of operator or4b must have the same length.");
 		}
 		if (n_bits == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 		final int n_bytes = (n_bits + 7) / 8;
 		final int dest_ptr[] = new int[n_bytes];
@@ -625,7 +625,7 @@ public class TitanBitString extends Base_Type {
 			throw new TtcnError("The bitstring operands of operator xor4b must have the same length.");
 		}
 		if (n_bits == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 
 		final int n_bytes = (n_bits + 7) / 8;
@@ -682,7 +682,7 @@ public class TitanBitString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (n_bits == 0) {
-				return this;
+				return new TitanBitString(this);
 			}
 			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
@@ -713,7 +713,7 @@ public class TitanBitString extends Base_Type {
 			ret_val.clear_unused_bits();
 			return ret_val;
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanBitString(this);
 		} else {
 			return this.shift_right(-shift_count);
 		}
@@ -752,7 +752,7 @@ public class TitanBitString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (n_bits == 0) {
-				return this;
+				return new TitanBitString(this);
 			}
 			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
@@ -783,7 +783,7 @@ public class TitanBitString extends Base_Type {
 			ret_val.clear_unused_bits();
 			return ret_val;
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanBitString(this);
 		} else {
 			return this.shift_left(-shift_count);
 		}
@@ -821,12 +821,12 @@ public class TitanBitString extends Base_Type {
 		must_bound("Unbound bitstring operand of rotate left operator.");
 
 		if (n_bits == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= n_bits;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanBitString(this);
 			} else {
 				return this.shift_left(rotate_count).or4b(this.shift_right(n_bits - rotate_count));
 			}
@@ -867,12 +867,12 @@ public class TitanBitString extends Base_Type {
 		must_bound("Unbound bitstring operand of rotate right operator.");
 
 		if (n_bits == 0) {
-			return this;
+			return new TitanBitString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= n_bits;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanBitString(this);
 			} else {
 				return ((this.shift_right(rotate_count)).or4b(this.shift_left(n_bits - rotate_count)));
 			}

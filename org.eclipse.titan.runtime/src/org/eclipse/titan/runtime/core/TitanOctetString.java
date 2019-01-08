@@ -809,7 +809,7 @@ public class TitanOctetString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();
@@ -827,7 +827,7 @@ public class TitanOctetString extends Base_Type {
 			return result;
 		} else {
 			if (shift_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			} else {
 				return this.shift_right(-shift_count);
 			}
@@ -867,7 +867,7 @@ public class TitanOctetString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();
@@ -883,7 +883,7 @@ public class TitanOctetString extends Base_Type {
 			return result;
 		} else {
 			if (shift_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			} else {
 				return this.shift_left(-shift_count);
 			}
@@ -922,7 +922,7 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound octetstring operand of rotate left operator.");
 
 		if (val_ptr.length == 0) {
-			return this;
+			return new TitanOctetString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.length;
@@ -973,12 +973,12 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound octetstring operand of rotate right operator.");
 
 		if (val_ptr.length == 0) {
-			return this;
+			return new TitanOctetString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.length;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();

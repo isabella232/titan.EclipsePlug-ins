@@ -1317,12 +1317,12 @@ public class TitanUniversalCharString extends Base_Type {
 			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_left(rotate_count));
 		}
 		if (val_ptr.isEmpty()) {
-			return this;
+			return new TitanUniversalCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.size();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanUniversalCharString(this);
 			}
 
 			final TitanUniversalCharString result = new TitanUniversalCharString();
@@ -1375,12 +1375,12 @@ public class TitanUniversalCharString extends Base_Type {
 			return new TitanUniversalCharString(new TitanCharString(cstr).rotate_right(rotate_count));
 		}
 		if (val_ptr.isEmpty()) {
-			return this;
+			return new TitanUniversalCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.size();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanUniversalCharString(this);
 			}
 
 			final TitanUniversalCharString result = new TitanUniversalCharString();

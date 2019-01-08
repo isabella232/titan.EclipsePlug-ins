@@ -666,13 +666,14 @@ public class TitanCharString extends Base_Type {
 		must_bound("Unbound charstring operand of rotate left operator.");
 
 		if (val_ptr.length() == 0) {
-			return this;
+			return new TitanCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= val_ptr.length();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanCharString(this);
 			}
+
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 			for (int i = 0; i < val_ptr.length(); i++) {
 				rValue.append(val_ptr.charAt((i + rotate_count) % val_ptr.length()));
@@ -715,13 +716,14 @@ public class TitanCharString extends Base_Type {
 		must_bound("Unbound charstring operand of rotate right operator.");
 
 		if (val_ptr.length() == 0) {
-			return this;
+			return new TitanCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= val_ptr.length();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanCharString(this);
 			}
+
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 
 			for (int i = 0; i < rotate_count; i++) {
