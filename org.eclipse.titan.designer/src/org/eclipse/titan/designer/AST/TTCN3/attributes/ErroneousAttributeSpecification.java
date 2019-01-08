@@ -185,7 +185,7 @@ public final class ErroneousAttributeSpecification implements ILocateableNode, I
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException { // TODO
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
 		}
