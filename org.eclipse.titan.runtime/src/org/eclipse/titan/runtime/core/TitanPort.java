@@ -19,6 +19,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -86,7 +87,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	};
 
-	//FIXME implement the remaining features
 	protected static final class port_connection extends Channel_Event_Handler {
 		static enum connection_data_type_enum {CONN_DATA_LAST, CONN_DATA_MESSAGE, CONN_DATA_CALL, CONN_DATA_REPLY, CONN_DATA_EXCEPTION};
 		static enum connection_state_enum {CONN_IDLE, CONN_LISTENING, CONN_CONNECTED, CONN_LAST_MSG_SENT, CONN_LAST_MSG_RCVD};
@@ -106,13 +106,32 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		@Override
 		public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
-			// FIXME for now only handle inet streams
-			if (is_readable) {
-				if (connection_state == connection_state_enum.CONN_LISTENING) {
-					owner_port.handle_incoming_connection(this);
-				} else if (is_readable) {
-					owner_port.handle_incoming_data(this);
+			// Note event for connection with TRANSPORT_LOCAL transport_type may not arrive.
+			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM) {
+				if (is_readable) {
+					if (connection_state == connection_state_enum.CONN_LISTENING) {
+						owner_port.handle_incoming_connection(this);
+					} else if (is_readable) {
+						owner_port.handle_incoming_data(this);
+					}
 				}
+			} else {
+				throw new TtcnError(MessageFormat.format("Internal error: Invalid transport type ({0}) in port connection between {1} and {2}:{3}.", transport_type, owner_port.get_name(), remote_component, remote_port));
+			}
+		}
+		
+		public void log() {
+			TTCN_Logger.log_event("port connection between ");
+			owner_port.log();
+			TTCN_Logger.log_event(" and ");
+			TTCN_Logger.log_event("%d",remote_component);
+			TTCN_Logger.log_event(":");
+			TTCN_Logger.log_event("%s", remote_port);
+		}
+		
+		public void clean_up() {
+			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM) {
+				sliding_buffer.clean_up();
 			}
 		}
 	}
@@ -1281,7 +1300,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
 		try {
 			final ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-			final ServerSocket serverSocket =serverSocketChannel.socket();
+			final ServerSocket serverSocket = serverSocketChannel.socket();
 			final InetSocketAddress local_addr = new InetSocketAddress(serverSocket.getInetAddress(), 0);
 			serverSocket.bind(local_addr);
 			final int local_port = serverSocketChannel.socket().getLocalPort();
@@ -1324,8 +1343,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private void connect_stream(final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
 		//FIXME implement properly (not even local address pulling is ok now)
+		if (transport_type != transport_type_enum.TRANSPORT_INET_STREAM) {
+			throw new TtcnError(MessageFormat.format("Internal error: TitanPort.connect_stream(): invalid transport type ({0}).", transport_type));
+		}
 
 		// family, port, addr, zero
+		//Works with IPv4 addresses
 		final byte family[] = new byte[2];
 		text_buf.pull_raw(2, family);
 		final byte port[] = new byte[2];
@@ -1336,26 +1359,39 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		final byte zero[] = new byte[8];
 		text_buf.pull_raw(8, zero);
-
+		
 		try {
-			final InetAddress temp = Inet4Address.getByAddress(addr);
-			int temp2 = (port[0]&0xFF) * 256;
-			temp2 += (port[1]&0xFF);
+			final InetAddress temp_addr = Inet4Address.getByAddress(addr);
+			int temp_port = (port[0]&0xFF) * 256;
+			temp_port += (port[1]&0xFF);
 
-			final InetSocketAddress address = new InetSocketAddress(temp, temp2);
+			final InetSocketAddress remote_address = new InetSocketAddress(temp_addr, temp_port);
 			final SocketChannel socketChannel = SocketChannel.open();
-			socketChannel.connect(address);
+			socketChannel.connect(remote_address);
+			
+			if (!TTCN_Communication.set_non_blocking_mode(socketChannel, true)) {
+				socketChannel.close();
+				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the non-blocking mode failed on the %s client socket.");
+				return;
+			}
+			
+			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, true)) {
+				socketChannel.close();
+				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the TCP_NODELAY flag failed on the TCP client socket.");
+				return;
+			}
 
 			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 			new_connection.stream_socket = socketChannel;
 
-			socketChannel.configureBlocking(false);
 			TTCN_Snapshot.channelMap.get().put(socketChannel, new_connection);
 			socketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 		} catch (final IOException e) {
 			throw new TtcnError(e);
 		}
+		
+		
 
 		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
 	}
