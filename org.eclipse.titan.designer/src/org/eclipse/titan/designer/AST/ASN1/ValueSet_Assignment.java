@@ -95,7 +95,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 			return;
 		}
 
-		//FIXME implement
+		//FIXME implement parsing of the constraint.
 		type.setGenName(getGenName());
 		type.check(timestamp);
 
