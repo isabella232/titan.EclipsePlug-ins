@@ -14,9 +14,12 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
@@ -26,6 +29,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Assignment;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -219,7 +223,16 @@ public final class CTs_EE_CTs extends ASTNode {
 			type.setParentType(myType);
 			componentField.check(timestamp);
 
-			//FIXME handle default value
+			if (componentField.hasDefault()) {
+				final IValue defaultValue = componentField.getDefault();
+				defaultValue.setMyGovernor(type);
+				final IType lastType = type.getTypeRefdLast(timestamp);
+				final IValue tempValue = lastType.checkThisValueRef(timestamp, defaultValue);
+				lastType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, false, false));
+
+				defaultValue.setGenNameRecursive(type.getGenNameOwn() + "_defval_");
+				defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
+			}
 		}
 	}
 	//This function checks only name uniqueness and fill in  structures "componentsMap" and "components"
