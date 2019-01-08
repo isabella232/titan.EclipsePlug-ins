@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -97,6 +98,13 @@ public final class Erroneous_FieldSpecification extends FieldSpecification {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;
 		}
+
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		//there is intentionally no code generated for erroneous field specifications.
 	}
 }
