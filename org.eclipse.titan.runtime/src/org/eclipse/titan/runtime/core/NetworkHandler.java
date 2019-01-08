@@ -132,7 +132,6 @@ public class NetworkHandler {
 			return m_mc_addr != null;
 		}
 
-		//TODO: implement public int getsockname_local_addr(int p_sockfd);
 		//TODO: implement socket()
 
 		public SocketChannel bind_local_addr() {
