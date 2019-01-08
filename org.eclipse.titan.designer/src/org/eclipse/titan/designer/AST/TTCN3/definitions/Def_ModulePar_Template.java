@@ -29,7 +29,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.UnivCharString_Pattern_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -201,9 +203,9 @@ public final class Def_ModulePar_Template extends Definition {
 			if (defaultTemplate.getTemplatetype() == Template_type.CSTR_PATTERN
 					&& lastType.getTypetype() == Type.Type_type.TYPE_UCHARSTRING) {
 				realTemplate = defaultTemplate.setTemplatetype(timestamp, Template_type.USTR_PATTERN);
-				// FIXME implement setting the pattern type,
-				// once universal charstring pattern are
-				// supported.
+				if (realTemplate instanceof UnivCharString_Pattern_Template) {
+					((UnivCharString_Pattern_Template)realTemplate).getPatternstring().setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
+				}
 			}
 
 			final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, realTemplate);

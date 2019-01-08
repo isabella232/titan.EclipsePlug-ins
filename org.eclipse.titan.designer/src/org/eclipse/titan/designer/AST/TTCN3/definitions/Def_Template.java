@@ -34,7 +34,9 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.UnivCharString_Pattern_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -385,8 +387,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		// Needed in case of universal charstring templates
 		if (body.getTemplatetype() == Template_type.CSTR_PATTERN && lastType.getTypetype() == Type.Type_type.TYPE_UCHARSTRING) {
 			realBody = body.setTemplatetype(timestamp, Template_type.USTR_PATTERN);
-			// FIXME implement setting the pattern type, once
-			// universal charstring pattern are supported.
+			if (realBody instanceof UnivCharString_Pattern_Template) {
+				((UnivCharString_Pattern_Template)realBody).getPatternstring().setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
+			}
 		}
 
 		if (formalParList != null) {
