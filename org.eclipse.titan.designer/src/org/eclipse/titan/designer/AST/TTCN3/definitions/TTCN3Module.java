@@ -1275,9 +1275,6 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
-		//TODO handle coding attributes
-		//TODO module setup/teardown infrastructure
-
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		for (final ImportModule importModule : importedModules) {
