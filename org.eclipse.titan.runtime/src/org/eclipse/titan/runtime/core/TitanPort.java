@@ -1359,7 +1359,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		final byte zero[] = new byte[8];
 		text_buf.pull_raw(8, zero);
-		
+
 		try {
 			final InetAddress temp_addr = Inet4Address.getByAddress(addr);
 			int temp_port = (port[0]&0xFF) * 256;
@@ -1390,8 +1390,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} catch (final IOException e) {
 			throw new TtcnError(e);
 		}
-		
-		
 
 		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
 	}
