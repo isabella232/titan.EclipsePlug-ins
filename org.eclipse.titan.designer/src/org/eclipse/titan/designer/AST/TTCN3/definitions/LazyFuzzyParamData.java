@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.paramete
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -76,6 +77,19 @@ public class LazyFuzzyParamData {
 		default:
 			typeString.append(assignment.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, scope));
 			break;
+		}
+
+		if (assignment.getMyScope() instanceof ComponentTypeBody) {
+			switch (assignment.getAssignmentType()) {
+			case A_VAR:
+			case A_VAR_TEMPLATE:
+			case A_PORT:
+				typeString.insert(0, "ThreadLocal<");
+				typeString.append('>');
+				break;
+			default:
+				break;
+			}
 		}
 
 		boolean parIsLazyOrFuzzy = false;
