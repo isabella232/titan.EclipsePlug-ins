@@ -74,6 +74,15 @@ public final class Def_ModulePar_Template extends Definition {
 		}
 	}
 
+	/**
+	 * Checks this template module parameter and returns it's template as
+	 * assigned to it..
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 *
+	 * @return the template if it exists, otherwise null
+	 * */
 	public ITTCN3Template getDefaultTemplate(final CompilationTimeStamp timestamp){
 		if (lastTimeChecked == null) {
 			check(timestamp);
@@ -82,6 +91,15 @@ public final class Def_ModulePar_Template extends Definition {
 		return defaultTemplate;
 	}
 
+	/**
+	 * Check this template module parameter, tries to calculate the real
+	 * template body and returns it.
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 *
+	 * @return the template if it exists, otherwise null
+	 * */
 	public ITTCN3Template getRealTemplate(final CompilationTimeStamp timestamp){
 		if (lastTimeChecked == null) {
 			check(timestamp);
