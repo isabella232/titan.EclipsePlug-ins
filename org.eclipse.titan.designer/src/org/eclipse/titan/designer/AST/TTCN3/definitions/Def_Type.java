@@ -210,7 +210,8 @@ public final class Def_Type extends Definition {
 		chain.release();
 
 		if (withAttributesPath != null) {
-			// FIXME: doesn't work
+			// type definitions don't have their own attributes,
+			// but this is still valid as a fallback.
 			withAttributesPath.checkGlobalAttributes(timestamp, false);
 			withAttributesPath.checkAttributes(timestamp, type.getTypetype());
 			hasImplicitOmitAttribute(timestamp);

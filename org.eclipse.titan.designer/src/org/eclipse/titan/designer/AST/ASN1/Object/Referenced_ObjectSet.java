@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSetElement_Visitor;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.Parameterised_Reference;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -111,9 +112,11 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 				}
 			}
 		}
+
 		osReferenced = new ObjectSet_definition();
 		osReferenced.setFullNameParent(this);
 		osReferenced.setMyGovernor(getMyGovernor());
+
 		return osReferenced;
 	}
 
@@ -328,5 +331,14 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		final ObjectSet_definition last = getRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		if (myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+			last.generateCode(aData);
+		}
 	}
 }

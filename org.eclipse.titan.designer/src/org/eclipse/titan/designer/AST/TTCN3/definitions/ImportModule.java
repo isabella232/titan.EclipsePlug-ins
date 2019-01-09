@@ -54,12 +54,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
-/*
- * Actually this should be subclassed to the possible types to provide correct
- * handling.
- */
-// FIXME the normal import specification and import of imports specification
-// should be stored in lists.
 public final class ImportModule extends ModuleImportation implements ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable,
 IReferencingElement {
 	public static final String MISSINGMODULE = "There is no module with name `{0}''";

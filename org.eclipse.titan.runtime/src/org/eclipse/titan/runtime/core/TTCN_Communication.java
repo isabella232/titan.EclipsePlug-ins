@@ -396,7 +396,7 @@ public final class TTCN_Communication {
 	//use AbstractSelectableChannel instead of file descriptor
 	public static boolean set_non_blocking_mode(final AbstractSelectableChannel fd, final boolean enable_nonblock) {
 		try {
-			fd.configureBlocking(enable_nonblock);
+			fd.configureBlocking(!enable_nonblock);
 			return true;
 		} catch (IOException e) {
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);

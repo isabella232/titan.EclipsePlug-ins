@@ -29,7 +29,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
-// TODO handling of the right value is not implemented in the compiler either
 public final class ValueSet_Assignment extends ASN1Assignment {
 	private static final String UNKNOWNASSIGNMENT = "unknown value assignment";
 
@@ -95,7 +94,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 			return;
 		}
 
-		//FIXME implement
+		//FIXME implement parsing of the constraint.
 		type.setGenName(getGenName());
 		type.check(timestamp);
 

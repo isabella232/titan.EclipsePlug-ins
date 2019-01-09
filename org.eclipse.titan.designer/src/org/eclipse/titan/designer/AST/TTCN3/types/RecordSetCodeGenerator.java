@@ -48,7 +48,7 @@ public final class RecordSetCodeGenerator {
 
 		private final boolean isOptional;
 
-		private final boolean ofType;//TODO check if this is really neded here
+		private final boolean ofType;
 
 		/** Field variable name in java getter/setter function names and parameters */
 		private final String mJavaVarName;
@@ -194,7 +194,7 @@ public final class RecordSetCodeGenerator {
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
 
-		source.append( "\t}\n" );
+		source.append( "\t}\n\n" );
 	}
 
 	/**
@@ -1503,8 +1503,41 @@ public final class RecordSetCodeGenerator {
 		}
 	}
 
-	//FIXME comment
-	private static void set_raw_options(final boolean isSet, final List<FieldInfo> fieldInfos, final boolean hasRaw, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options, final AtomicBoolean hasLengthto, final AtomicBoolean hasPointer, final AtomicBoolean hasCrosstag, final AtomicBoolean has_ext_bit) {
+	/**
+	 * Calculates some RAW coding information, that influences the whole
+	 * encode/decode generation, but is only available locally in individual
+	 * attributes.
+	 * 
+	 * @param isSet
+	 *                {@code true} for generating {@code set}, {@code false}
+	 *                for record.
+	 * @param fieldInfos
+	 *                the list of informations of the fields.
+	 * @param hasRaw
+	 *                {@code true} if the type has RAW encoding attributes,
+	 *                {@code false} otherwise.
+	 * @param raw
+	 *                the RAW encoding structure.
+	 *                <p>
+	 * @param raw_options
+	 *                calculated, the list of raw option structures.
+	 * @param hasLengthto
+	 *                calculated, will contain {@code true} if the type has
+	 *                {@code LENGTHTO} attribute, {@code false} otherwise.
+	 * @param hasPointer
+	 *                calculated, will contain {@code true} if the type has
+	 *                {@code POINTERTO} attribute, {@code false} otherwise.
+	 * @param hasCrosstag
+	 *                calculated, will contain {@code true} if the type has
+	 *                {@code CROSSTAG} attribute, {@code false} otherwise.
+	 * @param has_ext_bit
+	 *                calculated, will contain {@code true} if the type has
+	 *                {@code EXTENSION_BIT} attribute, {@code false}
+	 *                otherwise.
+	 */
+	private static void set_raw_options(final boolean isSet, final List<FieldInfo> fieldInfos, final boolean hasRaw, final RawASTStruct raw,
+			final ArrayList<raw_option_struct> raw_options, final AtomicBoolean hasLengthto, final AtomicBoolean hasPointer,
+			final AtomicBoolean hasCrosstag, final AtomicBoolean has_ext_bit) {
 		for (int i = 0; i < fieldInfos.size(); i++) {
 			final raw_option_struct tempRawOption = new raw_option_struct();
 			raw_options.add(tempRawOption);

@@ -321,7 +321,7 @@ public class TTCN_Pattern {
 			break;
 		default:
 			if ( is_meta( c ) ) {
-				javaPattern.append("\\" + c);
+				javaPattern.append('\\').append(c);
 			} else {
 				throw new TtcnError("Escape character \\" + c + " is not supported at position " + pos.get());
 			}
@@ -445,7 +445,7 @@ public class TTCN_Pattern {
 				javaPattern.append( '{' );
 				javaPattern.append( minStr.isEmpty() ? '0' : minStr );
 				if ( commaWithMaxStr != null && !commaWithMaxStr.isEmpty() ) {
-					javaPattern.append( "," + maxStr );
+					javaPattern.append( ',' ).append( maxStr );
 				}
 				javaPattern.append( '}' );
 			} else {

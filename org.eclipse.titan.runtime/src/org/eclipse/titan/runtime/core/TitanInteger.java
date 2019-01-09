@@ -200,7 +200,14 @@ public class TitanInteger extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
-	//originally operator+ unary plus
+	/**
+	 * Represents the unary operator+.
+	 * Creates a copy of the current value.
+	 *
+	 * operator+ in the core
+	 *
+	 * @return a copy of the current value.
+	 */
 	public TitanInteger add() {
 		must_bound("Unbound integer operand of unary + operator.");
 
@@ -211,7 +218,13 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator-
+	/**
+	 * Negates the current value.
+	 *
+	 * operator- in the core
+	 *
+	 * @return the negated value.
+	 */
 	public TitanInteger sub() {
 		must_bound("Unbound integer operand of unary - operator (negation).");
 
@@ -227,138 +240,231 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally operator+
-	public TitanInteger add(final int otherValue) {
-		return this.add(new TitanInteger(otherValue));
-	}
-
-	// originally operator+
-	public TitanInteger add(final BigInteger otherValue) {
-		return this.add(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this + other_value.
+	 *
+	 * operator+ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this + other_value
+	 */
+	public TitanInteger add(final int other_value) {
+		return this.add(new TitanInteger(other_value));
 	}
 
 	/**
-	 * this + otherValue
-	 * originally operator+
+	 * Returns an integer whose value is this + other_value.
+	 *
+	 * operator+ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this + other_value
 	 */
-	public TitanInteger add(final TitanInteger otherValue) {
+	public TitanInteger add(final BigInteger other_value) {
+		return this.add(new TitanInteger(other_value));
+	}
+
+	/**
+	 * Returns an integer whose value is this + other_value.
+	 *
+	 * operator+ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this + other_value
+	 */
+	public TitanInteger add(final TitanInteger other_value) {
 		must_bound("Unbound left operand of integer addition.");
-		otherValue.must_bound("Unbound right operand of integer addition.");
+		other_value.must_bound("Unbound right operand of integer addition.");
 
 		if (nativeFlag) {
-			if (otherValue.nativeFlag) {
-				final long temp = (long) nativeInt + (long) otherValue.nativeInt;
+			if (other_value.nativeFlag) {
+				final long temp = (long) nativeInt + (long) other_value.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int) temp);
 				}
 				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return new TitanInteger(this_int.add(otherValue.openSSL));
+				return new TitanInteger(this_int.add(other_value.openSSL));
 			}
 		} else {
-			if (otherValue.nativeFlag) {
-				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+			if (other_value.nativeFlag) {
+				final BigInteger other_int = BigInteger.valueOf(other_value.nativeInt);
 				return new TitanInteger(openSSL.add(other_int));
 			} else {
-				return new TitanInteger(openSSL.add(otherValue.openSSL));
+				return new TitanInteger(openSSL.add(other_value.openSSL));
 			}
 		}
 	}
 
-	//originally operator-
-	public TitanInteger sub(final int otherValue) {
-		return this.sub(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this - other_value.
+	 *
+	 * operator- in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this - other_value
+	 */
+	public TitanInteger sub(final int other_value) {
+		return this.sub(new TitanInteger(other_value));
 	}
 
-	//originally operator-
-	public TitanInteger sub(final BigInteger otherValue) {
-		return this.sub(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this - other_value.
+	 *
+	 * operator- in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this - other_value
+	 */
+	public TitanInteger sub(final BigInteger other_value) {
+		return this.sub(new TitanInteger(other_value));
 	}
 
-	// originally operator-
-	public TitanInteger sub(final TitanInteger otherValue) {
+	/**
+	 * Returns an integer whose value is this - other_value.
+	 *
+	 * operator- in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this - other_value
+	 */
+	public TitanInteger sub(final TitanInteger other_value) {
 		this.must_bound("Unbound left operand of integer addition. ");
-		otherValue.must_bound("Unbound right operand of integer addition. ");
+		other_value.must_bound("Unbound right operand of integer addition. ");
 
 		if (nativeFlag) {
-			if (otherValue.nativeFlag) {
-				final long temp = (long) nativeInt - (long) otherValue.nativeInt;
+			if (other_value.nativeFlag) {
+				final long temp = (long) nativeInt - (long) other_value.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int) temp);
 				}
 				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return new TitanInteger(this_int.subtract(otherValue.openSSL));
+				return new TitanInteger(this_int.subtract(other_value.openSSL));
 			}
 		} else {
-			if (otherValue.nativeFlag) {
-				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+			if (other_value.nativeFlag) {
+				final BigInteger other_int = BigInteger.valueOf(other_value.nativeInt);
 				return new TitanInteger(openSSL.subtract(other_int));
 			} else {
-				return new TitanInteger(openSSL.subtract(otherValue.openSSL));
+				return new TitanInteger(openSSL.subtract(other_value.openSSL));
 			}
 		}
 	}
 
-	//originally operator*
-	public TitanInteger mul(final int otherValue) {
-		return this.mul(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this * other_value.
+	 *
+	 * operator* in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this * other_value
+	 */
+	public TitanInteger mul(final int other_value) {
+		return this.mul(new TitanInteger(other_value));
 	}
 
-	//originally operator*
-	public TitanInteger mul(final BigInteger otherValue) {
-		return this.mul(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this * other_value.
+	 *
+	 * operator* in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this * other_value
+	 */
+	public TitanInteger mul(final BigInteger other_value) {
+		return this.mul(new TitanInteger(other_value));
 	}
 
-	// originally operator*
-	public TitanInteger mul(final TitanInteger otherValue) {
+	/**
+	 * Returns an integer whose value is this * other_value.
+	 *
+	 * operator* in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this * other_value
+	 */
+	public TitanInteger mul(final TitanInteger other_value) {
 		must_bound("Unbound left operand of integer multiplication.");
 
-		otherValue.must_bound("Unbound right operand of integer multiplication.");
+		other_value.must_bound("Unbound right operand of integer multiplication.");
 
-		if (nativeFlag && nativeInt == 0 || (otherValue.nativeFlag && otherValue.nativeInt == 0)) {
+		if (nativeFlag && nativeInt == 0 || (other_value.nativeFlag && other_value.nativeInt == 0)) {
 			return new TitanInteger((int) 0);
 		}
 
 		if (nativeFlag) {
-			if (otherValue.nativeFlag) {
-				final long temp = (long) nativeInt * (long) otherValue.nativeInt;
+			if (other_value.nativeFlag) {
+				final long temp = (long) nativeInt * (long) other_value.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int) temp);
 				}
 				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return new TitanInteger(this_int.multiply(otherValue.openSSL));
+				return new TitanInteger(this_int.multiply(other_value.openSSL));
 			}
 		} else {
-			if (otherValue.nativeFlag) {
-				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+			if (other_value.nativeFlag) {
+				final BigInteger other_int = BigInteger.valueOf(other_value.nativeInt);
 				return new TitanInteger(openSSL.multiply(other_int));
 			} else {
-				return new TitanInteger(openSSL.multiply(otherValue.openSSL));
+				return new TitanInteger(openSSL.multiply(other_value.openSSL));
 			}
 		}
 	}
 
-	// originally operator/
-	public TitanInteger div(final int otherValue) {
-		return div(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this / other_value.
+	 *
+	 * operator/ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this / other_value
+	 */
+	public TitanInteger div(final int other_value) {
+		return div(new TitanInteger(other_value));
 	}
 
-	// originally operator/
-	public TitanInteger div(final BigInteger otherValue) {
-		return div(new TitanInteger(otherValue));
+	/**
+	 * Returns an integer whose value is this / other_value.
+	 *
+	 * operator/ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this / other_value
+	 */
+	public TitanInteger div(final BigInteger other_value) {
+		return div(new TitanInteger(other_value));
 	}
 
-	// originally operator/
-	public TitanInteger div(final TitanInteger otherValue) {
+	/**
+	 * Returns an integer whose value is this / other_value.
+	 *
+	 * operator/ in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return this / other_value
+	 */
+	public TitanInteger div(final TitanInteger other_value) {
 		must_bound("Unbound left operand of integer division.");
-		otherValue.must_bound("Unbound right operand of integer division.");
+		other_value.must_bound("Unbound right operand of integer division.");
 
-		if (otherValue.operator_equals(0)) {
+		if (other_value.operator_equals(0)) {
 			throw new TtcnError("Integer division by zero.");
 		}
 		if (nativeFlag && nativeInt == 0) {
@@ -366,50 +472,127 @@ public class TitanInteger extends Base_Type {
 		}
 
 		if (nativeFlag) {
-			if (otherValue.nativeFlag) {
-				final long temp = (long) nativeInt / (long) otherValue.nativeInt;
+			if (other_value.nativeFlag) {
+				final long temp = (long) nativeInt / (long) other_value.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
-					return new TitanInteger(nativeInt / otherValue.nativeInt);
+					return new TitanInteger(nativeInt / other_value.nativeInt);
 				} else {
 					return new TitanInteger(BigInteger.valueOf(temp));
 				}
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return new TitanInteger(this_int.divide(otherValue.openSSL));
+				return new TitanInteger(this_int.divide(other_value.openSSL));
 			}
 		} else {
-			if (otherValue.nativeFlag) {
-				final BigInteger other_value_int = BigInteger.valueOf(otherValue.nativeInt);
+			if (other_value.nativeFlag) {
+				final BigInteger other_value_int = BigInteger.valueOf(other_value.nativeInt);
 				return new TitanInteger(openSSL.divide(other_value_int));
 			} else {
-				return new TitanInteger(openSSL.divide(otherValue.openSSL));
+				return new TitanInteger(openSSL.divide(other_value.openSSL));
 			}
 		}
 	}
 
-	// rem with one parameter
-	public TitanInteger rem(final int rightValue) {
-		if (rightValue == 0) {
+	/**
+	 * Returns the remainder after the division this / other_value.
+	 *
+	 * rem in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the remainder
+	 */
+	public TitanInteger rem(final int other_value) {
+		if (other_value == 0) {
 			throw new TtcnError("The right operand of rem operator is zero.");
 		}
 
-		return rem(this, rightValue);
+		return rem(this, other_value);
 	}
 
-	// rem with one parameter
-	public TitanInteger rem(final BigInteger rightValue) {
-		if (rightValue.equals(BigInteger.ZERO)) {
+	/**
+	 * Returns the remainder after the division this / other_value.
+	 *
+	 * rem in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the remainder
+	 */
+	public TitanInteger rem(final BigInteger other_value) {
+		if (other_value.equals(BigInteger.ZERO)) {
 			throw new TtcnError("The right operand of rem operator is zero.");
 		}
 
-		return rem(this, new TitanInteger(rightValue));
+		return rem(this, new TitanInteger(other_value));
 	}
 
-	public TitanInteger rem(final TitanInteger rightValue) {
+	/**
+	 * Returns the remainder after the division this / other_value.
+	 *
+	 * rem in the core
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the remainder
+	 */
+	public TitanInteger rem(final TitanInteger other_value) {
 		this.must_bound("Unbound left operand of rem operator ");
-		rightValue.must_bound("Unbound right operand of rem operator");
+		other_value.must_bound("Unbound right operand of rem operator");
 
-		return this.sub(rightValue.mul(this.div(rightValue)));
+		return this.sub(other_value.mul(this.div(other_value)));
+	}
+
+
+	/**
+	 * Returns the modulo after the division this / other_value.
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the modulo
+	 */
+	public TitanInteger mod(final int other_value) {
+		return mod(new TitanInteger(other_value));
+	}
+
+	/**
+	 * Returns the modulo after the division this / other_value.
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the modulo
+	 */
+	public TitanInteger mod(final BigInteger other_value) {
+		return mod(new TitanInteger(other_value));
+	}
+
+	/**
+	 * Returns the modulo after the division this / other_value.
+	 *
+	 * @param other_value
+	 *                the other value to use.
+	 * @return the modulo
+	 */
+	public TitanInteger mod(final TitanInteger other_value) {
+		must_bound("Unbound left operand of mod operator.");
+		other_value.must_bound("Unbound right operand of mod operator");
+
+		TitanInteger rightValueAbs = new TitanInteger(other_value);
+		if (other_value.is_less_than(0)) {
+			rightValueAbs = rightValueAbs.mul(-1);
+		} else if (other_value.operator_equals(0)) {
+			throw new TtcnError("The right operand of mod operator is zero");
+		}
+		if (is_greater_than(0)) {
+			return rem(this, other_value);
+		} else {
+			final TitanInteger result = rem(this, rightValueAbs);
+			if (result.operator_equals(0)) {
+				return new TitanInteger(0);
+			} else {
+				return new TitanInteger(rightValueAbs.add(result));
+			}
+		}
 	}
 
 	/**
@@ -750,6 +933,12 @@ public class TitanInteger extends Base_Type {
 		return !is_less_than(otherValue);
 	}
 
+	/**
+	 * Checks if the integer fits into the native range.
+	 *
+	 * @return {@code true} if it can be stored in int, {@code false}
+	 *         otherwise.
+	 * */
 	public boolean is_native() {
 		return nativeFlag;
 	}
@@ -800,7 +989,16 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// originally int()
+	/**
+	 * Returns the value as an int.
+	 * <p>
+	 * A current value larger than the native int range results in dynamic
+	 * testcase error.
+	 *
+	 * int() in the core.
+	 *
+	 * @return the native int value.
+	 * */
 	public int get_int() {
 		must_bound("Using the value of an unbound integer variable.");
 
@@ -811,7 +1009,16 @@ public class TitanInteger extends Base_Type {
 		return nativeInt;
 	}
 
-	// originally get_long_long_val
+	/**
+	 * Returns the value as a long.
+	 * <p>
+	 * A current value larger than the native int range results in dynamic
+	 * testcase error.
+	 *
+	 * get_long_long_val() in the core.
+	 *
+	 * @return the native long value.
+	 * */
 	public long get_long() {
 		must_bound("Using the value of an unbound integer variable.");
 
@@ -822,7 +1029,13 @@ public class TitanInteger extends Base_Type {
 		return openSSL.longValue();
 	}
 
-	// originally get_long_long_val
+	/**
+	 * Returns the value as a BigInteger.
+	 *
+	 * get_long_long_val() in the core.
+	 *
+	 * @return the value as a BigInteger.
+	 * */
 	public BigInteger get_BigInteger() {
 		must_bound("Using the value of an unbound integer variable.");
 
@@ -902,107 +1115,211 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// static operator+
-	public static TitanInteger add(final int intValue, final TitanInteger otherValue) {
-		otherValue.must_bound("Unbound right operand of integer addition.");
+	/**
+	 * Returns an integer whose value is int_value + other_value.
+	 *
+	 * static operator+ in the core
+	 *
+	 * @param int_value
+	 *                the first value to use.
+	 * @param other_value
+	 *                the other value to use.
+	 * @return int_value + other_value
+	 */
+	public static TitanInteger add(final int int_value, final TitanInteger other_value) {
+		other_value.must_bound("Unbound right operand of integer addition.");
 
-		if (otherValue.nativeFlag) {
-			final long temp = (long) intValue + (long) otherValue.nativeInt;
+		if (other_value.nativeFlag) {
+			final long temp = (long) int_value + (long) other_value.nativeInt;
 			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 				return new TitanInteger((int) temp);
 			} else {
 				return new TitanInteger(BigInteger.valueOf(temp));
 			}
 		} else {
-			final BigInteger first_int = BigInteger.valueOf(intValue);
-			return new TitanInteger(first_int.add(otherValue.openSSL));
+			final BigInteger first_int = BigInteger.valueOf(int_value);
+			return new TitanInteger(first_int.add(other_value.openSSL));
 		}
 	}
 
-	// static operator-
-	public static TitanInteger sub(final int intValue, final TitanInteger otherValue) {
-		otherValue.must_bound("Unbound right operand of integer subtraction.");
+	/**
+	 * Returns an integer whose value is int_value - other_value.
+	 *
+	 * static operator- in the core
+	 *
+	 * @param int_value
+	 *                the first value to use.
+	 * @param other_value
+	 *                the other value to use.
+	 * @return int_value - other_value
+	 */
+	public static TitanInteger sub(final int int_value, final TitanInteger other_value) {
+		other_value.must_bound("Unbound right operand of integer subtraction.");
 
-		if (otherValue.nativeFlag) {
-			final long temp = (long) intValue - (long) otherValue.nativeInt;
+		if (other_value.nativeFlag) {
+			final long temp = (long) int_value - (long) other_value.nativeInt;
 			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 				return new TitanInteger((int) temp);
 			} else {
 				return new TitanInteger(BigInteger.valueOf(temp));
 			}
 		} else {
-			final BigInteger first_int = BigInteger.valueOf(intValue);
-			return new TitanInteger(first_int.subtract(otherValue.openSSL));
+			final BigInteger first_int = BigInteger.valueOf(int_value);
+			return new TitanInteger(first_int.subtract(other_value.openSSL));
 		}
 	}
 
-	// static mul
-	public static TitanInteger mul(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).mul(otherValue);
+	/**
+	 * Returns an integer whose value is int_value * other_value.
+	 *
+	 * static operator* in the core
+	 *
+	 * @param int_value
+	 *                the first value to use.
+	 * @param other_value
+	 *                the other value to use.
+	 * @return int_value * other_value
+	 */
+	public static TitanInteger mul(final int int_value, final TitanInteger other_value) {
+		return new TitanInteger(int_value).mul(other_value);
 	}
 
-	// static operator/
-	public static TitanInteger div(final int intValue, final TitanInteger otherValue) {
-		return new TitanInteger(intValue).div(otherValue);
+	/**
+	 * Returns an integer whose value is int_value / other_value.
+	 *
+	 * static operator/ in the core
+	 *
+	 * @param int_value
+	 *                the first value to use.
+	 * @param other_value
+	 *                the other value to use.
+	 * @return int_value / other_value
+	 */
+	public static TitanInteger div(final int int_value, final TitanInteger other_value) {
+		return new TitanInteger(int_value).div(other_value);
 	}
 
-	// static rem
-	public static TitanInteger rem(final int leftValue, final int rightValue) {
-		if (rightValue == 0) {
+	/**
+	 * Returns an integer whose value is the remainder of left_value / right_value.
+	 *
+	 * static rem in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the remainder of left_value / right_value
+	 */
+	public static TitanInteger rem(final int left_value, final int right_value) {
+		if (right_value == 0) {
 			throw new TtcnError("The right operand of rem operator is zero.");
 		}
 
-		return new TitanInteger(leftValue - rightValue * (leftValue / rightValue));
+		return new TitanInteger(left_value - right_value * (left_value / right_value));
 	}
 
-	public static TitanInteger rem(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.must_bound("Unbound left operand of rem operator ");
-		rightValue.must_bound("Unbound right operand of rem operator");
+	/**
+	 * Returns an integer whose value is the remainder of left_value / right_value.
+	 *
+	 * static rem in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the remainder of left_value / right_value
+	 */
+	public static TitanInteger rem(final TitanInteger left_value, final TitanInteger right_value) {
+		left_value.must_bound("Unbound left operand of rem operator ");
+		right_value.must_bound("Unbound right operand of rem operator");
 
-		return leftValue.sub(rightValue.mul((leftValue.div(rightValue))));
+		return left_value.sub(right_value.mul((left_value.div(right_value))));
 	}
 
-	public static TitanInteger rem(final TitanInteger leftValue, final int rightValue) {
-		return rem(leftValue, new TitanInteger(rightValue));
+	/**
+	 * Returns an integer whose value is the remainder of left_value / right_value.
+	 *
+	 * static rem in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the remainder of left_value / right_value
+	 */
+	public static TitanInteger rem(final TitanInteger left_value, final int right_value) {
+		return rem(left_value, new TitanInteger(right_value));
 	}
 
-	public static TitanInteger rem(final int leftValue, final TitanInteger rightValue) {
-		return rem(new TitanInteger(leftValue), rightValue);
+	/**
+	 * Returns an integer whose value is the remainder of left_value / right_value.
+	 *
+	 * static rem in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the remainder of left_value / right_value
+	 */
+	public static TitanInteger rem(final int left_value, final TitanInteger right_value) {
+		return rem(new TitanInteger(left_value), right_value);
 	}
 
-	// mod
-	public static TitanInteger mod(final int leftValue, int rightValue) {
-		if (rightValue < 0) {
-			rightValue = rightValue * (-1);
-		} else if (rightValue == 0) {
+	/**
+	 * Returns an integer whose value is the modulo of left_value / right_value.
+	 *
+	 * static mod in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the modulo of left_value / right_value
+	 */
+	public static TitanInteger mod(final int left_value, int right_value) {
+		if (right_value < 0) {
+			right_value = right_value * (-1);
+		} else if (right_value == 0) {
 			throw new TtcnError("The right operand of mod operator is zero.");
 		}
-		if (leftValue > 0) {
-			return rem(leftValue, rightValue);
+		if (left_value > 0) {
+			return rem(left_value, right_value);
 		} else {
-			final int result = rem(leftValue, rightValue).nativeInt;
+			final int result = rem(left_value, right_value).nativeInt;
 			if (result == 0) {
 				return new TitanInteger(0);
 			} else {
-				return new TitanInteger(rightValue + result);
+				return new TitanInteger(right_value + result);
 			}
 		}
 	}
 
-	public static TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
-		leftValue.must_bound("Unbound left operand of mod operator.");
-		rightValue.must_bound("Unbound right operand of mod operator");
+	/**
+	 * Returns an integer whose value is the modulo of left_value / right_value.
+	 *
+	 * static mod in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the modulo of left_value / right_value
+	 */
+	public static TitanInteger mod(final TitanInteger left_value, final TitanInteger right_value) {
+		left_value.must_bound("Unbound left operand of mod operator.");
+		right_value.must_bound("Unbound right operand of mod operator");
 
-		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.is_less_than(0)) {
+		TitanInteger rightValueAbs = new TitanInteger(right_value);
+		if (right_value.is_less_than(0)) {
 			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operator_equals(0)) {
+		} else if (right_value.operator_equals(0)) {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
-		if (leftValue.is_greater_than(0)) {
-			return rem(leftValue, rightValue);
+		if (left_value.is_greater_than(0)) {
+			return rem(left_value, right_value);
 		} else {
-			final TitanInteger result = rem(leftValue, rightValueAbs);
+			final TitanInteger result = rem(left_value, rightValueAbs);
 			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
@@ -1011,46 +1328,34 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	// static mod
-	public static TitanInteger mod(final TitanInteger leftValue, final int rightValue) {
-		return mod(leftValue, new TitanInteger(rightValue));
+	/**
+	 * Returns an integer whose value is the modulo of left_value / right_value.
+	 *
+	 * static mod in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the modulo of left_value / right_value
+	 */
+	public static TitanInteger mod(final TitanInteger left_value, final int right_value) {
+		return mod(left_value, new TitanInteger(right_value));
 	}
 
-	public static TitanInteger mod(final int leftValue, final TitanInteger rightValue) {
-		return mod(new TitanInteger(leftValue), rightValue);
-	}
-
-	// mod with one parameter - int
-	public TitanInteger mod(final int rightValue) {
-		return mod(new TitanInteger(rightValue));
-	}
-
-	// mod with one parameter - int
-	public TitanInteger mod(final BigInteger rightValue) {
-		return mod(new TitanInteger(rightValue));
-	}
-
-	// mod with one parameter
-	public TitanInteger mod(final TitanInteger rightValue) {
-		must_bound("Unbound left operand of mod operator.");
-		rightValue.must_bound("Unbound right operand of mod operator");
-
-		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValue.is_less_than(0)) {
-			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue.operator_equals(0)) {
-			throw new TtcnError("The right operand of mod operator is zero");
-		}
-		if (is_greater_than(0)) {
-			return rem(this, rightValue);
-		} else {
-			final TitanInteger result = rem(this, rightValueAbs);
-			if (result.operator_equals(0)) {
-				return new TitanInteger(0);
-			} else {
-				return new TitanInteger(rightValueAbs.add(result));
-			}
-		}
+	/**
+	 * Returns an integer whose value is the modulo of left_value / right_value.
+	 *
+	 * static mod in the core
+	 *
+	 * @param left_value
+	 *                the first value to use.
+	 * @param right_value
+	 *                the other value to use.
+	 * @return the modulo of left_value / right_value
+	 */
+	public static TitanInteger mod(final int left_value, final TitanInteger right_value) {
+		return mod(new TitanInteger(left_value), right_value);
 	}
 
 	/**

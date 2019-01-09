@@ -243,7 +243,7 @@ public final class Referenced_Template extends TTCN3Template {
 			template = ((Def_Var_Template) ass).getInitialValue();
 			break;
 		case A_MODULEPAR_TEMPLATE:
-			template = ((Def_ModulePar_Template) ass).getDefaultTemplate();
+			template = ((Def_ModulePar_Template) ass).getDefaultTemplate(timestamp);
 			break;
 		default:
 			setIsErroneous(true);

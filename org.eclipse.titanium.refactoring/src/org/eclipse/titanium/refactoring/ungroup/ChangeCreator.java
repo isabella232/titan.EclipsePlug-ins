@@ -35,9 +35,11 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -140,18 +142,19 @@ public class ChangeCreator {
 			String newModulePar = "";
 			if (node instanceof Def_ModulePar) {
 				final Def_ModulePar modulePar = (Def_ModulePar) node;
-				if (modulePar.getDefaultValue() != null) {
-					final Location valueLocation = modulePar.getDefaultValue().getLocation();
+				final Value defaultValue = modulePar.getDefaultValue();
+				if (defaultValue != null) {
+					final Location valueLocation = defaultValue.getLocation();
 					final String valueText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
 					newModulePar = "modulepar " + typeText + " " + name + " := " + valueText + ";\n";
 				} else {
 					newModulePar = "modulepar " + typeText + " "  + name + ";\n";
 				}
-				
 			} else if (node instanceof Def_ModulePar_Template) {
 				final Def_ModulePar_Template modulePar = (Def_ModulePar_Template) node;
-				if (modulePar.getDefaultTemplate() != null) {
-					final Location valueLocation = modulePar.getDefaultTemplate().getLocation();
+				final ITTCN3Template defaultTemplate = modulePar.getDefaultTemplate(CompilationTimeStamp.getBaseTimestamp());
+				if (defaultTemplate != null) {
+					final Location valueLocation = defaultTemplate.getLocation();
 					final String temlateText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
 					newModulePar = "modulepar template " + typeText + " "  + name + " := " + temlateText + ";\n";
 				} else {

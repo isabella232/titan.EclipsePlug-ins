@@ -25,11 +25,20 @@ public class Ttcn3Float {
 	/** the floating-point value */
 	private double value;
 
+	/**
+	 * Initializes to the provided value.
+	 *
+	 * @param d the double value to use.
+	 * */
 	public Ttcn3Float( final double d ) {
 		value = d;
 	}
 
-	//originally operator double()
+	/**
+	 * operator double() in the core
+	 *
+	 * @return the double value.
+	 * */
 	double getValue() {
 		return value;
 	}
@@ -129,7 +138,15 @@ public class Ttcn3Float {
 		}
 	}
 
-	// originally operator==
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param d
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	boolean operator_equals( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
@@ -142,11 +159,19 @@ public class Ttcn3Float {
 		}
 	}
 
-	// originally signbit
+	/**
+	 * Checks if the provided value is negative zero or not.
+	 * <p>
+	 * TTCN-3 arithmetic handles 0.0 and -0.0 as the same.
+	 * But they might have different representations
+	 *  in some encodings/decodings.
+	 * <p>
+	 * signbit in the core
+	 *
+	 * @param d the value to check.
+	 * @return {@code true} if it is -0.0, {@code false} otherwise.
+	 * */
 	private boolean is_negative_zero( final double d ) {
-		// the original double signbit( double ) on the titan.core side
-		// returns the sign bit of the floating point number, which is 1 if negative, 0 if positive or exactly 0
-		// TTCN-3 handles 0.0 and 1.0 as one case, the only thing that matters is if the signum is negative or not.
 		return Double.doubleToLongBits( d ) == NEGATIVE_ZERO;
 	}
 

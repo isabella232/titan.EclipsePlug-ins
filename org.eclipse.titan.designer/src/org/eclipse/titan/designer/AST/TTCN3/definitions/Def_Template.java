@@ -34,7 +34,9 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.UnivCharString_Pattern_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -279,6 +281,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	/**
+	 * Check the template, tries to calculate the real template body and
+	 * returns it.
+	 * 
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 *
@@ -292,6 +297,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		return realBody;
 	}
 
+	/**
+	 * Check the template and returns it's formal parameter list.
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 *
+	 * @return the formal parameter list if it exists, otherwise null
+	 * */
 	public FormalParameterList getFormalParameterList(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked == null) {
 			check(timestamp);
@@ -385,8 +398,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		// Needed in case of universal charstring templates
 		if (body.getTemplatetype() == Template_type.CSTR_PATTERN && lastType.getTypetype() == Type.Type_type.TYPE_UCHARSTRING) {
 			realBody = body.setTemplatetype(timestamp, Template_type.USTR_PATTERN);
-			// FIXME implement setting the pattern type, once
-			// universal charstring pattern are supported.
+			if (realBody instanceof UnivCharString_Pattern_Template) {
+				((UnivCharString_Pattern_Template)realBody).getPatternstring().setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
+			}
 		}
 
 		if (formalParList != null) {

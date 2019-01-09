@@ -267,7 +267,7 @@ public class All_From_Template extends TTCN3Template {
 			value = ((Def_ModulePar) assignment).getDefaultValue();
 			break;
 		case A_MODULEPAR_TEMPLATE:
-			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate();
+			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate(timestamp);
 			break;
 		case A_VAR:
 			value = ((Def_Var) assignment).getInitialValue();
@@ -453,7 +453,7 @@ public class All_From_Template extends TTCN3Template {
 			final IValue mvalue = ((Def_ModulePar) assignment).getDefaultValue();
 			return getNofValues(mvalue, timestamp);
 		case A_MODULEPAR_TEMPLATE:
-			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate();
+			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate(timestamp);
 			break;
 		default:
 			return result;

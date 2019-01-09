@@ -106,6 +106,15 @@ public final class EnumeratedGenerator {
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", e_defs.name));
 		//== enum_type ==
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * The enum type representing the items of the enumeration.\n");
+			source.append("\t\t * UNKNOWN_VALUE represents an unknown value.\n");
+			source.append("\t\t * UNBOUND_VALUE represents the enum to be in unbound state.\n");
+			source.append("\t\t * Each other enum item repesents an enumeration type item,\n");
+			source.append("\t\t *  with its integer value.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\tpublic enum enum_type {\n");
 		final StringBuilder helper = new StringBuilder();
 		final int size = e_defs.items.size();
@@ -120,7 +129,7 @@ public final class EnumeratedGenerator {
 		}
 
 		source.append(MessageFormat.format("\t\t\t{0}({1}),\n", UNKNOWN_VALUE, e_defs.firstUnused));
-		source.append(MessageFormat.format("\t\t\t{0}({1});\n", UNBOUND_VALUE, e_defs.secondUnused));
+		source.append(MessageFormat.format("\t\t\t{0}({1});\n\n", UNBOUND_VALUE, e_defs.secondUnused));
 		helper.append("\t\t\t\tcase ").append(MessageFormat.format("{0}", e_defs.firstUnused)).append(": ");
 		helper.append(" return ").append("UNKNOWN_VALUE").append(";\n");
 		helper.append("\t\t\t\tcase ").append(MessageFormat.format("{0}", e_defs.secondUnused)).append(": ");
@@ -137,7 +146,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tprivate int getInt() {\n");
 		source.append("\t\t\t\treturn enum_num;\n");
 		source.append("\t\t\t}\n\n");
-		generateValueEnumGetValue(source, helper);
+		generateValueEnumGetValue(aData, source, helper);
 		source.append("\t\t\t}\n\n");
 		// end of enum_type
 
@@ -226,7 +235,20 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueEnumGetValue(final StringBuilder source, final StringBuilder helper) {
+	private static void generateValueEnumGetValue(final JavaGenData aData, final StringBuilder source, final StringBuilder helper) {
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Returns the enumeration type belonging to the value.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param index\n");
+			source.append("\t\t *                the input value.\n");
+			source.append("\t\t * @return the enumeration type belonging to the input\n");
+			source.append("\t\t *         value if any, {@code UNKNOWN_VALUE} if the\n");
+			source.append("\t\t *         value indicates the unknown index and\n");
+			source.append("\t\t *         {@code UNBOUND_VALUE} if it indicates the\n");
+			source.append("\t\t *         unbound index.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append("\t\t\tpublic static enum_type getValue(final int index) {\n");
 		source.append("\t\t\t\tswitch (index) {\n");
 		source.append(helper);

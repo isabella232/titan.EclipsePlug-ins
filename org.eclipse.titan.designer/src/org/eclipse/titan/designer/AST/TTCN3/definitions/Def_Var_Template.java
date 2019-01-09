@@ -31,7 +31,9 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.UnivCharString_Pattern_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
@@ -220,8 +222,9 @@ public final class Def_Var_Template extends Definition {
 		// Needed in case of universal charstring templates
 		if (initialValue.getTemplatetype() == Template_type.CSTR_PATTERN && lastType.getTypetype() == Type.Type_type.TYPE_UCHARSTRING) {
 			realInitialValue = initialValue.setTemplatetype(timestamp, Template_type.USTR_PATTERN);
-			// FIXME implement setting the pattern type, once
-			// universal charstring pattern are supported.
+			if (realInitialValue instanceof UnivCharString_Pattern_Template) {
+				((UnivCharString_Pattern_Template)realInitialValue).getPatternstring().setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
+			}
 		}
 
 		final ITTCN3Template temporalValue = type.checkThisTemplateRef(timestamp, realInitialValue);

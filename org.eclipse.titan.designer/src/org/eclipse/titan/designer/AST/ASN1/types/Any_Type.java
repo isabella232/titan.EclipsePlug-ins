@@ -15,6 +15,8 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -22,6 +24,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -33,7 +36,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-//FIXME implement value checking
 public final class Any_Type extends ASN1Type {
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for type `ANY''";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for type `ANY''";
@@ -93,6 +95,74 @@ public final class Any_Type extends ASN1Type {
 			checkEncode(timestamp);
 			checkVariants(timestamp);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
+		if (getIsErroneous(timestamp)) {
+			return false;
+		}
+
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+
+		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		if (last == null || last.getIsErroneous(timestamp)) {
+			return selfReference;
+		}
+
+		// already handled ones
+		switch (value.getValuetype()) {
+		case OMIT_VALUE:
+		case REFERENCED_VALUE:
+			return selfReference;
+		case UNDEFINED_LOWERIDENTIFIER_VALUE:
+			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
+				return selfReference;
+			}
+			break;
+		default:
+			break;
+		}
+
+		if (value.isAsn()) {
+			if (value instanceof Referenced_Value) {
+				final IType type = last.getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if (type.getTypetype() != Type_type.TYPE_ANY && type.getTypetype() != Type_type.TYPE_OCTETSTRING) {
+					value.getLocation().reportSemanticError("(reference to) OCTET STRING or ANY type value was expected");
+					value.setIsErroneous(true);
+
+					return selfReference;
+				}
+
+				switch (last.getValuetype()) {
+				case OCTETSTRING_VALUE:
+					break;
+				case HEXSTRING_VALUE:
+					//technically this is an octetstring
+					break;
+				default:
+					value.getLocation().reportSemanticError("ANY (OCTET STRING) value was expected");
+					value.setIsErroneous(true);
+				}
+			}
+		} else {
+			if (last.getValuetype() != Value_type.OCTETSTRING_VALUE) {
+				value.getLocation().reportSemanticError("octetstring value was expected for ASN ANY type");
+				value.setIsErroneous(true);
+			}
+		}
+
+		if (valueCheckingOptions.sub_check) {
+			//there is no parent type to check
+			if (subType != null) {
+				subType.checkThisValue(timestamp, last);
+			}
+		}
+
+		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override

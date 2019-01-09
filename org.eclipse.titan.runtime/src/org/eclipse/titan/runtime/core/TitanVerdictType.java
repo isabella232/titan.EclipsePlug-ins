@@ -191,6 +191,11 @@ public class TitanVerdictType extends Base_Type {
 		return this;
 	}
 
+	/**
+	 * Returns the enumerated type of this value.
+	 *
+	 * @return the enumerated type of this value.
+	 * */
 	public VerdictTypeEnum get_value() {
 		return verdict_value;
 	}

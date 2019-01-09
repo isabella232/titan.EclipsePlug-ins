@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IObjectSet_Element;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -370,11 +371,24 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected final boolean memberAccept(final ASTVisitor v) {
 		// TODO: objectSetElements ?
 		if (objects != null && !objects.accept(v)) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		//FIXME implement
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateCode() is not implemented! (" );
+		sb.append(getFullName());
+		sb.append( ")\n" );
 	}
 }

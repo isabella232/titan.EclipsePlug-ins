@@ -8,21 +8,35 @@
 package org.eclipse.titan.runtime.core;
 
 /**
- * Helper class for doubles, when we they need to be updated inside functions.
+ * Helper class for doubles,
+ *  for situations when we need to be update a boolean value inside functions.
  *
  * @author Kristof Szabados
  * */
 final class Changeable_Double {
 	private double value;
 
+	/**
+	 * Initializes to the provided value.
+	 *
+	 * @param value the value to use.
+	 * */
 	public Changeable_Double(final double value) {
 		this.value = value;
 	}
 
+	/**
+	 * @return the current value.
+	 * */
 	public double getValue() {
 		return value;
 	}
 
+	/**
+	 * Sets the new value.
+	 *
+	 * @param value the new value to set.
+	 * */
 	public void setValue(final double value) {
 		this.value = value;
 	}

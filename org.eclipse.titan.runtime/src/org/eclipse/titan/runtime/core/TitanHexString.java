@@ -154,17 +154,57 @@ public class TitanHexString extends Base_Type {
 		return nibbles_ptr[nibble_index];
 	}
 
-	public void set_nibble(final int nibble_index, final byte new_value) {
+	/**
+	 * Overwrites the internal data storage of this hexstring directly.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 * <p>
+	 *
+	 * @param nibble_index
+	 *                the index to overwrite.
+	 * @param new_value
+	 *                the value to use.
+	 * */
+	void set_nibble(final int nibble_index, final byte new_value) {
 		nibbles_ptr[nibble_index] = new_value;
 	}
 
-	// originally char*()
+	/**
+	 * Returns the internal data storage of this hexstring.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @return the internal representation of the hexstring.
+	 * */
 	public byte[] get_value() {
 		return nibbles_ptr;
 	}
 
-	public void set_value(final byte aOtherValue[]) {
-		nibbles_ptr = aOtherValue;
+	/**
+	 * Overwrites the internal data storage of this hexstring.
+	 * Takes ownership of the provided data.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @param other_value the internal representation of the hexstring.
+	 * */
+	public void set_value(final byte other_value[]) {
+		nibbles_ptr = other_value;
 	}
 
 	/**
@@ -643,7 +683,7 @@ public class TitanHexString extends Base_Type {
 
 		final int n_bytes = (nibbles_ptr.length + 1) / 2;
 		if (n_bytes == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -677,7 +717,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -735,7 +775,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -793,7 +833,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 
 		final byte result[] = new byte[nibbles_ptr.length];
@@ -846,7 +886,7 @@ public class TitanHexString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
@@ -863,7 +903,7 @@ public class TitanHexString extends Base_Type {
 
 			return new TitanHexString(result);
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanHexString(this);
 		} else {
 			return this.shift_right(-shift_count);
 		}
@@ -902,7 +942,7 @@ public class TitanHexString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (nibbles_ptr.length == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
@@ -919,7 +959,7 @@ public class TitanHexString extends Base_Type {
 
 			return new TitanHexString(result);
 		} else if (shift_count == 0) {
-			return this;
+			return new TitanHexString(this);
 		} else {
 			return this.shift_left(-shift_count);
 		}
@@ -957,12 +997,12 @@ public class TitanHexString extends Base_Type {
 		must_bound("Unbound hexstring operand of rotate left operator.");
 
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= nibbles_ptr.length;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			return this.shift_left(rotate_count).or4b(this.shift_right(nibbles_ptr.length - rotate_count));
@@ -1003,12 +1043,12 @@ public class TitanHexString extends Base_Type {
 		must_bound("Unbound hexstring operand of rotate right operator.");
 
 		if (nibbles_ptr.length == 0) {
-			return this;
+			return new TitanHexString(this);
 		}
 		if (rotateCount >= 0) {
 			rotateCount %= nibbles_ptr.length;
 			if (rotateCount == 0) {
-				return this;
+				return new TitanHexString(this);
 			}
 
 			return this.shift_right(rotateCount).or4b(this.shift_left(nibbles_ptr.length - rotateCount));

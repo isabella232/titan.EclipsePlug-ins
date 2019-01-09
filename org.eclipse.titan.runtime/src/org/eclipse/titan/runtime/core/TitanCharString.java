@@ -88,7 +88,19 @@ public class TitanCharString extends Base_Type {
 		operator_assign(otherValue);
 	}
 
-	// originally char*()
+	/**
+	 * Returns the internal data storage of this charstring.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @return the internal representation of the charstring.
+	 * */
 	public StringBuilder get_value() {
 		must_bound("Getting an unbound charstring value as string.");
 
@@ -236,6 +248,9 @@ public class TitanCharString extends Base_Type {
 		return new TitanInteger(val_ptr.length());
 	}
 
+	/**
+	 * The supported character codings.
+	 * */
 	public static enum CharCoding {
 		UNKNOWN,
 		ASCII,
@@ -248,8 +263,16 @@ public class TitanCharString extends Base_Type {
 		UTF32LE
 	}
 
+	/**
+	 * Enumeration used to process charstring for logging.
+	 * */
 	private static enum States {
-		INIT, PCHAR, NPCHAR;
+		// represents the initial state
+		INIT,
+		// the last processed character was printable
+		PCHAR,
+		// the last processed character was non-printable
+		NPCHAR;
 	}
 
 	@Override
@@ -643,13 +666,14 @@ public class TitanCharString extends Base_Type {
 		must_bound("Unbound charstring operand of rotate left operator.");
 
 		if (val_ptr.length() == 0) {
-			return this;
+			return new TitanCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= val_ptr.length();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanCharString(this);
 			}
+
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 			for (int i = 0; i < val_ptr.length(); i++) {
 				rValue.append(val_ptr.charAt((i + rotate_count) % val_ptr.length()));
@@ -692,13 +716,14 @@ public class TitanCharString extends Base_Type {
 		must_bound("Unbound charstring operand of rotate right operator.");
 
 		if (val_ptr.length() == 0) {
-			return this;
+			return new TitanCharString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count %= val_ptr.length();
 			if (rotate_count == 0) {
-				return this;
+				return new TitanCharString(this);
 			}
+
 			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 
 			for (int i = 0; i < rotate_count; i++) {

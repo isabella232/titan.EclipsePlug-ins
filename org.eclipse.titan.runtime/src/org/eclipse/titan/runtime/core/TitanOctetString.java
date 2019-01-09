@@ -134,14 +134,39 @@ public class TitanOctetString extends Base_Type {
 		val_ptr[nibble_index] = new_value;
 	}
 
-	//originally char*()
+	/**
+	 * Returns the internal data storage of this octetstring.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @return the internal representation of the octetstring.
+	 * */
 	public char[] get_value() {
 		return val_ptr;
 	}
 
-	// takes ownership of aOtherValue
-	public void set_value(final char[] aOtherValue) {
-		val_ptr = aOtherValue;
+	/**
+	 * Overwrites the internal data storage of this octetstring.
+	 * Takes ownership of the provided data.
+	 * <p>
+	 * Please note, this code is for internal use only.
+	 * Users are not recommended to use this function.
+	 * As such it is also not part of the public API
+	 *  and might change without notice.
+	 *
+	 * <p>
+	 * char*() in the core
+	 *
+	 * @param other_value the internal representation of the octetstring.
+	 * */
+	public void set_value(final char[] other_value) {
+		val_ptr = other_value;
 	}
 
 	/**
@@ -784,7 +809,7 @@ public class TitanOctetString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();
@@ -802,7 +827,7 @@ public class TitanOctetString extends Base_Type {
 			return result;
 		} else {
 			if (shift_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			} else {
 				return this.shift_right(-shift_count);
 			}
@@ -842,7 +867,7 @@ public class TitanOctetString extends Base_Type {
 
 		if (shift_count > 0) {
 			if (val_ptr.length == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();
@@ -858,7 +883,7 @@ public class TitanOctetString extends Base_Type {
 			return result;
 		} else {
 			if (shift_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			} else {
 				return this.shift_left(-shift_count);
 			}
@@ -897,7 +922,7 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound octetstring operand of rotate left operator.");
 
 		if (val_ptr.length == 0) {
-			return this;
+			return new TitanOctetString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.length;
@@ -948,12 +973,12 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound octetstring operand of rotate right operator.");
 
 		if (val_ptr.length == 0) {
-			return this;
+			return new TitanOctetString(this);
 		}
 		if (rotate_count >= 0) {
 			rotate_count = rotate_count % val_ptr.length;
 			if (rotate_count == 0) {
-				return this;
+				return new TitanOctetString(this);
 			}
 
 			final TitanOctetString result = new TitanOctetString();

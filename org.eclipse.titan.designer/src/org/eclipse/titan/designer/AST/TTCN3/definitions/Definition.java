@@ -105,6 +105,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	private Location cumulativeDefinitionLocation = null;
 
 	//TODO this should be removed as the same functionality is present in Titanium as codesmell.
+	@Deprecated
 	public List<String> referingHere = new ArrayList<String>();
 
 	private static boolean markOccurrences;

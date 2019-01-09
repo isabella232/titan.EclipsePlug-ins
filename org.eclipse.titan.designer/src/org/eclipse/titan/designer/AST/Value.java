@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *
  * @author Kristof Szabados
  * */
-// TODO The ASN.1 values can not be incrementally updated.
 public abstract class Value extends GovernedSimple implements IReferenceChainElement, IValue, IIncrementallyUpdateable {
 
 	/** The type of the value, which also happens to be its governor. */
