@@ -123,14 +123,19 @@
           name="Find References">
     </command>
     <command
+          defaultHandler="org.eclipse.titan.designer.editors.ttcn3editor.actions.FindFunctionCalls"
+          id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+          name="Find Function Calls">
+    </command>
+    <command
           defaultHandler="org.eclipse.titan.designer.editors.asn1editor.actions.OpenDeclaration"
           id="org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration"
           name="Open Declaration">
     </command>
     <command
-          defaultHandler="org.eclipse.titan.designer.editors.asn1editor.actions.FindReferences"
-          id="org.eclipse.titan.designer.editors.asn1editor.FindReferences"
-          name="Find References">
+          defaultHandler="org.eclipse.titan.designer.editors.asn1editor.actions.FindFunctionCalls"
+          id="org.eclipse.titan.designer.editors.asn1editor.FindFunctionCalls"
+          name="Find Function Calls">
     </command>
     <command
           defaultHandler="org.eclipse.titan.designer.editors.asn1editor.actions.RenameRefactoringAction"
@@ -525,6 +530,12 @@
         icon="icons/titan.gif"
         id="org.eclipse.titan.designer.editors.ttcn3editor.FindReferences"
         label="Find References">
+      </command>
+      <command
+        commandId="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+        icon="icons/titan.gif"
+        id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+        label="Find Function Calls">
       </command>
       <command
         commandId="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoringAction"
@@ -949,6 +960,14 @@
       id="org.eclipse.titan.designer.editors.ttcn3editor.FindReferences"
       name="Find References" />
     <command categoryId="org.eclipse.titan.designer.editors.TITANCommands"
+      description="Finds references to a declaration/assignment"
+      id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+      name="Find Function Calls" />
+    <command categoryId="org.eclipse.titan.designer.editors.TITANCommands"
+      description="Finds function calls"
+      id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+      name="Find Function Calls" />
+    <command categoryId="org.eclipse.titan.designer.editors.TITANCommands"
       description="Rename refactoring"
       id="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoring"
       name="Rename refactoring" />
@@ -1045,6 +1064,10 @@
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="F4" />
+    <key commandId="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+      contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+      sequence="F5" />
     <key
       commandId="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoringAction"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"

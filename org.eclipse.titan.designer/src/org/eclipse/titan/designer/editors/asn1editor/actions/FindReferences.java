@@ -31,7 +31,7 @@ public class FindReferences extends AbstractHandler implements IEditorActionDele
 		if (targetEditor == null || !(targetEditor instanceof ASN1Editor)) {
 			return;
 		}
-		ReferenceSearch.runAction(targetEditor, selection);
+		ReferenceSearch.runAction(targetEditor, selection, null);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class FindReferences extends AbstractHandler implements IEditorActionDele
 		if (targetEditor == null || !(targetEditor instanceof ASN1Editor)) {
 			return null;
 		}
-		ReferenceSearch.runAction(targetEditor, selection);
+		ReferenceSearch.runAction(targetEditor, selection, null);
 		return null;
 	}
 }

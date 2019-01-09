@@ -381,7 +381,7 @@ public abstract class OccurencesMarker {
 			// Check if the reference points to a field of a type
 			// definition
 			referenceFinder = new ReferenceFinder();
-			referenceFinder.detectAssignmentDataByOffset(module, offset, editor, false, false);
+			referenceFinder.detectAssignmentDataByOffset(module, offset, editor, false, false, null);
 
 			final Assignment assignment = referenceFinder.assignment;
 			if (assignment == null) {

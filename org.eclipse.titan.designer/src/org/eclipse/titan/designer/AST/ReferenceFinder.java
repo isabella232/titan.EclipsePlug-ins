@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -119,7 +120,7 @@ public final class ReferenceFinder {
 	}
 
 	public boolean detectAssignmentDataByOffset(final Module module, final int offset, final IEditorPart targetEditor,
-			final boolean reportErrors, final boolean reportDebugInformation) {
+			final boolean reportErrors, final boolean reportDebugInformation, final Set<Assignment_type> filterAssignmentType) {
 		// detect the scope we are in
 		scope = module.getSmallestEnclosingScope(offset);
 		if (scope == null) {
@@ -157,6 +158,12 @@ public final class ReferenceFinder {
 				if (reportErrors) {
 					targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NORECOGNISABLEASSIGNMENT);
 				}
+				return false;
+			}
+		}
+
+		if (filterAssignmentType != null) {
+			if (!filterAssignmentType.contains(assignment.getAssignmentType())) {
 				return false;
 			}
 		}
