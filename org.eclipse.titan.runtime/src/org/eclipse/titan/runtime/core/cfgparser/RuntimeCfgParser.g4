@@ -1631,7 +1631,8 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
 |	ir = pr_IntegerRange
 	{	$moduleparameter = new Module_Param_IntRange(
-			new TitanInteger($ir.min.getIntegerValue()), new TitanInteger($ir.max.getIntegerValue()),
+			$ir.min != null ? new TitanInteger($ir.min.getIntegerValue()) : null,
+			$ir.max != null ? new TitanInteger($ir.max.getIntegerValue()) : null,
 			$ir.min_exclusive, $ir.max_exclusive );
 	}
 |	fr = pr_FloatRange
@@ -2019,7 +2020,6 @@ pr_IndexValue returns [Module_Parameter moduleparameter]:
 	}
 ;
 
-//TODO: handle exclusive: '!' before the number
 pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
@@ -2028,10 +2028,14 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 	$max_exclusive = false;
 }:
 	LPAREN
+	(	EXCLUSIVE	{	$min_exclusive = true;	}
+	)?
 	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
+	(	EXCLUSIVE	{	$max_exclusive = true;	}
+	)?
 	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
 	|	INFINITYKEYWORD
 	)
@@ -2047,10 +2051,14 @@ pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bool
 	$max_exclusive = false;
 }:
 	LPAREN
+	(	EXCLUSIVE	{	$min_exclusive = true;	}
+	)?
 	(	f1 = pr_FloatValueExpression	{	$min = $f1.floatnum;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
+	(	EXCLUSIVE	{	$max_exclusive = true;	}
+	)?
 	(	f2 = pr_FloatValueExpression	{	$max = $f2.floatnum;	}
 	|	INFINITYKEYWORD
 	)
@@ -2104,7 +2112,6 @@ pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
 )
 ;
 
-//TODO: handle exclusive: '!' before the values
 pr_StringRange returns [Module_Param_StringRange stringrange]
 @init {
 	TitanUniversalChar lower = new TitanUniversalChar((char)0, (char)0, (char)0, (char)0);
@@ -2113,6 +2120,8 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 	boolean max_exclusive = false;
 }:
 	LPAREN
+	(	EXCLUSIVE	{	min_exclusive = true;	}
+	)?
 	s1 = pr_UniversalOrNotStringValue
 	{	if ($s1.cstr instanceof TitanCharString) {
 			final TitanCharString cs = (TitanCharString)$s1.cstr;
@@ -2131,6 +2140,8 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 		}
 	}
 	DOTDOT
+	(	EXCLUSIVE	{	max_exclusive = true;	}
+	)?
 	s2 = pr_UniversalOrNotStringValue
 	{	if ($s2.cstr instanceof TitanCharString) {
 			final TitanCharString cs = (TitanCharString)$s2.cstr;

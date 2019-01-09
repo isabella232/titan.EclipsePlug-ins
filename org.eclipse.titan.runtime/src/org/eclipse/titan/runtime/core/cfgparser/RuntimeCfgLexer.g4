@@ -74,6 +74,7 @@ tokens {
 	ENDCONTROLPART,
 	ENDTESTCASE,
 	ERROR_VERDICT,
+	EXCLUSIVE,
 	FAIL_VERDICT,
 	FALSE,
 	FL,
@@ -778,6 +779,7 @@ SQUAREOPEN9:		'['
 SQUARECLOSE9:		']'
 	-> type(SQUARECLOSE);
 AND9:				'&' -> type(AND);
+EXCLUSIVE9:			'!' -> type(EXCLUSIVE);
 fragment FR_ESCAPE9:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 
 NONE_VERDICT9:		'none' -> type(NONE_VERDICT);

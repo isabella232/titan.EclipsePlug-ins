@@ -1562,8 +1562,10 @@ pr_ArithmeticValueExpression returns [CFGNumber number]:
 
 pr_ArithmeticAddExpression returns [CFGNumber number]:
 	a = pr_ArithmeticMulExpression	{	$number = $a.number;	}
-	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$number.add($b1.number);	}
-	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
+	(	(	PLUS
+		|	MINUS	{	$b.number.mul(-1);	}
+		)
+		b = pr_ArithmeticMulExpression	{	$number.add($b.number);	}
 	)*
 ;
 
@@ -1773,10 +1775,12 @@ pr_IndexValue:
 
 pr_IntegerRange:
 	LPAREN
+	EXCLUSIVE?
 	(	pr_IntegerValueExpression
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
+	EXCLUSIVE?
 	(	pr_IntegerValueExpression
 	|	INFINITYKEYWORD
 	)
@@ -1785,10 +1789,12 @@ pr_IntegerRange:
 
 pr_FloatRange:
 	LPAREN
+	EXCLUSIVE?
 	(	pr_FloatValueExpression
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
+	EXCLUSIVE?
 	(	pr_FloatValueExpression
 	|	INFINITYKEYWORD
 	)
@@ -1829,7 +1835,13 @@ pr_FloatPrimaryExpression:
 ;
 
 pr_StringRange:
-	LPAREN pr_UniversalOrNotStringValue DOTDOT pr_UniversalOrNotStringValue RPAREN
+	LPAREN
+	EXCLUSIVE?
+	pr_UniversalOrNotStringValue
+	DOTDOT 
+	EXCLUSIVE?
+	pr_UniversalOrNotStringValue
+	RPAREN
 ;
 
 pr_PatternChunkList:
