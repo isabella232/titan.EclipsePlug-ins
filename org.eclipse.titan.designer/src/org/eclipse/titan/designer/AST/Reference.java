@@ -968,6 +968,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		case A_TEMPLATE:
 			formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
 			break;
+		case A_ALTSTEP:
+			formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
+			break;
 		default:
 			formalParameterList = null;
 			break;
@@ -1049,6 +1052,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			case A_TEMPLATE:
 				formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
 				break;
+			case A_ALTSTEP:
+				formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
+				break;
 			default:
 				formalParameterList = null;
 				break;
@@ -1113,6 +1119,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			break;
 		case A_TEMPLATE:
 			formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
+			break;
+		case A_ALTSTEP:
+			formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
 			break;
 		default:
 			formalParameterList = null;
