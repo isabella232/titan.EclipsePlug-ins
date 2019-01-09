@@ -141,6 +141,22 @@ public class DecodeMatch_template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
+		final boolean selfRef = type.checkThisTemplate(timestamp, this, isModified, implicitOmit, lhs);
+		checkLengthRestriction(timestamp, type);
+		if (!allowOmit && isIfpresent) {
+			location.reportSemanticError("`ifpresent' is not allowed here");
+		}
+		if (subCheck) {
+			type.checkThisTemplateSubtype(timestamp, this);
+		}
+
+		return selfRef;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (target != null) {
 			return target.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs);
@@ -169,7 +185,7 @@ public class DecodeMatch_template extends TTCN3Template {
 	 * */
 	public boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final IType type, final boolean implicitOmit, final Assignment lhs) {
 		final TTCN3Template targetBody = target.getTemplateBody();
-		targetBody.setMyGovernor(type);
+		//targetBody.setMyGovernor(type);
 
 		targetBody.setLoweridToReference(timestamp);
 		IType targetType = target.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
