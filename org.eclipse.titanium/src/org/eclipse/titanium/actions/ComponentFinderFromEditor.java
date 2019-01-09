@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.PortReference;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
@@ -27,7 +28,10 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Connect_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Function_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Map_Statement;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Start_Component_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ComponentCreateExpression;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
@@ -49,24 +53,26 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 	public ComponentFinderFromEditor() {
 	}
 
-
+	
 	@Override
-	public Object execute(final ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {		
 		final Definition selection = findSelection();
 		if (selection instanceof Def_Testcase) {
-			final Def_Testcase tc = (Def_Testcase)selection;
-			final TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>());
+			Def_Testcase tc = (Def_Testcase)selection;
+			ArrayList<Component_Type> components = new ArrayList<Component_Type>();
+			components.add(tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp()));
+			TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components);
 			tc.accept(vis);
-			System.out.println("Eredmeny: ---------------------------------------------------------");
-			for (final Component_Type ct : vis.getComponents()) {
-				System.out.println(ct.getFullName());
+			TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
+			for (Component_Type ct : vis.getComponents()) {
+				TITANDebugConsole.println(ct.getFullName());
 			}
 		}
 
 		return null;
 	}
-
-
+	
+	
 	private Definition findSelection() {
 		//getting the active editor
 		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
@@ -84,7 +90,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		}
 
 		final IFile selectedFile = (IFile)selectedRes;
-		final IProject sourceProj = selectedFile.getProject();
+		IProject sourceProj = selectedFile.getProject();
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProj);
 		final Module selectedModule = projectSourceParser.containedModule(selectedFile);
 
@@ -104,7 +110,7 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		}
 		return selectedDef;
 	}
-
+	
 	private static class SelectionFinderVisitor extends ASTVisitor {
 
 		private Definition def;
@@ -154,17 +160,19 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		return (TextSelection)sel;
 	}
 
-
+	
 	private static class TestcaseVisitor extends ASTVisitor {
 
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private List<Def_Function> checkedFunctions;
 		private int counter;
-
-		TestcaseVisitor(final List<Def_Function> checkedFunctions) {
-			comps = new ArrayList<Component_Type>();
+		private boolean cce;
+		
+		TestcaseVisitor(List<Def_Function> checkedFunctions, List<Component_Type> components) {
+			comps = components;
 			this.checkedFunctions = checkedFunctions;
 			counter = -1;
+			cce = false;
 		}
 
 		private List<Component_Type> getComponents() {
@@ -173,23 +181,20 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 
 		@Override
 		public int visit(final IVisitableNode node) {
-			if (node instanceof Connect_Statement) {
-				counter = 0;
-			}
-			else if (node instanceof Map_Statement) {
+			if (node instanceof Connect_Statement || node instanceof Map_Statement) {
 				counter = 0;
 			}
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
-				final PortReference pr = ((PortReference)node);
-
-				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				PortReference pr = ((PortReference)node);
+				
+				Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
-					final Def_Port dp = (Def_Port)as;
-					final ModuleVisitor mv = new ModuleVisitor(dp);
-					final Module m = dp.getMyScope().getModuleScope();
+					Def_Port dp = (Def_Port)as;
+					ModuleVisitor mv = new ModuleVisitor(dp);
+					Module m = dp.getMyScope().getModuleScope();
 					m.accept(mv);
-					for (final Component_Type ct : mv.getComponents()) {
+					for (Component_Type ct : mv.getComponents()) {
 						if (!comps.contains(ct)) {
 							comps.add(ct);
 						}
@@ -197,34 +202,58 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 				}
 			}
 			else if (node instanceof Function_Instance_Statement) {
-				final Function_Instance_Statement fis = (Function_Instance_Statement)node;
-				final Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
-				if (as != null && as instanceof Def_Function) {
-					final Def_Function df = (Def_Function)as;
-					if (!checkedFunctions.contains(df)) {
-						checkedFunctions.add(df);
-						final TestcaseVisitor tv = new TestcaseVisitor(checkedFunctions);
-						df.accept(tv);
-						for (final Component_Type ct : tv.getComponents()) {
-							if (!comps.contains(ct)) {
-								comps.add(ct);
-							}
-						}
-
+				Function_Instance_Statement fis = (Function_Instance_Statement)node;
+				Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				analyzeFunction(as);			
+			}
+			else if (node instanceof ComponentCreateExpression) {
+				cce = true;
+			}
+			else if (node instanceof Reference && cce) {
+				cce = false;
+				Reference ref = (Reference)node;
+				Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				if (as.getType(CompilationTimeStamp.getBaseTimestamp()) instanceof Component_Type) {
+					Component_Type ct = (Component_Type)as.getType(CompilationTimeStamp.getBaseTimestamp());
+					if (!comps.contains(ct)) {
+						comps.add(ct);
 					}
 				}
+
 			}
+			else if (node instanceof Start_Component_Statement) {
+				Assignment as = ((Start_Component_Statement)node).getFunctionInstanceReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				analyzeFunction(as);
+			}
+
 			return V_CONTINUE;
+		}
+		
+		public void analyzeFunction(Assignment assignment) {
+			if (assignment != null && assignment instanceof Def_Function) {
+				Def_Function df = (Def_Function)assignment;
+				if (!checkedFunctions.contains(df)) {
+					checkedFunctions.add(df);
+					TestcaseVisitor tv = new TestcaseVisitor(checkedFunctions, comps);
+					df.accept(tv);
+					for (Component_Type ct : tv.getComponents()) {
+						if (!comps.contains(ct)) {
+							comps.add(ct);
+						}
+					}
+					
+				}
+			}
 		}
 
 	}
-
+	
 	private static class ModuleVisitor extends ASTVisitor {
 
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private Def_Port port;
-
-		ModuleVisitor(final Def_Port port) {
+		
+		ModuleVisitor(Def_Port port) {
 			comps = new ArrayList<Component_Type>();
 			this.port = port;
 		}
@@ -236,9 +265,9 @@ public class ComponentFinderFromEditor extends AbstractHandler {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Component_Type) {
-				final Component_Type ct = (Component_Type)node;
-				final List<Definition> defs = ct.getComponentBody().getDefinitions();
-				for (final Definition def : defs) {
+				Component_Type ct = (Component_Type)node;
+				List<Definition> defs = ct.getComponentBody().getDefinitions();
+				for (Definition def : defs) {
 					if (def != null && def.equals(port)) {
 						comps.add(ct);
 						return V_ABORT;
