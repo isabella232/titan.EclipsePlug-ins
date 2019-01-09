@@ -627,10 +627,15 @@ public final class Catch_Statement extends Statement {
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
-				//FIXME handle redirection
+				//FIXME handle has_decoded_redirect redirection
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				expression.expression.append(", ");
+				if (redirectValue == null) {
+					expression.expression.append("null");
+				} else {
+					redirectValue.generateCode(aData, expression);
+				}
 				expression.expression.append("), ");
-				//FIXME handle value redirection
 			}
 		} else {
 			// the operation refers to any port
