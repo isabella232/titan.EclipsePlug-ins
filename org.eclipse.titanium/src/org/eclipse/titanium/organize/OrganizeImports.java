@@ -29,11 +29,14 @@ import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
@@ -260,14 +263,26 @@ public final class OrganizeImports {
 
 		if (needSorting || removeImports) {
 			// remove the imports not needed, or every if sorting is required
+			final ImportsCheck check = new ImportsCheck();
+			module.accept(check);
+			final Set<Module> usedModules = check.getModules();
+
 			for (final ImportModule m : module.getImports()) {
+				final Identifier importedIdentifier = m.getIdentifier();
+				boolean isused = false;
+				for (Module m2 : usedModules) {
+					if(m2.getIdentifier().equals(importedIdentifier)) {
+						isused = true;
+					}
+				}
+
 				final Location delImp = m.getLocation();
 				final IRegion startLineRegion = document.getLineInformationOfOffset(delImp.getOffset());
 				final IRegion endLineRegion = document.getLineInformationOfOffset(delImp.getEndOffset());
 				final String delimeter = document.getLineDelimiter(document.getLineOfOffset(delImp.getEndOffset()));
 				final int delLength = delimeter == null ? 0 : delimeter.length();
 
-				if (needSorting || (removeImports && !m.getUsedForImportation())) {
+				if (needSorting || (removeImports && !isused)) {
 					if (reportDebug) {
 						final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 						TITANDebugConsole.println("Removing "
@@ -290,7 +305,7 @@ public final class OrganizeImports {
 										+ delLength));
 					}
 				}
-				if (needSorting && (!removeImports || m.getUsedForImportation())) {
+				if (needSorting && (!removeImports || isused)) {
 					importsKept.add(new ImportText(m.getName(), doc.substring(startLineRegion.getOffset(),
 							endLineRegion.getOffset() + endLineRegion.getLength() + delLength)));
 				}
@@ -329,6 +344,38 @@ public final class OrganizeImports {
 		resultEdit.addChild(insertEdit);
 		resultEdit.addChild(removeEdit);
 		return resultEdit;
+	}
+
+	static class ImportsCheck extends ASTVisitor {
+
+		private Set<Module> setOfModules = new HashSet<Module>();
+
+		public ImportsCheck() {
+			setOfModules.clear();
+		}
+
+		public Set<Module> getModules() {
+			return setOfModules;
+		}
+
+		@Override
+		public int visit(final IVisitableNode node) {
+			if (node instanceof Reference) {
+				if(((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+					return V_CONTINUE;
+				}
+
+				final Assignment assignment = ((Reference) node).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
+				if(assignment != null ) {
+					final Scope scope =  assignment.getMyScope();
+					if (scope != null) {
+						setOfModules.add(scope.getModuleScope());
+					}
+					return V_CONTINUE;
+				}
+			}
+			return V_CONTINUE;
+		}
 	}
 }
 
