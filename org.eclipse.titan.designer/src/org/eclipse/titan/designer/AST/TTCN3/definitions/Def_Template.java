@@ -281,6 +281,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	/**
+	 * Check the template, tries to calculate the real template body and
+	 * returns it.
+	 * 
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 *
