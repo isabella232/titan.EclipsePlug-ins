@@ -297,6 +297,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		return realBody;
 	}
 
+	/**
+	 * Check the template and returns it's formal parameter list.
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 *
+	 * @return the formal parameter list if it exists, otherwise null
+	 * */
 	public FormalParameterList getFormalParameterList(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked == null) {
 			check(timestamp);
