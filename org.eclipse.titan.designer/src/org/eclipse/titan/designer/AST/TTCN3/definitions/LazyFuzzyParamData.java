@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Reference;
@@ -65,6 +66,7 @@ public class LazyFuzzyParamData {
 
 	public static String addReferenceGenname(final JavaGenData aData, final StringBuilder source, final Assignment assignment, final Scope scope) {
 		final StringBuilder typeString = new StringBuilder();
+		final IType assignmentType = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 		switch (assignment.getAssignmentType()) {
 		case A_MODULEPAR_TEMPLATE:
 		case A_TEMPLATE:
@@ -72,10 +74,10 @@ public class LazyFuzzyParamData {
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
-			typeString.append(assignment.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, scope));
+			typeString.append(assignmentType.getGenNameTemplate(aData, source, scope));
 			break;
 		default:
-			typeString.append(assignment.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, scope));
+			typeString.append(assignmentType.getGenNameValue(aData, source, scope));
 			break;
 		}
 
