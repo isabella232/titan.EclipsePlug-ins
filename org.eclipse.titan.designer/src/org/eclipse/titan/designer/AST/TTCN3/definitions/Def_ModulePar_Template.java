@@ -74,13 +74,19 @@ public final class Def_ModulePar_Template extends Definition {
 		}
 	}
 
-	public ITTCN3Template getDefaultTemplate(){
-		//FIXME: check() should be call ???
+	public ITTCN3Template getDefaultTemplate(final CompilationTimeStamp timestamp){
+		if (lastTimeChecked == null) {
+			check(timestamp);
+		}
+
 		return defaultTemplate;
 	}
 
-	public ITTCN3Template getRealTemplate(){
-		//FIXME: check() should be call ???
+	public ITTCN3Template getRealTemplate(final CompilationTimeStamp timestamp){
+		if (lastTimeChecked == null) {
+			check(timestamp);
+		}
+
 		return realTemplate;
 	}
 
