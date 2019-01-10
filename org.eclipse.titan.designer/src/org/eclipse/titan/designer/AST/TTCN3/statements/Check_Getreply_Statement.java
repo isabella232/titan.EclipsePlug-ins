@@ -422,7 +422,8 @@ public final class Check_Getreply_Statement extends Statement {
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
-						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
+						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedValueRedirect);
 					} else {
 						// the value match is not present
 						// we must substitute it with ? in the signature template

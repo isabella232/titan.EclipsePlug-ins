@@ -641,8 +641,8 @@ public final class Catch_Statement extends Statement {
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
-				//FIXME handle has_decoded_redirect redirection
-				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				expression.expression.append(", ");
 				if (redirectValue == null) {
 					expression.expression.append("null");

@@ -355,7 +355,8 @@ public final class Trigger_Port_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".trigger(");
 			if (receiveParameter != null) {
-				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				expression.expression.append(", ");
 				if (redirectValue == null) {
 					expression.expression.append("null");
