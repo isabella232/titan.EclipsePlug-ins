@@ -22,9 +22,12 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.PortScope;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -69,13 +72,13 @@ public final class Receive_Port_Statement extends Statement {
 	private final boolean translate;
 	private final TemplateInstance receiveParameter;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter,
-			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Reference redirectSender,
 			final Reference redirectIndex, final Reference redirectTimestamp, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -127,7 +130,7 @@ public final class Receive_Port_Statement extends Statement {
 	 *         <code>null</code> if the statement does not redirect the
 	 *         value.
 	 */
-	public Reference getRedirectValue() {
+	public Value_Redirection getRedirectValue() {
 		return redirectValue;
 	}
 
@@ -243,7 +246,7 @@ public final class Receive_Port_Statement extends Statement {
 				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -286,7 +289,7 @@ public final class Receive_Port_Statement extends Statement {
 	 * */
 	public static void checkReceivingStatement(final CompilationTimeStamp timestamp, final Statement origin, final String statementName,
 			final Reference portReference, final boolean anyFrom, final boolean translate, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
-			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+			final Value_Redirection redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		Port_Type portType;
 		if (translate) {
 			final PortScope ps = origin.getMyStatementBlock().getScopePort();
@@ -316,13 +319,13 @@ public final class Receive_Port_Statement extends Statement {
 
 			if (redirectValue != null) {
 				redirectValue.getLocation().reportSemanticError(VALUEREDIRECTWITHOUTRECEIVEPARAMETER);
-				Port_Utility.checkValueRedirect(timestamp, redirectValue, null);
+				redirectValue.checkErroneous(timestamp);
 			}
 		} else {
 			// determine the type of the incoming message
 			IType messageType = null;
 			boolean messageTypeDetermined = false;
-			final boolean[] valueRedirectChecked = new boolean[] { false };
+			//final boolean[] valueRedirectChecked = new boolean[] { false };
 
 			if (portType != null) {
 				// the port type is known
@@ -335,8 +338,7 @@ public final class Receive_Port_Statement extends Statement {
 					if (inMessages.getNofTypes() == 1) {
 						messageType = inMessages.getTypeByIndex(0);
 					} else {
-						messageType = Port_Utility.getIncomingType(timestamp, receiveParameter, redirectValue,
-								valueRedirectChecked);
+						messageType = get_msg_sig_type(timestamp, receiveParameter);
 						if (messageType == null) {
 							receiveParameter.getLocation().reportSemanticError(UNKNOWNINCOMINGMESSAGE);
 						} else {
@@ -368,13 +370,14 @@ public final class Receive_Port_Statement extends Statement {
 			}
 
 			if (!messageTypeDetermined) {
-				messageType = Port_Utility.getIncomingType(timestamp, receiveParameter, redirectValue, valueRedirectChecked);
+				messageType = get_msg_sig_type(timestamp, receiveParameter);
 			}
 
 			if (messageType != null) {
 				receiveParameter.check(timestamp, messageType);
-				if (!valueRedirectChecked[0]) {
-					Port_Utility.checkValueRedirect(timestamp, redirectValue, messageType);
+				//FIXME extra check
+				if (redirectValue != null) {
+					redirectValue.check(timestamp, messageType);
 				}
 			}
 		}
@@ -387,6 +390,17 @@ public final class Receive_Port_Statement extends Statement {
 		}
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
+	}
+
+	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		if (returnValue != null) {
+			return returnValue;
+		}
+
+		TTCN3Template template = templateInstance.getTemplateBody();
+		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
+		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override
@@ -536,12 +550,13 @@ public final class Receive_Port_Statement extends Statement {
 				expression.expression.append(".receive(");
 			}
 			if (receiveParameter != null) {
-				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				expression.expression.append(", ");
 				if (redirectValue == null) {
 					expression.expression.append("null");
 				} else {
-					redirectValue.generateCode(aData, expression);
+					redirectValue.generateCode(aData, expression, receiveParameter);
 				}
 				expression.expression.append(", ");
 			}

@@ -28,6 +28,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
@@ -52,14 +54,14 @@ public final class Done_Statement extends Statement {
 
 	private final Value componentreference;
 	private final TemplateInstance doneMatch;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 
 	//when componentReference is null, this show if the killed was called with any component or all component
 	private final boolean isAny;
 	private final boolean any_from;
 	private final Reference redirectIndex;
 
-	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Reference redirectValue, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
+	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Value_Redirection redirectValue, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
 		this.componentreference = componentreference;
 		this.doneMatch = doneMatch;
 		this.redirectValue = redirectValue;
@@ -173,8 +175,8 @@ public final class Done_Statement extends Statement {
 		}
 
 		if (doneMatch != null) {
-			final boolean[] valueRedirectChecked = new boolean[] { false };
-			final IType returnType = Port_Utility.getIncomingType(timestamp, doneMatch, redirectValue, valueRedirectChecked);
+			//final boolean[] valueRedirectChecked = new boolean[] { false };
+			final IType returnType = get_msg_sig_type(timestamp, doneMatch);
 			if (returnType == null) {
 				doneMatch.getLocation().reportSemanticError("Cannot determine the return type for value returning done");
 			} else {
@@ -209,15 +211,14 @@ public final class Done_Statement extends Statement {
 					returnType.getTypeRefdLast(timestamp).set_needs_any_from_done();
 				}
 				doneMatch.check(timestamp, returnType);
-				if (!valueRedirectChecked[0]) {
-					Port_Utility.checkValueRedirect(timestamp, redirectValue, returnType);
+				//FIXME add extra check
+				if (redirectValue != null) {
+					redirectValue.check(timestamp, returnType);
 				}
 			}
 
 		} else if (redirectValue != null) {
-			redirectValue.getLocation().reportSemanticError("Redirect cannot be used for the return value without a matching template");
-			Port_Utility.checkValueRedirect(timestamp, redirectValue, null);
-			redirectValue.setUsedOnLeftHandSide();
+			redirectValue.checkVerdictOnly(timestamp);
 		}
 
 		if (redirectIndex != null && referencedType != null) {
@@ -234,6 +235,17 @@ public final class Done_Statement extends Statement {
 		}
 
 		lastTimeChecked = timestamp;
+	}
+
+	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		if (returnValue != null) {
+			return returnValue;
+		}
+
+		TTCN3Template template = templateInstance.getTemplateBody();
+		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
+		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override
@@ -372,7 +384,7 @@ public final class Done_Statement extends Statement {
 				expression.expression.append("null");
 			} else {
 				// value redirection present
-				redirectValue.generateCode(aData, expression);
+				redirectValue.generateCode(aData, expression, doneMatch);
 			}
 
 			expression.expression.append(", ");

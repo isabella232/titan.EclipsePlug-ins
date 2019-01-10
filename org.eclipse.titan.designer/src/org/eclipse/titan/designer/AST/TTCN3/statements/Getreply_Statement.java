@@ -21,8 +21,11 @@ import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -72,14 +75,14 @@ public final class Getreply_Statement extends Statement {
 	private final TemplateInstance parameter;
 	private final TemplateInstance valueMatch;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Parameter_Redirect redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -257,7 +260,7 @@ public final class Getreply_Statement extends Statement {
 				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -274,7 +277,7 @@ public final class Getreply_Statement extends Statement {
 
 	public static void checkGetreply(final CompilationTimeStamp timestamp, final Statement source, final String statementName,
 			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, source, portReference, anyFrom);
 		if (parameter == null) {
@@ -293,7 +296,7 @@ public final class Getreply_Statement extends Statement {
 
 			if (redirectValue != null) {
 				redirectValue.getLocation().reportSemanticError(VALUEREDIRECTWITHOUTSIGNATURE);
-				Port_Utility.checkValueRedirect(timestamp, redirectValue, null);
+				redirectValue.checkErroneous(timestamp);
 			}
 
 			if (redirectParameter != null) {
@@ -401,7 +404,9 @@ public final class Getreply_Statement extends Statement {
 					}
 				}
 
-				Port_Utility.checkValueRedirect(timestamp, redirectValue, returnType);
+				if (redirectValue != null) {
+					redirectValue.check(timestamp, returnType);
+				}
 			}
 		}
 
@@ -413,6 +418,17 @@ public final class Getreply_Statement extends Statement {
 		}
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
+	}
+
+	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		if (returnValue != null) {
+			return returnValue;
+		}
+
+		TTCN3Template template = templateInstance.getTemplateBody();
+		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
+		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override
@@ -595,7 +611,8 @@ public final class Getreply_Statement extends Statement {
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
-						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
+						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedValueRedirect);
 					} else {
 						// the value match is not present
 						// we must substitute it with ? in the signature template
@@ -610,7 +627,7 @@ public final class Getreply_Statement extends Statement {
 					if (redirectValue == null) {
 						expression.expression.append("null");
 					} else {
-						redirectValue.generateCode(aData, expression);
+						redirectValue.generateCode(aData, expression, valueMatch);
 					}
 					if (redirectParameter != null) {
 						expression.expression.append(", ");

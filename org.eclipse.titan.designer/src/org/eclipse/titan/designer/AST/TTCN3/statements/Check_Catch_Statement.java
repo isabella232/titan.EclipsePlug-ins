@@ -49,7 +49,7 @@ public final class Check_Catch_Statement extends Statement {
 	private final TemplateInstance parameter;
 	private final boolean timeout;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
@@ -58,7 +58,7 @@ public final class Check_Catch_Statement extends Statement {
 	private Signature_Type signature;
 
 	public Check_Catch_Statement(final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter,
-			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender,
+			final boolean timeout, final TemplateInstance fromClause, final Value_Redirection redirectValue, final Reference redirectSender,
 			final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyfrom = anyFrom;
@@ -221,7 +221,7 @@ public final class Check_Catch_Statement extends Statement {
 				redirectValue, redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -398,13 +398,13 @@ public final class Check_Catch_Statement extends Statement {
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
-				//FIXME handle has_decoded_redirect redirection
-				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				expression.expression.append(", ");
 				if (redirectValue == null) {
 					expression.expression.append("null");
 				} else {
-					redirectValue.generateCode(aData, expression);
+					redirectValue.generateCode(aData, expression, parameter);
 				}
 				expression.expression.append("), ");
 			}

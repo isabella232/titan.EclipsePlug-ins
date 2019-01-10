@@ -504,6 +504,17 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * @param templateRestriction the template restriction to check in runtime
 	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateRestriction.Restriction_type templateRestriction) {
+		generateCode(aData, expression, templateRestriction, false);
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression code generated
+	 * @param templateRestriction the template restriction to check in runtime
+	 * @param hasDecodedRedirect is the template instance used as a parameter in a statement which has decoded redirections?
+	 */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateRestriction.Restriction_type templateRestriction, final boolean hasDecodedRedirect) {
 		if (derivedReference != null) {
 			final ExpressionStruct derivedExpression = new ExpressionStruct();
 			derivedReference.generateCode(aData, derivedExpression);
