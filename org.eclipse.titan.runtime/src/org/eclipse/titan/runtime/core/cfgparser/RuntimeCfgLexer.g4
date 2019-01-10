@@ -232,7 +232,7 @@ LOCALADDRESS1: ( 'localaddress' | 'Localaddress' | 'localAddress' | 'LocalAddres
 NUMHCS1: ( 'numhcs' | 'Numhcs' | 'numHCs' | 'NumHCs' ) -> type(NUMHCS);
 TCPPORT1: ( 'tcpport' | 'TCPport' | 'tcpPort' | 'TCPPort' ) -> type(TCPPORT);
 UNIXSOCKETS1: ( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnabled' | 'Unixsocketsenabled' | 'unixSocketsEnabled' | 'unixSocketsenabled' | 'unixsocketsEnabled' | 'unixsocketsenabled' ) -> type(UNIXSOCKETS);
-ASSIGNMENTCHAR1:	':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR1:	':'? '=' -> type(ASSIGNMENTCHAR);
 YES1: 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
 NO1: 				( 'no' | 'No' | 'NO' ) -> type(NO);
 NATURAL_NUMBER1:	[0-9]+ -> type(NATURAL_NUMBER);
@@ -548,7 +548,7 @@ LINE_COMMENT6:
 BLOCK_COMMENT6:		'/*' .*? '*/'
 	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON6: 		';' -> type(SEMICOLON);
-ASSIGNMENTCHAR6:	':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR6:	':'? '=' -> type(ASSIGNMENTCHAR);
 STRING6:			'"' .*? '"' -> type(STRING);
 STRINGOP6:			'&' -> type(STRINGOP);
 BEGINCONTROLPART6:	( 'begincontrolpart' | 'Begincontrolpart' | 'beginControlpart' | 'BeginControlpart'
@@ -621,7 +621,7 @@ SQUARECLOSE7:		']'
 NATURAL_NUMBER7:	[0-9]+ -> type(NATURAL_NUMBER);
 SEMICOLON7:			';' -> type(SEMICOLON);
 DOT7:				'.' -> type(DOT);
-ASSIGNMENTCHAR7:	':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR7:	':'? '=' -> type(ASSIGNMENTCHAR);
 LPAREN7:			'('
  -> type(LPAREN);
 RPAREN7:			')'
@@ -693,7 +693,7 @@ fragment FR_DIGIT8:	[0-9];
 fragment FR_TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')*;
 TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')* -> type(TTCN3IDENTIFIER);
 SEMICOLON8:			';' -> type(SEMICOLON);
-ASSIGNMENTCHAR8:	':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR8:	':'? '=' -> type(ASSIGNMENTCHAR);
 STAR8:				'*' -> type(STAR);
 COMMA8:				',' -> type(COMMA);
 NATURAL_NUMBER8:	[0-9]+ -> type(NATURAL_NUMBER);
@@ -905,7 +905,7 @@ BLOCK_COMMENT10:		'/*' .*? '*/'
 	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON10:			';' -> type(SEMICOLON);
 STAR10:					'*' -> type(STAR);
-ASSIGNMENTCHAR10:		':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR10:		':'? '=' -> type(ASSIGNMENTCHAR);
 fragment FR_LETTER10:	[A-Za-z];
 fragment FR_DIGIT10:	[0-9];
 fragment FR_TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')*;
@@ -1079,7 +1079,7 @@ YESNO: 'yes' | 'Yes' | 'YES' | 'no' | 'No' | 'NO';
 
 SEMICOLON11:			';' -> type(SEMICOLON);
 STAR11:					'*' -> type(STAR);
-ASSIGNMENTCHAR11:		':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR11:		':'? '=' -> type(ASSIGNMENTCHAR);
 DOT11:					'.' -> type(DOT);
 BEGINCHAR11:			'{'
 	-> type(BEGINCHAR);
@@ -1166,7 +1166,7 @@ CONCATCHAR12:			'&=' -> type(CONCATCHAR);
 fragment FR_HEX12:		[0-9|A-F|a-f];
 HEXFILTER12:			FR_HEX12+ -> type(HEXFILTER);
 SEMICOLON12:			';' -> type(SEMICOLON);
-ASSIGNMENTCHAR12:		':=' -> type(ASSIGNMENTCHAR);
+ASSIGNMENTCHAR12:		':'? '=' -> type(ASSIGNMENTCHAR);
 LOGICALOR12:			'|' -> type(LOGICALOR);
 AND12:					'&' -> type(AND);
 /* settings */
