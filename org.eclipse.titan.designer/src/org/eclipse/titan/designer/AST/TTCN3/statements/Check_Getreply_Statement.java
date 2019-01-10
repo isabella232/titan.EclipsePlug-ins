@@ -50,14 +50,14 @@ public final class Check_Getreply_Statement extends Statement {
 	private final TemplateInstance parameter;
 	private final TemplateInstance valueMatch;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Parameter_Redirect redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Check_Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -227,7 +227,7 @@ public final class Check_Getreply_Statement extends Statement {
 				redirectParameter, redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -437,7 +437,7 @@ public final class Check_Getreply_Statement extends Statement {
 					if (redirectValue == null) {
 						expression.expression.append("null");
 					} else {
-						redirectValue.generateCode(aData, expression);
+						redirectValue.generateCode(aData, expression, valueMatch);
 					}
 					if (redirectParameter != null) {
 						expression.expression.append(", ");

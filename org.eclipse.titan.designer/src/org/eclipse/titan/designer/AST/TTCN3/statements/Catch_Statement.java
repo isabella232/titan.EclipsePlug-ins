@@ -20,8 +20,11 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -82,7 +85,7 @@ public final class Catch_Statement extends Statement {
 	private final TemplateInstance parameter;
 	private final boolean timeout;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
@@ -94,7 +97,7 @@ public final class Catch_Statement extends Statement {
 	private Signature_Type signature;
 
 	public Catch_Statement(final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter,
-			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender,
+			final boolean timeout, final TemplateInstance fromClause, final Value_Redirection redirectValue, final Reference redirectSender,
 			final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyfrom = anyFrom;
@@ -277,7 +280,7 @@ public final class Catch_Statement extends Statement {
 				redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -294,7 +297,7 @@ public final class Catch_Statement extends Statement {
 
 	public static void checkCatch(final CompilationTimeStamp timestamp, final Statement statement, final String statementName,
 			final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter, final boolean timeout,
-			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Reference redirectSender, final Reference redirectIndex,
 			final Reference redirectTimestamp) {
 
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, statement, portReference, anyFrom);
@@ -348,7 +351,7 @@ public final class Catch_Statement extends Statement {
 
 			if (redirectValue != null) {
 				redirectValue.getLocation().reportSemanticError(VALUEREDIRECTWITHOUTPARAMETER);
-				Port_Utility.checkValueRedirect(timestamp, redirectValue, null);
+				redirectValue.checkErroneous(timestamp);
 			}
 		} else {
 			Signature_Type signature = Port_Utility.checkSignatureReference(timestamp, signatureReference);
@@ -388,7 +391,7 @@ public final class Catch_Statement extends Statement {
 			// the receive parameter must also be present
 			IType exceptionType = null;
 			boolean exceptionTypeDetermined = false;
-			final boolean[] valueRedirectChecked = new boolean[] { false };
+			//final boolean[] valueRedirectChecked = new boolean[] { false };
 
 			if (signature != null) {
 				final SignatureExceptions exceptions = signature.getSignatureExceptions();
@@ -400,8 +403,7 @@ public final class Catch_Statement extends Statement {
 					if (exceptions.getNofExceptions() == 1) {
 						exceptionType = exceptions.getExceptionByIndex(0);
 					} else if (parameter != null) {
-						exceptionType = Port_Utility.getIncomingType(timestamp, parameter, redirectValue,
-								valueRedirectChecked);
+						exceptionType = get_msg_sig_type(timestamp, parameter);
 
 						if (exceptionType == null) {
 							parameter.getLocation().reportSemanticError(UNKNOWNEXCEPTIONTYPE);
@@ -425,14 +427,15 @@ public final class Catch_Statement extends Statement {
 			}
 
 			if (!exceptionTypeDetermined) {
-				exceptionType = Port_Utility.getIncomingType(timestamp, parameter, redirectValue, valueRedirectChecked);
+				exceptionType = get_msg_sig_type(timestamp, parameter);
 			}
 
 			if (exceptionType != null && parameter != null) {
 				parameter.check(timestamp, exceptionType);
-
-				if (!valueRedirectChecked[0]) {
-					Port_Utility.checkValueRedirect(timestamp, redirectValue, exceptionType);
+				//FIXME add extra check
+				
+				if (redirectValue != null) {
+					redirectValue.check(timestamp, exceptionType);
 				}
 
 				exceptionType = exceptionType.getTypeRefdLast(timestamp);
@@ -463,6 +466,17 @@ public final class Catch_Statement extends Statement {
 		}
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
+	}
+
+	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		if (returnValue != null) {
+			return returnValue;
+		}
+
+		TTCN3Template template = templateInstance.getTemplateBody();
+		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
+		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override
@@ -633,7 +647,7 @@ public final class Catch_Statement extends Statement {
 				if (redirectValue == null) {
 					expression.expression.append("null");
 				} else {
-					redirectValue.generateCode(aData, expression);
+					redirectValue.generateCode(aData, expression, parameter);
 				}
 				expression.expression.append("), ");
 			}

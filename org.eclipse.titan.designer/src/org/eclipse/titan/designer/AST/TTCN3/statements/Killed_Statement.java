@@ -41,11 +41,11 @@ public final class Killed_Statement extends Statement {
 	private final boolean isAny;
 	
 	//FIXME does not yet handle value redirection
-	final Reference redirect;
+	final Value_Redirection redirect;
 	private final boolean anyFrom;
 	private final Reference redirectIndex;
 
-	public Killed_Statement(final Value componentReference, final Reference redirect, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
+	public Killed_Statement(final Value componentReference, final Value_Redirection redirect, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
 		this.componentReference = componentReference;
 		this.isAny = isAny;
 		this.redirect = redirect;

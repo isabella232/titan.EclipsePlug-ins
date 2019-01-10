@@ -4552,7 +4552,7 @@ pr_ConfigurationStatements returns[Statement statement]
 @init {
 	$statement = null;
 	TemplateInstance doneMatch = null;
-	Reference reference = null;
+	Value_Redirection valueRedirection = null;
 	Reference index_reference = null;
 }:
 (	s1 = pr_ConnectStatement	{ $statement = $s1.statement; }
@@ -4563,85 +4563,85 @@ pr_ConfigurationStatements returns[Statement statement]
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-					(	vs = pr_ValueSpec { reference = $vs.reference; }
+					(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 					)?
-				)?	{ $statement = new Killed_Statement($v.value, reference, false, false, null); }		//pr_KilledStatement
+				)?	{ $statement = new Killed_Statement($v.value, valueRedirection, false, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Done_Statement($v.value, doneMatch, reference, false, false, null); } //Done_Statement
+			{ $statement = new Done_Statement($v.value, doneMatch, valueRedirection, false, false, null); } //Done_Statement
 		)
 |	pr_AnyKeyword
 	(	pr_ComponentKeyword
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Killed_Statement(null, reference, true, false, null); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement(null, valueRedirection, true, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Done_Statement(null, doneMatch, reference, true, false, null); } //Done_Statement
+			{ $statement = new Done_Statement(null, doneMatch, valueRedirection, true, false, null); } //Done_Statement
 		)
 	|	pr_FromKeyword
 		cr = pr_ComponentOrDefaultReference
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 					(	index = pr_IndexSpec {index_reference = $index.reference;}
 					)?
 				|	index = pr_IndexSpec {index_reference = $index.reference;}
 				)
 			)?
-			{ $statement = new Killed_Statement($cr.value, reference, true, true, index_reference); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement($cr.value, valueRedirection, true, true, index_reference); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 					(	index = pr_IndexSpec {index_reference = $index.reference;}
 					)?
 				|	index = pr_IndexSpec {index_reference = $index.reference;}
 				)
 			)?
-			{ $statement = new Done_Statement($cr.value, doneMatch, reference, true, true, index_reference); } //Done_Statement
+			{ $statement = new Done_Statement($cr.value, doneMatch, valueRedirection, true, true, index_reference); } //Done_Statement
 		)
 	)
 |	pr_AllKeyword pr_ComponentKeyword
 	pr_Dot
 	(	pr_KilledKeyword
 		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { reference = $vs.reference; }
+			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 			)?
 		)?
-		{ $statement = new Killed_Statement(null, reference, false, false, null); }		//pr_KilledStatement
+		{ $statement = new Killed_Statement(null, valueRedirection, false, false, null); }		//pr_KilledStatement
 	|	pr_DoneKeyword	//pr_DoneStatement
 		(	pr_LParen
 			t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 			pr_RParen
 		)?
 		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { reference = $vs.reference; }
+			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 			)?
 		)?
-		{ $statement = new Done_Statement(null, doneMatch, reference, false, false, null); } //Done_Statement
+		{ $statement = new Done_Statement(null, doneMatch, valueRedirection, false, false, null); } //Done_Statement
 	)
 |	s5 = pr_StopTCStatement		{ $statement = $s5.statement; }
 |	s6 = pr_KillTCStatement		{ $statement = $s6.statement; }
@@ -5379,13 +5379,13 @@ pr_PortRedirect [boolean is_any_from]
 	returns[PortRedirect_Helper helper]
 @init {
 	$helper = null;
-	Reference value = null;
+	Value_Redirection valueRedirection = null;
 	Reference sender = null;
 	Reference index = null;
 	Reference timestamp = null;
 }:
 (	pr_PortRedirectSymbol
-	(	vs = pr_ValueSpec { value = $vs.reference; }
+	(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 		(	ss = pr_SenderSpec { sender = $ss.reference; } )?
 		(	{$is_any_from}? is = pr_IndexSpec { index = $is.reference; } )?
 		(	ts = pr_TimestampSpec { timestamp = $ts.reference; } )?
@@ -5398,24 +5398,34 @@ pr_PortRedirect [boolean is_any_from]
 	)
 )
 {
-	$helper = new PortRedirect_Helper(value, sender, index, timestamp);
+	$helper = new PortRedirect_Helper(valueRedirection, sender, index, timestamp);
 };
 
 pr_PortRedirectSymbol:
 	PORTREDIRECTSYMBOL
 ;
 
-pr_ValueSpec returns[Reference reference]
+pr_ValueSpec returns[Value_Redirection redirection]
 @init {
-	$reference = null;
+	$redirection = null;
 }:
-	vss = pr_ValueStoreSpec { $reference = $vss.reference; }
+	vss = pr_ValueStoreSpec {
+				 $redirection = new Value_Redirection();
+				 Single_ValueRedirection single = new Single_ValueRedirection($vss.reference);
+				 single.setLocation(getLocation( $vss.start, $vss.stop));
+				 $redirection.add(single);
+				 $redirection.setLocation(getLocation( $vss.start, $vss.stop));
+				}
 |	pr_ValueKeyword
 	pr_LParen
 	svs = pr_SingleValueSpecList
 	pr_RParen
 		{
-			$reference = $svs.reference;
+			$redirection = new Value_Redirection();
+			for(Single_ValueRedirection singleRedirection : $svs.valueRedirections) {
+			  $redirection.add(singleRedirection);
+			}
+			$redirection.setLocation(getLocation( $start, getStopToken()));
 		}
 ;
 
@@ -5433,37 +5443,61 @@ pr_ValueKeyword returns[String stringValue]:
 	$stringValue = $VALUE.getText();
 };
 
-pr_SingleValueSpecList returns[Reference reference]
+pr_SingleValueSpecList returns[ArrayList<Single_ValueRedirection> valueRedirections]
 @init {
-	//TODO: fill
-	$reference = null;
+	$valueRedirections = new ArrayList<Single_ValueRedirection>();
+	Single_ValueRedirection singleRedirection;
 }:
-	pr_SingleValueSpec
+	s1 = pr_SingleValueSpec {if($s1.singleRedirection != null) {$valueRedirections.add($s1.singleRedirection);};}
 	(	pr_Comma
-		pr_SingleValueSpec
+		s2 = pr_SingleValueSpec {if($s2.singleRedirection != null) {$valueRedirections.add($s2.singleRedirection);};}
 	)*
 ;
 
-pr_SingleValueSpec returns[Reference reference]
+pr_SingleValueSpec returns[Single_ValueRedirection singleRedirection]
 @init {
-	//TODO: fill
-	$reference = null;
+	$singleRedirection = null;
+	Identifier identifier;
+	ArrayList<ISubReference> subreferences = new ArrayList<ISubReference>();
+	Value string_encoding = null;
+	boolean is_decoded = false;
 }:
 	vr = pr_VariableRef
 		{
-			$reference = $vr.reference;
+			$singleRedirection = new Single_ValueRedirection($vr.reference);
+			$singleRedirection.setLocation(getLocation( $vr.start, $vr.stop));
 		}
-|	pr_VariableRef
+|	vr = pr_VariableRef
 	pr_AssignmentChar
-	pr_DecodedModifier?
-	pr_PredefOrIdentifier
-	pr_ExtendedFieldReference?
+	(	enc = pr_DecodedModifier
+		{
+			string_encoding = $enc.value;
+			is_decoded = $enc.is_decoded;
+		}
+	)?
+	POI = pr_PredefOrIdentifier	{FieldSubReference field = new FieldSubReference($POI.identifier);
+					field.setLocation(getLocation( $POI.start, $POI.stop));
+					subreferences.add(field);
+					}
+	( sr = pr_ExtendedFieldReference
+				{	List<ISubReference> tempSubReferences = $sr.subReferences;
+					if(tempSubReferences != null) {
+						for(ISubReference subReference2: tempSubReferences) {
+							subreferences.add(subReference2);
+						}
+					}
+				}
+	)?
+	{
+		$singleRedirection = new Single_ValueRedirection($vr.reference, subreferences, is_decoded, string_encoding);
+		$singleRedirection.setLocation(getLocation( $vr.start, $vr.stop));
+	}
 ;
 
-pr_PredefOrIdentifier:
-(	pr_Identifier
-|	pr_PredefinedType
-|	pr_NullValue
+pr_PredefOrIdentifier returns[ Identifier identifier]:
+(	id = pr_Identifier	{$identifier = $id.identifier;}
+|	pt = pr_PredefinedType	{$identifier = new Identifier(Identifier_type.ID_TTCN, $pt.type.getTypename(), getLocation( $pt.start, $pt.stop));}
+|	nv = pr_NullValue	{$identifier = new Identifier(Identifier_type.ID_NAME, "NULL", getLocation( $nv.start, $nv.stop));}
 )
 ;
 
@@ -5653,8 +5687,8 @@ pr_RedirectWithValueAndParamSpec [boolean is_any_from] returns[Redirection_Helpe
 }:
 (	(	vs = pr_ValueSpec
 		( h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;} )?
-		{	if ($helper == null) {$helper = new Redirection_Helper($vs.reference, null, null, null, null);}
-			else {$helper.redirectValue = $vs.reference;}
+		{	if ($helper == null) {$helper = new Redirection_Helper($vs.redirection, null, null, null, null);}
+			else {$helper.redirectValue = $vs.redirection;}
 		}
 	|	h = pr_RedirectWithParamSpec[is_any_from]	{ $helper = $h.helper;}
 	)
@@ -6864,93 +6898,93 @@ pr_GuardOp returns[Statement statement]
 @init {
 	$statement = null;
 	TemplateInstance doneMatch = null;
-	Reference reference = null;
+	Value_Redirection valueRedirection = null;
 	Reference index_reference = null;
 }:
 (	v = pr_ComponentOrDefaultReference
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Killed_Statement($v.value, reference, false, false, null); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement($v.value, valueRedirection, false, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Done_Statement($v.value, doneMatch, reference, false, false, null); } //Done_Statement
+			{ $statement = new Done_Statement($v.value, doneMatch, valueRedirection, false, false, null); } //Done_Statement
 		)
 |	pr_AnyKeyword
 	(	pr_ComponentKeyword
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Killed_Statement(null, reference, true, false, null); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement(null, valueRedirection, true, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 				)?
 			)?
-			{ $statement = new Done_Statement(null, doneMatch, reference, true, false, null); } //Done_Statement
+			{ $statement = new Done_Statement(null, doneMatch, valueRedirection, true, false, null); } //Done_Statement
 		)
 	|	pr_FromKeyword
 		cr = pr_ComponentOrDefaultReference
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 					(	index = pr_IndexSpec {index_reference = $index.reference;}
 					)?
 				|	index = pr_IndexSpec {index_reference = $index.reference;}
 				)
 			)?
-			{ $statement = new Killed_Statement($cr.value, reference, true, true, index_reference); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement($cr.value, valueRedirection, true, true, index_reference); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 				pr_RParen
 			)?
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { reference = $vs.reference; }
+				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 					(	index = pr_IndexSpec {index_reference = $index.reference;}
 					)?
 				|	index = pr_IndexSpec {index_reference = $index.reference;}
 				)
 			)?
-			{ $statement = new Done_Statement($cr.value, doneMatch, reference, true, true, index_reference); } //Done_Statement
+			{ $statement = new Done_Statement($cr.value, doneMatch, valueRedirection, true, true, index_reference); } //Done_Statement
 		)
 	)
 |	pr_AllKeyword pr_ComponentKeyword
 	pr_Dot
 	(	pr_KilledKeyword
 		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { reference = $vs.reference; }
+			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 			)?
 		)?
-		{ $statement = new Killed_Statement(null, reference, false, false, null); }		//pr_KilledStatement
+		{ $statement = new Killed_Statement(null, valueRedirection, false, false, null); }		//pr_KilledStatement
 	|	pr_DoneKeyword	//pr_DoneStatement
 		(	pr_LParen
 			t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
 			pr_RParen
 		)?
 		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { reference = $vs.reference; }
+			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
 			)?
 		)?
-		{ $statement = new Done_Statement(null, doneMatch, reference, false, false, null); } //Done_Statement
+		{ $statement = new Done_Statement(null, doneMatch, valueRedirection, false, false, null); } //Done_Statement
 	)
 |	pr_AnyKeyword
 	(	pr_TimerKeyword pr_Dot pr_TimeoutKeyword		{ $statement = new Timeout_Statement(null); }

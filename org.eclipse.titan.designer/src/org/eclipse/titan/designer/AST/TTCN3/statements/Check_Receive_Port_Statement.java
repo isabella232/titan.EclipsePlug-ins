@@ -49,13 +49,13 @@ public final class Check_Receive_Port_Statement extends Statement {
 	private final boolean translate;
 	private final TemplateInstance receiveParameter;
 	private final TemplateInstance fromClause;
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Check_Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter,
-			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Reference redirectSender, final Reference redirectIndex,
 			final Reference redirectTimestamp, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -202,7 +202,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 				redirectValue, redirectSender, redirectIndex, redirectTimestamp);
 
 		if (redirectValue != null) {
-			redirectValue.setUsedOnLeftHandSide();
+			//redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
@@ -369,7 +369,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 				if (redirectValue == null) {
 					expression.expression.append("null");
 				} else {
-					redirectValue.generateCode(aData, expression);
+					redirectValue.generateCode(aData, expression, receiveParameter);
 				}
 				expression.expression.append(", ");
 			}

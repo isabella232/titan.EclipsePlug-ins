@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.parsers.ttcn3parser;
 
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Value_Redirection;
 import org.eclipse.titan.designer.parsers.Parser_Helper;
 
 /**
@@ -15,12 +16,12 @@ import org.eclipse.titan.designer.parsers.Parser_Helper;
  * */
 @Parser_Helper
 public class PortRedirect_Helper {
-	public Reference redirectValue;
+	public Value_Redirection redirectValue;
 	public Reference redirectSender;
 	public Reference redirectIndex;
 	public Reference redirectTimestamp;
 
-	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+	public PortRedirect_Helper(final Value_Redirection redirectValue, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
 		this.redirectIndex = redirectIndex;
