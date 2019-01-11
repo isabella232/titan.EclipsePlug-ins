@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.Verdict_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -186,7 +187,8 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 	//FIXME comment
 	public void checkVerdictOnly(final CompilationTimeStamp timestamp) {
-		//FIXME implement
+		verdictOnly = true;
+		check(timestamp, new Verdict_Type());
 	}
 
 	@Override
