@@ -31,7 +31,7 @@ public final class FindReferences extends AbstractHandler implements IEditorActi
 		if (targetEditor == null || !(targetEditor instanceof TTCN3Editor)) {
 			return;
 		}
-		ReferenceSearch.runAction(targetEditor, selection);
+		ReferenceSearch.runAction(targetEditor, selection, null);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public final class FindReferences extends AbstractHandler implements IEditorActi
 		if (targetEditor == null || !(targetEditor instanceof TTCN3Editor)) {
 			return null;
 		}
-		ReferenceSearch.runAction(targetEditor, selection);
+		ReferenceSearch.runAction(targetEditor, selection, null);
 		return null;
 	}
 

@@ -419,7 +419,7 @@ public class RenameRefactoring extends Refactoring {
 
 		if (rf == null) {
 			rf = new ReferenceFinder();
-			boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation);
+			boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, null);
 			if (!isDetected) {
 				return;
 			}

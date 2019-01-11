@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.editors.referenceSearch;
 
 import java.text.MessageFormat;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Platform;
@@ -16,6 +17,7 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.NewSearchUI;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
@@ -45,7 +47,7 @@ public final class ReferenceSearch {
 	 * Helper function used by FindReferences classes for TTCN-3, ASN.1 and
 	 * TTCNPP editors
 	 */
-	public static void runAction(final IEditorPart targetEditor, final ISelection selection) {
+	public static void runAction(final IEditorPart targetEditor, final ISelection selection, final Set<Assignment_type> filterAssignmentType) {
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
 		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
@@ -90,7 +92,7 @@ public final class ReferenceSearch {
 		}
 
 		final ReferenceFinder rf = new ReferenceFinder();
-		final boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation);
+		final boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, filterAssignmentType);
 		if (!isDetected) {
 			return;
 		}
