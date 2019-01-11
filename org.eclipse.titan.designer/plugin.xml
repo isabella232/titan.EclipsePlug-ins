@@ -1063,7 +1063,7 @@
     <key commandId="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-      sequence="F5" />
+      sequence="Ctrl+Alt+H" />
     <key
       commandId="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoringAction"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
