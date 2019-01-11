@@ -159,13 +159,18 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 					}
 				}
 
-				checkVariableReference(timestamp, assignment.getReference(), parameterTemplate.getType());
+				if (assignment.isDecoded()) {
+					//FIXME implement
+				} else {
+					checkVariableReference(timestamp, assignment.getReference(), parameterTemplate.getType());
+				}
 			} else {
 				assignment.getLocation().reportSemanticError(
 						MessageFormat.format("Signature `{0}'' does not have parameter named `{1}''",
 								signature.getTypename(), assignment.getIdentifier().getDisplayName()));
 				errorFlag = true;
 				checkVariableReference(timestamp, assignment.getReference(), null);
+				//FIXME check string encoding
 			}
 		}
 
