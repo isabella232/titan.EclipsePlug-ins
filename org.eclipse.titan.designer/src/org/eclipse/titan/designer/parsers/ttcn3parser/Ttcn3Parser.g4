@@ -8605,13 +8605,12 @@ pr_DecodedModifier returns[Value value, boolean is_decoded]
 @init{
 	$value = null;
 }:
-	d = DECODEDKEYWORD
+	d = DECODEDKEYWORD	{$is_decoded = true;}
 	(	pr_LParen
 		v = pr_SingleExpression
 		{
 			$value = $v.value;
-			$is_decoded = true;
-		}	
+		}
 		pr_RParen
 	)?
 {
