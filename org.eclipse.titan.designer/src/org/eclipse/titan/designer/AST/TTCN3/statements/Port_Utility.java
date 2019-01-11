@@ -833,14 +833,15 @@ public final class Port_Utility {
 	 *         a parameter of a receiving statement
 	 * */
 	public static IType getMessageSignatureType(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
-		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (returnValue != null) {
 			return returnValue;
 		}
 
-		TTCN3Template template = templateInstance.getTemplateBody();
-		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
-		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final TTCN3Template template = templateInstance.getTemplateBody();
+		final ITTCN3Template convertedTemplate = template.setLoweridToReference(timestamp);
+
+		return convertedTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	static void generate_code_portref(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
