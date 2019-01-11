@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
@@ -815,6 +816,18 @@ public final class Port_Utility {
 		template = template.setLoweridToReference(timestamp);
 
 		return template.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+	}
+
+	//FIXME comment
+	public static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		if (returnValue != null) {
+			return returnValue;
+		}
+
+		TTCN3Template template = templateInstance.getTemplateBody();
+		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
+		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	static void generate_code_portref(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {

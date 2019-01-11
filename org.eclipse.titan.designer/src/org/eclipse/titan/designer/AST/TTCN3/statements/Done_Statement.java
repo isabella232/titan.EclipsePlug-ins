@@ -13,11 +13,11 @@ import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
@@ -28,8 +28,6 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
@@ -176,7 +174,7 @@ public final class Done_Statement extends Statement {
 
 		if (doneMatch != null) {
 			//final boolean[] valueRedirectChecked = new boolean[] { false };
-			final IType returnType = get_msg_sig_type(timestamp, doneMatch);
+			final IType returnType = Port_Utility.get_msg_sig_type(timestamp, doneMatch);
 			if (returnType == null) {
 				doneMatch.getLocation().reportSemanticError("Cannot determine the return type for value returning done");
 			} else {
@@ -235,17 +233,6 @@ public final class Done_Statement extends Statement {
 		}
 
 		lastTimeChecked = timestamp;
-	}
-
-	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
-		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-		if (returnValue != null) {
-			return returnValue;
-		}
-
-		TTCN3Template template = templateInstance.getTemplateBody();
-		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
-		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override

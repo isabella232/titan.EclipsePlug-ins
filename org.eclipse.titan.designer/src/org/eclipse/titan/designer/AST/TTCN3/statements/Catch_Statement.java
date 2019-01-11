@@ -13,18 +13,15 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -403,7 +400,7 @@ public final class Catch_Statement extends Statement {
 					if (exceptions.getNofExceptions() == 1) {
 						exceptionType = exceptions.getExceptionByIndex(0);
 					} else if (parameter != null) {
-						exceptionType = get_msg_sig_type(timestamp, parameter);
+						exceptionType = Port_Utility.get_msg_sig_type(timestamp, parameter);
 
 						if (exceptionType == null) {
 							parameter.getLocation().reportSemanticError(UNKNOWNEXCEPTIONTYPE);
@@ -427,7 +424,7 @@ public final class Catch_Statement extends Statement {
 			}
 
 			if (!exceptionTypeDetermined) {
-				exceptionType = get_msg_sig_type(timestamp, parameter);
+				exceptionType = Port_Utility.get_msg_sig_type(timestamp, parameter);
 			}
 
 			if (exceptionType != null && parameter != null) {
@@ -466,17 +463,6 @@ public final class Catch_Statement extends Statement {
 		}
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
-	}
-
-	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
-		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-		if (returnValue != null) {
-			return returnValue;
-		}
-
-		TTCN3Template template = templateInstance.getTemplateBody();
-		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
-		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override

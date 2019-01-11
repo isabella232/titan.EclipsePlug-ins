@@ -338,7 +338,7 @@ public final class Receive_Port_Statement extends Statement {
 					if (inMessages.getNofTypes() == 1) {
 						messageType = inMessages.getTypeByIndex(0);
 					} else {
-						messageType = get_msg_sig_type(timestamp, receiveParameter);
+						messageType = Port_Utility.get_msg_sig_type(timestamp, receiveParameter);
 						if (messageType == null) {
 							receiveParameter.getLocation().reportSemanticError(UNKNOWNINCOMINGMESSAGE);
 						} else {
@@ -370,7 +370,7 @@ public final class Receive_Port_Statement extends Statement {
 			}
 
 			if (!messageTypeDetermined) {
-				messageType = get_msg_sig_type(timestamp, receiveParameter);
+				messageType = Port_Utility.get_msg_sig_type(timestamp, receiveParameter);
 			}
 
 			if (messageType != null) {
@@ -390,17 +390,6 @@ public final class Receive_Port_Statement extends Statement {
 		}
 
 		Port_Utility.checkTimestampRedirect(timestamp, portType, redirectTimestamp);
-	}
-
-	private static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
-		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-		if (returnValue != null) {
-			return returnValue;
-		}
-
-		TTCN3Template template = templateInstance.getTemplateBody();
-		ITTCN3Template converteTemplate = template.setLoweridToReference(timestamp);
-		return converteTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	@Override
