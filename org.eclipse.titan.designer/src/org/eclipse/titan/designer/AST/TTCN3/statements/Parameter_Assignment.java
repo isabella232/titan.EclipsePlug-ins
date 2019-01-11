@@ -68,6 +68,10 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 		return reference;
 	}
 
+	public boolean isDecoded() {
+		return is_decoded;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
