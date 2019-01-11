@@ -5490,7 +5490,7 @@ pr_SingleValueSpec returns[Single_ValueRedirection singleRedirection]
 	)?
 	{
 		$singleRedirection = new Single_ValueRedirection($vr.reference, subreferences, is_decoded, string_encoding);
-		$singleRedirection.setLocation(getLocation( $vr.start, $vr.stop));
+		$singleRedirection.setLocation(getLocation( $vr.start, getStopToken()));
 	}
 ;
 
