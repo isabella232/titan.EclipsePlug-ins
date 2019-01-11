@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.If_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Operation_Altguard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Receive_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Value_Redirection;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.MatchExpression;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
@@ -66,7 +67,7 @@ public class IfInsteadReceiveTemplate extends BaseModuleCodeSmellSpotter {
  *
  */
 final class SuspiciouslyUsedIf extends ASTVisitor {
-	private final Reference redirectValue;
+	private final Value_Redirection redirectValue;
 	private boolean smells;
 	private If_Clause suspicious;
 
@@ -91,16 +92,41 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 			for (final If_Clause clause : ifs) {
 				final Value cond = clause.getExpression();
 				if (cond != null) {
-					final RefUsedInMatching mv = new RefUsedInMatching(redirectValue);
-					cond.accept(mv);
-					if (mv.getUsed()) {
-						smells = true;
-						suspicious = clause;
+					ReferenceCollector refCollector = new ReferenceCollector();
+					redirectValue.accept(refCollector);
+					ArrayList<Reference> foundReferences = refCollector.getReferences();
+
+					for (Reference reference : foundReferences) {
+						final RefUsedInMatching mv = new RefUsedInMatching(reference);
+						cond.accept(mv);
+						if (mv.getUsed()) {
+							smells = true;
+							suspicious = clause;
+							break;
+						}
 					}
 				}
 			}
 			return V_SKIP;
 		}
+		return V_CONTINUE;
+	}
+}
+
+final class ReferenceCollector extends ASTVisitor {
+	private ArrayList<Reference> foundReferences = new ArrayList<Reference>();
+
+	public ArrayList<Reference> getReferences() {
+		return foundReferences;
+	}
+
+	@Override
+	public int visit(final IVisitableNode node) {
+		if (node instanceof Reference) {
+			foundReferences.add((Reference) node);
+			return V_SKIP;
+		}
+
 		return V_CONTINUE;
 	}
 }
