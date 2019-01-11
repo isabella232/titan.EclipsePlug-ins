@@ -325,7 +325,6 @@ public final class Receive_Port_Statement extends Statement {
 			// determine the type of the incoming message
 			IType messageType = null;
 			boolean messageTypeDetermined = false;
-			//final boolean[] valueRedirectChecked = new boolean[] { false };
 
 			if (portType != null) {
 				// the port type is known

@@ -388,7 +388,6 @@ public final class Catch_Statement extends Statement {
 			// the receive parameter must also be present
 			IType exceptionType = null;
 			boolean exceptionTypeDetermined = false;
-			//final boolean[] valueRedirectChecked = new boolean[] { false };
 
 			if (signature != null) {
 				final SignatureExceptions exceptions = signature.getSignatureExceptions();

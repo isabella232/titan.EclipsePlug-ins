@@ -173,7 +173,6 @@ public final class Done_Statement extends Statement {
 		}
 
 		if (doneMatch != null) {
-			//final boolean[] valueRedirectChecked = new boolean[] { false };
 			final IType returnType = Port_Utility.get_msg_sig_type(timestamp, doneMatch);
 			if (returnType == null) {
 				doneMatch.getLocation().reportSemanticError("Cannot determine the return type for value returning done");
