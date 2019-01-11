@@ -15,7 +15,6 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
@@ -112,7 +111,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 		return decoded;
 	}
 
-	public IValue getStringEncoding() {
+	public Value getStringEncoding() {
 		return encodingString;
 	}
 

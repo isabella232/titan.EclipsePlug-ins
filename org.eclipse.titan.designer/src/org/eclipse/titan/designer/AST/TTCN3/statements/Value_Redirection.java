@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -172,7 +173,15 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 	//FIXME comment
 	public void checkErroneous(final CompilationTimeStamp timestamp) {
-		//FIXME implement
+		for (int i = 0; i < valueRedirections.size(); i++) {
+			Single_ValueRedirection redirect = valueRedirections.get(i);
+
+			redirect.getVariableReference().checkVariableReference(timestamp);
+			final Value stringEncoding = redirect.getStringEncoding();
+			if (stringEncoding != null) {
+				stringEncoding.checkStringEncoding(timestamp, null);
+			}
+		}
 	}
 
 	//FIXME comment
