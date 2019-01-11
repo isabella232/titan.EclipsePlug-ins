@@ -16,7 +16,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.editors.referenceSearch.ReferenceSearch;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
 import org.eclipse.ui.IEditorActionDelegate;
