@@ -112,7 +112,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 		return decoded;
 	}
 
-	public IValue getEncodingString() {
+	public IValue getStringEncoding() {
 		return encodingString;
 	}
 
