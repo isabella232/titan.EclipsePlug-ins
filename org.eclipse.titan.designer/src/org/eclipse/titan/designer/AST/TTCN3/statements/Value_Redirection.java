@@ -238,12 +238,18 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matchedTi ) {
-		//FIXME implement fully
-		
-		//verdict only case
-		// TODO at the time being not yet filled with anything 
-		if (valueRedirections.size() == 1) {
-			valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
+		if (verdictOnly) {
+			//verdict only case
+			if (valueRedirections.size() == 1) {
+				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
+			}
+		} else {
+			//FIXME implement fully
+			expression.expression.append("//FIXME for the time being not yet supported\n");
+			if (valueRedirections.size() == 1) {
+				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
+			}
+			// TODO at the time being not yet filled with anything 
 		}
 	}
 }
