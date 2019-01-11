@@ -399,7 +399,7 @@ public final class Catch_Statement extends Statement {
 					if (exceptions.getNofExceptions() == 1) {
 						exceptionType = exceptions.getExceptionByIndex(0);
 					} else if (parameter != null) {
-						exceptionType = Port_Utility.get_msg_sig_type(timestamp, parameter);
+						exceptionType = Port_Utility.getMessageSignatureType(timestamp, parameter);
 
 						if (exceptionType == null) {
 							parameter.getLocation().reportSemanticError(UNKNOWNEXCEPTIONTYPE);
@@ -423,7 +423,7 @@ public final class Catch_Statement extends Statement {
 			}
 
 			if (!exceptionTypeDetermined) {
-				exceptionType = Port_Utility.get_msg_sig_type(timestamp, parameter);
+				exceptionType = Port_Utility.getMessageSignatureType(timestamp, parameter);
 			}
 
 			if (exceptionType != null && parameter != null) {

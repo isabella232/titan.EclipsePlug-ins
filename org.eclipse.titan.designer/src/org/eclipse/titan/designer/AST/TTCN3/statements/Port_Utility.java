@@ -832,7 +832,7 @@ public final class Port_Utility {
 	 * @return the the type of a template instance when it was to be used as
 	 *         a parameter of a receiving statement
 	 * */
-	public static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
+	public static IType getMessageSignatureType(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
 		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (returnValue != null) {
 			return returnValue;

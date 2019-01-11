@@ -337,7 +337,7 @@ public final class Receive_Port_Statement extends Statement {
 					if (inMessages.getNofTypes() == 1) {
 						messageType = inMessages.getTypeByIndex(0);
 					} else {
-						messageType = Port_Utility.get_msg_sig_type(timestamp, receiveParameter);
+						messageType = Port_Utility.getMessageSignatureType(timestamp, receiveParameter);
 						if (messageType == null) {
 							receiveParameter.getLocation().reportSemanticError(UNKNOWNINCOMINGMESSAGE);
 						} else {
@@ -369,7 +369,7 @@ public final class Receive_Port_Statement extends Statement {
 			}
 
 			if (!messageTypeDetermined) {
-				messageType = Port_Utility.get_msg_sig_type(timestamp, receiveParameter);
+				messageType = Port_Utility.getMessageSignatureType(timestamp, receiveParameter);
 			}
 
 			if (messageType != null) {
