@@ -105,6 +105,10 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 			}
 
 			checkVariableReference(timestamp, assignment.getReference(), null);
+			final Value stringEncoding = assignment.getStringEncoding();
+			if (stringEncoding != null) {
+				stringEncoding.checkStringEncoding(timestamp, null);
+			}
 		}
 	}
 
