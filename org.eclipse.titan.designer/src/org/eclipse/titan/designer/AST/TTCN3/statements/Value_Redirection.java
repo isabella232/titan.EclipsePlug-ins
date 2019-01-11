@@ -244,12 +244,15 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
 			}
 		} else {
+			//TODO maybe the compiler can also benefit from this optimization
+			if (valueRedirections.size() == 1 && valueRedirections.get(0).getSubreferences() == null) {
+				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
+
+				return;
+			}
+
 			//FIXME implement fully
 			expression.expression.append("//FIXME for the time being not yet supported\n");
-			if (valueRedirections.size() == 1) {
-				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
-			}
-			// TODO at the time being not yet filled with anything 
 		}
 	}
 }
