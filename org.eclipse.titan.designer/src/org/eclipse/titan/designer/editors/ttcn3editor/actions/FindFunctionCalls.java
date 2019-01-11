@@ -36,7 +36,7 @@ public final class FindFunctionCalls extends AbstractHandler implements IEditorA
 			return;
 		}
 
-		HashSet<Assignment_type> functionAssignmentType = new HashSet<>();
+		HashSet<Assignment_type> functionAssignmentType = new HashSet<Assignment_type>();
 		functionAssignmentType.add(Assignment_type.A_FUNCTION);
 		functionAssignmentType.add(Assignment_type.A_FUNCTION_RVAL);
 		functionAssignmentType.add(Assignment_type.A_FUNCTION_RTEMP);
@@ -65,7 +65,7 @@ public final class FindFunctionCalls extends AbstractHandler implements IEditorA
 			return null;
 		}
 
-		HashSet<Assignment_type> functionAssignmentType = new HashSet<>();
+		HashSet<Assignment_type> functionAssignmentType = new HashSet<Assignment_type>();
 		functionAssignmentType.add(Assignment_type.A_FUNCTION);
 		functionAssignmentType.add(Assignment_type.A_FUNCTION_RVAL);
 		functionAssignmentType.add(Assignment_type.A_FUNCTION_RTEMP);
