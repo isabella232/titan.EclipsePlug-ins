@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
@@ -167,7 +169,40 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			return;
 		}
 
-		//FIXME implement
+		if (verdictOnly) {
+			lastTimeChecked = timestamp;
+
+			return;
+		}
+
+		boolean invalidType = type.getIsErroneous(timestamp);
+		if (!invalidType) {
+			Type_type tt = type.getTypeRefdLast(timestamp).getTypetypeTtcn3();
+			if (tt != Type_type.TYPE_TTCN3_SEQUENCE && tt != Type_type.TYPE_TTCN3_SET) {
+				for (int i = 0; i < valueRedirections.size(); i++) {
+					Single_ValueRedirection redirect = valueRedirections.get(i);
+					if (redirect.getSubreferences() != null) {
+						invalidType = true;
+						redirect.getLocation().reportSemanticError(MessageFormat.format("Cannot redirect fields of type `{0}'', because it is not a record or set", type.getTypename()));
+					}
+				}
+			}
+		}
+
+		if (invalidType) {
+			checkErroneous(timestamp);
+			lastTimeChecked = timestamp;
+
+			return;
+		}
+
+		IType valueType = type.getTypeRefdLast(timestamp);
+		for (int i = 0; i < valueRedirections.size(); i++) {
+			Single_ValueRedirection redirect = valueRedirections.get(i);
+
+			IType varType = redirect.getVariableReference().checkVariableReference(timestamp);
+			//FIXME implement
+		}
 
 		lastTimeChecked = timestamp;
 	}
