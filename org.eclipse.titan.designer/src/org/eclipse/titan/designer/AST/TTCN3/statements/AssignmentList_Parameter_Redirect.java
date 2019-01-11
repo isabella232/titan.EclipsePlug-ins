@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
@@ -170,7 +171,10 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 								signature.getTypename(), assignment.getIdentifier().getDisplayName()));
 				errorFlag = true;
 				checkVariableReference(timestamp, assignment.getReference(), null);
-				//FIXME check string encoding
+				final Value stringEncoding = assignment.getStringEncoding();
+				if (stringEncoding != null) {
+					stringEncoding.checkStringEncoding(timestamp, null);
+				}
 			}
 		}
 
