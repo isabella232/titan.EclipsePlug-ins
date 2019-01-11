@@ -770,6 +770,7 @@ public final class Port_Utility {
 	 * @return the the type of a template instance when it was to be used as
 	 *         a parameter of a receiving statement
 	 * */
+	//FIXME could be removed
 	public static IType getIncomingType(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance,
 			final Reference valueRedirect, final boolean[] valueRedirectChecked) {
 		IType result = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
