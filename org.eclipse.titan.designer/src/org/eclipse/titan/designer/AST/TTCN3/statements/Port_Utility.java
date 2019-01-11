@@ -818,7 +818,20 @@ public final class Port_Utility {
 		return template.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
-	//FIXME comment
+	/**
+	 * Calculates the type of a template instance when it was to be used as
+	 * a parameter of a receiving statement (receive / trigger /
+	 * check-receive).
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle.
+	 * @param templateInstance
+	 *                the template instance whose type needs to be
+	 *                calculated.
+	 *
+	 * @return the the type of a template instance when it was to be used as
+	 *         a parameter of a receiving statement
+	 * */
 	public static IType get_msg_sig_type(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance) {
 		IType returnValue = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (returnValue != null) {
