@@ -214,8 +214,7 @@ public abstract class Base_Template {
 		} else if ("ifpresent".equals(type)) {
 			return is_ifPresent;
 		} else if ("pattern".equals(type)) {
-			throw new TtcnError("Pattenr support is not yet implement!");
-//			return template_selection == template_sel.STRING_PATTERN;
+			return template_selection == template_sel.STRING_PATTERN;
 		} else if ("AnyElement".equals(type) || "AnyElementsOrNone".equals(type) ||
 				"permutation".equals(type) || "length".equals(type)) {
 			return false;
