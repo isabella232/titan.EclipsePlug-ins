@@ -185,7 +185,7 @@ public class DecodeMatch_template extends TTCN3Template {
 	 * */
 	public boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final IType type, final boolean implicitOmit, final Assignment lhs) {
 		final TTCN3Template targetBody = target.getTemplateBody();
-		//targetBody.setMyGovernor(type);
+		targetBody.setMyGovernor(type);
 
 		targetBody.setLoweridToReference(timestamp);
 		IType targetType = target.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
