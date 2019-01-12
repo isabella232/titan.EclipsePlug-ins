@@ -304,7 +304,17 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		}
 	}
 
-	//FIXME comment
+	/**
+	 * A special version of the check functionality used by the done
+	 * statement. There only verdict types can be received.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param type
+	 *                the type to check the value redirection against (for
+	 *                example the type of the received value in case of a
+	 *                receive statement).
+	 * */
 	public void checkVerdictOnly(final CompilationTimeStamp timestamp) {
 		verdictOnly = true;
 		check(timestamp, new Verdict_Type());
