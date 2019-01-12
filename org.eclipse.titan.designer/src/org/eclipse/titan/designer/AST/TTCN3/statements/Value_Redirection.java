@@ -45,10 +45,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public class Value_Redirection extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 
-	private ArrayList<Single_ValueRedirection> valueRedirections;
+	final private ArrayList<Single_ValueRedirection> valueRedirections;
 
 	// pointer to the type of the redirected value, not owned here
-	private IType valueType = null;
+	final private IType valueType = null;
 
 	/**
 	 * Indicates whether the value redirect is restricted to only one value of
