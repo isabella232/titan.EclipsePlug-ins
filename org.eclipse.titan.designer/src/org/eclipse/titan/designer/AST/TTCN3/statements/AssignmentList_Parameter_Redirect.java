@@ -226,7 +226,8 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 						.getInParameterByIndex(i);
 				final String name = parameter.getIdentifier().getName();
 				if (parameterMap.containsKey(name)) {
-					entries.add(new Variable_Entry(parameterMap.get(name).getReference()));
+					final Parameter_Assignment parAssignment = parameterMap.get(name);
+					entries.add(new Variable_Entry(parAssignment.getReference(), parAssignment.isDecoded(), parAssignment.getStringEncoding(), parAssignment.getDeclarationType()));
 				} else {
 					entries.add(new Variable_Entry());
 				}
@@ -273,6 +274,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 			if (i > 0) {
 				expression.expression.append(", ");
 			}
+
 			final Variable_Entry entry = entries.getEntryByIndex(i);
 			final Reference ref = entry.getReference();
 			if (ref == null) {
