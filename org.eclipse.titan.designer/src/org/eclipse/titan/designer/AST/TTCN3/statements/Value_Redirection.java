@@ -77,7 +77,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * '@decoded' modifier
 	 */
 	public boolean has_decoded_modifier() {
-		for (Single_ValueRedirection redirect : valueRedirections) {
+		for (final Single_ValueRedirection redirect : valueRedirections) {
 			if (redirect.isDecoded()) {
 				return true;
 			}
@@ -100,7 +100,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			final Single_ValueRedirection redirect = valueRedirections.get(i);
 
 			if (redirect.getSubreferences() == null) {
-				IType variableType = redirect.getVariableReference().checkVariableReference(timestamp);
+				final IType variableType = redirect.getVariableReference().checkVariableReference(timestamp);
 				if (variableType != null) {
 					if (returnValue == null) {
 						returnValue = variableType;
@@ -151,7 +151,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (Single_ValueRedirection redirect : valueRedirections) {
+		for (final Single_ValueRedirection redirect : valueRedirections) {
 			redirect.setMyScope(scope);
 		}
 	}
@@ -162,7 +162,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * @param codeSection the code section where these statements should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (Single_ValueRedirection redirect : valueRedirections) {
+		for (final Single_ValueRedirection redirect : valueRedirections) {
 			redirect.getVariableReference().setCodeSection(codeSection);;
 		}
 	}
@@ -193,10 +193,10 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 		boolean invalidType = type.getIsErroneous(timestamp);
 		if (!invalidType) {
-			Type_type tt = type.getTypeRefdLast(timestamp).getTypetypeTtcn3();
+			final Type_type tt = type.getTypeRefdLast(timestamp).getTypetypeTtcn3();
 			if (tt != Type_type.TYPE_TTCN3_SEQUENCE && tt != Type_type.TYPE_TTCN3_SET) {
 				for (int i = 0; i < valueRedirections.size(); i++) {
-					Single_ValueRedirection redirect = valueRedirections.get(i);
+					final Single_ValueRedirection redirect = valueRedirections.get(i);
 					if (redirect.getSubreferences() != null) {
 						invalidType = true;
 						redirect.getLocation().reportSemanticError(MessageFormat.format("Cannot redirect fields of type `{0}'', because it is not a record or set", type.getTypename()));
@@ -212,13 +212,13 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			return;
 		}
 
-		IType valueType = type.getTypeRefdLast(timestamp);
+		final IType valueType = type.getTypeRefdLast(timestamp);
 		for (int i = 0; i < valueRedirections.size(); i++) {
-			Single_ValueRedirection redirect = valueRedirections.get(i);
+			final Single_ValueRedirection redirect = valueRedirections.get(i);
 
-			Reference variableReference = redirect.getVariableReference();
-			IType varType = variableReference.checkVariableReference(timestamp);
-			ArrayList<ISubReference> subreferences = redirect.getSubreferences();
+			final Reference variableReference = redirect.getVariableReference();
+			final IType varType = variableReference.checkVariableReference(timestamp);
+			final ArrayList<ISubReference> subreferences = redirect.getSubreferences();
 			IType expectedType = null;
 			if (subreferences == null) {
 				// the whole value is redirected to the referenced variable
@@ -232,12 +232,12 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					reference.addSubReference(subreferences.get(j));
 				}
 
-				IType fieldType = type.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+				final IType fieldType = type.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 				if (fieldType != null) {
 					if (redirect.isDecoded()) {
-						Value stringEncoding = redirect.getStringEncoding();
+						final Value stringEncoding = redirect.getStringEncoding();
 						boolean isErroneous = false;
-						IType refdLast = fieldType.getTypeRefdLast(timestamp);
+						final IType refdLast = fieldType.getTypeRefdLast(timestamp);
 						switch (refdLast.getTypetypeTtcn3()) {
 						case TYPE_BITSTRING:
 						case TYPE_HEXSTRING:
@@ -261,9 +261,9 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 						if (!isErroneous && varType != null) {
 							// store the variable type in case it's decoded (since this cannot
-						        // be extracted from the value type with the sub-references)
+							// be extracted from the value type with the sub-references)
 							//TODO improve in the compiler
-							IType declarationType = varType.getTypeRefdLast(timestamp);
+							final IType declarationType = varType.getTypeRefdLast(timestamp);
 							redirect.setDeclarationType(declarationType);
 							declarationType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
 						}
@@ -294,7 +294,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * */
 	public void checkErroneous(final CompilationTimeStamp timestamp) {
 		for (int i = 0; i < valueRedirections.size(); i++) {
-			Single_ValueRedirection redirect = valueRedirections.get(i);
+			final Single_ValueRedirection redirect = valueRedirections.get(i);
 
 			redirect.getVariableReference().checkVariableReference(timestamp);
 			final Value stringEncoding = redirect.getStringEncoding();
@@ -327,7 +327,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			throw new ReParseException();
 		}
 
-		for(Single_ValueRedirection redirect : valueRedirections) {
+		for(final Single_ValueRedirection redirect : valueRedirections) {
 			if (redirect != null) {
 				redirect.updateSyntax(reparser, false);
 				reparser.updateLocation(redirect.getLocation());
