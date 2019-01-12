@@ -176,6 +176,7 @@ public final class Timeout_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression, null);
 
+		source.append(expression.preamble);
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), canRepeat(), getLocation());
 	}
 
