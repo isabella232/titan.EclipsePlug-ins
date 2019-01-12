@@ -340,6 +340,12 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (templateInstance != null) {
 			templateInstance.reArrangeInitCode(aData, source, usageModule);
