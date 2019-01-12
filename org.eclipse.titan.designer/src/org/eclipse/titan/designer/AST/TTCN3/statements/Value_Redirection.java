@@ -167,7 +167,19 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		}
 	}
 
-	//FIXME comment
+	/**
+	 * Checks this value redirection construct, according to the provided
+	 * type. This type needs to be provided by the statement this
+	 * redirection is attached to, as it needs to be the type of the return
+	 * value of the used expression.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param type
+	 *                the type to check the value redirection against (for
+	 *                example the type of the received value in case of a
+	 *                receive statement).
+	 * */
 	public void check(final CompilationTimeStamp timestamp, final IType type) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
