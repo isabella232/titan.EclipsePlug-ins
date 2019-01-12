@@ -436,6 +436,8 @@ public final class SignatureGenerator {
 		if(!def.isNoBlock) {
 			source.append(MessageFormat.format("public static class {0}_reply_redirect '{'\n", def.genName));
 			if (def.returnType != null) {
+				aData.addBuiltinTypeImport("Value_Redirect_Interface");
+
 				source.append("// the reply value of the signature\n");
 				source.append("private Value_Redirect_Interface ret_val_redir;\n");
 			}
@@ -530,6 +532,8 @@ public final class SignatureGenerator {
 	 * */
 	private static void generateExceptionClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if (!def.signatureExceptions.isEmpty()) {
+			aData.addBuiltinTypeImport("Value_Redirect_Interface");
+
 			source.append(MessageFormat.format("public static class {0}_exception '{'\n", def.genName));
 			source.append("public enum exception_selection_type {");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
