@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -37,12 +38,19 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 	private final Value encoding;
 	private boolean is_decoded ;
 
+	/**
+	 * pointer to the type the redirected field or element is decoded into
+	 * (only used if subrefs is not null and decoded is true), not owned
+	 */
+	private IType declarationType;
+
 	private Location location = NULL_Location.INSTANCE;
 
 	public Parameter_Assignment(final Reference reference, final Identifier identifier) {
 		this.reference = reference;
 		this.identifier = identifier;
 		this.encoding = null;
+		this.declarationType = null;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
@@ -54,6 +62,7 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 		this.identifier = identifier;
 		this.encoding = string_encoding;
 		this.is_decoded = true;
+		this.declarationType = null;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
@@ -77,6 +86,14 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 
 	public Value getStringEncoding() {
 		return encoding;
+	}
+
+	public void setDeclarationType(final IType declarationType) {
+		this.declarationType = declarationType;
+	}
+
+	public IType getDeclarationType() {
+		return declarationType;
 	}
 
 	@Override
