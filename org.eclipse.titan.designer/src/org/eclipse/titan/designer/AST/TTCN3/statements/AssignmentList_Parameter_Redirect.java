@@ -13,12 +13,14 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
@@ -165,7 +167,40 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 				}
 
 				if (assignment.isDecoded()) {
-					//FIXME implement
+					final Value stringEncoding = assignment.getStringEncoding();
+					final Type parType = parameterTemplate.getType();
+					//boolean isErroneous = false;
+					final IType refdLast = parType.getTypeRefdLast(timestamp);
+					switch (refdLast.getTypetypeTtcn3()) {
+					case TYPE_BITSTRING:
+					case TYPE_HEXSTRING:
+					case TYPE_OCTETSTRING:
+					case TYPE_CHARSTRING:
+						if (stringEncoding != null) {
+							stringEncoding.getLocation().reportSemanticError("The encoding format parameter for the '@decoded' modifier is only available to parameter redirects of universal charstrings");
+							errorFlag = true;
+						}
+						break;
+					case TYPE_UCHARSTRING:
+						if (stringEncoding != null) {
+							stringEncoding.checkStringEncoding(timestamp, null);
+						}
+						break;
+					default:
+						assignment.getLocation().reportSemanticError("The '@decoded' modifier is only available to parameter redirects of string types.");
+						errorFlag = true;
+						break;
+					}
+
+					Reference variableReference = assignment.getReference();
+					IType varType = variableReference.checkVariableReference(timestamp);
+					if (!errorFlag && varType != null) {
+						// store the variable type in case it's decoded (since this cannot
+						// be extracted from the value type with the sub-references)
+						final IType declarationType = varType.getTypeRefdLast(timestamp);
+						assignment.setDeclarationType(declarationType);
+						declarationType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
+					}
 				} else {
 					checkVariableReference(timestamp, assignment.getReference(), parameterTemplate.getType());
 				}
