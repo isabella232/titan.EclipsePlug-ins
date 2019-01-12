@@ -13,17 +13,21 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Verdict_Type;
@@ -200,8 +204,69 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		for (int i = 0; i < valueRedirections.size(); i++) {
 			Single_ValueRedirection redirect = valueRedirections.get(i);
 
-			IType varType = redirect.getVariableReference().checkVariableReference(timestamp);
-			//FIXME implement
+			Reference variableReference = redirect.getVariableReference();
+			IType varType = variableReference.checkVariableReference(timestamp);
+			ArrayList<ISubReference> subreferences = redirect.getSubreferences();
+			IType expectedType = null;
+			if (subreferences == null) {
+				// the whole value is redirected to the referenced variable
+				expectedType = type;
+			} else {
+				// a field of the value is redirected to the referenced variable
+				final Reference reference = new Reference(null);
+				//first field is only used to not have a single element subreference list.
+				reference.addSubReference(new FieldSubReference(variableReference.getId()));
+				for (int j = 0; j < subreferences.size(); j++) {
+					reference.addSubReference(subreferences.get(j));
+				}
+
+				IType fieldType = type.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+				if (fieldType != null) {
+					if (redirect.isDecoded()) {
+						Value stringEncoding = redirect.getStringEncoding();
+						boolean isErroneous = false;
+						IType refdLast = fieldType.getTypeRefdLast(timestamp);
+						switch (refdLast.getTypetypeTtcn3()) {
+						case TYPE_BITSTRING:
+						case TYPE_HEXSTRING:
+						case TYPE_OCTETSTRING:
+						case TYPE_CHARSTRING:
+							if (stringEncoding != null) {
+								stringEncoding.getLocation().reportSemanticError("The encoding format parameter for the '@decoded' modifier is only available to value redirects of universal charstrings");
+								isErroneous = true;
+							}
+							break;
+						case TYPE_UCHARSTRING:
+							if (stringEncoding != null) {
+								stringEncoding.checkStringEncoding(timestamp, null);
+							}
+							break;
+						default:
+							redirect.getLocation().reportSemanticError("The '@decoded' modifier is only available to value redirects of string types.");
+							isErroneous = true;
+							break;
+						}
+
+						if (!isErroneous && varType != null) {
+							// store the variable type in case it's decoded (since this cannot
+						        // be extracted from the value type with the sub-references)
+							//TODO improve in the compiler
+							IType declarationType = varType.getTypeRefdLast(timestamp);
+							redirect.setDeclarationType(declarationType);
+							declarationType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
+						}
+					} else {
+						expectedType = fieldType;
+					}
+				}
+			}
+
+			if (expectedType != null && varType != null) {
+				//TODO support for type compatibility
+				if (!varType.isIdentical(timestamp, expectedType)) {
+					redirect.getLocation().reportSemanticError(MessageFormat.format("Type mismatch in value redirect: A variable of type `{0}'' was expected instead of `{1}''", expectedType.getTypename(), varType.getTypename()));
+				}
+			}
 		}
 
 		lastTimeChecked = timestamp;
