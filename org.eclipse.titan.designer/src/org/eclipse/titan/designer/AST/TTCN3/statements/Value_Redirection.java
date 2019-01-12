@@ -48,7 +48,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	final private ArrayList<Single_ValueRedirection> valueRedirections;
 
 	// pointer to the type of the redirected value, not owned here
-	final private IType valueType = null;
+	private IType valueType = null;
 
 	/**
 	 * Indicates whether the value redirect is restricted to only one value of
@@ -212,7 +212,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			return;
 		}
 
-		final IType valueType = type.getTypeRefdLast(timestamp);
+		valueType = type.getTypeRefdLast(timestamp);
 		for (int i = 0; i < valueRedirections.size(); i++) {
 			final Single_ValueRedirection redirect = valueRedirections.get(i);
 
@@ -372,15 +372,81 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
 			}
 		} else {
-			//TODO maybe the compiler can also benefit from this optimization
-			if (valueRedirections.size() == 1 && valueRedirections.get(0).getSubreferences() == null) {
-				valueRedirections.get(0).getVariableReference().generateCode(aData, expression);
+			aData.addBuiltinTypeImport("Value_Redirect_Interface");
+			//FIXME implement fully
+			StringBuilder membersString = new StringBuilder();
+			StringBuilder constructorParameters = new StringBuilder();
+			StringBuilder constructorInitializers = new StringBuilder();
+			StringBuilder instanceParameterList = new StringBuilder();
+			StringBuilder setValuesString = new StringBuilder();
 
-				return;
+			for (int i = 0 ; i < valueRedirections.size(); i++) {
+				if (i > 0) {
+					constructorParameters.append(", ");
+					instanceParameterList.append(", ");
+				}
+
+				Single_ValueRedirection redirection = valueRedirections.get(i);
+				ExpressionStruct variableReferenceExpression = new ExpressionStruct();
+				Reference variableReference = redirection.getVariableReference();
+				redirection.getVariableReference().generateCode(aData, variableReferenceExpression);
+				instanceParameterList.append(variableReferenceExpression.expression);
+				if (variableReferenceExpression.preamble != null) {
+					expression.preamble.append(variableReferenceExpression.preamble);
+				}
+				if (variableReferenceExpression.postamble != null) {
+					expression.postamble.append(variableReferenceExpression.postamble);
+				}
+
+				IType redirectionType;
+				if (redirection.getSubreferences() == null) {
+					redirectionType = valueType;
+				} else {
+					ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+					final Reference reference = new Reference(null);
+					//first field is only used to not have a single element subreference list.
+					reference.addSubReference(new FieldSubReference(variableReference.getId()));
+					for (int j = 0; j < subreferences.size(); j++) {
+						reference.addSubReference(subreferences.get(j));
+					}
+					redirectionType = valueType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+				}
+
+				redirectionType = redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				//TODO not a good idea to do checks during code generation.
+				IType referenceType = variableReference.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+				referenceType = referenceType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType memberType = redirection.isDecoded() ? redirection.getDeclarationType() : referenceType;
+				String typeName = memberType.getGenNameValue(aData, expression.expression, myScope);
+
+				membersString.append(MessageFormat.format("{0} ptr_{1};\n", typeName, i));
+				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
+				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
+				//FIXME handle subreferences 10633
+
+				//FIXME this is only good for the most simple cases
+				setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1}){2});\n", i, typeName, "values"));
 			}
 
-			//FIXME implement fully
-			expression.expression.append("//FIXME for the time being not yet supported\n");
+			final String tempClassName = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("class Value_Redirect_{0} implements Value_Redirect_Interface '{'\n", tempClassName));
+			expression.preamble.append(membersString);
+			expression.preamble.append(MessageFormat.format("public Value_Redirect_{0}({1}) '{'\n", tempClassName, constructorParameters));
+			expression.preamble.append(constructorInitializers);
+			expression.preamble.append("}\n");
+			expression.preamble.append("\t@Override\n");
+			expression.preamble.append("\tpublic void set_values(Base_Type values) {\n");
+			//TODO can save on the casting!
+			expression.preamble.append(setValuesString);
+			expression.preamble.append("//FIXME for the time being not yet supported\n");
+
+			expression.preamble.append("\t}\n");
+			expression.preamble.append("}\n");
+
+			final String tempVariableName = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("Value_Redirect_{0} {1} = new Value_Redirect_{0}({2});\n", tempClassName, tempVariableName, instanceParameterList));
+
+			expression.expression.append(tempVariableName);
 		}
 	}
 }

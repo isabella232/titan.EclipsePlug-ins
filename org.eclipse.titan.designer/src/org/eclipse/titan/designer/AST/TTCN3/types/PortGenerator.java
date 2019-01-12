@@ -367,6 +367,7 @@ public final class PortGenerator {
 		if (portDefinition.inMessages.size() > 0) {
 			aData.addBuiltinTypeImport("TitanCharString");
 			aData.addBuiltinTypeImport("TitanComponent_template");
+			aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
 			generateGenericReceive(source, portDefinition, false, false);
 			generateGenericReceive(source, portDefinition, true, false);
@@ -1748,7 +1749,7 @@ public final class PortGenerator {
 		final String printedFunctionName = isCheck ? "Check-receive" : "Receive";
 		final String operationName = isCheck ? "check__receive__op" : "receive__op";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName));
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using ''*'' as matching template\");\n", printedFunctionName));
 		source.append("}\n");
@@ -1789,7 +1790,7 @@ public final class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append(MessageFormat.format("value_redirect.operator_assign(({0}) my_head.message);\n", typeValueName));
+		source.append(MessageFormat.format("value_redirect.set_values(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
 		if (portDefinition.realtime) {
 			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
@@ -1839,7 +1840,7 @@ public final class PortGenerator {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName));
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Trigger operation using '*' as matching template\");\n");
 		source.append("}\n");
@@ -1884,7 +1885,7 @@ public final class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(" } else {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append(MessageFormat.format("value_redirect.operator_assign(({0}) my_head.message);\n", typeValueName));
+		source.append(MessageFormat.format("value_redirect.set_values(({0}) my_head.message);\n", typeValueName));
 		source.append("}\n");
 		if (portDefinition.realtime) {
 			source.append("if (timestamp_redirect != null && my_head.timestamp.is_bound()) {\n");
@@ -3741,7 +3742,7 @@ public final class PortGenerator {
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName));
 		source.append("if (index_redirect != null) {\n");
 		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");
@@ -3789,7 +3790,7 @@ public final class PortGenerator {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName));
 		source.append("if (index_redirect != null) {\n");
 		source.append("index_redirect.incr_pos();\n");
 		source.append("}\n");

@@ -437,7 +437,7 @@ public final class SignatureGenerator {
 			source.append(MessageFormat.format("public static class {0}_reply_redirect '{'\n", def.genName));
 			if (def.returnType != null) {
 				source.append("// the reply value of the signature\n");
-				source.append(MessageFormat.format("private {0} ret_val_redir;\n", def.returnType.mJavaTypeName));
+				source.append("private Value_Redirect_Interface ret_val_redir;\n");
 			}
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -449,7 +449,7 @@ public final class SignatureGenerator {
 
 			source.append(MessageFormat.format("public {0}_reply_redirect( ", def.genName));
 			if (def.returnType != null) {
-				source.append(MessageFormat.format("final {0} return_redir", def.returnType.mJavaTypeName));
+				source.append("final Value_Redirect_Interface return_redir");
 			}
 			source.append(" ) {\n");
 			if (def.returnType != null) {
@@ -468,7 +468,7 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("public {0}_reply_redirect( ", def.genName));
 				boolean first = true;
 				if (def.returnType != null) {
-					source.append(MessageFormat.format("final {0} return_redir", def.returnType.mJavaTypeName));
+					source.append("final Value_Redirect_Interface return_redir");
 					first = false;
 				}
 				for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -509,7 +509,7 @@ public final class SignatureGenerator {
 			}
 			if (def.returnType != null) {
 				source.append("if (ret_val_redir != null) {\n");
-				source.append(MessageFormat.format("ret_val_redir.operator_assign(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
+				source.append(MessageFormat.format("ret_val_redir.set_values(reply_par.constGet_return_value());\n", def.returnType.mJavaTypeName));
 				source.append("}\n");
 			}
 			source.append("}\n");
@@ -689,7 +689,7 @@ public final class SignatureGenerator {
 			source.append(MessageFormat.format("private {0}_exception.exception_selection_type exception_selection;\n", def.genName));
 			source.append("//originally a union which can not be mapped to Java\n");
 			source.append("private Base_Template field;\n");
-			source.append("private Base_Type redirection_field;\n");
+			source.append("private Value_Redirect_Interface redirection_field;\n");
 
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
@@ -699,7 +699,7 @@ public final class SignatureGenerator {
 				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("}\n");
 
-				source.append(MessageFormat.format("public {0}_exception_template(final {1} init_template, final {2} value_redirect) '{'\n", def.genName, exception.mJavaTemplateName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("public {0}_exception_template(final {1} init_template, final Value_Redirect_Interface value_redirect) '{'\n", def.genName, exception.mJavaTemplateName));
 				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("redirection_field = value_redirect;\n");
@@ -791,7 +791,7 @@ public final class SignatureGenerator {
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
 				source.append("if (redirection_field != null) {\n");
-				source.append(MessageFormat.format("redirection_field.operator_assign(source_value.constGet_field_{0}());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("redirection_field.set_values(source_value.constGet_field_{0}());\n", exception.mJavaTypeName));
 				source.append("}\n");
 				source.append("return;\n");
 			}

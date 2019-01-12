@@ -3072,8 +3072,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addCommonLibraryImport("Index_Redirect");
 		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
-		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
+		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final Value_Redirect_Interface value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 		source.append("if (!component_reference.is_bound()) {\n");
 		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
 		source.append("}\n");
@@ -3089,7 +3090,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("return_value.decode_text(text_buf_ref.get());\n");
 		source.append("if (value_template.match(return_value)) {\n");
 		source.append("if (value_redirect != null) {\n");
-		source.append("value_redirect.operator_assign(return_value);\n");
+		source.append("value_redirect.set_values(return_value);\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
 		source.append("TTCN_Logger.log_event_str(\"PTC with component reference \");\n");
@@ -3115,7 +3116,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("}\n");
 
 		if (needs_any_from_done) {
-			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValue_Array<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
+			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValue_Array<TitanComponent> component_array, final {0}_template value_template, final Value_Redirect_Interface value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 			source.append("if (index_redirect != null) {\n");
 			source.append("index_redirect.incr_pos();\n");
 			source.append("}\n");
