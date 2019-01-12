@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
@@ -163,12 +164,25 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 			if (i > 0) {
 				expression.expression.append(", ");
 			}
+
 			final Variable_Entry entry = entries.getEntryByIndex(i);
+			Value stringEncoding = null;
+			if (entry.isDecoded() && entry.getStringEncoding() != null && entry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+				stringEncoding = entry.getStringEncoding();
+			}
+
 			final Reference ref = entry.getReference();
 			if (ref == null) {
 				expression.expression.append("null");
+				if (stringEncoding != null) {
+					expression.expression.append(", TitanCharString()");
+				}
 			} else {
 				ref.generateCode(aData, expression);
+				if (stringEncoding != null) {
+					expression.expression.append(", ");
+					stringEncoding.generateCodeExpression(aData, expression, true);
+				}
 			}
 		}
 	}
