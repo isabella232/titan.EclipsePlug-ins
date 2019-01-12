@@ -262,7 +262,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 						if (!isErroneous && varType != null) {
 							// store the variable type in case it's decoded (since this cannot
 							// be extracted from the value type with the sub-references)
-							//TODO improve in the compiler
 							final IType declarationType = varType.getTypeRefdLast(timestamp);
 							redirect.setDeclarationType(declarationType);
 							declarationType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
