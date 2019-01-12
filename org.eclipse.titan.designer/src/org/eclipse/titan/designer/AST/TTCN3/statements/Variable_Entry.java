@@ -11,15 +11,17 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -34,22 +36,60 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 	// variable reference or null in case of notused
 	private final Reference reference;
 
+	private final boolean decoded;
+
+	private final Value stringEncoding;
+
+	private final IType declarationType;
+
 	private Location location = NULL_Location.INSTANCE;
 
 	public Variable_Entry() {
 		reference = null;
+		decoded = false;
+		stringEncoding = null;
+		declarationType = null;
 	}
 
 	public Variable_Entry(final Reference reference) {
 		this.reference = reference;
+		decoded = false;
+		stringEncoding = null;
+		declarationType = null;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
 		}
 	}
 
+	public Variable_Entry(final Reference reference, final boolean decoded, final Value encodingString, final IType declarationType) {
+		this.reference = reference;
+		this.decoded = decoded;
+		this.stringEncoding = encodingString;
+		this.declarationType = declarationType;
+
+		if (reference != null) {
+			reference.setFullNameParent(this);
+		}
+		if (encodingString != null) {
+			encodingString.setFullNameParent(this);
+		}
+	}
+
 	public Reference getReference() {
 		return reference;
+	}
+
+	public boolean isDecoded() {
+		return decoded;
+	}
+
+	public Value getStringEncoding() {
+		return stringEncoding;
+	}
+
+	public IType getDeclarationType() {
+		return declarationType;
 	}
 
 	@Override
@@ -59,6 +99,8 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 
 		if (reference == child) {
 			return builder.append(FULLNAMEPART);
+		} else if (stringEncoding == child) {
+			return builder.append(".<string_encoding>");
 		}
 
 		return builder;
@@ -71,6 +113,9 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 		if (reference != null) {
 			reference.setMyScope(scope);
 		}
+		if (stringEncoding != null) {
+			stringEncoding.setMyScope(scope);
+		}
 	}
 
 	/**
@@ -81,6 +126,9 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 	public void setCodeSection(final CodeSectionType codeSection) {
 		if (reference != null) {
 			reference.setCodeSection(codeSection);
+		}
+		if (stringEncoding != null) {
+			stringEncoding.setCodeSection(codeSection);
 		}
 	}
 
@@ -105,6 +153,11 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 
 		reference.updateSyntax(reparser, isDamaged);
 		reparser.updateLocation(reference.getLocation());
+
+		if (stringEncoding != null) {
+			stringEncoding.updateSyntax(reparser, isDamaged);
+			reparser.updateLocation(stringEncoding.getLocation());
+		}
 	}
 
 	@Override
@@ -115,6 +168,10 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 		}
 
 		reference.findReferences(referenceFinder, foundIdentifiers);
+
+		if (stringEncoding != null) {
+			stringEncoding.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -123,6 +180,10 @@ public final class Variable_Entry extends ASTNode implements ILocateableNode, II
 		if (reference != null && !reference.accept(v)) {
 			return false;
 		}
+		if (stringEncoding != null && !stringEncoding.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 }
