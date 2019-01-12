@@ -90,7 +90,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 			variableReference.setFullNameParent(this);
 		}
 		if (subreferences != null) {
-			for(ISubReference subreference: subreferences) {
+			for(final ISubReference subreference: subreferences) {
 				subreference.setFullNameParent(this);
 			}
 		}
@@ -164,7 +164,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 
 		variableReference.setMyScope(scope);
 		if (subreferences != null) {
-			for(ISubReference subreference: subreferences) {
+			for(final ISubReference subreference: subreferences) {
 				subreference.setMyScope(scope);
 			}
 		}
@@ -185,7 +185,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 			reparser.updateLocation(variableReference.getLocation());
 		}
 		if (subreferences != null) {
-			for(ISubReference subreference: subreferences) {
+			for(final ISubReference subreference: subreferences) {
 				if (subreference != null) {
 					subreference.updateSyntax(reparser, false);
 					reparser.updateLocation(subreference.getLocation());
@@ -212,7 +212,7 @@ public class Single_ValueRedirection extends ASTNode implements ILocateableNode,
 			return false;
 		}
 		if (subreferences != null) {
-			for(ISubReference subreference: subreferences) {
+			for(final ISubReference subreference: subreferences) {
 				if (subreference != null && !subreference.accept(v)) {
 					return false;
 				}
