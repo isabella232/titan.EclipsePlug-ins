@@ -39,25 +39,25 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public class Single_ValueRedirection extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 
 	/** reference to the variable the value is redirected to */
-	private Reference variableReference;
+	final private Reference variableReference;
 
 	/**
 	 * indicates which part (record field or array element) of the value is
 	 * redirected (optional)
 	 */
-	private ArrayList<ISubReference> subreferences;
+	final private ArrayList<ISubReference> subreferences;
 
 	/**
 	 * indicates whether the redirected field or element should be decoded
 	 * (only used if subrefs is not null)
 	 */
-	private boolean decoded;
+	final private boolean decoded;
 
 	/**
 	 * encoding format for decoded universal charstring value redirects
 	 * (only used if subrefs is not null and decoded is true)
 	 */
-	private Value encodingString;
+	final private Value encodingString;
 
 	/**
 	 * pointer to the type the redirected field or element is decoded into
