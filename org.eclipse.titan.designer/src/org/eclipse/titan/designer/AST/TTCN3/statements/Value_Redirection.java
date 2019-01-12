@@ -272,7 +272,14 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		lastTimeChecked = timestamp;
 	}
 
-	//FIXME comment
+	/**
+	 * Special checking that is only called once the value redirection was
+	 * already found to be erroneous. Tries to check the remaining parts
+	 * that can be checked on their own.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * */
 	public void checkErroneous(final CompilationTimeStamp timestamp) {
 		for (int i = 0; i < valueRedirections.size(); i++) {
 			Single_ValueRedirection redirect = valueRedirections.get(i);
