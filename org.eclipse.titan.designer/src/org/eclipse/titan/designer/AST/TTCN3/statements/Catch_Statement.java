@@ -11,9 +11,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
@@ -676,7 +678,17 @@ public final class Catch_Statement extends Statement {
 	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
 		if (fromClause != null) {
 			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
-			//FIXME handle redirect
+		} else if (redirectSender != null) {
+			final IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+			if (varType == null) {
+				ErrorReporter.INTERNAL_ERROR("Encountered a redirection with unknown type `" + getFullName() + "''");
+			}
+			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
+				aData.addBuiltinTypeImport("TitanComponent_template");
+				expression.expression.append("TitanComponent_template.any_compref");
+			} else {
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+			}
 		} else {
 			// neither from clause nor sender redirect is present
 			// the operation cannot refer to address type
