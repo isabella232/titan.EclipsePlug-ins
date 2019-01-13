@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -282,32 +282,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matched_ti, final boolean is_out) {
-		//FIXME add support for decoded
-		for (int i = 0; i < entries.getNofEntries(); i++) {
-			if (i > 0) {
-				expression.expression.append(", ");
-			}
-
-			final Variable_Entry entry = entries.getEntryByIndex(i);
-			Value stringEncoding = null;
-			if (entry.isDecoded() && entry.getStringEncoding() != null && entry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
-				stringEncoding = entry.getStringEncoding();
-			}
-
-			final Reference ref = entry.getReference();
-			if (ref == null) {
-				expression.expression.append("null");
-				if (stringEncoding != null) {
-					expression.expression.append(", TitanCharString()");
-				}
-			} else {
-				ref.generateCode(aData, expression);
-				if (stringEncoding != null) {
-					expression.expression.append(", ");
-					stringEncoding.generateCodeExpression(aData, expression, true);
-				}
-			}
-		}
+		internalGenerateCode(aData, expression, entries, matched_ti, is_out);
 	}
 
 	@Override

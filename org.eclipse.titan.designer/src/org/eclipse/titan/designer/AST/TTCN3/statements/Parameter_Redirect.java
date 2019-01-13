@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
@@ -156,7 +157,53 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code true} if the parameters have out direction,
 	 *                {@code false} otherwise.
 	 */
-	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateInstance matched_ti, final boolean is_out);
+	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matched_ti, final boolean is_out);
+
+	/**
+	 * Internal version of the java code generation for parameter
+	 * redirection.
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression for code generated
+	 * @param entries
+	 *                the variable entries to use for code generation.
+	 * @param matched_ti
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param is_out
+	 *                {@code true} if the parameters have out direction,
+	 *                {@code false} otherwise.
+	 */
+	protected void internalGenerateCode( final JavaGenData aData, final ExpressionStruct expression, final Variable_Entries entries, final TemplateInstance matched_ti, final boolean is_out) {
+		//FIXME add support for decoded
+		for (int i = 0; i < entries.getNofEntries(); i++) {
+			if (i > 0) {
+				expression.expression.append(", ");
+			}
+
+			final Variable_Entry entry = entries.getEntryByIndex(i);
+			Value stringEncoding = null;
+			if (entry.isDecoded() && entry.getStringEncoding() != null && entry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+				stringEncoding = entry.getStringEncoding();
+			}
+
+			final Reference ref = entry.getReference();
+			if (ref == null) {
+				expression.expression.append("null");
+				if (stringEncoding != null) {
+					expression.expression.append(", TitanCharString()");
+				}
+			} else {
+				ref.generateCode(aData, expression);
+				if (stringEncoding != null) {
+					expression.expression.append(", ");
+					stringEncoding.generateCodeExpression(aData, expression, true);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Generate a helper class that is needed for parameter redirections
