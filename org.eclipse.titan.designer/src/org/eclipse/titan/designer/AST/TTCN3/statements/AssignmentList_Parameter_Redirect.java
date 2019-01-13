@@ -289,11 +289,23 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 			}
 
 			final Variable_Entry entry = entries.getEntryByIndex(i);
+			Value stringEncoding = null;
+			if (entry.isDecoded() && entry.getStringEncoding() != null && entry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+				stringEncoding = entry.getStringEncoding();
+			}
+
 			final Reference ref = entry.getReference();
 			if (ref == null) {
 				expression.expression.append("null");
+				if (stringEncoding != null) {
+					expression.expression.append(", TitanCharString()");
+				}
 			} else {
 				ref.generateCode(aData, expression);
+				if (stringEncoding != null) {
+					expression.expression.append(", ");
+					stringEncoding.generateCodeExpression(aData, expression, true);
+				}
 			}
 		}
 	}
