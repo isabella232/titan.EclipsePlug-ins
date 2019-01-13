@@ -380,6 +380,16 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			StringBuilder instanceParameterList = new StringBuilder();
 			StringBuilder setValuesString = new StringBuilder();
 
+			if (matchedTi != null && has_decoded_modifier()) {
+				// store a pointer to the matched template, the decoding results from
+				// decmatch templates might be reused to optimize decoded value redirects
+				instanceParameterList.append(MessageFormat.format("{0}, ", matchedTi.getLastGenExpression()));
+				String templateName = valueType.getGenNameTemplate(aData, expression.expression, getMyScope());
+				membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", templateName));
+				constructorParameters.append(MessageFormat.format("{0} par_matched_temp, ", templateName));
+				constructorInitializers.append("ptr_matched_temp = par_matched_temp;\n");
+			}
+
 			for (int i = 0 ; i < valueRedirections.size(); i++) {
 				if (i > 0) {
 					constructorParameters.append(", ");

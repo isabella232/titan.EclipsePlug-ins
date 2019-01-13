@@ -69,6 +69,9 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	/** the time when this template was check the last time. */
 	private CompilationTimeStamp lastTimeChecked;
 
+	//FIXME comment
+	//FIXME temporary member, should not be stored in final version.
+	private String lastGeneratedExpression;
 	/**
 	 * The location of the whole instance. This location encloses the
 	 * instance fully, as it is used to report errors to.
@@ -118,6 +121,11 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	/** @return the body of the template */
 	public TTCN3Template getTemplateBody() {
 		return templateBody;
+	}
+
+	//FIXME comment
+	public String getLastGenExpression() {
+		return lastGeneratedExpression;
 	}
 
 	@Override
@@ -515,6 +523,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * @param hasDecodedRedirect is the template instance used as a parameter in a statement which has decoded redirections?
 	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateRestriction.Restriction_type templateRestriction, final boolean hasDecodedRedirect) {
+		final int startPos = expression.expression.length();
 		if (derivedReference != null) {
 			final ExpressionStruct derivedExpression = new ExpressionStruct();
 			derivedReference.generateCode(aData, derivedExpression);
@@ -553,6 +562,9 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 				templateBody.generateCodeExpression( aData, expression, templateRestriction );
 			}
 		}
+
+		final int endPos = expression.expression.length();
+		lastGeneratedExpression = expression.expression.substring(startPos, endPos);
 	}
 
 	/**
