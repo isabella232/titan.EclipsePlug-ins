@@ -470,14 +470,19 @@ public final class Getcall_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".getcall(");
 			if (parameter != null) {
-				//FIXME handle redirect
-				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				expression.expression.append(", ");
 				generateCodeExprFromclause(aData, expression);
 				final IType signature = parameter.getTemplateBody().getMyGovernor();
-				expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
-				if (redirectParameter != null) {
-					redirectParameter.generateCode(aData, expression, parameter, false);
+				if (hasDecodedRedirect) {
+					//FIXME handle redirection
+					expression.expression.append("//decoded parameter redirection not yet supported in getcall.\n");
+				} else {
+					expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+					if (redirectParameter != null) {
+						redirectParameter.generateCode(aData, expression, parameter, false);
+					}
 				}
 				expression.expression.append("), ");
 				if (redirectSender == null) {
