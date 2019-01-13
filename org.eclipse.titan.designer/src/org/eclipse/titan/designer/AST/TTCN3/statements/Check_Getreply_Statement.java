@@ -11,12 +11,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -415,8 +417,8 @@ public final class Check_Getreply_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check_getreply(");
 			if (parameter != null) {
-				//FIXME handle redirect
-				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
+				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedParamRedirect);
 				final IType signature = parameter.getTemplateBody().getMyGovernor();
 				final IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				final IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
@@ -432,9 +434,19 @@ public final class Check_Getreply_Statement extends Statement {
 					}
 					expression.expression.append(')');
 				}
+
 				expression.expression.append(", ");
 				generateCodeExprFromclause(aData, expression);
-				expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				if (hasDecodedParamRedirect) {
+					final String tempID = aData.getTemporaryVariableName();
+					redirectParameter.generateCodeDecoded(aData, expression.preamble, parameter, tempID, true);
+					final IType lastSignatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					final String signatureName = signature.getGenNameValue(aData, expression.expression, lastSignatureType.getMyScope());
+					expression.expression.append(MessageFormat.format(", {0}_reply_redirect_{1}(", signatureName, tempID));
+				} else {
+					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				}
+
 				if (returnType != null) {
 					if (redirectValue == null) {
 						expression.expression.append("null");
@@ -445,10 +457,11 @@ public final class Check_Getreply_Statement extends Statement {
 						expression.expression.append(", ");
 					}
 				}
+
 				if (redirectParameter != null) {
 					redirectParameter.generateCode(aData, expression, parameter, true);
 				}
-				//FIXME handle redirections
+
 				expression.expression.append("), ");
 				if (redirectSender == null) {
 					expression.expression.append("null");
@@ -506,7 +519,17 @@ public final class Check_Getreply_Statement extends Statement {
 	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
 		if (fromClause != null) {
 			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
-			//FIXME handle redirect
+		} else if (redirectSender != null) {
+			final IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+			if (varType == null) {
+				ErrorReporter.INTERNAL_ERROR("Encountered a redirection with unknown type `" + getFullName() + "''");
+			}
+			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
+				aData.addBuiltinTypeImport("TitanComponent_template");
+				expression.expression.append("TitanComponent_template.any_compref");
+			} else {
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+			}
 		} else {
 			// neither from clause nor sender redirect is present
 			// the operation cannot refer to address type
