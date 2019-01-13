@@ -143,6 +143,8 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 * Add generated java code for parameter redirection.
 	 * @param aData only used to update imports if needed
 	 * @param expression the expression for code generated
+	 * @param matched_ti the template instance matched by the original statement.
+	 * @param is_out {@code true} if the parameters have out direction, {@code false} otherwise.
 	 */
 	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateInstance matched_ti, final boolean is_out);
 
