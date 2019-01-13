@@ -199,4 +199,11 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 			}
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeDecoded(JavaGenData aData, StringBuilder source, TemplateInstance matched_ti, String tempID, boolean is_out) {
+		//FIXME implement
+		source.append("//FIXME decoded parameter redirection not yet supported in getcall.\n");
+	}
 }
