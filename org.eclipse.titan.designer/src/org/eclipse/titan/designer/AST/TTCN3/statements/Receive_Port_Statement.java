@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.PortScope;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -54,6 +55,8 @@ public final class Receive_Port_Statement extends Statement {
 			+ " `{0}'' is compatible with more than one incoming message types of port type `{1}''";
 	private static final String ANYPORTWITHPARAMETER = "Operation `any port.{0}'' cannot have parameter";
 	private static final String RECEIVEWITHVALUEREDIRECT = "Operation `any port.{0}'' cannot have value redirect";
+	private static final String RECEIVEWITHINDEXREDIRECT = "Operation `any port.{0}'' cannot have index redirect";
+	private static final String ANYOROMITWITHOUTMATCHINGTAMPLE = "''*'' cannot be used as a matching template for a `{0}'' operation";
 
 	private static final String FULLNAMEPART1 = ".portreference";
 	private static final String FULLNAMEPART2 = ".receiveparameter";
@@ -363,6 +366,10 @@ public final class Receive_Port_Statement extends Statement {
 					redirectValue.getLocation().reportSemanticError(
 							MessageFormat.format(RECEIVEWITHVALUEREDIRECT, statementName));
 				}
+				if (redirectIndex != null) {
+					redirectIndex.getLocation().reportSemanticError(
+							MessageFormat.format(RECEIVEWITHINDEXREDIRECT, statementName));
+				}
 			}
 
 			if (!messageTypeDetermined) {
@@ -371,7 +378,10 @@ public final class Receive_Port_Statement extends Statement {
 
 			if (messageType != null) {
 				receiveParameter.check(timestamp, messageType);
-				//FIXME extra check
+				if (receiveParameter.getTemplateBody().getTemplateReferencedLast(timestamp).getTemplatetype() == Template_type.ANY_OR_OMIT) {
+					receiveParameter.getLocation().reportSemanticError(
+							MessageFormat.format(ANYOROMITWITHOUTMATCHINGTAMPLE, statementName));
+				}
 				if (redirectValue != null) {
 					redirectValue.check(timestamp, messageType);
 				}
