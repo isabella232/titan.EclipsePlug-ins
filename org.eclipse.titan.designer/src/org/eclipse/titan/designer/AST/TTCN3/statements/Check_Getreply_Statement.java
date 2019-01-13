@@ -418,7 +418,10 @@ public final class Check_Getreply_Statement extends Statement {
 			expression.expression.append(".check_getreply(");
 			if (parameter != null) {
 				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final int parameterExpressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedParamRedirect);
+				final String lastGenParExpression = expression.expression.substring(parameterExpressionStart);
+				String lastGenValueExpression = null;
 				final IType signature = parameter.getTemplateBody().getMyGovernor();
 				final IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				final IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
@@ -426,7 +429,9 @@ public final class Check_Getreply_Statement extends Statement {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
 						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+						final int valueExpressionStart = expression.expression.length();
 						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedValueRedirect);
+						lastGenValueExpression = expression.expression.substring(valueExpressionStart);
 					} else {
 						// the value match is not present
 						// we must substitute it with ? in the signature template
@@ -451,7 +456,7 @@ public final class Check_Getreply_Statement extends Statement {
 					if (redirectValue == null) {
 						expression.expression.append("null");
 					} else {
-						redirectValue.generateCode(aData, expression, valueMatch);
+						redirectValue.generateCode(aData, expression, valueMatch, lastGenValueExpression);
 					}
 					if (redirectParameter != null) {
 						expression.expression.append(", ");
@@ -459,7 +464,7 @@ public final class Check_Getreply_Statement extends Statement {
 				}
 
 				if (redirectParameter != null) {
-					redirectParameter.generateCode(aData, expression, parameter, true);
+					redirectParameter.generateCode(aData, expression, parameter, lastGenParExpression, true);
 				}
 
 				expression.expression.append("), ");

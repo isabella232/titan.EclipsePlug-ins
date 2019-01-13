@@ -635,12 +635,14 @@ public final class Catch_Statement extends Statement {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
 				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
+				final String lastGenExpression = expression.expression.substring(expressionStart);
 				expression.expression.append(", ");
 				if (redirectValue == null) {
 					expression.expression.append("null");
 				} else {
-					redirectValue.generateCode(aData, expression, parameter);
+					redirectValue.generateCode(aData, expression, parameter, lastGenExpression);
 				}
 				expression.expression.append("), ");
 			}

@@ -357,7 +357,9 @@ public final class Check_Getcall_Statement extends Statement {
 			expression.expression.append(".check_getcall(");
 			if (parameter != null) {
 				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
+				final String lastGenExpression = expression.expression.substring(expressionStart);
 				expression.expression.append(", ");
 				generateCodeExprFromclause(aData, expression);
 				final IType signature = parameter.getTemplateBody().getMyGovernor();
@@ -370,7 +372,7 @@ public final class Check_Getcall_Statement extends Statement {
 				} else {
 					expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
 					if (redirectParameter != null) {
-						redirectParameter.generateCode(aData, expression, parameter, false);
+						redirectParameter.generateCode(aData, expression, parameter, lastGenExpression, false);
 					}
 				}
 				expression.expression.append("), ");

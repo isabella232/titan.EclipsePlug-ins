@@ -332,6 +332,7 @@ public final class Done_Statement extends Statement {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		if (componentreference != null) {
+			String lastGenExpression = null;
 			if (doneMatch != null) {
 				// value returning done
 				// figure out what type the done() function belongs to
@@ -359,7 +360,9 @@ public final class Done_Statement extends Statement {
 				componentreference.generateCodeExpression(aData, expression, true);
 				expression.expression.append(", ");
 				//FIXME handle decoded match
+				final int expressionStart = expression.expression.length();
 				doneMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
+				lastGenExpression = expression.expression.substring(expressionStart);
 				expression.expression.append(", ");
 			} else {
 				// simple done
@@ -371,7 +374,7 @@ public final class Done_Statement extends Statement {
 				expression.expression.append("null");
 			} else {
 				// value redirection present
-				redirectValue.generateCode(aData, expression, doneMatch);
+				redirectValue.generateCode(aData, expression, doneMatch, lastGenExpression);
 			}
 
 			expression.expression.append(", ");

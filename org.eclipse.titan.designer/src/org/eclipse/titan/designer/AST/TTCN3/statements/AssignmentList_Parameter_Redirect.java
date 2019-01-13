@@ -281,8 +281,8 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matched_ti, final boolean is_out) {
-		internalGenerateCode(aData, expression, entries, matched_ti, is_out);
+	public void generateCode(final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matched_ti, final String lastGenTIExpression, final boolean is_out) {
+		internalGenerateCode(aData, expression, entries, matched_ti, lastGenTIExpression, is_out);
 	}
 
 	@Override
