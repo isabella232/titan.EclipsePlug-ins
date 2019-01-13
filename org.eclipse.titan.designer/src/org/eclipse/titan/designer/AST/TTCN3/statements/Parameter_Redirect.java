@@ -53,15 +53,18 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	}
 
 	/**
-	 * Sets the code_section attribute for the parameter redirection to the provided value.
+	 * Sets the code_section attribute for the parameter redirection to the
+	 * provided value.
 	 *
-	 * @param codeSection the code section where these statements should be generated.
+	 * @param codeSection
+	 *                the code section where these statements should be
+	 *                generated.
 	 * */
 	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
 	 * @return {@code true} if at least one of the value redirects has the
-	 * '@decoded' modifier
+	 *         '@decoded' modifier
 	 */
 	public abstract boolean has_decoded_modifier();
 
@@ -141,21 +144,36 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 
 	/**
 	 * Add generated java code for parameter redirection.
-	 * @param aData only used to update imports if needed
-	 * @param expression the expression for code generated
-	 * @param matched_ti the template instance matched by the original statement.
-	 * @param is_out {@code true} if the parameters have out direction, {@code false} otherwise.
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression for code generated
+	 * @param matched_ti
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param is_out
+	 *                {@code true} if the parameters have out direction,
+	 *                {@code false} otherwise.
 	 */
 	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateInstance matched_ti, final boolean is_out);
 
 	/**
-	 * Generate a helper class that is needed for parameter redirections that also have at least one parameter redirection with decoding.
+	 * Generate a helper class that is needed for parameter redirections
+	 * that also have at least one parameter redirection with decoding.
 	 * 
-	 * @param aData only used to update imports if needed
-	 * @param source the source to append.
-	 * @param matched_ti the template instance matched by the original statement.
-	 * @param tempID the temporary id to be used for naming the class.
-	 * @param is_out {@code true} if the parameters have out direction, {@code false} otherwise.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source to append.
+	 * @param matched_ti
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param tempID
+	 *                the temporary id to be used for naming the class.
+	 * @param is_out
+	 *                {@code true} if the parameters have out direction,
+	 *                {@code false} otherwise.
 	 */
 	public abstract void generateCodeDecoded(final JavaGenData aData, final StringBuilder source, final TemplateInstance matched_ti, final String tempID, final boolean is_out);
 }
