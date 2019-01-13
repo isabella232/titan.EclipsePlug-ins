@@ -53,7 +53,7 @@ public final class Receive_Port_Statement extends Statement {
 	private static final String TYPEISAMBIGUOUS = "The type of the message is ambiguous:"
 			+ " `{0}'' is compatible with more than one incoming message types of port type `{1}''";
 	private static final String ANYPORTWITHPARAMETER = "Operation `any port.{0}'' cannot have parameter";
-	private static final String RECEIVEWITHVALUEREDIRECT = "Operation `any port. {0}'' cannot have value redirect";
+	private static final String RECEIVEWITHVALUEREDIRECT = "Operation `any port.{0}'' cannot have value redirect";
 
 	private static final String FULLNAMEPART1 = ".portreference";
 	private static final String FULLNAMEPART2 = ".receiveparameter";
