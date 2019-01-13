@@ -89,6 +89,19 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean has_decoded_modifier() {
+		for (int i = 0, size = entries.getNofEntries(); i < size; i++) {
+			final Variable_Entry entry = entries.getEntryByIndex(i);
+			if (entry.isDecoded()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkErroneous(final CompilationTimeStamp timestamp) {
 		final HashMap<String, Parameter_Assignment> parameterMap = new HashMap<String, Parameter_Assignment>();
 		for (int i = 0, size = assignments.getNofParameterAssignments(); i < size; i++) {

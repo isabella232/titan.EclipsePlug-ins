@@ -60,6 +60,12 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
+	 * @return {@code true} if at least one of the value redirects has the
+	 * '@decoded' modifier
+	 */
+	public abstract boolean has_decoded_modifier();
+
+	/**
 	 * Does the semantic checking of the redirected parameter.
 	 * <p>
 	 * Does report errors, should only be called if there were errors found
