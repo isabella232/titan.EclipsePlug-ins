@@ -382,7 +382,7 @@ public class Semantic_errors_tests {
 
 	private ArrayList<MarkerToCheck> ReturnValueTest_ttcn_initializer() {
 		//ReturnValueTest.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(31);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(32);
 		int lineNum = 11;
 		markersToCheck.add(new MarkerToCheck("Missing return value. The function should return a value of type `integer'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 30;
@@ -443,7 +443,9 @@ public class Semantic_errors_tests {
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 10;
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 55;
+		lineNum += 52;
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `receive' operation",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("An altstep cannot return a value",  lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
