@@ -180,7 +180,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		if (has_decoded_modifier()) {
 			expression.expression.append(MessageFormat.format("{0}, ", lastGenTIExpression));
 		}
-		//FIXME add support for decoded
+
 		for (int i = 0; i < entries.getNofEntries(); i++) {
 			if (i > 0) {
 				expression.expression.append(", ");
