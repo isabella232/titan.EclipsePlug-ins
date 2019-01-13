@@ -3876,7 +3876,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(993);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1004);
 		int lineNum = 41;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `compTimer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
@@ -4692,11 +4692,13 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myPeer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myVar' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `akarmi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myPeer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myVar' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 4;
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("Catching of `timeout' exception is not allowed in this context. It is permitted only in the response and exception handling part of `call' operations",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Timeout exception cannot be cought on `any port''",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Catching of `timeout' exception is not allowed in this context. It is permitted only in the response and exception handling part of `call' operations",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -4718,7 +4720,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myPeer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myVar' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value redirect cannot be used without signature and parameter",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("operation `any port.catch' cannot have value redirect",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("operation`any port.catch' cannot have parameter",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `akarmi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -4726,22 +4729,28 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `myVar' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Procedure-based operation `catch' is not applicable to a message-based port of type `@statement_tests.testPortName_PT'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyIn2' does not have any outgoing signatures that support exceptions",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Procedure-based operation `catch' is not applicable to a message-based port of type `@statement_tests.testPortName_PT'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyIn2' does not have any outgoing signatures that support exceptions",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID2' does not have exceptions",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Procedure-based operation `catch' is not applicable to a message-based port of type `@statement_tests.testPortName_PT'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyIn2' does not have any outgoing signatures that support exceptions",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID2' does not have exceptions",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID2' is not present on the outgoing list of port type `@statement_tests.testPortName2_PT'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyOut3' does not have any outgoing signatures that support exceptions", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID2' does not have exceptions",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Type `boolean' is not present on the exception list of signature `@statement_tests.S_ProvedureSignatureID3'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Generic wildcard `*' cannot be used for signature `@statement_tests.S_ProvedureSignatureID3'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyOut3' does not have any outgoing signatures that support exceptions",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Port type `@statement_tests.testPortonlyOut3' does not have any outgoing signatures that support exceptions",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID2' does not have exceptions",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type `boolean' is not present on the exception list of signature `@statement_tests.S_ProvedureSignatureID3'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Generic wildcard `*' cannot be used for signature `@statement_tests.S_ProvedureSignatureID3'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The type of catch parameter is signature `@statement_tests.S_ProvedureSignatureID3', which cannot be an exception type",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `@statement_tests.S_ProvedureSignatureID3' is not present on the exception list of signature `@statement_tests.S_ProvedureSignatureID3'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The type of catch parameter is port type `@statement_tests.reply_PT', which cannot be an exception type",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The type of catch parameter is port type `@statement_tests.reply_PT', which cannot be an exception type",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `@statement_tests.reply_PT' is not present on the exception list of signature `@statement_tests.S_ProvedureSignatureID3'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The type of catch parameter is the `default'' type, which cannot be an exception type",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("'*' cannot be used as a matching template for a `catch' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The type of catch parameter is the `default'' type, which cannot be an exception type",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `default' is not present on the exception list of signature `@statement_tests.S_ProvedureSignatureID3'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `akarmi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
