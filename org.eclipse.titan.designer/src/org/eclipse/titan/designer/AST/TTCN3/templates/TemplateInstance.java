@@ -531,9 +531,27 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 			expression.expression.append(tempId);
 		} else {
-			//TODO handle decoded redirect
-			templateBody.generateCodeExpression( aData, expression, templateRestriction );
-			//TODO handle decoded redirect
+			if (hasDecodedRedirect) {
+				ExpressionStruct newExpression = new ExpressionStruct();
+
+				templateBody.generateCodeExpression( aData, newExpression, templateRestriction );
+
+				if (newExpression.preamble != null) {
+					expression.preamble.append(newExpression.preamble);
+				}
+				if (newExpression.postamble != null) {
+					expression.postamble.append(newExpression.postamble);
+				}
+				// create a temporary variable and move the template's initialization code
+				// after it
+				final String tempID = aData.getTemporaryVariableName();
+				final String templateName = templateBody.getMyGovernor().getGenNameTemplate(aData, expression.preamble, templateBody.getMyScope());
+				expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateName, tempID, newExpression.expression));
+
+				expression.expression.append(tempID);
+			} else {
+				templateBody.generateCodeExpression( aData, expression, templateRestriction );
+			}
 		}
 	}
 
