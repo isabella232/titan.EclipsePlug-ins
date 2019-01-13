@@ -249,7 +249,6 @@ public final class Getcall_Statement extends Statement {
 			IType signature = null;
 			boolean signatureDetermined = false;
 			if (portType != null) {
-
 				final PortTypeBody body = portType.getPortBody();
 				final TypeSet inSignatures = body.getInSignatures();
 				if (OperationModes.OP_Message.equals(body.getOperationMode())) {
@@ -289,7 +288,11 @@ public final class Getcall_Statement extends Statement {
 				signature = Port_Utility.getOutgoingType(timestamp, parameter);
 			}
 
-			if (signature != null) {
+			if (signature == null) {
+				if (redirect != null) {
+					redirect.checkErroneous(timestamp);
+				}
+			} else {
 				parameter.check(timestamp, signature);
 
 				signature = signature.getTypeRefdLast(timestamp);
