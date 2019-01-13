@@ -376,15 +376,20 @@ public final class Receive_Port_Statement extends Statement {
 				messageType = Port_Utility.getMessageSignatureType(timestamp, receiveParameter);
 			}
 
-			if (messageType != null) {
-				receiveParameter.check(timestamp, messageType);
-				if (receiveParameter.getTemplateBody().getTemplateReferencedLast(timestamp).getTemplatetype() == Template_type.ANY_OR_OMIT) {
-					receiveParameter.getLocation().reportSemanticError(
-							MessageFormat.format(ANYOROMITWITHOUTMATCHINGTAMPLE, statementName));
+			if (messageType == null) {
+				if (redirectValue != null) {
+					redirectValue.checkErroneous(timestamp);
 				}
+			} else {
+				receiveParameter.check(timestamp, messageType);
 				if (redirectValue != null) {
 					redirectValue.check(timestamp, messageType);
 				}
+			}
+
+			if (receiveParameter.getTemplateBody().getTemplateReferencedLast(timestamp).getTemplatetype() == Template_type.ANY_OR_OMIT) {
+				receiveParameter.getLocation().reportSemanticError(
+						MessageFormat.format(ANYOROMITWITHOUTMATCHINGTAMPLE, statementName));
 			}
 		}
 
