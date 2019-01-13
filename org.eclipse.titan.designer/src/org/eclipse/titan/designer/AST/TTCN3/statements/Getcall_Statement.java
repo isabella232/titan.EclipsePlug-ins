@@ -227,7 +227,7 @@ public final class Getcall_Statement extends Statement {
 
 	public static void checkGetcallStatement(final CompilationTimeStamp timestamp, final Statement statement, final String statementName,
 			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance fromClause,
-			final Parameter_Redirect redirect, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+			final Parameter_Redirect redirectParameter, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, statement, portReference, anyFrom);
 
 		if (parameter == null) {
@@ -241,9 +241,9 @@ public final class Getcall_Statement extends Statement {
 				}
 			}
 
-			if (redirect != null) {
-				redirect.getLocation().reportSemanticError(REDIRECTWITHOUTSIGNATURE);
-				redirect.checkErroneous(timestamp);
+			if (redirectParameter != null) {
+				redirectParameter.getLocation().reportSemanticError(REDIRECTWITHOUTSIGNATURE);
+				redirectParameter.checkErroneous(timestamp);
 			}
 		} else {
 			IType signature = null;
@@ -279,8 +279,8 @@ public final class Getcall_Statement extends Statement {
 				// any port is referenced, or there was a syntax
 				// error
 				parameter.getLocation().reportSemanticError(MessageFormat.format(ANYWITHPARAMETER, statementName));
-				if (redirect != null) {
-					redirect.getLocation().reportSemanticError(MessageFormat.format(ANYWITHREDIRECT, statementName));
+				if (redirectParameter != null) {
+					redirectParameter.getLocation().reportSemanticError(MessageFormat.format(ANYWITHREDIRECT, statementName));
 				}
 			}
 
@@ -289,8 +289,8 @@ public final class Getcall_Statement extends Statement {
 			}
 
 			if (signature == null) {
-				if (redirect != null) {
-					redirect.checkErroneous(timestamp);
+				if (redirectParameter != null) {
+					redirectParameter.checkErroneous(timestamp);
 				}
 			} else {
 				parameter.check(timestamp, signature);
@@ -299,15 +299,15 @@ public final class Getcall_Statement extends Statement {
 				switch (signature.getTypetype()) {
 				case TYPE_SIGNATURE:
 					((Signature_Type) signature).checkThisTemplate(timestamp, parameter.getTemplateBody(), false, false, null);
-					if (redirect != null) {
-						redirect.check(timestamp, (Signature_Type) signature, false);
+					if (redirectParameter != null) {
+						redirectParameter.check(timestamp, (Signature_Type) signature, false);
 					}
 					break;
 				default:
 					parameter.getLocation().reportSemanticError(
 							MessageFormat.format(SIGNATUREPARAMETEREXPECTED, signature.getTypename()));
-					if (redirect != null) {
-						redirect.checkErroneous(timestamp);
+					if (redirectParameter != null) {
+						redirectParameter.checkErroneous(timestamp);
 					}
 					break;
 				}
