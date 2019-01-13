@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -67,6 +68,7 @@ public final class Catch_Statement extends Statement {
 			+ " It is permitted only in the response and exception handling part of `call' operations";
 	private static final String TIMEOUTNOTPERMITTED2 = "Catching of `timeout' exception is not allowed"
 			+ " because the previous `call' operation does not have timer";
+	private static final String ANYOROMITWITHOUTMATCHINGTAMPLE = "''*'' cannot be used as a matching template for a `{0}'' operation";
 
 	private static final String FULLNAMEPART1 = ".portreference";
 	private static final String FULLNAMEPART2 = ".signaturereference";
@@ -430,8 +432,11 @@ public final class Catch_Statement extends Statement {
 
 			if (exceptionType != null && parameter != null) {
 				parameter.check(timestamp, exceptionType);
-				//FIXME add extra check
-				
+				if (parameter.getTemplateBody().getTemplateReferencedLast(timestamp).getTemplatetype() == Template_type.ANY_OR_OMIT) {
+					parameter.getLocation().reportSemanticError(
+							MessageFormat.format(ANYOROMITWITHOUTMATCHINGTAMPLE, statementName));
+				}
+
 				if (redirectValue != null) {
 					redirectValue.check(timestamp, exceptionType);
 				}
