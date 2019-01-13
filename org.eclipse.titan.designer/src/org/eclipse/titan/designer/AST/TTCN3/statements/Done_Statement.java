@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
@@ -44,6 +45,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
  * @author Kristof Szabados
  * */
 public final class Done_Statement extends Statement {
+	private static final String ANYOROMITWITHOUTMATCHINGTAMPLE = "'*' cannot be used as a matching template for a `done' operation";
+
 	private static final String FULLNAMEPART1 = "componentreference";
 	private static final String FULLNAMEPART2 = "donematch";
 	private static final String FULLNAMEPART3 = "redirection";
@@ -208,7 +211,9 @@ public final class Done_Statement extends Statement {
 					returnType.getTypeRefdLast(timestamp).set_needs_any_from_done();
 				}
 				doneMatch.check(timestamp, returnType);
-				//FIXME add extra check
+				if (doneMatch.getTemplateBody().getTemplateReferencedLast(timestamp).getTemplatetype() == Template_type.ANY_OR_OMIT) {
+					doneMatch.getLocation().reportSemanticError(ANYOROMITWITHOUTMATCHINGTAMPLE);
+				}
 				if (redirectValue != null) {
 					redirectValue.check(timestamp, returnType);
 				}
