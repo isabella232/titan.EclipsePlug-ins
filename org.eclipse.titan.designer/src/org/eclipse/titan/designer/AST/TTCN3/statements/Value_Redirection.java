@@ -464,13 +464,14 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				final String subrefsString = subrefExpression.expression.length() > 0 ? subrefExpression.expression.toString() : "";
 				if (redirection.isDecoded()) {
 					//FIXME implement
+					setValuesString.append("//FIXME decided redirection are not yet supported\n");
 				} else {
 					needPar = true;
 					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
 						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(par{1}{2});\n", i, subrefsString, optionalSuffix));
 					} else {
 						//FIXME implement 
-						expression.preamble.append("//FIXME type conversion is not yet supported\n");
+						setValuesString.append("//FIXME type conversion is not yet supported\n");
 					}
 				}
 				if (subrefExpression.postamble.length() > 0) {
@@ -491,8 +492,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			}
 
 			expression.preamble.append(setValuesString);
-			expression.preamble.append("//FIXME value redirection for the time being not yet fully supported\n");
-
 			expression.preamble.append("\t}\n");
 			expression.preamble.append("}\n");
 
