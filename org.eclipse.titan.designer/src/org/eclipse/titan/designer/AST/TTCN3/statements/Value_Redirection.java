@@ -19,7 +19,10 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
@@ -30,6 +33,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Verdict_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -435,18 +439,42 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				membersString.append(MessageFormat.format("{0} ptr_{1};\n", typeName, i));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
 				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
-				//FIXME handle subreferences 10633
+
+				ExpressionStruct subrefExpression = new ExpressionStruct();
+				String optionalSuffix = "";
+				if (redirection.getSubreferences() != null) {
+					//TODO find a better looking way.
+					ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+					ArrayList<ISubReference> tempSubrefs = new ArrayList<ISubReference>();
+					tempSubrefs.add(new FieldSubReference(new Identifier(Identifier_type.ID_NAME, "par")));
+					tempSubrefs.addAll(subreferences);
+					Reference.generateCode(aData, subrefExpression, tempSubrefs, false, true, valueType);
+
+					if (redirectionType.getOwnertype() == TypeOwner_type.OT_COMP_FIELD) {
+						CompField cf = (CompField)redirectionType.getOwner();
+						if (cf.isOptional()) {
+							optionalSuffix = ".get()";
+						}
+					}
+				}
+
+				if (subrefExpression.preamble.length() > 0) {
+					setValuesString.append(subrefExpression.preamble);
+				}
+				final String subrefsString = subrefExpression.expression.length() > 0 ? subrefExpression.expression.toString() : "";
 				if (redirection.isDecoded()) {
 					//FIXME implement
 				} else {
 					needPar = true;
 					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
-						//FIXME add subrefs and optional postfix
-						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(par);\n", i));
+						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(par{1}{2});\n", i, subrefsString, optionalSuffix));
 					} else {
 						//FIXME implement 
 						expression.preamble.append("//FIXME type conversion is not yet supported\n");
 					}
+				}
+				if (subrefExpression.postamble.length() > 0) {
+					setValuesString.append(subrefExpression.postamble);
 				}
 			}
 
