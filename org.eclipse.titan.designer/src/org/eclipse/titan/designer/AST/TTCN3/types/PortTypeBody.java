@@ -27,7 +27,6 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -138,7 +137,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	private final ArrayList<Reference> providerReferences = new ArrayList<Reference>();
 	private final ArrayList<Port_Type> providerTypes = new ArrayList<Port_Type>();
-	private final ArrayList<IType> mapperTypes = new ArrayList<IType>();
 	private TypeMappings inMappings;
 	private TypeMappings outMappings;
 
@@ -698,9 +696,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						if (!found) {
 							providerTypes.add((Port_Type)type);
 							providerBody = ((Port_Type) type).getPortBody();
-							if (!legacy) {
-								providerBody.addMapperType(myType);
-							}
 						}
 					} else {
 						providerReferences.get(0).getLocation().reportSemanticError(
@@ -1404,10 +1399,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	public boolean isLegacy() {
 		return legacy;
-	}
-
-	public void addMapperType(final IType type) {
-		mapperTypes.add(type);
 	}
 
 	/**
@@ -2236,18 +2227,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		// TODO will we need to generate testport skeleton here, or can we find a better way?
-
-		if (portType == PortType_type.PT_PROVIDER) {
-			for (int i = 0; i < mapperTypes.size(); i++) {
-				final Module portModule = mapperTypes.get(i).getMyScope().getModuleScopeGen();
-				final Module myModule = myType.getMyScope().getModuleScopeGen();
-				if (myModule == portModule) {
-					continue;
-				}
-
-				aData.addInterModuleImport(portModule.getIdentifier().getName());
-			}
-		}
 
 		return portDefinition;
 	}
