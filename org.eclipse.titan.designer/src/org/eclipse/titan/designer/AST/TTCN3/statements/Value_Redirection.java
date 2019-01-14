@@ -464,7 +464,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				final String subrefsString = subrefExpression.expression.length() > 0 ? subrefExpression.expression.toString() : "";
 				if (redirection.isDecoded()) {
 					//FIXME implement
-					setValuesString.append("//FIXME decided redirection are not yet supported\n");
+					setValuesString.append("//FIXME decoded value redirection are not yet supported\n");
 				} else {
 					needPar = true;
 					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
