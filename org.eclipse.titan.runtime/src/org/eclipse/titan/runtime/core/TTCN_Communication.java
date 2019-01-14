@@ -773,9 +773,7 @@ public final class TTCN_Communication {
 			text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
 			text_buf.push_raw(temp.length, temp);
 			text_buf.push_raw(8, new byte[8]);
-		}
-		
-		if (local_address instanceof Inet6Address) {
+		} else if (local_address instanceof Inet6Address) {
 			Inet6Address localipv6_address = getIPv6Address(local_address);
 			final byte temp[] = localipv6_address.getAddress();
 			text_buf.push_raw(2, new byte[]{2, 3});
@@ -1675,7 +1673,7 @@ public final class TTCN_Communication {
 		local_incoming_buf.cut_message();
 		//FIXME implement execute_command
 	}
-	
+
 	//Private function to convert InetAddress to Inet6Address.
 	private static Inet6Address getIPv6Address(final InetAddress address) {
 		return (Inet6Address)address;
