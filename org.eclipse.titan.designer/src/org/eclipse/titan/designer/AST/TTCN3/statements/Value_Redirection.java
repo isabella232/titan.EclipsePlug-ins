@@ -445,7 +445,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			expression.preamble.append(constructorInitializers);
 			expression.preamble.append("}\n");
 			expression.preamble.append("\t@Override\n");
-			expression.preamble.append("\tpublic void set_values(Base_Type values) {\n");
+			expression.preamble.append("\tpublic void set_values(final Base_Type values) {\n");
 			//TODO can save on the casting!
 			expression.preamble.append(setValuesString);
 			expression.preamble.append("//FIXME for the time being not yet supported\n");
