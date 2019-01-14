@@ -287,9 +287,6 @@ public final class PortGenerator {
 
 		public ArrayList<portMessageProvider> providerMessageOutList;
 
-		public ArrayList<String> mapperNames;
-		public ArrayList<Boolean> mapperRealtime;
-
 		public ArrayList<MessageMappedTypeInfo> providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>();
 
 		public boolean has_sliding;
@@ -495,54 +492,19 @@ public final class PortGenerator {
 		}
 
 		// Port type variables in the provider types.
-		if (portDefinition.mapperNames != null) {
+		if (portDefinition.portType == PortType.PROVIDER) {
 			aData.addBuiltinTypeImport("TitanPort");
+
 			source.append("public void add_port(final TitanPort port) {\n");
-			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
-				final String name = portDefinition.mapperNames.get(i);
-
-				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
-				source.append(MessageFormat.format("if (p_{0} == null) '{'\n", i));
-				source.append(MessageFormat.format("p_{0} = new ArrayList<{1}>();\n", i, name));
-				source.append("}\n");
-				source.append(MessageFormat.format("n_{0}++;\n", i));
-				source.append(MessageFormat.format("p_{0}.add(({1}) port);\n", i, name));
-				source.append("return;\n");
-				source.append("}\n");
-			}
-
-			source.append("throw new TtcnError(\"Internal error: Adding invalid port type.\");\n");
+			source.append("mapped_ports.add(port);\n");
 			source.append("}\n\n");
 
 			source.append("public void remove_port(final TitanPort port) {\n");
-			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
-				final String name = portDefinition.mapperNames.get(i);
-				source.append(MessageFormat.format("if (p_{0} ==  null) '{'\n", i));
-				source.append("return;\n");
-				source.append("}\n");
-				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
-				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
-				source.append(MessageFormat.format("n_{0}--;\n", i));
-				source.append("}\n");
-				source.append(MessageFormat.format("if (n_{0} == 0) '{'\n", i));
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append("}\n");
-
-				source.append("return;\n");
-				source.append("}\n");
-			}
-
-			source.append("throw new TtcnError(\"Internal error: Removing invalid port type.\");\n");
+			source.append("mapped_ports.remove(port);\n");
 			source.append("}\n\n");
 
 			source.append("protected void reset_port_variables() {\n");
-			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
-				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
-				source.append(MessageFormat.format("p_{0}.get(i).remove_port(this);\n", i));
-				source.append("}\n");
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append(MessageFormat.format("n_{0} = 0;\n", i));
-			}
+			source.append("mapped_ports = new ArrayList<TitanPort>();\n");
 			source.append("}\n\n");
 		}
 
@@ -756,7 +718,7 @@ public final class PortGenerator {
 			}
 		}
 
-		if (portDefinition.mapperNames != null && portDefinition.mapperNames.size() > 0) {
+		if (portDefinition.portType == PortType.PROVIDER) {
 			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
 				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
 				if (portDefinition.realtime) {
@@ -840,8 +802,29 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.providerInMessages.size(); i++) {
 				final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
 
-
 				generateTypedIncommingMessageUser(aData, source, i, inType, portDefinition);
+			}
+
+			if (!portDefinition.legacy && !portDefinition.providerInMessages.isEmpty()) {
+				source.append("public boolean incoming_message_handler(final Base_Type message_ptr, final String message_type, final int sender_component, final TitanFloat timestamp) {\n");
+				for (int i = 0; i < portDefinition.providerInMessages.size(); i++) {
+					final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
+
+					if (i > 0) {
+						source.append(" else ");
+					}
+
+					source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+					source.append(MessageFormat.format("if (message_ptr instanceof {0}) '{'\n", inType.mJavaTypeName));
+					source.append(MessageFormat.format("incoming_message(({0})message_ptr, sender_component);\n", inType.mJavaTypeName));
+					source.append("return true;\n");
+					source.append("}\n");
+					source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Type of message in incoming message handler function is not the indicated `{0}''.\");\n", inType.mDisplayName));
+					source.append("}");
+				}
+				source.append("\n");
+				source.append("return false;\n");
+				source.append("}\n\n");
 			}
 		} else {
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
@@ -1138,11 +1121,10 @@ public final class PortGenerator {
 			source.append(portDefinition.translationFunctions);
 		}
 
-		if (portDefinition.mapperNames != null) {
-			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
-				source.append(MessageFormat.format("private ArrayList<{0}> p_{1};\n", portDefinition.mapperNames.get(i), i));
-				source.append(MessageFormat.format("private int n_{0};\n", i));
-			}
+		if (portDefinition.portType == PortType.PROVIDER) {
+			aData.addBuiltinTypeImport("TitanPort");
+
+			source.append("private ArrayList<TitanPort> mapped_ports;\n");
 		}
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
@@ -1158,11 +1140,9 @@ public final class PortGenerator {
 
 			source.append("port_state = translation_port_state.UNSET;\n");
 		}
-		if (portDefinition.mapperNames != null) {
-			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append(MessageFormat.format("n_{0} = 0;\n", i));
-			}
+
+		if (portDefinition.portType == PortType.PROVIDER) {
+			source.append("mapped_ports = new ArrayList<TitanPort>();\n");
 		}
 		source.append("}\n\n");
 
@@ -2132,14 +2112,8 @@ public final class PortGenerator {
 	private static void generateTypedIncommingMessageUser(final JavaGenData aData, final StringBuilder source, final int index, final MessageMappedTypeInfo mappedType, final PortDefinition portDefinition) {
 		final String typeValueName = mappedType.mJavaTypeName;
 		final boolean isSimple = (!portDefinition.legacy || (mappedType.targets.size() == 1)) && mappedType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE;
-		String visibility;
-		if (!portDefinition.legacy) {
-			visibility = "public";
-		} else {
-			visibility = "private";
-		}
 
-		source.append(MessageFormat.format("{0} void incoming_message(final {1} incoming_par, final int sender_component", visibility, typeValueName));
+		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
 		if (portDefinition.has_sliding) {
 			source.append(", final TitanOctetString slider");
 		}
@@ -2249,14 +2223,8 @@ public final class PortGenerator {
 	 * */
 	private static void generateTypedIncommingMessageProvider(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
-		String visibility;
-		if (portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null) {
-			visibility = "public";
-		} else {
-			visibility = "private";
-		}
 
-		source.append(MessageFormat.format("{0} void incoming_message(final {1} incoming_par, final int sender_component", visibility, typeValueName));
+		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
@@ -2264,20 +2232,13 @@ public final class PortGenerator {
 			source.append(", TitanFloat timestamp");
 		}
 		source.append(") {\n");
-		if (portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null) {
+		if (portDefinition.portType == PortType.PROVIDER) {
 			// We forward the incoming_message to the mapped port
-			for (int j = 0; j < portDefinition.mapperNames.size(); j++) {
-				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
-				source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
-				source.append(MessageFormat.format("p_{0}.get(i).incoming_message(incoming_par, sender_component", j));
-				if (portDefinition.realtime) {
-					source.append(", timestamp");
-				}
-				source.append(");\n");
-				source.append("return;\n");
-				source.append("}\n");
-				source.append("}\n");
-			}
+			source.append("for (int i = 0; i < mapped_ports.size(); i++) {\n");
+			source.append(MessageFormat.format("if (mapped_ports.get(i) != null && mapped_ports.get(i).incoming_message_handler(incoming_par, \"{0}\", sender_component, {1})) '{'\n", inType.mDisplayName, portDefinition.realtime ? "timestamp": "new TitanFloat()"));
+			source.append("return;\n");
+			source.append("}\n");
+			source.append("}\n");
 		}
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");

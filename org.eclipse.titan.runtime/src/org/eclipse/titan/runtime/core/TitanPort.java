@@ -542,6 +542,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return null;
 	}
 
+	//FIXME comment
+	public boolean incoming_message_handler(final Base_Type message, final String message_type, final int sender_component, final TitanFloat timestamp) {
+		return false;
+	}
+
 	//originally check_port_state
 	public boolean check_port_state(final String type) {
 		if ("Started".equals(type)) {

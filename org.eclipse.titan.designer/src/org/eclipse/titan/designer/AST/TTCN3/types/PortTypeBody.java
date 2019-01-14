@@ -2235,22 +2235,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-		if (portType == PortType_type.PT_PROVIDER) {
-			portDefinition.mapperNames = new ArrayList<String>(mapperTypes.size());
-			portDefinition.mapperRealtime = new ArrayList<Boolean>(mapperTypes.size());
-			for (int i = 0; i < mapperTypes.size(); i++) {
-				final IType mapperType = mapperTypes.get(i);
-
-				portDefinition.mapperNames.add(mapperType.getGenNameValue(aData, source, myScope));
-				//TODO can only be port_Type
-				if (mapperType instanceof Port_Type) {
-					portDefinition.mapperRealtime.add(((Port_Type) mapperType).getPortBody().isRealtime());
-				} else {
-					//FATAL ERROR
-				}
-			}
-		}
-
 		// TODO will we need to generate testport skeleton here, or can we find a better way?
 
 		if (portType == PortType_type.PT_PROVIDER) {
