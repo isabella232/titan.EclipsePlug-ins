@@ -440,11 +440,14 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					//FIXME implement
 				} else {
 					needPar = true;
-					//FIXME implement 11090
+					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
+						//FIXME add subrefs and optional postfix
+						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(par);\n", i));
+					} else {
+						//FIXME implement 
+						expression.preamble.append("//FIXME type conversion is not yet supported\n");
+					}
 				}
-
-				//FIXME this is only good for the most simple cases
-				setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1}){2});\n", i, typeName, "values"));
 			}
 
 			final String tempClassName = aData.getTemporaryVariableName();
@@ -458,9 +461,9 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			if (needPar) {
 				expression.preamble.append(MessageFormat.format("final {0} par = ({0})values;\n", valueType.getGenNameValue(aData, expression.preamble, scope)));
 			}
-			//TODO can save on the casting!
+
 			expression.preamble.append(setValuesString);
-			expression.preamble.append("//FIXME for the time being not yet supported\n");
+			expression.preamble.append("//FIXME value redirection for the time being not yet fully supported\n");
 
 			expression.preamble.append("\t}\n");
 			expression.preamble.append("}\n");
