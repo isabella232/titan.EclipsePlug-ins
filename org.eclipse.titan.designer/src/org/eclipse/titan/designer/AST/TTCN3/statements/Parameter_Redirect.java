@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -265,7 +267,37 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		StringBuilder constructorParameters = new StringBuilder();
 		StringBuilder baseConstructorParameters = new StringBuilder();
 		StringBuilder constructorInitList = new StringBuilder();
-		
+
+		membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", sigType.getGenNameTemplate(aData, source, scope)));
+		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigType.getGenNameTemplate(aData, source, scope)));
+		constructorInitList.append("ptr_matched_temp = par_matched_temp;\n");
+
+		SignatureFormalParameterList parList = ((Signature_Type)sigType).getParameterList();
+		for (int i = 0 ; i < entries.getNofEntries(); i++) {
+			final Variable_Entry variableEntry = entries.getEntryByIndex(i);
+
+			SignatureFormalParameter parameter = is_out ? parList.getOutParameterByIndex(i) : parList.getInParameterByIndex(i);
+			String parameterName = parameter.getIdentifier().getName();
+			if (constructorParameters.length() > 0) {
+				constructorParameters.append(", ");
+			}
+			if (baseConstructorParameters.length() > 0) {
+				baseConstructorParameters.append(", ");
+			}
+
+			if (variableEntry.isDecoded()) {
+				// TODO extract common parts, in the compiler too.
+				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
+				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
+				baseConstructorParameters.append("null");
+				//FIXME implement
+			} else {
+				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source, scope), parameterName));
+				baseConstructorParameters.append(MessageFormat.format("par_{0}", parameterName));
+			}
+		}
+
+		//
 		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, scope);
 		//TODO sigType is already a refdlast type.
 		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getMyScope());
