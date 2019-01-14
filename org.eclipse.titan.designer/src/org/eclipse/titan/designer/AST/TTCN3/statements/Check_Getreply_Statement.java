@@ -447,7 +447,7 @@ public final class Check_Getreply_Statement extends Statement {
 					redirectParameter.generateCodeDecoded(aData, expression.preamble, parameter, tempID, true);
 					final IType lastSignatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 					final String signatureName = signature.getGenNameValue(aData, expression.expression, lastSignatureType.getMyScope());
-					expression.expression.append(MessageFormat.format(", {0}_reply_redirect_{1}(", signatureName, tempID));
+					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect_{1}(", signatureName, tempID));
 				} else {
 					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
 				}
