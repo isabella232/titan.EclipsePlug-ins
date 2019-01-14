@@ -373,6 +373,8 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			}
 		} else {
 			aData.addBuiltinTypeImport("Value_Redirect_Interface");
+
+			final Scope scope = valueRedirections.get(0).getVariableReference().getMyScope();
 			//FIXME implement fully
 			StringBuilder membersString = new StringBuilder();
 			StringBuilder constructorParameters = new StringBuilder();
@@ -390,6 +392,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				constructorInitializers.append("ptr_matched_temp = par_matched_temp;\n");
 			}
 
+			boolean needPar = false;
 			for (int i = 0 ; i < valueRedirections.size(); i++) {
 				if (i > 0) {
 					constructorParameters.append(", ");
@@ -433,6 +436,12 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
 				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
 				//FIXME handle subreferences 10633
+				if (redirection.isDecoded()) {
+					//FIXME implement
+				} else {
+					needPar = true;
+					//FIXME implement 11090
+				}
 
 				//FIXME this is only good for the most simple cases
 				setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1}){2});\n", i, typeName, "values"));
@@ -446,6 +455,9 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			expression.preamble.append("}\n");
 			expression.preamble.append("\t@Override\n");
 			expression.preamble.append("\tpublic void set_values(final Base_Type values) {\n");
+			if (needPar) {
+				expression.preamble.append(MessageFormat.format("final {0} par = ({0})values;\n", valueType.getGenNameValue(aData, expression.preamble, scope)));
+			}
 			//TODO can save on the casting!
 			expression.preamble.append(setValuesString);
 			expression.preamble.append("//FIXME for the time being not yet supported\n");
