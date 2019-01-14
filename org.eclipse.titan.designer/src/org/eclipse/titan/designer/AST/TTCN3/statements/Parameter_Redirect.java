@@ -317,8 +317,9 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		source.append("};\n");
 		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
 		//FIXME implement
+		source.append("//FIXME decoded parameter redirection not yet supported.\n");
+		source.append("super.set_parameters(par);\n");
 		source.append("};\n");
-		source.append("//FIXME decoded parameter redirection not yet supported in getcall.\n");
 		source.append("};\n");
 	}
 }
