@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -262,11 +263,16 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 			}
 		}
 
-		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		StringBuilder membersString = new StringBuilder();
 		StringBuilder constructorParameters = new StringBuilder();
 		StringBuilder baseConstructorParameters = new StringBuilder();
 		StringBuilder constructorInitList = new StringBuilder();
+		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		Type returnType = ((Signature_Type)sigType).getSignatureReturnType();
+		if (returnType != null && is_out) {
+			constructorParameters.append("Value_Redirect_Interface return_redirect, ");
+			baseConstructorParameters.append("return_redirect");
+		}
 
 		membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", sigType.getGenNameTemplate(aData, source, scope)));
 		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigType.getGenNameTemplate(aData, source, scope)));
