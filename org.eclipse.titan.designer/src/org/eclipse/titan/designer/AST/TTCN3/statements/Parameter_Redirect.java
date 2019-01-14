@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -249,13 +250,23 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	public void internalGenerateCodeDecoded(JavaGenData aData, StringBuilder source, final Variable_Entries entries, TemplateInstance matched_ti, String tempID, boolean is_out) {
 		//FIXME implement
 
+		// TODO check to see how is different from the redirection's scope.
+		Scope scope = null;
+		for (int i = 0 ; i < entries.getNofEntries(); i++) {
+			Reference reference = entries.getEntryByIndex(i).getReference();
+			if (reference != null) {
+				scope = reference.getMyScope();
+				break;
+			}
+		}
+
 		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		StringBuilder membersString = new StringBuilder();
 		StringBuilder constructorParameters = new StringBuilder();
 		StringBuilder baseConstructorParameters = new StringBuilder();
 		StringBuilder constructorInitList = new StringBuilder();
 		
-		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, getMyScope());
+		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, scope);
 		//TODO sigType is already a refdlast type.
 		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getMyScope());
 		final String opName = is_out ? "reply" : "call";
