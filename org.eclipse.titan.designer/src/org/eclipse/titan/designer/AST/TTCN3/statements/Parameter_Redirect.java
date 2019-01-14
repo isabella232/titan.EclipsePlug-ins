@@ -226,4 +226,50 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code false} otherwise.
 	 */
 	public abstract void generateCodeDecoded(final JavaGenData aData, final StringBuilder source, final TemplateInstance matched_ti, final String tempID, final boolean is_out);
+
+	/**
+	 * Generate a helper class that is needed for parameter redirections
+	 * that also have at least one parameter redirection with decoding.
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source to append.
+	 * @param entries
+	 *                the variable entries to use for code generation.
+	 * @param matched_ti
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param tempID
+	 *                the temporary id to be used for naming the class.
+	 * @param is_out
+	 *                {@code true} if the parameters have out direction,
+	 *                {@code false} otherwise.
+	 */
+	public void internalGenerateCodeDecoded(JavaGenData aData, StringBuilder source, final Variable_Entries entries, TemplateInstance matched_ti, String tempID, boolean is_out) {
+		//FIXME implement
+
+		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		StringBuilder membersString = new StringBuilder();
+		StringBuilder constructorParameters = new StringBuilder();
+		StringBuilder baseConstructorParameters = new StringBuilder();
+		StringBuilder constructorInitList = new StringBuilder();
+		
+		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, getMyScope());
+		//TODO sigType is already a refdlast type.
+		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getMyScope());
+		final String opName = is_out ? "reply" : "call";
+		source.append(MessageFormat.format("class {0}_{1}_redirect_{2} extends {3}_{1}_redirect '{'\n", unqualifiedSignatureName, opName, tempID, qualifiedSignatureName));
+		source.append(membersString);
+		source.append(MessageFormat.format("public {0}_{1}_redirect_{2}({3}) '{'\n", unqualifiedSignatureName, opName, tempID, constructorParameters));
+		source.append(MessageFormat.format("super({0});\n", baseConstructorParameters));
+		source.append(constructorInitList);
+		//FIXME implement
+		source.append("};\n");
+		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
+		//FIXME implement
+		source.append("};\n");
+		source.append("//FIXME decoded parameter redirection not yet supported in getcall.\n");
+		source.append("};\n");
+	}
 }
