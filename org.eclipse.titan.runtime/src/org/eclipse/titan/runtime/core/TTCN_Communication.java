@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.StandardSocketOptions;
@@ -427,7 +429,7 @@ public final class TTCN_Communication {
 
 	public static void process_all_messages_hc() {
 		if (!TTCN_Runtime.is_hc()) {
-			throw new TtcnError("Internal error: TTCN_Communication::process_all_messages_hc() was called in invalid state.");
+			throw new TtcnError("Internal error: TTCN_Communication.process_all_messages_hc() was called in invalid state.");
 		}
 
 		TTCN_Runtime.wait_terminated_processes();
@@ -486,7 +488,7 @@ public final class TTCN_Communication {
 
 	public static void process_all_messages_tc() {
 		if (!TTCN_Runtime.is_tc()) {
-			throw new TtcnError("Internal error: TTCN_Communication::process_all_messages_tc() was called in invalid state.");
+			throw new TtcnError("Internal error: TTCN_Communication.process_all_messages_tc() was called in invalid state.");
 		}
 
 		final Text_Buf local_incoming_buf = incoming_buf.get();
@@ -765,12 +767,23 @@ public final class TTCN_Communication {
 		text_buf.push_string(remote_port);
 		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal());
 
-		final byte temp[] = local_address.getAddress();
-		final byte temp2 = (byte) local_port_number;
-		text_buf.push_raw(2, new byte[]{2, 0});
-		text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
-		text_buf.push_raw(temp.length, temp);
-		text_buf.push_raw(8, new byte[8]);
+		if(local_address instanceof Inet4Address) {
+			final byte temp[] = local_address.getAddress();
+			text_buf.push_raw(2, new byte[]{2, 0});
+			text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
+			text_buf.push_raw(temp.length, temp);
+			text_buf.push_raw(8, new byte[8]);
+		}
+		
+		if (local_address instanceof Inet6Address) {
+			Inet6Address localipv6_address = getIPv6Address(local_address);
+			final byte temp[] = localipv6_address.getAddress();
+			text_buf.push_raw(2, new byte[]{2, 3});
+			text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
+			text_buf.push_raw(temp.length, temp);
+			text_buf.push_int(localipv6_address.getScopeId());
+		}
+
 		//FIXME implement
 
 		send_message(text_buf);
@@ -1661,5 +1674,10 @@ public final class TTCN_Communication {
 		}
 		local_incoming_buf.cut_message();
 		//FIXME implement execute_command
+	}
+	
+	//Private function to convert InetAddress to Inet6Address.
+	private static Inet6Address getIPv6Address(final InetAddress address) {
+		return (Inet6Address)address;
 	}
 }
