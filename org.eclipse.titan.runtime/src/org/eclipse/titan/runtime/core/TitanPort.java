@@ -19,6 +19,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -1350,14 +1351,33 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//Works with IPv4 addresses
 		final byte family[] = new byte[2];
 		text_buf.pull_raw(2, family);
-		final byte port[] = new byte[2];
-		text_buf.pull_raw(2, port);
+		final byte port[];
+		final byte addr[];
+		final int scopeid;
 
-		final byte addr[] = new byte[4];
-		text_buf.pull_raw(4, addr);
+		//IPv4 address
+		if (Arrays.equals(family, new byte[]{2,0})) {
+			port = new byte[2];
+			text_buf.pull_raw(2, port);
 
-		final byte zero[] = new byte[8];
-		text_buf.pull_raw(8, zero);
+			addr = new byte[4];
+			text_buf.pull_raw(4, addr);
+
+			final byte zero[] = new byte[8];
+			text_buf.pull_raw(8, zero);
+			//IPv6 address
+		} else if (Arrays.equals(family, new byte[]{2,3})) {
+			port = new byte[2];
+			text_buf.pull_raw(2, port);
+			
+			addr = new byte[16];
+			text_buf.pull_raw(16, addr);
+			
+			scopeid = text_buf.pull_int().get_int();
+		} else {
+			//error : no ip address in Text Buffer
+			return;
+		}
 
 		try {
 			final InetAddress temp_addr = Inet4Address.getByAddress(addr);
@@ -1470,7 +1490,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(e);
 			}
 		}
-		//FIXME implement
+		TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
+		TitanComponent.log_component_reference(connection.remote_component);
+		TTCN_Logger.log_event(":%s.", connection.remote_port);
+		TtcnError.TtcnWarningEnd();
 		return true;
 	}
 
@@ -1483,7 +1506,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 			connection.stream_socket = com_channel;
-			com_channel.configureBlocking(false);
+			if (!TTCN_Communication.set_non_blocking_mode(com_channel, true)) {
+				com_channel.close();
+				TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Setting the non-blocking mode failed on the server-side TCP socket.");
+				remove_connection(connection);
+				return;
+			}
+			
+			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, true)) {
+				com_channel.close();
+				TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Setting the TCP_NODELAY flag failed on the server-side TCP socket.");
+				remove_connection(connection);
+				return;
+			}
+			
 			TTCN_Snapshot.channelMap.get().put(com_channel, connection);
 			com_channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 
@@ -1511,7 +1547,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
 			if (recv_len < 0) {
 				//the connection is closed
-				//FIXME implement rest
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
 				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__reset__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
