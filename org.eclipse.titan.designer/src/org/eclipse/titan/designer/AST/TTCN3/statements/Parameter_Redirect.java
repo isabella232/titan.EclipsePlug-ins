@@ -303,6 +303,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append("null");
+				setParametersString.append(MessageFormat.format("if (ptr_{0}_dec != null) '{'\n", parameterName));
 
 				NamedTemplate matchedNamedTemplate = null;
 				if (matched_ti.getTemplateBody().getTemplatetype() == Template_type.NAMED_TEMPLATE_LIST) {
@@ -347,6 +348,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				}
 				//FIXME implement
 				setParametersString.append("//FIXME decoded parameter redirection not yet supported.\n");
+				setParametersString.append("}\n");
 			} else {
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append(MessageFormat.format("par_{0}", parameterName));
