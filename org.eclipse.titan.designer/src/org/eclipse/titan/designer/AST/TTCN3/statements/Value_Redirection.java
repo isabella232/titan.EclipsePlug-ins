@@ -32,6 +32,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.templates.DecodeMatch_template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Verdict_Type;
@@ -435,7 +438,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				referenceType = referenceType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				IType memberType = redirection.isDecoded() ? redirection.getDeclarationType() : referenceType;
 				String typeName = memberType.getGenNameValue(aData, expression.expression, myScope);
-
 				membersString.append(MessageFormat.format("{0} ptr_{1};\n", typeName, i));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
 				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
@@ -464,7 +466,55 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				final String subrefsString = subrefExpression.expression.length() > 0 ? subrefExpression.expression.toString() : "";
 				if (redirection.isDecoded()) {
 					//FIXME implement
-					setValuesString.append("//FIXME decoded value redirection are not yet supported\n");
+					
+					ITTCN3Template matchedTemplate = null;
+					if (matchedTi != null) {
+						ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+						final Reference reference = new Reference(null);
+						//first field is only used to not have a single element subreference list.
+						reference.addSubReference(new FieldSubReference(variableReference.getId()));
+						for (int j = 0; j < subreferences.size(); j++) {
+							reference.addSubReference(subreferences.get(j));
+						}
+						matchedTemplate = matchedTi.getTemplateBody().getReferencedSubTemplate(CompilationTimeStamp.getBaseTimestamp(), reference, null, true);
+					}
+					if (matchedTemplate != null) {
+						matchedTemplate = matchedTemplate.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+					}
+					
+	
+					boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
+					boolean needsDecode = true;
+	
+					if (redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+						//FIXME implement
+						setValuesString.append("//FIXME decoded value redirection for universal charstrings are not yet supported\n");
+					}
+					if (useDecmatchResult) {
+						// if the redirected value was matched using a decmatch template,
+						// then the value redirect class should use the decoding result 
+						// from the template instead of decoding the value again
+						needsDecode = false;
+						IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						if (redirection.getDeclarationType() != decmatchType) {
+							// the decmatch template and this value redirect decode two
+							// different types, so just decode the value
+							needsDecode = true;
+							useDecmatchResult = false;
+						} else if (redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+							//FIXME implement
+							setValuesString.append("//FIXME usedecmatch1 not yet supported\n");
+						}
+					} else {
+						setValuesString.append("//FIXME usedecmatch2 not yet supported\n");
+					}
+					if (useDecmatchResult) {
+						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1})ptr_matched_temp{2}.get_decmatch_dec_res());\n", i, typeName, subrefsString));
+					}
+					if (needsDecode) {
+						setValuesString.append("//FIXME needs decode part of decoded value redirection are not yet supported\n");
+						//FIXME implement
+					}
 				} else {
 					needPar = true;
 					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
