@@ -127,6 +127,25 @@ public final class Template_List extends CompositeTemplate {
 		}
 	}
 
+	/**
+	 * Calculates the referenced template, and while doing so checks the
+	 * reference too.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param referenceChain
+	 *                the reference chain used to detect cyclic references.
+	 *
+	 * @return the template referenced
+	 * */
+	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		if (converted == null || converted.getIsErroneous(timestamp)) {
+			return this;
+		}
+
+		return converted.getTemplateReferencedLast(timestamp, referenceChain);
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
