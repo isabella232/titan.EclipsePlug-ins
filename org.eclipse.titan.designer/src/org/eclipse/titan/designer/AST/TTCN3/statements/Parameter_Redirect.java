@@ -251,8 +251,6 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code false} otherwise.
 	 */
 	public void internalGenerateCodeDecoded(JavaGenData aData, StringBuilder source, final Variable_Entries entries, TemplateInstance matched_ti, String tempID, boolean is_out) {
-		//FIXME implement
-
 		// TODO check to see how is different from the redirection's scope.
 		Scope scope = null;
 		for (int i = 0 ; i < entries.getNofEntries(); i++) {
@@ -297,6 +295,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append("null");
 				//FIXME implement
+				source.append("//FIXME decoded parameter redirection not yet supported.\n");
 			} else {
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append(MessageFormat.format("par_{0}", parameterName));
@@ -313,11 +312,10 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		source.append(MessageFormat.format("public {0}_{1}_redirect_{2}({3}) '{'\n", unqualifiedSignatureName, opName, tempID, constructorParameters));
 		source.append(MessageFormat.format("super({0});\n", baseConstructorParameters));
 		source.append(constructorInitList);
-		//FIXME implement
 		source.append("};\n");
 		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
 		//FIXME implement
-		source.append("//FIXME decoded parameter redirection not yet supported.\n");
+
 		source.append("super.set_parameters(par);\n");
 		source.append("};\n");
 		source.append("};\n");
