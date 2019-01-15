@@ -251,7 +251,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		if ( template != null) {
-			template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
+			template = template.getReferencedSubTemplate(timestamp, reference, referenceChain, false);
 		}
 
 		final List<ISubReference> subreferences = reference.getSubreferences();

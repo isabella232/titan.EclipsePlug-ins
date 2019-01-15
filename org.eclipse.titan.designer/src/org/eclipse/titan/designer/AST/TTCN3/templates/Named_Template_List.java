@@ -459,7 +459,7 @@ public final class Named_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
-			final Reference reference, final IReferenceChain referenceChain) {
+			final Reference reference, final IReferenceChain referenceChain, final boolean silent) {
 		if (hasNamedTemplate(fieldIdentifier)) {
 			return getNamedTemplate(fieldIdentifier).getTemplate();
 		} else if (baseTemplate != null) {
@@ -469,9 +469,9 @@ public final class Named_Template_List extends TTCN3Template {
 				return null;
 			}
 
-			return temp.getReferencedFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return temp.getReferencedFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		} else {
-			if (!reference.getUsedInIsbound()) {
+			if (!reference.getUsedInIsbound() && !silent) {
 				reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to unbound field `{0}''.", fieldIdentifier.getDisplayName()));
 			}

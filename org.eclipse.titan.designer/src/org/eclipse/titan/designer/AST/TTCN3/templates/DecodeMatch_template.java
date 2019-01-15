@@ -44,6 +44,11 @@ public class DecodeMatch_template extends TTCN3Template {
 		}
 	}
 
+	//FIXME comment
+	public TemplateInstance getDecodeTarget() {
+		return target;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {

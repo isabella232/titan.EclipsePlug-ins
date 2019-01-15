@@ -130,7 +130,7 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
-			final IReferenceChain referenceChain) {
+			final IReferenceChain referenceChain, final boolean silent) {
 		IValue indexValue = arrayIndex.setLoweridToReference(timestamp);
 		indexValue = indexValue.getValueRefdLast(timestamp, referenceChain);
 		if (indexValue.getIsErroneous(timestamp)) {
@@ -142,7 +142,9 @@ public final class Template_List extends CompositeTemplate {
 			if (Value_type.INTEGER_VALUE.equals(indexValue.getValuetype())) {
 				index = ((Integer_Value) indexValue).getValue();
 			} else {
-				arrayIndex.getLocation().reportSemanticError("An integer value was expected as index");
+				if (!silent) {
+					arrayIndex.getLocation().reportSemanticError("An integer value was expected as index");
+				}
 				return null;
 			}
 		} else {
@@ -157,38 +159,46 @@ public final class Template_List extends CompositeTemplate {
 		switch (tempType.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `sequence of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			}
 
 			final int nofElements = getNofTemplates();
 			if (index >= nofElements) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("Index overflow in a template of `sequence of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 								tempType.getTypename(), index, nofElements);
-				arrayIndex.getLocation().reportSemanticError(message		);
+					arrayIndex.getLocation().reportSemanticError(message		);
+				}
 				return null;
 			}
 			break;
 		}
 		case TYPE_SET_OF: {
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `set of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			}
 
 			final int nofElements = getNofTemplates();
 			if (index >= nofElements) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("Index overflow in a template of `set of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 								tempType.getTypename(), index, nofElements);
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			}
 			break;
@@ -200,9 +210,11 @@ public final class Template_List extends CompositeTemplate {
 				// re-base the index
 				index -= dimension.getOffset();
 				if (index < 0 || !(index < getNofTemplates()) ) {
-					arrayIndex.getLocation().reportSemanticError(
+					if (!silent) {
+						arrayIndex.getLocation().reportSemanticError(
 							MessageFormat.format("The index value {0} is outside the array indexable range", index
 									+ dimension.getOffset()));
+					}
 					return null;
 				}
 			} else {
@@ -211,9 +223,11 @@ public final class Template_List extends CompositeTemplate {
 			break;
 		}
 		default:{
-			final String message = MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
+			if (!silent) {
+				final String message = MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
 					tempType.getTypename());
-			arrayIndex.getLocation().reportSemanticError(message);
+				arrayIndex.getLocation().reportSemanticError(message);
+			}
 			return null;
 		}
 		}
@@ -222,7 +236,7 @@ public final class Template_List extends CompositeTemplate {
 		if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
 			if (baseTemplate != null) {
 				return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,
-						indexValue, referenceChain);
+						indexValue, referenceChain, silent);
 			}
 
 			return null;
@@ -325,9 +339,9 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
-			final Reference reference, final IReferenceChain referenceChain) {
+			final Reference reference, final IReferenceChain referenceChain, final boolean silent) {
 		if (converted != null) {
-			return converted.getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return converted.getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		}
 
 		return null;

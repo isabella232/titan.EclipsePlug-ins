@@ -171,7 +171,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
-			final IReferenceChain referenceChain) {
+			final IReferenceChain referenceChain, final boolean silent) {
 		IValue indexValue = arrayIndex.setLoweridToReference(timestamp);
 		indexValue = indexValue.getValueRefdLast(timestamp, referenceChain);
 		if (indexValue.getIsErroneous(timestamp)) {
@@ -183,7 +183,9 @@ public final class Indexed_Template_List extends TTCN3Template {
 			if (Value_type.INTEGER_VALUE.equals(indexValue.getValuetype())) {
 				index = ((Integer_Value) indexValue).getValue();
 			} else {
-				arrayIndex.getLocation().reportSemanticError("An integer value was expected as index");
+				if (!silent) {
+					arrayIndex.getLocation().reportSemanticError("An integer value was expected as index");
+				}
 				return null;
 			}
 		} else {
@@ -198,20 +200,24 @@ public final class Indexed_Template_List extends TTCN3Template {
 		switch (tempType.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `sequence of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			}
 			break;
 		}
 		case TYPE_SET_OF: {
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `set of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			}
 			break;
@@ -223,9 +229,11 @@ public final class Indexed_Template_List extends TTCN3Template {
 				// re-base the index
 				index -= dimension.getOffset();
 				if (index < 0 || index > getNofTemplates()) {
-					arrayIndex.getLocation().reportSemanticError(
+					if (!silent) {
+						arrayIndex.getLocation().reportSemanticError(
 							MessageFormat.format("The index value {0} is outside the array indexable range", index
 									+ dimension.getOffset()));
+					}
 					return null;
 				}
 			} else {
@@ -234,10 +242,11 @@ public final class Indexed_Template_List extends TTCN3Template {
 			break;
 		}
 		default:
-			arrayIndex.getLocation()
-			.reportSemanticError(
+			if (!silent) {
+				arrayIndex.getLocation().reportSemanticError(
 					MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
 							tempType.getTypename()));
+			}
 			return null;
 		}
 
@@ -256,7 +265,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 					if (Template_type.TEMPLATE_NOTUSED.equals(realTemplate.getTemplatetype())) {
 						if (baseTemplate != null) {
 							return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain)
-									.getReferencedArrayTemplate(timestamp, indexValue, referenceChain);
+									.getReferencedArrayTemplate(timestamp, indexValue, referenceChain, silent);
 						}
 
 						return null;

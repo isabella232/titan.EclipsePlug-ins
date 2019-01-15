@@ -289,7 +289,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			final IType assingmentType = assignment.getType(timestamp);
 			if (assingmentType != null && assingmentType.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false) != null) {
 				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				((Def_Template) assignment).getTemplate(timestamp).getReferencedSubTemplate(timestamp, reference, chain);
+				((Def_Template) assignment).getTemplate(timestamp).getReferencedSubTemplate(timestamp, reference, chain, false);
 				chain.release();
 			}
 			break;

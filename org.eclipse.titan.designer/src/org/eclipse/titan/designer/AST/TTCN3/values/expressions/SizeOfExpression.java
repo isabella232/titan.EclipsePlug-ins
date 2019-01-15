@@ -491,7 +491,7 @@ public final class SizeOfExpression extends Expression_Value {
 				return -1;
 			}
 			if (reference != null && subreferences != null) {
-				template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
+				template = template.getReferencedSubTemplate(timestamp, reference, referenceChain, false);
 				if (template == null) {
 					setIsErroneous(true);
 					return -1;

@@ -315,8 +315,9 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param referenceChain
 	 *                the reference chain used to detect circular
 	 *                references.
+	 * @param silent {@code true} if errors are not to be reported.
 	 * */
-	ITTCN3Template getReferencedSubTemplate(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain referenceChain);
+	ITTCN3Template getReferencedSubTemplate(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain referenceChain, final boolean silent);
 
 	/**
 	 * Checks if the template is actually a value.

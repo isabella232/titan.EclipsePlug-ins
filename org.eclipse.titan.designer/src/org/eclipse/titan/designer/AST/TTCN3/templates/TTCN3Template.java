@@ -516,9 +516,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the reference to report the error to.
 	 * @param referenceChain
 	 *                the reference chain use to detect circular references.
+	 * @param silent {@code true} if errors are not to be reported.
 	 * */
 	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
-			final Reference reference, final IReferenceChain referenceChain) {
+			final Reference reference, final IReferenceChain referenceChain, final boolean silent) {
 		return null;
 	}
 
@@ -534,9 +535,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the reference to report the error to.
 	 * @param referenceChain
 	 *                the reference chain use to detect circular references.
+	 * @param silent {@code true} if errors are not to be reported.
 	 * */
 	protected ITTCN3Template getReferencedFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
-			final Reference reference, final IReferenceChain referenceChain) {
+			final Reference reference, final IReferenceChain referenceChain, final boolean silent) {
 		switch (getTemplatetype()) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
@@ -552,9 +554,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		case CSTR_PATTERN:
 		case USTR_PATTERN:
 			// TODO compiler problem: check if the list is complete
-			reference.getLocation().reportSemanticError(
+			if (!silent) {
+				reference.getLocation().reportSemanticError(
 					MessageFormat.format("Reference to field `{0}'' of {1} `{2}''", fieldIdentifier.getDisplayName(),
 							getTemplateTypeName(), getFullName()));
+			}
 			break;
 		default:
 			break;
@@ -568,80 +572,98 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		switch (tempType.getTypetype()) {
 		case TYPE_ASN1_CHOICE:
 			if (!((ASN1_Choice_Type) tempType).hasComponentWithName(fieldIdentifier)) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent union field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
 			return getRefdUnionFieldTemplate(fieldIdentifier, reference, tempType);
 		case TYPE_TTCN3_CHOICE:
 			if (!((TTCN3_Choice_Type) tempType).hasComponentWithName(fieldIdentifier.getName())) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent union field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
 			return getRefdUnionFieldTemplate(fieldIdentifier, reference, tempType);
 		case TYPE_OPENTYPE:
 			if (!((Open_Type) tempType).hasComponentWithName(fieldIdentifier)) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent union field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
 			return getRefdUnionFieldTemplate(fieldIdentifier, reference, tempType);
 		case TYPE_ANYTYPE:
 			if (!((Anytype_Type) tempType).hasComponentWithName(fieldIdentifier.getName())) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent union field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
 			return getRefdUnionFieldTemplate(fieldIdentifier, reference, tempType);
 		case TYPE_ASN1_SEQUENCE:
 			if (!((ASN1_Sequence_Type) tempType).hasComponentWithName(fieldIdentifier)) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent record field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
-			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		case TYPE_TTCN3_SEQUENCE:
 			if (!((TTCN3_Sequence_Type) tempType).hasComponentWithName(fieldIdentifier.getName())) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent record field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
-			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		case TYPE_ASN1_SET:
 			if (!((ASN1_Set_Type) tempType).hasComponentWithName(fieldIdentifier)) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent set field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
-			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		case TYPE_TTCN3_SET:
 			if (!((TTCN3_Set_Type) tempType).hasComponentWithName(fieldIdentifier.getName())) {
-				reference.getLocation().reportSemanticError(
+				if (!silent) {
+					reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to non-existent set field `{0}'' in type `{1}''",
 								fieldIdentifier.getDisplayName(), tempType.getTypename()));
+				}
 				return null;
 			}
 
-			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+			return getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain, silent);
 		default:
-			reference.getLocation().reportSemanticError(
+			if (!silent) {
+				reference.getLocation().reportSemanticError(
 					MessageFormat.format("Invalid field reference `{0}'': type `{1}'' does not have fields",
 							fieldIdentifier.getDisplayName(), tempType.getTypename()));
+			}
 			return null;
 		}
 	}
@@ -656,9 +678,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the index to check.
 	 * @param referenceChain
 	 *                the reference chain use to detect circular references.
+	 * @param silent {@code true} if errors are not to be reported.
 	 * */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
-			final IReferenceChain referenceChain) {
+			final IReferenceChain referenceChain, final boolean silent) {
 		switch (getTemplatetype()) {
 		case OMIT_VALUE:
 		case ANY_VALUE:
@@ -667,10 +690,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		case COMPLEMENTED_LIST:
 		case SUPERSET_MATCH:
 		case SUBSET_MATCH:
-			arrayIndex.getLocation()
-			.reportSemanticError(
+			if (!silent) {
+				arrayIndex.getLocation().reportSemanticError(
 					MessageFormat.format("Reference with index to an element of {0} `{1}''",
 							getTemplateTypeName(), getFullName()));
+			}
 			break;
 		default:
 			break;
@@ -686,7 +710,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		if (!indexValue.isUnfoldable(timestamp)) {
 			if (Value_type.INTEGER_VALUE.equals(indexValue.getValuetype())) {
 				index = ((Integer_Value) indexValue).getValue();
-			} else {
+			} else if (!silent) {
 				arrayIndex.getLocation().reportSemanticError("An integer value was expected as index");
 				return null;
 			}
@@ -702,40 +726,48 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		switch (tempType.getTypetype()) {
 		case TYPE_SEQUENCE_OF:
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `sequence of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			} else if (!Template_type.TEMPLATE_LIST.equals(getTemplatetype())) {
 				return null;
 			} else {
 				final int nofElements = ((Template_List) this).getNofTemplates();
 				if (index > nofElements) {
-					final String message = MessageFormat
+					if (!silent) {
+						final String message = MessageFormat
 							.format("Index overflow in a template of `sequence of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 									tempType.getTypename(), index, nofElements);
-					arrayIndex.getLocation().reportSemanticError(message);
+						arrayIndex.getLocation().reportSemanticError(message);
+					}
 					return null;
 				}
 			}
 			break;
 		case TYPE_SET_OF:
 			if (index < 0) {
-				final String message = MessageFormat
+				if (!silent) {
+					final String message = MessageFormat
 						.format("A non-negative integer value was expected instead of {0} for indexing a template of `set of'' type `{1}''",
 								index, tempType.getTypename());
-				arrayIndex.getLocation().reportSemanticError(message);
+					arrayIndex.getLocation().reportSemanticError(message);
+				}
 				return null;
 			} else if (!Template_type.TEMPLATE_LIST.equals(getTemplatetype())) {
 				return null;
 			} else {
 				final int nofElements = ((Template_List) this).getNofTemplates();
 				if (index > nofElements) {
-					final String message = MessageFormat
+					if (!silent) {
+						final String message = MessageFormat
 							.format("Index overflow in a template of `set of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 									tempType.getTypename(), index, nofElements);
-					arrayIndex.getLocation().reportSemanticError(message);
+						arrayIndex.getLocation().reportSemanticError(message);
+					}
 					return null;
 				}
 			}
@@ -747,9 +779,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 				// re-base the index
 				index -= dimension.getOffset();
 				if (index < 0 || index > ((Template_List) this).getNofTemplates()) {
-					arrayIndex.getLocation().reportSemanticError(
+					if (!silent) {
+						arrayIndex.getLocation().reportSemanticError(
 							MessageFormat.format("The index value {0} is outside the array indexable range", index
 									+ dimension.getOffset()));
+					}
 					return null;
 				}
 			} else {
@@ -758,9 +792,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			break;
 		}
 		default: {
-			final String message = MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
+			if (!silent) {
+				final String message = MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
 					tempType.getTypename());
-			arrayIndex.getLocation().reportSemanticError(message);
+				arrayIndex.getLocation().reportSemanticError(message);
+			}
 			return null;
 		}
 		}
@@ -769,7 +805,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
 				if (baseTemplate != null) {
 					return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,
-							indexValue, referenceChain);
+							indexValue, referenceChain, silent);
 				}
 
 				return null;
@@ -792,10 +828,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param referenceChain
 	 *                the reference chain used to detect circular
 	 *                references.
+	 * @param silent {@code true} if errors are not to be reported.
 	 * */
 	@Override
 	public ITTCN3Template getReferencedSubTemplate(final CompilationTimeStamp timestamp, final Reference reference,
-			final IReferenceChain referenceChain) {
+			final IReferenceChain referenceChain, final boolean silent) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		ITTCN3Template template = this;
 		for (int i = 1; i < subreferences.size(); i++) {
@@ -818,10 +855,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 			final ISubReference ref = subreferences.get(i);
 			if (Subreference_type.fieldSubReference.equals(ref.getReferenceType())) {
-				template = ((TTCN3Template) template).getReferencedFieldTemplate(timestamp, ref.getId(), reference, referenceChain);
+				template = ((TTCN3Template) template).getReferencedFieldTemplate(timestamp, ref.getId(), reference, referenceChain, silent);
 			} else if (Subreference_type.arraySubReference.equals(ref.getReferenceType())) {
 				template = ((TTCN3Template) template).getReferencedArrayTemplate(timestamp, ((ArraySubReference) ref).getValue(),
-						referenceChain);
+						referenceChain, silent);
 			} else {
 				// error found
 				return this;
