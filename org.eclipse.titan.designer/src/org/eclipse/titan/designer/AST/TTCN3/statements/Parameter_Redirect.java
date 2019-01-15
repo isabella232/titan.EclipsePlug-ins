@@ -297,7 +297,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append("null");
 				//FIXME implement
-				source.append("//FIXME decoded parameter redirection not yet supported.\n");
+				setParametersString.append("//FIXME decoded parameter redirection not yet supported.\n");
 			} else {
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append(MessageFormat.format("par_{0}", parameterName));
