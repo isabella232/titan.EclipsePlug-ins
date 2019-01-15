@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
@@ -38,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Verdict_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -485,11 +487,35 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	
 					boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 					boolean needsDecode = true;
-	
+					ExpressionStruct redirCodingExpression = new ExpressionStruct();
 					if (redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
-						//FIXME implement
-						setValuesString.append("//FIXME decoded value redirection for universal charstrings are not yet supported\n");
+						aData.addBuiltinTypeImport("TitanCharString.CharCoding");
+
+						IValue temp = (IValue)redirection.getStringEncoding();
+						if (temp != null) {
+							temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+						}
+						if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) { 
+							Charstring_Value stringEncoding = (Charstring_Value)temp;
+							String redirCodingString;
+							if (stringEncoding == null || "UTF-8".equals(stringEncoding.getValue())) {
+								redirCodingString = "UTF_8";
+							} else if ("UTF-16".equals(stringEncoding.getValue()) || "UTF-16BE".equals(stringEncoding.getValue())) {
+								redirCodingString = "UTF16BE";
+							} else if ("UTF-16LE".equals(stringEncoding.getValue())) {
+								redirCodingString = "UTF16LE";
+							} else if ("UTF-32LE".equals(stringEncoding.getValue())) {
+								redirCodingString = "UTF32LE";
+							} else {
+								redirCodingString = "UTF32BE";
+							}
+							redirCodingExpression.expression.append(MessageFormat.format("CharCoding.{0}", redirCodingString));
+						} else {
+							redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}, \"decoded parameter redirect\");\n", i));
+							redirCodingExpression.expression.append("coding");
+						}
 					}
+
 					if (useDecmatchResult) {
 						// if the redirected value was matched using a decmatch template,
 						// then the value redirect class should use the decoding result 
