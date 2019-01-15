@@ -11,13 +11,14 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -132,7 +133,10 @@ public final class Clear_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (portReference != null) {
-			source.append(MessageFormat.format("{0}.get().clear();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
+			ExpressionStruct expression = new ExpressionStruct();
+			portReference.generateConstRef(aData, expression);
+			expression.expression.append(".clear()");
+			expression.mergeExpression(source);
 		} else {
 			aData.addBuiltinTypeImport("TitanPort");
 
