@@ -362,10 +362,10 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						useDecmatchResult = false;
 					} else if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 						//FIXME implement
-						setParametersString.append("//FIXME usedecmatch1 not yet supported\n");
+						setParametersString.append("//FIXME parameter usedecmatch1 not yet supported\n");
 					}
 				} else {
-					setParametersString.append("//FIXME usedecmatch2 not yet supported\n");
+					setParametersString.append("//FIXME parameter usedecmatch2 not yet supported\n");
 				}
 				if (useDecmatchResult) {
 					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, variableEntry.getDeclarationType().getGenNameValue(aData, setParametersString, scope), parameterName));

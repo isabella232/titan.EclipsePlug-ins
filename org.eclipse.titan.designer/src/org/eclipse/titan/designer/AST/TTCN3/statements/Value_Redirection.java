@@ -529,10 +529,10 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							useDecmatchResult = false;
 						} else if (redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 							//FIXME implement
-							setValuesString.append("//FIXME usedecmatch1 not yet supported\n");
+							setValuesString.append("//FIXME value usedecmatch1 not yet supported\n");
 						}
 					} else {
-						setValuesString.append("//FIXME usedecmatch2 not yet supported\n");
+						setValuesString.append("//FIXME value usedecmatch2 not yet supported\n");
 					}
 					if (useDecmatchResult) {
 						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1})ptr_matched_temp{2}.get_decmatch_dec_res());\n", i, typeName, subrefsString));
