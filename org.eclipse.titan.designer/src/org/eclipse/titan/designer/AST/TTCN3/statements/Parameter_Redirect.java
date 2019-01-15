@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
@@ -305,9 +306,10 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				baseConstructorParameters.append("null");
 				setParametersString.append(MessageFormat.format("if (ptr_{0}_dec != null) '{'\n", parameterName));
 
+				TTCN3Template lastMatchedTemplate = matched_ti.getTemplateBody().getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 				NamedTemplate matchedNamedTemplate = null;
-				if (matched_ti.getTemplateBody().getTemplatetype() == Template_type.NAMED_TEMPLATE_LIST) {
-					matchedNamedTemplate = ((Named_Template_List)matched_ti.getTemplateBody()).getNamedTemplate(parameter.getIdentifier());
+				if (lastMatchedTemplate.getTemplatetype() == Template_type.NAMED_TEMPLATE_LIST) {
+					matchedNamedTemplate = ((Named_Template_List)lastMatchedTemplate).getNamedTemplate(parameter.getIdentifier());
 				}
 
 				ITTCN3Template matchedTemplate = null;
