@@ -265,6 +265,8 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		StringBuilder constructorParameters = new StringBuilder();
 		StringBuilder baseConstructorParameters = new StringBuilder();
 		StringBuilder constructorInitList = new StringBuilder();
+		StringBuilder setParametersString = new StringBuilder();
+
 		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		Type returnType = ((Signature_Type)sigType).getSignatureReturnType();
 		if (returnType != null && is_out) {
@@ -314,8 +316,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		source.append(constructorInitList);
 		source.append("};\n");
 		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
-		//FIXME implement
-
+		source.append(setParametersString);
 		source.append("super.set_parameters(par);\n");
 		source.append("};\n");
 		source.append("};\n");
