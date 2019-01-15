@@ -11,19 +11,26 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.templates.DecodeMatch_template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
+import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
@@ -296,6 +303,48 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append("null");
+
+				NamedTemplate matchedNamedTemplate = null;
+				if (matched_ti.getTemplateBody().getTemplatetype() == Template_type.NAMED_TEMPLATE_LIST) {
+					matchedNamedTemplate = ((Named_Template_List)matched_ti.getTemplateBody()).getNamedTemplate(parameter.getIdentifier());
+				}
+
+				ITTCN3Template matchedTemplate = null;
+				if (matchedNamedTemplate != null) {
+					matchedTemplate = matchedNamedTemplate.getTemplate().getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+				}
+
+				boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
+				boolean needsDecode = true;
+				if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+					//FIXME implement
+					setParametersString.append("//FIXME decoded parameter redirection for universal charstrings are not yet supported\n");
+				}
+				if (useDecmatchResult) {
+					// if the redirected parameter was matched using a decmatch template,
+					// then the parameter redirect class should use the decoding result 
+					// from the template instead of decoding the parameter again
+					needsDecode = false;
+					IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (variableEntry.getDeclarationType() != decmatchType) {
+						// the decmatch template and this value redirect decode two
+						// different types, so just decode the value
+						needsDecode = true;
+						useDecmatchResult = false;
+					} else if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+						//FIXME implement
+						setParametersString.append("//FIXME usedecmatch1 not yet supported\n");
+					}
+				} else {
+					setParametersString.append("//FIXME usedecmatch2 not yet supported\n");
+				}
+				if (useDecmatchResult) {
+					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, variableEntry.getDeclarationType().getGenNameValue(aData, setParametersString, scope), parameterName));
+				}
+				if (needsDecode) {
+					setParametersString.append("//FIXME needs decode part of decoded parameter redirection are not yet supported\n");
+					//FIXME implement
+				}
 				//FIXME implement
 				setParametersString.append("//FIXME decoded parameter redirection not yet supported.\n");
 			} else {
