@@ -302,7 +302,6 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 			}
 
 			if (variableEntry.isDecoded()) {
-				// TODO extract common parts, in the compiler too.
 				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
 				baseConstructorParameters.append("null");
