@@ -345,7 +345,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						}
 						redirCodingExpression.expression.append(MessageFormat.format("CharCoding.{0}", redirCodingString));
 					} else {
-						redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}.get_value().toString(), \"decoded parameter redirect\");\n", i));
+						redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}.get_value().toString(), \"decoded parameter redirect\");\n", parameterName));
 						redirCodingExpression.expression.append("coding");
 					}
 				}
@@ -408,6 +408,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						}
 					}
 				} else {
+					//FIXME implement
 					setParametersString.append("//FIXME parameter usedecmatch2 not yet supported\n");
 				}
 				if (useDecmatchResult) {
@@ -418,8 +419,55 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						setParametersString.append("} else {\n");
 					}
 
-					setParametersString.append("//FIXME needs decode part of decoded parameter redirection are not yet supported\n");
-					//FIXME implement
+					Type_type tt = parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
+					//legacy encoding does not need to be supported
+					aData.addBuiltinTypeImport("TitanOctetString");
+					aData.addBuiltinTypeImport("AdditionalFunctions");
+
+					setParametersString.append("TitanOctetString buff = new TitanOctetString(");
+					switch(tt) {
+					case TYPE_BITSTRING:
+						setParametersString.append(MessageFormat.format("AdditionalFunctions.bit2oct(par.constGet_field_{0}())", parameterName));
+						break;
+					case TYPE_HEXSTRING:
+						setParametersString.append(MessageFormat.format("AdditionalFunctions.hex2oct(par.constGet_field_{0}())", parameterName));
+						break;
+					case TYPE_OCTETSTRING:
+						setParametersString.append(MessageFormat.format("par.{0}()", parameterName));
+						break;
+					case TYPE_CHARSTRING:
+						setParametersString.append(MessageFormat.format("AdditionalFunctions.char2oct(par.constGet_field_{0}())", parameterName));
+						break;
+					case TYPE_UCHARSTRING:
+						setParametersString.append(MessageFormat.format("AdditionalFunctions.unichar2oct(par.constGet_field_{0}(), ", parameterName));
+						if (variableEntry.getStringEncoding() == null) {
+							setParametersString.append("\"UTF-8\"");
+						} else if (!variableEntry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+							IValue temp = variableEntry.getStringEncoding();
+							temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							setParametersString.append(MessageFormat.format("\"{0}\"", ((Charstring_Value)temp).getValue()));
+						} else {
+							// the encoding format is not known at compile-time, so an extra
+							// member and constructor parameter is needed to store it
+							membersString.append(MessageFormat.format("TitanCharString enc_fmt_{0};\n", parameterName));
+							constructorParameters.append(MessageFormat.format(", TitanCharString par_fmt_{0}", parameterName));
+							constructorInitList.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", parameterName));
+							setParametersString.append(MessageFormat.format("enc_fmt_{0}", parameterName));
+						}
+						setParametersString.append(")");
+						break;
+					default:
+						//FATAL ERROR
+						break;
+					}
+
+					setParametersString.append(");\n");
+					setParametersString.append(MessageFormat.format("if ({0}_decoder(buff, ptr_{1}_dec, {2}_default_coding).operator_not_equals(0)) '{'\n", variableEntry.getDeclarationType().getGenNameCoder(aData, setParametersString, scope), parameterName, variableEntry.getDeclarationType().getGenNameDefaultCoding(aData, setParametersString, scope)));
+					setParametersString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in parameter (for parameter `{0}'').\");\n", parameterName));
+					setParametersString.append("}\n");
+					setParametersString.append("if (buff.lengthof().operator_not_equals(0)) {\n");
+					setParametersString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Parameter redirect (for parameter `{0}'' failed, because the buffer was not empty after decoding. Remaining octets: '{'0'}'\", buff.lengthof().get_int()));\n", parameterName));
+					setParametersString.append("}\n");
 
 					if (useDecmatchResult) {
 						setParametersString.append("}\n");
