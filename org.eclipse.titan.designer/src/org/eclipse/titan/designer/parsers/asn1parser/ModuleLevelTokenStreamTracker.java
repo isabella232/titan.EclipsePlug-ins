@@ -114,6 +114,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 		result = new TokenWithIndexAndSubTokens(new Pair<TokenSource, CharStream>(getTokenSource(), getTokenSource().getInputStream()), Asn1Lexer.BLOCK, 0, ((TokenWithIndexAndSubTokens) first).getStopIndex(), t == null ? 0 : ((TokenWithIndexAndSubTokens) t).getStopIndex(), tokenList, sourceFile);
 		result.setCharPositionInLine(first.getCharPositionInLine());
 		result.setLine(first.getLine());
+		result.setType(Token.EOF);
 		tokens.add(result);
 		return true;
 	}

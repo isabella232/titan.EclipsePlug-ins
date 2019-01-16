@@ -117,7 +117,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 		Token t = oldList.get(index++);
 		final List<Token> tokenList = new ArrayList<Token>();
 		int nofUnclosedParanthesis = 1;
-		while(t != null && t.getType() != Token.EOF && index < oldList.size()) {
+		while(t != null && t.getType() != Token.EOF) {
 			if(t.getType() == Asn1Lexer.BEGINCHAR) {
 				nofUnclosedParanthesis++;
 			} else if(t.getType() == Asn1Lexer.ENDCHAR) {
@@ -134,12 +134,16 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 			if(!discardMask.contains(Integer.valueOf(t.getType()))) {
 				tokenList.add(t);
 			}
+			if (index == oldList.size()) {
+				break;
+			}
 			t = oldList.get(index++);
 		}
 
 		result = new TokenWithIndexAndSubTokens(new Pair<TokenSource, CharStream>(getTokenSource(), getTokenSource().getInputStream()), Asn1Lexer.BLOCK, 0, ((TokenWithIndexAndSubTokens) first).getStopIndex(), t == null ? 0 : ((TokenWithIndexAndSubTokens) t).getStopIndex(), tokenList, sourceFile);
 		result.setCharPositionInLine(first.getCharPositionInLine());
 		result.setLine(first.getLine());
+		result.setType(Token.EOF);
 		tokens.add(result);
 		return true;
 
