@@ -361,8 +361,51 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						needsDecode = true;
 						useDecmatchResult = false;
 					} else if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
-						//FIXME implement
-						setParametersString.append("//FIXME parameter usedecmatch1 not yet supported\n");
+						// for universal charstrings the situation could be trickier
+						// compare the string encodings
+						boolean differentUstrEncoding = false;
+						boolean unkonwnUstrEncodings = false;
+						if (variableEntry.getStringEncoding() == null) {
+							if (((DecodeMatch_template)matchedTemplate).getStringEncoding() != null) {
+								Value temp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+								if (temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+									unkonwnUstrEncodings = true;
+								} else {
+									Charstring_Value stringEncoding = (Charstring_Value)temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+									if (!"UTF-8".equals(stringEncoding.getValue())) {
+										differentUstrEncoding = true;
+									}
+								}
+							}
+						} else if (variableEntry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+							unkonwnUstrEncodings = true;
+						} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding() == null) {
+							IValue temp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							if ("UTF-8".equals(((Charstring_Value)temp).getValue())) {
+								differentUstrEncoding = true;
+							}
+						} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+							unkonwnUstrEncodings = true;
+						} else {
+							IValue redirectionTemp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							Value templateTemp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+							Charstring_Value tempStringEncoding = (Charstring_Value)templateTemp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							if (!((Charstring_Value)redirectionTemp).getValue().equals(tempStringEncoding.getValue())) {
+								differentUstrEncoding = true;
+							}
+						}
+
+						if (unkonwnUstrEncodings) {
+							// the decision of whether to use the decmatch result or to decode
+							// the value is made at runtime
+							needsDecode = true;
+							setParametersString.append(MessageFormat.format("{0}if ( {1} == ptr_matched_temp.constGet_field_{2}().get_decmatch_str_enc()) '{'\n", redirCodingExpression.preamble, redirCodingExpression.expression, parameterName));
+						} else if (differentUstrEncoding) {
+							// if the encodings are different, then ignore the decmatch result
+							// and just generate the decoding code as usual
+							needsDecode = true;
+							useDecmatchResult = false;
+						}
 					}
 				} else {
 					setParametersString.append("//FIXME parameter usedecmatch2 not yet supported\n");
@@ -371,8 +414,16 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, variableEntry.getDeclarationType().getGenNameValue(aData, setParametersString, scope), parameterName));
 				}
 				if (needsDecode) {
+					if (useDecmatchResult) {
+						setParametersString.append("} else {\n");
+					}
+
 					setParametersString.append("//FIXME needs decode part of decoded parameter redirection are not yet supported\n");
 					//FIXME implement
+
+					if (useDecmatchResult) {
+						setParametersString.append("}\n");
+					}
 				}
 				//FIXME implement
 				setParametersString.append("//FIXME decoded parameter redirection not yet supported.\n");
