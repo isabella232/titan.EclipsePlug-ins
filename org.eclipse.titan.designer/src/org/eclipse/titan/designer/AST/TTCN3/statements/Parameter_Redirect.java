@@ -408,8 +408,42 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						}
 					}
 				} else {
-					//FIXME implement
-					setParametersString.append("//FIXME parameter usedecmatch2 not yet supported\n");
+					// it might still be a decmatch template if it's not known at compile-time
+					boolean unfoldable = matchedTemplate == null;
+					if (!unfoldable) {
+						switch (matchedTemplate.getTemplatetype()) {
+						case ANY_VALUE:
+						case ANY_OR_OMIT:
+						case BSTR_PATTERN:
+						case CSTR_PATTERN:
+						case HSTR_PATTERN:
+						case OSTR_PATTERN:
+						case USTR_PATTERN:
+						case COMPLEMENTED_LIST:
+						case VALUE_LIST:
+						case VALUE_RANGE:
+							// it's known at compile-time, and not a decmatch template
+							break;
+						default:
+							// needs runtime check
+							unfoldable = true;
+							break;
+						}
+					}
+
+					if (unfoldable) {
+						// the decmatch-check must be done at runtime
+						useDecmatchResult = true;
+						if (redirCodingExpression.preamble.length() > 0) {
+							setParametersString.append(redirCodingExpression.preamble);
+						}
+
+						setParametersString.append(MessageFormat.format("if (ptr_matched_temp.constGet_field_{0}().get_selection() == template_sel.DECODE_MATCH && {1}_descr_ == ptr_matched_temp.constGet_field_{0}().get_decmatch_type_descr()", parameterName, variableEntry.getDeclarationType().getGenNameTypeDescriptor(aData, setParametersString, scope)));
+						if (redirCodingExpression.expression.length() > 0) {
+							setParametersString.append(MessageFormat.format("&& {0} == ptr_matched_temp.constGet_field_{1}().get_decmatch_str_enc()", redirCodingExpression.expression, parameterName));
+						}
+						setParametersString.append(") {\n");
+					}
 				}
 				if (useDecmatchResult) {
 					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, variableEntry.getDeclarationType().getGenNameValue(aData, setParametersString, scope), parameterName));
