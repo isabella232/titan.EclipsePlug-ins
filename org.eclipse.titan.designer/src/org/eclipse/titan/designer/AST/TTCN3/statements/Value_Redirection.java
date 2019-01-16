@@ -346,7 +346,13 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		//FIXME implement
+		if (valueRedirections == null) {
+			return;
+		}
+
+		for (final Single_ValueRedirection redirect : valueRedirections) {
+			redirect.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
