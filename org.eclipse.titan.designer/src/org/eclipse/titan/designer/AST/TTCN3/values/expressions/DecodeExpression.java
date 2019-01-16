@@ -47,8 +47,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class DecodeExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The first operand of the `decvalue' operation should be a bitstring value";
 	private static final String OPERANDERROR2 = "The second operand of the `decvalue' operation is unable to hold a decoded value";
-	private static final String OPERANDERROR3 = "The third operand of the `decvalue' operation should be a universal charstring value";
-	private static final String OPERANDERROR4 = "The fourth operand of the `decvalue' operation should be a universal charstring value";
+	private static final String OPERANDERROR3 = "The third operand of the `decvalue' operation should be a (universal) charstring value";
+	private static final String OPERANDERROR4 = "The fourth operand of the `decvalue' operation should be a (universal) charstring value";
 
 	private final Reference reference1;
 	private final Reference reference2;
@@ -299,6 +299,7 @@ public final class DecodeExpression extends Expression_Value {
 			final Type_type tempType = encodingInfo.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
 				encodingInfo.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
@@ -317,6 +318,7 @@ public final class DecodeExpression extends Expression_Value {
 			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING: {
 				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!dynamicEncoding.isUnfoldable(timestamp)) {

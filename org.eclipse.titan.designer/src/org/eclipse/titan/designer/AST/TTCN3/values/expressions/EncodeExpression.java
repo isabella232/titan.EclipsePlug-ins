@@ -40,8 +40,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class EncodeExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "Cannot determine the argument type of `encvalue' operation";
 	private static final String OPERANDERROR2 = "The operand of the `encvalue' operation cannot be encoded";
-	private static final String SECONDOPERANDERROR = "The second operand of the `encvalue' operation should be a universal charstring value";
-	private static final String THIRDOPERANDERROR = "The third operand of the `encvalue' operation should be a universal charstring value";
+	private static final String SECONDOPERANDERROR = "The second operand of the `encvalue' operation should be a (universal) charstring value";
+	private static final String THIRDOPERANDERROR = "The third operand of the `encvalue' operation should be a (universal) charstring value";
 
 	private final TemplateInstance templateInstance;
 	private final Value encodingInfo;
@@ -231,6 +231,7 @@ public final class EncodeExpression extends Expression_Value {
 			final Type_type tempType = encodingInfo.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
 				encodingInfo.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
@@ -249,6 +250,7 @@ public final class EncodeExpression extends Expression_Value {
 			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING: {
 				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!dynamicEncoding.isUnfoldable(timestamp)) {

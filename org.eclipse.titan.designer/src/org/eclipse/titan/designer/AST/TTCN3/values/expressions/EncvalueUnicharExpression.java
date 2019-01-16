@@ -47,8 +47,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "Cannot determine the type of the 1st operand of the `encvalue_unichar' operation";
 	private static final String OPERAND1_ERROR2 = "The 1st operand of the `encvalue_unichar' operation cannot be encoded";
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `encvalue_unichar' operation should be a charstring value";
-	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a universal charstring value";
-	private static final String OPERAND4_ERROR1 = "The 4th operand of the `encvalue_unichar' operation should be a universal charstring value";
+	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a (universal) charstring value";
+	private static final String OPERAND4_ERROR1 = "The 4th operand of the `encvalue_unichar' operation should be a (universal) charstring value";
 
 	private final TemplateInstance templateInstance1;
 	private final Value serialization;
@@ -294,6 +294,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING: {
 				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!dynamicEncoding.isUnfoldable(timestamp)) {
