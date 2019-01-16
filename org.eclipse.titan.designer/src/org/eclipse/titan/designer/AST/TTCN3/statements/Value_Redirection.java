@@ -584,8 +584,40 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							setValuesString.append("} else {\n");
 						}
 
-						setValuesString.append("//FIXME needs decode part of decoded value redirection are not yet supported\n");
-						//FIXME implement
+						Type_type tt = redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
+						//legacy encoding does not need to be supported
+						aData.addBuiltinTypeImport("TitanOctetString");
+						aData.addBuiltinTypeImport("AdditionalFunctions");
+
+						setValuesString.append(MessageFormat.format("TitanOctetString buff_{0} = new TitanOctetString(", i));
+						switch(tt) {
+						case TYPE_BITSTRING:
+							setValuesString.append(MessageFormat.format("AdditionalFunctions.bit2oct(par{0}{1})", subrefsString, optionalSuffix));
+							break;
+						case TYPE_HEXSTRING:
+							setValuesString.append(MessageFormat.format("AdditionalFunctions.hex2oct(par{0}{1})", subrefsString, optionalSuffix));
+							break;
+						case TYPE_OCTETSTRING:
+							setValuesString.append(MessageFormat.format("par{0}{1}", subrefsString, optionalSuffix));
+							break;
+						case TYPE_CHARSTRING:
+							setValuesString.append(MessageFormat.format("AdditionalFunctions.char2oct(par{0}{1})", subrefsString, optionalSuffix));
+							break;
+						case TYPE_UCHARSTRING:
+							setValuesString.append(MessageFormat.format("AdditionalFunctions.unichar2oct(par{0}{1})", subrefsString, optionalSuffix));
+							//FIXME rest
+							break;
+						default:
+							//FATAL ERROR
+							break;
+						}
+						setValuesString.append(");\n");
+						setValuesString.append(MessageFormat.format("if ({0}_decoder(buff_{1}, ptr_{1}, {2}_default_coding).operator_not_equals(0)) '{'\n", memberType.getGenNameCoder(aData, setValuesString, scope), i, memberType.getGenNameDefaultCoding(aData, setValuesString, scope)));
+						setValuesString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in value redirect #{0}.\");\n", i+1));
+						setValuesString.append("}\n");
+						setValuesString.append(MessageFormat.format("if (buff_{0}.lengthof().operator_not_equals(0)) '{'\n", i));
+						setValuesString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Value redirect #{0} failed, because the buffer was not empty after decoding. Remaining octets: '{'0'}'\", buff_{1}.lengthof().get_int()));\n", i+1, i));
+						setValuesString.append("}\n");
 
 						if (useDecmatchResult) {
 							setValuesString.append("}\n");
