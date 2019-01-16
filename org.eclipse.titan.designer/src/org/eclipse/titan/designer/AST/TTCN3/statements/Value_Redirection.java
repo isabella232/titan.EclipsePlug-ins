@@ -410,7 +410,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				Single_ValueRedirection redirection = valueRedirections.get(i);
 				ExpressionStruct variableReferenceExpression = new ExpressionStruct();
 				Reference variableReference = redirection.getVariableReference();
-				redirection.getVariableReference().generateCode(aData, variableReferenceExpression);
+				variableReference.generateCode(aData, variableReferenceExpression);
 				instanceParameterList.append(variableReferenceExpression.expression);
 				if (variableReferenceExpression.preamble != null) {
 					expression.preamble.append(variableReferenceExpression.preamble);
@@ -529,13 +529,12 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							boolean differentUstrEncoding = false;
 							boolean unkonwnUstrEncodings = false;
 							if (redirection.getStringEncoding() == null) {
-								if (((DecodeMatch_template)matchedTemplate).getStringEncoding() != null) {
-									Value temp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
-									
-									if (temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+								Value tempStringEncoding = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+								if (tempStringEncoding != null) {
+									if (tempStringEncoding.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 										unkonwnUstrEncodings = true;
 									} else {
-										Charstring_Value stringEncoding = (Charstring_Value)temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+										Charstring_Value stringEncoding = (Charstring_Value)tempStringEncoding.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 										if (!"UTF-8".equals(stringEncoding.getValue())) {
 											differentUstrEncoding = true;
 										}
