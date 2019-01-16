@@ -47,8 +47,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
- * Represents the value redirection of several operations.
- * TODO list of operations.
+ * Represents the value redirection of several operations (done, port check,
+ * check-catch, check-getreply, check-receive).
  *
  * @author Kristof Szabados
  * */
