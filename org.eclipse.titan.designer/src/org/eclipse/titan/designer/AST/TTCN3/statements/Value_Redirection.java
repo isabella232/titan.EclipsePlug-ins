@@ -384,7 +384,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
 			final Scope scope = valueRedirections.get(0).getVariableReference().getMyScope();
-			//FIXME implement fully
 			StringBuilder membersString = new StringBuilder();
 			StringBuilder constructorParameters = new StringBuilder();
 			StringBuilder constructorInitializers = new StringBuilder();
