@@ -16,8 +16,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.UnbufferedCharStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.Interval;
@@ -96,7 +96,16 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 			return;
 		}
 
-		final CharStream charStream = new UnbufferedCharStream(reader);
+		CharStream charStream;
+		try {
+			charStream = new ANTLRInputStream(reader);
+		} catch (IOException e) {
+			try {
+				reader.close();
+			} catch (IOException e2) {
+			}
+			return;
+		}
 		final Asn1Lexer lexer = new Asn1Lexer(charStream);
 		lexer.setTokenFactory(new TokenWithIndexAndSubTokensFactory(true));
 		lexer.setActualFile(file);
