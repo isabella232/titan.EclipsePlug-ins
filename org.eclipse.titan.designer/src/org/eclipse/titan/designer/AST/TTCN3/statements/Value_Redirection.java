@@ -573,7 +573,58 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							}
 						}
 					} else {
-						setValuesString.append("//FIXME value usedecmatch2 not yet supported\n");
+						// it might still be a decmatch template if it's not known at compile-time
+						boolean unfoldable = matchedTemplate == null;
+						if (!unfoldable) {
+							switch (matchedTemplate.getTemplatetype()) {
+							case ANY_VALUE:
+							case ANY_OR_OMIT:
+							case BSTR_PATTERN:
+							case CSTR_PATTERN:
+							case HSTR_PATTERN:
+							case OSTR_PATTERN:
+							case USTR_PATTERN:
+							case COMPLEMENTED_LIST:
+							case VALUE_LIST:
+							case VALUE_RANGE:
+								// it's known at compile-time, and not a decmatch template
+								break;
+							default:
+								// needs runtime check
+								unfoldable = true;
+								break;
+							}
+						}
+
+						if (unfoldable && matchedTi != null) {
+							// the decmatch-check must be done at runtime
+							useDecmatchResult = true;
+							if (redirCodingExpression.preamble.length() > 0) {
+								setValuesString.append(redirCodingExpression.preamble);
+							}
+
+							setValuesString.append("if (ptr_matched_temp.get_selection() == template_sel.SPECIFIC_VALUE && ");
+							// go through the already generated subreference string, append
+							// one reference at a time, and check if the referenced template
+							// is a specific value
+							StringBuilder currentRef = new StringBuilder("ptr_matched_temp");
+							int length = subrefsString.length();
+							int start = 0;
+							for (int j = 0; j < length; j++) {
+								if (subrefsString.charAt(j) == '.' || subrefsString.charAt(j) == '[') {
+									currentRef.append(subrefsString.substring(start, j));
+									setValuesString.append(MessageFormat.format("{0}.get_selection() == template_sel.SPECIFIC_VALUE && ", currentRef));
+									start = j;
+								}
+							}
+
+							setValuesString.append(MessageFormat.format("ptr_matched_temp{0}.get_selection() == template_sel.DECODE_MATCH && ", subrefsString));
+							setValuesString.append(MessageFormat.format("{0}_descr_ == ptr_matched_temp{1}.get_decmatch_type_descr()", redirection.getDeclarationType().getGenNameTypeDescriptor(aData, setValuesString, scope), subrefsString));
+							if (redirCodingExpression.expression.length() > 0) {
+								setValuesString.append(MessageFormat.format(" && {0} == ptr_matched_temp{1}.get_decmatch_str_enc()", redirCodingExpression.expression, subrefsString));
+							}
+							setValuesString.append(") {\n");
+						}
 					}
 					if (useDecmatchResult) {
 						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(({1})ptr_matched_temp{2}.get_decmatch_dec_res());\n", i, typeName, subrefsString));
