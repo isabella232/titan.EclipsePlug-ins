@@ -517,8 +517,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 
 		//
 		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, scope);
-		//TODO sigType is already a refdlast type.
-		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getMyScope());
+		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getMyScope());
 		final String opName = is_out ? "reply" : "call";
 		source.append(MessageFormat.format("class {0}_{1}_redirect_{2} extends {3}_{1}_redirect '{'\n", unqualifiedSignatureName, opName, tempID, qualifiedSignatureName));
 		source.append(membersString);
