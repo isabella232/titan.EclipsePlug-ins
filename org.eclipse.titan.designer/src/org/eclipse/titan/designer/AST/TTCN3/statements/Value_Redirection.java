@@ -508,7 +508,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							}
 							redirCodingExpression.expression.append(MessageFormat.format("CharCoding.{0}", redirCodingString));
 						} else {
-							redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}, \"decoded parameter redirect\");\n", i));
+							redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}.get_value().toString(), \"decoded parameter redirect\");\n", i));
 							redirCodingExpression.expression.append("coding");
 						}
 					}
@@ -604,8 +604,33 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							setValuesString.append(MessageFormat.format("AdditionalFunctions.char2oct(par{0}{1})", subrefsString, optionalSuffix));
 							break;
 						case TYPE_UCHARSTRING:
-							setValuesString.append(MessageFormat.format("AdditionalFunctions.unichar2oct(par{0}{1})", subrefsString, optionalSuffix));
-							//FIXME rest
+							setValuesString.append(MessageFormat.format("AdditionalFunctions.unichar2oct(par{0}{1}, ", subrefsString, optionalSuffix));
+							if (redirection.getStringEncoding() == null) {
+								setValuesString.append("\"UTF-8\"");
+							} else if (!redirection.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+								IValue temp = redirection.getStringEncoding();
+								temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+								setValuesString.append(MessageFormat.format("\"{0}\"", ((Charstring_Value)temp).getValue()));
+							} else {
+								// the encoding format is not known at compile-time, so an extra
+								// member and constructor parameter is needed to store it
+								instanceParameterList.append(", ");
+								ExpressionStruct stringEncodingExpression = new ExpressionStruct();
+								redirection.getStringEncoding().generateCodeExpression(aData, stringEncodingExpression, false);
+								instanceParameterList.append(stringEncodingExpression.expression);
+								if (stringEncodingExpression.preamble.length() > 0) {
+									expression.preamble.append(stringEncodingExpression.preamble);
+								}
+								if (stringEncodingExpression.postamble.length() > 0) {
+									expression.postamble.append(stringEncodingExpression.postamble);
+								}
+
+								membersString.append(MessageFormat.format("TitanCharString enc_fmt_{0};\n", i));
+								constructorParameters.append(MessageFormat.format(", TitanCharString par_fmt_{0}", i));
+								constructorInitializers.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", i));
+								setValuesString.append(MessageFormat.format("enc_fmt_{0}", i));
+							}
+							setValuesString.append(")");
 							break;
 						default:
 							//FATAL ERROR
