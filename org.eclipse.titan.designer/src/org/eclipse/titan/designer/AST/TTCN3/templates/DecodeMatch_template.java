@@ -44,6 +44,10 @@ public class DecodeMatch_template extends TTCN3Template {
 		}
 	}
 
+	public Value getStringEncoding() {
+		return stringEncoding;
+	}
+
 	//FIXME comment
 	public TemplateInstance getDecodeTarget() {
 		return target;
