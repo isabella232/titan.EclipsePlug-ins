@@ -345,7 +345,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						}
 						redirCodingExpression.expression.append(MessageFormat.format("CharCoding.{0}", redirCodingString));
 					} else {
-						redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}, \"decoded parameter redirect\");\n", i));
+						redirCodingExpression.preamble.append(MessageFormat.format("CharCoding coding = TitanUniversalCharString.get_character_coding(enc_fmt_{0}.get_value().toString(), \"decoded parameter redirect\");\n", i));
 						redirCodingExpression.expression.append("coding");
 					}
 				}
