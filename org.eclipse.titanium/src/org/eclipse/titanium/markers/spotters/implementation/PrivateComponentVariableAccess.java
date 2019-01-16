@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
+import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
@@ -65,11 +66,11 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 		}
 
 		final Reference reference = (Reference) node;
-		if(reference.getIsErroneous((reference.getLastTimeChecked()))){
+		if(reference.getIsErroneous(CompilationTimeStamp.getBaseTimestamp())){
 			return;
 		}
 
-		final Assignment referedAssignment = reference.getRefdAssignment(reference.getLastTimeChecked(), false);
+		final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		if(referedAssignment == null) {
 			return;
 		}
