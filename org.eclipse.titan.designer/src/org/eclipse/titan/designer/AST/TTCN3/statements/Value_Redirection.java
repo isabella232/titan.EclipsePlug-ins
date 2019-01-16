@@ -467,8 +467,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				}
 				final String subrefsString = subrefExpression.expression.length() > 0 ? subrefExpression.expression.toString() : "";
 				if (redirection.isDecoded()) {
-					//FIXME implement
-					
 					ITTCN3Template matchedTemplate = null;
 					if (matchedTi != null) {
 						ArrayList<ISubReference> subreferences = redirection.getSubreferences();
@@ -483,7 +481,6 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					if (matchedTemplate != null) {
 						matchedTemplate = matchedTemplate.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 					}
-					
 	
 					boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 					boolean needsDecode = true;
