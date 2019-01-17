@@ -200,7 +200,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuards;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Alt_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Altstep_Applied_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Altstep_Instance_Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.AssignmentList_Parameter_Redirect;
+import org.eclipse.titan.designer.AST.TTCN3.statements.AssignmentList_Parameter_Redirection;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Assignment_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Break_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Call_Statement;
@@ -241,7 +241,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Map_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Operation_Altguard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Parameter_Assignment;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Parameter_Assignments;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Parameter_Redirect;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Parameter_Redirection;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Raise_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Receive_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Referenced_Altguard;
@@ -274,7 +274,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Instance_Statemen
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Start_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Stop_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unmap_Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.VariableList_Parameter_Redirect;
+import org.eclipse.titan.designer.AST.TTCN3.statements.VariableList_Parameter_Redirection;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Variable_Entries;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Variable_Entry;
 import org.eclipse.titan.designer.AST.TTCN3.statements.While_Statement;
@@ -482,7 +482,7 @@ public final class TypeHierarchy {
 				NamedParameters.class, IndexedTemplates.class, TemplateInstance.class, Templates.class, ValueRange.class,
 				NamedParameter.class, NamedTemplate.class, NamedTemplates.class, ParsedActualParameters.class,
 				TemplateInstances.class, IndexedTemplate.class, LogArgument.class, If_Clause.class, AltGuard.class,
-				SelectCases.class, Parameter_Redirect.class, If_Clauses.class, Variable_Entries.class, Parameter_Assignment.class,
+				SelectCases.class, Parameter_Redirection.class, If_Clauses.class, Variable_Entries.class, Parameter_Assignment.class,
 				Parameter_Assignments.class, Statement.class, AltGuards.class, LogArguments.class, Variable_Entry.class,
 				SelectCase.class });
 		typeMap.put(ObjectSetElement_Visitor.class, new Class[] { ObjectSetElementVisitor_checker.class,
@@ -566,7 +566,7 @@ public final class TypeHierarchy {
 				Bit2OctExpression.class, RNDWithValueExpression.class, RefersExpression.class, Unichar2IntExpression.class });
 		typeMap.put(Assignment.class, new Class[] { ASN1Assignment.class, Definition.class });
 		typeMap.put(ISubReference.class, new Class[] { ParameterisedSubReference.class, ArraySubReference.class, FieldSubReference.class });
-		typeMap.put(Parameter_Redirect.class, new Class[] { VariableList_Parameter_Redirect.class, AssignmentList_Parameter_Redirect.class });
+		typeMap.put(Parameter_Redirection.class, new Class[] { VariableList_Parameter_Redirection.class, AssignmentList_Parameter_Redirection.class });
 		typeMap.put(ASN1_Set_Seq_Choice_BaseType.class, new Class[] { ASN1_Sequence_Type.class, ASN1_Choice_Type.class, ASN1_Set_Type.class });
 
 		return Collections.unmodifiableMap(typeMap);
