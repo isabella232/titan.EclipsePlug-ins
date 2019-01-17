@@ -397,13 +397,11 @@ public final class Getreply_Statement extends Statement {
 					break;
 				}
 
-				if (valueMatch != null) {
-					if (returnType != null) {
-						valueMatch.check(timestamp, returnType);
-					}
+				if (valueMatch != null && returnType != null) {
+					valueMatch.check(timestamp, returnType);
 				}
 
-				if (redirectValue != null) {
+				if (redirectValue != null && returnType != null) {
 					redirectValue.check(timestamp, returnType);
 				}
 			}
