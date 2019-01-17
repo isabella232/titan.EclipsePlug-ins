@@ -186,6 +186,6 @@ public class PortReference extends Reference {
 			}
 		}
 
-		generateCode(aData, expression, subReferences, isTemplate, false, referedGovernor);
+		generateCode(aData, expression, subReferences, 1, isTemplate, false, referedGovernor);
 	}
 }

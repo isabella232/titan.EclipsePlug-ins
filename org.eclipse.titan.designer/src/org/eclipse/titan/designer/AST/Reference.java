@@ -1017,7 +1017,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			}
 		}
 
-		generateCode(aData, expression, subReferences, isTemplate, false, referedGovernor);
+		generateCode(aData, expression, subReferences, 1, isTemplate, false, referedGovernor);
 	}
 
 	/**
@@ -1166,12 +1166,12 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(".get()");
 		}
 
-		generateCode(aData, expression, subReferences, isTemplate, true, referedGovernor);
+		generateCode(aData, expression, subReferences, 1, isTemplate, true, referedGovernor);
 	}
 
 	// originally fieldOrArrayRefs
-	public static void generateCode(final JavaGenData aData, final ExpressionStruct expression, final ArrayList<ISubReference> subReferences, final boolean isTemplate, final boolean isConst, IType type) {
-		for ( int i = 1; i < subReferences.size(); i++) {
+	public static void generateCode(final JavaGenData aData, final ExpressionStruct expression, final ArrayList<ISubReference> subReferences, final int startIndex, final boolean isTemplate, final boolean isConst, IType type) {
+		for ( int i = startIndex; i < subReferences.size(); i++) {
 			if (type != null) {
 				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			}

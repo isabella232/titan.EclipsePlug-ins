@@ -22,8 +22,6 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Identifier;
-import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
@@ -479,12 +477,8 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				final ExpressionStruct subrefExpression = new ExpressionStruct();
 				String optionalSuffix = "";
 				if (redirection.getSubreferences() != null) {
-					//TODO find a better looking way.
 					final ArrayList<ISubReference> subreferences = redirection.getSubreferences();
-					final ArrayList<ISubReference> tempSubrefs = new ArrayList<ISubReference>();
-					tempSubrefs.add(new FieldSubReference(new Identifier(Identifier_type.ID_NAME, "par")));
-					tempSubrefs.addAll(subreferences);
-					Reference.generateCode(aData, subrefExpression, tempSubrefs, false, true, valueType);
+					Reference.generateCode(aData, subrefExpression, subreferences, 0, false, true, valueType);
 
 					if (redirectionType.getOwnertype() == TypeOwner_type.OT_COMP_FIELD) {
 						final CompField cf = (CompField)redirectionType.getOwner();
