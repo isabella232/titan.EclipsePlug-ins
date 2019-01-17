@@ -33,12 +33,12 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *
  * @author Kristof Szabados
  * */
-public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
+public final class VariableList_Parameter_Redirection extends Parameter_Redirection {
 	private static final String FULLNAMEPART = ".parametervariables";
 
 	private final Variable_Entries entries;
 
-	public VariableList_Parameter_Redirect(final Variable_Entries entries) {
+	public VariableList_Parameter_Redirection(final Variable_Entries entries) {
 		this.entries = entries;
 
 		if (entries != null) {

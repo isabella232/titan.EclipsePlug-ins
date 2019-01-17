@@ -75,13 +75,13 @@ public final class Getreply_Statement extends Statement {
 	private final TemplateInstance valueMatch;
 	private final TemplateInstance fromClause;
 	private final Value_Redirection redirectValue;
-	private final Parameter_Redirect redirectParameter;
+	private final Parameter_Redirection redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirection redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -276,7 +276,7 @@ public final class Getreply_Statement extends Statement {
 
 	public static void checkGetreply(final CompilationTimeStamp timestamp, final Statement source, final String statementName,
 			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirection redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, source, portReference, anyFrom);
 		if (parameter == null) {

@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *
  * @author Kristof Szabados
  * */
-public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect {
+public final class AssignmentList_Parameter_Redirection extends Parameter_Redirection {
 	private static final String FULLNAMEPART = ".parameterassignments";
 
 	private final Parameter_Assignments assignments;
@@ -47,7 +47,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	// calculated field
 	private Variable_Entries entries;
 
-	public AssignmentList_Parameter_Redirect(final Parameter_Assignments assignments) {
+	public AssignmentList_Parameter_Redirection(final Parameter_Assignments assignments) {
 		this.assignments = assignments;
 
 		if (assignments != null) {

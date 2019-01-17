@@ -48,13 +48,13 @@ public final class Check_Getcall_Statement extends Statement {
 	private final boolean anyFrom;
 	private final TemplateInstance parameter;
 	private final TemplateInstance fromClause;
-	private final Parameter_Redirect redirectParameter;
+	private final Parameter_Redirection redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Check_Getcall_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance fromClause,
-			final Parameter_Redirect redirect, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+			final Parameter_Redirection redirect, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.parameter = parameter;

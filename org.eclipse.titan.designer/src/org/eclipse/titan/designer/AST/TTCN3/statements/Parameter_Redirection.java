@@ -47,7 +47,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-public abstract class Parameter_Redirect extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
+public abstract class Parameter_Redirection extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	protected static final String SIGNATUREWITHOUTPARAMETERS = "Parameter redirect cannot be used because signature `{0}'' does not have parameters";
 
 	private Location location = NULL_Location.INSTANCE;
