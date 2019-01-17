@@ -69,10 +69,21 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	/** the time when this was checked the last time. */
 	protected CompilationTimeStamp lastTimeChecked;
 
+	/**
+	 * Constructs the value style redirection with noe redirections by
+	 * default.
+	 * */
 	public Value_Redirection() {
 		valueRedirections = new ArrayList<Single_ValueRedirection>();
 	}
 
+	/**
+	 * Adds a single value redirection to the list of redirections managed
+	 * here.
+	 *
+	 * @param single_ValueRedirect
+	 *                the redirection to add.
+	 * */
 	public void add(final Single_ValueRedirection single_ValueRedirect){
 		if (single_ValueRedirect != null) {
 			single_ValueRedirect.setFullNameParent(this);
@@ -380,6 +391,22 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		return true;
 	}
 
+	/**
+	 * Generate the code for the value redirection handling.
+	 * In case of a done statement this is only a verdict reference.
+	 * In other cases a temporary class to handle the complications.
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression to append.
+	 * @param matchedTi
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param lastGenTIExpression
+	 *                the string last generated for the provided matchedTi,
+	 *                so that it does not need to be generated again.
+	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matchedTi, final String lastGenTIExpression ) {
 		if (verdictOnly) {
 			//verdict only case
