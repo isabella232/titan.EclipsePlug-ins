@@ -487,7 +487,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 							constructorInitList.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", parameterName));
 							setParametersString.append(MessageFormat.format("enc_fmt_{0}", parameterName));
 						}
-						setParametersString.append(")");
+						setParametersString.append(')');
 						break;
 					default:
 						//FATAL ERROR

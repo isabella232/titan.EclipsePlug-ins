@@ -685,7 +685,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 								constructorInitializers.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", i));
 								setValuesString.append(MessageFormat.format("enc_fmt_{0}", i));
 							}
-							setValuesString.append(")");
+							setValuesString.append(')');
 							break;
 						default:
 							//FATAL ERROR
