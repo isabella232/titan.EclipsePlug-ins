@@ -47,6 +47,13 @@ public final class AssignmentList_Parameter_Redirection extends Parameter_Redire
 	// calculated field
 	private Variable_Entries entries;
 
+	/**
+	 * Constructs the assignment list style parameter redirection with the
+	 * parameter assignments.
+	 *
+	 * @param assignments
+	 *                the assignments to manage.
+	 * */
 	public AssignmentList_Parameter_Redirection(final Parameter_Assignments assignments) {
 		this.assignments = assignments;
 

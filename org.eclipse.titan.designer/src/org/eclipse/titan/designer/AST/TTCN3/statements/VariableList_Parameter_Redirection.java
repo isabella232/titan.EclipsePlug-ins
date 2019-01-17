@@ -38,6 +38,13 @@ public final class VariableList_Parameter_Redirection extends Parameter_Redirect
 
 	private final Variable_Entries entries;
 
+	/**
+	 * Constructs the variable list style parameter redirection with the
+	 * variable entries provided.
+	 *
+	 * @param entries
+	 *                the entries to manage.
+	 * */
 	public VariableList_Parameter_Redirection(final Variable_Entries entries) {
 		this.entries = entries;
 
