@@ -514,7 +514,6 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 			}
 		}
 
-		//
 		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, scope);
 		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getMyScope());
 		final String opName = is_out ? "reply" : "call";
