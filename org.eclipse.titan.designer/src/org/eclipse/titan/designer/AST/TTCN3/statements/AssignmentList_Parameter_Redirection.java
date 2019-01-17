@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *
  * @author Kristof Szabados
  * */
-public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect {
+public final class AssignmentList_Parameter_Redirection extends Parameter_Redirection {
 	private static final String FULLNAMEPART = ".parameterassignments";
 
 	private final Parameter_Assignments assignments;
@@ -47,7 +47,14 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	// calculated field
 	private Variable_Entries entries;
 
-	public AssignmentList_Parameter_Redirect(final Parameter_Assignments assignments) {
+	/**
+	 * Constructs the assignment list style parameter redirection with the
+	 * parameter assignments.
+	 *
+	 * @param assignments
+	 *                the assignments to manage.
+	 * */
+	public AssignmentList_Parameter_Redirection(final Parameter_Assignments assignments) {
 		this.assignments = assignments;
 
 		if (assignments != null) {
@@ -89,7 +96,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean has_decoded_modifier() {
+	public boolean hasDecodedModifier() {
 		for (int i = 0, size = entries.getNofEntries(); i < size; i++) {
 			final Variable_Entry entry = entries.getEntryByIndex(i);
 			if (entry.isDecoded()) {
@@ -205,8 +212,8 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 						break;
 					}
 
-					Reference variableReference = assignment.getReference();
-					IType varType = variableReference.checkVariableReference(timestamp);
+					final Reference variableReference = assignment.getReference();
+					final IType varType = variableReference.checkVariableReference(timestamp);
 					if (!errorFlag && varType != null) {
 						// store the variable type in case it's decoded (since this cannot
 						// be extracted from the value type with the sub-references)
@@ -287,7 +294,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeDecoded(JavaGenData aData, StringBuilder source, TemplateInstance matched_ti, String tempID, boolean is_out) {
+	public void generateCodeDecoded(final JavaGenData aData, final StringBuilder source, final TemplateInstance matched_ti, final String tempID, final boolean is_out) {
 		internalGenerateCodeDecoded(aData, source, entries, matched_ti, tempID, is_out);
 	}
 }

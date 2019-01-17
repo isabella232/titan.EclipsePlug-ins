@@ -64,13 +64,13 @@ public final class Getcall_Statement extends Statement {
 	private final boolean anyFrom;
 	private final TemplateInstance parameter;
 	private final TemplateInstance fromClause;
-	private final Parameter_Redirect redirectParameter;
+	private final Parameter_Redirection redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Getcall_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance fromClause,
-			final Parameter_Redirect redirectParameter, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+			final Parameter_Redirection redirectParameter, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.parameter = parameter;
@@ -229,7 +229,7 @@ public final class Getcall_Statement extends Statement {
 
 	public static void checkGetcallStatement(final CompilationTimeStamp timestamp, final Statement statement, final String statementName,
 			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance fromClause,
-			final Parameter_Redirect redirectParameter, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
+			final Parameter_Redirection redirectParameter, final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, statement, portReference, anyFrom);
 
 		if (parameter == null) {
@@ -472,7 +472,7 @@ public final class Getcall_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".getcall(");
 			if (parameter != null) {
-				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.hasDecodedModifier();
 				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				final String lastGenExpression = expression.expression.substring(expressionStart);

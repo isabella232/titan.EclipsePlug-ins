@@ -33,12 +33,19 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *
  * @author Kristof Szabados
  * */
-public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
+public final class VariableList_Parameter_Redirection extends Parameter_Redirection {
 	private static final String FULLNAMEPART = ".parametervariables";
 
 	private final Variable_Entries entries;
 
-	public VariableList_Parameter_Redirect(final Variable_Entries entries) {
+	/**
+	 * Constructs the variable list style parameter redirection with the
+	 * variable entries provided.
+	 *
+	 * @param entries
+	 *                the entries to manage.
+	 * */
+	public VariableList_Parameter_Redirection(final Variable_Entries entries) {
 		this.entries = entries;
 
 		if (entries != null) {
@@ -77,7 +84,7 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean has_decoded_modifier() {
+	public boolean hasDecodedModifier() {
 		for (int i = 0, size = entries.getNofEntries(); i < size; i++) {
 			final Variable_Entry entry = entries.getEntryByIndex(i);
 			if (entry.isDecoded()) {
@@ -175,7 +182,7 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeDecoded(JavaGenData aData, StringBuilder source, TemplateInstance matched_ti, String tempID, boolean is_out) {
+	public void generateCodeDecoded(final JavaGenData aData, final StringBuilder source, final TemplateInstance matched_ti, final String tempID, final boolean is_out) {
 		internalGenerateCodeDecoded(aData, source, entries, matched_ti, tempID, is_out);
 	}
 }

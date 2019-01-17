@@ -69,10 +69,21 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	/** the time when this was checked the last time. */
 	protected CompilationTimeStamp lastTimeChecked;
 
+	/**
+	 * Constructs the value style redirection with noe redirections by
+	 * default.
+	 * */
 	public Value_Redirection() {
 		valueRedirections = new ArrayList<Single_ValueRedirection>();
 	}
 
+	/**
+	 * Adds a single value redirection to the list of redirections managed
+	 * here.
+	 *
+	 * @param single_ValueRedirect
+	 *                the redirection to add.
+	 * */
 	public void add(final Single_ValueRedirection single_ValueRedirect){
 		if (single_ValueRedirect != null) {
 			single_ValueRedirect.setFullNameParent(this);
@@ -85,7 +96,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * @return {@code true} if at least one of the value redirects has the
 	 * '@decoded' modifier
 	 */
-	public boolean has_decoded_modifier() {
+	public boolean hasDecodedModifier() {
 		for (final Single_ValueRedirection redirect : valueRedirections) {
 			if (redirect.isDecoded()) {
 				return true;
@@ -380,6 +391,22 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 		return true;
 	}
 
+	/**
+	 * Generate the code for the value redirection handling.
+	 * In case of a done statement this is only a verdict reference.
+	 * In other cases a temporary class to handle the complications.
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression to append.
+	 * @param matchedTi
+	 *                the template instance matched by the original
+	 *                statement.
+	 * @param lastGenTIExpression
+	 *                the string last generated for the provided matchedTi,
+	 *                so that it does not need to be generated again.
+	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matchedTi, final String lastGenTIExpression ) {
 		if (verdictOnly) {
 			//verdict only case
@@ -390,17 +417,17 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
 			final Scope scope = valueRedirections.get(0).getVariableReference().getMyScope();
-			StringBuilder membersString = new StringBuilder();
-			StringBuilder constructorParameters = new StringBuilder();
-			StringBuilder constructorInitializers = new StringBuilder();
-			StringBuilder instanceParameterList = new StringBuilder();
-			StringBuilder setValuesString = new StringBuilder();
+			final StringBuilder membersString = new StringBuilder();
+			final StringBuilder constructorParameters = new StringBuilder();
+			final StringBuilder constructorInitializers = new StringBuilder();
+			final StringBuilder instanceParameterList = new StringBuilder();
+			final StringBuilder setValuesString = new StringBuilder();
 
-			if (matchedTi != null && has_decoded_modifier()) {
+			if (matchedTi != null && hasDecodedModifier()) {
 				// store a pointer to the matched template, the decoding results from
 				// decmatch templates might be reused to optimize decoded value redirects
 				instanceParameterList.append(MessageFormat.format("{0}, ", lastGenTIExpression));
-				String templateName = valueType.getGenNameTemplate(aData, expression.expression, getMyScope());
+				final String templateName = valueType.getGenNameTemplate(aData, expression.expression, getMyScope());
 				membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", templateName));
 				constructorParameters.append(MessageFormat.format("{0} par_matched_temp, ", templateName));
 				constructorInitializers.append("ptr_matched_temp = par_matched_temp;\n");
@@ -413,9 +440,9 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					instanceParameterList.append(", ");
 				}
 
-				Single_ValueRedirection redirection = valueRedirections.get(i);
-				ExpressionStruct variableReferenceExpression = new ExpressionStruct();
-				Reference variableReference = redirection.getVariableReference();
+				final Single_ValueRedirection redirection = valueRedirections.get(i);
+				final ExpressionStruct variableReferenceExpression = new ExpressionStruct();
+				final Reference variableReference = redirection.getVariableReference();
 				variableReference.generateCode(aData, variableReferenceExpression);
 				instanceParameterList.append(variableReferenceExpression.expression);
 				if (variableReferenceExpression.preamble != null) {
@@ -429,7 +456,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				if (redirection.getSubreferences() == null) {
 					redirectionType = valueType;
 				} else {
-					ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+					final ArrayList<ISubReference> subreferences = redirection.getSubreferences();
 					final Reference reference = new Reference(null);
 					//first field is only used to not have a single element subreference list.
 					reference.addSubReference(new FieldSubReference(variableReference.getId()));
@@ -443,24 +470,24 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				//TODO not a good idea to do checks during code generation.
 				IType referenceType = variableReference.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 				referenceType = referenceType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType memberType = redirection.isDecoded() ? redirection.getDeclarationType() : referenceType;
-				String typeName = memberType.getGenNameValue(aData, expression.expression, myScope);
+				final IType memberType = redirection.isDecoded() ? redirection.getDeclarationType() : referenceType;
+				final String typeName = memberType.getGenNameValue(aData, expression.expression, myScope);
 				membersString.append(MessageFormat.format("{0} ptr_{1};\n", typeName, i));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
 				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
 
-				ExpressionStruct subrefExpression = new ExpressionStruct();
+				final ExpressionStruct subrefExpression = new ExpressionStruct();
 				String optionalSuffix = "";
 				if (redirection.getSubreferences() != null) {
 					//TODO find a better looking way.
-					ArrayList<ISubReference> subreferences = redirection.getSubreferences();
-					ArrayList<ISubReference> tempSubrefs = new ArrayList<ISubReference>();
+					final ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+					final ArrayList<ISubReference> tempSubrefs = new ArrayList<ISubReference>();
 					tempSubrefs.add(new FieldSubReference(new Identifier(Identifier_type.ID_NAME, "par")));
 					tempSubrefs.addAll(subreferences);
 					Reference.generateCode(aData, subrefExpression, tempSubrefs, false, true, valueType);
 
 					if (redirectionType.getOwnertype() == TypeOwner_type.OT_COMP_FIELD) {
-						CompField cf = (CompField)redirectionType.getOwner();
+						final CompField cf = (CompField)redirectionType.getOwner();
 						if (cf.isOptional()) {
 							optionalSuffix = ".get()";
 						}
@@ -474,7 +501,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				if (redirection.isDecoded()) {
 					ITTCN3Template matchedTemplate = null;
 					if (matchedTi != null) {
-						ArrayList<ISubReference> subreferences = redirection.getSubreferences();
+						final ArrayList<ISubReference> subreferences = redirection.getSubreferences();
 						final Reference reference = new Reference(null);
 						//first field is only used to not have a single element subreference list.
 						reference.addSubReference(new FieldSubReference(variableReference.getId()));
@@ -489,7 +516,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	
 					boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 					boolean needsDecode = true;
-					ExpressionStruct redirCodingExpression = new ExpressionStruct();
+					final ExpressionStruct redirCodingExpression = new ExpressionStruct();
 					if (redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 						aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
@@ -498,7 +525,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 						}
 						if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) { 
-							Charstring_Value stringEncoding = (Charstring_Value)temp;
+							final Charstring_Value stringEncoding = (Charstring_Value)temp;
 							String redirCodingString;
 							if (stringEncoding == null || "UTF-8".equals(stringEncoding.getValue())) {
 								redirCodingString = "UTF_8";
@@ -523,7 +550,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 						// then the value redirect class should use the decoding result 
 						// from the template instead of decoding the value again
 						needsDecode = false;
-						IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						final IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 						if (redirection.getDeclarationType() != decmatchType) {
 							// the decmatch template and this value redirect decode two
 							// different types, so just decode the value
@@ -535,12 +562,12 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							boolean differentUstrEncoding = false;
 							boolean unkonwnUstrEncodings = false;
 							if (redirection.getStringEncoding() == null) {
-								Value tempStringEncoding = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+								final Value tempStringEncoding = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
 								if (tempStringEncoding != null) {
 									if (tempStringEncoding.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 										unkonwnUstrEncodings = true;
 									} else {
-										Charstring_Value stringEncoding = (Charstring_Value)tempStringEncoding.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+										final Charstring_Value stringEncoding = (Charstring_Value)tempStringEncoding.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 										if (!"UTF-8".equals(stringEncoding.getValue())) {
 											differentUstrEncoding = true;
 										}
@@ -549,16 +576,16 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							} else if (redirection.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 								unkonwnUstrEncodings = true;
 							} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding() == null) {
-								IValue temp = redirection.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+								final IValue temp = redirection.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 								if ("UTF-8".equals(((Charstring_Value)temp).getValue())) {
 									differentUstrEncoding = true;
 								}
 							} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 								unkonwnUstrEncodings = true;
 							} else {
-								IValue redirectionTemp = redirection.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
-								Value templateTemp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
-								Charstring_Value tempStringEncoding = (Charstring_Value)templateTemp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+								final IValue redirectionTemp = redirection.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+								final Value templateTemp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+								final Charstring_Value tempStringEncoding = (Charstring_Value)templateTemp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 								if (!((Charstring_Value)redirectionTemp).getValue().equals(tempStringEncoding.getValue())) {
 									differentUstrEncoding = true;
 								}
@@ -611,8 +638,8 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							// go through the already generated subreference string, append
 							// one reference at a time, and check if the referenced template
 							// is a specific value
-							StringBuilder currentRef = new StringBuilder("ptr_matched_temp");
-							int length = subrefsString.length();
+							final StringBuilder currentRef = new StringBuilder("ptr_matched_temp");
+							final int length = subrefsString.length();
 							int start = 0;
 							for (int j = 0; j < length; j++) {
 								if (subrefsString.charAt(j) == '.' || subrefsString.charAt(j) == '[') {
@@ -639,7 +666,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							setValuesString.append("} else {\n");
 						}
 
-						Type_type tt = redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
+						final Type_type tt = redirectionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
 						//legacy encoding does not need to be supported
 						aData.addBuiltinTypeImport("TitanOctetString");
 						aData.addBuiltinTypeImport("AdditionalFunctions");
@@ -670,7 +697,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 								// the encoding format is not known at compile-time, so an extra
 								// member and constructor parameter is needed to store it
 								instanceParameterList.append(", ");
-								ExpressionStruct stringEncodingExpression = new ExpressionStruct();
+								final ExpressionStruct stringEncodingExpression = new ExpressionStruct();
 								redirection.getStringEncoding().generateCodeExpression(aData, stringEncodingExpression, false);
 								instanceParameterList.append(stringEncodingExpression.expression);
 								if (stringEncodingExpression.preamble.length() > 0) {
@@ -685,7 +712,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 								constructorInitializers.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", i));
 								setValuesString.append(MessageFormat.format("enc_fmt_{0}", i));
 							}
-							setValuesString.append(")");
+							setValuesString.append(')');
 							break;
 						default:
 							//FATAL ERROR

@@ -53,13 +53,13 @@ public final class Check_Getreply_Statement extends Statement {
 	private final TemplateInstance valueMatch;
 	private final TemplateInstance fromClause;
 	private final Value_Redirection redirectValue;
-	private final Parameter_Redirect redirectParameter;
+	private final Parameter_Redirection redirectParameter;
 	private final Reference redirectSender;
 	private final Reference redirectIndex;
 	private final Reference redirectTimestamp;
 
 	public Check_Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
-			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirect redirectParameter,
+			final TemplateInstance fromClause, final Value_Redirection redirectValue, final Parameter_Redirection redirectParameter,
 			final Reference redirectSender, final Reference redirectIndex, final Reference redirectTimestamp) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
@@ -417,7 +417,7 @@ public final class Check_Getreply_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check_getreply(");
 			if (parameter != null) {
-				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.hasDecodedModifier();
 				final int parameterExpressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedParamRedirect);
 				final String lastGenParExpression = expression.expression.substring(parameterExpressionStart);
@@ -428,7 +428,7 @@ public final class Check_Getreply_Statement extends Statement {
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
-						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.hasDecodedModifier();
 						final int valueExpressionStart = expression.expression.length();
 						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedValueRedirect);
 						lastGenValueExpression = expression.expression.substring(valueExpressionStart);

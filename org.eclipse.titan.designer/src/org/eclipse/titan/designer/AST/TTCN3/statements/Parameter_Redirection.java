@@ -47,7 +47,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-public abstract class Parameter_Redirect extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
+public abstract class Parameter_Redirection extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	protected static final String SIGNATUREWITHOUTPARAMETERS = "Parameter redirect cannot be used because signature `{0}'' does not have parameters";
 
 	private Location location = NULL_Location.INSTANCE;
@@ -81,7 +81,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 * @return {@code true} if at least one of the value redirects has the
 	 *         '@decoded' modifier
 	 */
-	public abstract boolean has_decoded_modifier();
+	public abstract boolean hasDecodedModifier();
 
 	/**
 	 * Does the semantic checking of the redirected parameter.
@@ -191,7 +191,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code false} otherwise.
 	 */
 	protected void internalGenerateCode( final JavaGenData aData, final ExpressionStruct expression, final Variable_Entries entries, final TemplateInstance matched_ti, final String lastGenTIExpression, final boolean is_out) {
-		if (has_decoded_modifier()) {
+		if (hasDecodedModifier()) {
 			expression.expression.append(MessageFormat.format("{0}, ", lastGenTIExpression));
 		}
 
@@ -260,25 +260,25 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code true} if the parameters have out direction,
 	 *                {@code false} otherwise.
 	 */
-	public void internalGenerateCodeDecoded(JavaGenData aData, StringBuilder source, final Variable_Entries entries, TemplateInstance matched_ti, String tempID, boolean is_out) {
+	public void internalGenerateCodeDecoded(final JavaGenData aData, final StringBuilder source, final Variable_Entries entries, final TemplateInstance matched_ti, final String tempID, final boolean is_out) {
 		// TODO check to see how is different from the redirection's scope.
 		Scope scope = null;
 		for (int i = 0 ; i < entries.getNofEntries(); i++) {
-			Reference reference = entries.getEntryByIndex(i).getReference();
+			final Reference reference = entries.getEntryByIndex(i).getReference();
 			if (reference != null) {
 				scope = reference.getMyScope();
 				break;
 			}
 		}
 
-		StringBuilder membersString = new StringBuilder();
-		StringBuilder constructorParameters = new StringBuilder();
-		StringBuilder baseConstructorParameters = new StringBuilder();
-		StringBuilder constructorInitList = new StringBuilder();
-		StringBuilder setParametersString = new StringBuilder();
+		final StringBuilder membersString = new StringBuilder();
+		final StringBuilder constructorParameters = new StringBuilder();
+		final StringBuilder baseConstructorParameters = new StringBuilder();
+		final StringBuilder constructorInitList = new StringBuilder();
+		final StringBuilder setParametersString = new StringBuilder();
 
-		IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		Type returnType = ((Signature_Type)sigType).getSignatureReturnType();
+		final IType sigType = matched_ti.getTemplateBody().getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final Type returnType = ((Signature_Type)sigType).getSignatureReturnType();
 		if (returnType != null && is_out) {
 			constructorParameters.append("Value_Redirect_Interface return_redirect, ");
 			baseConstructorParameters.append("return_redirect");
@@ -288,12 +288,12 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigType.getGenNameTemplate(aData, source, scope)));
 		constructorInitList.append("ptr_matched_temp = par_matched_temp;\n");
 
-		SignatureFormalParameterList parList = ((Signature_Type)sigType).getParameterList();
+		final SignatureFormalParameterList parList = ((Signature_Type)sigType).getParameterList();
 		for (int i = 0 ; i < entries.getNofEntries(); i++) {
 			final Variable_Entry variableEntry = entries.getEntryByIndex(i);
 
-			SignatureFormalParameter parameter = is_out ? parList.getOutParameterByIndex(i) : parList.getInParameterByIndex(i);
-			String parameterName = parameter.getIdentifier().getName();
+			final SignatureFormalParameter parameter = is_out ? parList.getOutParameterByIndex(i) : parList.getInParameterByIndex(i);
+			final String parameterName = parameter.getIdentifier().getName();
 			if (constructorParameters.length() > 0) {
 				constructorParameters.append(", ");
 			}
@@ -307,7 +307,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 				baseConstructorParameters.append("null");
 				setParametersString.append(MessageFormat.format("if (ptr_{0}_dec != null) '{'\n", parameterName));
 
-				TTCN3Template lastMatchedTemplate = matched_ti.getTemplateBody().getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+				final TTCN3Template lastMatchedTemplate = matched_ti.getTemplateBody().getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 				NamedTemplate matchedNamedTemplate = null;
 				if (lastMatchedTemplate.getTemplatetype() == Template_type.NAMED_TEMPLATE_LIST) {
 					matchedNamedTemplate = ((Named_Template_List)lastMatchedTemplate).getNamedTemplate(parameter.getIdentifier());
@@ -320,7 +320,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 
 				boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 				boolean needsDecode = true;
-				ExpressionStruct redirCodingExpression = new ExpressionStruct();
+				final ExpressionStruct redirCodingExpression = new ExpressionStruct();
 				if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 					aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
@@ -329,7 +329,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 					}
 					if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) { 
-						Charstring_Value stringEncoding = (Charstring_Value)temp;
+						final Charstring_Value stringEncoding = (Charstring_Value)temp;
 						String redirCodingString;
 						if (stringEncoding == null || "UTF-8".equals(stringEncoding.getValue())) {
 							redirCodingString = "UTF_8";
@@ -353,7 +353,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 					// then the parameter redirect class should use the decoding result 
 					// from the template instead of decoding the parameter again
 					needsDecode = false;
-					IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					final IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 					if (variableEntry.getDeclarationType() != decmatchType) {
 						// the decmatch template and this value redirect decode two
 						// different types, so just decode the value
@@ -366,11 +366,11 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						boolean unkonwnUstrEncodings = false;
 						if (variableEntry.getStringEncoding() == null) {
 							if (((DecodeMatch_template)matchedTemplate).getStringEncoding() != null) {
-								Value temp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+								final Value temp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
 								if (temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 									unkonwnUstrEncodings = true;
 								} else {
-									Charstring_Value stringEncoding = (Charstring_Value)temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+									final Charstring_Value stringEncoding = (Charstring_Value)temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 									if (!"UTF-8".equals(stringEncoding.getValue())) {
 										differentUstrEncoding = true;
 									}
@@ -379,16 +379,16 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						} else if (variableEntry.getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 							unkonwnUstrEncodings = true;
 						} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding() == null) {
-							IValue temp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							final IValue temp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 							if ("UTF-8".equals(((Charstring_Value)temp).getValue())) {
 								differentUstrEncoding = true;
 							}
 						} else if (((DecodeMatch_template)matchedTemplate).getStringEncoding().isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 							unkonwnUstrEncodings = true;
 						} else {
-							IValue redirectionTemp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
-							Value templateTemp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
-							Charstring_Value tempStringEncoding = (Charstring_Value)templateTemp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							final IValue redirectionTemp = variableEntry.getStringEncoding().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+							final Value templateTemp = ((DecodeMatch_template)matchedTemplate).getStringEncoding();
+							final Charstring_Value tempStringEncoding = (Charstring_Value)templateTemp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 							if (!((Charstring_Value)redirectionTemp).getValue().equals(tempStringEncoding.getValue())) {
 								differentUstrEncoding = true;
 							}
@@ -452,7 +452,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 						setParametersString.append("} else {\n");
 					}
 
-					Type_type tt = parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
+					final Type_type tt = parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
 					//legacy encoding does not need to be supported
 					aData.addBuiltinTypeImport("TitanOctetString");
 					aData.addBuiltinTypeImport("AdditionalFunctions");
@@ -487,7 +487,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 							constructorInitList.append(MessageFormat.format("enc_fmt_{0} = par_fmt_{0};\n", parameterName));
 							setParametersString.append(MessageFormat.format("enc_fmt_{0}", parameterName));
 						}
-						setParametersString.append(")");
+						setParametersString.append(')');
 						break;
 					default:
 						//FATAL ERROR
@@ -523,11 +523,11 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		source.append(MessageFormat.format("public {0}_{1}_redirect_{2}({3}) '{'\n", unqualifiedSignatureName, opName, tempID, constructorParameters));
 		source.append(MessageFormat.format("super({0});\n", baseConstructorParameters));
 		source.append(constructorInitList);
-		source.append("};\n");
+		source.append("}\n");
 		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
 		source.append(setParametersString);
 		source.append("super.set_parameters(par);\n");
-		source.append("};\n");
+		source.append("}\n");
 		source.append("};\n");
 	}
 }
