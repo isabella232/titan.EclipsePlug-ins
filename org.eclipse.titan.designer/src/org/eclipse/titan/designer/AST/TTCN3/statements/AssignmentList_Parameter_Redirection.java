@@ -205,8 +205,8 @@ public final class AssignmentList_Parameter_Redirection extends Parameter_Redire
 						break;
 					}
 
-					Reference variableReference = assignment.getReference();
-					IType varType = variableReference.checkVariableReference(timestamp);
+					final Reference variableReference = assignment.getReference();
+					final IType varType = variableReference.checkVariableReference(timestamp);
 					if (!errorFlag && varType != null) {
 						// store the variable type in case it's decoded (since this cannot
 						// be extracted from the value type with the sub-references)
@@ -287,7 +287,7 @@ public final class AssignmentList_Parameter_Redirection extends Parameter_Redire
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeDecoded(JavaGenData aData, StringBuilder source, TemplateInstance matched_ti, String tempID, boolean is_out) {
+	public void generateCodeDecoded(final JavaGenData aData, final StringBuilder source, final TemplateInstance matched_ti, final String tempID, final boolean is_out) {
 		internalGenerateCodeDecoded(aData, source, entries, matched_ti, tempID, is_out);
 	}
 }
