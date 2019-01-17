@@ -523,11 +523,11 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 		source.append(MessageFormat.format("public {0}_{1}_redirect_{2}({3}) '{'\n", unqualifiedSignatureName, opName, tempID, constructorParameters));
 		source.append(MessageFormat.format("super({0});\n", baseConstructorParameters));
 		source.append(constructorInitList);
-		source.append("};\n");
+		source.append("}\n");
 		source.append(MessageFormat.format("public void set_parameters({0}_{1} par) '{'\n", qualifiedSignatureName, opName));
 		source.append(setParametersString);
 		source.append("super.set_parameters(par);\n");
-		source.append("};\n");
+		source.append("}\n");
 		source.append("};\n");
 	}
 }
