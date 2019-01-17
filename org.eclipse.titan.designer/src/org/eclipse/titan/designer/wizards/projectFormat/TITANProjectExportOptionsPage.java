@@ -127,7 +127,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 
 		excludeLinkedContents = new Button(pageComposite, SWT.CHECK);
 		excludeLinkedContents.setText("Do not generate information on resources which are contained in a linked resource.");
-		excludeLinkedContents.setEnabled(true);
+		excludeLinkedContents.setEnabled(false);
 		excludeLinkedContents.setSelection(isExcludeLinkedContents);
 		excludeLinkedContents.addSelectionListener(new SelectionAdapter() {
 			@Override
