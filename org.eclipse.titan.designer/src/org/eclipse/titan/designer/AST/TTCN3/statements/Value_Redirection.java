@@ -85,7 +85,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * @return {@code true} if at least one of the value redirects has the
 	 * '@decoded' modifier
 	 */
-	public boolean has_decoded_modifier() {
+	public boolean hasDecodedModifier() {
 		for (final Single_ValueRedirection redirect : valueRedirections) {
 			if (redirect.isDecoded()) {
 				return true;
@@ -396,7 +396,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			final StringBuilder instanceParameterList = new StringBuilder();
 			final StringBuilder setValuesString = new StringBuilder();
 
-			if (matchedTi != null && has_decoded_modifier()) {
+			if (matchedTi != null && hasDecodedModifier()) {
 				// store a pointer to the matched template, the decoding results from
 				// decmatch templates might be reused to optimize decoded value redirects
 				instanceParameterList.append(MessageFormat.format("{0}, ", lastGenTIExpression));

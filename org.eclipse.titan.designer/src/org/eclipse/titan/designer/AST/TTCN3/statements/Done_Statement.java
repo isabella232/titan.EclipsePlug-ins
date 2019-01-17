@@ -364,7 +364,7 @@ public final class Done_Statement extends Statement {
 				expression.expression.append("done(");
 				componentreference.generateCodeExpression(aData, expression, true);
 				expression.expression.append(", ");
-				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.hasDecodedModifier();
 				final int expressionStart = expression.expression.length();
 				doneMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				lastGenExpression = expression.expression.substring(expressionStart);

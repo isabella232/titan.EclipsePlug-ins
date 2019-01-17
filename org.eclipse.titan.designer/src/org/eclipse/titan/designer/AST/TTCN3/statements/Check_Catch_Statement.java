@@ -402,7 +402,7 @@ public final class Check_Catch_Statement extends Statement {
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
-				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.hasDecodedModifier();
 				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				final String lastGenExpression = expression.expression.substring(expressionStart);

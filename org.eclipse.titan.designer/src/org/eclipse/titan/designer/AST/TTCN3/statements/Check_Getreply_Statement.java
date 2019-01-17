@@ -417,7 +417,7 @@ public final class Check_Getreply_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check_getreply(");
 			if (parameter != null) {
-				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final boolean hasDecodedParamRedirect = redirectParameter != null && redirectParameter.hasDecodedModifier();
 				final int parameterExpressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedParamRedirect);
 				final String lastGenParExpression = expression.expression.substring(parameterExpressionStart);
@@ -428,7 +428,7 @@ public final class Check_Getreply_Statement extends Statement {
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
-						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.has_decoded_modifier();
+						final boolean hasDecodedValueRedirect = redirectValue != null && redirectValue.hasDecodedModifier();
 						final int valueExpressionStart = expression.expression.length();
 						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedValueRedirect);
 						lastGenValueExpression = expression.expression.substring(valueExpressionStart);

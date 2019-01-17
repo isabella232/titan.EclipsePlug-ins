@@ -356,7 +356,7 @@ public final class Check_Getcall_Statement extends Statement {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check_getcall(");
 			if (parameter != null) {
-				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.has_decoded_modifier();
+				final boolean hasDecodedRedirect = redirectParameter != null && redirectParameter.hasDecodedModifier();
 				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
 				final String lastGenExpression = expression.expression.substring(expressionStart);

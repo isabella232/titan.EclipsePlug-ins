@@ -81,7 +81,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 * @return {@code true} if at least one of the value redirects has the
 	 *         '@decoded' modifier
 	 */
-	public abstract boolean has_decoded_modifier();
+	public abstract boolean hasDecodedModifier();
 
 	/**
 	 * Does the semantic checking of the redirected parameter.
@@ -191,7 +191,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                {@code false} otherwise.
 	 */
 	protected void internalGenerateCode( final JavaGenData aData, final ExpressionStruct expression, final Variable_Entries entries, final TemplateInstance matched_ti, final String lastGenTIExpression, final boolean is_out) {
-		if (has_decoded_modifier()) {
+		if (hasDecodedModifier()) {
 			expression.expression.append(MessageFormat.format("{0}, ", lastGenTIExpression));
 		}
 

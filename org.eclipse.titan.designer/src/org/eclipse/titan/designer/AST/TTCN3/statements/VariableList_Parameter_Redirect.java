@@ -77,7 +77,7 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean has_decoded_modifier() {
+	public boolean hasDecodedModifier() {
 		for (int i = 0, size = entries.getNofEntries(); i < size; i++) {
 			final Variable_Entry entry = entries.getEntryByIndex(i);
 			if (entry.isDecoded()) {
