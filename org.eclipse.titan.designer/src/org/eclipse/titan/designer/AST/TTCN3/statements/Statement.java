@@ -200,8 +200,11 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		/** start profiler. */
 		S_START_PROFILER,
 		/** stop profiler. */
-		S_STOP_PROFILER
-		//FIXME add support update, setencode statements
+		S_STOP_PROFILER,
+		//FIXME add support update
+		// setencode statement
+		/** encoding-related statements */
+		S_SETENCODE
 	}
 
 	/** the statementblock in which this statement resides. */
