@@ -168,6 +168,10 @@ public final class AstWalkerJava implements IWorkbenchWindowActionDelegate {
 		AstWalkerJava.initOutputFolder();
 		AstWalkerJava.getActiveProject();
 
+		if (selectedProject == null) {
+			return;
+		}
+
 		/*
 		 * // init console logger IConsole myConsole = findConsole("myLogger");
 		 * IWorkbenchPage page = window.getActivePage(); String id =
