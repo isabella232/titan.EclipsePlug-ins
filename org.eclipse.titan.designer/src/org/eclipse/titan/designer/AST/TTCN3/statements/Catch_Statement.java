@@ -458,6 +458,10 @@ public final class Catch_Statement extends Statement {
 					// accept it
 					break;
 				}
+			} else {
+				if (redirectValue != null) {
+					redirectValue.checkErroneous(timestamp);
+				}
 			}
 		}
 

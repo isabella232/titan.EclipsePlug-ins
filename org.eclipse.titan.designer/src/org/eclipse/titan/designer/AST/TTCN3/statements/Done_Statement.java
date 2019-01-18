@@ -179,6 +179,9 @@ public final class Done_Statement extends Statement {
 			final IType returnType = Port_Utility.getMessageSignatureType(timestamp, doneMatch);
 			if (returnType == null) {
 				doneMatch.getLocation().reportSemanticError("Cannot determine the return type for value returning done");
+				if (redirectValue != null) {
+					redirectValue.checkErroneous(timestamp);
+				}
 			} else {
 				IType lastType = returnType;
 				boolean returnTypeCorrect = false;

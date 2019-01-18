@@ -401,8 +401,12 @@ public final class Getreply_Statement extends Statement {
 					valueMatch.check(timestamp, returnType);
 				}
 
-				if (redirectValue != null && returnType != null) {
-					redirectValue.check(timestamp, returnType);
+				if (redirectValue != null) {
+					if (returnType == null) {
+						redirectValue.checkErroneous(timestamp);
+					} else {
+						redirectValue.check(timestamp, returnType);
+					}
 				}
 			}
 		}

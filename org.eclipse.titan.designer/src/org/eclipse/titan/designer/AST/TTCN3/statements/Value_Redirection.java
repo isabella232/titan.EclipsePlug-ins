@@ -544,7 +544,9 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 						// then the value redirect class should use the decoding result 
 						// from the template instead of decoding the value again
 						needsDecode = false;
-						final IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						final TemplateInstance decodeTarget = ((DecodeMatch_template)matchedTemplate).getDecodeTarget();
+						final IType targetGovernor = decodeTarget.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+						final IType decmatchType = targetGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 						if (redirection.getDeclarationType() != decmatchType) {
 							// the decmatch template and this value redirect decode two
 							// different types, so just decode the value
@@ -713,7 +715,10 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							break;
 						}
 						setValuesString.append(");\n");
-						setValuesString.append(MessageFormat.format("if ({0}_decoder(buff_{1}, ptr_{1}, {2}_default_coding).operator_not_equals(0)) '{'\n", memberType.getGenNameCoder(aData, setValuesString, scope), i, memberType.getGenNameDefaultCoding(aData, setValuesString, scope)));
+
+						final String coderName = memberType.getGenNameCoder(aData, setValuesString, scope);
+						final String codingName = memberType.getGenNameDefaultCoding(aData, setValuesString, scope);
+						setValuesString.append(MessageFormat.format("if ({0}_decoder(buff_{1}, ptr_{1}, {2}_default_coding).operator_not_equals(0)) '{'\n", coderName, i, codingName));
 						setValuesString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in value redirect #{0}.\");\n", i+1));
 						setValuesString.append("}\n");
 						setValuesString.append(MessageFormat.format("if (buff_{0}.lengthof().operator_not_equals(0)) '{'\n", i));

@@ -261,15 +261,8 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 	 *                {@code false} otherwise.
 	 */
 	public void internalGenerateCodeDecoded(final JavaGenData aData, final StringBuilder source, final Variable_Entries entries, final TemplateInstance matched_ti, final String tempID, final boolean is_out) {
-		// TODO check to see how is different from the redirection's scope.
-		Scope scope = null;
-		for (int i = 0 ; i < entries.getNofEntries(); i++) {
-			final Reference reference = entries.getEntryByIndex(i).getReference();
-			if (reference != null) {
-				scope = reference.getMyScope();
-				break;
-			}
-		}
+		// does know about its own scope
+		final Scope scope = getMyScope();
 
 		final StringBuilder membersString = new StringBuilder();
 		final StringBuilder constructorParameters = new StringBuilder();
@@ -284,8 +277,9 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 			baseConstructorParameters.append("return_redirect");
 		}
 
-		membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", sigType.getGenNameTemplate(aData, source, scope)));
-		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigType.getGenNameTemplate(aData, source, scope)));
+		final String sigTypeGenTempName = sigType.getGenNameTemplate(aData, source, scope);
+		membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", sigTypeGenTempName));
+		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigTypeGenTempName));
 		constructorInitList.append("ptr_matched_temp = par_matched_temp;\n");
 
 		final SignatureFormalParameterList parList = ((Signature_Type)sigType).getParameterList();
@@ -302,8 +296,10 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 			}
 
 			if (variableEntry.isDecoded()) {
-				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
-				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", variableEntry.getDeclarationType().getGenNameValue(aData, source, scope), parameterName));
+				final IType declarationType = variableEntry.getDeclarationType();
+				final String veGenName = declarationType.getGenNameValue(aData, source, scope);
+				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", veGenName, parameterName));
+				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", veGenName, parameterName));
 				baseConstructorParameters.append("null");
 				setParametersString.append(MessageFormat.format("if (ptr_{0}_dec != null) '{'\n", parameterName));
 
@@ -321,7 +317,8 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 				boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 				boolean needsDecode = true;
 				final ExpressionStruct redirCodingExpression = new ExpressionStruct();
-				if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+				final IType paramLastType = parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if (paramLastType.getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 					aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 					IValue temp = (IValue)variableEntry.getStringEncoding();
@@ -353,13 +350,15 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 					// then the parameter redirect class should use the decoding result 
 					// from the template instead of decoding the parameter again
 					needsDecode = false;
-					final IType decmatchType = ((DecodeMatch_template)matchedTemplate).getDecodeTarget().getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-					if (variableEntry.getDeclarationType() != decmatchType) {
+					final TemplateInstance decodeTarget = ((DecodeMatch_template)matchedTemplate).getDecodeTarget();
+					final IType targetGovernor = decodeTarget.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+					final IType decmatchType = targetGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (declarationType != decmatchType) {
 						// the decmatch template and this value redirect decode two
 						// different types, so just decode the value
 						needsDecode = true;
 						useDecmatchResult = false;
-					} else if (parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
+					} else if (paramLastType.getTypetypeTtcn3() == Type_type.TYPE_UCHARSTRING) {
 						// for universal charstrings the situation could be trickier
 						// compare the string encodings
 						boolean differentUstrEncoding = false;
@@ -437,7 +436,8 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 							setParametersString.append(redirCodingExpression.preamble);
 						}
 
-						setParametersString.append(MessageFormat.format("if (ptr_matched_temp.constGet_field_{0}().get_selection() == template_sel.DECODE_MATCH && {1}_descr_ == ptr_matched_temp.constGet_field_{0}().get_decmatch_type_descr()", parameterName, variableEntry.getDeclarationType().getGenNameTypeDescriptor(aData, setParametersString, scope)));
+						final String typeDescriptorName = declarationType.getGenNameTypeDescriptor(aData, setParametersString, scope);
+						setParametersString.append(MessageFormat.format("if (ptr_matched_temp.constGet_field_{0}().get_selection() == template_sel.DECODE_MATCH && {1}_descr_ == ptr_matched_temp.constGet_field_{0}().get_decmatch_type_descr()", parameterName, typeDescriptorName));
 						if (redirCodingExpression.expression.length() > 0) {
 							setParametersString.append(MessageFormat.format("&& {0} == ptr_matched_temp.constGet_field_{1}().get_decmatch_str_enc()", redirCodingExpression.expression, parameterName));
 						}
@@ -445,19 +445,19 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 					}
 				}
 				if (useDecmatchResult) {
-					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, variableEntry.getDeclarationType().getGenNameValue(aData, setParametersString, scope), parameterName));
+					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, declarationType.getGenNameValue(aData, setParametersString, scope), parameterName));
 				}
 				if (needsDecode) {
 					if (useDecmatchResult) {
 						setParametersString.append("} else {\n");
 					}
 
-					final Type_type tt = parameter.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3();
 					//legacy encoding does not need to be supported
 					aData.addBuiltinTypeImport("TitanOctetString");
 					aData.addBuiltinTypeImport("AdditionalFunctions");
 
 					setParametersString.append("TitanOctetString buff = new TitanOctetString(");
+					final Type_type tt = paramLastType.getTypetypeTtcn3();
 					switch(tt) {
 					case TYPE_BITSTRING:
 						setParametersString.append(MessageFormat.format("AdditionalFunctions.bit2oct(par.constGet_field_{0}())", parameterName));
@@ -495,7 +495,10 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 					}
 
 					setParametersString.append(");\n");
-					setParametersString.append(MessageFormat.format("if ({0}_decoder(buff, ptr_{1}_dec, {2}_default_coding).operator_not_equals(0)) '{'\n", variableEntry.getDeclarationType().getGenNameCoder(aData, setParametersString, scope), parameterName, variableEntry.getDeclarationType().getGenNameDefaultCoding(aData, setParametersString, scope)));
+
+					final String coderName = variableEntry.getDeclarationType().getGenNameCoder(aData, setParametersString, scope);
+					final String codingName = declarationType.getGenNameDefaultCoding(aData, setParametersString, scope);
+					setParametersString.append(MessageFormat.format("if ({0}_decoder(buff, ptr_{1}_dec, {2}_default_coding).operator_not_equals(0)) '{'\n", coderName, parameterName, codingName));
 					setParametersString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in parameter (for parameter `{0}'').\");\n", parameterName));
 					setParametersString.append("}\n");
 					setParametersString.append("if (buff.lengthof().operator_not_equals(0)) {\n");
