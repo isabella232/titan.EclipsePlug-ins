@@ -263,9 +263,9 @@ tokens {
   REGEXP,                     REMOVE_BOM,                 RND,
   REPLACE,
 
-  SIZEOF,                     STR2BIT,                    STR2FLOAT,
-  STR2HEX,                    STR2INT,                    STR2OCT,
-  STRING2TTCN,                SUBSTR,
+  SETENCODE,                  SIZEOF,                     STR2BIT,
+  STR2FLOAT,                  STR2HEX,                    STR2INT,
+  STR2OCT,                    STRING2TTCN,                SUBSTR,
 
   TESTCASENAME,               TTCN2STRING,
 
