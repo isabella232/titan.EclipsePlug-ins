@@ -1056,7 +1056,7 @@ public final class FormalParameter extends Definition {
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		source.append("final ");
 
-		switch (assignmentType) {
+		switch (realAssignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
@@ -1108,7 +1108,7 @@ public final class FormalParameter extends Definition {
 	 * @param generateInitialized also call the constructor for fuzzy and lazy parameters.
 	 */
 	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix, final boolean referenced, final boolean generateInitialized) {
-		switch (assignmentType) {
+		switch (realAssignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
