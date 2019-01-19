@@ -160,7 +160,7 @@ public final class RecordOfGenerator {
 		generateTemplateCopyTemplate( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
-		generateTemplateoperator_assign(aData, source, genName, displayName );
+		generateTemplateoperator_assign(aData, source, genName, ofTypeName, displayName );
 		generateTemplateCleanup( source );
 		generateTemplateReplace( aData, source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
@@ -1847,10 +1847,12 @@ public final class RecordOfGenerator {
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
 		source.append("\t\t\tcheck_single_selection(otherValue);\n");
@@ -1941,6 +1943,25 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n");
+
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Sets the current template to empty.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param nullValue\n");
+			source.append("\t\t *                the null value.\n");
+			source.append("\t\t * @return the new template object.\n");
+			source.append("\t\t */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign(final TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append("\t\t\tclean_up();\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
