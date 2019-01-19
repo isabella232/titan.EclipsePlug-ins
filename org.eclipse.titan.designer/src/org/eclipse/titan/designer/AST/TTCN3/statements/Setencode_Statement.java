@@ -110,6 +110,7 @@ public class Setencode_Statement extends Statement {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
+
 		boolean type_error = false;
 		type.check(timestamp);
 		Type t_ct = (Type) type.getTypeWithCodingTable(timestamp, false);
@@ -157,6 +158,8 @@ public class Setencode_Statement extends Statement {
 				}
 			}
 		}
+
+		lastTimeChecked = timestamp;
 	}
 
 	@Override
