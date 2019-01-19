@@ -589,7 +589,26 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
-		// TODO special case for empty list
+		if (templates.getNofTemplates() == 0) {
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
+
+			if (lengthRestriction != null) {
+				if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+					lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
+				}
+				lengthRestriction.generateCodeInit(aData, source, name);
+			}
+
+			if (isIfpresent) {
+				source.append(name);
+				source.append(".set_ifPresent();\n");
+			}
+
+			return;
+		}
+
 		final IType typeLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		long indexOffset = 0;
 		if (typeLast.getTypetype().equals(Type_type.TYPE_ARRAY)) {
