@@ -282,7 +282,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							// be extracted from the value type with the sub-references)
 							final IType declarationType = varType.getTypeRefdLast(timestamp);
 							redirect.setDeclarationType(declarationType);
-							declarationType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
+							varType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
 						}
 					} else {
 						expectedType = fieldType;
