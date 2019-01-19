@@ -508,6 +508,11 @@ public final class Def_Var_Template extends Definition {
 			source.append("};\n");
 			sb.append(source);
 			if ( initialValue != null ) {
+				final IType initialGovernor = initialValue.getMyGovernor();
+				if (initialGovernor.getTypetype() == Type_type.TYPE_SEQUENCE_OF || initialGovernor.getTypetype() == Type_type.TYPE_ARRAY) {
+					initComp.append(MessageFormat.format("{0}.get().remove_all_permutations();\n", genName));
+				}
+
 				initialValue.generateCodeInit( aData, initComp, genName + ".get()" );
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
 					TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName + ".get()", templateRestriction);
