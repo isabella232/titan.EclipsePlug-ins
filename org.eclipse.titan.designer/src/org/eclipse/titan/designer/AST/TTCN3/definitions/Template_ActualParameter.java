@@ -192,7 +192,6 @@ public final class Template_ActualParameter extends ActualParameter {
 				LazyFuzzyParamData.init(used_as_lvalue);
 				LazyFuzzyParamData.generateCode(aData, expression, template, genRestrictionCheck, myScope, eval == parameterEvaluationType.LAZY_EVAL);
 				LazyFuzzyParamData.clean();
-				//FIXME implement rest
 			}
 		}
 	}
