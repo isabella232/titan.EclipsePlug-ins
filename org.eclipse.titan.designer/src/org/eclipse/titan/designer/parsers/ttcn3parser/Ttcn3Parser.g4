@@ -2972,7 +2972,7 @@ pr_SetencodeStatement returns[Setencode_Statement statement]
 	Type type = null;
 	Value encoding = null;
 }:
-(	pr_SelfKeyword DOT SETENCODE
+(	pr_SelfKeyword DOT pr_SetencodeKeyword
 	pr_LParen
 	t = pr_Type {type = $t.type;}
 	(	pr_Comma
@@ -2984,6 +2984,34 @@ pr_SetencodeStatement returns[Setencode_Statement statement]
 	$statement = new Setencode_Statement(type, encoding);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
+
+// TODO this will handle the reference and all port variants of setencode
+pr_PortSetencodeOp [Reference reference, boolean is_all]
+	returns[Statement statement]
+@init {
+	Type type = null;
+	Value encoding = null;
+}:
+(	col = pr_SetencodeKeyword
+	pr_LParen
+	t = pr_Type {type = $t.type;}
+	(	pr_Comma
+		se = pr_SingleExpression { encoding = $se.value;}
+	)?
+	endcol = pr_RParen
+)
+{
+	if (is_all) {
+		reportUnsupportedConstruct( "'all port.setencode' is not currently supported.", $col.start, $endcol.stop );
+	} else {
+		reportUnsupportedConstruct( "'Port.setencode' is not currently supported.", $col.start, $endcol.stop );
+	}
+};
+
+pr_SetencodeKeyword:
+	SETENCODE;
+
+
 pr_FunctionInstance returns[Reference temporalReference]
 @init {
 	$temporalReference = null;
@@ -5078,8 +5106,9 @@ pr_CommunicationStatements returns[Statement statement]
 		|	s6 = pr_PortTriggerOp[$r.reference, false]			{ $statement = $s6.statement; }	//pr_TriggerStatement
 		|	s7 = pr_PortGetCallOp[$r.reference, false, false]		{ $statement = $s7.statement; }	//pr_GetCallStatement
 		|	s8 = pr_PortGetReplyOp[$r.reference, false, false]		{ $statement = $s8.statement; }	//pr_GetReplyStatement
-		|	s9 = pr_PortCatchOp[$r.reference, false, false]		{ $statement = $s9.statement; }	//pr_CatchStatement
-		|	s10 = pr_PortCheckOp[$r.reference, false]				{ $statement = $s10.statement; }	//pr_CheckStatement
+		|	s9 = pr_PortCatchOp[$r.reference, false, false]			{ $statement = $s9.statement; }	//pr_CatchStatement
+		|	s10 = pr_PortCheckOp[$r.reference, false]			{ $statement = $s10.statement; }	//pr_CheckStatement
+		|	s23 = pr_PortSetencodeOp[$r.reference, false]			{ $statement = $s23.statement; } //pr_SetencodeStatement
 		|	CLEAR	{ $statement = new Clear_Statement($r.reference); } //pr_ClearStatement
 		|	START 	{ $statement = new Start_Port_Statement($r.reference); } //pr_StartStatement
 		|	STOP 	{ $statement = new Stop_Port_Statement($r.reference); } //pr_StopStatement
@@ -5114,7 +5143,8 @@ pr_CommunicationStatements returns[Statement statement]
 |	(	pr_AllKeyword
 		pr_PortKeyword
 		pr_Dot
-		(	CLEAR 	{ $statement = new Clear_Statement(null); }			//pr_ClearStatement
+		(	s24 = pr_PortSetencodeOp[null, true]			{ $statement = $s24.statement; } //pr_SetencodeStatement
+		|	CLEAR 	{ $statement = new Clear_Statement(null); }			//pr_ClearStatement
 		|	START	{ $statement = new Start_Port_Statement(null); }	//pr_StartStatement
 		|	STOP 	{ $statement = new Stop_Port_Statement(null); }		//pr_StopStatement
 		|	HALT 	{ $statement = new Halt_Statement(null); }			//pr_HaltStatement
