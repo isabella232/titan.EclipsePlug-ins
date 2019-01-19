@@ -175,9 +175,9 @@ public void reportWarning( final String aMessage, final Token aStartToken, final
   REGEXP: 'regexp';                 REMOVE_BOM: 'remove_bom';         RND: 'rnd';
   REPLACE: 'replace';
 
-  SIZEOF: 'sizeof';                 STR2BIT: 'str2bit';               STR2FLOAT: 'str2float';
-  STR2HEX: 'str2hex';               STR2INT: 'str2int';               STR2OCT: 'str2oct';
-  STRING2TTCN: 'string2ttcn';       SUBSTR: 'substr';
+  SETENCODE: 'setencode';           SIZEOF: 'sizeof';                 STR2BIT: 'str2bit';
+  STR2FLOAT: 'str2float';           STR2HEX: 'str2hex';               STR2INT: 'str2int';
+  STR2OCT: 'str2oct';               STRING2TTCN: 'string2ttcn';       SUBSTR: 'substr';
 
   TESTCASENAME: 'testcasename';     TTCN2STRING: 'ttcn2string';
 

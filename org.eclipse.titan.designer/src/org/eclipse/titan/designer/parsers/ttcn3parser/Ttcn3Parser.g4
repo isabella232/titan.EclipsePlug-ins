@@ -2931,6 +2931,7 @@ pr_FunctionStatement returns[Statement statement]
 | s7 = pr_SUTStatements				{ $statement = $s7.statement; }
 | s8 = pr_TestcaseStopStatement		{ $statement = $s8.statement; }
 | s9 = pr_SetStateStatement		{ $statement = $s9.statement; }
+| s10 = pr_SetencodeStatement { $statement = $s10.statement; }
 );
 
 pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
@@ -2966,7 +2967,23 @@ pr_SetStateStatement returns[SetState_Statement statement]
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
-
+pr_SetencodeStatement returns[Setencode_Statement statement]
+@init {
+	Type type = null;
+	Value encoding = null;
+}:
+(	pr_SelfKeyword DOT SETENCODE
+	pr_LParen
+	t = pr_Type {type = $t.type;}
+	(	pr_Comma
+		se = pr_SingleExpression { encoding = $se.value;}
+	)?
+	pr_RParen
+)
+{
+	$statement = new Setencode_Statement(type, encoding);
+	$statement.setLocation(getLocation( $start, getStopToken()));
+};
 pr_FunctionInstance returns[Reference temporalReference]
 @init {
 	$temporalReference = null;
