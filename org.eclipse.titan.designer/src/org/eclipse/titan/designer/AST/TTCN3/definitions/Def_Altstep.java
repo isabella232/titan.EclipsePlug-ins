@@ -751,7 +751,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
 			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 			source.append("private ");
-			formalParameter.generateCodeObject(aData, source, "par_", false);
+			formalParameter.generateCodeObject(aData, source, "par_", true, false);
 		}
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));

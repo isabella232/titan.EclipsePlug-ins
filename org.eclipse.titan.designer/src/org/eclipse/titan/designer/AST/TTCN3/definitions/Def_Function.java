@@ -1209,7 +1209,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 
-					formalParameter.generateCodeObject(aData, startFunction, "", true);
+					formalParameter.generateCodeObject(aData, startFunction, "", false, true);
 					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGeneratedReferenceName()));
 				}
 

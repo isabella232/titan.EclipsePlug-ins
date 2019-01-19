@@ -1068,6 +1068,7 @@ public final class FormalParameter extends Definition {
 			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
+		case A_PAR_PORT:
 			source.append( type.getGenNameValue( aData, source, getMyScope() ) );
 			break;
 		case A_PAR_TEMP_IN:
@@ -1103,9 +1104,10 @@ public final class FormalParameter extends Definition {
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param prefix the prefix to be used before the parameter names.
+	 * @param referenced {@code true} the generated variable should not be assigned a value.
 	 * @param generateInitialized also call the constructor for fuzzy and lazy parameters.
 	 */
-	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix, final boolean generateInitialized) {
+	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix, final boolean referenced, final boolean generateInitialized) {
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
@@ -1122,7 +1124,12 @@ public final class FormalParameter extends Definition {
 			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
-			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+		case A_PAR_PORT:
+			if (referenced) {
+				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			} else {
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			}
 			break;
 		case A_PAR_TEMP_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
@@ -1138,7 +1145,11 @@ public final class FormalParameter extends Definition {
 			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
-			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			if (referenced) {
+				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			} else {
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			}
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");
