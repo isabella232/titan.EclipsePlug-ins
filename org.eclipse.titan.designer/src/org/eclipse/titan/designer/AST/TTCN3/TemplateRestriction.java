@@ -152,6 +152,6 @@ public final class TemplateRestriction {
 		aData.addBuiltinTypeImport("Base_Template.template_res");
 
 		final boolean omitInValueList = TTCN3Template.allowOmitInValueList(location, true);
-		source.append(MessageFormat.format("{0}.check_restriction({1}{2});\n", name, restrictionName, omitInValueList? ", null, true": ""));
+		source.append(MessageFormat.format("{0}.check_restriction({1}, null, {2});\n", name, restrictionName, omitInValueList? "true": "false"));
 	}
 }
