@@ -205,8 +205,7 @@ public final class SymbolicLinkHandler {
 					final IFileStore source = EFS.getFileSystem(uri.getScheme()).getStore(uri);
 					final Path destinationPath = new Path(workingDirectory + File.separator + file.getName());
 					if (!destinationPath.toFile().exists()) {
-						// FIXME we should somehow
-						// detect if a copy is needed
+						// FIXME we should somehow detect if a copy is needed
 						final IFileStore destination = EFS.getLocalFileSystem().getStore(destinationPath);
 						source.copy(destination, EFS.OVERWRITE, internalMonitor);
 					}
