@@ -127,8 +127,7 @@ public class ProjectSourceCompiler {
 		} catch (UnknownHostException e) {
 			contentBuilder.append("unknown");
 		}
-		//TODO date will need to be simplified to have optimize build time
-//		aSb.append(") on ").append(new Date()).append('\n');
+
 		contentBuilder.append(")\n");
 		contentBuilder.append('\n' );
 		contentBuilder.append( "// ").append(GeneralConstants.COPYRIGHT_STRING).append('\n' );
@@ -198,8 +197,7 @@ public class ProjectSourceCompiler {
 		} catch (UnknownHostException e) {
 			contentBuilder.append("unknown");
 		}
-		//TODO date will need to be simplified to have optimize build time
-//		aSb.append(") on ").append(new Date()).append('\n');
+
 		contentBuilder.append(")\n");
 		contentBuilder.append('\n' );
 		contentBuilder.append( "// ").append(GeneralConstants.COPYRIGHT_STRING).append('\n' );
@@ -314,8 +312,7 @@ public class ProjectSourceCompiler {
 		} catch (UnknownHostException e) {
 			aSb.append("unknown");
 		}
-		//TODO date will need to be simplified to have optimize build time
-//		aSb.append(") on ").append(new Date()).append('\n');
+
 		aSb.append(")\n");
 		aSb.append('\n' );
 		aSb.append( "// ").append(GeneralConstants.COPYRIGHT_STRING).append('\n' );
