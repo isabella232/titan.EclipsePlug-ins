@@ -215,8 +215,7 @@ public final class InternalMakefileCreationTab {
 	 * @param value
 	 *                the actual state of automatic Makefile generation.
 	 * */
-	// FIXME this page can always be edited ... this change needs to be
-	// applied
+	// FIXME this page can always be edited ... this change needs to be applied
 	protected void setMakefileGenerationEnabled(final boolean value) {
 		if (optionList != null) {
 			optionList.getControl().setEnabled(value);
