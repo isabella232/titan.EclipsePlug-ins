@@ -21,8 +21,7 @@ public abstract class SubtypeConstraint {
 	/** return if this set is equal to the other */
 	public abstract TernaryBool isEqual(SubtypeConstraint other);
 
-	// FIXME should be much more specific, using the object type indicates
-	// design problems
+	// FIXME should be much more specific, using the object type indicates design problems
 	/** return if o is an element of this set */
 	public abstract boolean isElement(Object o);
 
