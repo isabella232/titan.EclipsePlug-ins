@@ -951,7 +951,7 @@ public final class Referenced_Template extends TTCN3Template {
 			source.append(expression.postamble);
 			source.append("}\n");
 		} else {
-			//FIXME handle needs conversion case
+			//FIXME handle the needs conversion case
 			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, expression.expression));
 		}
 
