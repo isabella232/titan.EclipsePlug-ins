@@ -136,7 +136,7 @@ public class EventObject implements IEventObject {
 	 * @param pReference the reference of the event
 	 */
 	public void setReference(final String pReference) {
-		//FIXME should be handle correctly at source location.
+		//FIXME should be handled correctly at source location.
 		this.reference = pReference;
 	}
 
