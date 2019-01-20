@@ -232,8 +232,9 @@ public final class IsBoundExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
-		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		ITTCN3Template template = templateInstance.getTemplateBody();
+		template.setMyGovernor(null);
+		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		if (governor == null) {
 			template = template.setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);

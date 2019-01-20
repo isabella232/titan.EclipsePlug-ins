@@ -140,6 +140,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 		isErroneous = false;
 
 		ITTCN3Template template = templateInstance.getTemplateBody();
+		template.setMyGovernor(null);
 		template = template.setLoweridToReference(timestamp);
 		if (template.getIsErroneous(timestamp)) {
 			isErroneous = true;

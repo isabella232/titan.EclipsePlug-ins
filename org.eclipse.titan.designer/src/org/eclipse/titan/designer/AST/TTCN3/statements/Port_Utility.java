@@ -524,9 +524,9 @@ public final class Port_Utility {
 		boolean senderRedirectChecked = false;
 		IType fromClauseType = null;
 		if (fromClause != null) {
-			fromClauseType = fromClause.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 			ITTCN3Template templateBody = fromClause.getTemplateBody();
-
+			templateBody.setMyGovernor(null);
+			fromClauseType = fromClause.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 			if (fromClauseType == null) {
 				if (addressType != null) {
 					templateBody = addressType.checkThisTemplateRef(timestamp, templateBody);

@@ -205,8 +205,9 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
-		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 		ITTCN3Template template = templateInstance1.getTemplateBody();
+		template.setMyGovernor(null);
+		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 		if (type == null) {
 			template = template.setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);

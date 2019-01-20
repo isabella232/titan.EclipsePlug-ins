@@ -163,6 +163,7 @@ public final class MatchExpression extends Expression_Value {
 			localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		}
 		ITTCN3Template template = templateInstance.getTemplateBody();
+		template.setMyGovernor(null);
 		if (localGovernor == null) {
 			template = template.setLoweridToReference(timestamp);
 			localGovernor = template.getExpressionGovernor(timestamp, internalExpectation);

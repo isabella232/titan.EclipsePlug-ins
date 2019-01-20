@@ -262,8 +262,9 @@ public final class RegexpExpression extends Expression_Value {
 		setIsErroneous(false);
 
 		if (templateInstance1 != null) {
-			IType governor1 = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 			ITTCN3Template template = templateInstance1.getTemplateBody();
+			template.setMyGovernor(null);
+			IType governor1 = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 			if (governor1 == null) {
 				template = template.setLoweridToReference(timestamp);
 				governor1 = template.getExpressionGovernor(timestamp, internalExpectation);
@@ -300,8 +301,9 @@ public final class RegexpExpression extends Expression_Value {
 		}
 
 		if (templateInstance2 != null) {
-			IType governor2 = templateInstance2.getExpressionGovernor(timestamp, internalExpectation);
 			ITTCN3Template temp = templateInstance2.getTemplateBody();
+			temp.setMyGovernor(null);
+			IType governor2 = templateInstance2.getExpressionGovernor(timestamp, internalExpectation);
 			if (governor2 == null) {
 				temp = temp.setLoweridToReference(timestamp);
 				governor2 = temp.getExpressionGovernor(timestamp, internalExpectation);

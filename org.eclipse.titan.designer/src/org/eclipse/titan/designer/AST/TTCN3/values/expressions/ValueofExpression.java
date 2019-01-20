@@ -196,11 +196,12 @@ public final class ValueofExpression extends Expression_Value {
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
+		ITTCN3Template template = templateInstance.getTemplateBody();
+		template.setMyGovernor(null);
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		}
-		ITTCN3Template template = templateInstance.getTemplateBody();
 		if (governor == null) {
 			template = template.setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
