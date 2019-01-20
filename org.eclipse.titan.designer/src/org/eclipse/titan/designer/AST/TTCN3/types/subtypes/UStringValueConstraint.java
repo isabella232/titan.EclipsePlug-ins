@@ -157,8 +157,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	public UStringValueConstraint remove(final StringPatternConstraint patternConstraint, final boolean ifElement) {
 		return this;
 		/*
-		 * TODO activate this commented code when
-		 * pattern_constraint.isElement() will be implemented
+		 * TODO activate this commented code when pattern_constraint.isElement() will be implemented
 		 * Set<UniversalCharstring> ret_val = new
 		 * HashSet<UniversalCharstring>(); for (UniversalCharstring
 		 * str:values) { if

@@ -162,8 +162,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	public StringValueConstraint remove(final StringPatternConstraint patternConstraint, final boolean ifElement) {
 		return this;
 		/*
-		 * TODO activate this commented code when
-		 * pattern_constraint.isElement() will be implemented
+		 * TODO activate this commented code when pattern_constraint.isElement() will be implemented
 		 * Set<String> ret_val = new HashSet<String>(); for (String
 		 * str:values) { if
 		 * (pattern_constraint.isElement(str)!=if_element) {
