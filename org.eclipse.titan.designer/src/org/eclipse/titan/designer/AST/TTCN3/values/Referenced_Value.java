@@ -798,7 +798,6 @@ public final class Referenced_Value extends Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		// TODO check and handle conversion needs
-		// TODO actually generate_code_const_ref
 		reference.generateConstRef(aData, expression);
 	}
 
