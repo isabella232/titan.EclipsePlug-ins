@@ -102,7 +102,6 @@ public final class SignatureGenerator {
 	 *                the signature definition to generate code for.
 	 * */
 	public static void generateClasses(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
-		aData.addBuiltinTypeImport("TitanBoolean");
 		if (!def.signatureExceptions.isEmpty() || !def.formalParameters.isEmpty()) {
 			aData.addBuiltinTypeImport("Base_Template.template_sel");
 		}
