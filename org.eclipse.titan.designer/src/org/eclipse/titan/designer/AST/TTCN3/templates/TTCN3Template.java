@@ -152,7 +152,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public final void setMyGovernor(final IType governor) {
+	public void setMyGovernor(final IType governor) {
 		myGovernor = governor;
 	}
 

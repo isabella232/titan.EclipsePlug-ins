@@ -159,6 +159,15 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public final void setMyGovernor(final IType governor) {
+		myGovernor = governor;
+		if (realTemplate != null && realTemplate != this) {
+			realTemplate.setMyGovernor(governor);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			if (myGovernor != null) {
