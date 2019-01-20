@@ -366,8 +366,7 @@ public final class RegexpExpression extends Expression_Value {
 			}
 		}
 
-		// TODO add regexp specific checks once patterns become
-		// supported
+		// TODO add regexp specific checks once patterns become supported
 	}
 
 	@Override
