@@ -154,7 +154,6 @@ public final class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
-		aData.addBuiltinTypeImport("TitanNull_Type");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
@@ -319,15 +318,6 @@ public final class RecordSetCodeGenerator {
 		}
 
 		aSb.append( "\t\t}\n" );
-
-		if ( aData.isDebug() ) {
-			aSb.append( "\t\t/**\n" );
-			aSb.append( "\t\t * Initializes to unbound value.\n" );
-			aSb.append( "\t\t * */\n" );
-		}
-		aSb.append(MessageFormat.format("\t\tpublic {0}( final TitanNull_Type otherValue ) '{'\n", aClassName));
-		aSb.append("\t\t\tthis();\n");
-		aSb.append("\t\t}\n\n");
 	}
 
 	/**
@@ -486,20 +476,6 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n\n");
 		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
 		source.append("\t\t}\n");
-
-		if ( aData.isDebug() ) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Assigns an empty record/set to this value.\n");
-			source.append("\t\t * Technically a nothing needs to be done.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param otherValue\n");
-			source.append("\t\t *                only used to differentiate from other assignments.\n");
-			source.append("\t\t * @return the new value object.\n");
-			source.append("\t\t */\n");
-		}
-		source.append(MessageFormat.format("\t\tpublic {0} operator_assign( final TitanNull_Type otherValue ) '{'\n", aClassName));
-		source.append("\t\t\treturn this;\n");
-		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2021,15 +1997,6 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
-
-		if ( aData.isDebug() ) {
-			source.append( "\t\t/**\n" );
-			source.append( "\t\t * Initializes to unbound value.\n" );
-			source.append( "\t\t * */\n" );
-		}
-		source.append(MessageFormat.format("\t\tpublic {0}_template( final TitanNull_Type otherValue ) '{'\n", genName));
-		source.append("\t\t\tthis();\n");
-		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2134,20 +2101,6 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn this;\n");
-		source.append("\t\t}\n\n");
-
-		if ( aData.isDebug() ) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Assigns an empty record/set to this template.\n");
-			source.append("\t\t * Technically a nothing needs to be done.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param otherValue\n");
-			source.append("\t\t *                only used to differentiate from other assignments.\n");
-			source.append("\t\t * @return the new value object.\n");
-			source.append("\t\t */\n");
-		}
-		source.append( MessageFormat.format( "\t\tpublic {0}_template  operator_assign( final TitanNull_Type otherValue ) '{'\n", genName ) );
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 	}
