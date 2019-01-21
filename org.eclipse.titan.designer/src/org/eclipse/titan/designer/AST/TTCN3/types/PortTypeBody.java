@@ -412,8 +412,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * @param providerReference the reference pointing to the provider port
 	 * @param legacy is it in legacy syntax?
-	 * 
-	 *TODO check if we should de this in one step.
 	 * */
 	public void addUserAttribute(final List<Reference> providerReferences, final boolean legacy) {
 		parsedPortType = PortType_type.PT_USER;
