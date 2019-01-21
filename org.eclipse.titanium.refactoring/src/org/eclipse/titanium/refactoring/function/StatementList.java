@@ -31,8 +31,7 @@ class StatementList extends ASTNode implements ILocateableNode {
 	protected StatementList(List<Statement> statements) {
 		this.statements = statements;
 		if (statements == null) {
-			//TODO check should probably use this. here
-			statements = new ArrayList<Statement>();
+			this.statements = new ArrayList<Statement>();
 		}
 		if (!statements.isEmpty()) {
 			myStatementBlock = statements.get(0).getMyStatementBlock();
@@ -71,13 +70,12 @@ class StatementList extends ASTNode implements ILocateableNode {
 
 	@Override
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (statements != null) {
-			for (Statement s: statements) {
-				if (!s.accept(v)) {
-					return false;
-				}
+		for (Statement s: statements) {
+			if (!s.accept(v)) {
+				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -101,27 +99,23 @@ class StatementList extends ASTNode implements ILocateableNode {
 			sb.append(myStatementBlock.getMyDefinition().getIdentifier());
 		}
 		sb.append("\n  Statements: ");
-		if (statements == null) {
-			sb.append("null");
-		} else {
-			sb.append("(count: ");
-			sb.append(statements.size());
-			sb.append(") \n");
-			for (Statement s: statements) {
-				sb.append("    ");
-				sb.append(s.getStatementName());
-				sb.append(", loc: ");
-				if (s.getLocation() == null) {
-					sb.append("null");
-				} else {
-					sb.append(s.getLocation().getOffset());
-					sb.append("->");
-					sb.append(s.getLocation().getEndOffset());
-					sb.append(" in line ");
-					sb.append(s.getLocation().getLine());
-				}
-				sb.append('\n');
+		sb.append("(count: ");
+		sb.append(statements.size());
+		sb.append(") \n");
+		for (Statement s: statements) {
+			sb.append("    ");
+			sb.append(s.getStatementName());
+			sb.append(", loc: ");
+			if (s.getLocation() == null) {
+				sb.append("null");
+			} else {
+				sb.append(s.getLocation().getOffset());
+				sb.append("->");
+				sb.append(s.getLocation().getEndOffset());
+				sb.append(" in line ");
+				sb.append(s.getLocation().getLine());
 			}
+			sb.append('\n');
 		}
 		sb.append('\n');
 		return sb.toString();
