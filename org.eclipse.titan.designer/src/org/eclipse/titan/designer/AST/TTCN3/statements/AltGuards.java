@@ -615,7 +615,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				final StatementBlock block = altGuard.getStatementBlock();
 				if (block.getSize() > 0) {
 					source.append("{\n");
-					//TODO debugger
+					//TODO handle debugger
 					block.generateCode(aData, source);
 					source.append("}\n");
 				}
