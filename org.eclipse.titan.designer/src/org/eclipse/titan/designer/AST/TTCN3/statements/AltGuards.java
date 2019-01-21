@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.Code;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -580,9 +581,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			}
 			source.append(MessageFormat.format("{0}_default_flag == TitanAlt_Status.ALT_NO) '{'\n", label));
 			source.append("throw new TtcnError(\"None of the branches can be chosen in the alt statement");
-			//TODO translate_string
 			if(location != null && location.getFile() != null) {
-				source.append(MessageFormat.format("in file {0} at line {1}", location.getFile().getName(), location.getLine()));
+				source.append(MessageFormat.format("in file {0} at line {1}", Code.translate_string(location.getFile().getName()), location.getLine()));
 			}
 			source.append("\");\n");
 			source.append("}\n");
@@ -845,9 +845,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 		source.append(") {\n");
 		source.append("throw new TtcnError(\"None of the branches can be chosen in the response and exception handling part of call statement in file");
-		//TODO translate_string
 		if(location != null && location.getFile() != null) {
-			source.append(MessageFormat.format("in file {0} at line {1}", location.getFile().getName(), location.getLine()));
+			source.append(MessageFormat.format("in file {0} at line {1}", Code.translate_string(location.getFile().getName()), location.getLine()));
 		}
 		source.append("\");\n");
 		source.append("}\n");
