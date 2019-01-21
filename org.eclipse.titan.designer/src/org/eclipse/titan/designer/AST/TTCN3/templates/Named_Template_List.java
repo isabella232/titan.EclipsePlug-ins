@@ -589,7 +589,24 @@ public final class Named_Template_List extends TTCN3Template {
 			return false;
 		}
 
-		return namedTemplates.getNofTemplates() == 0;
+		if (myGovernor == null) {
+			return false;
+		}
+
+		switch (myGovernor.getTypetype()) {
+		case TYPE_TTCN3_SEQUENCE:
+			return ((TTCN3_Sequence_Type) myGovernor).getNofComponents() == 0;
+		case TYPE_ASN1_SEQUENCE:
+			return ((ASN1_Sequence_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) == 0;
+		case TYPE_SIGNATURE:
+			return ((Signature_Type) myGovernor).getNofParameters() == 0;
+		case TYPE_TTCN3_SET:
+			return ((TTCN3_Set_Type) myGovernor).getNofComponents() == 0;
+		case TYPE_ASN1_SET:
+			return ((ASN1_Set_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) == 0;
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -687,11 +704,49 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		if (namedTemplates.getNofTemplates() == 0) {
+		int nofTypeMembers;
+		switch (myGovernor.getTypetype()) {
+		case TYPE_TTCN3_SEQUENCE:
+			nofTypeMembers = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
+			break;
+		case TYPE_ASN1_SEQUENCE:
+			nofTypeMembers = ((ASN1_Sequence_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		case TYPE_SIGNATURE:
+			nofTypeMembers = ((Signature_Type) myGovernor).getNofParameters();
+			break;
+		case TYPE_TTCN3_SET:
+			nofTypeMembers = ((TTCN3_Set_Type) myGovernor).getNofComponents();
+			break;
+		case TYPE_ASN1_SET:
+			nofTypeMembers = ((ASN1_Set_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		default:
+			//some value not 0
+			nofTypeMembers = 1;
+			break;
+		}
+
+		if (nofTypeMembers == 0) {
 			aData.addBuiltinTypeImport("TitanNull_Type");
 
 			source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
-		}//else is not needed as the loop will not run
+
+			if (lengthRestriction != null) {
+				if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+					lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
+				}
+				lengthRestriction.generateCodeInit(aData, source, name);
+			}
+
+			if (isIfpresent) {
+				source.append(name);
+				source.append(".set_ifPresent();\n");
+			}
+
+			return;
+		}
+
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			final String fieldName = namedTemplate.getName().getName();
