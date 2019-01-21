@@ -672,57 +672,6 @@ public final class Port_Utility {
 	}
 
 	/**
-	 * Calculates the type of a variable when it was to be used as a value
-	 * redirect target.
-	 *
-	 * @param timestamp
-	 *                the timestamp of the actual build cycle.
-	 * @param redirectValue
-	 *                the reference to which the redirection is targeted
-	 * @param type
-	 *                the expected type of the value redirection.
-	 *
-	 * @return the the type of a variable referenced when it was to be used
-	 *         as a value redirection target.
-	 * */
-	public static IType checkValueRedirect(final CompilationTimeStamp timestamp, final Reference redirectValue, final IType type) {
-		if (redirectValue == null) {
-			return null;
-		}
-
-		final IType variableType = redirectValue.checkVariableReference(timestamp);
-		if (type != null && variableType != null && !type.isCompatible(timestamp, variableType, null, null, null)) {
-			redirectValue.getLocation().reportSemanticError(
-					MessageFormat.format(VALUEREDIRECTTYPEMISSMATCH, type.getTypename(), variableType.getTypename()));
-		}
-
-		final Assignment assignment = redirectValue.getRefdAssignment(timestamp, true);
-		if (assignment != null) {
-			switch (assignment.getAssignmentType()) {
-			case A_PAR_VAL:
-			case A_PAR_VAL_OUT:
-			case A_PAR_VAL_INOUT:
-				((FormalParameter) assignment).setWritten();
-				break;
-			case A_VAR:
-				((Def_Var) assignment).setWritten();
-				break;
-			case A_PAR_TEMP_OUT:
-			case A_PAR_TEMP_INOUT:
-				((FormalParameter) assignment).setWritten();
-				break;
-			case A_VAR_TEMPLATE:
-				((Def_Var_Template) assignment).setWritten();
-				break;
-			default:
-				break;
-			}
-		}
-
-		return variableType;
-	}
-
-	/**
 	 * Checks a timestamp redirect to see if it references a variable of a valid type.
 	 *
 	 * @param timestamp
@@ -747,50 +696,6 @@ public final class Port_Utility {
 		if (variableType != null && variableType.getTypeRefdLast(timestamp).getTypetype() != Type_type.TYPE_REAL) {
 			redirectTimestamp.getLocation().reportSemanticError(MessageFormat.format("The type of the variable should be float instead of `{0}''", variableType.getTypename()));
 		}
-	}
-
-	/**
-	 * Calculates the type of a template instance when it was to be used as
-	 * a parameter of a receiving statement (receive / trigger /
-	 * check-receive).
-	 *
-	 * @param timestamp
-	 *                the timestamp of the actual build cycle.
-	 * @param templateInstance
-	 *                the template instance whose type needs to be
-	 *                calculated.
-	 * @param valueRedirect
-	 *                the value redirect of the receiving statement to help
-	 *                the identification of the type.
-	 * @param valueRedirectChecked
-	 *                after the function executed this will store whether
-	 *                the execution has called the checking of value
-	 *                redirect. This has to be an array of 1 in length.
-	 *
-	 * @return the the type of a template instance when it was to be used as
-	 *         a parameter of a receiving statement
-	 * */
-	//FIXME could be removed
-	public static IType getIncomingType(final CompilationTimeStamp timestamp, final TemplateInstance templateInstance,
-			final Reference valueRedirect, final boolean[] valueRedirectChecked) {
-		IType result = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-
-		if (result != null) {
-			return result;
-		}
-
-		result = checkValueRedirect(timestamp, valueRedirect, null);
-		valueRedirectChecked[0] = true;
-
-		if (result != null) {
-			return result;
-		}
-
-		final ITTCN3Template template = templateInstance.getTemplateBody();
-
-		final ITTCN3Template temp = template.setLoweridToReference(timestamp);
-
-		return temp.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 	}
 
 	/**
