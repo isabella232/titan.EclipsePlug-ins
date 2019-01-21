@@ -11,8 +11,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.compiler.JavaGenData;
+import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 
 /**
  * The code generator part for port types.
@@ -316,10 +318,12 @@ public final class PortGenerator {
 	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param project
+	 *                the project where this port is generated.
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	public static void generateClass(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
+	public static void generateClass(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
 		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Index_Redirect");
@@ -353,7 +357,7 @@ public final class PortGenerator {
 		}
 
 
-		generateDeclaration(aData, source, portDefinition);
+		generateDeclaration(aData, source, project, portDefinition);
 
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
@@ -879,10 +883,12 @@ public final class PortGenerator {
 	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param project
+	 *                the project where this port is generated.
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
+	public static String getClassName(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
 		String className;
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			className = portDefinition.javaName;
@@ -898,7 +904,7 @@ public final class PortGenerator {
 			case REGULAR:
 				className = portDefinition.javaName;
 
-				aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
+				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + portDefinition.javaName);
 				break;
 			case PROVIDER:
 				className = portDefinition.javaName;
@@ -921,10 +927,12 @@ public final class PortGenerator {
 	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param project
+	 *                the project where this port is generated.
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateDeclaration(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
+	private static void generateDeclaration(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
 		String className;
 		String baseClassName;
 		String abstractNess = "";
@@ -940,7 +948,7 @@ public final class PortGenerator {
 					className = portDefinition.javaName;
 					baseClassName = portDefinition.providerMessageOutList.get(0).name + "_PROVIDER";
 
-					aData.addImport("org.eclipse.titan.user_provided." + baseClassName);
+					aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
 					break;
 				}
 				// else fall through
@@ -950,13 +958,13 @@ public final class PortGenerator {
 				abstractNess = "abstract";
 
 				aData.addBuiltinTypeImport( "TitanPort" );
-				aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
+				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + portDefinition.javaName);
 				break;
 			case PROVIDER:
 				className = portDefinition.javaName;
 				baseClassName = portDefinition.javaName + "_PROVIDER";
 
-				aData.addImport("org.eclipse.titan.user_provided." + baseClassName);
+				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
 				break;
 			default:
 				className = "invalid port type";

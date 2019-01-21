@@ -281,6 +281,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
 		if (inTypes != null) {
 			for (int i = 0, size = inTypes.size(); i < size; i++) {
 				inTypes.get(i).setMyScope(scope);
@@ -1905,7 +1906,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public String getClassName(final JavaGenData aData, final StringBuilder source) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
 
-		return PortGenerator.getClassName(aData, source, portDefinition);
+		return PortGenerator.getClassName(aData, source, myScope.getModuleScopeGen().getProject(), portDefinition);
 	}
 	/**
 	 * Add generated java code on this level.
@@ -1916,7 +1917,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
 
-		PortGenerator.generateClass(aData, source, portDefinition);
+		PortGenerator.generateClass(aData, source, myScope.getModuleScopeGen().getProject(), portDefinition);
 	}
 
 	/**

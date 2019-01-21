@@ -19,12 +19,14 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
+import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -279,7 +281,10 @@ public final class Def_ExternalConst extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScopeGen().getIdentifier().getName() + "_externalconstants");
+		final Module genModule = myScope.getModuleScopeGen();
+		final String packageRoot = ProjectSourceCompiler.getPackageUserProvidedRoot(genModule.getProject());
+
+		aData.addImport(packageRoot + "." + genModule.getIdentifier().getName() + "_externalconstants");
 	}
 
 

@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
+import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
@@ -47,7 +49,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 */
 
 /**
@@ -225,10 +226,15 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 	// the root package of the user generated java source, e.g. test port types, generally TestPortTypeName_PT
 	//private final static String PACKAGE_USER_PROVIDED_ROOT = "org.eclipse.titan.user_provided";
 	// the root folder of the user generated java source, e.g. for test port types 
-	private final static String DIR_USER_PROVIDED_ROOT = "user_provided/org/eclipse/titan/user_provided";
+//	private final static String DIR_USER_PROVIDED_ROOT = "user_provided/org/eclipse/titan/user_provided";
+	private static String getUserProvidedRoot(final IProject project) {
+		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
+
+		return MessageFormat.format("java_src/org/eclipse/titan/{0}/user_provided", projectName);
+	}
 	
 	private void createUserProvidedPackageFolder() throws CoreException {
-		final IFolder folder = newProject.getFolder(DIR_USER_PROVIDED_ROOT);
+		final IFolder folder = newProject.getFolder(getUserProvidedRoot(newProject));
 		ProjectSourceCompiler.createDir(folder);
 	}
 

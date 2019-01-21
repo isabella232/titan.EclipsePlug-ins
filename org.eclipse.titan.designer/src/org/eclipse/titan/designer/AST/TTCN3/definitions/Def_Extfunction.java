@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -46,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
+import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -891,7 +893,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			moduleName.append(myScope.getModuleScopeGen().getIdentifier().getName());
 			moduleName.append("_externalfunctions");
-			aData.addImport("org.eclipse.titan.user_provided." + moduleName.toString());
+			final String packageRoot = ProjectSourceCompiler.getPackageUserProvidedRoot(myScope.getModuleScopeGen().getProject());
+			aData.addImport(packageRoot + "." + moduleName.toString());
 
 			final StringBuilder returnValue = new StringBuilder(moduleName);
 			returnValue.append('.');
@@ -914,8 +917,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScopeGen().getIdentifier().getName() + "_externalfunctions");
+			final Module genModule = myScope.getModuleScopeGen();
+			final String packageRoot = ProjectSourceCompiler.getPackageUserProvidedRoot(genModule.getProject());
+			aData.addImport(packageRoot + "." + genModule.getIdentifier().getName() + "_externalfunctions");
 			// external functions are implemented elsewhere
+
 			return;
 		}
 
