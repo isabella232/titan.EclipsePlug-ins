@@ -134,13 +134,11 @@ public final class PlatformSpecificLibrariesOptionsData {
 	 * */
 	public static void saveMakefileSettings(final String platform, final Element makefileSettings, final Document document, final IProject project) {
 		try {
-			// TODO check if this is needed when there are no
-			// elements
-			final Element list = document.createElement(platform + SPECIFIC_LIBRARIES_TAG);
 			final String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, platform
 					+ SPECIFIC_LIBRARIES_PROPERTY));
 			final String[] tempList = ListConverter.convertToList(temp);
 			if (tempList.length > 0) {
+				final Element list = document.createElement(platform + SPECIFIC_LIBRARIES_TAG);
 				makefileSettings.appendChild(list);
 				for (int j = 0; j < tempList.length; j++) {
 					if (tempList[j] != null && tempList[j].length() > 0) {
