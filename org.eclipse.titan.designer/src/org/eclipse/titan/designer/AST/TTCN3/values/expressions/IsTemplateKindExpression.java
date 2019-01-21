@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -15,6 +16,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -25,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -257,6 +260,22 @@ public final class IsTemplateKindExpression extends Expression_Value {
 				setIsErroneous(true);
 			}
 			break;
+		}
+
+		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		IValue lastValue = value.getValueRefdLast(timestamp, chain);
+		chain.release();
+
+		if (!lastValue.isUnfoldable(timestamp)) {
+			final String text = ((Charstring_Value)lastValue).getValue();
+			if (!"value".equals(text)&& !"list".equals(text) && !"complement".equals(text) && !"AnyValue".equals(text)
+					&& !"?".equals(text) && !"AnyValueOrNone".equals(text) && !"*".equals(text) && !"range".equals(text)
+					&& !"superset".equals(text) && !"subset".equals(text) && !"omit".equals(text) && !"decmatch".equals(text)
+					&& !"AnyElement".equals(text) && !"AnyElementsOrNone".equals(text) && !"permutation".equals(text)
+					&& !"length".equals(text) && !"ifpresent".equals(text) && !"pattern".equals(text)) {
+				value.getLocation().reportSemanticError(MessageFormat.format("Incorrect second parameter ({0}) was passed to istemplatekind.", text));
+				setIsErroneous(true);
+			}
 		}
 	}
 
