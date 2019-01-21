@@ -390,8 +390,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 	 * This function practically enables the onthefly parser to redraw the
 	 * texts, according to the information it has collected
 	 *
-	 * TODO check if we will need to create specialised versions to decrease
-	 * the computational level
+	 * TODO check if we will need to create specialised versions to decrease the computational level
 	 * */
 	@Override
 	public void invalidateTextPresentation() {
