@@ -75,7 +75,6 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 		}
 
 		IType governor = v.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-		// TODO Kristof: az ellenorzes folosleges.
 		if (governor instanceof Referenced_Type) {
 			governor = governor.getTypeRefdLast(timestamp);
 		}
