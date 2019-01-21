@@ -22,7 +22,6 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString_template.Unichar_Decmatch;
 
-//TODO: implement set_param
 /**
  * TTCN-3 charstring template
  *
