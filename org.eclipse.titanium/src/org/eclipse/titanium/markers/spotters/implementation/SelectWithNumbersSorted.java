@@ -74,13 +74,13 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 			}
 		}
 
-		IType itype = v.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		IType governor = v.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		// TODO Kristof: az ellenorzes folosleges.
-		if (itype instanceof Referenced_Type) {
-			itype = itype.getTypeRefdLast(timestamp);
+		if (governor instanceof Referenced_Type) {
+			governor = governor.getTypeRefdLast(timestamp);
 		}
 
-		if (itype == null || !(itype instanceof Integer_Type)) {
+		if (governor == null || !(governor instanceof Integer_Type)) {
 			return;
 		}
 
