@@ -295,7 +295,7 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			checkExpressionOperands(timestamp, expectedValue, referenceChain);
 		}
 
-		//TODO could be optimized for templates
+		//TODO if value is foldable, in some case we could statically
 
 		return lastValue;
 	}
