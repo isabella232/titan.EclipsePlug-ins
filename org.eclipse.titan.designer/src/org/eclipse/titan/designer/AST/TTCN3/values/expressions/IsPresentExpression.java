@@ -164,8 +164,7 @@ public final class IsPresentExpression extends Expression_Value {
 					return true;
 				}
 
-				// TODO improve to better detect unbound
-				// elements
+				// TODO improve to better detect unbound elements
 				final IValue last = specificValue.getValueRefdLast(timestamp, expectedValue, null);
 				if (last == null) {
 					return true;
