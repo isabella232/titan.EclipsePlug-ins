@@ -3424,6 +3424,9 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("\t\tpublic {0}(final TitanNull_Type other_value) '{'\n", genName));
 		source.append("\t\t\tsuper(other_value);\n");
 		source.append("\t\t}\n");
+		source.append(MessageFormat.format("\t\tpublic {0}(final PreGenRecordOf.PREGEN__{1}__OF__{2}{3} other_value) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
+		source.append("\t\t\tsuper(other_value);\n");
+		source.append("\t\t}\n");
 		source.append("\t}\n");
 	}
 
@@ -3478,6 +3481,9 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tsuper(other_template);\n");
 		source.append("\t\t}\n");
 		source.append(MessageFormat.format("\t\tpublic {0}_template(final TitanNull_Type other_template) '{'\n", genName));
+		source.append("\t\t\tsuper(other_template);\n");
+		source.append("\t\t}\n");
+		source.append(MessageFormat.format("\t\tpublic {0}_template(final PreGenRecordOf.PREGEN__{1}__OF__{2}{3}_template other_template) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
 		source.append("\t\t\tsuper(other_template);\n");
 		source.append("\t\t}\n");
 
