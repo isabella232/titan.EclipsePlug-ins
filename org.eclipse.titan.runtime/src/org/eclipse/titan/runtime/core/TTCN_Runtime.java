@@ -36,7 +36,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 public final class TTCN_Runtime {
 	public static final int TTCN3_MAJOR = 6;
 	public static final int TTCN3_MINOR = 5;
-	public static final int TTCN3_PATCHLEVEL = 0;
+	public static final int TTCN3_PATCHLEVEL = 1;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
 	public static final String VERSION_STRING = "6.5.1";
