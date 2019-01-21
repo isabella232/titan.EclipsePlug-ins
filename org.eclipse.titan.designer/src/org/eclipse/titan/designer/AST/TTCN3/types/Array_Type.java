@@ -89,7 +89,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	private final Type elementType;
 	private final ArrayDimension dimension;
 	// used only in code generation
-	private final boolean inTypeDefinition;//TODO check usefulness
+	private final boolean inTypeDefinition;
 
 	private boolean componentInternal;
 
