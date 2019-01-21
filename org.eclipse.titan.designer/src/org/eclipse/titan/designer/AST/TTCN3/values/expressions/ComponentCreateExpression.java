@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.Code;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
@@ -395,7 +396,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				// TODO check why translate
+				// TODO character translation needed
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
 				name.generateCodeExpressionMandatory(aData, expression, false);
@@ -412,7 +413,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				// TODO check why translate
+				// TODO character translation needed
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
 				location.generateCodeExpressionMandatory(aData, expression, false);
