@@ -30,8 +30,6 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -60,8 +58,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Arpad Lovassy
  */
 public final class Port_Utility {
-	private static final String VALUEREDIRECTTYPEMISSMATCH = "Type mismatch in value redirect:"
-			+ " A variable of type `{0}'' was expected instead of `{1}''";
 	private static final String PORTINCONTROLPART = "Port operation is not allowed in the control part";
 	private static final String PORTREFERENCEEXPECTED = "Reference to a port {0} was expected instead of {1}";
 	private static final String SIGNATUREEXPECTED1 = "Reference to a signature was expceted instead of {0}";
