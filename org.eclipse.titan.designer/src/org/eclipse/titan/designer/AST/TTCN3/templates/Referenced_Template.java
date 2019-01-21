@@ -67,8 +67,7 @@ public final class Referenced_Template extends TTCN3Template {
 
 	private final Reference reference;
 
-	// TODO could be optimized by using a reference to the last referred
-	// template
+	// TODO could be optimized by using a reference to the last referred template
 	public Referenced_Template(final Reference reference) {
 		this.reference = reference;
 
