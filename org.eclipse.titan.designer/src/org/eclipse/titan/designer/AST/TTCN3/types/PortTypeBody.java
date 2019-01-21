@@ -2224,7 +2224,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-		// TODO will we need to generate testport skeleton here, or can we find a better way?
+		// TODO will we need to generate testport skeleton here, or are the feature supported by eclipse enough?
 
 		return portDefinition;
 	}
