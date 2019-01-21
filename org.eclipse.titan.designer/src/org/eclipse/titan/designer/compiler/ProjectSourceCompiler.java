@@ -165,7 +165,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), moduleName));
 		}
 
-		contentBuilder.append("public class Single_main '{'\n\n");
+		contentBuilder.append("public class Single_main {\n\n");
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
@@ -236,7 +236,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), moduleName));
 		}
 
-		contentBuilder.append("public class Parallel_main '{'\n\n");
+		contentBuilder.append("public class Parallel_main {\n\n");
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		contentBuilder.append("Module_List.add_module(new PreGenRecordOf());\n");
