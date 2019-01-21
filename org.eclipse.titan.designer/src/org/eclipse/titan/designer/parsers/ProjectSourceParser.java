@@ -1106,9 +1106,7 @@ public final class ProjectSourceParser {
 		for (final IProject project : projectTobeLocked) {
 			final List<IProject> temp = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 			for (final IProject temp2 : temp) {
-				// TODO this a quick hack, when we have time
-				// check if the commented requirement is valid
-				// or not.
+				// TODO this a quick hack, when we have time check if the commented requirement is valid or not.
 				if (!projectTobeLocked.contains(temp2) && !additionalRequired.contains(temp2)) {
 					additionalRequired.add(temp2);
 				}
