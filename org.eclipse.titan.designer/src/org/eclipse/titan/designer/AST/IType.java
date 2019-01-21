@@ -606,7 +606,6 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable);
 
-	//TODO check if we need to separate global or not
 	/**
 	 * Parses the specified variant attribute and checks its validity (when
 	 * using the new codec handling).
