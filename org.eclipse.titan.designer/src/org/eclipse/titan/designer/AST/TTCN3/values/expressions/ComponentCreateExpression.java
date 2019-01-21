@@ -396,8 +396,10 @@ public final class ComponentCreateExpression extends Expression_Value {
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				// TODO character translation needed
-				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
+				final String temp = ((Charstring_Value) last).getValue();
+				expression.expression.append('\"');
+				expression.expression.append(Code.translate_string(temp));
+				expression.expression.append('\"');
 			} else {
 				name.generateCodeExpressionMandatory(aData, expression, false);
 			}
@@ -413,8 +415,10 @@ public final class ComponentCreateExpression extends Expression_Value {
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				// TODO character translation needed
-				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
+				final String temp = ((Charstring_Value) last).getValue();
+				expression.expression.append('\"');
+				expression.expression.append(Code.translate_string(temp));
+				expression.expression.append('\"');
 			} else {
 				location.generateCodeExpressionMandatory(aData, expression, false);
 			}
