@@ -161,7 +161,8 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 			return false;
 		}
 
-		return true;
+		//TODO maybe can be optimized by analyzing the pattern
+		return false;
 	}
 
 	@Override
@@ -169,7 +170,15 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, getSingleExpression(aData, false)));
+		StringBuilder preamble = new StringBuilder();
+		String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
+
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		final String escaped = Charstring_Value.get_stringRepr(returnValue);
+
+		source.append(preamble);
+		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, new TitanCharString(\"{2}\")));\n", name, myGovernor.getGenNameTemplate(aData, source, myScope), escaped));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {

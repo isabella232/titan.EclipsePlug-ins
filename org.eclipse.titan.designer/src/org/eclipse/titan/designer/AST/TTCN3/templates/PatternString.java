@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.IASTNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -141,4 +142,10 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		return true;
 	}
 
+	//FIXME comment
+	public String create_charstring_literals(final Module module, final StringBuilder preamble) {
+		//FIXME implement correctly
+
+		return content;
+	}
 }
