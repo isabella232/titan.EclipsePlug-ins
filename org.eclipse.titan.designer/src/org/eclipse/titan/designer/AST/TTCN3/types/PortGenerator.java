@@ -810,6 +810,7 @@ public final class PortGenerator {
 			}
 
 			if (!portDefinition.legacy && !portDefinition.providerInMessages.isEmpty()) {
+				source.append("@Override\n");
 				source.append("public boolean incoming_message_handler(final Base_Type message_ptr, final String message_type, final int sender_component, final TitanFloat timestamp) {\n");
 				for (int i = 0; i < portDefinition.providerInMessages.size(); i++) {
 					final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
