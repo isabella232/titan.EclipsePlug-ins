@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalChar;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -195,6 +196,19 @@ public class Setencode_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		source.append("//TODO: setencode() not implemented\n");
+		if (type.getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false).getCodingTable().size() == 1) {
+			// the 'setencode' statement is ignored if the type has only one encoding
+			return;
+		}
+
+		final ExpressionStruct expression = new ExpressionStruct();
+		encoding.generateCodeExpression(aData, expression, true);
+		if (expression.preamble != null) {
+			source.append(expression.preamble);
+		}
+		source.append(MessageFormat.format("{0}_default_coding.operator_assign( {1} );\n", type.getGenNameDefaultCoding(aData, source, getMyScope()), expression.expression)); 
+		if (expression.postamble != null) {
+			source.append(expression.postamble);
+		}
 	}
 }
