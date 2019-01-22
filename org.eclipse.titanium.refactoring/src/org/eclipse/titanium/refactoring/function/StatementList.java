@@ -34,11 +34,12 @@ class StatementList extends ASTNode implements ILocateableNode {
 			this.statements = new ArrayList<Statement>();
 		}
 		if (!this.statements.isEmpty()) {
-			myStatementBlock = this.statements.get(0).getMyStatementBlock();
-			location = new Location(this.statements.get(0).getLocation().getFile(),
-					this.statements.get(0).getLocation().getLine(),
-					this.statements.get(0).getLocation().getOffset(),
-					this.statements.get(statements.size()-1).getLocation().getEndOffset());
+			final Statement statement = this.statements.get(0);
+			myStatementBlock = statement.getMyStatementBlock();
+			location = new Location(statement.getLocation().getFile(),
+					statement.getLocation().getLine(),
+					statement.getLocation().getOffset(),
+					this.statements.get(this.statements.size()-1).getLocation().getEndOffset());
 		}
 	}
 
