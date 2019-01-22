@@ -62,6 +62,15 @@ public final class BitString_Pattern_Template extends TTCN3Template {
 		return builder.toString();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
+		}
+	}
+
 	public boolean containsAnyornoneSymbol() {
 		return pattern.indexOf('*') > -1;
 	}
