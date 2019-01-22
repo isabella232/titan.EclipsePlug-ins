@@ -825,7 +825,9 @@ public final class SubType implements IIncrementallyUpdateable {
 	}
 
 	private boolean addTtcnPattern(final CompilationTimeStamp timestamp, final PatternString pattern, final int restrictionIndex) {
-		// TODO set scope, fullname
+		pattern.setMyScope(myOwner.getMyScope());
+		pattern.setFullNameParent(new BridgingNamedNode(myOwner, ".<pattern_restriction_" + restrictionIndex + ">"));
+
 		SubtypeConstraint sc;
 		switch (subtypeType) {
 		case ST_CHARSTRING:
