@@ -91,7 +91,7 @@ public final class BitString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		//FIXME implement once patters are supported
+		//FIXME implement once patterns are supported
 
 		return false;
 	}
