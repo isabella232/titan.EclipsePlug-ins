@@ -542,7 +542,25 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return null;
 	}
 
-	//FIXME comment
+	/**
+	 * This function tries to handle the messages passed to it by a provider
+	 * port.
+	 * <p>
+	 * The default implementation is empty. The default generated
+	 * implementation forwards the handling of the message to the right
+	 * incoming_message function of the port.
+	 *
+	 * @param message
+	 *                the message to handle.
+	 * @param message_type
+	 *                the name of the type of the message.
+	 * @param sender_component
+	 *                the unique number of the send component.
+	 * @param timestamp
+	 *                the timestamp provided by the provided port.
+	 * @return {@code true} if the port could handle the message,
+	 *         {@code false} otherwise.
+	 * */
 	public boolean incoming_message_handler(final Base_Type message, final String message_type, final int sender_component, final TitanFloat timestamp) {
 		return false;
 	}
