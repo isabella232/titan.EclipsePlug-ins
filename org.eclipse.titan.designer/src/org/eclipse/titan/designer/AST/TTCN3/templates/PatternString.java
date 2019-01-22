@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 // FIXME: implement
@@ -52,6 +53,15 @@ public final class PatternString implements IVisitableNode {
 
 	public String getFullString() {
 		return content;
+	}
+
+	/**
+	 * Sets the code_section attribute of this pattern to the provided value.
+	 *
+	 * @param codeSection the code section where this pattern should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		//FIXME implement
 	}
 
 	/**
