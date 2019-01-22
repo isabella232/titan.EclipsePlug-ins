@@ -4606,11 +4606,7 @@ pr_ConfigurationStatements returns[Statement statement]
 |	s4 = pr_UnmapStatement		{ $statement = $s4.statement; }
 |	v = pr_ComponentOrDefaultReference
 		pr_Dot
-		(	pr_KilledKeyword
-			(	pr_PortRedirectSymbol
-					(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-					)?
-				)?	{ $statement = new Killed_Statement($v.value, valueRedirection, false, false, null); }		//pr_KilledStatement
+		(	pr_KilledKeyword	{ $statement = new Killed_Statement($v.value, false, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -4625,12 +4621,7 @@ pr_ConfigurationStatements returns[Statement statement]
 |	pr_AnyKeyword
 	(	pr_ComponentKeyword
 		pr_Dot
-		(	pr_KilledKeyword
-			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-				)?
-			)?
-			{ $statement = new Killed_Statement(null, valueRedirection, true, false, null); }		//pr_KilledStatement
+		(	pr_KilledKeyword	{ $statement = new Killed_Statement(null, true, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -4647,13 +4638,9 @@ pr_ConfigurationStatements returns[Statement statement]
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-					(	index = pr_IndexSpec {index_reference = $index.reference;}
-					)?
-				|	index = pr_IndexSpec {index_reference = $index.reference;}
-				)
+				index = pr_IndexSpec {index_reference = $index.reference;}
 			)?
-			{ $statement = new Killed_Statement($cr.value, valueRedirection, true, true, index_reference); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement($cr.value, true, true, index_reference); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -4671,12 +4658,7 @@ pr_ConfigurationStatements returns[Statement statement]
 	)
 |	pr_AllKeyword pr_ComponentKeyword
 	pr_Dot
-	(	pr_KilledKeyword
-		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-			)?
-		)?
-		{ $statement = new Killed_Statement(null, valueRedirection, false, false, null); }		//pr_KilledStatement
+	(	pr_KilledKeyword	{ $statement = new Killed_Statement(null, false, false, null); }		//pr_KilledStatement
 	|	pr_DoneKeyword	//pr_DoneStatement
 		(	pr_LParen
 			t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -6950,12 +6932,7 @@ pr_GuardOp returns[Statement statement]
 }:
 (	v = pr_ComponentOrDefaultReference
 		pr_Dot
-		(	pr_KilledKeyword
-			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-				)?
-			)?
-			{ $statement = new Killed_Statement($v.value, valueRedirection, false, false, null); }		//pr_KilledStatement
+		(	pr_KilledKeyword	{ $statement = new Killed_Statement($v.value, false, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -6970,12 +6947,7 @@ pr_GuardOp returns[Statement statement]
 |	pr_AnyKeyword
 	(	pr_ComponentKeyword
 		pr_Dot
-		(	pr_KilledKeyword
-			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-				)?
-			)?
-			{ $statement = new Killed_Statement(null, valueRedirection, true, false, null); }		//pr_KilledStatement
+		(	pr_KilledKeyword	{ $statement = new Killed_Statement(null, true, false, null); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -6992,13 +6964,9 @@ pr_GuardOp returns[Statement statement]
 		pr_Dot
 		(	pr_KilledKeyword
 			(	pr_PortRedirectSymbol
-				(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-					(	index = pr_IndexSpec {index_reference = $index.reference;}
-					)?
-				|	index = pr_IndexSpec {index_reference = $index.reference;}
-				)
+				index = pr_IndexSpec {index_reference = $index.reference;}
 			)?
-			{ $statement = new Killed_Statement($cr.value, valueRedirection, true, true, index_reference); }		//pr_KilledStatement
+			{ $statement = new Killed_Statement($cr.value, true, true, index_reference); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -7017,11 +6985,7 @@ pr_GuardOp returns[Statement statement]
 |	pr_AllKeyword pr_ComponentKeyword
 	pr_Dot
 	(	pr_KilledKeyword
-		(	pr_PortRedirectSymbol
-			(	vs = pr_ValueSpec { valueRedirection = $vs.redirection; }
-			)?
-		)?
-		{ $statement = new Killed_Statement(null, valueRedirection, false, false, null); }		//pr_KilledStatement
+		{ $statement = new Killed_Statement(null, false, false, null); }		//pr_KilledStatement
 	|	pr_DoneKeyword	//pr_DoneStatement
 		(	pr_LParen
 			t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
