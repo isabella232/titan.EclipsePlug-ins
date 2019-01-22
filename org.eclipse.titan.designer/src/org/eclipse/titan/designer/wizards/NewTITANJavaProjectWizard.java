@@ -132,6 +132,14 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
+				folder = newProjectHandle.getFolder("user_provided");
+				if (!folder.exists()) {
+					try {
+						folder.create(true, true, null);
+					} catch (CoreException e) {
+						ErrorReporter.logExceptionStackTrace(e);
+					}
+				}
 
 				folder = newProjectHandle.getFolder("java_bin");
 				if (!folder.exists()) {
@@ -185,7 +193,8 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 	private void createBuildProperties() throws CoreException {
 		final StringBuilder content = new StringBuilder();
-		content.append("source.. = java_src/\n");
+		content.append("source.. = java_src/,\\\n");
+		content.append("               user_provided/\n");
 		content.append("output.. = java_bin/\n");
 		content.append("bin.includes = META-INF/,\\\n");
 		content.append("               .\n");
@@ -200,6 +209,8 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 	}
 
 	private void createManifest() throws CoreException {
+		final String projectJavaName = newProject.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
+
 		final StringBuilder content = new StringBuilder("Manifest-Version: 1.0\n");
 		content.append("Bundle-ManifestVersion: 2\n");
 		content.append("Bundle-Name: " + newProject.getName() + "\n");
@@ -209,6 +220,8 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		content.append(" org.antlr.runtime;bundle-version=\"4.3.0\"\n");
 		content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n");
 		content.append("Bundle-ActivationPolicy: lazy\n");
+		content.append("Export-Package: org.eclipse.titan." + projectJavaName + ".generated,\n");
+		content.append(" org.eclipse.titan." + projectJavaName + ".user_provided\n");
 
 		final IFolder metaInf = newProject.getFolder("META-INF");
 		if (!metaInf.exists()) {
@@ -230,7 +243,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 	private static String getUserProvidedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
-		return MessageFormat.format("java_src/org/eclipse/titan/{0}/user_provided", projectName);
+		return MessageFormat.format("user_provided/org/eclipse/titan/{0}/user_provided", projectName);
 	}
 	
 	private void createUserProvidedPackageFolder() throws CoreException {
@@ -267,7 +280,10 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 			createBuildProperties();
 			createManifest();
-			createUserProvidedPackageFolder();
+			//createUserProvidedPackageFolder();
+			ProjectSourceCompiler.generateGeneratedPackageInfo(newProject);
+			ProjectSourceCompiler.generateUserProvidedPackageInfo(newProject);
+			
 
 		} catch (CoreException exception) {
 			ErrorReporter.logExceptionStackTrace(exception);
