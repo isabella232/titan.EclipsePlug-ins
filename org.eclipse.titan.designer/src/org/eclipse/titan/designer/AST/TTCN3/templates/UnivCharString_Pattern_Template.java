@@ -75,6 +75,16 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 		return builder.toString();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		patternstring.setCodeSection(codeSection);
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
+		}
+	}
+
 	public boolean patternContainsAnyornoneSymbol() {
 		return true;
 	}
