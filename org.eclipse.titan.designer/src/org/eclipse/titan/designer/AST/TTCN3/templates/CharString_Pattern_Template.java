@@ -13,6 +13,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
@@ -78,6 +79,16 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		}
 
 		return builder.toString();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
+
+		if (patternstring != null) {
+			patternstring.setMyScope(scope);
+		}
 	}
 
 	@Override

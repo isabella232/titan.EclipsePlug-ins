@@ -8,9 +8,11 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IASTNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -19,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Balazs Andor Zalanyi
  * @author Arpad Lovassy
  */
-public final class PatternString implements IVisitableNode, INamedNode {
+public final class PatternString implements IVisitableNode, INamedNode, IASTNode {
 
 	public enum PatternType {
 		CHARSTRING_PATTERN, UNIVCHARSTRING_PATTERN
@@ -32,6 +34,8 @@ public final class PatternString implements IVisitableNode, INamedNode {
 	 */
 	private String content;
 
+	/** the scope of the declaration of this node. */
+	protected Scope myScope;
 	/** the naming parent of the node. */
 	private INamedNode nameParent;
 
@@ -85,6 +89,18 @@ public final class PatternString implements IVisitableNode, INamedNode {
 	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return nameParent;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setMyScope(final Scope scope) {
+		myScope = scope;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public final Scope getMyScope() {
+		return myScope;
 	}
 
 	/**
