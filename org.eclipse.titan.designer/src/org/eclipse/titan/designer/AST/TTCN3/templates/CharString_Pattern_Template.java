@@ -32,10 +32,15 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);
+		patternstring.setFullNameParent(this);
 	}
 
 	public CharString_Pattern_Template(final PatternString ps) {
 		patternstring = ps;
+
+		if (patternstring != null) {
+			patternstring.setFullNameParent(this);
+		}
 	}
 
 	public PatternString getPatternstring() {

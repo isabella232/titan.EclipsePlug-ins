@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -18,7 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Balazs Andor Zalanyi
  * @author Arpad Lovassy
  */
-public final class PatternString implements IVisitableNode {
+public final class PatternString implements IVisitableNode, INamedNode {
 
 	public enum PatternType {
 		CHARSTRING_PATTERN, UNIVCHARSTRING_PATTERN
@@ -30,6 +31,9 @@ public final class PatternString implements IVisitableNode {
 	 * The string content of the pattern
 	 */
 	private String content;
+
+	/** the naming parent of the node. */
+	private INamedNode nameParent;
 
 	public PatternString() {
 		patterntype = PatternType.CHARSTRING_PATTERN;
@@ -53,6 +57,34 @@ public final class PatternString implements IVisitableNode {
 
 	public String getFullString() {
 		return content;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getFullName() {
+		return getFullName(this).toString();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getFullName(final INamedNode child) {
+		if (null != nameParent) {
+			return nameParent.getFullName(this);
+		}
+
+		return new StringBuilder();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public final void setFullNameParent(final INamedNode nameParent) {
+		this.nameParent = nameParent;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public INamedNode getNameParent() {
+		return nameParent;
 	}
 
 	/**

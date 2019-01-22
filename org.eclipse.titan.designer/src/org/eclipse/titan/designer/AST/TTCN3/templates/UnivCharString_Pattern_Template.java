@@ -32,10 +32,15 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 	public UnivCharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.UNIVCHARSTRING_PATTERN);
+		patternstring.setFullNameParent(this);
 	}
 
 	public UnivCharString_Pattern_Template(final PatternString ps) {
 		patternstring = ps;
+
+		if (patternstring != null) {
+			patternstring.setFullNameParent(this);
+		}
 	}
 
 	public PatternString getPatternstring() {
