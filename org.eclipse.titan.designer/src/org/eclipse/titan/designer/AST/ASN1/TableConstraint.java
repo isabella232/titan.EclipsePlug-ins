@@ -106,8 +106,10 @@ public final class TableConstraint extends Constraint {
 			return;
 		}
 
+		if (lastTimeChecked == null) {
+			parseBlocks();
+		}
 		lastTimeChecked = timestamp;
-		parseBlocks();
 
 		if (null == myType) {
 			return;
