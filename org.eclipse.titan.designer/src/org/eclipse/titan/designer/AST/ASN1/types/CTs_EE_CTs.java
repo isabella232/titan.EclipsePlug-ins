@@ -166,9 +166,6 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		if (null == myType) {
 			return;
-		} else if (null == components) {
-			components = new ArrayList<CompField>();
-			componentsMap = new HashMap<String, CompField>();
 		}
 
 		lastTimeChecked = timestamp;
