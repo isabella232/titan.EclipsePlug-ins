@@ -282,6 +282,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		this.constraints = constraints;
 		constraints.setMyType(this);
+		constraints.setFullNameParent(this);
 	}
 
 	@Override
