@@ -185,7 +185,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 		isErroneous = false;
 
-		if (null != mBlock) {
+		if (null != mBlock && lastTimeChecked == null) {
 			parseBlockObjectSetSpecifications();
 		}
 
