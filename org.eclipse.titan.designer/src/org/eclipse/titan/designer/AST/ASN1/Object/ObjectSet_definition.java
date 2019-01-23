@@ -284,9 +284,9 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 			return;
 		}
 
-		temporalDefinition.getObjectSetElements();
-		for (int i = 0; i < temporalDefinition.getObjectSetElements().size(); i++) {
-			addObjectSetElement(temporalDefinition.getObjectSetElements().get(i));
+		final List<IObjectSet_Element> elements = temporalDefinition.getObjectSetElements();
+		for (int i = 0; i < elements.size(); i++) {
+			addObjectSetElement(elements.get(i));
 		}
 		temporalDefinition.setObjectSetElements(null);
 
