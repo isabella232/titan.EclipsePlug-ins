@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.ASN1.Object.ASN1Objects;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_ObjectSet;
@@ -344,14 +345,43 @@ public final class TableConstraint extends Constraint {
 		// well, the atnotations seems to be ok, let's produce the alternatives for the opentype
 
 		if (objectSet instanceof Referenced_ObjectSet) {
-			final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
-			collectTypesOfOpenType(timestamp, objectSet, openType, objectSetId);
+			//final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
+			ObjectSet_definition temp_Def = ((Referenced_ObjectSet) objectSet).getRefdLast(timestamp, null);
+			ASN1Objects objects = temp_Def.getObjs();
+			collectTypesOfOpenType(timestamp, objects, openType);
 		} else {
 			return; //TODO: is it posssible? Perhaps log error!
 		}
 
 	}
 
+	private void collectTypesOfOpenType(final CompilationTimeStamp timestamp, ASN1Objects objects, final Open_Type aOpenType) {
+		for (int i = 0; i < objects.getNofObjects(); i++) {
+			final Object_Definition object = objects.getObjectByIndex(i);
+			if (!object.hasFieldSettingWithNameDefault(objectClassFieldname)) {
+				continue;
+			}
+
+			//TODO check cast
+			final Type type = (Type)object.getSettingByNameDefault(objectClassFieldname);
+			final AtomicBoolean isStrange = new AtomicBoolean();
+			final Identifier altname = getOpenTypeAlternativeName(timestamp, type, isStrange);
+			if (!aOpenType.hasComponentWithName(altname)) {
+				final RefdSpec_Type otype = new RefdSpec_Type(type);
+				otype.setMyScope(type.getMyScope());
+				otype.setGenName(type.getGenNameOwn());
+				aOpenType.addComponent(new CompField( altname, otype, false, null));
+				if (isStrange.get()) {
+					aOpenType.getLocation().reportSemanticWarning(MessageFormat.format("Strange alternative name (`{0}') was added to open type `{1}'", altname.getDisplayName(), aOpenType.getFullName()));
+				}
+			}
+		}
+
+		aOpenType.setFullNameParent(this);
+		aOpenType.check(timestamp);
+	}
+
+	//FIXME could be removed, but keeping it here until issues fixed for sure.
 	private void collectTypesOfOpenType(final CompilationTimeStamp aTimestamp, ObjectSet aObjectSet, final Open_Type aOpenType, final Identifier aObjectSetId) {
 
 		if (aObjectSet instanceof Referenced_ObjectSet) {
