@@ -197,12 +197,14 @@ public final class CTs_EE_CTs extends ASTNode {
 		}
 
 		for (int i = 0; i < componentTypeList1.getNofComps(); i++) {
-			checkComponentField(componentTypeList1.getCompByIndex(i), typeName, componentName);
+			final CompField componentField = componentTypeList1.getCompByIndex(i);
+			checkComponentField(componentField, typeName, componentName);
 		}
 
 		if (null != extensionAndException) {
 			for (int i = 0; i < extensionAndException.getNofComps(); i++) {
-				checkComponentField(extensionAndException.getCompByIndex(i), typeName, componentName);
+				final CompField componentField = extensionAndException.getCompByIndex(i);
+				checkComponentField(componentField, typeName, componentName);
 			}
 
 			final ExceptionSpecification es = extensionAndException.getExceptionSpecification();
@@ -212,7 +214,8 @@ public final class CTs_EE_CTs extends ASTNode {
 		}
 
 		for (int i = 0; i < componentTypeList2.getNofComps(); i++) {
-			checkComponentField(componentTypeList2.getCompByIndex(i), typeName, componentName);
+			final CompField componentField = componentTypeList2.getCompByIndex(i);
+			checkComponentField(componentField, typeName, componentName);
 		}
 
 		components.trimToSize();
