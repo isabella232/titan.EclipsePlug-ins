@@ -28,8 +28,11 @@ public final class Constraints extends ASTNode {
 		final Constraints temp = new Constraints();
 
 		if (null != constraints) {
-			for (Constraint constraint : constraints) {
-				temp.constraints.add(constraint.newInstance());
+			for (final Constraint constraint : constraints) {
+				final Constraint newConstraint = constraint.newInstance();
+				temp.constraints.add(newConstraint);
+
+				newConstraint.setFullNameParent(this);
 			}
 		}
 
@@ -46,6 +49,8 @@ public final class Constraints extends ASTNode {
 		}
 
 		constraints.add(constraint);
+
+		constraint.setFullNameParent(this);
 	}
 
 	public int getNofConstraints() {
@@ -90,6 +95,20 @@ public final class Constraints extends ASTNode {
 		for (int i = 0, size = constraints.size(); i < size; i++) {
 			constraints.get(i).setMyType(type);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getFullName(final INamedNode child) {
+		final StringBuilder builder = super.getFullName(child);
+
+		for (int i = 0, size = constraints.size(); i < size; i++) {
+			if (constraints.get(i) == child) {
+				return builder.append(INamedNode.SQUAREOPEN).append(String.valueOf(i + 1)).append(INamedNode.SQUARECLOSE);
+			}
+		}
+
+		return builder;
 	}
 
 	/**
