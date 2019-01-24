@@ -326,7 +326,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 	@Override
 	/** {@inheritDoc} */
-	protected boolean memberAccept(final ASTVisitor v) {
+	public boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;
 		}

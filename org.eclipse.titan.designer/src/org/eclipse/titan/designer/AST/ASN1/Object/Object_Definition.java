@@ -344,7 +344,7 @@ public final class Object_Definition extends ASN1Object {
 
 	@Override
 	/** {@inheritDoc} */
-	protected boolean memberAccept(final ASTVisitor v) {
+	public boolean memberAccept(final ASTVisitor v) {
 		if (fieldSettings != null) {
 			for (final FieldSetting fs : fieldSettings) {
 				if (!fs.accept(v)) {

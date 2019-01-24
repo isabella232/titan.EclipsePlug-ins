@@ -192,7 +192,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 
 	@Override
 	/** {@inheritDoc} */
-	protected boolean memberAccept(final ASTVisitor v) {
+	public boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;
 		}
