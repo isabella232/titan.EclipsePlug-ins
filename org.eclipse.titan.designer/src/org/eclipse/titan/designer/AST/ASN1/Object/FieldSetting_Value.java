@@ -96,6 +96,10 @@ public final class FieldSetting_Value extends FieldSetting {
 		if (name != null && !name.accept(v)) {
 			return false;
 		}
+		if (setting != null && !setting.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
