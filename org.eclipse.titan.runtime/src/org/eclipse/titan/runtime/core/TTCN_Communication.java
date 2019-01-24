@@ -1067,7 +1067,7 @@ public final class TTCN_Communication {
 		}
 
 		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
-		boolean success = !cfgAnalyzer.directParse(null, null, config_str);
+		boolean success = !cfgAnalyzer.parse(config_str);
 		TTCN_Logger.open_file();
 		if (success) {
 			try {

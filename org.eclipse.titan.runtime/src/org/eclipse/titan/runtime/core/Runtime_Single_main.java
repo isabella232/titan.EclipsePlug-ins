@@ -56,7 +56,7 @@ public final class Runtime_Single_main {
 				System.err.println(MessageFormat.format( "Using configuration file: `{0}''", config_file ) );
 				TTCN_Logger.log_configdata(TitanLoggerApi.ExecutorConfigdata_reason.enum_type.using__config__file, config_file.getName());
 				final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
-				final boolean config_file_failure = cfgAnalyzer.directParse(config_file, config_file.getName(), null);
+				final boolean config_file_failure = cfgAnalyzer.parse(config_file);
 
 				TTCN_Runtime.set_logger_parameters();
 				TTCN_Logger.open_file();

@@ -7,8 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.cfgparser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Stores temporary config editor data of the include section
@@ -17,14 +17,18 @@ import java.util.List;
  */
 public final class IncludeSectionHandler {
 
-	/** list of include files, which are stored as ParseTree nodes */
-	private List<String> mFiles = new ArrayList<String>();
+	/** include files */
+	private Set<String> mFiles = new LinkedHashSet<String>();
 
-	public List<String> getFiles() {
+	public Set<String> getFiles() {
 		return mFiles;
 	}
 
 	public void addFile( final String aIncludeFile ) {
 		mFiles.add( aIncludeFile );
+	}
+
+	public boolean isFileAdded( final String aIncludeFile ) {
+		return mFiles.contains(aIncludeFile);
 	}
 }

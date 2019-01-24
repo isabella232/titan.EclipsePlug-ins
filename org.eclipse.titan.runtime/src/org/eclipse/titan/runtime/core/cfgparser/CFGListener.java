@@ -10,12 +10,16 @@ import org.antlr.v4.runtime.misc.Nullable;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
 
 public class CFGListener extends BaseErrorListener {
-	private final String filename;
+	private String filename;
 	private boolean encounteredError;
 
 	public CFGListener(final String filename) {
 		this.filename = filename;
 		encounteredError = false;
+	}
+
+	public void setFilename(final String filename) {
+		this.filename = filename;
 	}
 
 	public boolean encounteredError() {

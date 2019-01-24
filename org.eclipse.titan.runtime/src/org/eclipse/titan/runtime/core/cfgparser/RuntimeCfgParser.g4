@@ -132,21 +132,6 @@ import java.util.regex.Pattern;
 	private MCSectionHandler mcSectionHandler = new MCSectionHandler();
 	private ExternalCommandSectionHandler externalCommandsSectionHandler = new ExternalCommandSectionHandler();
 	private ExecuteSectionHandler executeSectionHandler = new ExecuteSectionHandler();
-	private IncludeSectionHandler includeSectionHandler = new IncludeSectionHandler();
-	private IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
-	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
-
-	/**
-	 * Adds a new definition
-	 * @param aName name
-	 * @param aValue definition value
-	 * @param aToken token of the definition for getting its location
-	 */
-	private void addDefinition( final String aName, final String aValue, final Token aToken ) {
-		final ArrayList<CfgLocation> locations = new ArrayList<CfgLocation>();
-		locations.add( new CfgLocation( mActualFile, aToken, aToken ) );
-		mCfgParseResult.getDefinitions().put( aName, new CfgDefinitionInformation( aValue, locations ) );
-	}
 
 	/**
 	 * Adds a new macro reference
@@ -193,18 +178,6 @@ import java.util.regex.Pattern;
 
 	public ExecuteSectionHandler getExecuteSectionHandler() {
 		return executeSectionHandler;
-	}
-
-	public IncludeSectionHandler getIncludeSectionHandler() {
-		return includeSectionHandler;
-	}
-
-	public IncludeSectionHandler getOrderedIncludeSectionHandler() {
-		return orderedIncludeSectionHandler;
-	}
-
-	public DefineSectionHandler getDefineSectionHandler() {
-		return defineSectionHandler;
 	}
 
 	/**
@@ -495,23 +468,13 @@ pr_MainControllerItemTcpPort:
 
 pr_IncludeSection:
 	INCLUDE_SECTION
-	( f = INCLUDE_FILENAME
-		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
-			mCfgParseResult.getIncludeFiles().add( fileName );
-			//TODO: remove one of them, it is redundant
-			includeSectionHandler.getFiles().add( fileName );
-		}
+	(	INCLUDE_FILENAME
 	)*
 ;
 
 pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
-	( f = ORDERED_INCLUDE_FILENAME
-		{	final String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
-			mCfgParseResult.getIncludeFiles().add( fileName );
-			//TODO: remove one of them, it is redundant
-			orderedIncludeSectionHandler.getFiles().add( fileName );
-		}
+	(	ORDERED_INCLUDE_FILENAME
 	)*
 ;
 
@@ -556,11 +519,7 @@ pr_ExecuteSectionItemTestcaseName returns [ String name ]:
 
 pr_DefineSection:
 	DEFINE_SECTION
-	(	def = pr_MacroAssignment
-			{	if ( $def.definition != null ) {
-					defineSectionHandler.getDefinitions().add( $def.definition );
-				}
-			}
+	(	pr_MacroAssignment
 	)*
 ;
 
@@ -1200,24 +1159,11 @@ pr_HostNameIpV6:
 	IPV6
 ;
 
-pr_MacroAssignment returns [ DefineSectionHandler.Definition definition ]
-@init {
-	$definition = null;
-	String name = null;
-	String value = null;
-}:
-(	col = TTCN3IDENTIFIER { name = $col.getText(); }
+pr_MacroAssignment:
+(	TTCN3IDENTIFIER
 	ASSIGNMENTCHAR
-	endCol = pr_DefinitionRValue { value = $endCol.text; }
+	pr_DefinitionRValue
 )
-{	if(name != null && value != null) {
-		addDefinition( name, value, $col );
-	}
-	//TODO: remove one of them, it is redundant
-	$definition = new DefineSectionHandler.Definition();
-	$definition.setDefinitionName($col.text);
-	$definition.setDefinitionValue($endCol.text);
-}
 ;
 
 pr_DefinitionRValue:
