@@ -586,7 +586,13 @@ public final class TableConstraint extends Constraint {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		// TODO
+		if (objectSet != null && !objectSet.accept(v)) {
+			return false;
+		}
+		if (atNotationList != null && !atNotationList.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
