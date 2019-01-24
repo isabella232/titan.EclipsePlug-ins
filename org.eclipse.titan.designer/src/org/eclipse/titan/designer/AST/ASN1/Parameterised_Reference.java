@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.Token;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
+import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -340,5 +341,25 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 			actualParameters.clear();
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	protected boolean memberAccept(final ASTVisitor v) {
+		if (!super.memberAccept(v)) {
+			return false;
+		}
+
+		if (assignmentReference != null && !assignmentReference.accept(v)) {
+			return false;
+		}
+		if (assignments != null && !assignments.accept(v)) {
+			return false;
+		}
+		if (finalReference != null && !finalReference.accept(v)) {
+			return false;
+		}
+
+		return true;
 	}
 }
