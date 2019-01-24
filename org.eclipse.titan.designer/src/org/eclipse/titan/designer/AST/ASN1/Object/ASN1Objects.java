@@ -42,7 +42,14 @@ public final class ASN1Objects extends ASTNode {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		// TODO: objects ?
+		if (objects != null) {
+			for (final Object_Definition object : objects) {
+				if (!object.accept(v)) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
 }
