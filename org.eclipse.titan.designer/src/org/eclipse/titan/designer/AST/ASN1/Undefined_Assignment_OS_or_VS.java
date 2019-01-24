@@ -127,6 +127,10 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
+		if (reference != null && !reference.accept(v)) {
+			return false;
+		}
+
 		if (realAssignment != null) {
 			return realAssignment.accept(v);
 		}
@@ -134,9 +138,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 		if (!super.memberAccept(v)) {
 			return false;
 		}
-		if (reference != null && !reference.accept(v)) {
-			return false;
-		}
+
 		return true;
 	}
 }
