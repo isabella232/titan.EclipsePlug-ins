@@ -373,10 +373,18 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	@Override
 	/** {@inheritDoc} */
 	protected final boolean memberAccept(final ASTVisitor v) {
-		// TODO: objectSetElements ?
+		if (objectSetElements != null) {
+			for (final IObjectSet_Element element : objectSetElements) {
+				if (!element.memberAccept(v)) {
+					return false;
+				}
+			}
+		}
+
 		if (objects != null && !objects.accept(v)) {
 			return false;
 		}
+
 		return true;
 	}
 
