@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1;
 
+import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Scope;
 
 /**
@@ -22,4 +23,6 @@ public interface IObjectSet_Element {
 	void setMyScopeOse(Scope scope);
 
 	void setGenNameOse(final String prefix, final String suffix);
+
+	boolean memberAccept(final ASTVisitor v);
 }
