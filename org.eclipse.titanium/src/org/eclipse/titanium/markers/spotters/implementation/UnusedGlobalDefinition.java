@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -55,7 +55,21 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 		for (Module module : modules) {
 			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
 			module.accept(chekUsed);
-			unused.removeAll(chekUsed.getDefinitions());
+			Set<Assignment> used = chekUsed.getDefinitions();
+			//remove from the unused list items that are referenced
+			unused.removeAll(used);
+
+			//remove from the unused list undefined items who's real version is referenced
+			final ArrayList<Assignment> tobeRemoved = new ArrayList<Assignment>();
+			for (Assignment assignment : unused) {
+				if (assignment instanceof Undefined_Assignment) {
+					final Assignment realAssignment = ((Undefined_Assignment)assignment).getRealAssignment(CompilationTimeStamp.getBaseTimestamp());
+					if (used.contains(realAssignment)) {
+						tobeRemoved.add(assignment);
+					}
+				}
+			}
+			unused.removeAll(tobeRemoved);
 		}
 
 		for (Assignment ass : unused) {
