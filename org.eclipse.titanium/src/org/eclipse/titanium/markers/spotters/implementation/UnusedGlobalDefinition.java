@@ -81,7 +81,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Assignment) {
 				final Assignment assignment = (Assignment) node;
-				if (!assignment.isLocal() && !(assignment.getMyScope() instanceof ComponentTypeBody)) {
+				if (!assignment.isLocal()) {
 					setOfDefinition.add(assignment);
 				}
 			}
