@@ -164,7 +164,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 		if (defaultValue != null) {
 			final StringBuilder valueSource = new StringBuilder();
 			final String defValueGenName = defaultValue.getGenNameOwn();
-			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, getMyScope() );
+			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, myObjectClass.getMyScope() );
 			valueSource.append(MessageFormat.format("\tstatic final {0} {1} = new {0}();\n", typeGeneratedName, defValueGenName));
 			getLocation().update_location_object(aData, aData.getPreInit());
 
