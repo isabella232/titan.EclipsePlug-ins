@@ -217,6 +217,12 @@ public final class Type_Assignment extends ASN1Assignment {
 		if (!super.memberAccept(v)) {
 			return false;
 		}
+
+		if (assPard != null) {
+			// if parameterised the rest was not checked.
+			return true;
+		}
+
 		if (type != null && !type.accept(v)) {
 			return false;
 		}

@@ -193,6 +193,12 @@ public final class Object_Assignment extends ASN1Assignment {
 		if (!super.memberAccept(v)) {
 			return false;
 		}
+
+		if (assPard != null) {
+			// if parameterised the rest was not checked.
+			return true;
+		}
+
 		if (objectClass != null && !objectClass.accept(v)) {
 			return false;
 		}

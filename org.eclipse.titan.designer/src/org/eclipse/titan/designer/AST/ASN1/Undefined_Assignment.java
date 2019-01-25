@@ -233,9 +233,14 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 		if (!super.memberAccept(v)) {
 			return false;
 		}
-		if (realAssignment != null && !realAssignment.accept(v)) {
-			return false;
+
+		if (assPard != null) {
+			// if parameterised the rest was not checked.
+			return true;
 		}
+
+		//the real assignment is checked in the subclasses
+
 		return true;
 	}
 
