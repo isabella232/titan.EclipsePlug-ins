@@ -401,12 +401,11 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
-		//FIXME implement
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented! (" );
-		sb.append(getFullName());
-		sb.append( ")\n" );
+		ObjectSetElementVisitor_codeGen osev = new ObjectSetElementVisitor_codeGen(this, aData);
+		if (objectSetElements != null) {
+			for (final IObjectSet_Element element : objectSetElements) {
+				element.accept(osev);
+			}
+		}
 	}
 }
