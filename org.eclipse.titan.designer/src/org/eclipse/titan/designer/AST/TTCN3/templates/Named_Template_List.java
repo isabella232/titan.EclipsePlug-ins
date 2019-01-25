@@ -750,7 +750,8 @@ public final class Named_Template_List extends TTCN3Template {
 
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
-			String fieldName = namedTemplate.getName().getName();
+			final Identifier fieldId = namedTemplate.getName();
+			String fieldName = fieldId.getName();
 			String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
 			final TTCN3Template template = namedTemplate.getTemplate();
 			if (template.needsTemporaryReference()) {
@@ -766,19 +767,19 @@ public final class Named_Template_List extends TTCN3Template {
 					fieldType = ((TTCN3_Set_Type) type).getComponentByName(fieldName).getType();
 					break;
 				case TYPE_ASN1_SEQUENCE:
-					fieldType = ((ASN1_Sequence_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
+					fieldType = ((ASN1_Sequence_Type) type).getComponentByName(fieldId).getType();
 					break;
 				case TYPE_ASN1_SET:
-					fieldType = ((ASN1_Set_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
+					fieldType = ((ASN1_Set_Type) type).getComponentByName(fieldId).getType();
 					break;
 				case TYPE_ASN1_CHOICE:
-					fieldType = ((ASN1_Choice_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
+					fieldType = ((ASN1_Choice_Type) type).getComponentByName(fieldId).getType();
 					break;
 				case TYPE_TTCN3_CHOICE:
 					fieldType = ((TTCN3_Choice_Type) type).getComponentByName(fieldName).getType();
 					break;
 				case TYPE_OPENTYPE: {
-					final CompField field = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName));
+					final CompField field = ((Open_Type) type).getComponentByName(fieldId);
 					fieldType = field.getType();
 					fieldName = field.getIdentifier().getName();
 					generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
@@ -799,7 +800,7 @@ public final class Named_Template_List extends TTCN3Template {
 				source.append("}\n");
 			} else {
 				if (type.getTypetype() == Type_type.TYPE_OPENTYPE) {
-					final CompField field = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName));
+					final CompField field = ((Open_Type) type).getComponentByName(fieldId);
 					if (field != null) {
 						fieldName = field.getIdentifier().getName();
 						generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
