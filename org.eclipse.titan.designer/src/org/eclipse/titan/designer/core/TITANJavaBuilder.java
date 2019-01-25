@@ -41,9 +41,6 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException {
 		IProject project = getProject();
-		if (!TITANInstallationValidator.check(true)) {
-			return project.getReferencedProjects();
-		}
 
 		if (!LicenseValidator.check()) {
 			return project.getReferencedProjects();
