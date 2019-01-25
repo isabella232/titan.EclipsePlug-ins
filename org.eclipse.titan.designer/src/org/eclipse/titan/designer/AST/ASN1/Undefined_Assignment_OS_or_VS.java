@@ -69,6 +69,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 			temporalReferenceChain.markState();
 		}
 
+		final ASN1Assignment oldRealAssignment = realAssignment;
 		realAssignment = null;
 
 		if (temporalReferenceChain.add(this)) {
@@ -77,10 +78,15 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 				if (!reference.refersToSettingType(timestamp, Setting_type.S_ERROR, temporalReferenceChain)) {
 					if (identifier.isvalidAsnObjectSetReference()
 							&& reference.refersToSettingType(timestamp, Setting_type.S_OC, temporalReferenceChain)) {
-						final ObjectClass_refd oc = new ObjectClass_refd(reference);
-						oc.setLocation(reference.getLocation());
-						realAssignment = new ObjectSet_Assignment(identifier, assPard, oc,
-								newObjectSetDefinitionInstance());
+						if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_OS) {
+							//did not change since the last time.
+							realAssignment = oldRealAssignment;
+						} else {
+							final ObjectClass_refd oc = new ObjectClass_refd(reference);
+							oc.setLocation(reference.getLocation());
+							realAssignment = new ObjectSet_Assignment(identifier, assPard, oc,
+									newObjectSetDefinitionInstance());
+						}
 						// assPard = null;
 						// left = null;
 						// right = null;
@@ -88,9 +94,14 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 					} else if (identifier.isvalidAsnValueSetReference()
 							&& (reference.refersToSettingType(timestamp, Setting_type.S_T, temporalReferenceChain) || reference
 									.refersToSettingType(timestamp, Setting_type.S_VS, temporalReferenceChain))) {
-						final Referenced_Type type = new Referenced_Type(reference);
-						type.setLocation(reference.getLocation());
-						realAssignment = newValueSetAssignmentInstance( type );
+						if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_VS) {
+							//did not change since the last time.
+							realAssignment = oldRealAssignment;
+						} else {
+							final Referenced_Type type = new Referenced_Type(reference);
+							type.setLocation(reference.getLocation());
+							realAssignment = newValueSetAssignmentInstance( type );
+						}
 						// left = null;
 						// right = null;
 						// asstype = A_VS;
@@ -102,7 +113,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 		if (null == realAssignment) {
 			location.reportSemanticError(UNRECOGNISABLEASSIGNMENT);
 			isErroneous = true;
-		} else {
+		} else if (oldRealAssignment != realAssignment) {
 			realAssignment.setLocation(location);
 			realAssignment.setMyScope(myScope);
 			realAssignment.setRightScope(rightScope);
