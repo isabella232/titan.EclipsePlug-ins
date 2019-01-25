@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -111,15 +113,9 @@ public final class FieldSetting_Value extends FieldSetting {
 
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
-		source.append( "\tpublic static " );
-		source.append( "final " );
 		final String typeGeneratedName = type.getGenNameValue( aData, source, setting.getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( ' ' );
-		source.append( genName );
-		source.append( " = new " );
-		source.append( typeGeneratedName );
-		source.append( "();\n" );
+
+		source.append(MessageFormat.format("\tpublic static final {0} {1}  = new {0}();\n", typeGeneratedName, genName));
 		if ( setting != null ) {
 			setting.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
