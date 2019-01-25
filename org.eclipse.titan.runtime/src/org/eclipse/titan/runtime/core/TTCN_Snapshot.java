@@ -219,7 +219,9 @@ public final class TTCN_Snapshot {
 					try {
 						for (final SelectionKey key : selectedKeys) {
 							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
-							handler.Handle_Event(key.channel(), key.isReadable() | key.isAcceptable(), key.isWritable());
+							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
+							final boolean isWritable = key.isValid() && key.isWritable();
+							handler.Handle_Event(key.channel(), isReadable, isWritable);
 						}
 					} finally {
 						selectedKeys.clear();
@@ -241,7 +243,9 @@ public final class TTCN_Snapshot {
 					try {
 						for (final SelectionKey key : selectedKeys) {
 							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
-							handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
+							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
+							final boolean isWritable = key.isValid() && key.isWritable();
+							handler.Handle_Event(key.channel(), isReadable, isWritable);
 						}
 					} finally {
 						selectedKeys.clear();
