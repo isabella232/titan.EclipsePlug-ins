@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
@@ -749,8 +750,8 @@ public final class Named_Template_List extends TTCN3Template {
 
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
-			final String fieldName = namedTemplate.getName().getName();
-			final String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
+			String fieldName = namedTemplate.getName().getName();
+			String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
 			final TTCN3Template template = namedTemplate.getTemplate();
 			if (template.needsTemporaryReference()) {
 				Type fieldType;
@@ -776,9 +777,13 @@ public final class Named_Template_List extends TTCN3Template {
 				case TYPE_TTCN3_CHOICE:
 					fieldType = ((TTCN3_Choice_Type) type).getComponentByName(fieldName).getType();
 					break;
-				case TYPE_OPENTYPE:
-					fieldType = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
+				case TYPE_OPENTYPE: {
+					final CompField field = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName));
+					fieldType = field.getType();
+					fieldName = field.getIdentifier().getName();
+					generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
 					break;
+				}
 				case TYPE_ANYTYPE:
 					fieldType = ((Anytype_Type) type).getComponentByName(fieldName).getType();
 					break;
@@ -793,6 +798,13 @@ public final class Named_Template_List extends TTCN3Template {
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
+				if (type.getTypetype() == Type_type.TYPE_OPENTYPE) {
+					final CompField field = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName));
+					if (field != null) {
+						fieldName = field.getIdentifier().getName();
+						generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
+					}
+				}
 				final String embeddedName = MessageFormat.format("{0}.get_field_{1}()", name, generatedFieldName);
 				template.generateCodeInit(aData, source, embeddedName);
 			}
