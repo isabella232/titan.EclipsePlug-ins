@@ -212,14 +212,15 @@ public abstract class AbstractOfType extends ASN1Type {
 			return;
 		}
 
-		lastTimeChecked = timestamp;
-		if (myScope != null) {
+		if (myScope != null && null != lastTimeChecked) {
 			final Module module = myScope.getModuleScope();
 			if (module != null && module.getSkippedFromSemanticChecking()) {
 				lastTimeChecked = timestamp;
 				return;
 			}
 		}
+
+		lastTimeChecked = timestamp;
 		componentInternal = false;
 		isErroneous = false;
 
