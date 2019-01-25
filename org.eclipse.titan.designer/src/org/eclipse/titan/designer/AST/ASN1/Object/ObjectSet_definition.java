@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IObjectSet_Element;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -46,6 +47,9 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 	private List<IObjectSet_Element> objectSetElements;
 	private ASN1Objects objects;
+
+	/** the time when code for this type was generated. */
+	protected BuildTimestamp lastTimeGenerated = null;
 
 	public ObjectSet_definition() {
 		setObjectSetElements(new ArrayList<IObjectSet_Element>());
@@ -391,6 +395,12 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		//FIXME implement
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );
