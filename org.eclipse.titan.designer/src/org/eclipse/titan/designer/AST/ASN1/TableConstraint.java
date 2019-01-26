@@ -23,7 +23,6 @@ import org.eclipse.titan.designer.AST.Constraint;
 import org.eclipse.titan.designer.AST.Constraints;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
-import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -36,12 +35,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.ASN1Objects;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
-import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
-import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_ObjectSet;
-import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
-import org.eclipse.titan.designer.AST.ASN1.Object.ReferencedObject;
 import org.eclipse.titan.designer.AST.ASN1.Object.Referenced_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
@@ -354,7 +349,6 @@ public final class TableConstraint extends Constraint {
 		} else {
 			return; //TODO: is it posssible? Perhaps log error!
 		}
-
 	}
 
 	private void collectTypesOfOpenType(final CompilationTimeStamp timestamp, final ASN1Objects objects, final Open_Type aOpenType) {
