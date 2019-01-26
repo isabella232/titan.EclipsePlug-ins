@@ -158,9 +158,10 @@ public final class InformationFromObj extends Reference {
 			final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 					objectSet.getLocation(), objectClass, timestamp);
 			objectCollector.visitObjectSet(objectSet, false);
-			fromObjectSet = newObjectSetDefinitionInstance(objectCollector.giveObjects());
+			fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 			fromObjectSet.setMyGovernor(objectClass);
 			break;
+		
 		case S_O:
 			currentState = SettingDetectionState.Object;
 			object = ((ASN1Object) temporalSetting).getRefdLast(timestamp, null);
@@ -237,7 +238,7 @@ public final class InformationFromObj extends Reference {
 						objectCollector.visitObject(object);
 					}
 
-					fromObjectSet = newObjectSetDefinitionInstance(objectCollector.giveObjects());
+					fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
@@ -261,7 +262,7 @@ public final class InformationFromObj extends Reference {
 						objectCollector2.visitObjectSet(objectSet, false);
 					}
 
-					fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.giveObjects());
+					fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.getObjects());
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
@@ -303,7 +304,7 @@ public final class InformationFromObj extends Reference {
 						objectCollector.visitObjectSet(objectSet, false);
 					}
 
-					fromObjectSet = newObjectSetDefinitionInstance(objectCollector.giveObjects());
+					fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
@@ -381,7 +382,7 @@ public final class InformationFromObj extends Reference {
 					objectCollector.visitObject(object);
 				}
 
-				fromObjectSet = newObjectSetDefinitionInstance(objectCollector.giveObjects());
+				fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 				fromObjectSet.setLocation(location);
 				fromObjectSet.setMyGovernor(objectClass);
 				fromObjectSet.setMyScope(myScope);
@@ -407,7 +408,7 @@ public final class InformationFromObj extends Reference {
 					objectCollector2.visitObjectSet(objectSet, false);
 				}
 
-				fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.giveObjects());
+				fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.getObjects());
 				fromObjectSet.setLocation(location);
 				fromObjectSet.setMyGovernor(objectClass);
 				fromObjectSet.setMyScope(myScope);
