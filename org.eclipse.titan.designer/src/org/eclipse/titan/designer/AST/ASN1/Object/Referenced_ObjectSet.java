@@ -290,7 +290,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameOse(String prefix, String suffix) {
+	public void setGenNameOse(final String prefix, final String suffix) {
 		setGenName(prefix, suffix);
 	}
 
