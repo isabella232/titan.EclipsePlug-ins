@@ -151,7 +151,7 @@ public final class InformationFromObj extends Reference {
 
 		/* the first part */
 		switch (temporalSetting.getSettingtype()) {
-		case S_OS:
+		case S_OS: {
 			currentState = SettingDetectionState.ObjectSet;
 			objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
 			objectClass = objectSet.getMyGovernor().getRefdLast(timestamp, null);
@@ -161,7 +161,7 @@ public final class InformationFromObj extends Reference {
 			fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 			fromObjectSet.setMyGovernor(objectClass);
 			break;
-		
+		}
 		case S_O:
 			currentState = SettingDetectionState.Object;
 			object = ((ASN1Object) temporalSetting).getRefdLast(timestamp, null);
