@@ -58,24 +58,35 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 			temporalReferenceChain.markState();
 		}
 
+		final ASN1Assignment oldRealAssignment = realAssignment;
 		realAssignment = null;
 
 		if (temporalReferenceChain.add(this)) {
 			reference.setMyScope(rightScope);
 			if (identifier.isvalidAsnObjectClassReference()
 					&& reference.refersToSettingType(timestamp, Setting_type.S_OC, temporalReferenceChain)) {
-				final ObjectClass_refd oc = new ObjectClass_refd(reference);
-				oc.setLocation(reference.getLocation());
-				realAssignment = new ObjectClass_Assignment(identifier, assPard, oc);
+				if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_OC) {
+					//did not change since the last time.
+					realAssignment = oldRealAssignment;
+				} else {
+					final ObjectClass_refd oc = new ObjectClass_refd(reference);
+					oc.setLocation(reference.getLocation());
+					realAssignment = new ObjectClass_Assignment(identifier, assPard, oc);
+				}
 				// assPard = null;
 				// asstype = Assignment.A_OC;
 			} else if (identifier.isvalidAsnTyperef()
 					&& (reference.refersToSettingType(timestamp, Setting_type.S_T, temporalReferenceChain) || reference
 							.refersToSettingType(timestamp, Setting_type.S_VS, temporalReferenceChain))) {
-				final Referenced_Type type = new Referenced_Type(reference);
-				type.setLocation(reference.getLocation());
+				if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_TYPE) {
+					//did not change since the last time.
+					realAssignment = oldRealAssignment;
+				} else {
+					final Referenced_Type type = new Referenced_Type(reference);
+					type.setLocation(reference.getLocation());
 
-				realAssignment = new Type_Assignment(identifier, assPard, type);
+					realAssignment = new Type_Assignment(identifier, assPard, type);
+				}
 				// assPard = null;
 				// asstype = A_TYPE;
 			}
@@ -84,7 +95,7 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 		if (null == realAssignment) {
 			location.reportSemanticError(UNRECOGNISABLEASSIGNMENT);
 			isErroneous = true;
-		} else {
+		} else if (oldRealAssignment != realAssignment) {
 			realAssignment.setLocation(location);
 			realAssignment.setMyScope(myScope);
 			realAssignment.setRightScope(rightScope);
