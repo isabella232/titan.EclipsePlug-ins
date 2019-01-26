@@ -87,6 +87,7 @@ public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
 			temporalReferenceChain.markState();
 		}
 
+		final ASN1Assignment oldRealAssignment = realAssignment;
 		realAssignment = null;
 
 		if (temporalReferenceChain.add(this)) {
@@ -98,29 +99,39 @@ public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
 
 				if (identifier.isvalidAsnObjectReference()
 						&& reference.refersToSettingType(timestamp, Setting_type.S_OC, temporalReferenceChain)) {
-					final ObjectClass_refd oc = new ObjectClass_refd(reference);
-					oc.setLocation(reference.getLocation());
-					if (null != mBlock) {
-						final Object_Definition obj = new Object_Definition(mBlock);
-						// obj.setLocation(right1);
-						realAssignment = new Object_Assignment(identifier, assPard, oc, obj);
-					} else if (null != objectReference) {
-						final ReferencedObject obj = new ReferencedObject(objectReference);
-						obj.setLocation(objectReference.getLocation());
-						realAssignment = new Object_Assignment(identifier, assPard, oc, obj);
+					if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_OC) {
+						//did not change since the last time.
+						realAssignment = oldRealAssignment;
+					} else {
+						final ObjectClass_refd oc = new ObjectClass_refd(reference);
+						oc.setLocation(reference.getLocation());
+						if (null != mBlock) {
+							final Object_Definition obj = new Object_Definition(mBlock);
+							// obj.setLocation(right1);
+							realAssignment = new Object_Assignment(identifier, assPard, oc, obj);
+						} else if (null != objectReference) {
+							final ReferencedObject obj = new ReferencedObject(objectReference);
+							obj.setLocation(objectReference.getLocation());
+							realAssignment = new Object_Assignment(identifier, assPard, oc, obj);
+						}
 					}
 				} else if (identifier.isvalidAsnValueReference()
 						&& (reference.refersToSettingType(timestamp, Setting_type.S_T, temporalReferenceChain) || reference
 								.refersToSettingType(timestamp, Setting_type.S_VS, temporalReferenceChain))) {
-					final Referenced_Type type = new Referenced_Type(reference);
-					if (null != mBlock) {
-						final Value value = new Undefined_Block_Value(mBlock);
-						value.setLocation(mBlock.getLocation());
-						realAssignment = new Value_Assignment(identifier, assPard, type, value);
-					} else if (null != objectReference) {
-						final Value value = new Undefined_LowerIdentifier_Value(objectReference.getId().newInstance());
-						value.setLocation(objectReference.getLocation());
-						realAssignment = new Value_Assignment(identifier, assPard, type, value);
+					if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_CONST) {
+						//did not change since the last time.
+						realAssignment = oldRealAssignment;
+					} else {
+						final Referenced_Type type = new Referenced_Type(reference);
+						if (null != mBlock) {
+							final Value value = new Undefined_Block_Value(mBlock);
+							value.setLocation(mBlock.getLocation());
+							realAssignment = new Value_Assignment(identifier, assPard, type, value);
+						} else if (null != objectReference) {
+							final Value value = new Undefined_LowerIdentifier_Value(objectReference.getId().newInstance());
+							value.setLocation(objectReference.getLocation());
+							realAssignment = new Value_Assignment(identifier, assPard, type, value);
+						}
 					}
 				}
 			}
@@ -129,7 +140,7 @@ public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
 		if (null == realAssignment) {
 			location.reportSemanticError(UNRECOGNISABLEASSIGNMENT);
 			isErroneous = true;
-		} else {
+		} else if (oldRealAssignment != realAssignment) {
 			realAssignment.setLocation(location);
 			realAssignment.setMyScope(myScope);
 			realAssignment.setRightScope(rightScope);
