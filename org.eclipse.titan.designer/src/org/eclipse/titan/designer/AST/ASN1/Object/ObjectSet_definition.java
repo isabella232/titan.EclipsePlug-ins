@@ -314,7 +314,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		for (int i = 0; i < objectSetElements.size(); i++) {
 			objectSetElements.get(i).accept(visitor);
 		}
-		objects = visitor.giveObjects();
+		objects = visitor.getObjects();
 		objects.trimToSize();
 	}
 
