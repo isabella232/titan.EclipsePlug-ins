@@ -60,7 +60,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameOse(String prefix, String suffix) {
+	public void setGenNameOse(final String prefix, final String suffix) {
 		setGenName(prefix, suffix);
 	}
 

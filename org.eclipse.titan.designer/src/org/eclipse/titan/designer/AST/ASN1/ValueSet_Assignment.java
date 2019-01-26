@@ -174,7 +174,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, boolean cleanUp) {
+	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		if (null != assPard || dontGenerate) {
 			// don't generate code for assignments that still have a parameter at this point.
 			return;

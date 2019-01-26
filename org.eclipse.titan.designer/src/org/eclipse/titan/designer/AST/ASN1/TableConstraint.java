@@ -357,7 +357,7 @@ public final class TableConstraint extends Constraint {
 
 	}
 
-	private void collectTypesOfOpenType(final CompilationTimeStamp timestamp, ASN1Objects objects, final Open_Type aOpenType) {
+	private void collectTypesOfOpenType(final CompilationTimeStamp timestamp, final ASN1Objects objects, final Open_Type aOpenType) {
 		for (int i = 0; i < objects.getNofObjects(); i++) {
 			final Object_Definition object = objects.getObjectByIndex(i);
 			if (!object.hasFieldSettingWithNameDefault(objectClassFieldname)) {
