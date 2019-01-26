@@ -93,7 +93,7 @@ public final class Symbols implements IVisitableNode {
 		symbols_map.clear();
 		symbols_v.trimToSize();
 
-		for (Identifier id : symbols_v) {
+		for (final Identifier id : symbols_v) {
 			final String name = id.getName();
 			if (symbols_map.containsKey(name)) {
 				final Location location = symbols_map.get(name).getLocation();
@@ -117,7 +117,7 @@ public final class Symbols implements IVisitableNode {
 			return true;
 		}
 		if (symbols_v != null) {
-			for (Identifier id : symbols_v) {
+			for (final Identifier id : symbols_v) {
 				if (!id.accept(v)) {
 					return false;
 				}

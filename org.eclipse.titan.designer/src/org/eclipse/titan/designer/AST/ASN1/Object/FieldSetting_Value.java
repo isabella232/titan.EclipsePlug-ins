@@ -65,8 +65,8 @@ public final class FieldSetting_Value extends FieldSetting {
 			return;
 		}
 
-		FixedTypeValue_FieldSpecification fs = (FixedTypeValue_FieldSpecification)fieldSpecification;
-		IType type = fs.getType();
+		final FixedTypeValue_FieldSpecification fs = (FixedTypeValue_FieldSpecification)fieldSpecification;
+		final IType type = fs.getType();
 		setting.setMyGovernor(type);
 		final IValue tempValue = type.checkThisValueRef(timestamp, setting);
 		type.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, true,

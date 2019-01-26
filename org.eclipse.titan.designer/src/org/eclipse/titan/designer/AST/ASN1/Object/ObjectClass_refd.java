@@ -202,7 +202,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData) {
-		ObjectClass_Definition last = getRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		final ObjectClass_Definition last = getRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 		if (myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			last.generateCode(aData);
 		}

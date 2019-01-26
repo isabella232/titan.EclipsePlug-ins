@@ -165,7 +165,7 @@ public final class SpecialASN1Module {
 		final ASN1Assignments parsedAssignments = new ASN1Assignments();
 		ASN1Assignment actualAssignment;
 
-		for (String[] assignment : INTERNAL_ASSIGNMENTS) {
+		for (final String[] assignment : INTERNAL_ASSIGNMENTS) {
 			actualAssignment = SpecialASN1Module.parseSpecialInternalAssignment(assignment[1], new Identifier(Identifier_type.ID_ASN, assignment[0]));
 			parsedAssignments.addAssignment(actualAssignment);
 		}
@@ -239,7 +239,7 @@ public final class SpecialASN1Module {
 		assignment = parser.pr_TITAN_special_Assignment(identifier).assignment;
 		if (!parser.getErrorStorage().isEmpty()) {
 			ErrorReporter.INTERNAL_ERROR(PARSINGFAILED);
-			for (SyntacticErrorStorage temp : parser.getErrorStorage()) {
+			for (final SyntacticErrorStorage temp : parser.getErrorStorage()) {
 				ErrorReporter.logError(temp.message);
 			}
 		}

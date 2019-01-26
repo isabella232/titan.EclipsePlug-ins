@@ -401,7 +401,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
-		ObjectSetElementVisitor_codeGen osev = new ObjectSetElementVisitor_codeGen(this, aData);
+		final ObjectSetElementVisitor_codeGen osev = new ObjectSetElementVisitor_codeGen(this, aData);
 		if (objectSetElements != null) {
 			for (final IObjectSet_Element element : objectSetElements) {
 				element.accept(osev);

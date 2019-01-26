@@ -348,8 +348,8 @@ public final class TableConstraint extends Constraint {
 
 		if (objectSet instanceof Referenced_ObjectSet) {
 			//final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
-			ObjectSet_definition temp_Def = ((Referenced_ObjectSet) objectSet).getRefdLast(timestamp, null);
-			ASN1Objects objects = temp_Def.getObjs();
+			final ObjectSet_definition temp_Def = ((Referenced_ObjectSet) objectSet).getRefdLast(timestamp, null);
+			final ASN1Objects objects = temp_Def.getObjs();
 			collectTypesOfOpenType(timestamp, objects, openType);
 		} else {
 			return; //TODO: is it posssible? Perhaps log error!

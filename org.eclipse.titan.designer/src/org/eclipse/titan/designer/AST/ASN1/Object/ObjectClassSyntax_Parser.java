@@ -258,7 +258,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 		if (mBlock != null) {
 			final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mBlock, internalIndex);
 			if (parser != null) {
-				Value temp = parser.pr_special_Value().value;
+				final Value temp = parser.pr_special_Value().value;
 				internalIndex += parser.nof_consumed_tokens();
 				final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 				if (null != errors && !errors.isEmpty()) {
