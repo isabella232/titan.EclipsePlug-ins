@@ -144,7 +144,7 @@ public final class TableConstraint extends Constraint {
 			return;
 		}
 
-		// opentype
+		// can only be opentype at this point.
 		final Open_Type openType = (Open_Type) constrainedType;
 		openType.setMyTableConstraint(this);
 		objectClassFieldname = openType.getObjectClassFieldName();
