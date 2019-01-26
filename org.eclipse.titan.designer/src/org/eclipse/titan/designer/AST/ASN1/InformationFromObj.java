@@ -246,7 +246,7 @@ public final class InformationFromObj extends Reference {
 				case FS_OS: {
 					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-					final ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(
+					final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 							location, objectClass, timestamp);
 					final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 
@@ -259,10 +259,10 @@ public final class InformationFromObj extends Reference {
 
 						temporalSetting = object.getSettingByNameDefault(currentFieldName);
 						objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
-						objectCollector2.visitObjectSet(objectSet, false);
+						objectCollector.visitObjectSet(objectSet, false);
 					}
 
-					fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.getObjects());
+					fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
@@ -392,7 +392,7 @@ public final class InformationFromObj extends Reference {
 			case FS_OS: {
 				final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 				objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-				final ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(location,
+				final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(location,
 						objectClass, timestamp);
 				final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 
@@ -405,10 +405,10 @@ public final class InformationFromObj extends Reference {
 
 					temporalSetting = object.getSettingByNameDefault(currentFieldName);
 					objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
-					objectCollector2.visitObjectSet(objectSet, false);
+					objectCollector.visitObjectSet(objectSet, false);
 				}
 
-				fromObjectSet = newObjectSetDefinitionInstance(objectCollector2.getObjects());
+				fromObjectSet = newObjectSetDefinitionInstance(objectCollector.getObjects());
 				fromObjectSet.setLocation(location);
 				fromObjectSet.setMyGovernor(objectClass);
 				fromObjectSet.setMyScope(myScope);
