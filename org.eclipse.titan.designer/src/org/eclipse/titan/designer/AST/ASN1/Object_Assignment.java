@@ -53,7 +53,7 @@ public final class Object_Assignment extends ASN1Assignment {
 	@Override
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
-		return Assignment_type.A_OC;
+		return Assignment_type.A_OBJECT;
 	}
 
 	@Override

@@ -99,7 +99,7 @@ public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
 
 				if (identifier.isvalidAsnObjectReference()
 						&& reference.refersToSettingType(timestamp, Setting_type.S_OC, temporalReferenceChain)) {
-					if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_OC) {
+					if (oldRealAssignment != null && oldRealAssignment.getAssignmentType() == Assignment_type.A_OBJECT) {
 						//did not change since the last time.
 						realAssignment = oldRealAssignment;
 					} else {
