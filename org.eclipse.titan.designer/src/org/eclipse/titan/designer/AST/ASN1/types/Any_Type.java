@@ -104,9 +104,9 @@ public final class Any_Type extends ASN1Type {
 			return false;
 		}
 
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return selfReference;
 		}

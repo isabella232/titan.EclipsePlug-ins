@@ -225,7 +225,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final Map<Integer, EnumItem> valueMap = new HashMap<Integer, EnumItem>();
 		if (null != enumerations.enumItems1) {
 			final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
-			for (EnumItem item : enumItems) {
+			for (final EnumItem item : enumItems) {
 				checkEnumItem(timestamp, item, false, valueMap);
 			}
 
@@ -233,7 +233,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			while (valueMap.containsKey(firstUnused)) {
 				firstUnused++;
 			}
-			for (EnumItem item : enumItems) {
+			for (final EnumItem item : enumItems) {
 				if (null == item.getValue() || !item.isOriginal()) {
 					final Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
 					tempValue.setLocation(item.getLocation());
@@ -248,7 +248,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 		if (null != enumerations.enumItems2) {
 			final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
-			for (EnumItem item : enumItems) {
+			for (final EnumItem item : enumItems) {
 				checkEnumItem(timestamp, item, true, valueMap);
 			}
 		}
@@ -557,7 +557,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				final String referenceName = subreference.getId().getName();
 				if (enumerations.enumItems1 != null) {
 					final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
-					for (EnumItem item : enumItems) {
+					for (final EnumItem item : enumItems) {
 						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							propCollector.addProposal(itemID, " - " + "named integer",
@@ -567,7 +567,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				}
 				if (enumerations.enumItems2 != null) {
 					final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
-					for (EnumItem item : enumItems) {
+					for (final EnumItem item : enumItems) {
 						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							propCollector.addProposal(itemID, " - " + "named integer",
@@ -593,7 +593,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				final String referenceName = subreference.getId().getName();
 				if (enumerations.enumItems1 != null) {
 					final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
-					for (EnumItem item : enumItems) {
+					for (final EnumItem item : enumItems) {
 						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							declarationCollector.addDeclaration(itemID.getDisplayName(), itemID.getLocation(), this);
@@ -602,7 +602,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				}
 				if (enumerations.enumItems2 != null) {
 					final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
-					for (EnumItem item : enumItems) {
+					for (final EnumItem item : enumItems) {
 						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							declarationCollector.addDeclaration(itemID.getDisplayName(), itemID.getLocation(), this);
@@ -621,7 +621,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		}
 
 		if (enumerations.enumItems1 != null) {
-			for (EnumItem enumItem : enumerations.enumItems1.getItems()) {
+			for (final EnumItem enumItem : enumerations.enumItems1.getItems()) {
 				if (enumItem.getLocation().containsOffset(offset)) {
 					rf.type = this;
 					rf.fieldId = enumItem.getId();
@@ -630,7 +630,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			}
 		}
 		if (enumerations.enumItems2 != null) {
-			for (EnumItem enumItem : enumerations.enumItems2.getItems()) {
+			for (final EnumItem enumItem : enumerations.enumItems2.getItems()) {
 				if (enumItem.getLocation().containsOffset(offset)) {
 					rf.type = this;
 					rf.fieldId = enumItem.getId();

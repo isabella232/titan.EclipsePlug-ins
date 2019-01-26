@@ -231,7 +231,7 @@ public final class Open_Type extends ASN1Type {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(timestamp);
 
 		if (referenceChain.add(this) && 1 == map.size()) {
-			for (CompField compField : map.values()) {
+			for (final CompField compField : map.values()) {
 				final IType type = compField.getType();
 				if (null != type) {
 					referenceChain.markState();
@@ -540,7 +540,7 @@ public final class Open_Type extends ASN1Type {
 			} else {
 				// final part of the reference
 				final List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
-				for (CompField compField : compFields) {
+				for (final CompField compField : compFields) {
 					final String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
 					propCollector.addProposal(compField.getIdentifier(), " - " + proposalKind,
 							ImageCache.getImage(compField.getOutlineIcon()), proposalKind);
@@ -587,7 +587,7 @@ public final class Open_Type extends ASN1Type {
 			} else {
 				// final part of the reference
 				final List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
-				for (CompField compField : compFields) {
+				for (final CompField compField : compFields) {
 					declarationCollector.addDeclaration(compField.getIdentifier().getDisplayName(), compField.getIdentifier()
 							.getLocation(), this);
 				}
