@@ -613,10 +613,7 @@ public final class Open_Type extends ASN1Type {
 			compFieldMap.findReferences(referenceFinder, foundIdentifiers);
 		}
 		if (objectClass != null) {
-			// TODO
-		}
-		if (myTableConstraint != null) {
-			// TODO
+			objectClass.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
