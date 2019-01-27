@@ -67,40 +67,6 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		this.objects = objects;
 	}
 
-	//Two objectSet_definition is equivalent if their content is the same, i.e
-	//- the same reference or
-	//- location, objects, objectSetElements are the same
-	public boolean equivalent(final ObjectSet_definition other){
-		if (this == other) {
-			return true;
-		}
-
-		if (this.location != other.getLocation()) {
-			return false;
-		}
-		if (this.getNofObjects() != other.getNofObjects()) {
-			return false;
-		}
-		if (this.getObjectSetElements().size() != other.getObjectSetElements().size()) {
-			return false;
-		}
-		int n = this.getNofObjects();
-		for (int i = 0; i < n; i++) {
-			if (this.getObjectByIndex(i) != other.getObjectByIndex(i)) {
-				return false;
-			}
-		}
-
-		n = this.getObjectSetElements().size();
-		for (int i = 0; i < n; i++) {
-			if (this.getObjectSetElements().get(i) != other.getObjectSetElements().get(i)) {
-				return false;
-			}
-		}
-		return true;
-		//TODO: why do two ObjectSet_definitions exist with the same content? Perhaps this is a programming error?
-	}
-
 	public ObjectSet_definition newInstance() {
 		ObjectSet_definition temp;
 		if (null != mBlock) {
