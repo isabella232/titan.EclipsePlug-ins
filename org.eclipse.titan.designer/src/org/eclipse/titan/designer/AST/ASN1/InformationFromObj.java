@@ -145,8 +145,7 @@ public final class InformationFromObj extends Reference {
 
 		ObjectClass_Definition objectClass = null;
 		ObjectSet_definition objectSet = null;
-		Object_Definition object = null;
-		object = new Object_Definition(null);
+		Object_Definition object = new Object_Definition(null);
 		ObjectSet_definition fromObjectSet = newObjectSetDefinitionInstance();
 
 		/* the first part */
