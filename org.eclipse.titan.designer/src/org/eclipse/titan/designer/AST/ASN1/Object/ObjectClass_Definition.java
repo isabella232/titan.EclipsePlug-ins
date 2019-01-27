@@ -245,8 +245,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 		if (fieldSpecifications != null && !fieldSpecifications.accept(v)) {
 			return false;
 		}
-		// TODO if (ocs_root!=null && !ocs_root.accept(visitor)) return
-		// false;
+
 		return true;
 	}
 
