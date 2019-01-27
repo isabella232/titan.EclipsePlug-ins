@@ -62,6 +62,15 @@ public final class InformationFromObj extends Reference {
 		ObjectClass, ObjectSet, Object
 	}
 
+	/** the time when this setting was check the last time. */
+	private CompilationTimeStamp lastTimeChecked;
+
+	/**
+	 * Cache storing the last setting referred to.
+	 * Can only be reused in the same semantic check cycle.
+	 * */
+	private ISetting refdSetting = null;
+
 	private Location location;
 
 	public InformationFromObj(final Defined_Reference reference, final FieldName fieldName) {
@@ -132,13 +141,19 @@ public final class InformationFromObj extends Reference {
 	@Override
 	/** {@inheritDoc} */
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
+		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
+			return refdSetting;
+		}
+
+		lastTimeChecked = timestamp;
+		refdSetting = null;
 		setIsErroneous(false);
 		ISetting temporalSetting = reference.getRefdSetting(timestamp);
-		//TODO setting cache
 
 		if (null == temporalSetting) {
 			setIsErroneous(true);
-			return new Error_Setting();
+			refdSetting = new Error_Setting();
+			return refdSetting;
 		}
 
 		SettingDetectionState currentState;
@@ -171,11 +186,13 @@ public final class InformationFromObj extends Reference {
 			break;
 		case S_ERROR:
 			setIsErroneous(true);
-			return new Error_Setting();
+			refdSetting = new Error_Setting();
+			return refdSetting;
 		default:
 			location.reportSemanticError(MessageFormat.format(INVALIDREFERENCE, getDisplayName()));
 			setIsErroneous(true);
-			return new Error_Setting();
+			refdSetting = new Error_Setting();
+			return refdSetting;
 		}
 
 		final int nofFields = fieldName.getNofFields();
@@ -190,7 +207,8 @@ public final class InformationFromObj extends Reference {
 
 			if (Fieldspecification_types.FS_ERROR.equals(currentFieldSpecification.getFieldSpecificationType())) {
 				setIsErroneous(true);
-				return new Error_Setting();
+				refdSetting = new Error_Setting();
+				return refdSetting;
 			}
 
 			switch (currentState) {
@@ -208,11 +226,13 @@ public final class InformationFromObj extends Reference {
 				break;
 				case FS_ERROR:
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				}
 				break;
 			case ObjectSet:
@@ -267,11 +287,13 @@ public final class InformationFromObj extends Reference {
 				break;
 				case FS_ERROR:
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				}
 				break;
 			case Object:
@@ -309,11 +331,13 @@ public final class InformationFromObj extends Reference {
 				break;
 				case FS_ERROR:
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
 					setIsErroneous(true);
-					return new Error_Setting();
+					refdSetting = new Error_Setting();
+					return refdSetting;
 				}
 				break;
 			default:
@@ -435,7 +459,8 @@ public final class InformationFromObj extends Reference {
 			break;
 		}
 
-		return temporalSetting;
+		refdSetting = temporalSetting;
+		return refdSetting;
 	}
 
 	@Override
