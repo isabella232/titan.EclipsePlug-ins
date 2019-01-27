@@ -351,7 +351,7 @@ public final class TableConstraint extends Constraint {
 				continue;
 			}
 
-			//TODO check cast
+			//inside object definitions the settings of field specifications can only be types.
 			final Type type = (Type)object.getSettingByNameDefault(objectClassFieldname);
 			final AtomicBoolean isStrange = new AtomicBoolean();
 			final Identifier altname = getOpenTypeAlternativeName(timestamp, type, isStrange);
