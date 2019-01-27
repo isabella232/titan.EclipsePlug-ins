@@ -587,6 +587,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("TTCN_Runtime.check_begin_testcase(has_timer, timer_value);\n");
 		getLocation().create_location_object(aData, source, "TESTCASE", getIdentifier().getDisplayName());
 		if ( formalParList != null ) {
+			formalParList.generateCodeSetUnbound(aData, source);
 			formalParList.generateCodeShadowObjects(aData, source);
 		}
 

@@ -688,6 +688,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		formalParList.generateCode(aData, formalParListCode);
 
 		final StringBuilder shadowObjects = new StringBuilder();
+		formalParList.generateCodeSetUnbound(aData, shadowObjects);
 		formalParList.generateCodeShadowObjects(aData, shadowObjects);
 
 		aData.addBuiltinTypeImport("TitanAlt_Status");
