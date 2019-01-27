@@ -99,7 +99,6 @@ public final class ObjectClass_Definition extends ObjectClass {
 		}
 
 		if (null == fieldSpecifications) {
-			// TODO at times like this we should analyze instead
 			return;
 		}
 
