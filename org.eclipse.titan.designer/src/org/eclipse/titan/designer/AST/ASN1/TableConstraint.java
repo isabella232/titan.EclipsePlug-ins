@@ -37,7 +37,6 @@ import org.eclipse.titan.designer.AST.ASN1.Object.ASN1Objects;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
-import org.eclipse.titan.designer.AST.ASN1.Object.Referenced_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
