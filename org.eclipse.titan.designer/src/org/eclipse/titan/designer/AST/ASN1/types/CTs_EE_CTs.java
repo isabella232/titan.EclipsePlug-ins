@@ -52,9 +52,9 @@ public final class CTs_EE_CTs extends ASTNode {
 	private CompilationTimeStamp lastTimeChecked;
 
 	//calculated field, holding the component fields in a single list, to easy processing.
-	private ArrayList<CompField> components = new ArrayList<CompField>();
+	private final ArrayList<CompField> components = new ArrayList<CompField>();
 	//calculated field, holding the component fields in hashmap for fast search.
-	private HashMap<String, CompField> componentsMap = new HashMap<String, CompField>();
+	private final HashMap<String, CompField> componentsMap = new HashMap<String, CompField>();
 
 	public CTs_EE_CTs(final ComponentTypeList componentTypeList1, final ExtensionAndException extensionAndException,
 			final ComponentTypeList componentTypeList2) {
