@@ -499,7 +499,13 @@ public final class TableConstraint extends Constraint {
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		// TODO
+		super.findReferences(referenceFinder, foundIdentifiers);
+		if (objectSet != null) {
+			objectSet.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (atNotationList != null) {
+			atNotationList.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
