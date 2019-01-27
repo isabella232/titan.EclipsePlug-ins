@@ -213,8 +213,9 @@ public final class Object_Definition extends ASN1Object {
 			return fieldSettingMap.get(identifier.getName()).getSetting();
 		}
 
-		if (myGovernor.getFieldSpecifications().hasFieldSpecificationWithId(identifier)) {
-			final FieldSpecification fs = myGovernor.getFieldSpecifications().getFieldSpecificationByIdentifier(identifier);
+		final FieldSpecifications governorFieldspecs = myGovernor.getFieldSpecifications();
+		if (governorFieldspecs.hasFieldSpecificationWithId(identifier)) {
+			final FieldSpecification fs = governorFieldspecs.getFieldSpecificationByIdentifier(identifier);
 			if (fs.hasDefault()) {
 				return fs.getDefault();
 			}
