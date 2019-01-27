@@ -340,15 +340,9 @@ public final class TableConstraint extends Constraint {
 		}  //for loop
 
 		// well, the atnotations seems to be ok, let's produce the alternatives for the opentype
-
-		if (objectSet instanceof Referenced_ObjectSet) {
-			//final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
-			final ObjectSet_definition temp_Def = ((Referenced_ObjectSet) objectSet).getRefdLast(timestamp, null);
-			final ASN1Objects objects = temp_Def.getObjs();
-			collectTypesOfOpenType(timestamp, objects, openType);
-		} else {
-			return; //TODO: is it posssible? Perhaps log error!
-		}
+		final ObjectSet_definition temp_Def = objectSet.getRefdLast(timestamp, null);
+		final ASN1Objects objects = temp_Def.getObjs();
+		collectTypesOfOpenType(timestamp, objects, openType);
 	}
 
 	private void collectTypesOfOpenType(final CompilationTimeStamp timestamp, final ASN1Objects objects, final Open_Type aOpenType) {
