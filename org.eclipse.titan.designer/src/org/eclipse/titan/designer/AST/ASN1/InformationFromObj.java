@@ -144,7 +144,6 @@ public final class InformationFromObj extends Reference {
 		SettingDetectionState currentState;
 
 		ObjectClass_Definition objectClass = null;
-		ObjectSet_definition objectSet = null;
 		Object_Definition object = new Object_Definition(null);
 		ObjectSet_definition fromObjectSet = newObjectSetDefinitionInstance();
 
@@ -152,7 +151,7 @@ public final class InformationFromObj extends Reference {
 		switch (temporalSetting.getSettingtype()) {
 		case S_OS: {
 			currentState = SettingDetectionState.ObjectSet;
-			objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
+			ObjectSet_definition objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
 			objectClass = objectSet.getMyGovernor().getRefdLast(timestamp, null);
 			final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 					objectSet.getLocation(), objectClass, timestamp);
@@ -257,7 +256,7 @@ public final class InformationFromObj extends Reference {
 						}
 
 						temporalSetting = object.getSettingByNameDefault(currentFieldName);
-						objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+						ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 						objectCollector.visitObjectSet(objectSet, false);
 					}
 
@@ -299,7 +298,7 @@ public final class InformationFromObj extends Reference {
 						}
 
 						temporalSetting = object.getSettingByNameDefault(currentFieldName);
-						objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+						ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 						objectCollector.visitObjectSet(objectSet, false);
 					}
 
@@ -403,7 +402,7 @@ public final class InformationFromObj extends Reference {
 					}
 
 					temporalSetting = object.getSettingByNameDefault(currentFieldName);
-					objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+					ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 					objectCollector.visitObjectSet(objectSet, false);
 				}
 
