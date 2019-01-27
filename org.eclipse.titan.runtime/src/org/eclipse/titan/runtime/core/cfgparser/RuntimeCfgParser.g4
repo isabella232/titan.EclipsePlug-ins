@@ -1988,7 +1988,6 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 	RPAREN
 ;
 
-//TODO: handle exclusive: '!' before the number
 pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
