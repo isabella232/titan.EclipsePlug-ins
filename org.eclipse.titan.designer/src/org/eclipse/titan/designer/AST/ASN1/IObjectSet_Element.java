@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Scope;
 
 /**
@@ -19,6 +20,13 @@ public interface IObjectSet_Element {
 	IObjectSet_Element newOseInstance();
 
 	void accept(ObjectSetElement_Visitor visitor);
+
+	/**
+	 * Sets the full name of the node.
+	 *
+	 * @param nameParent the name to be set
+	 * */
+	void setFullNameParent(INamedNode nameParent);
 
 	void setMyScopeOse(Scope scope);
 
