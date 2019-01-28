@@ -52,17 +52,17 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	protected BuildTimestamp lastTimeGenerated = null;
 
 	public ObjectSet_definition() {
-		setObjectSetElements(new ArrayList<IObjectSet_Element>());
+		objectSetElements = new ArrayList<IObjectSet_Element>();
 		mBlock = null;
 	}
 
 	public ObjectSet_definition(final Block aBlock) {
-		setObjectSetElements(new ArrayList<IObjectSet_Element>());
+		objectSetElements = new ArrayList<IObjectSet_Element>();
 		this.mBlock = aBlock;
 	}
 
 	public ObjectSet_definition(final ASN1Objects objects) {
-		setObjectSetElements(new ArrayList<IObjectSet_Element>());
+		objectSetElements = new ArrayList<IObjectSet_Element>();
 		mBlock = null;
 		this.objects = objects;
 	}
