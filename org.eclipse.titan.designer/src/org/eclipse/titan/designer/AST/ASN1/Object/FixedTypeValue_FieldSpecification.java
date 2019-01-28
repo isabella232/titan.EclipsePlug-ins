@@ -103,6 +103,13 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			fixedType.check(timestamp);
 
 			if (null != defaultValue) {
+				if (isOptional) {
+					getLocation().reportSemanticError("OPTIONAL and DEFAULT are mutual exclusive");
+					isOptional = false;
+				} else if (isUnique) {
+					getLocation().reportSemanticError("UNIQUE and DEFAULT are mutual exclusive");
+				}
+
 				defaultValue.setMyGovernor(fixedType);
 				final IValue tempValue = fixedType.checkThisValueRef(timestamp, defaultValue);
 				fixedType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
