@@ -269,29 +269,20 @@ public final class Value_Assignment extends ASN1Assignment {
 			return;
 		}
 
+		if (value == null) {
+			return;
+		}
+
 		final String genName = getGenName();
 
-		if (value != null) {
-			//value.setGenNamePrefix("const_");//currently does not need the prefix
-			value.setGenNameRecursive(genName);
-		}
+		//value.setGenNamePrefix("const_");//currently does not need the prefix
+		value.setGenNameRecursive(genName);
 
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
-		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
-		}
-		source.append( "final " );
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( ' ' );
-		source.append( genName );
-		source.append( " = new " );
-		source.append( typeGeneratedName );
-		source.append( "();\n" );
-		if ( value != null ) {
-			value.generateCodeInit( aData, aData.getPreInit(), genName );
-		}
+		source.append(MessageFormat.format("\tpublic static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		value.generateCodeInit( aData, aData.getPreInit(), genName );
 		sb.append(source);
 	}
 }
