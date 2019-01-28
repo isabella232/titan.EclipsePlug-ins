@@ -142,6 +142,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 	public final void addObjectSetElement(final IObjectSet_Element element) {
 		if (null != element) {
+			element.setFullNameParent(this);
 			objectSetElements.add(element);
 		}
 	}
