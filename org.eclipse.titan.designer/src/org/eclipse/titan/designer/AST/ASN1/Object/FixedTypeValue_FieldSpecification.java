@@ -165,13 +165,22 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			final StringBuilder valueSource = new StringBuilder();
 			final String defValueGenName = defaultValue.getGenNameOwn();
 			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, myObjectClass.getMyScope() );
-			valueSource.append(MessageFormat.format("\tstatic final {0} {1} = new {0}();\n", typeGeneratedName, defValueGenName));
-			getLocation().update_location_object(aData, aData.getPreInit());
 
-			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final IValue last = defaultValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-			referenceChain.release();
-			last.generateCodeInit( aData, aData.getPreInit(), defValueGenName );
+			if (defaultValue.canGenerateSingleExpression() ) {
+				if (defaultValue.returnsNative()) {
+					valueSource.append(MessageFormat.format("\tpublic static final {0} {1} = new {0}({2});\n", typeGeneratedName, defValueGenName, defaultValue.generateSingleExpression(aData)));
+				} else {
+					valueSource.append(MessageFormat.format("\tpublic static final {0} {1} = {2};\n", typeGeneratedName, defValueGenName, defaultValue.generateSingleExpression(aData)));
+				}
+			} else {
+				valueSource.append(MessageFormat.format("\tstatic final {0} {1} = new {0}();\n", typeGeneratedName, defValueGenName));
+				getLocation().update_location_object(aData, aData.getPreInit());
+
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue last = defaultValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+				referenceChain.release();
+				last.generateCodeInit( aData, aData.getPreInit(), defValueGenName );
+			}
 
 			aData.addGlobalVariable(typeGeneratedName, valueSource.toString());
 		}
