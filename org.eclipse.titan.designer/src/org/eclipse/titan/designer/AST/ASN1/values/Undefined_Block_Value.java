@@ -492,6 +492,16 @@ public final class Undefined_Block_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenNameRecursive(final String parameterGenName) {
+		if (realValue != null) {
+			realValue.setGenNameRecursive(parameterGenName);
+		}
+
+		super.setGenNameRecursive(parameterGenName);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		if (null != mBlock) {
 			return mBlock.getLocation();
