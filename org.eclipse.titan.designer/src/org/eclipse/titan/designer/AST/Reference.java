@@ -476,15 +476,15 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 
 	public Assignment getRefdAssignment(final CompilationTimeStamp timestamp, final boolean checkParameterList, final IReferenceChain referenceChain) {
-		if (myScope == null || getId() == null) {
-			return null;
-		}
-
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp) && !checkParameterList) {
 			return referredAssignment;
 		}
 
 		lastTimeChecked = timestamp;
+
+		if (myScope == null || getId() == null) {
+			return null;
+		}
 
 		final boolean newChain = null == referenceChain;
 		IReferenceChain tempReferenceChain;
