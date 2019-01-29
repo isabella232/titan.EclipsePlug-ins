@@ -11,9 +11,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -30,6 +32,7 @@ import org.eclipse.titan.designer.license.LicenseValidator;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Build system for java code generation.
@@ -37,6 +40,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * @author Arpad Lovassy
  */
 public class TITANJavaBuilder extends IncrementalProjectBuilder {
+	public static final String BUILDER_ID = ProductConstants.PRODUCT_ID_DESIGNER + ".core.TITANJavaBuilder";
 
 	@Override
 	protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException {
@@ -119,4 +123,33 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
+	/**
+	 * This function checks the project for the TITANJavaBuilder.
+	 * 
+	 * @param project
+	 *                the project we would like to build
+	 * @return whether the project has the TITANJavaBuilder enabled on it, or
+	 *         not.
+	 */
+	public static boolean isBuilderEnabled(final IProject project) {
+		if (!project.isAccessible()) {
+			return false;
+		}
+
+		IProjectDescription description;
+		try {
+			description = project.getDescription();
+		} catch (CoreException e) {
+			return false;
+		}
+
+		ICommand[] cmds = description.getBuildSpec();
+		for (int i = 0; i < cmds.length; i++) {
+			if (BUILDER_ID.equals(cmds[i].getBuilderName())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
