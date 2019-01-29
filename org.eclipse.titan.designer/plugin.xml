@@ -651,6 +651,15 @@
       name="Export"
       category="org.eclipse.titan.designer.preferences.pages.TITANPreferencePage" />
   </extension>
+  <extension point="org.eclipse.core.expressions.propertyTesters">
+    <propertyTester
+      class="org.eclipse.titan.designer.properties.propertytesters.TitanBuilderEnabled"
+      id="org.eclipse.titan.designer.properties.TitanBuilderTester"
+      namespace="org.eclipse.titan.designer.properties.TitanBuilder"
+      properties="isTitanBuilder, isTitanJavaBuilder"
+      type="java.lang.Object">
+    </propertyTester>
+  </extension>
   <extension point="org.eclipse.ui.propertyPages">
     <page name="TITAN Project Property" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage"
@@ -658,10 +667,28 @@
       <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
       </filter>
       <enabledWhen>
+      <and>
         <instanceof value="org.eclipse.core.resources.IProject">
         </instanceof>
+        <test property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder">
+        </test>
+      </and>
       </enabledWhen>
     </page>
+    <!--<page name="TITAN Java Project Property" nameFilter="*"
+      class="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage"
+      id="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage">
+      <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
+      </filter>
+      <enabledWhen>
+      <and>
+        <instanceof value="org.eclipse.core.resources.IProject">
+        </instanceof>
+        <test property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanJavaBuilder">
+        </test>
+      </and>
+      </enabledWhen>
+    </page>-->
     <page name="Naming convention" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.ProjectNamingConventionPropertyPage"
       id="org.eclipse.titan.designer.properties.pages.ProjectNamingConventionPropertyPage"
@@ -673,6 +700,17 @@
         </instanceof>
       </enabledWhen>
     </page>
+    <!--<page name="Naming convention" nameFilter="*"
+      class="org.eclipse.titan.designer.properties.pages.ProjectNamingConventionPropertyPage"
+      id="org.eclipse.titan.designer.properties.pages.JavaProjectNamingConventionPropertyPage"
+      category="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage">
+      <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
+      </filter>
+      <enabledWhen>
+        <instanceof value="org.eclipse.core.resources.IProject">
+        </instanceof>
+      </enabledWhen>
+    </page>-->
     <page name="Remote build" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.ProjectRemoteBuildPropertyPage"
       id="org.eclipse.titan.designer.properties.pages.ProjectRemoteBuildPropertyPage"
@@ -680,8 +718,12 @@
       <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
       </filter>
       <enabledWhen>
+      <and>
         <instanceof value="org.eclipse.core.resources.IProject">
         </instanceof>
+        <test property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder">
+        </test>
+      </and>
       </enabledWhen>
     </page>
     <page name="Project Configurations" nameFilter="*"
@@ -695,6 +737,17 @@
         </instanceof>
       </enabledWhen>
     </page>
+    <!--<page name="Project Configurations" nameFilter="*"
+      class="org.eclipse.titan.designer.properties.pages.ProjectConfigurationsPropertyPage"
+      id="org.eclipse.titan.designer.properties.pages.JavaProjectConfigurationsPropertyPage"
+      category="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage">
+      <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
+      </filter>
+      <enabledWhen>
+        <instanceof value="org.eclipse.core.resources.IProject">
+        </instanceof>
+      </enabledWhen>
+    </page>-->
     <page name="TITAN Folder Property" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.FolderBuildPropertyPage"
       id="org.eclipse.titan.designer.properties.pages.FolderBuildPropertyPage">
