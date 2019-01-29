@@ -30,10 +30,10 @@ public final class InternalMakefileCreationTab {
 	private Composite newBuildPropertiesComposite;
 	private TreeViewer optionList;
 
-	private final TTCN3PreprocessorOptionsPage ttcn3PreprocessorPage = new TTCN3PreprocessorOptionsPage();
+	private final TTCN3PreprocessorOptionsPage ttcn3PreprocessorPage = new TTCN3PreprocessorOptionsPage(true);
 	private final PreprocessorSymbolsOptionsPage ttcn3PreprocessorSymbolsPage = new PreprocessorSymbolsOptionsPage(true);
 	private final PreprocessorIncludedOptionsPage ttcn3PreprocessorIncludesPage;
-	private final TITANFlagsOptionsPage titanFlagsPage = new TITANFlagsOptionsPage();
+	private final TITANFlagsOptionsPage titanFlagsPage = new TITANFlagsOptionsPage(true);
 	private final PreprocessorOptionsPage preprocessorPage = new PreprocessorOptionsPage();
 	private final PreprocessorSymbolsOptionsPage preprocessorSymbolsPage = new PreprocessorSymbolsOptionsPage(false);
 	private final PreprocessorIncludedOptionsPage preprocessorIncludesPage;

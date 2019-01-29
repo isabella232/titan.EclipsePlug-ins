@@ -28,13 +28,21 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 
 	private StringFieldEditor tool;
 
+	private final boolean CBuild;
+
+	public TTCN3PreprocessorOptionsPage(final boolean CBuild) {
+		this.CBuild = CBuild;
+	}
+
 	@Override
 	public void dispose() {
 		if (mainComposite != null) {
 			mainComposite.dispose();
 			mainComposite = null;
 
-			tool.dispose();
+			if (CBuild) {
+				tool.dispose();
+			}
 		}
 	}
 
@@ -48,8 +56,10 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 		mainComposite.setLayout(new GridLayout());
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-		tool = new StringFieldEditor(TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY, "TTCN-3 preprocessor:", mainComposite);
-		tool.setStringValue(TTCN3PreprocessorOptionsData.DEFAULT_PREPROCESSOR);
+		if (CBuild) {
+			tool = new StringFieldEditor(TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY, "TTCN-3 preprocessor:", mainComposite);
+			tool.setStringValue(TTCN3PreprocessorOptionsData.DEFAULT_PREPROCESSOR);
+		}
 
 		return mainComposite;
 	}
@@ -60,7 +70,9 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 			return;
 		}
 
-		tool.setEnabled(enabled, mainComposite);
+		if (CBuild) {
+			tool.setEnabled(enabled, mainComposite);
+		}
 	}
 
 	@Override
@@ -98,17 +110,21 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 			return;
 		}
 
-		tool.setEnabled(true, mainComposite);
-		tool.setStringValue("cpp");
+		if (CBuild) {
+			tool.setEnabled(true, mainComposite);
+			tool.setStringValue("cpp");
+		}
 	}
 
 	@Override
 	public boolean checkProperties(final ProjectBuildPropertyPage page) {
-		String temp = tool.getStringValue();
+		if (CBuild) {
+			String temp = tool.getStringValue();
 
-		if (temp == null || "".equals(temp)) {
-			page.setErrorMessage("The TTCN-3 preprocessor must be set.");
-			return false;
+			if (temp == null || "".equals(temp)) {
+				page.setErrorMessage("The TTCN-3 preprocessor must be set.");
+				return false;
+			}
 		}
 
 		return true;
@@ -116,6 +132,10 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 
 	@Override
 	public void loadProperties(final IProject project) {
+		if (!CBuild) {
+			return;
+		}
+
 		try {
 			String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY));
@@ -130,17 +150,19 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean saveProperties(final IProject project) {
-		try {
-			QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY);
-			String newValue = tool.getStringValue();
-			String oldValue = project.getPersistentProperty(qualifiedName);
-			if (newValue != null && !newValue.equals(oldValue)) {
-				project.setPersistentProperty(qualifiedName, newValue);
+		if (CBuild) {
+			try {
+				QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY);
+				String newValue = tool.getStringValue();
+				String oldValue = project.getPersistentProperty(qualifiedName);
+				if (newValue != null && !newValue.equals(oldValue)) {
+					project.setPersistentProperty(qualifiedName, newValue);
+				}
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				return false;
 			}
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			return false;
 		}
 
 		return true;

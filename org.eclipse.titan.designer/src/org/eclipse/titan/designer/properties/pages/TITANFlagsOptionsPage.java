@@ -55,36 +55,60 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	//private Composite namingRuleComposite;
 	//private ComboFieldEditor namingRules;
 
+	private final boolean CBuilder;
+
+	public TITANFlagsOptionsPage(final boolean CBuilder) {
+		this.CBuilder = CBuilder;
+	}
+
 	@Override
 	public void dispose() {
 		if (mainComposite != null) {
 			mainComposite.dispose();
 			mainComposite = null;
 
-			disableBER.dispose();
+			if (CBuilder) {
+				disableBER.dispose();
+			}
+
 			disableRAW.dispose();
-			disableTEXT.dispose();
-			disableXER.dispose();
-			disableJSON.dispose();
-			disableOER.dispose();
-			forceXER.dispose();
-			disableSubtypeChecking.dispose();
-			defaultAsOmit.dispose();
-			forceOldFuncOutPar.dispose();
-			gccMessageFormat.dispose();
-			lineNumbersOnlyInMessages.dispose();
-			includeSourceInfo.dispose();
+
+			if (CBuilder) {
+				disableTEXT.dispose();
+				disableXER.dispose();
+				disableJSON.dispose();
+				disableOER.dispose();
+				forceXER.dispose();
+				disableSubtypeChecking.dispose();
+				defaultAsOmit.dispose();
+				forceOldFuncOutPar.dispose();
+				gccMessageFormat.dispose();
+				lineNumbersOnlyInMessages.dispose();
+				includeSourceInfo.dispose();
+			}
+
 			addSourceLineInfo.dispose();
-			suppressWarnings.dispose();
-			quietly.dispose();
+
+			if (CBuilder) {
+				suppressWarnings.dispose();
+				quietly.dispose();
+			}
+
 			omitInValueList.dispose();
-			warningsForBadVariants.dispose();
-			ignoreUntaggedOnTopLevelUnion.dispose();
-			enableLegacyEncoding.dispose();
-			disableUserInformation.dispose();
-			enableRealtimeFeature.dispose();
+
+			if (CBuilder) {
+				warningsForBadVariants.dispose();
+				ignoreUntaggedOnTopLevelUnion.dispose();
+				enableLegacyEncoding.dispose();
+				disableUserInformation.dispose();
+				enableRealtimeFeature.dispose();
+			}
+
 			forceGenSeof.dispose();
-			activateDebugger.dispose();
+
+			if (CBuilder) {
+				activateDebugger.dispose();
+			}
 		}
 	}
 
@@ -98,77 +122,88 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		mainComposite.setLayout(new GridLayout());
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		disableBER = new Button(mainComposite, SWT.CHECK);
-		disableBER.setText("Disable BER encoding (-b)");
+		if (CBuilder) {
+			disableBER = new Button(mainComposite, SWT.CHECK);
+			disableBER.setText("Disable BER encoding (-b)");
+		}
 
 		disableRAW = new Button(mainComposite, SWT.CHECK);
 		disableRAW.setText("Disable RAW encoding (-r)");
 
-		disableTEXT = new Button(mainComposite, SWT.CHECK);
-		disableTEXT.setText("Disable TEXT encoding (-x)");
+		if (CBuilder) {
+			disableTEXT = new Button(mainComposite, SWT.CHECK);
+			disableTEXT.setText("Disable TEXT encoding (-x)");
 
-		disableXER = new Button(mainComposite, SWT.CHECK);
-		disableXER.setText("Disable XER encoding (-X)");
+			disableXER = new Button(mainComposite, SWT.CHECK);
+			disableXER.setText("Disable XER encoding (-X)");
 
-		disableJSON = new Button(mainComposite, SWT.CHECK);
-		disableJSON.setText("Disable JSON encoder (-j)");
+			disableJSON = new Button(mainComposite, SWT.CHECK);
+			disableJSON.setText("Disable JSON encoder (-j)");
 
-		disableOER = new Button(mainComposite, SWT.CHECK);
-		disableOER.setText("Disable OER encoder (-O)");
+			disableOER = new Button(mainComposite, SWT.CHECK);
+			disableOER.setText("Disable OER encoder (-O)");
 
-		forceXER = new Button(mainComposite, SWT.CHECK);
-		forceXER.setText("Force XER in ASN.1 files (-a)");
+			forceXER = new Button(mainComposite, SWT.CHECK);
+			forceXER.setText("Force XER in ASN.1 files (-a)");
+		
 
-		disableSubtypeChecking = new Button(mainComposite, SWT.CHECK);
-		disableSubtypeChecking.setText("Disable subtype checking (-y)");
+			disableSubtypeChecking = new Button(mainComposite, SWT.CHECK);
+			disableSubtypeChecking.setText("Disable subtype checking (-y)");
+	
+			defaultAsOmit = new Button(mainComposite, SWT.CHECK);
+			defaultAsOmit.setText("Treat default fields as omit (-d)");
+		
+			forceOldFuncOutPar = new Button(mainComposite, SWT.CHECK);
+			forceOldFuncOutPar.setText("Force old function out par handling (-Y)");
+		
+			gccMessageFormat = new Button(mainComposite, SWT.CHECK);
+			gccMessageFormat.setText("Emulate gcc error/warning message format (-g)");
 
-		defaultAsOmit = new Button(mainComposite, SWT.CHECK);
-		defaultAsOmit.setText("Treat default fields as omit (-d)");
+			lineNumbersOnlyInMessages = new Button(mainComposite, SWT.CHECK);
+			lineNumbersOnlyInMessages.setText("Use only line numbers in error/warning messages (-i)");
 
-		forceOldFuncOutPar = new Button(mainComposite, SWT.CHECK);
-		forceOldFuncOutPar.setText("Force old function out par handling (-Y)");
-
-		gccMessageFormat = new Button(mainComposite, SWT.CHECK);
-		gccMessageFormat.setText("Emulate gcc error/warning message format (-g)");
-
-		lineNumbersOnlyInMessages = new Button(mainComposite, SWT.CHECK);
-		lineNumbersOnlyInMessages.setText("Use only line numbers in error/warning messages (-i)");
-
-		includeSourceInfo = new Button(mainComposite, SWT.CHECK);
-		includeSourceInfo.setText("Include source line info in C++ code (-l)");
+			includeSourceInfo = new Button(mainComposite, SWT.CHECK);
+			includeSourceInfo.setText("Include source line info in C++ code (-l)");
+		}
 
 		addSourceLineInfo = new Button(mainComposite, SWT.CHECK);
 		addSourceLineInfo.setText("Add source line info for logging (-L)");
 
-		suppressWarnings = new Button(mainComposite, SWT.CHECK);
-		suppressWarnings.setText("Suppress warnings (-w)");
+		if (CBuilder) {
+			suppressWarnings = new Button(mainComposite, SWT.CHECK);
+			suppressWarnings.setText("Suppress warnings (-w)");
 
-		quietly = new Button(mainComposite, SWT.CHECK);
-		quietly.setText("Suppress all messages (quiet mode) (-q)");
+			quietly = new Button(mainComposite, SWT.CHECK);
+			quietly.setText("Suppress all messages (quiet mode) (-q)");
+		}
 
 		omitInValueList = new Button(mainComposite, SWT.CHECK);
 		omitInValueList.setText("Allow 'omit' in template value lists (legacy behavior) (-M)");
 
-		warningsForBadVariants = new Button(mainComposite, SWT.CHECK);
-		warningsForBadVariants.setText("Display warnings instead of errors for invalid variants (-E)");
+		if (CBuilder) {
+			warningsForBadVariants = new Button(mainComposite, SWT.CHECK);
+			warningsForBadVariants.setText("Display warnings instead of errors for invalid variants (-E)");
 
-		ignoreUntaggedOnTopLevelUnion = new Button(mainComposite, SWT.CHECK);
-		ignoreUntaggedOnTopLevelUnion.setText("Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
+			ignoreUntaggedOnTopLevelUnion = new Button(mainComposite, SWT.CHECK);
+			ignoreUntaggedOnTopLevelUnion.setText("Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
 
-		enableLegacyEncoding = new Button(mainComposite, SWT.CHECK);
-		enableLegacyEncoding.setText("Enable legacy encoding (-e)");
+			enableLegacyEncoding = new Button(mainComposite, SWT.CHECK);
+			enableLegacyEncoding.setText("Enable legacy encoding (-e)");
 
-		disableUserInformation = new Button(mainComposite, SWT.CHECK);
-		disableUserInformation.setText("Disable user information and timestamp in headers (-D)");
+			disableUserInformation = new Button(mainComposite, SWT.CHECK);
+			disableUserInformation.setText("Disable user information and timestamp in headers (-D)");
 
-		enableRealtimeFeature = new Button(mainComposite, SWT.CHECK);
-		enableRealtimeFeature.setText("Enable Realtime testing feature (-I)");
+			enableRealtimeFeature = new Button(mainComposite, SWT.CHECK);
+			enableRealtimeFeature.setText("Enable Realtime testing feature (-I)");
+		}
 
 		forceGenSeof = new Button(mainComposite, SWT.CHECK);
 		forceGenSeof.setText("Force the generation of Seof types (-F)");
 
-		activateDebugger = new Button(mainComposite, SWT.CHECK);
-		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
+		if (CBuilder) {
+			activateDebugger = new Button(mainComposite, SWT.CHECK);
+			activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
+		}
 
 		return mainComposite;
 	}
@@ -179,30 +214,48 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			return;
 		}
 
-		disableBER.setEnabled(enabled);
+		if (CBuilder) {
+			disableBER.setEnabled(enabled);
+		}
+
 		disableRAW.setEnabled(enabled);
-		disableTEXT.setEnabled(enabled);
-		disableXER.setEnabled(enabled);
-		disableJSON.setEnabled(enabled);
-		disableOER.setEnabled(enabled);
-		forceXER.setEnabled(enabled);
-		disableSubtypeChecking.setEnabled(enabled);
-		defaultAsOmit.setEnabled(enabled);
-		forceOldFuncOutPar.setEnabled(enabled);
-		gccMessageFormat.setEnabled(enabled);
-		lineNumbersOnlyInMessages.setEnabled(enabled);
-		includeSourceInfo.setEnabled(enabled);
+
+		if (CBuilder) {
+			disableTEXT.setEnabled(enabled);
+			disableXER.setEnabled(enabled);
+			disableJSON.setEnabled(enabled);
+			disableOER.setEnabled(enabled);
+			forceXER.setEnabled(enabled);
+			disableSubtypeChecking.setEnabled(enabled);
+			defaultAsOmit.setEnabled(enabled);
+			forceOldFuncOutPar.setEnabled(enabled);
+			gccMessageFormat.setEnabled(enabled);
+			lineNumbersOnlyInMessages.setEnabled(enabled);
+			includeSourceInfo.setEnabled(enabled);
+		}
+
 		addSourceLineInfo.setEnabled(enabled);
-		suppressWarnings.setEnabled(enabled);
-		quietly.setEnabled(enabled);
+
+		if (CBuilder) {
+			suppressWarnings.setEnabled(enabled);
+			quietly.setEnabled(enabled);
+		}
+
 		omitInValueList.setEnabled(enabled);
-		warningsForBadVariants.setEnabled(enabled);
-		ignoreUntaggedOnTopLevelUnion.setEnabled(enabled);
-		enableLegacyEncoding.setEnabled(enabled);
-		disableUserInformation.setEnabled(enabled);
-		enableRealtimeFeature.setEnabled(enabled);
+
+		if (CBuilder) {
+			warningsForBadVariants.setEnabled(enabled);
+			ignoreUntaggedOnTopLevelUnion.setEnabled(enabled);
+			enableLegacyEncoding.setEnabled(enabled);
+			disableUserInformation.setEnabled(enabled);
+			enableRealtimeFeature.setEnabled(enabled);
+		}
+
 		forceGenSeof.setEnabled(enabled);
-		activateDebugger.setEnabled(enabled);
+
+		if (CBuilder) {
+			activateDebugger.setEnabled(enabled);
+		}
 	}
 
 	@Override
@@ -253,30 +306,48 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		setEnabled(true);
 
-		disableBER.setSelection(false);
+		if (CBuilder) {
+			disableBER.setSelection(false);
+		}
+
 		disableRAW.setSelection(false);
-		disableTEXT.setSelection(false);
-		disableXER.setSelection(false);
-		disableJSON.setSelection(false);
-		disableOER.setSelection(false);
-		forceXER.setSelection(false);
-		disableSubtypeChecking.setSelection(false);
-		defaultAsOmit.setSelection(false);
-		forceOldFuncOutPar.setSelection(false);
-		gccMessageFormat.setSelection(false);
-		lineNumbersOnlyInMessages.setSelection(false);
-		includeSourceInfo.setSelection(true);
+
+		if (CBuilder) {
+			disableTEXT.setSelection(false);
+			disableXER.setSelection(false);
+			disableJSON.setSelection(false);
+			disableOER.setSelection(false);
+			forceXER.setSelection(false);
+			disableSubtypeChecking.setSelection(false);
+			defaultAsOmit.setSelection(false);
+			forceOldFuncOutPar.setSelection(false);
+			gccMessageFormat.setSelection(false);
+			lineNumbersOnlyInMessages.setSelection(false);
+			includeSourceInfo.setSelection(true);
+		}
+
 		addSourceLineInfo.setSelection(true);
-		suppressWarnings.setSelection(false);
-		quietly.setSelection(false);
+
+		if (CBuilder) {
+			suppressWarnings.setSelection(false);
+			quietly.setSelection(false);
+		}
+
 		omitInValueList.setSelection(false);
-		warningsForBadVariants.setSelection(false);
-		ignoreUntaggedOnTopLevelUnion.setSelection(false);
-		enableLegacyEncoding.setSelection(false);
-		disableUserInformation.setSelection(false);
-		enableRealtimeFeature.setSelection(false);
+
+		if (CBuilder) {
+			warningsForBadVariants.setSelection(false);
+			ignoreUntaggedOnTopLevelUnion.setSelection(false);
+			enableLegacyEncoding.setSelection(false);
+			disableUserInformation.setSelection(false);
+			enableRealtimeFeature.setSelection(false);
+		}
+
 		forceGenSeof.setSelection(false);
-		activateDebugger.setSelection(false);
+
+		if (CBuilder) {
+			activateDebugger.setSelection(false);
+		}
 	}
 
 	@Override
@@ -296,57 +367,61 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	public void loadProperties(final IProject project) {
 		String temp;
 		try {
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_BER_PROPERTY));
-			disableBER.setSelection("true".equals(temp) ? true : false);
+			if (CBuilder) {
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_BER_PROPERTY));
+				disableBER.setSelection("true".equals(temp) ? true : false);
+			}
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
 			disableRAW.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY));
-			disableTEXT.setSelection("true".equals(temp) ? true : false);
+			if (CBuilder) {
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY));
+				disableTEXT.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
-			disableXER.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
+				disableXER.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
-			disableJSON.setSelection("true".equals(temp) ? true : false);
-			
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_OER_PROPERTY));
-			disableOER.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
+				disableJSON.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
-			forceXER.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_OER_PROPERTY));
+				disableOER.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
-			disableSubtypeChecking.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
+				forceXER.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY));
-			defaultAsOmit.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
+				disableSubtypeChecking.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY));
-			forceOldFuncOutPar.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY));
+				defaultAsOmit.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY));
-			gccMessageFormat.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY));
+				forceOldFuncOutPar.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY));
-			lineNumbersOnlyInMessages.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY));
+				gccMessageFormat.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.INCLUDE_SOURCEINFO_PROPERTY));
-			includeSourceInfo.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY));
+				lineNumbersOnlyInMessages.setSelection("true".equals(temp) ? true : false);
+
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.INCLUDE_SOURCEINFO_PROPERTY));
+				includeSourceInfo.setSelection("true".equals(temp) ? true : false);
+			}
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ADD_SOURCELINEINFO_PROPERTY));
@@ -356,46 +431,51 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				addSourceLineInfo.setSelection("true".equals(temp) ? true : false);
 			}
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.SUPPRESS_WARNINGS_PROPERTY));
-			suppressWarnings.setSelection("true".equals(temp) ? true : false);
+			if (CBuilder) {
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.SUPPRESS_WARNINGS_PROPERTY));
+				suppressWarnings.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.QUIETLY_PROPERTY));
-			quietly.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.QUIETLY_PROPERTY));
+				quietly.setSelection("true".equals(temp) ? true : false);
+			}
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			omitInValueList.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
-			warningsForBadVariants.setSelection("true".equals(temp) ? true : false);
+			if (CBuilder) {
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
+				warningsForBadVariants.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
-			ignoreUntaggedOnTopLevelUnion.setSelection("true".equals(temp) ? true : false);
-			
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
-			enableLegacyEncoding.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
+				ignoreUntaggedOnTopLevelUnion.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY));
-			disableUserInformation.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
+				enableLegacyEncoding.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.ENABLE_REALTIME));
-			enableRealtimeFeature.setSelection("true".equals(temp) ? true : false);
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY));
+				disableUserInformation.setSelection("true".equals(temp) ? true : false);
+
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.ENABLE_REALTIME));
+				enableRealtimeFeature.setSelection("true".equals(temp) ? true : false);
+			}
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_GEN_SEOF));
 			forceGenSeof.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
-			activateDebugger.setSelection("true".equals(temp) ? true : false);
-
+			if (CBuilder) {
+				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+						TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
+				activateDebugger.setSelection("true".equals(temp) ? true : false);
+			}
 		} catch (CoreException e) {
 			performDefaults();
 		}
@@ -404,33 +484,50 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	@Override
 	public boolean saveProperties(final IProject project) {
 		try {
-			setProperty(project, TITANFlagsOptionsData.DISABLE_BER_PROPERTY, disableBER.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_RAW_PROPERTY, disableRAW.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY, disableTEXT.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_XER_PROPERTY, disableXER.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_JSON_PROPERTY, disableJSON.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_OER_PROPERTY, disableOER.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY, forceXER.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY, disableSubtypeChecking.getSelection() ? "true"
-					: "false");
-			setProperty(project, TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY, defaultAsOmit.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY, forceOldFuncOutPar.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY, gccMessageFormat.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
-					lineNumbersOnlyInMessages.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.INCLUDE_SOURCEINFO_PROPERTY, includeSourceInfo.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ADD_SOURCELINEINFO_PROPERTY, addSourceLineInfo.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.SUPPRESS_WARNINGS_PROPERTY, suppressWarnings.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.QUIETLY_PROPERTY, quietly.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY ,  omitInValueList.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY,  warningsForBadVariants.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY, disableUserInformation.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ENABLE_REALTIME, enableRealtimeFeature.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.FORCE_GEN_SEOF, forceGenSeof.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
+			if (CBuilder) {
+				setProperty(project, TITANFlagsOptionsData.DISABLE_BER_PROPERTY, disableBER.getSelection() ? "true" : "false");
+			}
 
+			setProperty(project, TITANFlagsOptionsData.DISABLE_RAW_PROPERTY, disableRAW.getSelection() ? "true" : "false");
+
+			if (CBuilder) {
+				setProperty(project, TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY, disableTEXT.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.DISABLE_XER_PROPERTY, disableXER.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.DISABLE_JSON_PROPERTY, disableJSON.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.DISABLE_OER_PROPERTY, disableOER.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY, forceXER.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY, disableSubtypeChecking.getSelection() ? "true"
+						: "false");
+				setProperty(project, TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY, defaultAsOmit.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY, forceOldFuncOutPar.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY, gccMessageFormat.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
+						lineNumbersOnlyInMessages.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.INCLUDE_SOURCEINFO_PROPERTY, includeSourceInfo.getSelection() ? "true" : "false");
+			}
+
+			setProperty(project, TITANFlagsOptionsData.ADD_SOURCELINEINFO_PROPERTY, addSourceLineInfo.getSelection() ? "true" : "false");
+
+			if (CBuilder) {
+				setProperty(project, TITANFlagsOptionsData.SUPPRESS_WARNINGS_PROPERTY, suppressWarnings.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.QUIETLY_PROPERTY, quietly.getSelection() ? "true" : "false");
+			}
+
+			setProperty(project, TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY ,  omitInValueList.getSelection() ? "true" : "false");
+
+			if (CBuilder) {
+				setProperty(project, TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY,  warningsForBadVariants.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY, disableUserInformation.getSelection() ? "true" : "false");
+				setProperty(project, TITANFlagsOptionsData.ENABLE_REALTIME, enableRealtimeFeature.getSelection() ? "true" : "false");
+			}
+
+			setProperty(project, TITANFlagsOptionsData.FORCE_GEN_SEOF, forceGenSeof.getSelection() ? "true" : "false");
+
+			if (CBuilder) {
+				setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
+			}
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;
