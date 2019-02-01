@@ -107,7 +107,7 @@ public final class Activator extends AbstractUIPlugin {
 		}
 	}
 
-	private IResourceDeltaVisitor projectAdder = new IResourceDeltaVisitor() {
+	private final IResourceDeltaVisitor projectAdder = new IResourceDeltaVisitor() {
 
 		@Override
 		public boolean visit(final IResourceDelta delta) {
@@ -190,7 +190,7 @@ public final class Activator extends AbstractUIPlugin {
 		}
 	}
 
-	private IResourceChangeListener decoratorUpdater = new IResourceChangeListener() {
+	private final IResourceChangeListener decoratorUpdater = new IResourceChangeListener() {
 		@Override
 		public void resourceChanged(final IResourceChangeEvent event) {
 			if (!handleResourceChanges) {
@@ -224,7 +224,7 @@ public final class Activator extends AbstractUIPlugin {
 		}
 	};
 
-	private IResourceChangeListener listener = new IResourceChangeListener() {
+	private final IResourceChangeListener listener = new IResourceChangeListener() {
 		@Override
 		public void resourceChanged(final IResourceChangeEvent event) {
 			BATCHED_EVENTS.add(event);

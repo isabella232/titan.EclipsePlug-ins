@@ -31,9 +31,9 @@ import org.eclipse.ui.PlatformUI;
  * @author Kristof Szabados
  */
 public final class GlobalDeltaVisitor implements IResourceDeltaVisitor {
-	private IProject project;
+	private final IProject project;
 	private final IContainer[] workingDirectories;
-	private List<IFile> outdatedFiles = new ArrayList<IFile>();
+	private final List<IFile> outdatedFiles = new ArrayList<IFile>();
 
 	public GlobalDeltaVisitor(final IProject project) {
 		this.project = project;
