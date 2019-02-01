@@ -457,6 +457,7 @@ public class ProjectSourceCompiler {
 		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		for (final String importName : aData.getInterModuleImports()) {
 			final Module referencedModule = sourceParser.getModuleByName(importName);
+			aSb.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), importName));
 			aSb.append(MessageFormat.format("import {0}.{1}.*;\n", getPackageGeneratedRoot(referencedModule.getProject()), importName));
 		}
 
