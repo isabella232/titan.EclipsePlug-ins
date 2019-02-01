@@ -97,13 +97,13 @@ public final class MarkerHandler {
 			return;
 		}
 
-		for(Assignment assignment: assignments){
+		for(final Assignment assignment: assignments){
 			markAllMarkersForRemoval(markerTypeID,assignment);
 		}
 	}
 
 	public static void markAllSemanticMarkersForRemoval(final List<ILocateableNode> locatables) {
-		for(ILocateableNode locatable: locatables){
+		for(final ILocateableNode locatable: locatables){
 			markAllSemanticMarkersForRemoval(locatable);
 		}
 	}
@@ -176,7 +176,7 @@ public final class MarkerHandler {
 				typeSpecificRemovable.put(file, markerIdstobeRemoved);
 			}
 
-			for (InternalMarker marker : fileSpecificMarkers) {
+			for (final InternalMarker marker : fileSpecificMarkers) {
 				markerIdstobeRemoved.add(Long.valueOf(marker.markerID));
 			}
 		}
@@ -228,7 +228,7 @@ public final class MarkerHandler {
 				typeSpecificRemovable.put(file, markerIds);
 			}
 
-			for (InternalMarker marker : fileSpecificMarkers) {
+			for (final InternalMarker marker : fileSpecificMarkers) {
 				if (marker.offset >= startOffset && marker.endoffset <= endOffset) {
 					markerIds.add(Long.valueOf(marker.markerID));
 				}
@@ -276,7 +276,7 @@ public final class MarkerHandler {
 
 			typeSpecificRemovable.remove(file);
 
-			for (long markerID : markersTobeDeleted) {
+			for (final long markerID : markersTobeDeleted) {
 				try {
 					final IMarker externalMarker = file.findMarker(markerID);
 					if (externalMarker != null) {
@@ -429,7 +429,7 @@ public final class MarkerHandler {
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
-			for (InternalMarker internalMarker : fileSpecificMarkers) {
+			for (final InternalMarker internalMarker : fileSpecificMarkers) {
 				if (internalMarker.row == lineNumber && internalMarker.offset == offset && internalMarker.endoffset == endoffset) {
 					try {
 						final IMarker externalMarker = file.findMarker(internalMarker.markerID);
@@ -471,7 +471,7 @@ public final class MarkerHandler {
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
-			for (InternalMarker internalMarker : fileSpecificMarkers) {
+			for (final InternalMarker internalMarker : fileSpecificMarkers) {
 				try {
 					final IMarker externalMarker = file.findMarker(internalMarker.markerID);
 					if (externalMarker != null && severity == externalMarker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
@@ -497,7 +497,7 @@ public final class MarkerHandler {
 	 * @param shift the amount to shift the markers offset.
 	 * */
 	public static void updateMarkers(final IResource file, final int lineOffset, final int lineShift, final int offset, final int shift) {
-		for (String markerTypeID : MARKERS.keySet()) {
+		for (final String markerTypeID : MARKERS.keySet()) {
 			updateMarkers(markerTypeID, file, lineOffset, lineShift, offset, shift);
 		}
 	}
@@ -532,7 +532,7 @@ public final class MarkerHandler {
 				return;
 			}
 
-			for (Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
+			for (final Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
 				InternalMarker marker = iterator.next();
 
 				if (marker.row >= lineOffset && marker.offset > offset) {
@@ -559,7 +559,7 @@ public final class MarkerHandler {
 	 * @param shift the amount to shift the markers offset.
 	 * */
 	public static void updateInsertMarkers(final IResource file, final int lineOffset, final int lineShift, final int offset, final int shift) {
-		for (String markerTypeID : MARKERS.keySet()) {
+		for (final String markerTypeID : MARKERS.keySet()) {
 			updateInsertMarkers(markerTypeID, file, lineOffset, lineShift, offset, shift);
 		}
 	}
@@ -594,7 +594,7 @@ public final class MarkerHandler {
 				return;
 			}
 
-			for (Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
+			for (final Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
 				InternalMarker marker = iterator.next();
 
 				if (marker.row >= lineOffset && marker.offset > offset) {
@@ -632,7 +632,7 @@ public final class MarkerHandler {
 	 * @param shift the amount to shift the markers offset.
 	 * */
 	public static void updateRemoveMarkers(final IResource file, final int lineOffset, final int lineShift, final int offset, final int shift) {
-		for (String markerTypeID : MARKERS.keySet()) {
+		for (final String markerTypeID : MARKERS.keySet()) {
 			updateRemoveMarkers(markerTypeID, file, lineOffset, lineShift, offset, shift);
 		}
 	}
@@ -671,7 +671,7 @@ public final class MarkerHandler {
 				return;
 			}
 
-			for (Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
+			for (final Iterator<InternalMarker> iterator = fileSpecificMarkers.iterator(); iterator.hasNext();) {
 				InternalMarker marker = iterator.next();
 
 				if (marker.offset >= offset && marker.offset + shift <= offset) {
@@ -700,7 +700,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		for (long markerID : markersTobeDeleted) {
+		for (final long markerID : markersTobeDeleted) {
 			try {
 				final IMarker externalMarker = file.findMarker(markerID);
 				if (externalMarker != null) {
@@ -759,7 +759,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -793,7 +793,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -821,7 +821,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -880,7 +880,7 @@ public final class MarkerHandler {
 	public static void reEnableAllMarkers(final IFile file) {
 		synchronized (MARKERS) {
 			Map<IResource, Set<Long>> typeSpecificRemovable;
-			for (String qualifier : allMarkerTypes) {
+			for (final String qualifier : allMarkerTypes) {
 				typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(qualifier);
 				if (typeSpecificRemovable != null && typeSpecificRemovable.containsKey(file)) {
 					typeSpecificRemovable.remove(file);
@@ -915,7 +915,7 @@ public final class MarkerHandler {
 					return;
 				}
 
-				for (InternalMarker marker : fileSpecificMarkers) {
+				for (final InternalMarker marker : fileSpecificMarkers) {
 					if (marker.offset >= startOffset && marker.endoffset <= endOffset) {
 						// there should be no need to check if it is inside or not.
 						markerIds.remove(Long.valueOf(marker.markerID));
@@ -938,7 +938,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -949,7 +949,7 @@ public final class MarkerHandler {
 		IResource tempResource;
 		for (int i = 0, size = resources.size(); i < size; i++) {
 			tempResource = resources.get(i);
-			for (String qualifier : allMarkerTypes) {
+			for (final String qualifier : allMarkerTypes) {
 				removeMarkedMarkers(qualifier, tempResource);
 			}
 		}
@@ -968,7 +968,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -998,7 +998,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -1028,7 +1028,7 @@ public final class MarkerHandler {
 			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
-				for (IFile file : finder.getFiles()) {
+				for (final IFile file : finder.getFiles()) {
 					resources.add(file);
 				}
 			} catch (CoreException e) {
@@ -1070,7 +1070,7 @@ public final class MarkerHandler {
 				}
 			}
 
-			for (IMarker marker : markers) {
+			for (final IMarker marker : markers) {
 				if (fileInput != null && textEditor != null && fileInput.equals(marker.getResource())) {
 					final IEditorInput editorInput = textEditor.getEditorInput();
 					final IDocumentProvider provider = textEditor.getDocumentProvider();
@@ -1106,7 +1106,7 @@ public final class MarkerHandler {
 	 * @param event the event to process.
 	 * */
 	public static void handleResourceChanges(final IResourceChangeEvent event) {
-		for (String qualifier : allMarkerTypes) {
+		for (final String qualifier : allMarkerTypes) {
 			final IMarkerDelta[] markerDeltas = event.findMarkerDeltas(qualifier, false);
 			if (markerDeltas == null) {
 				continue;
