@@ -14,8 +14,8 @@ import java.util.List;
  * @author Arpad Lovassy
  */
 public final class CfgDefinitionInformation {
-	private String value = null;
-	private List<CfgLocation> locations = null;
+	private final String value;
+	private final List<CfgLocation> locations;
 
 	public CfgDefinitionInformation(final String value, final List<CfgLocation> locations) {
 		this.value = value;

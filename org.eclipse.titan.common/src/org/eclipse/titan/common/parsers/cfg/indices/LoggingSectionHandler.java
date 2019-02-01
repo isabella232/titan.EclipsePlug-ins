@@ -462,7 +462,7 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 	private Map<String, LoggerPluginsEntry> loggerPluginsTree = new HashMap<String, LoggingSectionHandler.LoggerPluginsEntry>();
 
 	// component/plugin hashmap
-	private Map<String,HashMap<String,LogParamEntry>> loggerTree = new HashMap<String,HashMap<String,LogParamEntry>>();
+	private final Map<String,HashMap<String,LogParamEntry>> loggerTree = new HashMap<String,HashMap<String,LogParamEntry>>();
 
 	public Set<String> getComponents() {
 		return loggerTree.keySet();

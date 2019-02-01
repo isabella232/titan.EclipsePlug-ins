@@ -21,7 +21,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public final class IncludeSectionHandler extends ConfigSectionHandlerBase {
 
 	/** list of include files, which are stored as ParseTree nodes */
-	private List<ParseTree> mFiles = new ArrayList<ParseTree>();
+	private final List<ParseTree> mFiles = new ArrayList<ParseTree>();
 
 	public List<ParseTree> getFiles() {
 		return mFiles;
