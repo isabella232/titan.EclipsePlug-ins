@@ -133,7 +133,7 @@ public final class Constraints extends ASTNode {
 			return;
 		}
 
-		for (Constraint c : constraints) {
+		for (final Constraint c : constraints) {
 			c.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -142,7 +142,7 @@ public final class Constraints extends ASTNode {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (constraints != null) {
-			for (Constraint c : constraints) {
+			for (final Constraint c : constraints) {
 				if (!c.accept(v)) {
 					return false;
 				}

@@ -219,10 +219,10 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public boolean checkStringEncoding(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		setLoweridToReference(timestamp);
 
-		boolean selfReference = new CharString_Type().checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
+		final boolean selfReference = new CharString_Type().checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
 		if (!isUnfoldable(timestamp)) {
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue last = getValueRefdLast(timestamp, referenceChain);
+			final IValue last = getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 
 			if (last.getValuetype() == Value_type.CHARSTRING_VALUE) {

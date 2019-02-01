@@ -1233,8 +1233,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				//FIXME pt might be null?
 				pt = pt.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				if (pt.getTypetype() == Type_type.TYPE_ARRAY) {
-					long length = ((Array_Type)pt).getDimension().getSize();
-					long start = ((Array_Type)pt).getDimension().getOffset();
+					final long length = ((Array_Type)pt).getDimension().getSize();
+					final long start = ((Array_Type)pt).getDimension().getOffset();
 					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {
@@ -1247,8 +1247,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else if (pt.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
-					long length = ((SequenceOf_Type)pt).getSubtype().get_length_restriction();
-					long start = 0;
+					final long length = ((SequenceOf_Type)pt).getSubtype().get_length_restriction();
+					final long start = 0;
 					// Generate the indexes as .constGet_at(x).constGet_at(y)...
 					for (long j = start; j < start + length; j++) {
 						if (isConst) {

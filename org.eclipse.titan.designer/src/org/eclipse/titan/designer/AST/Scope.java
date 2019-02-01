@@ -80,7 +80,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	public String getScopeName() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (parentScope != null) {
 			builder.append(parentScope.getScopeName());
 		}
@@ -534,7 +534,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		// don't add the same subscope more than once
-		for (Scope ss : subScopes) {
+		for (final Scope ss : subScopes) {
 			if (scope == ss) {
 				return;
 			}

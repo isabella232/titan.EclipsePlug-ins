@@ -40,7 +40,7 @@ class ScopeTreeNode {
 			return;
 		}
 		Scope lastParent = scopePath.remove(scopePath.size() - 1);
-		for (ScopeTreeNode stn : children) {
+		for (final ScopeTreeNode stn : children) {
 			if (stn.scope == lastParent) {
 				stn.addPath(scopePath, a);
 				lastParent = null;
@@ -60,7 +60,7 @@ class ScopeTreeNode {
 		}
 		if (!assignments.isEmpty()) {
 			sb.append("<ul>");
-			for (Assignment a : assignments) {
+			for (final Assignment a : assignments) {
 				sb.append("<li><font color='blue'>").append(a.getClass().getSimpleName()).append(" : <u>").append(a.getIdentifier())
 				.append("</u></font></li>");
 			}
@@ -68,7 +68,7 @@ class ScopeTreeNode {
 		}
 		if (!children.isEmpty()) {
 			sb.append("<ul>");
-			for (ScopeTreeNode stn : children) {
+			for (final ScopeTreeNode stn : children) {
 				stn.printTreeAsHTML(sb);
 			}
 			sb.append("</ul>");

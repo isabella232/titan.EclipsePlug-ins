@@ -172,7 +172,7 @@ public final class ReferenceChain implements IReferenceChain {
 		final CachedReferenceChain result = new CachedReferenceChain(message, isError);
 
 		int idx1 = 0;
-		for (int idx2 : markedStates) {
+		for (final int idx2 : markedStates) {
 			for (int i = idx1; i < idx2; ++i) {
 				result.add(chainLinks.get(i));
 			}

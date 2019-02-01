@@ -47,7 +47,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Node chain for offset ").append(offset).append(" : ");
 		boolean first = true;
-		for (IVisitableNode node : chain) {
+		for (final IVisitableNode node : chain) {
 			if (!first) {
 				sb.append(" -> ");
 			} else {

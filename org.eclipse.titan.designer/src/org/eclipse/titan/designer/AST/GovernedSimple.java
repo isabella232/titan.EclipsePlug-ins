@@ -148,7 +148,7 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		//TODO find a more semantic way to do this.
 		final String name = getGenNameOwn();
 		for (int i = 0; i < name.length(); i++) {
-			char c = name.charAt(i);
+			final char c = name.charAt(i);
 			if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c < '0' || c > '9') && c != '_') {
 				return false;
 			}

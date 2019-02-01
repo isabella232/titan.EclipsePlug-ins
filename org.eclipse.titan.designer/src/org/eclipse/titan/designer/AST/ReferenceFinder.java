@@ -258,7 +258,7 @@ public final class ReferenceFinder {
 		}
 
 		int size = 0;
-		for(IProject tempProject: relatedProjects) {
+		for(final IProject tempProject: relatedProjects) {
 			size += GlobalParser.getProjectSourceParser(tempProject).getModules().size();
 		}
 
@@ -275,15 +275,15 @@ public final class ReferenceFinder {
 		// is global
 		//FIXME but if component variable ... we might have to search all related modules in all related projects.
 		if (scope instanceof Module) {
-			for(IProject project2 : relatedProjects) {
+			for(final IProject project2 : relatedProjects) {
 				final ProjectSourceParser projectSourceParser2 = GlobalParser.getProjectSourceParser(project2);
 
-				for (Module module2 : projectSourceParser2.getModules()) {
+				for (final Module module2 : projectSourceParser2.getModules()) {
 					if (monitor.isCanceled()) {
 						return foundIdsMap;
 					}
 
-					for (Module m : module2.getImportedModules()) {
+					for (final Module m : module2.getImportedModules()) {
 						if (m == scope) {
 							if (reportDebugInformation) {
 								TITANDebugConsole.println("found importing module: " + module2.getName());

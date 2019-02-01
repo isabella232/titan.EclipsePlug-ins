@@ -38,7 +38,7 @@ public final class AtNotations extends ASTNode {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (atnotations != null) {
-			for (AtNotation an : atnotations) {
+			for (final AtNotation an : atnotations) {
 				if (!an.accept(v)) {
 					return false;
 				}
