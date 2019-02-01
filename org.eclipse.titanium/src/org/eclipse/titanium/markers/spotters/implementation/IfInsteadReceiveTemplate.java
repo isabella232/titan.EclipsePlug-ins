@@ -40,10 +40,12 @@ public class IfInsteadReceiveTemplate extends BaseModuleCodeSmellSpotter {
 			final Statement action = ag.getGuardStatement();
 			if (action instanceof Receive_Port_Statement) {
 				final Receive_Port_Statement receive = (Receive_Port_Statement) action;
-				final SuspiciouslyUsedIf susp = new SuspiciouslyUsedIf(receive);
-				ag.accept(susp);
-				if (susp.doesSmell()) {
-					problems.report(susp.getSuspicious().getLocation(), SHOULD_BRANCH);
+				if (receive.getRedirectValue() != null) {
+					final SuspiciouslyUsedIf susp = new SuspiciouslyUsedIf(receive);
+					ag.accept(susp);
+					if (susp.doesSmell()) {
+						problems.report(susp.getSuspicious().getLocation(), SHOULD_BRANCH);
+					}
 				}
 			}
 		}
