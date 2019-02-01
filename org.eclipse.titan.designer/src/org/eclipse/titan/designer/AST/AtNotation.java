@@ -17,9 +17,9 @@ import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 public final class AtNotation extends ASTNode {
 
 	/** number of "."s in compid.compid */
-	private int levels;
+	private final int levels;
 
-	private FieldName componentIdentifiers;
+	private final FieldName componentIdentifiers;
 	private Identifier objectClassFieldname;
 
 	private IType firstComponent;
