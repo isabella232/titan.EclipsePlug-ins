@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -95,7 +99,6 @@ public final class SymbolicLinkHandler {
 	public static void addSymlinkCreationCommand(final Map<String, IFile> files, final String workingDirectory, final TITANJob buildJob,
 			final Map<String, IFile> lastTimeRemovedFiles, final IProgressMonitor monitor, final boolean automaticMakefileManagement) {
 		final List<String> symlinkFiles = new ArrayList<String>();
-		List<String> command;
 		final boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
 		final String extension = win32 ? LINK_EXTENSION : EMPTY_STRING;
 
@@ -104,11 +107,18 @@ public final class SymbolicLinkHandler {
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		for (IFile file : files.values()) {
+		final CountDownLatch latch = new CountDownLatch(files.size());
+		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
+				new LinkedBlockingQueue<Runnable>());
+
+		for (final IFile file : files.values()) {
 			// We  want makefile to be symlinked
 			// except if automatic makefile generation is ON
 			if (automaticMakefileManagement) {
 				if (file.getName().contentEquals("Makefile") || file.getName().contentEquals("makefile")) {
+					latch.countDown();
+					internalMonitor.worked(1);
 					continue;
 				}
 			}
@@ -124,55 +134,78 @@ public final class SymbolicLinkHandler {
 							+ "' to the working directory", e);
 				}
 
+				latch.countDown();
 				internalMonitor.worked(1);
 				continue;
 			}
 
-			final String lastSegment = path.lastSegment();
-			final boolean tempFileRemoved = lastTimeRemovedFiles.containsKey(lastSegment);
-			final File tempFile = new File(workingDirectory + File.separatorChar + lastSegment + extension);
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					final String lastSegment = path.lastSegment();
+					final boolean tempFileRemoved = lastTimeRemovedFiles.containsKey(lastSegment);
+					final File tempFile = new File(workingDirectory + File.separatorChar + lastSegment + extension);
 
-			if (tempFile.exists() && !tempFileRemoved) {
-				if (win32) {
-					symlinkFiles.add(lastSegment);
-					internalMonitor.worked(1);
-					continue;
-				}
+					if (tempFile.exists() && !tempFileRemoved) {
+						if (win32) {
+							symlinkFiles.add(lastSegment);
+							latch.countDown();
+							internalMonitor.worked(1);
+							return;
+						}
 
-				try {
-					final String canonicalPath = tempFile.getCanonicalPath();
-					final String absolutePath = tempFile.getAbsolutePath();
-					if (!absolutePath.equals(canonicalPath) && path.toString().equals(canonicalPath)) {
-						symlinkFiles.add(lastSegment);
-						internalMonitor.worked(1);
-						continue;
+						try {
+							final String canonicalPath = tempFile.getCanonicalPath();
+							final String absolutePath = tempFile.getAbsolutePath();
+							if (!absolutePath.equals(canonicalPath) && path.toString().equals(canonicalPath)) {
+								symlinkFiles.add(lastSegment);
+								latch.countDown();
+								internalMonitor.worked(1);
+								return;
+							}
+						} catch (IOException e) {
+							ErrorReporter.logExceptionStackTrace("While getting the canonical path of `" + tempFile.getName() + "'", e);
+						}
 					}
-				} catch (IOException e) {
-					ErrorReporter.logExceptionStackTrace("While getting the canonical path of `" + tempFile.getName() + "'", e);
+
+					// bugfix: checks if the symbolic link would point to itself
+					if (tempFile.getAbsolutePath().equals(file.getLocation().toOSString())) {
+						symlinkFiles.add(lastSegment);
+						latch.countDown();
+						internalMonitor.worked(1);
+						return;
+					}
+
+					if (!symlinkFiles.contains(lastSegment)) {
+						symlinkFiles.add(lastSegment);
+						List<String> command = new ArrayList<String>();
+						command.add(LINK_CREATION);
+						command.add(FORCE_LINK_CREATION);
+						command.add(APOSTROPHE
+								+ PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+										TITANDebugConsole.getConsole()) + APOSTROPHE);
+						command.add(APOSTROPHE + lastSegment + APOSTROPHE);
+						buildJob.addCommand(command, GENERATING_SYMBOLIC_LINKS);
+					}
+
+					latch.countDown();
+					internalMonitor.worked(1);
 				}
-			}
-
-			// bugfix: checks if the symbolic link would point to itself
-			if (tempFile.getAbsolutePath().equals(file.getLocation().toOSString())) {
-				symlinkFiles.add(lastSegment);
-				internalMonitor.worked(1);
-				continue;
-			}
-
-			if (!symlinkFiles.contains(lastSegment)) {
-				symlinkFiles.add(lastSegment);
-				command = new ArrayList<String>();
-				command.add(LINK_CREATION);
-				command.add(FORCE_LINK_CREATION);
-				command.add(APOSTROPHE
-						+ PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
-								TITANDebugConsole.getConsole()) + APOSTROPHE);
-				command.add(APOSTROPHE + lastSegment + APOSTROPHE);
-				buildJob.addCommand(command, GENERATING_SYMBOLIC_LINKS);
-			}
-
-			internalMonitor.worked(1);
+			});
 		}
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
 
 		internalMonitor.done();
 	}
