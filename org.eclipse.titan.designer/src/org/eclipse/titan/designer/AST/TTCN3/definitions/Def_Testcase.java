@@ -572,7 +572,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TTCN_Logger");
-		aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		source.append(MessageFormat.format("\tpublic static final TitanVerdictType testcase_{0}", genName));
@@ -603,7 +602,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("} catch (TtcnError error) {\n");
 		source.append("// intentionally empty\n");
 		source.append("} catch (TC_End error) {\n");
-		source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
+		source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
 		source.append("}\n");
 		getLocation().release_location_object(aData, source);
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");

@@ -1168,7 +1168,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (isStartable) {
 			aData.addBuiltinTypeImport("TitanComponent");
 			aData.addBuiltinTypeImport("Text_Buf");
-			aData.addBuiltinTypeImport("TTCN_Logger.Severity");
+			aData.addCommonLibraryImport("TTCN_Logger");
 			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			tempSource.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
@@ -1177,7 +1177,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				formalParList.generateCode(aData, tempSource);
 			}
 			tempSource.append(") {\n");
-			tempSource.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+			tempSource.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PARALLEL_PTC);\n");
 			tempSource.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
@@ -1213,7 +1213,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGeneratedReferenceName()));
 				}
 
-				startFunction.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+				startFunction.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PARALLEL_PTC);\n");
 				startFunction.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
 
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
@@ -1226,7 +1226,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				startFunction.append("TTCN_Logger.log_event_str(\").\");\n");
 				startFunction.append("TTCN_Logger.end_event();\n");
 			} else {
-				startFunction.append(MessageFormat.format("TTCN_Logger.log_str(Severity.PARALLEL_PTC, \"Starting function {0}().\");\n", identifier.getDisplayName()));
+				startFunction.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.PARALLEL_PTC, \"Starting function {0}().\");\n", identifier.getDisplayName()));
 			}
 
 			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");

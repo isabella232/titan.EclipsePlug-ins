@@ -989,12 +989,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_Buffer");
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TTCN_Logger");
-		aData.addCommonLibraryImport("TTCN_Logger.Severity");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TTCN_Logger.end_event();\n" );
@@ -1029,8 +1028,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		} else {
 			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
 		}
-		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
 		source.append(MessageFormat.format( "{0}.log();\n", resultName));
 		source.append( "TTCN_Logger.end_event();\n" );
@@ -1053,12 +1052,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TTCN_EncDec.error_type");
 		aData.addCommonLibraryImport("TTCN_Logger");
-		aData.addCommonLibraryImport("TTCN_Logger.Severity");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TTCN_Logger.end_event();\n" );
@@ -1091,7 +1089,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
 		}
 		if (encodingType == MessageEncoding_type.TEXT) {
-			source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
 			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
 			source.append( "}\n" );
 		}
@@ -1113,8 +1111,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), generatedEncodingOptions) );
 
 		// producing debug printout of the result PDU
-		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
 		source.append( MessageFormat.format( "{0}.log();\n", resultName) );
 		source.append( "TTCN_Logger.end_event();\n" );
@@ -1170,8 +1168,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			} else {
 				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
 			}
-			source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-			source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+			source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
 			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
 			source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 			source.append( "TTCN_Logger.end_event();\n" );

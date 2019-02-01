@@ -3069,9 +3069,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		aData.addBuiltinTypeImport("TitanAlt_Status");
-		aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addCommonLibraryImport("Index_Redirect");
+		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
@@ -3093,7 +3093,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("if (value_redirect != null) {\n");
 		source.append("value_redirect.set_values(return_value);\n");
 		source.append("}\n");
-		source.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PARALLEL_PTC);\n");
 		source.append("TTCN_Logger.log_event_str(\"PTC with component reference \");\n");
 		source.append("component_reference.log();\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" is done. Return value: {0} : \");\n", displayName));
@@ -3101,8 +3101,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("TTCN_Logger.end_event();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("} else {\n");
-		source.append("if (TTCN_Logger.log_this_event(Severity.MATCHING_DONE)) {\n");
-		source.append("TTCN_Logger.begin_event(Severity.MATCHING_DONE);\n");
+		source.append("if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_DONE)) {\n");
+		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_DONE);\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Done operation with type {0} on component reference \");\n", displayName));
 		source.append("component_reference.log();\n");
 		source.append("TTCN_Logger.log_event_str(\" failed: Return value does not match the template: \");\n");
