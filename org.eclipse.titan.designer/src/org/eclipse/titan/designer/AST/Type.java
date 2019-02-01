@@ -896,7 +896,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		//FIXME implement default behaviour
 	}
 
@@ -1118,7 +1118,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (refChain.contains(this)) {
 			return true;
 		}
