@@ -381,17 +381,42 @@ public final class SymbolicLinkHandler {
 
 		final String extension = Platform.OS_WIN32.equals(Platform.getOS()) ? LINK_EXTENSION : EMPTY_STRING;
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
-		for (String key : files.keySet()) {
-			final File tempFile = new File(workingDirectory + File.separatorChar + key + extension);
-			final List<String> command = new ArrayList<String>();
-			command.add(REMOVE);
-			command.add(FORCE_EXECUTION);
-			command.add(APOSTROPHE
-					+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation, TITANDebugConsole.getConsole())
-					+ APOSTROPHE);
-			job.addCommand(command, REMOVING_OUTDATED_LINK);
-			monitor.worked(1);
+
+		final CountDownLatch latch = new CountDownLatch(files.size());
+		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
+				new LinkedBlockingQueue<Runnable>());
+		for (final String key : files.keySet()) {
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					final File tempFile = new File(workingDirectory + File.separatorChar + key + extension);
+					final List<String> command = new ArrayList<String>();
+					command.add(REMOVE);
+					command.add(FORCE_EXECUTION);
+					command.add(APOSTROPHE
+							+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation, TITANDebugConsole.getConsole())
+							+ APOSTROPHE);
+					job.addCommand(command, REMOVING_OUTDATED_LINK);
+					latch.countDown();
+					monitor.worked(1);
+				}
+			});
 		}
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
+
 		monitor.done();
 	}
 
@@ -426,29 +451,56 @@ public final class SymbolicLinkHandler {
 		final boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());
 		final String extension = isWindows ? LINK_EXTENSION : EMPTY_STRING;
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
-		String originalLocation;
-		for (Map.Entry<String, IFile> entry : files.entrySet()) {
-			final File tempFile = new File(workingDirectory + File.separatorChar + entry.getKey() + extension);
-			final IPath location = entry.getValue().getLocation();
-			if (location == null) {
-				continue;
-			}
-			originalLocation = location.toOSString();
-			try {
-				if (tempFile.exists() && (isWindows || originalLocation.equals(tempFile.getCanonicalPath()))) {
-					final List<String> command = new ArrayList<String>();
-					command.add(REMOVE);
-					command.add(FORCE_EXECUTION);
-					command.add(APOSTROPHE
-							+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation,
-									TITANDebugConsole.getConsole()) + APOSTROPHE);
-					job.addCommand(command, REMOVING_OUTDATED_LINK);
+
+		final CountDownLatch latch = new CountDownLatch(files.size());
+		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
+				new LinkedBlockingQueue<Runnable>());
+		for (final Map.Entry<String, IFile> entry : files.entrySet()) {
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					final File tempFile = new File(workingDirectory + File.separatorChar + entry.getKey() + extension);
+					final IPath location = entry.getValue().getLocation();
+					if (location == null) {
+						latch.countDown();
+						monitor.worked(1);
+						return;
+					}
+
+					final String originalLocation = location.toOSString();
+					try {
+						if (tempFile.exists() && (isWindows || originalLocation.equals(tempFile.getCanonicalPath()))) {
+							final List<String> command = new ArrayList<String>();
+							command.add(REMOVE);
+							command.add(FORCE_EXECUTION);
+							command.add(APOSTROPHE
+									+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation,
+											TITANDebugConsole.getConsole()) + APOSTROPHE);
+							job.addCommand(command, REMOVING_OUTDATED_LINK);
+						}
+					} catch (IOException e) {
+						ErrorReporter.logExceptionStackTrace("While removing symlink for `" + tempFile.getName() + "'", e);
+					}
+					latch.countDown();
+					monitor.worked(1);
 				}
-			} catch (IOException e) {
-				ErrorReporter.logExceptionStackTrace("While removing symlink for `" + tempFile.getName() + "'", e);
-			}
-			monitor.worked(1);
+			});
 		}
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
+
 		monitor.done();
 	}
 
