@@ -640,7 +640,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					final Group nearest_group = def.getParentGroup();
 					if (nearest_group == null) {
 						// no group, use the module
-						Module myModule = myScope.getModuleScope();
+						final Module myModule = myScope.getModuleScope();
 						globalAttributesPath = ((TTCN3Module)myModule).getAttributePath();
 					} else {
 						globalAttributesPath = nearest_group.getAttributePath();
@@ -654,7 +654,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						for (int i = 0; i < realAttributes.size(); i++) {
 							final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 							if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-								Attribute_Modifier_type modifier = singleWithAttribute.getModifier();
+								final Attribute_Modifier_type modifier = singleWithAttribute.getModifier();
 								if (i == 0) {
 									firstModifier = modifier;
 								} else if (!modifierConflict && modifier != firstModifier) {
@@ -725,7 +725,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final Group nearest_group = def.getParentGroup();
 		if (nearest_group == null) {
 			// no group, use the module
-			Module myModule = myScope.getModuleScope();
+			final Module myModule = myScope.getModuleScope();
 			globalAttributesPath = ((TTCN3Module)myModule).getAttributePath();
 		} else {
 			globalAttributesPath = nearest_group.getAttributePath();
@@ -977,7 +977,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			break;
 		}
 		default:{
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final boolean canHaveCoding = getTypeRefdLast(timestamp).canHaveCoding(timestamp, builtInCoding, chain);
 			chain.release();
 			if (canHaveCoding) {
@@ -1099,7 +1099,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		// 4th priority, if a referenced type has an 'encode' attribute, then return
 		// the referenced type
 		if (this instanceof Referenced_Type) {
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			IType tempType = ((Referenced_Type)this).getTypeRefd(timestamp, chain);
 			chain.release();
 			if (tempType == null || tempType.getIsErroneous(timestamp) ) {
@@ -2342,7 +2342,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			withAttributesPath.findReferences(referenceFinder, foundIdentifiers);
 		}
 		if (parsedRestrictions != null) {
-			for (ParsedSubType parsedSubType : parsedRestrictions) {
+			for (final ParsedSubType parsedSubType : parsedRestrictions) {
 				parsedSubType.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -2358,7 +2358,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return false;
 		}
 		if (parsedRestrictions != null) {
-			for (ParsedSubType pst : parsedRestrictions) {
+			for (final ParsedSubType pst : parsedRestrictions) {
 				if (!pst.accept(v)) {
 					return false;
 				}
@@ -2515,7 +2515,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final StringBuilder globalVariable = new StringBuilder();
 		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
 
-		boolean dummyRaw = rawAttribute == null;
+		final boolean dummyRaw = rawAttribute == null;
 		if (dummyRaw) {
 			rawAttribute = new RawAST(getDefaultRawFieldLength());
 		}
@@ -2615,27 +2615,27 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		} else {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 
-			String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
-			StringBuilder globalVariables = new StringBuilder();
+			final String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
+			final StringBuilder globalVariables = new StringBuilder();
 
 			globalVariables.append(MessageFormat.format("\tstatic final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
 			globalVariables.append(MessageFormat.format("\tstatic final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
 
 			aData.addGlobalVariable(force_omit_name, globalVariables.toString());
 
-			StringBuilder preInit = aData.getPreInit();
+			final StringBuilder preInit = aData.getPreInit();
 			for (int i = 0; i < rawAttribute.forceOmit.lists.size(); i++) {
 				final rawAST_field_list fieldList = rawAttribute.forceOmit.lists.get(i);
 				IType t = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				preInit.append(MessageFormat.format("{0}_lists.add(", force_omit_name));
 				for (int j = 0; j < fieldList.names.size(); j++) {
-					Identifier name = fieldList.names.get(j);
+					final Identifier name = fieldList.names.get(j);
 
 					switch (t.getTypetype()) {
 					case TYPE_TTCN3_CHOICE:
 					case TYPE_TTCN3_SEQUENCE:
 					case TYPE_TTCN3_SET: {
-						int index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
+						final int index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
 						t = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByName(name.getName()).getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 						preInit.append(MessageFormat.format("new RAW.RAW_Field_List({0} ,", index));
 						break;
@@ -2643,7 +2643,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					case TYPE_ASN1_CHOICE:
 					case TYPE_ASN1_SEQUENCE:
 					case TYPE_ASN1_SET: {
-						int index = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
+						final int index = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
 						t = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentByName(name).getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 						preInit.append(MessageFormat.format("new RAW.RAW_Field_List({0} ,", index));
 						break;
@@ -2686,7 +2686,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		String defaultCoding = "";
-		List<Coding_Type> tempCodingTable = t.getCodingTable();
+		final List<Coding_Type> tempCodingTable = t.getCodingTable();
 		if (tempCodingTable.size() == 0) {
 			return;
 		}
@@ -2790,9 +2790,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// built-in codecs
-		StringBuilder checkString = new StringBuilder();
+		final StringBuilder checkString = new StringBuilder();
 		for (int i = 0; i < tempCodingTable.size(); i++) {
-			Coding_Type tempCoding = tempCodingTable.get(i);
+			final Coding_Type tempCoding = tempCodingTable.get(i);
 			if (tempCoding.builtIn) {
 				if (checkString.length() > 0) {
 					checkString.append(" && ");
