@@ -487,14 +487,14 @@ public final class InformationFromObj extends Reference {
 	/**
 	 * @return ObjectSet_definition
 	 */
-	protected ObjectSet_definition newObjectSetDefinitionInstance() {
+	private ObjectSet_definition newObjectSetDefinitionInstance() {
 		return new ObjectSet_definition();
 	}
 
 	/**
 	 * @return ObjectSet_definition
 	 */
-	protected ObjectSet_definition newObjectSetDefinitionInstance(final ASN1Objects aObjects ) {
+	private ObjectSet_definition newObjectSetDefinitionInstance(final ASN1Objects aObjects ) {
 		return new ObjectSet_definition( aObjects );
 	}
 }
