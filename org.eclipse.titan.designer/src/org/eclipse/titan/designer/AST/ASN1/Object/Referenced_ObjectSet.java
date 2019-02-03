@@ -131,7 +131,8 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			temporalReferenceChain = referenceChain;
 		}
 
-		referencedLast = getRefd(timestamp, temporalReferenceChain).getRefdLast(timestamp, temporalReferenceChain);
+		ObjectSet tempObjectSet = getRefd(timestamp, temporalReferenceChain);
+		referencedLast = tempObjectSet.getRefdLast(timestamp, temporalReferenceChain);
 
 		if (newChain) {
 			temporalReferenceChain.release();
