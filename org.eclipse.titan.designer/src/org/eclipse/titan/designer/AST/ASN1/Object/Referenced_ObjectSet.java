@@ -232,7 +232,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		}
 
 		final ObjectClass myClass = myGovernor.getRefdLast(timestamp, null);
-		final ObjectClass refdClass = getRefdObjectClass(timestamp);
+		final ObjectClass refdClass = getRefdLast(timestamp, null).getMyGovernor().getRefdLast(timestamp, null);
 		if (myClass != refdClass) {
 			if (location != null && refdClass != null && myClass != null) {
 				location.reportSemanticError(MessageFormat.format(MISMATCH, myClass.getFullName(), refdClass.getFullName()));
