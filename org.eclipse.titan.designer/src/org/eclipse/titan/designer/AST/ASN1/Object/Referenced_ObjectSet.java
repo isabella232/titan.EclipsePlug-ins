@@ -40,7 +40,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  */
 public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_Element, IReferenceChainElement {
 
-	private static final String OBJECTSETEXPECTED = "ObjectSet reference expected";
+	private static final String OBJECTSETEXPECTED = "This is not an objectsetreference: `{0}''";
 	public static final String MISMATCH = "ObjectClass mismatch: ObjectSet of class `{0}'' was expected instead of `{1}''";
 
 	private final Reference reference;
@@ -108,7 +108,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 						return osReferenced;
 					}
 
-					location.reportSemanticError(OBJECTSETEXPECTED);
+					location.reportSemanticError(MessageFormat.format(OBJECTSETEXPECTED, reference.getDisplayName()));
 				}
 			}
 		}
