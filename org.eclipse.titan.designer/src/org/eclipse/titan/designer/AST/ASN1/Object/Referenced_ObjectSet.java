@@ -116,6 +116,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		osReferenced = new ObjectSet_definition();
 		osReferenced.setFullNameParent(this);
 		osReferenced.setMyGovernor(getMyGovernor());
+		osReferenced.setIsErroneous(true);
 
 		return osReferenced;
 	}
