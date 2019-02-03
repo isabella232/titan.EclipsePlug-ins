@@ -97,7 +97,7 @@ public final class FieldSpecifications extends ASTNode {
 			return fieldSpecificationsMap.get(identifier.getName());
 		}
 
-		myObjectClass.getLocation().reportSemanticError(MessageFormat.format(MISSINGNAMEDFIELDSPECIFICATION, identifier.getDisplayName()));
+		identifier.getLocation().reportSemanticError(MessageFormat.format(MISSINGNAMEDFIELDSPECIFICATION, identifier.getDisplayName()));
 		return getFieldSpecificationError();
 	}
 
