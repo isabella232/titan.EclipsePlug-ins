@@ -87,6 +87,9 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	public ASN1Object getRefd(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		if (reference == null) {
+			return null;
+		}
 
 		if (referenceChain.add(this)) {
 			if (objectReferenced != null && lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -105,6 +108,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 				}
 			}
 		}
+
 		objectReferenced = new Object_Definition(null);
 		objectReferenced.setMyGovernor(myGovernor);
 		return objectReferenced;
