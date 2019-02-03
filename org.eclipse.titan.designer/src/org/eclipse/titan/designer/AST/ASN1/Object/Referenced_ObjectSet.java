@@ -23,7 +23,6 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Defined_Reference;
 import org.eclipse.titan.designer.AST.ASN1.IObjectSet_Element;
 import org.eclipse.titan.designer.AST.ASN1.InformationFromObj;
-import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSetElement_Visitor;
 import org.eclipse.titan.designer.AST.ASN1.Parameterised_Reference;
@@ -169,8 +168,9 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			return;
 		}
 
-		final ObjectClass myClass = myGovernor.getRefdLast(timestamp, null);
-		final ObjectClass refdClass = getRefdLast(timestamp, null).getMyGovernor().getRefdLast(timestamp, null);
+		final ObjectClass_Definition myClass = myGovernor.getRefdLast(timestamp, null);
+		final ObjectSet_definition refdLast = getRefdLast(timestamp, null);
+		final ObjectClass_Definition refdClass = refdLast.getMyGovernor().getRefdLast(timestamp, null);
 		if (myClass != refdClass) {
 			if (location != null && refdClass != null && myClass != null) {
 				location.reportSemanticError(MessageFormat.format(MISMATCH, myClass.getFullName(), refdClass.getFullName()));
