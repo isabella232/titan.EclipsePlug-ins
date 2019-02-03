@@ -100,8 +100,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			}
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true, referenceChain);
 			if (null != assignment) {
-				// TODO check in the compiler too !!!
-				final ISetting setting = assignment.getSetting(timestamp);
+				final ISetting setting = reference.getRefdSetting(timestamp);
 				if (null != setting && !Setting_type.S_ERROR.equals(setting.getSettingtype())) {
 					if (Setting_type.S_OS.equals(setting.getSettingtype())) {
 						osReferenced = (ObjectSet) setting;
