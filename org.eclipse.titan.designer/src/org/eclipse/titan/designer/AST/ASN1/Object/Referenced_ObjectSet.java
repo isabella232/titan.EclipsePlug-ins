@@ -140,15 +140,15 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	public boolean isReferencedInformationFromObj() {
-		return (reference instanceof InformationFromObj);
+		return reference instanceof InformationFromObj;
 	}
 
 	public boolean isReferencedParameterisedReference() {
-		return (reference instanceof Parameterised_Reference);
+		return reference instanceof Parameterised_Reference;
 	}
 
 	public boolean isReferencedDefinedReference() {
-		return (reference instanceof Defined_Reference);
+		return reference instanceof Defined_Reference;
 	}
 
 	public Identifier getId() {
