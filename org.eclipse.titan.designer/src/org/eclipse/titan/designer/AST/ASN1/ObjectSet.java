@@ -67,23 +67,23 @@ public abstract class ObjectSet extends GovernedSet {
 	 *
 	 * @param propCollector
 	 *                the proposal collector.
-	 * @param i
+	 * @param index
 	 *                the index of a part of the full reference, for which
 	 *                we wish to find completions.
 	 * */
-	public abstract void addProposal(ProposalCollector propCollector, int i);
+	public abstract void addProposal(ProposalCollector propCollector, int index);
 
 	/**
 	 * Adds the object set to the list declaration proposals.
 	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
-	 * @param i
+	 * @param index
 	 *                the index of a part of the full reference, for which
 	 *                we wish to find the object set, or a object set which
 	 *                might point us a step forward to the declaration.
 	 * */
-	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
+	public abstract void addDeclaration(DeclarationCollector declarationCollector, int index);
 
 	/**
 	 * Generate Java code for this object set.

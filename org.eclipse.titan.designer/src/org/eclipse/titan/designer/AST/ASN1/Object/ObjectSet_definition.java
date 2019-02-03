@@ -287,27 +287,27 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 	@Override
 	/** {@inheritDoc} */
-	public final void addProposal(final ProposalCollector propCollector, final int i) {
+	public final void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
-		if (subreferences.size() <= i) {
+		if (subreferences.size() <= index) {
 			return;
 		}
 
-		final ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(index);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-			if (subreferences.size() > i + 1) {
+			if (subreferences.size() > index + 1) {
 				// the reference might go on
 				Object_Definition def;
 				for (int j = 0; j < objects.getNofObjects(); j++) {
 					def = objects.getObjectByIndex(j);
-					def.addProposal(propCollector, i + 1);
+					def.addProposal(propCollector, index + 1);
 				}
 			} else {
 				// final part of the reference
 				Object_Definition def;
 				for (int j = 0; j < objects.getNofObjects(); j++) {
 					def = objects.getObjectByIndex(j);
-					def.addProposal(propCollector, i);
+					def.addProposal(propCollector, index);
 				}
 			}
 		}
@@ -315,27 +315,27 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 	@Override
 	/** {@inheritDoc} */
-	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public final void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
-		if (subreferences.size() <= i) {
+		if (subreferences.size() <= index) {
 			return;
 		}
 
-		final ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(index);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-			if (subreferences.size() > i + 1) {
+			if (subreferences.size() > index + 1) {
 				// the reference might go on
 				Object_Definition def;
 				for (int j = 0; j < objects.getNofObjects(); j++) {
 					def = objects.getObjectByIndex(j);
-					def.addDeclaration(declarationCollector, i + 1);
+					def.addDeclaration(declarationCollector, index + 1);
 				}
 			} else {
 				// final part of the reference
 				Object_Definition def;
 				for (int j = 0; j < objects.getNofObjects(); j++) {
 					def = objects.getObjectByIndex(j);
-					def.addDeclaration(declarationCollector, i);
+					def.addDeclaration(declarationCollector, index);
 				}
 			}
 		}

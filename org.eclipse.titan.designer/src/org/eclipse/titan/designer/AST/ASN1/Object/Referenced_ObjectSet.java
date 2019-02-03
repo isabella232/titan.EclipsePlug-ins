@@ -241,25 +241,25 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
 		if (null != osReferenced) {
-			osReferenced.addDeclaration(declarationCollector, i);
+			osReferenced.addDeclaration(declarationCollector, index);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
 		if (null != osReferenced) {
-			osReferenced.addProposal(propCollector, i);
+			osReferenced.addProposal(propCollector, index);
 		}
 	}
 
