@@ -273,8 +273,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			super.addProposal(propCollector, index);
-		}
-		if (subrefs.size() > index + 1 && type != null && identifier.getName().equals(subrefs.get(index).getId().getName())) {
+		} else if (subrefs.size() > index + 1 && type != null && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match
 			type.addProposal(propCollector, index + 1);
 		}
