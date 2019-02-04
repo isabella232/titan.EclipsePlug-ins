@@ -83,6 +83,11 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 		setMyScope(scope);
 	}
 
+	/**
+	 * Does the semantic checking of the ASN.1 Object.
+	 *
+	 * @param timestamp the timestamp of the actual semantic check cycle.
+	 * */
 	public abstract void check(final CompilationTimeStamp timestamp);
 
 	/**
