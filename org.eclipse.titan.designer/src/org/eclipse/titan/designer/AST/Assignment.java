@@ -303,18 +303,18 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * Extending class only need to implement their {@link #getProposalKind()} function
 	 *
 	 * @param propCollector the proposal collector.
-	 * @param i the index of a part of the full reference, for which we wish to find completions.
+	 * @param index the index of a part of the full reference, for which we wish to find completions.
 	 * */
-	public abstract void addProposal(ProposalCollector propCollector, int i);
+	public abstract void addProposal(final ProposalCollector propCollector, final int index);
 
 	/**
 	 * Adds the assignment to the list declaration proposals.
 	 *
 	 * @param declarationCollector the declaration collector.
-	 * @param i the index of a part of the full reference, for which we wish to find the assignment,
+	 * @param index the index of a part of the full reference, for which we wish to find the assignment,
 	 * or a assignment which might point us a step forward to the declaration.
 	 * */
-	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
+	public abstract void addDeclaration(final DeclarationCollector declarationCollector, final int index);
 
 	/**
 	 * Returns true if the assignment should be marked according to the preference options.

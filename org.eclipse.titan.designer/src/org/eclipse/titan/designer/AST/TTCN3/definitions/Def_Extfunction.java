@@ -681,13 +681,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() <= index || Subreference_type.arraySubReference.equals(subrefs.get(index).getReferenceType())) {
 			return;
 		}
 
-		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 			patternBuilder.append('(');
 			formalParList.getAsProposalPart(patternBuilder);
@@ -695,26 +695,27 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			propCollector.addTemplateProposal(identifier.getDisplayName(),
 					new Template(getProposalDescription(), "", propCollector.getContextIdentifier(), patternBuilder.toString(),
 							false), TTCN3CodeSkeletons.SKELETON_IMAGE);
-			super.addProposal(propCollector, i);
-		} else if (subrefs.size() > i + 1 && returnType != null
-				&& Subreference_type.parameterisedSubReference.equals(subrefs.get(i).getReferenceType())
-				&& identifier.getName().equals(subrefs.get(i).getId().getName())) {
+			super.addProposal(propCollector, index);
+		} else if (subrefs.size() > index + 1 && returnType != null
+				&& Subreference_type.parameterisedSubReference.equals(subrefs.get(index).getReferenceType())
+				&& identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match
-			returnType.addProposal(propCollector, i + 1);
+			returnType.addProposal(propCollector, index + 1);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() <= index || Subreference_type.arraySubReference.equals(subrefs.get(index).getReferenceType())) {
 			return;
 		}
 
+		//FIXME why 0?
 		if (identifier.getName().equals(subrefs.get(0).getId().getName())) {
-			if (subrefs.size() > i + 1 && returnType != null) {
-				returnType.addDeclaration(declarationCollector, i + 1);
+			if (subrefs.size() > index + 1 && returnType != null) {
+				returnType.addDeclaration(declarationCollector, index + 1);
 			} else {
 				declarationCollector.addDeclaration(this);
 			}

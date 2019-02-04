@@ -143,12 +143,12 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
-		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
-			if (subrefs.size() > i + 1 && null != objectSet) {
-				objectSet.addDeclaration(declarationCollector, i + 1);
-			} else if (subrefs.size() == i + 1 && Subreference_type.fieldSubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() > index && identifier.getName().equals(subrefs.get(index).getId().getName())) {
+			if (subrefs.size() > index + 1 && null != objectSet) {
+				objectSet.addDeclaration(declarationCollector, index + 1);
+			} else if (subrefs.size() == index + 1 && Subreference_type.fieldSubReference.equals(subrefs.get(index).getReferenceType())) {
 				declarationCollector.addDeclaration(this);
 			}
 		}
@@ -156,18 +156,18 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i) {
+		if (subrefs.size() <= index) {
 			return;
 		}
 
-		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			propCollector.addProposal(identifier, " - " + "ObjectSet assignment", ImageCache.getImage(getOutlineIcon()),
 					"ObjectSet assignment");
-		} else if (subrefs.size() > i + 1 && null != objectSet && identifier.getName().equals(subrefs.get(i).getId().getName())) {
+		} else if (subrefs.size() > index + 1 && null != objectSet && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match
-			objectSet.addProposal(propCollector, i + 1);
+			objectSet.addProposal(propCollector, index + 1);
 		}
 	}
 

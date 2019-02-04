@@ -193,9 +193,9 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public final void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		if (null != realAssignment) {
-			realAssignment.addDeclaration(declarationCollector, i);
+			realAssignment.addDeclaration(declarationCollector, index);
 		}
 	}
 
@@ -212,9 +212,9 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public final void addProposal(final ProposalCollector propCollector, final int i) {
+	public final void addProposal(final ProposalCollector propCollector, final int index) {
 		if (null != realAssignment) {
-			realAssignment.addProposal(propCollector, i);
+			realAssignment.addProposal(propCollector, index);
 		}
 	}
 

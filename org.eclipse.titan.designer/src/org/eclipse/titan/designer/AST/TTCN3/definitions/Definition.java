@@ -502,13 +502,13 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 *
 	 * @param propCollector
 	 *                the proposal collector.
-	 * @param i
+	 * @param index
 	 *                the index of a part of the full reference, for which
 	 *                we wish to find completions.
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final String proposalKind = getProposalKind();
 		propCollector.addProposal(identifier, " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);
 	}
@@ -518,14 +518,14 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
-	 * @param i
+	 * @param index
 	 *                the index of a part of the full reference, for which
 	 *                we wish to find the declaration, or a definition which
 	 *                might point us a step forward to the declaration.
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 	}
 
 	/**

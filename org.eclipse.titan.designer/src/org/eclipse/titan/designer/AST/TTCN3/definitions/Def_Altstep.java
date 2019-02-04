@@ -354,20 +354,20 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() <= index || Subreference_type.arraySubReference.equals(subrefs.get(index).getReferenceType())) {
 			return;
 		}
 
-		if (Subreference_type.parameterisedSubReference.equals(subrefs.get(i).getReferenceType())
-				&& identifier.getName().equals(subrefs.get(i).getId().getName())) {
+		if (Subreference_type.parameterisedSubReference.equals(subrefs.get(index).getReferenceType())
+				&& identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match, but the chain of references ends here,
 			// as altsteps can not return with a type
 			return;
-		} else if (identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
+		} else if (identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			// prefix
-			if (subrefs.size() == i + 1) {
+			if (subrefs.size() == index + 1) {
 				final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 				patternBuilder.append('(');
 				formalParList.getAsProposalPart(patternBuilder);
@@ -375,20 +375,20 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 				propCollector.addTemplateProposal(identifier.getDisplayName(), new Template(getProposalDescription(), "",
 						propCollector.getContextIdentifier(), patternBuilder.toString(), false),
 						TTCN3CodeSkeletons.SKELETON_IMAGE);
-				super.addProposal(propCollector, i);
+				super.addProposal(propCollector, index);
 			}
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() <= index || Subreference_type.arraySubReference.equals(subrefs.get(index).getReferenceType())) {
 			return;
 		}
 
-		if (identifier.getName().equals(subrefs.get(i).getId().getName()) && subrefs.size() == i + 1) {
+		if (identifier.getName().equals(subrefs.get(index).getId().getName()) && subrefs.size() == index + 1) {
 			declarationCollector.addDeclaration(this);
 		}
 	}

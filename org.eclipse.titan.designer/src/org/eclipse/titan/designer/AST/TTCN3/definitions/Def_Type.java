@@ -329,47 +329,47 @@ public final class Def_Type extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i) {
+		if (subrefs.size() <= index) {
 			return;
 		}
 
-		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
-			super.addProposal(propCollector, i);
-		} else if (subrefs.size() > i + 1 && type != null && identifier.getName().equals(subrefs.get(i).getId().getName())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+			super.addProposal(propCollector, index);
+		} else if (subrefs.size() > index + 1 && type != null && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match
-			type.addProposal(propCollector, i + 1);
+			type.addProposal(propCollector, index + 1);
 		}
 
 		if (type != null && Type_type.TYPE_TTCN3_ENUMERATED.equals(type.getTypetype())) {
-			type.addProposal(propCollector, i);
+			type.addProposal(propCollector, index);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
-		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
-			if (subrefs.size() > i + 1 && type != null) {
-				type.addDeclaration(declarationCollector, i + 1);
-			} else if (subrefs.size() == i + 1 && Subreference_type.fieldSubReference.equals(subrefs.get(i).getReferenceType())) {
+		if (subrefs.size() > index && identifier.getName().equals(subrefs.get(index).getId().getName())) {
+			if (subrefs.size() > index + 1 && type != null) {
+				type.addDeclaration(declarationCollector, index + 1);
+			} else if (subrefs.size() == index + 1 && Subreference_type.fieldSubReference.equals(subrefs.get(index).getReferenceType())) {
 				declarationCollector.addDeclaration(this);
 			}
 		} else {
 			if (type != null && Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 
-				if ((declarationCollector.getReference().getModuleIdentifier() != null && i == 1) || i == 0) {
-					type.addDeclaration(declarationCollector, i);
+				if ((declarationCollector.getReference().getModuleIdentifier() != null && index == 1) || index == 0) {
+					type.addDeclaration(declarationCollector, index);
 				}
 
 			}
 		}
 
 		if (type != null && Type_type.TYPE_TTCN3_ENUMERATED.equals(type.getTypetype())) {
-			if ((declarationCollector.getReference().getModuleIdentifier() != null && i == 1) || i == 0) {
-				type.addDeclaration(declarationCollector, i);
+			if ((declarationCollector.getReference().getModuleIdentifier() != null && index == 1) || index == 0) {
+				type.addDeclaration(declarationCollector, index);
 			}
 		}
 	}

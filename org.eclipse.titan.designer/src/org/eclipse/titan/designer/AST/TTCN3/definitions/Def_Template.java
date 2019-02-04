@@ -671,13 +671,13 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
-		if (subrefs.size() <= i) {
+		if (subrefs.size() <= index) {
 			return;
 		}
 
-		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			if (formalParList != null) {
 				final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 				patternBuilder.append('(');
@@ -687,21 +687,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 						propCollector.getContextIdentifier(), patternBuilder.toString(), false),
 						TTCN3CodeSkeletons.SKELETON_IMAGE);
 			}
-			super.addProposal(propCollector, i);
-		} else if (subrefs.size() > i + 1 && type != null && identifier.getName().equals(subrefs.get(i).getId().getName())) {
+			super.addProposal(propCollector, index);
+		} else if (subrefs.size() > index + 1 && type != null && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match
-			type.addProposal(propCollector, i + 1);
+			type.addProposal(propCollector, index + 1);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
-		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
-			if (subrefs.size() > i + 1 && type != null) {
-				type.addDeclaration(declarationCollector, i + 1);
-			} else if (subrefs.size() == i + 1) {
+		if (subrefs.size() > index && identifier.getName().equals(subrefs.get(index).getId().getName())) {
+			if (subrefs.size() > index + 1 && type != null) {
+				type.addDeclaration(declarationCollector, index + 1);
+			} else if (subrefs.size() == index + 1) {
 				declarationCollector.addDeclaration(this);
 			}
 		}
