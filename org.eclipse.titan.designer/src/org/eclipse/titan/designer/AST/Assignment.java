@@ -298,26 +298,36 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	}
 
 	/**
-	 * Adds the assignment to the list completion proposals, with some description.
+	 * Adds the assignment to the list completion proposals, with some
+	 * description.
 	 * <p>
-	 * Extending class only need to implement their {@link #getProposalKind()} function
+	 * Extending class only need to implement their
+	 * {@link #getProposalKind()} function
 	 *
-	 * @param propCollector the proposal collector.
-	 * @param index the index of a part of the full reference, for which we wish to find completions.
+	 * @param propCollector
+	 *                the proposal collector.
+	 * @param index
+	 *                the index of a part of the full reference, for which
+	 *                we wish to find completions.
 	 * */
 	public abstract void addProposal(final ProposalCollector propCollector, final int index);
 
 	/**
 	 * Adds the assignment to the list declaration proposals.
 	 *
-	 * @param declarationCollector the declaration collector.
-	 * @param index the index of a part of the full reference, for which we wish to find the assignment,
-	 * or a assignment which might point us a step forward to the declaration.
+	 * @param declarationCollector
+	 *                the declaration collector.
+	 * @param index
+	 *                the index of a part of the full reference, for which
+	 *                we wish to find the assignment, or a assignment which
+	 *                might point us a step forward to the declaration.
 	 * */
 	public abstract void addDeclaration(final DeclarationCollector declarationCollector, final int index);
 
 	/**
-	 * Returns true if the assignment should be marked according to the preference options.
+	 * Returns true if the assignment should be marked according to the
+	 * preference options.
+	 * 
 	 * @return true if the highlighting of this assignment is turned on
 	 */
 	public abstract boolean shouldMarkOccurrences();
