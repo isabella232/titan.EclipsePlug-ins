@@ -712,8 +712,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			return;
 		}
 
-		//FIXME why 0?
-		if (identifier.getName().equals(subrefs.get(0).getId().getName())) {
+		if (identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			if (subrefs.size() > index + 1 && returnType != null) {
 				returnType.addDeclaration(declarationCollector, index + 1);
 			} else {
