@@ -278,8 +278,14 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * @param timestamp the timestamp of the actual semantic check cycle.
 	 * */
 	public abstract void check(final CompilationTimeStamp timestamp);
-	public abstract void check(final CompilationTimeStamp timestamp, IReferenceChain refChain);
 
+	/**
+	 * Does the semantic checking of the assignment.
+	 *
+	 * @param timestamp the timestamp of the actual semantic check cycle.
+	 * @param refChain the reference chain to detect circular references.
+	 * */
+	public abstract void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain);
 
 	/** Checks the properties of the assignment,
 	 * that can only be checked after the semantic check was completely run. */
