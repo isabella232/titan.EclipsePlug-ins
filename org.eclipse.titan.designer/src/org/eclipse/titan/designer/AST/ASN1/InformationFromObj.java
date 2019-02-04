@@ -166,7 +166,7 @@ public final class InformationFromObj extends Reference {
 		switch (temporalSetting.getSettingtype()) {
 		case S_OS: {
 			currentState = SettingDetectionState.ObjectSet;
-			ObjectSet_definition objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
+			final ObjectSet_definition objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
 			objectClass = objectSet.getMyGovernor().getRefdLast(timestamp, null);
 			final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 					objectSet.getLocation(), objectClass, timestamp);
@@ -276,7 +276,7 @@ public final class InformationFromObj extends Reference {
 						}
 
 						temporalSetting = object.getSettingByNameDefault(currentFieldName);
-						ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+						final ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 						objectCollector.visitObjectSet(objectSet, false);
 					}
 
@@ -320,7 +320,7 @@ public final class InformationFromObj extends Reference {
 						}
 
 						temporalSetting = object.getSettingByNameDefault(currentFieldName);
-						ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+						final ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 						objectCollector.visitObjectSet(objectSet, false);
 					}
 
@@ -426,7 +426,7 @@ public final class InformationFromObj extends Reference {
 					}
 
 					temporalSetting = object.getSettingByNameDefault(currentFieldName);
-					ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
+					final ObjectSet_definition objectSet = ((ObjectSet_definition) temporalSetting).getRefdLast(timestamp, null);
 					objectCollector.visitObjectSet(objectSet, false);
 				}
 
