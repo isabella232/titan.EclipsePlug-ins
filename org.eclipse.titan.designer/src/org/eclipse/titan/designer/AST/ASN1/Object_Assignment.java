@@ -184,7 +184,9 @@ public final class Object_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
-		// TODO
+		if (object != null) {
+			object.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
