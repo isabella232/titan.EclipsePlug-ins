@@ -267,27 +267,27 @@ public final class Object_Definition extends ASN1Object {
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
-		if (subreferences.size() <= i) {
+		if (subreferences.size() <= index) {
 			return;
 		}
 
-		final ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(index);
 		final String subreferenceName = subreference.getId().getName();
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-			if (subreferences.size() > i + 1) {
+			if (subreferences.size() > index + 1) {
 				// the reference might go on
 				final FieldSetting fieldSetting = fieldSettingMap.get(subreferenceName);
 				if (null == fieldSetting) {
 					return;
 				}
 
-				fieldSetting.addProposal(propCollector, i + 1);
+				fieldSetting.addProposal(propCollector, index + 1);
 			} else {
 				// final part of the reference
 				for (int j = 0; j < fieldSettings.size(); j++) {
-					final FieldSetting fieldSetting = fieldSettings.get(i);
+					final FieldSetting fieldSetting = fieldSettings.get(index);
 					if (fieldSetting.getName().getName().startsWith(subreferenceName)) {
 						propCollector.addProposal(fieldSetting.getName(), "- Object field", null, "FieldSetting");
 					}
@@ -298,28 +298,28 @@ public final class Object_Definition extends ASN1Object {
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
-		if (subreferences.size() <= i) {
+		if (subreferences.size() <= index) {
 			return;
 		}
 
-		final ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(index);
 		final String subreferenceName = subreference.getId().getName();
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-			if (subreferences.size() > i + 1) {
+			if (subreferences.size() > index + 1) {
 				// the reference might go on
 				final FieldSetting fieldSetting = fieldSettingMap.get(subreferenceName);
 				if (null == fieldSetting) {
 					return;
 				}
 
-				fieldSetting.addDeclaration(declarationCollector, i + 1);
+				fieldSetting.addDeclaration(declarationCollector, index + 1);
 			} else {
 				// final part of the reference
 				String name;
 				for (int j = 0; j < fieldSettings.size(); j++) {
-					final FieldSetting fieldSetting = fieldSettings.get(i);
+					final FieldSetting fieldSetting = fieldSettings.get(index);
 					name = fieldSetting.getName().getName();
 					if (name.startsWith(subreferenceName)) {
 						declarationCollector.addDeclaration(name, fieldSetting.getLocation(), this);

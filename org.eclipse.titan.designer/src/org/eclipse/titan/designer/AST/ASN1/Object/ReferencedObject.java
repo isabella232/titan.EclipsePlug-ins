@@ -172,25 +172,25 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 
 	@Override
 	/** {@inheritDoc} */
-	public void addProposal(final ProposalCollector propCollector, final int i) {
+	public void addProposal(final ProposalCollector propCollector, final int index) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
 		if (null != referencedLast) {
-			referencedLast.addProposal(propCollector, i);
+			referencedLast.addProposal(propCollector, index);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
+	public void addDeclaration(final DeclarationCollector declarationCollector, final int index) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
 		if (null != referencedLast) {
-			referencedLast.addDeclaration(declarationCollector, i);
+			referencedLast.addDeclaration(declarationCollector, index);
 		}
 	}
 
