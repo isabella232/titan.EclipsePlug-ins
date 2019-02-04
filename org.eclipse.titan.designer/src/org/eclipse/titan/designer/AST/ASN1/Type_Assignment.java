@@ -162,11 +162,10 @@ public final class Type_Assignment extends ASN1Assignment {
 
 		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
 			String proposalKind;
-			if (null != type) {
-				proposalKind = type.getProposalDescription(new StringBuilder()).toString();
-			} else {
+			if (null == type) {
 				proposalKind = UNKNOWNTYPE;
-
+			} else {
+				proposalKind = type.getProposalDescription(new StringBuilder()).toString();
 			}
 			propCollector.addProposal(identifier, " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);
 		} else if (subrefs.size() > i + 1 && null != type && identifier.getName().equals(subrefs.get(i).getId().getName())) {
