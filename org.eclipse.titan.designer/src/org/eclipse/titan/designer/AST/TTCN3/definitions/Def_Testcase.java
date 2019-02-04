@@ -340,18 +340,16 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			// perfect match, but the chain of references ends here,
 			// as testcases can not return with a type
 			return;
-		} else if (identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+		} else if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
 			// prefix
-			if (subrefs.size() == index + 1) {
-				final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
-				patternBuilder.append('(');
-				formalParList.getAsProposalPart(patternBuilder);
-				patternBuilder.append(')');
-				propCollector.addTemplateProposal(identifier.getDisplayName(), new Template(getProposalDescription(), "",
-						propCollector.getContextIdentifier(), patternBuilder.toString(), false),
-						TTCN3CodeSkeletons.SKELETON_IMAGE);
-				super.addProposal(propCollector, index);
-			}
+			final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
+			patternBuilder.append('(');
+			formalParList.getAsProposalPart(patternBuilder);
+			patternBuilder.append(')');
+			propCollector.addTemplateProposal(identifier.getDisplayName(), new Template(getProposalDescription(), "",
+					propCollector.getContextIdentifier(), patternBuilder.toString(), false),
+					TTCN3CodeSkeletons.SKELETON_IMAGE);
+			super.addProposal(propCollector, index);
 		}
 	}
 
@@ -363,7 +361,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		if (identifier.getName().equals(subrefs.get(index).getId().getName()) && subrefs.size() == index + 1) {
+		if (subrefs.size() == index + 1 && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			declarationCollector.addDeclaration(this);
 		}
 
