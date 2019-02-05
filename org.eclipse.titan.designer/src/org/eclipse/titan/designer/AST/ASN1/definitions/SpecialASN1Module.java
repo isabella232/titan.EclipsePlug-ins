@@ -166,13 +166,15 @@ public final class SpecialASN1Module {
 		ASN1Assignment actualAssignment;
 
 		for (final String[] assignment : INTERNAL_ASSIGNMENTS) {
-			actualAssignment = SpecialASN1Module.parseSpecialInternalAssignment(assignment[1], new Identifier(Identifier_type.ID_ASN, assignment[0]));
+			final String assignmentCode = assignment[1];
+			final Identifier assignmentId = new Identifier(Identifier_type.ID_ASN, assignment[0]);
+			actualAssignment = SpecialASN1Module.parseSpecialInternalAssignment(assignmentCode, assignmentId);
 			parsedAssignments.addAssignment(actualAssignment);
 		}
 
 		// null as a project might not be a good idea
-		specialAssignmentsModule = new ASN1Module(new Identifier(Identifier_type.ID_ASN, INTERNAL_MODULE), null, Tag_types.AUTOMATIC_TAGS,
-				false);
+		final Identifier internalModuleID = new Identifier(Identifier_type.ID_ASN, INTERNAL_MODULE);
+		specialAssignmentsModule = new ASN1Module(internalModuleID, null, Tag_types.AUTOMATIC_TAGS, false);
 		specialAssignmentsModule.setExports(new Exports(true));
 		specialAssignmentsModule.setImports(new Imports());
 		specialAssignmentsModule.setAssignments(parsedAssignments);
