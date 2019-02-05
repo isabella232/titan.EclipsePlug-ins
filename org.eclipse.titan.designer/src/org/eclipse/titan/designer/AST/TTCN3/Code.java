@@ -92,8 +92,10 @@ public class Code {
 	 */
 	public static String translate_string(final String src) {
 		final StringBuilder str = new StringBuilder();
-		for (int i = 0; i < src.length(); i++)
+		for (int i = 0; i < src.length(); i++) {
 			translate_character(str, src.charAt(i), true);
+		}
+
 		return str.toString();
 	}
 
