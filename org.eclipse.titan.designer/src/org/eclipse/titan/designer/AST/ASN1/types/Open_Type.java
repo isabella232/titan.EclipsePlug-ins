@@ -764,7 +764,7 @@ public final class Open_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
-			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -809,7 +809,7 @@ public final class Open_Type extends ASN1Type {
 
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, targetScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append("}\n");
 
 		final CompField compField = getComponentByName(fieldId);
@@ -820,8 +820,8 @@ public final class Open_Type extends ASN1Type {
 
 		final String temporalId = aData.getTemporaryVariableName();
 		final String temporalId2 = aData.getTemporaryVariableName();
-		expression.expression.append(MessageFormat.format("final {0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
-		expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_field_{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("final {0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId, externalId));
+		expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_field_{4}();\n", nextType.getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
@@ -836,7 +836,7 @@ public final class Open_Type extends ASN1Type {
 			}
 		}
 
-		nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field);
+		nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field, targetScope);
 
 		expression.expression.append(closingBrackets);
 	}

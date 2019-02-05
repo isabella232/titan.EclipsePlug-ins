@@ -1203,8 +1203,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param isTemplate is_template tells if the assignment is a template or not.
 	 * @param optype tells if the function is isbound or ispresent.
 	 * @param field the field selector for ischosen, {@code null} otherwise.
+	 * @param targetScope the scope to generate the code for.
 	 * */
-	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field);
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope);
 
 	/**
 	 * Helper function used in generateCodeIspresentbound() for the

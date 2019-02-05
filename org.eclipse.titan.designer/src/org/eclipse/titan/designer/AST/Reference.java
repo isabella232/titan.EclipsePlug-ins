@@ -1368,7 +1368,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.is_bound();\n", tempGeneralId, ass_id2));
 
 			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
-			type.generateCodeIsPresentBoundChosen(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, optype, field);
+			type.generateCodeIsPresentBoundChosen(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, optype, field, getMyScope());
 
 			expression.preamble.append(isboundExpression.preamble);
 			expression.preamble.append(isboundExpression.expression);

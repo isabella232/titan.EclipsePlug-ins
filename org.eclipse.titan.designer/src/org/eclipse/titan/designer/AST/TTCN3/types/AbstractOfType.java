@@ -702,7 +702,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
-			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -766,10 +766,10 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		final String temporalId = aData.getTemporaryVariableName();
 		if (isTemplate) {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameTemplate(aData, expression.expression, targetScope),
 					temporalId, externalId, temporalIndexId));
 		} else {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
+			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameValue(aData, expression.expression, targetScope),
 					temporalId, externalId, temporalIndexId));
 		}
 
@@ -787,7 +787,7 @@ public abstract class AbstractOfType extends ASN1Type {
 			}
 		}
 
-		nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);
+		nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field, targetScope);
 
 		expression.expression.append(closingBrackets);
 	}
