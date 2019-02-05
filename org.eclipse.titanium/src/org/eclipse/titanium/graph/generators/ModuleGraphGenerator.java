@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
@@ -156,7 +157,14 @@ public class ModuleGraphGenerator extends GraphGenerator {
 			if(node instanceof ModuleImportation){
 				ModuleImportation mod = (ModuleImportation) node;
 				setOfModules.add(mod);
+
+				return V_SKIP;
 			}
+
+			if (node instanceof Assignment) {
+				return V_SKIP;
+			}
+
 			return V_CONTINUE;
 		}
 	}
