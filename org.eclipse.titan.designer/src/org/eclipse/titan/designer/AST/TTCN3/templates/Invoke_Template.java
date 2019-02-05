@@ -59,9 +59,9 @@ public final class Invoke_Template extends TTCN3Template {
 
 	// the first part of the expression, the function reference value to be
 	// invoked
-	private Value value;
+	private final Value value;
 
-	private ParsedActualParameters actualParameterList;
+	private final ParsedActualParameters actualParameterList;
 
 	private ActualParameterList actualParameter_list;
 
@@ -70,11 +70,17 @@ public final class Invoke_Template extends TTCN3Template {
 		final IValue v = original.getValue();
 
 		if (v == null || !Value_type.EXPRESSION_VALUE.equals(v.getValuetype())) {
+			value = null;
+			actualParameterList = null;
+
 			return;
 		}
 
 		final Expression_Value expressionValue = (Expression_Value) v;
 		if (!Operation_type.APPLY_OPERATION.equals(expressionValue.getOperationType())) {
+			value = null;
+			actualParameterList = null;
+
 			return;
 		}
 
