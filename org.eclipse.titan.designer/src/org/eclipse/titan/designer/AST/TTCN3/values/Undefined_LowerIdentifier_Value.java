@@ -305,11 +305,10 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(final String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
 		if (realValue != null) {
 			realValue.setGenNameRecursive(parameterGenName);
 		}
-
-		super.setGenNameRecursive(parameterGenName);
 	}
 
 	@Override
