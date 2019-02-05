@@ -825,9 +825,9 @@ public final class PortGenerator {
 					source.append("return true;\n");
 					source.append("}\n");
 					source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Type of message in incoming message handler function is not the indicated `{0}''.\");\n", inType.mDisplayName));
-					source.append("}");
+					source.append('}');
 				}
-				source.append("\n");
+				source.append('\n');
 				source.append("return false;\n");
 				source.append("}\n\n");
 			}
