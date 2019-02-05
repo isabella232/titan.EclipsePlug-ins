@@ -56,7 +56,14 @@ public final class ASN1Module extends Module {
 	/** default tagging. */
 	private final Tag_types tagdef;
 
+	/**
+	 * Extensibility implied means in ASN.1 that all assignments in that
+	 * module should be treated as extendable.
+	 * <p>
+	 * The information is only stored, but not supported for now.
+	 * */
 	private final boolean extensibilityImplied;
+
 	/** exported stuff. */
 	private Exports exports;
 	/** imported stuff. */
