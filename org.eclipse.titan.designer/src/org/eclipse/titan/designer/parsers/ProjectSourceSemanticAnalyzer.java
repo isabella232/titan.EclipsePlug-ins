@@ -460,11 +460,7 @@ public class ProjectSourceSemanticAnalyzer {
 			final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(actualProject);
 			parser.setLastTimeChecked(compilationCounter);
 
-			final ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(actualProject);
-			for (final Module module : parser.getSemanticAnalyzer().moduleMap.values()) {
-				collector.addKnownModule(module.getIdentifier());
-				module.extractStructuralInformation(collector);
-			}
+			GlobalProjectStructureTracker.updateData(actualProject);
 
 			MarkerHandler.removeAllOnTheFlyMarkedMarkers(tobeSemanticallyAnalyzed.get(i));
 		}

@@ -7,12 +7,19 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.parsers;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ModuleImportation;
 
 /**
  * This class tries whether a project underwent such changes between 2 build
@@ -118,7 +125,7 @@ public final class GlobalProjectStructureTracker {
 	 * @return a project structure data collector related to the project
 	 *         (might be new or might need update only)
 	 * */
-	static ProjectStructureDataCollector getDataCollector(final IProject project) {
+	private static ProjectStructureDataCollector getDataCollector(final IProject project) {
 		if (dynamicInformations.containsKey(project)) {
 			return dynamicInformations.get(project);
 		}
@@ -126,6 +133,41 @@ public final class GlobalProjectStructureTracker {
 		final ProjectStructureDataCollector collector = new ProjectStructureDataCollector();
 		dynamicInformations.put(project, collector);
 		return collector;
+	}
+
+	/**
+	 * Updates the dependency data of the given project.
+	 *
+	 * @param project
+	 *                the project that is to be analyzed
+	 * */
+	static void updateData(final IProject project) {
+		final ProjectStructureDataCollector collector = getDataCollector(project);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
+		final Collection<Module> modules = parser.getModules();
+		for (Module module : modules) {
+			final Identifier moduleID = module.getIdentifier();
+			collector.addKnownModule(moduleID);
+
+			module.accept(new ASTVisitor(){
+
+				@Override
+				public int visit(final IVisitableNode node) {
+					if(node instanceof ModuleImportation){
+						final ModuleImportation mod = (ModuleImportation) node;
+						collector.addImportation(moduleID, mod.getIdentifier());
+
+						return V_SKIP;
+					}
+
+					if (node instanceof Assignment) {
+						return V_SKIP;
+					}
+
+					return V_CONTINUE;
+				}
+			});
+		}
 	}
 
 	/**
