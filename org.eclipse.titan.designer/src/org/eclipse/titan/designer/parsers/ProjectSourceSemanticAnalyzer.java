@@ -456,10 +456,12 @@ public class ProjectSourceSemanticAnalyzer {
 		progress.done();
 
 		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-			GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).setLastTimeChecked(compilationCounter);
+			final IProject actualProject = tobeSemanticallyAnalyzed.get(i);
+			final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(actualProject);
+			parser.setLastTimeChecked(compilationCounter);
 
-			final ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(tobeSemanticallyAnalyzed.get(i));
-			for (final Module module : GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer().moduleMap.values()) {
+			final ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(actualProject);
+			for (final Module module : parser.getSemanticAnalyzer().moduleMap.values()) {
 				collector.addKnownModule(module.getIdentifier());
 				module.extractStructuralInformation(collector);
 			}
