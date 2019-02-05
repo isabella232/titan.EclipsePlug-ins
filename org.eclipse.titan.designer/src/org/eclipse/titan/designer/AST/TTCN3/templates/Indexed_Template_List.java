@@ -51,8 +51,6 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 	private final IndexedTemplates indexedTemplates;
 
-	private boolean hasPermutation = false;
-
 	// cache storing the value form of this if already created, or null
 	private SequenceOf_Value asValue = null;
 
@@ -60,12 +58,6 @@ public final class Indexed_Template_List extends TTCN3Template {
 		this.indexedTemplates = indexedTemplates;
 
 		indexedTemplates.setFullNameParent(this);
-		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-			if (Template_type.PERMUTATION_MATCH.equals(indexedTemplates.getTemplateByIndex(i).getTemplate().getTemplatetype())) {
-				hasPermutation = true;
-				break;
-			}
-		}
 	}
 
 	@Override
