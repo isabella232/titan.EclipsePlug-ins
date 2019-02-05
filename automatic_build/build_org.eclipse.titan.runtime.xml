@@ -85,6 +85,7 @@
 			<fileset dir="${antlr.src.dir}" >
 				<include name="RuntimeCfgLexer.g4" />
 				<include name="RuntimeCfgParser.g4" />
+				<include name="RuntimeCfgPreParser.g4" />
 				<!-- TODO: add new g4 files here -->
 			</fileset>
 		</apply>
