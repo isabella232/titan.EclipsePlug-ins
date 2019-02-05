@@ -29,6 +29,13 @@ import org.eclipse.titan.designer.parsers.asn1parser.ModuleLevelTokenStreamTrack
 import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokensFactory;
 
 /**
+ * This class handles a special ASN.1 module.
+ * <p>
+ * In ASN.1 there is a set of special assignments which are defined by the
+ * standard, as built of other more basic elements. As such it is better to
+ * "generate" them from their representation as if they would be part of a
+ * special ASN.1 module.
+ * 
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -143,10 +150,19 @@ public final class SpecialASN1Module {
 
 	private static ASN1Module specialAssignmentsModule = createSpecAsss();
 
-	protected SpecialASN1Module() {
+	/**
+	 * Intentionally private constructor, to disable instantiation. This
+	 * class works as a singleton wrapper for the special ASN.1 module.
+	 * */
+	private SpecialASN1Module() {
 		// Do nothing
 	}
 
+	/**
+	 * Getter for the contained special module.
+	 *
+	 * @return the special module.
+	 * */
 	public static ASN1Module getSpecialModule() {
 		return specialAssignmentsModule;
 	}
