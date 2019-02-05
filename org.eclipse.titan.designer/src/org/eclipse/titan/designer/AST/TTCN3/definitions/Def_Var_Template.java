@@ -70,7 +70,7 @@ public final class Def_Var_Template extends Definition {
 	 * Formal parameters.
 	 * NOTE: It is not yet supported, so semantic error must be marked if not null
 	 */
-	private FormalParameterList mFormalParList;
+	private final FormalParameterList mFormalParList;
 	private final TTCN3Template initialValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private boolean generateRestrictionCheck = false;
