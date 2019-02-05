@@ -107,7 +107,7 @@ public class Setencode_Statement extends Statement {
 
 	//TODO: better variable names than C++ variable names
 	@Override
-	public void check(CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -164,7 +164,7 @@ public class Setencode_Statement extends Statement {
 	}
 
 	@Override
-	public void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException {
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
 		}
@@ -181,7 +181,7 @@ public class Setencode_Statement extends Statement {
 	}
 
 	@Override
-	protected boolean memberAccept(ASTVisitor v) {
+	protected boolean memberAccept(final ASTVisitor v) {
 		if (type != null && !type.accept(v)) {
 			return false;
 		}
