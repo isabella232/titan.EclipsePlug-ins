@@ -2386,8 +2386,8 @@ public final class InternalMakefileGenerator {
 			TITANDebugConsole.println(workingDirectory);
 		}
 
-		compilerProductNumber = ProductIdentityHelper
-				.getProductIdentity(CompilerVersionInformationCollector.getCompilerProductNumber(), null);
+		final String productNumber = CompilerVersionInformationCollector.getCompilerProductNumber();
+		compilerProductNumber = ProductIdentityHelper.getProductIdentity(productNumber, null);
 
 
 		gnuMake = ResourceUtils.getBooleanPersistentProperty(project, ProjectBuildPropertyData.QUALIFIER, MakefileCreationData.GNU_MAKE_PROPERTY);
