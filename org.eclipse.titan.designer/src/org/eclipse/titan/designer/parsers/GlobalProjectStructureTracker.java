@@ -118,7 +118,7 @@ public final class GlobalProjectStructureTracker {
 	 * @return a project structure data collector related to the project
 	 *         (might be new or might need update only)
 	 * */
-	public static ProjectStructureDataCollector getDataCollector(final IProject project) {
+	static ProjectStructureDataCollector getDataCollector(final IProject project) {
 		if (dynamicInformations.containsKey(project)) {
 			return dynamicInformations.get(project);
 		}
