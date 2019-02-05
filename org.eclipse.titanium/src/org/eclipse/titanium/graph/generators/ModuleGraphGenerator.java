@@ -79,6 +79,7 @@ public class ModuleGraphGenerator extends GraphGenerator {
 
 		for (int i = 0; i < visitedProjects.size(); ++i) {
 			final IProject currentProject = visitedProjects.get(i);
+			//FIXME replace with visitor and remove (this is the last usage)
 			final ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(currentProject);
 			collector.evaulateMissingModules();
 
