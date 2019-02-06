@@ -314,6 +314,15 @@ public final class ReplaceExpression extends Expression_Value {
 		IValue value1 = null;
 
 		if (templateInstance1 != null) {
+			IType governor = templateInstance1.getExpressionGovernor(timestamp, expectedValue);
+			if (governor == null) {
+				templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+				governor = templateInstance1.getExpressionGovernor(timestamp, expectedValue);
+			}
+			if (governor != null) {
+				templateInstance1.check(timestamp, governor);
+			}
+
 			final ITTCN3Template temp = templateInstance1.getTemplateBody();
 			switch( temp.getTemplatetype() ) {
 			case SPECIFIC_VALUE:
@@ -417,6 +426,15 @@ public final class ReplaceExpression extends Expression_Value {
 		Type_type tempType4 = null;
 		IValue value4 = null;
 		if (templateInstance4 != null) {
+			IType governor = templateInstance4.getExpressionGovernor(timestamp, expectedValue);
+			if (governor == null) {
+				templateInstance4.getTemplateBody().setLoweridToReference(timestamp);
+				governor = templateInstance4.getExpressionGovernor(timestamp, expectedValue);
+			}
+			if (governor != null) {
+				templateInstance4.check(timestamp, governor);
+			}
+
 			final ITTCN3Template temp = templateInstance4.getTemplateBody();
 
 			switch( temp.getTemplatetype() ) {
